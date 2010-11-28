@@ -1,0 +1,4 @@
+h1. Travis - a distributed build system
+
+Note: if you're looking for the code referenced "here":http://svenfuchs.com/2010/6/16/travis-an-experimental-distributed-ci-server-on-heroku then look no further. It's been a highly experimental pet project that failed (for now obvious reasons), the code is abandoned and gone.
+
