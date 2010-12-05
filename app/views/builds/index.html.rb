@@ -7,7 +7,7 @@ class Builds::Index < Minimal::Template
   GITHUB_PAYLOADS = {
     'gem-release'      => %({ "repository": { "uri": "http://github.com/svenfuchs/gem-release" },      "commits": [{ "id": "9854592" }] }),
     'minimal'          => %({ "repository": { "uri": "http://github.com/svenfuchs/minimal" },          "commits": [{ "id": "add057e" }] }),
-    'rack-cache-purge' => %({ "repository": { "uri": "http://github.com/svenfuchs/rack-cache-purge" }, "commits": [{ "id": "3d2bf4c" }] })
+    'rack-cache-purge' => %({ "repository": { "uri": "http://github.com/svenfuchs/rack-cache-purge" }, "commits": [{ "id": "83194fc" }] })
   }
 
   def to_html
