@@ -11,6 +11,14 @@ h2. Overview
 
 !https://github.com/svenfuchs/travis/raw/master/docs/travis.png!
 
+h2. Mockups
+
+Here are two mockups of my ideas for a simple interface:
+
+!https://github.com/svenfuchs/travis/raw/master/mockups/main.png!
+
+!https://github.com/svenfuchs/travis/raw/master/mockups/build_details.png!
+
 h2. Goals
 
 * The first goal probably is to get a working application up and running that can distribute build requests to manually installed Nanite agent(s) and report back to browsers. Most simplistic UI that ever would make sense for this. Restricted set of allowed Github repositories.
