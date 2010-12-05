@@ -31,11 +31,11 @@ Socky.prototype.connect = function() {
   var instance = this;
   instance.state = Socky.CONNECTING;
 
-  Socky.connection = new WebSocket(this.host + ':' + this.port + '/?' + this.params);
-  Socky.connection.onopen    = function()    { instance.onopen(); };
-  Socky.connection.onmessage = function(evt) { instance.onmessage(evt); };
-  Socky.connection.onclose   = function()    { instance.onclose(); };
-  Socky.connection.onerror   = function()    { instance.onerror(); };
+  this.connection = new WebSocket(this.host + ':' + this.port + '/?' + this.params);
+  this.connection.onopen    = function()    { instance.onopen(); };
+  this.connection.onmessage = function(evt) { instance.onmessage(evt); };
+  this.connection.onclose   = function()    { instance.onclose(); };
+  this.connection.onerror   = function()    { instance.onerror(); };
 };
 
 

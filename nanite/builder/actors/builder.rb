@@ -1,6 +1,5 @@
 $: << File.expand_path('../../../../lib', __FILE__) # ummmm ...
 require 'rubygems'
-
 require 'nanite'
 require 'travis'
 
@@ -12,10 +11,10 @@ class Builder
   def build(payload, &block)
     yield "got build request for #{payload[:uri]}\n"
 
-    buildable = Travis::Buildable.create(payload[:uri], payload, &block)
-    status = buildable.build(payload[:build_script] || 'rake')
+    payload[:script] ||= 'bundle install; rake'
+    buildable = Travis::Buildable.new(payload[:uri], payload, &block)
 
-    { :status => status.exitstatus }
+    { :status => buildable.build.exitstatus }
   end
   expose :build
 end

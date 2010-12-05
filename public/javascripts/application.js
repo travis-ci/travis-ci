@@ -5,11 +5,20 @@ $(document).ready(function() {
     return false;
   });
 
-  $('.repository a').click(function(event) {
-    $('#build').load(this.href);
-    // Socky.connection.close();
-    // new Socky('ws://127.0.0.1', '8080', 'client_id=a64279a0-fc7e-11df-4ca5-536ee95abb83&channels=' + $(this).closest('.repository').attr('id'))
+  $('.repository a.last_build').live('click', function(event) {
     event.preventDefault();
+
+    var build = $('#build');
+    var repository = $(this).closest('.repository');
+
+    build.load(this.href, function(response, status, xhr) {
+      build.html(Travis.deansi(build.html()));
+      build.attr('data-repository_id', repository.attr('id').split('_')[1]);
+    });
+    // if(Build.socky) {
+    //   Build.socky.connection.close();
+    // }
+    // Build.socky = new Socky('ws://127.0.0.1', '8080', 'client_id=' + Socky.client_id + '&channels=' + $(this).closest('.repository').attr('id'))
   });
 
   $('.github_ping').click(function(event) {
@@ -30,7 +39,7 @@ Socky.prototype.respond_to_message = function(msg) {
 
 Handler = {
   on_build_started: function(data) {
-    Build.clear();
+    Build.clear(data);
   },
   on_build_updated: function(data) {
     Repositories.build_active(data);
@@ -44,15 +53,23 @@ Handler = {
 
 Repositories = {
   build_active: function(data) {
-    var repository = data['build']['repository'];
+    var build = data['build'];
+    var repository = build['repository'];
     var repository_id = '#repository_' + repository['id'];
+    var element = $(repository_id);
+
     if($(repository_id).length == 0) {
       $('#repositories').append(
-        $('<li id="repository_' + repository['id'] + '" class="repository status"><a href="' +
-          repository['uri'] + '">' + repository['name'] + '</a></li>')
+        $('<li id="repository_' + repository['id'] + '" class="repository status">' +
+          '<a href="' + repository['uri'] + '">' + repository['name'] + '</a> ' +
+          '<a href="/builds/' + build['id'] + '" class="last_build">#' + build.number + '</a>' +
+          '</li>')
       );
+      element = $(repository_id);
+    } else {
+      $('a.last_build', element).html('#' + data['build']['number']).attr('href', '/builds/' + data['build']['id'])
     }
-    var element = $(repository_id);
+
     if(!Travis.animated(element)) {
       Travis.flash(element);
     }
@@ -66,11 +83,11 @@ Repositories = {
 }
 
 Build = {
-  clear: function() {
-    $('#build').empty();
+  clear: function(data) {
+    $('#build[data-repository_id=' + data.build.repository.id + ']').empty();
   },
   append: function(data) {
-    $('#build').append(data['message'])
+    $('#build[data-repository_id=' + data.build.repository.id + ']').append(Travis.deansi(data['message']));
   }
 };
 
@@ -83,5 +100,8 @@ Travis = {
   },
   unflash: function(element) {
     element.stop().css({ 'background-color': '', 'background-image': '' });
+  },
+  deansi: function(string) {
+    return string.replace('[32m', '<span class="green">').replace('[0m', '</span>')
   }
 }

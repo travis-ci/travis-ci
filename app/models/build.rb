@@ -7,7 +7,8 @@ class Build < ActiveRecord::Base
     def build(data)
       repository = Repository.find_or_create_by_uri(data['repository']['uri'])
       commit = data['commits'].first
-      repository.builds.create(:commit => commit['id'])
+      number = repository.builds.count + 1
+      repository.builds.create(:commit => commit['id'], :number => number)
     end
   end
 
@@ -16,6 +17,6 @@ class Build < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    super(:only => [:id, :commit, :name, :uri], :include => [:repository])
+    super(:only => [:id, :commit, :name, :uri, :number], :include => [:repository])
   end
 end

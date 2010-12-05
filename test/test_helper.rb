@@ -6,6 +6,7 @@ require 'test_declarative'
 require 'database_cleaner'
 require 'ruby-debug'
 require 'factories'
+require 'travis'
 
 DatabaseCleaner.strategy = :truncation
 

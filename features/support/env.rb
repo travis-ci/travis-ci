@@ -33,7 +33,7 @@ Socky.module_eval do
   mattr_accessor :sent
   self.sent = []
 
-  def self.send(data)
+  def self.send(data, options = {})
     sent << data
   end
 end

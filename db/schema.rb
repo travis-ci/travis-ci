@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(:version => 20101126174715) do
 
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
+    t.integer  "number"
     t.string   "commit"
     t.integer  "status"
     t.text     "log"

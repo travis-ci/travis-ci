@@ -33,7 +33,7 @@ h2. Some questions
 
 * Would it make sense to store the build log information in CouchDB or similar? I guess much of the application could be done as an in-browser couch app. Application servers would merely act as mappers that start agents and stream output back to the websocket.
 * How to configure Nanite and RabbitMQ. I've somehow managed to get Nanite running and doing its job. I don't even recall the config though.
-* Does the use of POpen4 in the Nanite agent block? If so, how can it be improved?
+* Does the "use of POpen4":https://github.com/svenfuchs/travis/blob/master/lib/travis/buildable/base.rb#L39-50 in the Nanite agent block? If so, how can it be improved?
 * How do Socky channels work? We need to un/subscribe clients to channels on the fly. Maybe that's something Socky doesn't support, yet?
 * What's up with Nanite removing "intermediate messages":http://groups.google.com/group/nanite/browse_thread/thread/a2fdc496ae4069d9 ?
 

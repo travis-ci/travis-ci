@@ -1,6 +1,6 @@
 Feature: Building code
   Background:
-    Given a repository with the url "http://github.com/svenfuchs/minimal"
+    Given a repository with the uri "http://github.com/svenfuchs/minimal"
       And I am on the dashboard page
 
   Scenario: Viewing the dashboard
@@ -14,7 +14,7 @@ Feature: Building code
         | path                  | value                            |
         | event                 | build_started                    |
         | build.repository.name | svenfuchs/i18n                   |
-        | build.repository.url  | http://github.com/svenfuchs/i18n |
+        | build.repository.uri  | http://github.com/svenfuchs/i18n |
         | build.commit          | 5911413de86b53e29854             |
 
 
