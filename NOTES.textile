@@ -5,6 +5,12 @@ Travis is an attemp to create an open-source, distributed build system for the R
 1. allows open-source projects to register their repository and have their test-suites run on demand
 2. allows users to contribute build capacities by connecting a VM that runs a build agent somewhere on their underused servers
 
+h2. Overview
+
+"1:36 quick demo screencast":http://www.youtube.com/watch?v=qdTV-b6BJHA
+
+!https://github.com/svenfuchs/travis/raw/master/docs/travis.png!
+
 h2. Goals
 
 * The first goal probably is to get a working application up and running that can distribute build requests to manually installed Nanite agent(s) and report back to browsers. Most simplistic UI that ever would make sense for this. Restricted set of allowed Github repositories.
