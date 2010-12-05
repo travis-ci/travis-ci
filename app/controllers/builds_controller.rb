@@ -21,27 +21,35 @@ class BuildsController < ApplicationController
       @build ||= params[:id] ? Build.find(params[:id]) : Build.build(JSON.parse(params[:payload]))
     end
 
+    def build_json
+      @build_json ||= build.as_json
+    end
+
     def queue(build)
-      build_data = build.as_json
       payload = { :uri => build.repository.uri, :commit => build.commit }
-      channel = "repository_#{build.repository_id}"
       log = ''
 
-      notify_clients 'build_started', build_data
+      trigger :build_started
 
       intermediate_handler = lambda do |key, builder, message, job|
         log << message
-        notify_clients 'build_updated', build_data.merge(:message => message) #, :channels => channel
+        # build.update_attributes!(:log => log)
+        trigger :build_updated, :message => message
       end
 
       Nanite.request('/builder/build', payload, :intermediate_handler => intermediate_handler) do |results, job|
         status  = results.values.first[:status]
         message = "build finished, status: #{status.inspect}"
-        log << message
 
-        notify_clients 'build_finished', build_data.merge(:status => status, :message => message) #, :channels => channel
-        build.update_attributes(:finished_at => Time.now, :status => status, :log => log)
+        log << message
+        build.update_attributes!(:finished_at => Time.now, :status => status, :log => log)
+        trigger :build_finished, :status => status, :message => message
       end
+    end
+
+    def trigger(event, data = {})
+      channel = "repository_#{build.repository_id}"
+      notify_clients event, build_json.merge(data) # , :channels => channel
     end
 
     def notify_clients(event, data, options = {})

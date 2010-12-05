@@ -24,8 +24,8 @@ GITHUB_PAYLOAD = {
   ],
 }
 
-Given /^a repository with the url "([^"]*)"$/ do |url|
-  Repository.create!(:url => url)
+Given /^a repository with the uri "([^"]*)"$/ do |uri|
+  Repository.create!(:uri => uri)
 end
 
 When /^someone triggers a build for the repository "([^"]*)"$/ do |arg1|

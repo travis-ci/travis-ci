@@ -6,7 +6,7 @@ gem 'thin'
 gem 'nanite'
 gem 'socky-client-rails'
 gem 'minimal'
-gem 'mocha'
+gem 'POpen4'
 
 group :test do
   gem 'webrat'
@@ -19,4 +19,5 @@ group :test do
   gem 'test_declarative'
   gem 'launchy'
   gem 'ruby-debug'
+  gem 'mocha'
 end
