@@ -5,21 +5,21 @@ $(document).ready(function() {
     return false;
   });
 
-  $('.repository a.last_build').live('click', function(event) {
-    event.preventDefault();
+  // $('.repository a.last_build').live('click', function(event) {
+  //   event.preventDefault();
 
-    var build = $('#build');
-    var repository = $(this).closest('.repository');
+  //   var build = $('#build_log');
+  //   var repository = $(this).closest('.repository');
 
-    build.load(this.href, function(response, status, xhr) {
-      build.html(Travis.deansi(build.html()));
-      build.attr('data-repository_id', repository.attr('id').split('_')[1]);
-    });
-    // if(Build.socky) {
-    //   Build.socky.connection.close();
-    // }
-    // Build.socky = new Socky('ws://127.0.0.1', '8080', 'client_id=' + Socky.client_id + '&channels=' + $(this).closest('.repository').attr('id'))
-  });
+  //   build.load(this.href, function(response, status, xhr) {
+  //     build.html(Travis.deansi(build.html()));
+  //     build.attr('data-repository_id', repository.attr('id').split('_')[1]);
+  //   });
+  //   // if(Build.socky) {
+  //   //   Build.socky.connection.close();
+  //   // }
+  //   // Build.socky = new Socky('ws://127.0.0.1', '8080', 'client_id=' + Socky.client_id + '&channels=' + $(this).closest('.repository').attr('id'))
+  // });
 
   $('.github_ping').click(function(event) {
     $.post($(this).attr('href'), { payload: $(this).attr('data-payload') });
@@ -84,10 +84,10 @@ Repositories = {
 
 Build = {
   clear: function(data) {
-    $('#build[data-repository_id=' + data.build.repository.id + ']').empty();
+    $('#build_log[data-repository_id=' + data.build.repository.id + ']').empty();
   },
   append: function(data) {
-    $('#build[data-repository_id=' + data.build.repository.id + ']').append(Travis.deansi(data['message']));
+    $('#build_log[data-repository_id=' + data.build.repository.id + ']').append(Travis.deansi(data['message']));
   }
 };
 

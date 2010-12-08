@@ -15,9 +15,12 @@ ActiveRecord::Schema.define(:version => 20101126174715) do
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
     t.integer  "number"
-    t.string   "commit"
     t.integer  "status"
+    t.string   "commit"
+    t.text     "message"
+    t.integer  "duration"
     t.text     "log"
+    t.string   "agent"
     t.datetime "finished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -26,6 +29,8 @@ ActiveRecord::Schema.define(:version => 20101126174715) do
   create_table "repositories", :force => true do |t|
     t.string   "name"
     t.string   "uri"
+    t.integer  "last_duration"
+    t.datetime "last_built_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

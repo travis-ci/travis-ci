@@ -3,9 +3,12 @@ class CreateBuilds < ActiveRecord::Migration
     create_table :builds do |t|
       t.references :repository
       t.integer  :number
-      t.string   :commit
       t.integer  :status
+      t.string   :commit
+      t.text     :message
+      t.integer  :duration
       t.text     :log
+      t.string   :agent
       t.datetime :finished_at
       t.timestamps
     end

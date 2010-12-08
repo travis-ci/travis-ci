@@ -2,7 +2,10 @@ require 'nanite'
 
 class BuildsController < ApplicationController
   def show
-    render :text => build.log
+    respond_to do |format|
+      format.html
+      format.js { render :text => build.log }
+    end
   end
 
   def create
@@ -11,15 +14,15 @@ class BuildsController < ApplicationController
   end
 
   protected
-
-    def repositories
-      @repositories ||= Repository.order(:uri)
+    def repository
+      build.repository
     end
-    helper_method :repositories
+    helper_method :repository
 
     def build
       @build ||= params[:id] ? Build.find(params[:id]) : Build.build(JSON.parse(params[:payload]))
     end
+    helper_method :build
 
     def build_json
       @build_json ||= build.as_json
@@ -29,6 +32,7 @@ class BuildsController < ApplicationController
       payload = { :uri => build.repository.uri, :commit => build.commit }
       log = ''
 
+      build.repository.update_attributes!(:last_built_at => Time.now)
       trigger :build_started
 
       intermediate_handler = lambda do |key, builder, message, job|

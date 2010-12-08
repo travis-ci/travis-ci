@@ -1,8 +1,6 @@
 class Build < ActiveRecord::Base
   belongs_to :repository
 
-  default_scope :order => 'finished_at DESC'
-
   class << self
     def build(data)
       repository = Repository.find_or_create_by_uri(data['repository']['uri'])
@@ -12,8 +10,20 @@ class Build < ActiveRecord::Base
     end
   end
 
+  def finished?
+    finished_at.present?
+  end
+
   def passed?
     status == 0
+  end
+
+  def duration
+    ((finished? ? finished_at : Time.now) - created_at).to_i
+  end
+
+  def eta
+    @eta ||= finished_at.blank? && repository.last_duration.present? ? created_at + repository.last_duration.seconds : nil
   end
 
   def as_json(options = {})
