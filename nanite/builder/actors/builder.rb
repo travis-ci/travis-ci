@@ -1,6 +1,7 @@
+require 'bundler/setup'
 $: << File.expand_path('../../../../lib', __FILE__) # ummmm ...
-require 'rubygems'
-require 'nanite'
+# require 'rubygems'
+# require 'nanite'
 require 'travis'
 
 class Builder

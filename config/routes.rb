@@ -1,4 +1,5 @@
 TravisRails::Application.routes.draw do
+  resources :repositories
   resources :builds
 
   resource :socky do
@@ -8,5 +9,5 @@ TravisRails::Application.routes.draw do
     end
   end
 
-  root :to => 'builds#index'
+  root :to => 'repositories#index'
 end

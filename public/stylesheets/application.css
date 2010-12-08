@@ -1,19 +1,31 @@
 body {
   font-family: Helvetica, Arial, sans-serif;
+  line-height: 120%;
+  margin: 0;
 }
 
-#left, #main, #right {
+#top {
+  height: 1em;
+  padding: 8px;
+  background-color: #eee;
+}
+#top ul {
+  float: right;
+}
+#top li {
   float: left;
-  padding: 0 2%;
+  margin: 0 10px 0 0;
+}
+
+#left, #right {
+  float: left;
+  padding: 20px 3%;
 }
 #left {
-  width: 20%;
-}
-#main {
-  width: 58%;
+  width: 27%;
 }
 #right {
-  width: 10%;
+  width: 61%;
 }
 
 ul {
@@ -22,27 +34,41 @@ ul {
   list-style-type: none;
 }
 
-.status {
-  padding-left: 20px;
-  background-position: left;
+#left .repository {
+  padding: 8px 15px 8px 35px;
+  background-position: 10px 10px;
   background-repeat: no-repeat;
 }
-.status.green {
+#left .repository.active {
+  background-color: #f9f9f9;
+}
+#left .repository.green {
   background-image: url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wAARCAAPAA8DASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAIE/8QAGhAAAQUBAAAAAAAAAAAAAAAAAAECAxNTkv/EABQBAQAAAAAAAAAAAAAAAAAAAAX/xAAWEQEBAQAAAAAAAAAAAAAAAAAAEQH/2gAMAwEAAhEDEQA/AN90uj+lF0uj+lIADQN1/9k%3D)
 }
-.status.red {
+#left .repository.red {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAE1SURBVHjabFJbcsNACENAj9Rb5P7n6L9tqHjYaWbqScbsgpAQxs/rWwxiCjOBMtgfAO1AKxZFBSKeRzAUycwLLnKl1JNMM0IfqjT6EuISkcckQAhzkEvEOh0ZkyLeWEkqlzOYrWaJellm0Q8NNlUSrsJIMfBm+FgXWzliUvsdi0li1OUI8aX9B1N/nSMJUQyUVFfRd5+YHJ67gWle6RmJwXj0oLTLEI03eRs1ICPDkfkljaFnWrayRzkvH9pk9a2ktGGfxlk3f3qXNmcjY8rL9Kp63LxHahd2BqdDAD8IziBnvhvNlHhsIM+FHRrNY87Bsfq4QWa1J29MjtqojUJnk2S4qfep/a+5fm98PHC5N32izF3UrCMytcTY7ITaor+9QUV17IUwxrOqMoqnczFFfsqvAAMA4+i8rxDjZcMAAAAASUVORK5CYII%3D)
 }
 
-#build {
-  white-space: pre-wrap;
+#left .repository .summary {
+  margin: 0;
+  font-size: 80%;
 }
-#build .yellow {
+
+#right h3 {
+  margin: 0 0 1em 0;
+}
+
+#build_log {
+  white-space: pre-wrap;
+  line-height: 140%;
+  font-size: 90%;
+}
+#build_log .yellow {
   color: yellow;
 }
-#build .red {
+#build_log .red {
   color: red;
 }
-#build .green {
+#build_log .green {
   color: lime;
 }

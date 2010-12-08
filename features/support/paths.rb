@@ -4,6 +4,13 @@ module NavigationHelpers
 
     when /the dashboard page/
       '/'
+    when /the repository page for: (.*)/
+      repository = Repository.find_by_name($1) || raise("could not find repository #{$1}")
+      url_for(repository)
+    when /the build page for: (.*) #(\d+)/
+      repository = Repository.where(:name => $1).first || raise("could not find repository #{$1}")
+      build = repository.builds.where(:number => $2).first || raise("cound not find a build with the number #{$2} for the repository #{$1}")
+      url_for(build)
 
     else
       begin
