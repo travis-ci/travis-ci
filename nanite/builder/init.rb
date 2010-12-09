@@ -1,2 +1,0 @@
-register Builder.new
-

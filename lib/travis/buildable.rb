@@ -1,6 +1,5 @@
 require 'fileutils'
 require 'uri'
-require 'popen4'
 
 module Travis
   class Buildable
@@ -14,14 +13,13 @@ module Travis
       end
     end
 
-    attr_reader :uri, :path, :commit, :script, :logger
+    attr_reader :uri, :path, :commit, :script
 
-    def initialize(uri, options = {}, &block)
-      @uri    = uri
+    def initialize(uri, options = {})
+      @uri    = uri || raise(ArgumentError.new('no uri given'))
       @path   = extract_path(uri)
-      @commit = options[:commit]
-      @script = options[:script]
-      @logger = block
+      @commit = options['commit']
+      @script = options['script']
     end
 
     def build
@@ -74,25 +72,9 @@ module Travis
         end
       end
 
-      def log(message)
-        print message
-        logger.call(message)
-      end
-
       def execute(command)
-        log("$ #{command}\n")
-        POpen4::popen4("#{command} 2>&1") do |stdout, stderr, stdin, pid|
-          begin
-            loop do
-              # does this block? and if so, what's a better solution? i have no idea ...
-              IO.select([stdout]).flatten.compact.each do |io|
-                log(io.readpartial(1024)) if io.fileno == stdout.fileno
-              end
-              break if stdout.closed?
-            end
-          rescue EOFError
-          end
-        end
+        puts "$ #{command}"
+        system(command)
       end
   end
 end

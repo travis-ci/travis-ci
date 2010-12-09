@@ -1,11 +1,8 @@
-require 'nanite'
-
 class RepositoriesController < ApplicationController
-
   protected
 
     def repository
-      @repository ||= Repository.find(params[:id])
+      @repository ||= params[:id] ? Repository.find(params[:id]) : nil
     end
     helper_method :repository
 end

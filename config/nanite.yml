@@ -1,6 +1,0 @@
-host: localhost
-user: mapper
-pass: testing
-vhost: /nanite
-log_level: info
-

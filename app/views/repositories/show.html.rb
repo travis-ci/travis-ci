@@ -49,6 +49,6 @@ class Repositories::Show < Minimal::Template
     end
 
     def format_finished(build)
-      "#{time_ago_in_words(build.finished_at)} ago"
+      "#{time_ago_in_words(build.finished_at)} ago" if build.finished_at
     end
 end

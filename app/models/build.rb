@@ -10,6 +10,10 @@ class Build < ActiveRecord::Base
     end
   end
 
+  def append_log(string)
+    update_attributes!(:log => [self.log, string].join)
+  end
+
   def finished?
     finished_at.present?
   end
