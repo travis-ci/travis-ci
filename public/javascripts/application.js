@@ -27,15 +27,15 @@ $(document).ready(function() {
   })
 });
 
-Socky.prototype.respond_to_message = function(msg) {
-	var data = JSON.parse(msg);
-  var handler = Handler['on_' + data['event']];
-  if(handler) {
-    handler.apply(this, [data]);
-  } else {
-    console.log(data)
-  }
-}
+// Socky.prototype.respond_to_message = function(msg) {
+// 	var data = JSON.parse(msg);
+//   var handler = Handler['on_' + data['event']];
+//   if(handler) {
+//     handler.apply(this, [data]);
+//   } else {
+//     console.log(data)
+//   }
+// }
 
 Handler = {
   on_build_started: function(data) {

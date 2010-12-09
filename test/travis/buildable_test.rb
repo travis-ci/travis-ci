@@ -18,7 +18,7 @@ class BuildableTest < Test::Unit::TestCase
 
   test 'build: clones a repository if the build dir is not a git repository' do
     buildable = Buildable.new("file://~/Development/projects/travis")
-    buildable.expects(:clones)
+    buildable.expects(:clone)
     buildable.build
   end
 

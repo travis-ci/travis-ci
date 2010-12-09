@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(:version => 20101126174715) do
     t.string   "commit"
     t.text     "message"
     t.integer  "duration"
-    t.text     "log"
+    t.text     "log",           :default => ""
     t.string   "agent"
     t.datetime "finished_at"
     t.datetime "created_at"

@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+# pipe stdin to remote server
+#
+# usage:
+#
+#   $ ruby -e '$stdout.sync = true; 10.times { print "."; sleep(0.2) }' | bin/travis-send
+
+
+$: << File.expand_path('../../lib', __FILE__)
+
+require 'rubygems'
+require 'eventmachine'
+require 'travis/sender'
+
+EM.run do
+  EM.attach($stdin, Travis::Sender, '127.0.0.1', 9797)
+end
+

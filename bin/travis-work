@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+VERBOSE=true QUEUE=builds rake resque:work
