@@ -8,7 +8,6 @@ gem 'resque'
 gem 'resque-meta'
 gem 'minimal'
 gem 'em-websocket'
-# gem 'socky-client-rails'
 # gem 'em-redis'
 
 group :test do

@@ -74,7 +74,7 @@ module Travis
 
       def execute(command)
         puts "$ #{command}"
-        system(command)
+        system("#{command} 2>&1")
       end
   end
 end

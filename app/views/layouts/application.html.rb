@@ -26,12 +26,14 @@ class Layouts::Application < Minimal::Template
         div :id => :right do
           block.call
         end
+
+        js_templates
+        js_init_data
       end
     end
   end
 
   protected
-
 
     def doctype
       self << '<!DOCTYPE html>'.html_safe
@@ -41,7 +43,7 @@ class Layouts::Application < Minimal::Template
       super do
         title 'Travis'
         stylesheet_link_tag :all
-        javascript_include_tag :defaults #, :socky
+        javascript_include_tag :defaults, 'socky', 'underscore', 'backbone', 'handlebars'
         csrf_meta_tag
         socky
       end
@@ -56,15 +58,23 @@ class Layouts::Application < Minimal::Template
     end
 
     def socky
-      # client_id = UUID.create.to_s
-      # random_host = Socky.random_host
-      # host  = (random_host[:secure] ? "wss://" : "ws://") + random_host[:host]
-      # port  = random_host[:port]
-      # query = { :client_id => client_id }.to_query
+      javascript_tag <<-js
+        new Socky('ws://127.0.0.1', '8080', '');
+      js
+    end
 
-      # javascript_tag <<-js
-      #   Socky.client_id = '#{client_id}';
-      #   Socky.connection = new Socky('#{host}', '#{port}', '#{query}');
-      # js
+    def js_templates
+      dir = Rails.root.join('public/templates/')
+      Dir["#{dir}**/*.*"].each do |path|
+        template = File.read(path)
+        name = path.gsub(dir, '').sub(File.extname(path), '')
+        content_tag :script, template.html_safe, :type => 'text/x-js-template', :name => name
+      end
+    end
+
+    def js_init_data
+      javascript_tag <<-js
+        var INIT_DATA = { repositories: #{Repository.all.as_json.to_json} };
+      js
     end
 end

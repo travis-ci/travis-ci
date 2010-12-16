@@ -1,15 +1,18 @@
+# Listens to Redis for any messages published by workers and redirects
+# them to the websocket server.
+
 require 'evented_redis'
 
 module Travis
   class BuildListener
     class << self
-      def add(*args)
+      def method_missing(method, *args, &block)
         @instance ||= new
-        @instance.add(*args)
+        @instance.send(method, *args, &block)
       end
     end
 
-    MESSAGE_MAP = { '.' => :log, '!' => :result }
+    MESSAGE_MAP = { '[' => :start, '.' => :log, ']' => :result }
 
     attr_reader :jobs
 
@@ -22,7 +25,7 @@ module Travis
       channel = "build:#{job_id}"
       jobs[channel] = build
       subscribe_to_redis(channel)
-      notify(:build_started, build)
+      # notify(:'build:created', build)
     end
 
     protected
@@ -43,29 +46,35 @@ module Travis
 
       def on_message(channel, message)
         event = MESSAGE_MAP[message[0, 1]]
-        send("on_#{event}", channel, message[1..-1]) if event
+        send(:"on_#{event}", channel, message[1..-1]) if event
+      end
+
+      def on_start(channel, message)
+        if build = jobs[channel]
+          notify(:'build:created', build)
+        end
       end
 
       def on_log(channel, message)
         if build = jobs[channel]
           build.append_log(message)
-          notify(:build_updated, build, :message => message)
+          notify(:'build:updated', build, :message => message)
         end
       end
 
       def on_result(channel, result)
         if build = jobs.delete(channel)
-          build.update_attributes(:status => result.to_i) # TODO copy build meta data from redis
-          notify(:build_finished, build, :status => result, :message => "build finished, status: #{result}")
+          build.update_attributes!(:status => result.to_i, :finished_at => Time.now) # TODO copy build meta data from redis
+          notify(:'build:finished', build, :message => "build finished, status: #{result}")
           unsubscribe_from_redis(channel)
         end
       end
 
       def notify(event, build, data = {})
-        p [event, data]
-        channel = "repository_#{build.repository_id}"
-        payload = build_json.merge(data.merge(:event => event))
-        WebSocketServer.publish(channel, payload)
+        channel = :"repository_#{build.repository_id}"
+        payload = build.as_json.merge(data.merge(:event => event))
+        # puts "notifying channel #{channel} about #{event}: #{data.inspect}"
+        Travis::WebSocketServer.publish(channel, payload)
       end
   end
 end

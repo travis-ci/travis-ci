@@ -1,3 +1,6 @@
+# Opens a websocket server, takes un/subscriptions from clients to channels
+# and distributes messages from the BuildListener to clients by channels
+
 require 'eventmachine'
 require 'em-websocket'
 require 'json'
@@ -21,8 +24,8 @@ module Travis
       @channels = {}
     end
 
-    def start
-      EventMachine::WebSocket.start(:host => '127.0.0.1', :port => 8080) do |client|
+    def start(options = {})
+      EventMachine.start_server('127.0.0.1', 8080, EventMachine::WebSocket::Connection, options) do |client|
         client.subscriptions = []
         client.onmessage { |message| client_message(client, message) }
         client.onclose { client_quit(client) }
@@ -30,6 +33,8 @@ module Travis
     end
 
     def publish(channel, data)
+      # puts "publishing to #{channel.inspect}: #{data.to_json}"
+      data = { :type => 'message', :body => data.to_json }.to_json # hmm, socky js wants this ...
       channels[channel].push(data) if channels.key?(channel)
     end
 
@@ -43,6 +48,7 @@ module Travis
       data.each do |type, ids|
         ids.each do |id|
           channel_id = :"#{type}_#{id}"
+          puts "subscribing client #{client.object_id} to #{channel_id.inspect}"
           channel = channels[channel_id] ||= EventMachine::Channel.new
           subscription_id = channel.subscribe { |message| client.send(message) }
           client.subscriptions << [channel_id, subscription_id]
