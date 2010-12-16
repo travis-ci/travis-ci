@@ -15,6 +15,8 @@ module Resque
         channel = "build:#{meta_id}"
 
         EM.run do
+          redis.publish(channel, '[')
+
           stream = Travis::StreamStdout.new do |data|
             redis.publish(channel, '.' + data)
           end
@@ -22,7 +24,7 @@ module Resque
           EM.defer do
             begin
               result = yield
-              redis.publish(channel, '!' + result.to_s)
+              redis.publish(channel, ']' + result.to_s)
             rescue Exception => e
               stream.close
               puts e.message

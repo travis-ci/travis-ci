@@ -5,7 +5,7 @@ class BuildsController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.js { render :text => build.log }
+      format.json { render :json => build.as_json['build'] }
     end
   end
 
@@ -28,9 +28,5 @@ class BuildsController < ApplicationController
       @build ||= params[:id] ? Build.find(params[:id]) : Build.build(JSON.parse(params[:payload]))
     end
     helper_method :build
-
-    def build_json
-      @build_json ||= build.as_json
-    end
 end
 

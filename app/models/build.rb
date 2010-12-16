@@ -18,6 +18,10 @@ class Build < ActiveRecord::Base
     finished_at.present?
   end
 
+  def pending?
+    !finished?
+  end
+
   def passed?
     status == 0
   end
@@ -27,10 +31,20 @@ class Build < ActiveRecord::Base
   end
 
   def eta
-    @eta ||= finished_at.blank? && repository.last_duration.present? ? created_at + repository.last_duration.seconds : nil
+    @eta ||= pending? && repository.last_duration.present? ? created_at + repository.last_duration.seconds : nil
+  end
+
+  def eta_in_words
+    'soon'
+  end
+
+  def color
+    pending? ? '' : passed? ? 'green' : 'red'
   end
 
   def as_json(options = {})
-    super(:only => [:id, :commit, :name, :uri, :number], :include => [:repository])
+    build_keys = [:id, :number, :commit, :message, :duration, :finished_at, :log]
+    build_methods = [:color, :eta]
+    super(:only => build_keys, :methods => build_methods, :include => { :repository => { :only => [:id, :name, :uri] } })
   end
 end

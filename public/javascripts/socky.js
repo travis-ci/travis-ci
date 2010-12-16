@@ -54,7 +54,7 @@ Socky.prototype.onopen = function() {
 
 // Called when socket message is received
 Socky.prototype.onmessage = function(evt) {
-  try {
+  // try {
     var request = JSON.parse(evt.data);
     switch (request.type) {
       case "message":
@@ -70,9 +70,9 @@ Socky.prototype.onmessage = function(evt) {
         }
         break;
     }
-  } catch (e) {
-    console.error(e.toString());
-  }
+  // } catch (e) {
+  //   console.error(e.toString());
+  // }
 };
 
 // Called when socket connection is closed

@@ -15,60 +15,119 @@ body {
 #top li {
   float: left;
   margin: 0 10px 0 0;
+  font-size: 90%;
+}
+#top a {
+  color: #666;
 }
 
 #left, #right {
   float: left;
-  padding: 20px 3%;
 }
 #left {
-  width: 27%;
+  width: 30%;
+  margin: 30px 2% 0 4%;
 }
 #right {
-  width: 61%;
+  width: 58%;
+  margin: 30px 4% 0 2%;
 }
 
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
 ul {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
+h3 {
+  font-size: 24px;
+}
 
 #left .repository {
-  padding: 8px 15px 8px 35px;
+  margin-bottom: 10px;
+  padding: 9px 15px 8px 35px;
   background-position: 10px 10px;
   background-repeat: no-repeat;
+  border: 1px solid #ddd;
+  border-top-left-radius: 4px 4px;
+  border-top-right-radius: 4px 4px;
+  border-bottom-right-radius: 4px 4px;
+  border-bottom-left-radius: 4px 4px;
 }
-#left .repository.active {
-  background-color: #f9f9f9;
+#repositories .active {
+  -moz-box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px 0;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px 0;
+  -o-box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px 0;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px 0;
 }
-#left .repository.green {
-  background-image: url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wAARCAAPAA8DASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAIE/8QAGhAAAQUBAAAAAAAAAAAAAAAAAAECAxNTkv/EABQBAQAAAAAAAAAAAAAAAAAAAAX/xAAWEQEBAQAAAAAAAAAAAAAAAAAAEQH/2gAMAwEAAhEDEQA/AN90uj+lF0uj+lIADQN1/9k%3D)
+#repositories .green {
+  background-image: url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wAARCAAPAA8DASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAIE/8QAGhAAAQUBAAAAAAAAAAAAAAAAAAECAxNTkv/EABQBAQAAAAAAAAAAAAAAAAAAAAX/xAAWEQEBAQAAAAAAAAAAAAAAAAAAEQH/2gAMAwEAAhEDEQA/AN90uj+lF0uj+lIADQN1/9k%3D);
 }
-#left .repository.red {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAE1SURBVHjabFJbcsNACENAj9Rb5P7n6L9tqHjYaWbqScbsgpAQxs/rWwxiCjOBMtgfAO1AKxZFBSKeRzAUycwLLnKl1JNMM0IfqjT6EuISkcckQAhzkEvEOh0ZkyLeWEkqlzOYrWaJellm0Q8NNlUSrsJIMfBm+FgXWzliUvsdi0li1OUI8aX9B1N/nSMJUQyUVFfRd5+YHJ67gWle6RmJwXj0oLTLEI03eRs1ICPDkfkljaFnWrayRzkvH9pk9a2ktGGfxlk3f3qXNmcjY8rL9Kp63LxHahd2BqdDAD8IziBnvhvNlHhsIM+FHRrNY87Bsfq4QWa1J29MjtqojUJnk2S4qfep/a+5fm98PHC5N32izF3UrCMytcTY7ITaor+9QUV17IUwxrOqMoqnczFFfsqvAAMA4+i8rxDjZcMAAAAASUVORK5CYII%3D)
+#repositories .red {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAE1SURBVHjabFJbcsNACENAj9Rb5P7n6L9tqHjYaWbqScbsgpAQxs/rWwxiCjOBMtgfAO1AKxZFBSKeRzAUycwLLnKl1JNMM0IfqjT6EuISkcckQAhzkEvEOh0ZkyLeWEkqlzOYrWaJellm0Q8NNlUSrsJIMfBm+FgXWzliUvsdi0li1OUI8aX9B1N/nSMJUQyUVFfRd5+YHJ67gWle6RmJwXj0oLTLEI03eRs1ICPDkfkljaFnWrayRzkvH9pk9a2ktGGfxlk3f3qXNmcjY8rL9Kp63LxHahd2BqdDAD8IziBnvhvNlHhsIM+FHRrNY87Bsfq4QWa1J29MjtqojUJnk2S4qfep/a+5fm98PHC5N32izF3UrCMytcTY7ITaor+9QUV17IUwxrOqMoqnczFFfsqvAAMA4+i8rxDjZcMAAAAASUVORK5CYII%3D);
 }
-
-#left .repository .summary {
+#repositories .green a {
+  color: green;
+}
+#repositories .red a {
+  color: #c00;
+}
+#repositories .build {
+  float: right;
+}
+#repositories .summary {
   margin: 0;
   font-size: 80%;
+  color: #666;
 }
 
 #right h3 {
   margin: 0 0 1em 0;
 }
-
-#build_log {
+#right a {
+  color: #666;
+  text-decoration: underline;
+}
+dl {
+  color: #666;
+  font-size: 90%;
+}
+dt {
+  clear: left;
+  float: left;
+  width: 100px;
+}
+dd {
+  float: left;
+  width: 200px;
+  margin: 0px;
+}
+.log {
   white-space: pre-wrap;
   line-height: 140%;
   font-size: 90%;
 }
-#build_log .yellow {
+.log .yellow {
   color: yellow;
 }
-#build_log .red {
+.log .red {
   color: red;
 }
-#build_log .green {
+.log .green {
   color: lime;
 }
+
+.clearfix:after {
+  clear: both;
+  content: ".";
+  display: block;
+  height: 0;
+  visibility: hidden;
+  font-size: 0;
+}
+
