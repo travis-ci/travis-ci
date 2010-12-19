@@ -1,7 +1,7 @@
 <li id="repository_{{id}}" class="repository {{last_build/color}}">
   <a href="/#!/repositories/{{id}}">{{name}}</a>
   {{#last_build}}
-    <a href="/#!/builds/{{id}}" class="build">#{{number}}</a>
+    <a href="/#!/builds/{{id}}" class="last_build">#{{number}}</a>
     <p class="summary">
       <span class="duration">Duration: {{duration}},</span>
       {{#finished_at}}

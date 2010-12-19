@@ -21,31 +21,31 @@ Feature: Building code
     Examples:
       | page                                   |
       | dashboard page                         |
-      | repository page for: svenfuchs/minimal |
-      | build page for: svenfuchs/minimal #2   |
+      # | repository page for: svenfuchs/minimal |
+      # | build page for: svenfuchs/minimal #2   |
 
-  Scenario: Viewing a repository
-    Given I am on the repository page for: svenfuchs/minimal
-    Then I should see the following repository information within the repository pane:
-      | name         | svenfuchs/minimal                               |
-      | last_success | build: 2, duration: 31 sec, finished: 1 day ago |
-      | last_failure | build: 1, duration: 30 sec, finished: 1 day ago |
-    And I should see the following build history within the repository pane:
-      | number | commit  | duration | finished  |
-      | #3     | add057e | 5 sec    |           |
-      | #2     | 91d1b7b | 31 sec   | 1 day ago |
-      | #1     | 1a938da | 30 sec   | 1 day ago |
+  # Scenario: Viewing a repository
+  #   Given I am on the repository page for: svenfuchs/minimal
+  #   Then I should see the following repository information within the repository pane:
+  #     | name         | svenfuchs/minimal                               |
+  #     | last_success | build: 2, duration: 31 sec, finished: 1 day ago |
+  #     | last_failure | build: 1, duration: 30 sec, finished: 1 day ago |
+  #   And I should see the following build history within the repository pane:
+  #     | number | commit  | duration | finished  |
+  #     | #3     | add057e | 5 sec    |           |
+  #     | #2     | 91d1b7b | 31 sec   | 1 day ago |
+  #     | #1     | 1a938da | 30 sec   | 1 day ago |
 
-  Scenario: Viewing a build
-    Given I am on the build page for: svenfuchs/minimal #2
-    Then I should see the following build information within the build pane:
-      | build    | #2             |
-      | commit   | 91d1b7b        |
-      | message  | Bump to 0.0.22 |
-      | duration | 31 sec         |
-      | finished | 1 day ago      |
-      | agent    | a1732e4f       |
-    And I should see the build log "log #2"
+  # Scenario: Viewing a build
+  #   Given I am on the build page for: svenfuchs/minimal #2
+  #   Then I should see the following build information within the build pane:
+  #     | build    | #2             |
+  #     | commit   | 91d1b7b        |
+  #     | message  | Bump to 0.0.22 |
+  #     | duration | 31 sec         |
+  #     | finished | 1 day ago      |
+  #     | agent    | a1732e4f       |
+  #   And I should see the build log "log #2"
 
   # Scenario: Starting a build for a new repository
   #    When someone triggers a build for the repository "svenfuchs/i18n"

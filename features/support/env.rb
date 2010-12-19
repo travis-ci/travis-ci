@@ -1,56 +1,46 @@
-require 'rubygems'
-require 'database_cleaner'
-require 'jsonpath'
-require 'mocha'
+ENV["RAILS_ENV"] ||= "cucumber"
 
-ENV["RAILS_ENV"] ||= "test"
 require File.expand_path(File.dirname(__FILE__) + '/../../config/environment')
+require 'steam'
+require 'test/unit'
+require 'mocha'
+require 'ruby-debug'
+require 'database_cleaner'
 
-require 'cucumber/rails/world'
-require 'cucumber/rails/active_record'
-require 'cucumber/web/tableish'
-require 'webrat'
-require 'webrat/core/matchers'
-
-Webrat.configure do |config|
-  config.mode = :rack
-  config.open_error_files = false # Set to true if you want error pages to pop up in the browser
-end
-
-ActionController::Base.allow_rescue = false
-Cucumber::Rails::World.use_transactional_fixtures = true
+Steam.config[:html_unit][:java_path] = File.expand_path('../../../vendor/htmlunit/2.8', __FILE__)
 DatabaseCleaner.strategy = :truncation
 
-Socky.module_eval do
-  mattr_accessor :sent
-  self.sent = []
-
-  def self.send(data, options = {})
-    sent << data
-  end
+browser = Steam::Browser.create
+World do
+  Steam::Session::Rails3.new(browser)
 end
 
-module Webrat::AssertSelectFix
-  def assert_select(*args, &block)
+module SelectorAssertionsFix
+  def response_from_page_or_rjs
     @response = response
     super
   end
 end
 
 World(Mocha::API)
-World(Webrat::AssertSelectFix)
+World(ActionDispatch::Assertions::TagAssertions)
+World(ActionDispatch::Assertions::SelectorAssertions)
+World(SelectorAssertionsFix)
 
 Before do
-  Nanite.stubs(:request)
-  Socky.sent.clear
+  DatabaseCleaner.start
   mocha_setup
 end
 
 After do
+  DatabaseCleaner.clean
   begin
     mocha_verify
   ensure
     mocha_teardown
   end
 end
+
+
+at_exit { browser.close }
 

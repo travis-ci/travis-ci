@@ -9,9 +9,9 @@ require 'resque/tasks'
 require 'travis'
 
 
-# require File.expand_path('../config/application', __FILE__)
+require File.expand_path('../config/application', __FILE__)
 # task :default => [:cucumber, :test]
-# TravisRails::Application.load_tasks
+TravisRails::Application.load_tasks
 
 # # gaaawd, rake.
 # Rake.application['test'].actions.clear

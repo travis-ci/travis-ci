@@ -53,7 +53,7 @@ end
 Then /^I should see the following repositories within the repositories list:$/ do |repositories|
   repositories.hashes.each_with_index do |repository, ix|
     within "#repositories .repository:nth-of-type(#{ix + 1})" do
-      assert_select 'a', /#{repository['name']}/
+      assert_has_tag :a, /#{repository['name']}/
       assert_select '.last_build', "##{repository['build']}"
       assert_select '.duration', "Duration: #{repository['duration']}"
       assert_select '.eta', "ETA: #{repository['eta']}" if repository['eta'].present?

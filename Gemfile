@@ -11,14 +11,24 @@ gem 'em-websocket'
 # gem 'em-redis'
 
 group :test do
-  gem 'webrat'
-  gem 'database_cleaner'
-  gem 'cucumber-rails'
   gem 'cucumber'
-  gem 'jsonpath'
+  gem 'steam', :path => '~/Development/projects/steam'
+
   gem 'test_declarative'
-  gem 'launchy'
   gem 'ruby-debug'
   gem 'mocha'
-  gem 'web-socket-ruby'
+  gem "database_cleaner"
+  gem 'jsonpath'
+
+  # gem 'web-socket-ruby'
+  gem 'jasmine'
+
+  # gem 'webrat'
+  # gem 'database_cleaner'
+  # gem 'cucumber-rails'
+  # gem 'akephalos', :git => 'git://github.com/thoughtbot/akephalos.git'
+  # gem "cucumber-rails"
+  # gem "capybara"
+  # gem "treetop"
+  # gem "launchy"
 end

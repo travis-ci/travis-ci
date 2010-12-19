@@ -77,7 +77,7 @@ h3 {
 #repositories .red a {
   color: #c00;
 }
-#repositories .build {
+#repositories .last_build {
   float: right;
 }
 #repositories .summary {
