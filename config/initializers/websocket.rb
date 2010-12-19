@@ -10,4 +10,4 @@ EventMachine.defer do
     puts e
     e.backtrace.each { |line| puts line }
   end
-end
+end unless Rails.env.test?

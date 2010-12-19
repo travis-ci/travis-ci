@@ -25,7 +25,6 @@ module Travis
       channel = "build:#{job_id}"
       jobs[channel] = build
       subscribe_to_redis(channel)
-      # notify(:'build:created', build)
     end
 
     protected

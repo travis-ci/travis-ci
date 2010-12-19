@@ -1,19 +1,19 @@
 class Repositories::List < Minimal::Template
   def to_html
     ul :id => :repositories do
-      repositories.each do |repository|
-        classes = [status(repository.last_build), active?(repository) ? 'active' : nil].compact
-        content_tag_for :li, repository, :class => classes.join(' ') do
-          link_to repository.name, repository
-          if build = repository.last_build
-            link_to_build(build)
-            p :class => :summary do
-              duration(build)
-              build.finished_at ? finished_at(build) : eta(build)
-            end
-          end
-        end
-      end
+      # repositories.each do |repository|
+      #   classes = [status(repository.last_build), active?(repository) ? 'active' : nil].compact
+      #   content_tag_for :li, repository, :class => classes.join(' ') do
+      #     link_to repository.name, repository
+      #     if build = repository.last_build
+      #       link_to_build(build)
+      #       p :class => :summary do
+      #         duration(build)
+      #         build.finished_at ? finished_at(build) : eta(build)
+      #       end
+      #     end
+      #   end
+      # end
     end
   end
 
