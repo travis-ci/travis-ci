@@ -1,4 +1,4 @@
-Feature: Building code
+Feature: The dashboard
   Background:
     Given the current time is 2010-11-21 13:00:05
     And the following repositories:
@@ -21,8 +21,8 @@ Feature: Building code
     Examples:
       | page                                   |
       | dashboard page                         |
-      # | repository page for: svenfuchs/minimal |
-      # | build page for: svenfuchs/minimal #2   |
+  #     # | repository page for: svenfuchs/minimal |
+  #     # | build page for: svenfuchs/minimal #2   |
 
   # Scenario: Viewing a repository
   #   Given I am on the repository page for: svenfuchs/minimal

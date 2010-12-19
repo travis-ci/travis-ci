@@ -4,12 +4,16 @@ class CreateBuilds < ActiveRecord::Migration
       t.references :repository
       t.integer  :number
       t.integer  :status
+      t.integer  :duration
+      t.datetime :started_at
+      t.datetime :finished_at
+      t.text     :log, :default => ''
       t.string   :commit
       t.text     :message
-      t.integer  :duration
-      t.text     :log, :default => ''
+      t.datetime :committed_at
+      t.string   :committer_name
+      t.string   :committer_email
       t.string   :agent
-      t.datetime :finished_at
       t.timestamps
     end
   end

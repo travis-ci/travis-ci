@@ -50,14 +50,51 @@ When /^someone triggers a build for the repository "([^"]*)"$/ do |arg1|
   post '/builds', :payload => GITHUB_PAYLOAD.to_json
 end
 
+Rjb::Rjb_JavaProxy.class_eval do
+  def to_ruby
+    case _classname
+    when 'com.gargoylesoftware.htmlunit.ScriptResult'
+      getJavaScriptResult.to_ruby
+    when 'net.sourceforge.htmlunit.corejs.javascript.NativeObject'
+      getIds.map(&:toString).inject({}) do |hash, key|
+        value = get(key)
+        hash.merge(key => value.respond_to?(:to_ruby) ? value.to_ruby : value)
+      end
+    when 'net.sourceforge.htmlunit.corejs.javascript.NativeArray'
+      values.toArray.map { |value| value.respond_to?(:to_ruby) ? value.to_ruby : value }
+    when 'java.lang.Int'
+      # wtf, never gets here. integers are converted to doubles somewhere
+      toString.to_i
+    when 'java.lang.Double'
+      toString.to_f
+    else
+      toString
+    end
+  end
+end
+
+Then /^the initial data passed on that page should contain the following values:$/ do |expected|
+  init_data = execute('INIT_DATA').to_ruby
+  expected.hashes.each do |hash|
+    expected = hash['value'].split(':')
+    type, expected = expected.shift, expected.join(':')
+
+    keys = hash['path'].split('.')
+    actual = keys.inject(init_data) { |data, key| data[data.is_a?(Array) ? key.to_i : key] }
+    actual = actual.to_i if type == 'int' && !actual.nil?
+
+    assert_equal expected, actual.to_s
+  end
+end
+
 Then /^I should see the following repositories within the repositories list:$/ do |repositories|
   repositories.hashes.each_with_index do |repository, ix|
-    within "#repositories .repository:nth-of-type(#{ix + 1})" do
-      assert_has_tag :a, /#{repository['name']}/
-      assert_select '.last_build', "##{repository['build']}"
-      assert_select '.duration', "Duration: #{repository['duration']}"
-      assert_select '.eta', "ETA: #{repository['eta']}" if repository['eta'].present?
-      assert_select '.finished_at', repository['finished_at'] if repository['finished_at'].present?
+    within "#repositories .repository:nth-of-type(#{ix + 1})" do |scope|
+      assert locate(:a, repository['name'])
+      assert locate(:a, "##{repository['build']}", :class => 'build')
+      # assert_select '.duration', "Duration: #{repository['duration']}"
+      # assert_select '.eta', "ETA: #{repository['eta']}" if repository['eta'].present?
+      # assert_select '.finished_at', repository['finished_at'] if repository['finished_at'].present?
     end
   end
 end
