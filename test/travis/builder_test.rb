@@ -30,8 +30,9 @@ class TravisBuilderTest < Test::Unit::TestCase
     subscription = redis_subscribe
     work!
 
-    assert_equal ['*', 'build:' + meta['meta_id'], ".1\n"], subscription[0]
-    assert_equal ['*', 'build:' + meta['meta_id'], '!0'], subscription[1]
+    assert_equal ['*', 'build:' + meta['meta_id'], "["], subscription[0]
+    assert_equal ['*', 'build:' + meta['meta_id'], ".1\n"], subscription[1]
+    assert_equal ['*', 'build:' + meta['meta_id'], ']0'], subscription[2]
   end
 
   protected

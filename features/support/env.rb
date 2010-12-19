@@ -2,7 +2,6 @@ ENV["RAILS_ENV"] ||= "cucumber"
 
 require File.expand_path(File.dirname(__FILE__) + '/../../config/environment')
 require 'steam'
-require 'test/unit'
 require 'mocha'
 require 'ruby-debug'
 require 'database_cleaner'

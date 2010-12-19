@@ -48,7 +48,7 @@ module Travis
       data.each do |type, ids|
         ids.each do |id|
           channel_id = :"#{type}_#{id}"
-          puts "subscribing client #{client.object_id} to #{channel_id.inspect}"
+          # puts "subscribing client #{client.object_id} to #{channel_id.inspect}"
           channel = channels[channel_id] ||= EventMachine::Channel.new
           subscription_id = channel.subscribe { |message| client.send(message) }
           client.subscriptions << [channel_id, subscription_id]

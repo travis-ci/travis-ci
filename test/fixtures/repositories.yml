@@ -1,0 +1,8 @@
+minimal:
+  name: svenfuchs/minimal
+  uri: http://github.com/svenfuchs/minimal
+  last_duration: 10
+enginex:
+  name: josevalim/enginex
+  uri: http://github.com/josevalim/enginex
+  last_duration: 30

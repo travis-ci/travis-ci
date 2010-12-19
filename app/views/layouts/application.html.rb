@@ -15,20 +15,19 @@ class Layouts::Application < Minimal::Template
     html do
       head
       body do
+        js_templates
+        js_init_data
+
         div :id => :top do
           github_pings
         end
 
         div :id => :left do
-          render 'repositories/list'
+          ul '', :id => :repositories
         end
 
         div :id => :right do
-          block.call
         end
-
-        js_templates
-        js_init_data
       end
     end
   end
@@ -43,7 +42,8 @@ class Layouts::Application < Minimal::Template
       super do
         title 'Travis'
         stylesheet_link_tag :all
-        javascript_include_tag :defaults, 'socky', 'underscore', 'backbone', 'handlebars'
+        javascript_include_tag :vendor, :lib, :app, 'application.js'
+        javascript_include_tag :jasmine, :tests if Rails.env.test?
         csrf_meta_tag
         socky
       end
@@ -59,22 +59,22 @@ class Layouts::Application < Minimal::Template
 
     def socky
       javascript_tag <<-js
-        new Socky('ws://127.0.0.1', '8080', '');
+        var socky = new Socky('ws://127.0.0.1', '8080', '');
       js
     end
 
     def js_templates
-      dir = Rails.root.join('public/templates/')
+      dir = Rails.root.join('public/javascripts/app/templates/')
       Dir["#{dir}**/*.*"].each do |path|
         template = File.read(path)
         name = path.gsub(dir, '').sub(File.extname(path), '')
-        content_tag :script, template.html_safe, :type => 'text/x-js-template', :name => name
+        div template.html_safe, :type => 'text/x-js-template', :name => name
       end
     end
 
     def js_init_data
       javascript_tag <<-js
-        var INIT_DATA = { repositories: #{Repository.all.as_json.to_json} };
+        var INIT_DATA = { repositories: #{Repository.timeline.as_json.to_json} };
       js
     end
 end

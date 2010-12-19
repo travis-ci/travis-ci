@@ -1,15 +1,21 @@
 # Add your own tasks in files placed in lib/tasks ending in .rake,
 # for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
+# $stdout.sync = true
+# $: << File.expand_path('../lib', __FILE__)
+#
+# require 'rake'
+# require 'resque/tasks'
+# require 'travis'
+
 $stdout.sync = true
-$: << File.expand_path('../lib', __FILE__)
+require File.expand_path('../config/application', __FILE__)
+# $: << File.expand_path('../lib', __FILE__)
 
 require 'rake'
 require 'resque/tasks'
 require 'travis'
 
-
-require File.expand_path('../config/application', __FILE__)
 # task :default => [:cucumber, :test]
 TravisRails::Application.load_tasks
 

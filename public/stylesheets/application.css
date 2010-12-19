@@ -3,7 +3,6 @@ body {
   line-height: 120%;
   margin: 0;
 }
-
 #top {
   height: 1em;
   padding: 8px;
@@ -26,11 +25,11 @@ body {
 }
 #left {
   width: 30%;
-  margin: 30px 2% 0 4%;
+  margin: 30px 2% 30px 4%;
 }
 #right {
   width: 58%;
-  margin: 30px 4% 0 2%;
+  margin: 30px 4% 30px 2%;
 }
 
 a {
@@ -46,6 +45,9 @@ ul {
 }
 h3 {
   font-size: 24px;
+}
+div[type="text/x-js-template"] {
+  display: none;
 }
 
 #left .repository {
@@ -77,7 +79,7 @@ h3 {
 #repositories .red a {
   color: #c00;
 }
-#repositories .last_build {
+#repositories .build {
   float: right;
 }
 #repositories .summary {

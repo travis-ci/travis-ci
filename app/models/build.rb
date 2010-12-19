@@ -26,12 +26,12 @@ class Build < ActiveRecord::Base
     status == 0
   end
 
-  def duration
-    ((finished? ? finished_at : Time.now) - created_at).to_i
-  end
+  # def duration
+  #   ((finished? ? finished_at : Time.now) - started_at).to_i
+  # end
 
   def eta
-    @eta ||= pending? && repository.last_duration.present? ? created_at + repository.last_duration.seconds : nil
+    # @eta ||= pending? && repository.last_duration.present? ? started_at + repository.last_duration.seconds : nil
   end
 
   def eta_in_words
@@ -43,8 +43,9 @@ class Build < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    build_keys = [:id, :number, :commit, :message, :duration, :finished_at, :log]
+    build_keys = [:id, :number, :color, :duration, :started_at, :finished_at, :log,
+      :commit, :message, :committed_at, :committer_name, :committer_email]
     build_methods = [:color, :eta]
-    super(:only => build_keys, :methods => build_methods, :include => { :repository => { :only => [:id, :name, :uri] } })
+    super(:only => build_keys, :methods => build_methods, :include => { :repository => { :only => [:id, :name, :uri, :last_duration] } })
   end
 end

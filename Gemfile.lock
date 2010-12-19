@@ -1,10 +1,3 @@
-PATH
-  remote: ~/Development/projects/steam
-  specs:
-    steam (0.0.8)
-      locator (>= 0.0.6)
-      rjb (>= 1.2.0)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -40,40 +33,18 @@ GEM
     arel (2.0.6)
     builder (2.1.2)
     columnize (0.3.2)
-    cucumber (0.10.0)
-      builder (>= 2.1.2)
-      diff-lcs (~> 1.1.2)
-      gherkin (~> 2.3.2)
-      json (~> 1.4.6)
-      term-ansicolor (~> 1.0.5)
     daemons (1.1.0)
     database_cleaner (0.6.0)
-    diff-lcs (1.1.2)
     em-websocket (0.1.4)
       addressable (>= 2.1.1)
       eventmachine (>= 0.12.9)
     erubis (2.6.6)
       abstract (>= 1.0.0)
     eventmachine (0.12.10)
-    gherkin (2.3.2)
-      json (~> 1.4.6)
-      term-ansicolor (~> 1.0.5)
-    htmlentities (4.2.2)
+    factory_girl (1.3.2)
     i18n (0.5.0)
-    jasmine (1.0.1.1)
-      json_pure (>= 1.4.3)
-      rack (>= 1.0.0)
-      rake (>= 0.8.7)
-      rspec (>= 1.1.5)
-      selenium-client (>= 1.2.17)
-      selenium-rc (>= 2.1.0)
     json (1.4.6)
-    json_pure (1.4.6)
-    jsonpath (0.1.2)
     linecache (0.43)
-    locator (0.0.8)
-      htmlentities (>= 4.2.0)
-      nokogiri (>= 1.4.1)
     mail (2.2.12)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
@@ -85,7 +56,6 @@ GEM
       activesupport (>= 3.0.0)
     mocha (0.9.10)
       rake
-    nokogiri (1.4.4)
     polyglot (0.3.1)
     rack (1.2.1)
     rack-mount (0.6.13)
@@ -116,30 +86,15 @@ GEM
       vegas (~> 0.1.2)
     resque-meta (1.0.2)
       resque (~> 1.8)
-    rjb (1.3.4)
-    rspec (2.0.1)
-      rspec-core (~> 2.0.1)
-      rspec-expectations (~> 2.0.1)
-      rspec-mocks (~> 2.0.1)
-    rspec-core (2.0.1)
-    rspec-expectations (2.0.1)
-      diff-lcs (>= 1.1.2)
-    rspec-mocks (2.0.1)
-      rspec-core (~> 2.0.1)
-      rspec-expectations (~> 2.0.1)
     ruby-debug (0.10.4)
       columnize (>= 0.1)
       ruby-debug-base (~> 0.10.4.0)
     ruby-debug-base (0.10.4)
       linecache (>= 0.3)
-    selenium-client (1.2.18)
-    selenium-rc (2.2.4)
-      selenium-client (>= 1.2.18)
     sinatra (1.1.0)
       rack (~> 1.1)
       tilt (~> 1.1)
     sqlite3-ruby (1.3.2)
-    term-ansicolor (1.0.5)
     test_declarative (0.0.4)
     thin (1.2.7)
       daemons (>= 1.0.9)
@@ -152,17 +107,16 @@ GEM
     tzinfo (0.3.23)
     vegas (0.1.8)
       rack (>= 1.0.0)
+    web-socket-ruby (0.1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   SystemTimer
-  cucumber
   database_cleaner
   em-websocket
-  jasmine
-  jsonpath
+  factory_girl
   minimal
   mocha
   rails (= 3.0.3)
@@ -170,9 +124,9 @@ DEPENDENCIES
   resque-meta
   ruby-debug
   sqlite3-ruby
-  steam!
   test_declarative
   thin
+  web-socket-ruby
 
 METADATA
   version: 1.0.6

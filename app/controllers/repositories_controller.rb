@@ -1,16 +1,12 @@
 class RepositoriesController < ApplicationController
+  respond_to :json
+
   def index
-    respond_to do |format|
-      format.html
-      format.json { render :json => Repository.all.as_json }
-    end
+    render :json => Repository.all.as_json
   end
 
   def show
-    respond_to do |format|
-      format.html
-      format.json { render :json => repository.as_json }
-    end
+    render :json => repository.as_json
   end
 
   protected
