@@ -38,7 +38,7 @@ describe('Json API', function() {
       expect(build.committer_email).toEqual('jose@email.com');
 
       expect(build.repository.name).toEqual('josevalim/enginex');
-      expect(build.repository.uri).toEqual('http://github.com/josevalim/enginex');
+      expect(build.repository.url).toEqual('http://github.com/josevalim/enginex');
       expect(build.repository.last_duration).toEqual(30);
     });
   });

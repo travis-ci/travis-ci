@@ -6,7 +6,8 @@ describe('The build details view', function() {
   it('shows build details', function() {
     runs_after(200, function() {
       expect_texts('#right .build', {
-        'h3': 'Build #1',
+        'h3': 'josevalim/enginex',
+        'h4': 'Build #1',
         '.commit-hash': '565294c',
         '.commit-message': 'Update Capybara',
         '.duration': '20',
