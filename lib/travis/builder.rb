@@ -8,7 +8,7 @@ module Travis
 
     def self.perform(meta_id, payload)
       payload['script'] ||= 'bundle install; rake'
-      buildable = Travis::Buildable.new(payload['uri'], payload)
+      buildable = Travis::Buildable.new(payload['url'], payload)
       result = buildable.build
       result ? 0 : 1
     end
