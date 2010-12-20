@@ -57,7 +57,7 @@ module Travis
       def on_log(channel, message)
         if build = jobs[channel]
           build.append_log(message)
-          notify(:'build:updated', build, :message => message)
+          notify(:'build:updated', build, :message => message) # TODO too expensive, should only send minimal required json data
         end
       end
 

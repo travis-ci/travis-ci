@@ -21,7 +21,7 @@ $(document).ready(function() {
   Socky.prototype.respond_to_message = function(msg) {
     var data = JSON.parse(msg);
     // console.log('-- trigger: ' + data.event + ' message: ' + data.message);
-    Travis.app.trigger(data.event, _.extend(data.build, { log: data.message }));
+    Travis.app.trigger(data.event, _.extend(data.build, { append_log: data.message }));
   }
 
   // fake github pings

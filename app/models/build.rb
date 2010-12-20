@@ -3,7 +3,7 @@ class Build < ActiveRecord::Base
 
   class << self
     def build(data)
-      repository = Repository.find_or_create_by_uri(data['repository']['uri'])
+      repository = Repository.find_or_create_by_url(data['repository']['url'])
       commit = data['commits'].first
       number = repository.builds.count + 1
       repository.builds.create(:commit => commit['id'], :number => number)
@@ -46,6 +46,6 @@ class Build < ActiveRecord::Base
     build_keys = [:id, :number, :color, :duration, :started_at, :finished_at, :log,
       :commit, :message, :committed_at, :committer_name, :committer_email]
     build_methods = [:color, :eta]
-    super(:only => build_keys, :methods => build_methods, :include => { :repository => { :only => [:id, :name, :uri, :last_duration] } })
+    super(:only => build_keys, :methods => build_methods, :include => { :repository => { :only => [:id, :name, :url, :last_duration] } })
   end
 end

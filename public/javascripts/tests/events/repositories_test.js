@@ -1,12 +1,11 @@
 describe('Events: on the repositories list', function() {
   beforeEach(function() {
-    var repository = INIT_DATA.repositories[1];
-    this.build_data = { id: repository.last_build.id, number: 2, repository: { id: repository.id } };
+    this.repository = INIT_DATA.repositories[1];
   });
 
   describe('build:created', function() {
     beforeEach(function() {
-      Travis.app.trigger('build:created', this.build_data)
+      Travis.app.trigger('build:created', build_created_data(this.repository))
     });
 
     it('adds a repositories list item for a new repository', function() {
@@ -24,7 +23,7 @@ describe('Events: on the repositories list', function() {
 
   describe('build:updated', function() {
     beforeEach(function() {
-      Travis.app.trigger('build:updated', this.build_data)
+      Travis.app.trigger('build:updated', build_updated_data(this.repository, ' foo!'))
     });
 
     it('adds a repositories list item for a new repository', function() {
@@ -42,8 +41,8 @@ describe('Events: on the repositories list', function() {
 
   describe('build:finished', function() {
     beforeEach(function() {
-      Travis.app.trigger('build:created', this.build_data)
-      Travis.app.trigger('build:finished', _.extend(this.build_data, { color: 'green', finished_at: '2010-11-11T14:00:20Z' }))
+      Travis.app.trigger('build:created', build_created_data(this.repository))
+      Travis.app.trigger('build:finished', build_finished_data(this.repository, { color: 'green' }))
     });
 
     it('updates the build status color', function() {

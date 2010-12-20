@@ -64,7 +64,6 @@ div[type="text/x-js-template"] {
 #repositories .active {
   -moz-box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px 0;
   -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px 0;
-  -o-box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px 0;
   box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px 0;
 }
 #repositories .green {
@@ -97,7 +96,7 @@ div[type="text/x-js-template"] {
 }
 dl {
   color: #666;
-  font-size: 90%;
+  font-size: 80%;
 }
 dt {
   clear: left;
@@ -109,6 +108,13 @@ dd {
   width: 200px;
   margin: 0px;
 }
+.tabs { min-height: 250px; position: relative; width: 100%; top: 10px; }
+.tabs > li { display: inline-block; background-color: #f6f6f6; border: 1px solid #ccc; border-top-left-radius: 4px 4px; border-top-right-radius: 4px 4px; }
+.tabs > li:first-child { background-color: white; border-bottom-color: white; }
+.tabs > li > h5 { cursor: pointer; margin: 0; padding: 5px 10px; }
+.tabs > li > div { position: absolute; background: white; z-index: -2; left: 0; top: 30px; bottom: 0; right: 0; padding: 20px; border-top: 1px solid #ccc; }
+.tabs > li:first-child > div { z-index: -1; }
+
 .log {
   white-space: pre-wrap;
   line-height: 140%;
@@ -132,4 +138,5 @@ dd {
   visibility: hidden;
   font-size: 0;
 }
+
 

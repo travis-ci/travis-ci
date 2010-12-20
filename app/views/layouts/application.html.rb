@@ -1,13 +1,13 @@
 class Layouts::Application < Minimal::Template
   # GITHUB_PAYLOADS = {
-  #   'gem-release'      => %({ "repository": { "uri": "file:///Volumes/Users/sven/Development/projects/gem-release" },      "commits": [{ "id": "9854592" }] }),
-  #   'minimal'          => %({ "repository": { "uri": "file:///Volumes/Users/sven/Development/projects/minimal" },          "commits": [{ "id": "91d1b7b" }] }),
-  #   'rack-cache-purge' => %({ "repository": { "uri": "file:///Volumes/Users/sven/Development/projects/rack-cache-purge" }, "commits": [{ "id": "3d2bf4c" }] })
+  #   'gem-release'      => %({ "repository": { "url": "file:///Volumes/Users/sven/Development/projects/gem-release" },      "commits": [{ "id": "9854592" }] }),
+  #   'minimal'          => %({ "repository": { "url": "file:///Volumes/Users/sven/Development/projects/minimal" },          "commits": [{ "id": "91d1b7b" }] }),
+  #   'rack-cache-purge' => %({ "repository": { "url": "file:///Volumes/Users/sven/Development/projects/rack-cache-purge" }, "commits": [{ "id": "3d2bf4c" }] })
   # }
   GITHUB_PAYLOADS = {
-    'gem-release'      => %({ "repository": { "uri": "http://github.com/svenfuchs/gem-release" },      "commits": [{ "id": "9854592" }] }),
-    'minimal'          => %({ "repository": { "uri": "http://github.com/svenfuchs/minimal" },          "commits": [{ "id": "add057e" }] }),
-    'rack-cache-purge' => %({ "repository": { "uri": "http://github.com/svenfuchs/rack-cache-purge" }, "commits": [{ "id": "83194fc" }] })
+    'gem-release'      => %({ "repository": { "url": "http://github.com/svenfuchs/gem-release" },      "commits": [{ "id": "9854592" }] }),
+    'minimal'          => %({ "repository": { "url": "http://github.com/svenfuchs/minimal" },          "commits": [{ "id": "add057e" }] }),
+    'rack-cache-purge' => %({ "repository": { "url": "http://github.com/svenfuchs/rack-cache-purge" }, "commits": [{ "id": "83194fc" }] })
   }
 
   def to_html

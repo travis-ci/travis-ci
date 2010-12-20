@@ -15,7 +15,7 @@ class Repository < ActiveRecord::Base
   before_create :init_name
 
   def as_json(options = {})
-    repository_keys = [:id, :name, :uri, :last_duration]
+    repository_keys = [:id, :name, :url, :last_duration]
     last_build_options = { :only => [:id, :number, :commit, :message, :duration, :started_at, :finished_at, :log], :methods => [:color, :eta]}
     super(:only => repository_keys, :include => { :last_build => last_build_options })['repository']
   end
@@ -23,6 +23,6 @@ class Repository < ActiveRecord::Base
   protected
 
     def init_name
-      self.name ||= URI.parse(uri).path.split('/')[-2, 2].join('/')
+      self.name ||= URI.parse(url).path.split('/')[-2, 2].join('/')
     end
 end

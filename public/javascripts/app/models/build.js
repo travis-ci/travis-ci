@@ -1,4 +1,3 @@
-var Foo = 'FOO  '
 var Build = Backbone.Model.extend({
 });
 
