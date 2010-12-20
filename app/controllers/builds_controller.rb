@@ -9,7 +9,7 @@ class BuildsController < ApplicationController
   end
 
   def create
-    payload = { :id => build.id, :uri => build.repository.uri, :commit => build.commit }
+    payload = { :id => build.id, :url => build.repository.url, :commit => build.commit }
     job = Travis::Builder.enqueue(payload)
     Travis::BuildListener.add(job.meta_id, build)
     build.repository.update_attributes!(:last_built_at => Time.now)

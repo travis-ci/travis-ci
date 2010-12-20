@@ -11,10 +11,7 @@ var ApplicationController = Backbone.Controller.extend({
     this.initialize_templates();
     this.repositories = new Repositories(INIT_DATA.repositories);
     this.builds = new Builds;
-
-    this.repositories_list = new RepositoriesListView(this);
-    // this.repository_view = new RepositoryView(this);
-    // this.build_view = new BuildView(this);
+    this.repositories_list = new RepositoriesListView({ app: this, repositories: this.repositories, templates: this.templates });
 
     this.bind('build:created', this.repositories.update_build)
     this.bind('build:updated', this.repositories.update_build)
@@ -42,20 +39,30 @@ var ApplicationController = Backbone.Controller.extend({
     content.apply(this)
   },
   render_repositories: function() {
-    this.repositories_list.render(this.repositories);
+    this.repositories_list.render();
   },
   render_repository: function() {
-    this.details = new RepositoryView(this);
-    this.details.render(this.repository);
+    if(this.repository) {
+      this.details = new RepositoryView({ app: this, repository: this.repository, templates: this.templates });
+      this.details.render();
+    }
   },
   render_build: function() {
-    this.details = new BuildView(this);
-    this.details.render(this.build);
+    if(this.build) {
+      this.details = new BuildView({ app: this, build: this.build, templates: this.templates });
+      this.details.render();
+    }
   },
   initialize_templates: function() {
     var app = this;
     $('div[type=text/x-js-template]').map(function() {
-      app.templates[$(this).attr('name')] = Handlebars.compile($(this).html());
+      var name = $(this).attr('name');
+      var source = $(this).html().replace('&gt;', '>');
+
+      if(name.split('/')[1][0] == '_') {
+        Handlebars.registerPartial(name, source)
+      }
+      app.templates[name] = Handlebars.compile(source);
     });
   }
 });

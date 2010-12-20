@@ -1,36 +1,38 @@
 var RepositoryView = Backbone.View.extend({
-  initialize: function(app) {
+  initialize: function(args) {
     _.bindAll(this, 'render', 'repository_changed', 'build_created', 'build_updated');
 
-    this.template = app.templates['repositories/show'];
+    this.app = args.app;
+    this.repository = args.repository;
+    this.repository_template = args.templates['repositories/show'];
+    this.build_template = args.templates['builds/_summary'];
     this.element = $('#right');
-    this.app = app;
+
     this.bind();
   },
   bind: function() {
     Backbone.Events.bind.apply(this, arguments);
     this.app.bind('build:created', this.build_created);
     this.app.bind('build:updated', this.build_updated);
-    // TODO should bind to the specific repository it's rendering
-    this.app.repositories.bind('change', this.repository_changed);
+    this.repository.bind('change', this.repository_changed);
   },
   unbind: function() {
     Backbone.Events.unbind.apply(this, arguments);
     this.app.unbind('build:created', this.build_created);
     this.app.unbind('build:updated', this.build_updated);
-    this.app.repositories.unbind('change', this.repository_changed);
+    if(this.repository) this.repository.unbind('change', this.repository_changed);
   },
-  render: function(repository) {
-    if(repository) {
-      this.element.html($(this.template(repository.attributes)));
-    }
+  render: function() {
+    this.element.html($(this.repository_template(this.repository.attributes)));
   },
   repository_changed: function(repository) {
-    this.render(repository);
+    $('.summary', this.element).replaceWith($(this.build_template(this.repository.attributes)));
   },
   build_created: function(data) {
   },
   build_updated: function(data) {
+    // $('#right #build_' + data.id + ' .log').append(Util.deansi(data.log));
+    $('#right .log').append(Util.deansi(data.append_log));
   }
 });
 

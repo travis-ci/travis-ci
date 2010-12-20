@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(:version => 20101126174715) do
 
   create_table "repositories", :force => true do |t|
     t.string   "name"
-    t.string   "uri"
+    t.string   "url"
     t.integer  "last_duration"
     t.datetime "last_built_at"
     t.datetime "created_at"

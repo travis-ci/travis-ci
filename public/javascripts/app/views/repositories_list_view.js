@@ -1,24 +1,26 @@
 var RepositoriesListView = Backbone.View.extend({
   tagName: 'ul',
   id: 'repositories',
-  initialize: function (app) {
+  initialize: function (args) {
     _.bindAll(this, 'repository_selected', 'repository_updated', 'build_created', 'build_updated', 'build_finished', 'render');
 
-    this.template = app.templates['repositories/_item'];
+    this.app = args.app;
+    this.repositories = args.repositories;
+    this.template = args.templates['repositories/_item'];
     this.element = $('#repositories');
 
-    app.bind('repository:selected', this.repository_selected);
-    app.bind('build:created', this.build_created);
-    app.bind('build:updated', this.build_updated);
-    app.bind('build:finished', this.build_finished);
+    this.app.bind('repository:selected', this.repository_selected);
+    this.app.bind('build:created', this.build_created);
+    this.app.bind('build:updated', this.build_updated);
+    this.app.bind('build:finished', this.build_finished);
 
-    app.repositories.bind('add', this.repository_added);
-    app.repositories.bind('change', this.repository_updated)
+    this.repositories.bind('add', this.repository_added);
+    this.repositories.bind('change', this.repository_updated)
   },
-  render: function(collection) {
+  render: function() {
     this.element.empty();
     var view = this;
-    collection.each(function(item) { view.element.prepend($(view.template(item.attributes))); });
+    this.repositories.each(function(item) { view.element.prepend($(view.template(item.attributes))); });
     return this;
   },
   repository_selected: function(repository_id) {
