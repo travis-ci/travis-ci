@@ -5,7 +5,13 @@
   <p><a href="{{url}}">{{url}}</a></p>
   {{> builds/_summary}}
 
-  <h4>Log</h4>
-  <pre class="log">{{log}}</pre>
+  <ul class="tabs">
+    <li>
+      <h5>Log</h5>
+      <div>
+        <pre class="log">{{log}}</pre>
+      </div>
+    </li>
+  </ul>
 </div>
 
