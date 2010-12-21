@@ -43,7 +43,7 @@ class Layouts::Application < Minimal::Template
         title 'Travis'
         stylesheet_link_tag :all
         javascript_include_tag :vendor, :lib, :app, 'application.js'
-        javascript_include_tag :jasmine, :tests if Rails.env.test?
+        javascript_include_tag :jasmine, :tests if Rails.env.jasmine?
         csrf_meta_tag
         socky
       end
