@@ -21,7 +21,7 @@ class BuildTest < Test::Unit::TestCase
         :repository => {
           'id' => build.repository.id,
           'name' => 'svenfuchs/minimal',
-          'uri' => 'http://github.com/svenfuchs/minimal',
+          'url' => 'http://github.com/svenfuchs/minimal',
           'last_duration' => nil,
         },
       }

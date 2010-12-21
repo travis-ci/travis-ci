@@ -2,7 +2,7 @@ require 'factory_girl'
 
 Factory.define :repository do |f|
   f.name 'svenfuchs/minimal'
-  f.uri  { |r| "http://github.com/#{r.name}" }
+  f.url  { |r| "http://github.com/#{r.name}" }
 end
 
 Factory.define :build do |f|
