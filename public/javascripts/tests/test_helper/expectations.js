@@ -6,6 +6,10 @@ var expect_no_element = function(selector) {
   expect($(selector)).toBeEmpty();
 }
 
+var expect_attribute_value = function(selector, name, expected) {
+  expect($(selector).attr(name)).toEqual(expected);
+}
+
 var expect_texts = function() {
   var args  = Array.prototype.slice.call(arguments);
   var texts = args.pop();

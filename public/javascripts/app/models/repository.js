@@ -1,4 +1,7 @@
 var Repository = Backbone.Model.extend({
+  is_building: function() {
+    return !this.attributes.last_build.finished_at;
+  },
 });
 
 Repository.from_build_data = function(data) {
@@ -12,12 +15,12 @@ var Repositories = Backbone.Collection.extend({
   url: '/repositories',
   model: Repository,
   initialize: function(app) {
-    _.bindAll(this, 'update_build');
+    _.bindAll(this, 'update');
   },
-  update_build: function(data) {
+  update: function(data) {
     var attributes = Repository.from_build_data(data).attributes;
     var repository = this.get(attributes.id);
-    if(repository) { repository.set(attributes); }
-  },
+    repository ?  repository.set(attributes) : this.add(new Repository(attributes));
+  }
 });
 
