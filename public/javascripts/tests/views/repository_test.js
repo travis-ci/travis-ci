@@ -28,5 +28,12 @@ describe('The repository details view', function() {
         expect_text('#right .repository .number', '2');
       });
     });
+
+    it('build:created clears the build log', function() {
+      runs_after(200, function() {
+        Travis.app.trigger('build:created', this.build_data)
+        expect_text('#right .repository .log', '');
+      });
+    });
   });
 });
