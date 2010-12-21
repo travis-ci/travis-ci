@@ -1,4 +1,54 @@
 h1. Travis - a distributed build system
 
-Note: if you're looking for the code referenced "here":http://svenfuchs.com/2010/6/16/travis-an-experimental-distributed-ci-server-on-heroku then look no further. It's been a highly experimental pet project that failed (for now obvious reasons), the code is abandoned and gone.
+Travis is an attemp to create an open-source, distributed build system for the Ruby community that
+
+1. allows open-source projects to register their repository and have their test-suites run on demand
+2. allows users to contribute build capacities by connecting a VM that runs a build agent somewhere on their underused servers
+
+
+h2. Overview
+
+Travis consists of four main parts:
+
+* A "Backbone.js":http://documentcloud.github.com/backbone single-page application that runs client side.
+* A Rails 3 application that serves to the in-browser application and takes pings from Github.
+* A "Resque":https://github.com/defunkt/resque worker for running a project's test suite remotely.
+* A websocket server for tailing build results to the browser. (This server is currently started within the Rails app process.)
+
+
+h2. Goals
+
+* Get a working application up and running that can distribute build requests to manually installed build workers and report back to browsers. Most simplistic UI that ever would make sense for this. Have a restricted set of allowed Github repositories.
+* Allow people to login through Github OAuth and somehow maintain a list of repositories they're interested in.
+* Create VM images so that people can easily install and start build workers on underused or contributed servers.
+
+
+h2. Status
+
+This code is not much more than a spike and everything will change very likely. It is here to try out a few basic concepts and building blocks and ask people to share their opinion.
+
+
+h2. Running the tests
+
+Integration tests are implemented using "Jasmine":http://pivotal.github.com/jasmine and can be run in the browser:
+
+$ RAILS_ENV=jasmine rake db:migrate db:fixtures:load
+$ rails s thin -e jasmine
+$ open http://localhost:3000
+
+To run the unit tests simply do:
+
+$ ruby -Ilib -Itest test/all.rb
+
+
+h2. Previous spike
+
+My first spike was using Nanite for running workers. These materials are now outdated but maybe still interesting:
+
+* "1:36 quick demo screencast":http://www.youtube.com/watch?v=qdTV-b6BJHA
+
+!https://github.com/svenfuchs/travis/raw/master/docs/travis.png!
+!https://github.com/svenfuchs/travis/raw/master/mockups/main.png!
+!https://github.com/svenfuchs/travis/raw/master/mockups/build_details.png!
+
 
