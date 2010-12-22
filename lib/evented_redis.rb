@@ -4,11 +4,16 @@
 require 'rubygems'
 require 'eventmachine'
 require 'stringio'
+require 'uri'
 
 class EventedRedis < EM::Connection
   class << self
-    def connect(host = '127.0.0.1', port = 6379)
-      EM.connect(host, port, self)
+    def connect
+      EM.connect(uri.host, uri.port, self)
+    end
+
+    def uri
+      @uri = URI.parse(ENV['redistogo'] || 'http://127.0.0.1:6379')
     end
   end
 

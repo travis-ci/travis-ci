@@ -4,6 +4,7 @@
 require 'eventmachine'
 require 'em-websocket'
 require 'json'
+require 'uri'
 
 EventMachine::WebSocket::Connection.class_eval do
   attr_accessor :subscriptions
@@ -25,7 +26,8 @@ module Travis
     end
 
     def start(options = {})
-      EventMachine.start_server('127.0.0.1', 8080, EventMachine::WebSocket::Connection, options) do |client|
+      uri = URI.parse(Rails.env.production? ? 'http://travis.heroku.com:8080' : 'http://127.0.0.1:8080')
+      EventMachine.start_server(uri.host, uri.port, EventMachine::WebSocket::Connection, options) do |client|
         client.subscriptions = []
         client.onmessage { |message| client_message(client, message) }
         client.onclose { client_quit(client) }
