@@ -2,14 +2,14 @@ var RepositoriesListView = Backbone.View.extend({
   tagName: 'ul',
   id: 'repositories',
   initialize: function (args) {
-    _.bindAll(this, 'render', 'repository_added', 'repository_updated', 'build_updated', 'update_flash');
+    _.bindAll(this, 'render', 'repository_added', 'repository_updated', 'build_log', 'update_flash');
 
     this.app = args.app;
     this.repositories = args.repositories;
     this.template = args.templates['repositories/_item'];
     this.element = $('#repositories');
 
-    this.app.bind('build:updated', this.build_updated);
+    this.app.bind('build:log', this.build_log);
     this.repositories.bind('add', this.repository_added);
     this.repositories.bind('change', this.repository_updated)
   },
@@ -28,7 +28,7 @@ var RepositoriesListView = Backbone.View.extend({
     element.replaceWith(this.template(repository.attributes));
     this.update_flash(repository);
   },
-  build_updated: function(data) {
+  build_log: function(data) {
     var repository = this.repositories.get(data.id);
     if(repository) {
       this.update_flash(repository);

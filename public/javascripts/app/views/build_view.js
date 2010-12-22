@@ -1,6 +1,6 @@
 var BuildView = Backbone.View.extend({
   initialize: function(args) {
-    _.bindAll(this, 'bind', 'unbind', 'render', 'build_updated', 'build_finished', 'update_summary', 'append_log');
+    _.bindAll(this, 'bind', 'unbind', 'render', 'build_log', 'build_finished', 'update_summary', 'append_log');
 
     this.app = args.app;
     this.build = args.build;
@@ -11,18 +11,18 @@ var BuildView = Backbone.View.extend({
   },
   bind: function() {
     Backbone.Events.bind.apply(this, arguments);
-    this.app.bind('build:updated', this.build_updated);
+    this.app.bind('build:log', this.build_log);
     this.app.bind('build:finished', this.build_finished);
   },
   unbind: function() {
     Backbone.Events.unbind.apply(this, arguments);
-    this.app.unbind('build:updated', this.build_updated);
+    this.app.unbind('build:log', this.build_log);
     this.app.unbind('build:finished', this.build_finished);
   },
   render: function() {
     this.element.html($(this.template(this.build.attributes)));
   },
-  build_updated: function(data) {
+  build_log: function(data) {
     this.append_log(data)
   },
   build_finished: function(data) {

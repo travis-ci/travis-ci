@@ -1,6 +1,6 @@
 var RepositoryView = Backbone.View.extend({
   initialize: function(args) {
-    _.bindAll(this, 'bind', 'unbind', 'render', 'build_created', 'build_updated', 'build_finished');
+    _.bindAll(this, 'bind', 'unbind', 'render', 'repository_changed', 'build_log');
 
     this.app = args.app;
     this.repository = args.repository;
@@ -12,46 +12,41 @@ var RepositoryView = Backbone.View.extend({
   },
   bind: function() {
     Backbone.Events.bind.apply(this, arguments);
-    this.app.bind('build:created', this.build_created);
-    this.app.bind('build:updated', this.build_updated);
-    this.app.bind('build:finished', this.build_finished);
+    this.repository.bind('change', this.repository_changed);
+    this.app.bind('build:log', this.build_log);
   },
   unbind: function() {
     Backbone.Events.unbind.apply(this, arguments);
-    this.app.unbind('build:created', this.build_created);
-    this.app.unbind('build:updated', this.build_updated);
-    this.app.unbind('build:finished', this.build_finished);
+    this.repository.unbind('change', this.repository_changed);
+    this.app.unbind('build:updated', this.build_log);
   },
   render: function() {
     this.element.html($(this.repository_template(this.repository.attributes)));
   },
-  build_created: function(data) {
-    if(this.is_current_repository(data)) {
-      this.update_summary(data);
-      this.clear_log();
+  repository_changed: function(repository) {
+    // happens on build:started and build:finished
+    if(this.is_current_repository(repository.get('id'))) {
+      var build = repository.attributes.last_build;
+      this.update_summary(build);
+      this.update_log(build);
     }
   },
-  build_updated: function(data) {
-    if(this.is_current_repository(data)) {
-      this.append_log(data);
+  build_log: function(data) {
+    if(this.is_current_repository(data.repository.id)) {
+      this.append_log(data.append_log);
     }
   },
-  build_finished: function(data) {
-    if(this.is_current_repository(data)) {
-      this.update_summary(data);
-    }
+  is_current_repository: function(id) {
+    return $('#repository_' + id, this.element).length > 0;
   },
-  is_current_repository: function(data) {
-    return $('#repository_' + data.repository.id, this.element).length > 0;
+  update_summary: function(build) {
+    $('.summary', this.element).replaceWith($(this.build_template(build)));
   },
-  update_summary: function(data) {
-    $('.summary', this.element).replaceWith($(this.build_template(data.repository.last_build)));
+  update_log: function(build) {
+    $('.log', this.element).text(build.log);
   },
-  clear_log: function() {
-    $('.log', this.element).empty();
-  },
-  append_log: function(data) {
-    $('.log', this.element).append(Util.deansi(data.append_log));
+  append_log: function(chars) {
+    $('.log', this.element).append(Util.deansi(chars));
   }
 });
 

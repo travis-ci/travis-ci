@@ -14,25 +14,4 @@ describe('The repository details view', function() {
       });
     });
   });
-
-  describe('events', function() {
-    beforeEach(function() {
-      var repository = INIT_DATA.repositories[1];
-      this.build_data = { id: repository.last_build.id, number: 2, repository: { id: repository.id } };
-    });
-
-    it('build:created updates the build number', function() {
-      runs_after(200, function() {
-        Travis.app.trigger('build:created', this.build_data)
-        expect_text('#right .repository .number', '2');
-      });
-    });
-
-    it('build:created clears the build log', function() {
-      runs_after(200, function() {
-        Travis.app.trigger('build:created', this.build_data)
-        expect_text('#right .repository .log', '');
-      });
-    });
-  });
 });
