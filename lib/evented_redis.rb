@@ -13,7 +13,7 @@ class EventedRedis < EM::Connection
     end
 
     def uri
-      @uri = URI.parse(ENV['redistogo'] || 'http://127.0.0.1:6379')
+      @uri = URI.parse(ENV['REDISTOGO_URL'] || 'http://127.0.0.1:6379')
     end
   end
 
