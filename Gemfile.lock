@@ -127,6 +127,3 @@ DEPENDENCIES
   test_declarative
   thin
   web-socket-ruby
-
-METADATA
-  version: 1.0.6
