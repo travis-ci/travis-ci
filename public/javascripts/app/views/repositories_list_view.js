@@ -16,16 +16,16 @@ var RepositoriesListView = Backbone.View.extend({
   render: function() {
     this.element.empty();
     var view = this;
-    this.repositories.each(function(item) { view.element.prepend($(view.template(item.attributes))); });
+    this.repositories.each(function(item) { view.element.prepend($(view.template(item.toJSON()))); });
     return this;
   },
   repository_added: function (repository) {
-    this.element.prepend($(this.template(repository.attributes)));
+    this.element.prepend($(this.template(repository.toJSON())));
     this.update_flash(repository);
   },
   repository_updated: function(repository) {
     var element = $('#repository_' + repository.get('id'), this.element);
-    element.replaceWith(this.template(repository.attributes));
+    element.replaceWith(this.template(repository.toJSON()));
     this.update_flash(repository);
   },
   build_log: function(data) {

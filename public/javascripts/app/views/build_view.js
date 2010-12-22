@@ -1,6 +1,6 @@
 var BuildView = Backbone.View.extend({
   initialize: function(args) {
-    _.bindAll(this, 'bind', 'unbind', 'render', 'build_log', 'build_finished', 'update_summary', 'append_log');
+    _.bindAll(this, 'bind', 'unbind', 'render', 'build_log', 'build_updated', 'build_finished', 'update_summary', 'append_log');
 
     this.app = args.app;
     this.build = args.build;
@@ -11,6 +11,7 @@ var BuildView = Backbone.View.extend({
   },
   bind: function() {
     Backbone.Events.bind.apply(this, arguments);
+    // this.build.repository.bind('changed', this.build_updated);
     this.app.bind('build:log', this.build_log);
     this.app.bind('build:finished', this.build_finished);
   },
@@ -20,19 +21,22 @@ var BuildView = Backbone.View.extend({
     this.app.unbind('build:finished', this.build_finished);
   },
   render: function() {
-    this.element.html($(this.template(this.build.attributes)));
+    this.element.html($(this.template(this.build.toJSON())));
   },
   build_log: function(data) {
-    this.append_log(data)
+    this.append_log(data.id, data.append_log)
+  },
+  build_updated: function(repository) {
+    // this.update_summary(repository.build.toJSON());
   },
   build_finished: function(data) {
-    this.update_summary(data);
+    this.update_summary(data.repository.last_build);
   },
-  update_summary: function(data) {
-    $('#build_' + data.id + ' .summary', this.element).replaceWith($(this.template(data.repository.last_build)));
+  update_summary: function(attributes) {
+    $('#build_' + attributes.id + ' .summary', this.element).replaceWith($(this.template(attributes)));
   },
-  append_log: function(data) {
-    $('#build_' + data.id + ' .log', this.element).append(Util.deansi(data.append_log));
+  append_log: function(id, chars) {
+    $('#build_' + id + ' .log', this.element).append(Util.deansi(chars));
   }
 });
 

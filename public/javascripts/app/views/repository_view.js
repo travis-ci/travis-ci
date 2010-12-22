@@ -21,32 +21,24 @@ var RepositoryView = Backbone.View.extend({
     this.app.unbind('build:updated', this.build_log);
   },
   render: function() {
-    this.element.html($(this.repository_template(this.repository.attributes)));
+    this.element.html($(this.repository_template(this.repository.toJSON())));
   },
   repository_changed: function(repository) {
     // happens on build:started and build:finished
-    if(this.is_current_repository(repository.get('id'))) {
-      var build = repository.attributes.last_build;
-      this.update_summary(build);
-      this.update_log(build);
-    }
+    this.update_summary(repository.build.toJSON());
+    this.update_log(repository.build.get('id'), repository.build.get('log'));
   },
   build_log: function(data) {
-    if(this.is_current_repository(data.repository.id)) {
-      this.append_log(data.append_log);
-    }
+    this.append_log(data.id, data.append_log);
   },
-  is_current_repository: function(id) {
-    return $('#repository_' + id, this.element).length > 0;
+  update_summary: function(attributes) {
+    $('#build_' + attributes.id + ' .summary', this.element).replaceWith($(this.build_template(attributes)));
   },
-  update_summary: function(build) {
-    $('.summary', this.element).replaceWith($(this.build_template(build)));
+  update_log: function(id, log) {
+    $('#build_' + id + ' .log', this.element).text(log);
   },
-  update_log: function(build) {
-    $('.log', this.element).text(build.log);
-  },
-  append_log: function(chars) {
-    $('.log', this.element).append(Util.deansi(chars));
+  append_log: function(id, chars) {
+    $('#build_' + id + ' .log', this.element).append(Util.deansi(chars));
   }
 });
 
