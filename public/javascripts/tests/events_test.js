@@ -4,7 +4,7 @@
     - updates the repositories list, i.e. changes the last build information, and makes the repository list entry flash
     - updates the current repository view if the build belongs to this repository, i.e. changes the build summary and clears the build log
 
-   build:updated
+   build:log
     - only includes minimal information: repository id, build id and log characters that were appended to the build log
     - appends to the build log on repository and build views if they are displaying this build
 
@@ -14,7 +14,7 @@
     - updates the current repository view if the build belongs to this repository, i.e. changes the build summary
 */
 
-var delay = 250;
+var delay = 200;
 
 describe('Events:', function() {
   var it_prepends_the_repository_to_the_repositories_list = function() {
@@ -123,10 +123,10 @@ describe('Events:', function() {
         it_updates_the_build_summary();
       });
 
-      describe('build:updated', function() {
+      describe('build:log', function() {
         beforeEach(function() {
-          this.data = build_updated_data(this.repository, { append_log: ' foo!'});
-          Travis.app.trigger('build:updated', this.data);
+          this.data = build_log_data(this.repository, { append_log: ' foo!'});
+          Travis.app.trigger('build:log', this.data);
         });
 
         it_appends_to_the_build_log();
@@ -160,10 +160,10 @@ describe('Events:', function() {
         it_does_not_update_the_build_summary();
       });
 
-      describe('build:updated', function() {
+      describe('build:log', function() {
         beforeEach(function() {
-          this.data = build_updated_data(this.repository, { append_log: ' foo!'});
-          Travis.app.trigger('build:updated', this.data);
+          this.data = build_log_data(this.repository, { append_log: ' foo!'});
+          Travis.app.trigger('build:log', this.data);
         });
 
         it_does_not_append_to_the_build_log();
@@ -192,11 +192,11 @@ describe('Events:', function() {
         this.repository = INIT_DATA.repositories[1];
       });
 
-      describe('build:updated', function() {
+      describe('build:log', function() {
         beforeEach(function() {
           runs_after(delay, function() {
-            this.data = build_updated_data(this.repository, { append_log: ' foo!'});
-            Travis.app.trigger('build:updated', this.data);
+            this.data = build_log_data(this.repository, { append_log: ' foo!'});
+            Travis.app.trigger('build:log', this.data);
           });
         });
 
@@ -222,11 +222,11 @@ describe('Events:', function() {
         this.repository = INIT_DATA.repositories[0];
       });
 
-      describe('build:updated', function() {
+      describe('build:log', function() {
         beforeEach(function() {
           runs_after(delay, function() {
-            this.data = build_updated_data(this.repository, { append_log: ' foo!'});
-            Travis.app.trigger('build:updated', this.data);
+            this.data = build_log_data(this.repository, { append_log: ' foo!'});
+            Travis.app.trigger('build:log', this.data);
           });
         });
 
