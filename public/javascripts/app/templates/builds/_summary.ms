@@ -7,12 +7,8 @@
   <dd class="commit-message">{{message}}</dd>
   <dt>Duration</dt>
   <dd class="duration">{{duration}}</dd>
-  {{#finished_at}}
-    <dt>Finished</dt>
-    <dd class="finished_at" data-finished_at="{{../finished_at}}">{{../finished_at}}</d>
-  {{/finished_at}}
-  {{#eta}}
-    <dt>ETA</dt>
-    <dd class="eta" data-finished_at="{{../eta}}">{{../eta_in_words}}</d>
-  {{/eta}}
+  <dt class="finished_at_label">Finished</dt>
+  <dd class="finished_at timeago" title="{{finished_at}}"></d>
+  <dt class="eta_label">ETA</dt>
+  <dd class="eta timeago" title="{{eta}}"></d>
 </dl>
