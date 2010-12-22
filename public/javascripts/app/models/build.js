@@ -1,6 +1,7 @@
 var Build = Backbone.Model.extend({
-  initialize: function() {
+  initialize: function(attributes) {
     _.bindAll(this, 'toJSON');
+    Backbone.Model.prototype.initialize.apply(this, arguments);
   },
   toJSON: function() {
     return _.extend(Backbone.Model.prototype.toJSON.apply(this), {

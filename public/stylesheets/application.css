@@ -2,6 +2,7 @@ body {
   font-family: Helvetica, Arial, sans-serif;
   line-height: 120%;
   margin: 0;
+  padding: 0 0 30px 0;
 }
 #top {
   height: 1em;

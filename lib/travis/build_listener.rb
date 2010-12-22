@@ -2,6 +2,7 @@
 # them to the websocket server.
 
 require 'evented_redis'
+require 'pusher'
 
 module Travis
   class BuildListener
@@ -50,30 +51,34 @@ module Travis
 
       def on_start(channel, message)
         if build = jobs[channel]
-          notify(:'build:created', build)
+          build.update_attributes!(:started_at => Time.now)
+          notify(:'build:created', build.repository_id, build.as_json)
         end
       end
 
       def on_log(channel, message)
         if build = jobs[channel]
           build.append_log(message)
-          notify(:'build:log', build, :message => message) # TODO too expensive, should only send minimal required json data
+          data = { 'build' => { 'id' => build.id, :repository => { 'id' => build.repository_id } }, 'message' => message }
+          notify(:'build:log', build.repository_id, data)
         end
       end
 
       def on_result(channel, result)
         if build = jobs.delete(channel)
-          build.update_attributes!(:status => result.to_i, :finished_at => Time.now) # TODO copy build meta data from redis
-          notify(:'build:finished', build, :message => "build finished, status: #{result}")
+          build.update_attributes!(:status => result.to_i, :finished_at => Time.now)
+          notify(:'build:finished', build.repository_id, build.as_json.merge(:message => "build finished, status: #{result}"))
           unsubscribe_from_redis(channel)
         end
       end
 
-      def notify(event, build, data = {})
-        channel = :"repository_#{build.repository_id}"
-        payload = build.as_json.merge(data.merge(:event => event))
+      def notify(event, repository_id, data = {})
+        channel = :"repository_#{repository_id}"
+        payload = data.merge(:event => event)
+
         # puts "notifying channel #{channel} about #{event}: #{data.inspect}"
-        Travis::WebSocketServer.publish(channel, payload)
+        # Travis::WebSocketServer.publish(channel, payload)
+        Pusher[channel].trigger(event, payload)
       end
   end
 end

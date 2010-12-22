@@ -7,7 +7,8 @@ gem 'SystemTimer'
 gem 'resque'
 gem 'resque-meta'
 gem 'minimal'
-gem 'em-websocket'
+gem 'pusher'
+# gem 'em-websocket'
 # gem 'em-redis'
 
 group :test do

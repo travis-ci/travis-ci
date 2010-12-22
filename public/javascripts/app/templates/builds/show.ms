@@ -5,7 +5,7 @@
   <p><a href="{{url}}">{{url}}</a></p>
   {{> builds/_summary}}
 
-  <ul class="tabs">
+  <ul class="tabs clearfix">
     <li>
       <h5>Log</h5>
       <div>
