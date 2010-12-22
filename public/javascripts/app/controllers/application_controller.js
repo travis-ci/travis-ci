@@ -36,7 +36,8 @@ var ApplicationController = Backbone.Controller.extend({
       delete this.details;
     }
     this.render_repositories();
-    content.apply(this)
+    content.apply(this);
+    this.update_times();
   },
   render_repositories: function() {
     this.repositories_list.render();
@@ -52,6 +53,11 @@ var ApplicationController = Backbone.Controller.extend({
       this.details = new BuildView({ app: this, build: this.build, templates: this.templates });
       this.details.render();
     }
+  },
+  update_times: function() {
+    $('.timeago').timeago();
+    $('.finished_at[title=""]').prev('.finished_at_label').hide();
+    $('.finished_at[title=""]').next('.eta_label').show().next('.eta').show();
   },
   initialize_templates: function() {
     var app = this;

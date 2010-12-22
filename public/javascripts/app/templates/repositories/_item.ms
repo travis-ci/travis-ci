@@ -3,13 +3,9 @@
   {{#last_build}}
     <a href="/#!/builds/{{id}}" class="build">#{{number}}</a>
     <p class="summary">
-      <span class="duration">Duration: {{duration}},</span>
-      {{#finished_at}}
-        Finished: <abbr class="finished_at" data-finished_at="{{../finished_at}}">{{../finished_at_in_words}}</abbr>
-      {{/finished_at}}
-      {{#eta}}
-        ETA: <abbr class="eta" data-finished_at="{{../eta}}">{{../eta_in_words}}</abbr>
-      {{/eta}}
+      <span class="duration_label">Duration:</span> <abbr class="duration_label">{{duration}},</abbr>
+      <span class="finished_at_label">Finished:</span> <abbr class="finished_at timeago" title="{{finished_at}}"></abbr>
+      <span class="eta_label">ETA:</span> <abbr class="eta timeago" title="{{eta}}"></abbr>
     </p>
   {{/last_build}}
 </li>

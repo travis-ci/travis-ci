@@ -115,6 +115,9 @@ dd {
 .tabs > li > div { position: absolute; background: white; z-index: -2; left: 0; top: 30px; bottom: 0; right: 0; padding: 20px; border-top: 1px solid #ccc; }
 .tabs > li:first-child > div { z-index: -1; }
 
+.eta, .eta_label {
+  display: none;
+}
 .log {
   white-space: pre-wrap;
   line-height: 140%;
