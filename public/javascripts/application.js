@@ -4,8 +4,21 @@ var Travis = {
     Backbone.history = new Backbone.History;
     Travis.app = new ApplicationController;
     Travis.app.run();
+  },
+  trigger: function(event, data) {
+    Travis.app.trigger(event, _.extend(data.build, { append_log: data.message }));
   }
 };
+
+Pusher.log = function() {
+  if (window.console) {
+    window.console.log.apply(window.console, arguments);
+  }
+};
+
+$.fn.deansi = function() {
+  this.html(Util.deansi(this.html()));
+}
 
 $(document).ready(function() {
   if(!window.__TESTING__) {
@@ -13,16 +26,21 @@ $(document).ready(function() {
     Backbone.history.start();
   }
 
-  Socky.prototype.respond_to_connect = function() {
-    var repository_ids = _.map(INIT_DATA.repositories, function(repository) { return repository.id });
-    this.connection.send('subscribe:{"repository":[' + repository_ids.join(',') + ']}')
-  }
+  _.each(INIT_DATA.repositories, function(repository) {
+    var channel = pusher.subscribe('repository_' + repository.id);
+    channel.bind_all(Travis.trigger);
+  });
 
-  Socky.prototype.respond_to_message = function(msg) {
-    var data = JSON.parse(msg);
-    // console.log('-- trigger: ' + data.event + ' message: ' + data.message);
-    Travis.app.trigger(data.event, _.extend(data.build, { append_log: data.message }));
-  }
+  // Socky.prototype.respond_to_connect = function() {
+  //   var repository_ids = _.map(INIT_DATA.repositories, function(repository) { return repository.id });
+  //   this.connection.send('subscribe:{"repository":[' + repository_ids.join(',') + ']}')
+  // }
+
+  // Socky.prototype.respond_to_message = function(msg) {
+  //   var data = JSON.parse(msg);
+  //   // console.log('-- trigger: ' + data.event + ' message: ' + data.message);
+  //   Travis.app.trigger(data.event, _.extend(data.build, { append_log: data.message }));
+  // }
 
   // fake github pings
   $('.github_ping').click(function(event) {

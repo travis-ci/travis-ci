@@ -22,9 +22,10 @@ var BuildView = Backbone.View.extend({
   },
   render: function() {
     this.element.html($(this.template(this.build.toJSON())));
+    $('.log', this.element).deansi();
   },
   build_log: function(data) {
-    this.append_log(data.id, data.append_log)
+    this.append_log(data.id, data.append_log);
   },
   build_updated: function(repository) {
     // this.update_summary(repository.build.toJSON());
@@ -36,7 +37,7 @@ var BuildView = Backbone.View.extend({
     $('#build_' + attributes.id + ' .summary', this.element).replaceWith($(this.template(attributes)));
   },
   append_log: function(id, chars) {
-    $('#build_' + id + ' .log', this.element).append(Util.deansi(chars));
+    $('#build_' + id + ' .log', this.element).append(chars).deansi();
   }
 });
 

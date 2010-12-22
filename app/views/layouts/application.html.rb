@@ -59,7 +59,8 @@ class Layouts::Application < Minimal::Template
 
     def socky
       javascript_tag <<-js
-        var socky = new Socky('ws://127.0.0.1', '8080', '');
+        // var socky = new Socky('ws://127.0.0.1', '8080', '');
+        var pusher = new Pusher('#{Pusher.key}');
       js
     end
 
