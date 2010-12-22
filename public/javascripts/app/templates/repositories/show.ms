@@ -3,17 +3,19 @@
 
   {{#last_build}}
     <h4>Current Build</h4>
-    {{> builds/_summary}}
+    <div id="build_{{id}}" class="build">
+      {{> builds/_summary}}
+    </div>
   {{/last_build}}
 
   <ul class="tabs">
     <li>
       <h5>Log</h5>
-      <div>
-        {{#last_build}}
+      {{#last_build}}
+        <div id="build_{{id}}" class="build">
           <pre class="log">{{log}}</pre>
-        {{/last_build}}
-      </div>
+        </div>
+      {{/last_build}}
     </li>
     <li>
       <h5>Build History</h5>

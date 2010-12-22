@@ -184,7 +184,7 @@ describe('Events:', function() {
 
   describe('on the build view', function() {
     beforeEach(function() {
-      go_to('#!/builds/' + INIT_DATA.repositories[1].last_build.id);
+      go_to('#!/repositories/' +  + INIT_DATA.repositories[1].id + '/builds/' + INIT_DATA.repositories[1].last_build.id);
     });
 
     describe('an incoming event for the current build', function() {
