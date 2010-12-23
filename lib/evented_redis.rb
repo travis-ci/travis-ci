@@ -19,6 +19,7 @@ class EventedRedis < EM::Connection
 
   def post_init
     @blocks = {}
+    call_command('auth', self.class.uri.password)
   end
 
   def subscribe(*channels, &blk)
@@ -46,43 +47,44 @@ class EventedRedis < EM::Connection
   end
 
   private
-  def read_response(buffer)
-    type = buffer.read(1)
-    case type
-    when ':'
-      buffer.gets.to_i
-    when '*'
-      size = buffer.gets.to_i
-      parts = size.times.map { read_object(buffer) }
-    else
-      raise "unsupported response type"
-    end
-  end
 
-  def read_object(data)
-    type = data.read(1)
-    case type
-    when ':' # integer
-      data.gets.to_i
-    when '$'
-      size = data.gets
-      str = data.read(size.to_i)
-      data.read(2) # crlf
-      str
-    else
-      raise "read for object of type #{type} not implemented"
+    def read_response(buffer)
+      type = buffer.read(1)
+      case type
+      when ':'
+        buffer.gets.to_i
+      when '*'
+        size = buffer.gets.to_i
+        parts = size.times.map { read_object(buffer) }
+      else
+        print type
+      end
     end
-  end
 
-  # only support multi-bulk
-  def call_command(*args)
-    command = "*#{args.size}\r\n"
-    args.each { |a|
-      command << "$#{a.to_s.size}\r\n"
-      command << a.to_s
-      command << "\r\n"
-    }
-    send_data command
-  end
+    def read_object(data)
+      type = data.read(1)
+      case type
+      when ':' # integer
+        data.gets.to_i
+      when '$'
+        size = data.gets
+        str = data.read(size.to_i)
+        data.read(2) # crlf
+        str
+      else
+        raise "read for object of type #{type} not implemented"
+      end
+    end
+
+    # only support multi-bulk
+    def call_command(*args)
+      command = "*#{args.size}\r\n"
+      args.each { |a|
+        command << "$#{a.to_s.size}\r\n"
+        command << a.to_s
+        command << "\r\n"
+      }
+      send_data command
+    end
 end
 

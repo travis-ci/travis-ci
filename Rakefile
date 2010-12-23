@@ -19,6 +19,8 @@ require 'travis'
 # task :default => [:cucumber, :test]
 TravisRails::Application.load_tasks
 
+task "resque:setup" => :environment
+
 # # gaaawd, rake.
 # Rake.application['test'].actions.clear
 
