@@ -13,7 +13,7 @@ var ApplicationController = Backbone.Controller.extend({
     this.builds = new Builds;
     this.repositories_list = new RepositoriesListView({ app: this, repositories: this.repositories, templates: this.templates });
 
-    this.bind('build:created', this.repositories.update)
+    this.bind('build:started', this.repositories.update)
     this.bind('build:finished', this.repositories.update)
   },
   repositories_index: function() {

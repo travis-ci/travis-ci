@@ -109,7 +109,7 @@ dd {
   width: 200px;
   margin: 0px;
 }
-.tabs { min-height: 250px; position: relative; width: 100%; top: 10px; }
+.tabs { position: relative; width: 100%; top: 10px; }
 .tabs > li { display: inline-block; background-color: #f6f6f6; border: 1px solid #ccc; border-top-left-radius: 4px 4px; border-top-right-radius: 4px 4px; }
 .tabs > li:first-child { background-color: white; border-bottom-color: white; }
 .tabs > li > h5 { cursor: pointer; margin: 0; padding: 5px 10px; }
@@ -123,6 +123,7 @@ dd {
   white-space: pre-wrap;
   line-height: 140%;
   font-size: 90%;
+  padding-bottom: 40px;
 }
 .log .yellow {
   color: yellow;

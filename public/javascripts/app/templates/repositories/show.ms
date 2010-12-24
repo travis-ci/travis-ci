@@ -8,7 +8,7 @@
     </div>
   {{/last_build}}
 
-  <ul class="tabs clearfix">
+  <ul class="tabs">
     <li>
       <h5>Log</h5>
       {{#last_build}}

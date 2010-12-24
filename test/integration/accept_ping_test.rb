@@ -1,0 +1,41 @@
+require 'test_helper_rails'
+
+class AcceptPingTest < ActionDispatch::IntegrationTest
+  def setup
+    super
+    Resque.redis.flushall
+  end
+
+  def ping!
+    post '/builds', :payload => GITHUB_PAYLOADS['gem-release']
+  end
+
+  test 'a ping from github creates a build record (not sure it really should or instead the worker should do this?)' do
+    assert_difference('Build.count', 1) do
+      ping!
+    end
+  end
+
+  test 'a ping from github creates a build job' do
+    assert_difference('Resque.size(:builds)', 1) do
+      ping!
+    end
+  end
+
+  test 'a build job includes the relevant information to a) build the repository and b) update the browser via websocket' do
+    ping!
+    job = Resque.reserve(:builds)
+    actual = job.args.last
+
+    actual['id'] = 1 # argh ...
+    actual['repository']['id'] = 1
+
+    assert_equal RESQUE_PAYLOADS['gem-release'], actual
+  end
+
+  test "sets the job's meta_id to the build record" do
+    ping!
+    job = Resque.reserve(:builds)
+    assert_equal job.args.first, Build.last.job_id
+  end
+end

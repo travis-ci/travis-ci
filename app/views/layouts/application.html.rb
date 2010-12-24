@@ -22,11 +22,11 @@ class Layouts::Application < Minimal::Template
           github_pings
         end
 
-        div :id => :left do
+        div :id => :left, :class => :clearfix do
           ul '', :id => :repositories
         end
 
-        div :id => :right do
+        div :id => :right, :class => :clearfix do
         end
       end
     end
