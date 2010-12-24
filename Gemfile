@@ -8,7 +8,8 @@ gem 'resque'
 gem 'resque-meta'
 gem 'minimal'
 gem 'pusher'
-# gem 'em-websocket'
+gem 'em-websocket'
+gem 'em-http-request'
 # gem 'em-redis'
 
 group :test do

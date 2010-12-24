@@ -1,14 +1,14 @@
 require 'test_helper'
 require 'stringio'
-require 'travis/stream_stdout'
+require 'stdout_split'
 
-class TravisStreamStdoutTest < Test::Unit::TestCase
-  test 'duplicates stdout' do
+class StdoutSplitTest < Test::Unit::TestCase
+  test 'splits stdout' do
     out = StringIO.new('')
 
     silence_stdout do
       EM.run do
-        stream = Travis::StreamStdout.new { |data| out << data }
+        stream = StdoutSplit.new { |data| out << data }
         EM.defer do
           print '.'
           stream.close

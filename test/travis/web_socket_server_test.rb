@@ -6,6 +6,7 @@ class TravisWebSocketServerTest < Test::Unit::TestCase
   attr_reader :server, :clients, :receivers, :messages
 
   def setup
+    super
     @receivers = []
     @messages  = [[], []]
     @server    = start_server
@@ -14,6 +15,7 @@ class TravisWebSocketServerTest < Test::Unit::TestCase
   end
 
   def teardown
+    super
     receivers << server
     receivers.each { |thread| thread.kill if thread.respond_to?(:kill) }
     EM.stop if EM.reactor_running?
@@ -77,7 +79,6 @@ class TravisWebSocketServerTest < Test::Unit::TestCase
     def start_receiving
       clients.each_with_index do |client, ix|
         receivers << Thread.new do
-        # EM.defer do
           while true
             message = client.receive
             message = eval(JSON.parse(message)['body']) rescue nil

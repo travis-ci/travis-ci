@@ -13,16 +13,16 @@ module Travis
       end
     end
 
-    attr_reader :uri, :path, :commit, :script
+    attr_reader :url, :path, :commit, :script
 
-    def initialize(uri, options = {})
-      @uri    = uri || raise(ArgumentError.new('no uri given'))
-      @path   = extract_path(uri)
-      @commit = options['commit']
-      @script = options['script']
+    def initialize(script, build)
+      @url    = build[:url] || raise(ArgumentError.new('no url given'))
+      @commit = build[:commit]
+      @path   = extract_path(url)
+      @script = script
     end
 
-    def build
+    def build!
       chdir do
         exists? ? fetch : clone
         execute "git checkout -q #{commit}" if commit
@@ -33,7 +33,7 @@ module Travis
     protected
 
       def clone
-        execute "git clone #{git_uri} ."
+        execute "git clone #{git_url} ."
       end
 
       def fetch
@@ -58,17 +58,17 @@ module Travis
         end
       end
 
-      def git_uri
-        uri[0..6] == 'file://' ? path : "#{uri.gsub('http://', 'git://')}.git"
+      def git_url
+        url[0..6] == 'file://' ? path : "#{url.gsub('http://', 'git://')}.git"
       end
 
-      def extract_path(uri)
-        if uri[0..16] == 'http://github.com'
-          URI.parse(uri).path
-        elsif uri =~ %r(file://)
-          File.expand_path(uri.gsub('file://', ''))
+      def extract_path(url)
+        if url[0..16] == 'http://github.com'
+          URI.parse(url).path
+        elsif url =~ %r(file://)
+          File.expand_path(url.gsub('file://', ''))
         else
-          raise "unsupported uri #{uri}"
+          raise "unsupported url #{url}"
         end
       end
 

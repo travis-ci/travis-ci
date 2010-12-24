@@ -1,54 +1,11 @@
-h1. Travis - a distributed build system
+h1. Notes
 
-Travis is an attemp to create an open-source, distributed build system for the Ruby community that
+* BuildController#create currently creates the build record. Should it just accept the Github ping instead and Workers create builds?
 
-1. allows open-source projects to register their repository and have their test-suites run on demand
-2. allows users to contribute build capacities by connecting a VM that runs a build agent somewhere on their underused servers
-
-h2. Overview
-
-"1:36 quick demo screencast":http://www.youtube.com/watch?v=qdTV-b6BJHA
-
-!https://github.com/svenfuchs/travis/raw/master/docs/travis.png!
-
-h2. Mockups
-
-Here are two mockups of my ideas for a simple interface:
-
-!https://github.com/svenfuchs/travis/raw/master/mockups/main.png!
-
-!https://github.com/svenfuchs/travis/raw/master/mockups/build_details.png!
-
-h2. Goals
-
-* The first goal probably is to get a working application up and running that can distribute build requests to manually installed Nanite agent(s) and report back to browsers. Most simplistic UI that ever would make sense for this. Restricted set of allowed Github repositories.
-* Allow people to login through Github OAuth and somehow maintain a list of repositories they're interested in.
-* Create VM images so that people can easily install and start Nanite agents on underused or contributed servers.
-
-h2. Status
-
-This code is no more than a spike and everything will change very likely. It is here to try out a few basic concepts and building blocks and ask people to share their opinion.
-
-It currently includes:
-
-1. A "Nanite":https://github.com/ezmobius/nanite agent that runs a test suite (just `rake`) and immediately reports any output back to the server.
-2. A Rails application that renders a list of repositories, a build log and a bunch of links to fake "Github service hook":http://help.github.com/post-receive-hooks pings. It also pushes output from the Nanite agent to the "Socky":http://imanel.org/projects/socky server.
-3. A Socky websocket server that pushes messages received from the app to the browser.
-4. Some JQuery JS code to integrate the app and websocket stuff.
-
-Tons of unfinished stuff:
-
-* The fake github service hook links are actually pointing to repositories on my local harddisk.
-* Very few tests. I wanted to spike and try this out before figuring out how exactly to test a system that integrates Nanite and Websockets :/
-* No final decisions on any of the building blocks. I guess there's nothing better than Nanite, but everything else is open for discussion.
-* No attemp at creating a VM for this. I've had a look at "Vagrant":http://vagrantup.com/ and it seems to be good fit for this kind of thing, no?
-
-h2. Some questions
 
 * Would it make sense to store the build log information in CouchDB or similar? I guess much of the application could be done as an in-browser couch app. Application servers would merely act as mappers that start agents and stream output back to the websocket.
 * How to configure Nanite and RabbitMQ. I've somehow managed to get Nanite running and doing its job. I don't even recall the config though.
 * Does the "use of POpen4":https://github.com/svenfuchs/travis/blob/master/lib/travis/buildable/base.rb#L39-50 in the Nanite agent block? If so, how can it be improved?
 * How do Socky channels work? We need to un/subscribe clients to channels on the fly. Maybe that's something Socky doesn't support, yet?
 * What's up with Nanite removing "intermediate messages":http://groups.google.com/group/nanite/browse_thread/thread/a2fdc496ae4069d9 ?
-
 

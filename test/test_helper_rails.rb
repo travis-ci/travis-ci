@@ -1,7 +1,8 @@
 ENV["RAILS_ENV"] = "test"
 
-require 'test_helper'
 require File.expand_path('../../config/environment', __FILE__)
+require 'test_helper'
+require 'rails/test_help'
 
 require 'factories'
 require 'database_cleaner'

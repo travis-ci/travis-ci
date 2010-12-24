@@ -29,12 +29,19 @@ GEM
       activemodel (= 3.0.3)
       activesupport (= 3.0.3)
     activesupport (3.0.3)
+    addressable (2.2.2)
     arel (2.0.6)
     builder (2.1.2)
     columnize (0.3.2)
     crack (0.1.8)
     daemons (1.1.0)
     database_cleaner (0.6.0)
+    em-http-request (0.2.15)
+      addressable (>= 2.0.0)
+      eventmachine (>= 0.12.9)
+    em-websocket (0.1.4)
+      addressable (>= 2.1.1)
+      eventmachine (>= 0.12.9)
     erubis (2.6.6)
       abstract (>= 1.0.0)
     eventmachine (0.12.10)
@@ -120,6 +127,8 @@ PLATFORMS
 DEPENDENCIES
   SystemTimer
   database_cleaner
+  em-http-request
+  em-websocket
   factory_girl
   minimal
   mocha
