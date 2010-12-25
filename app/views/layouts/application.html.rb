@@ -46,7 +46,7 @@ class Layouts::Application < Minimal::Template
         javascript_include_tag :vendor, :lib, :app, 'application.js'
         javascript_include_tag :jasmine, :tests if Rails.env.jasmine?
         csrf_meta_tag
-        socky
+        pusher
       end
     end
 
@@ -58,9 +58,8 @@ class Layouts::Application < Minimal::Template
       end
     end
 
-    def socky
+    def pusher
       javascript_tag <<-js
-        // var socky = new Socky('ws://127.0.0.1', '8080', '');
         var pusher = new Pusher('#{Pusher.key}');
       js
     end

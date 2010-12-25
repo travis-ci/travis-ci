@@ -1,4 +1,0 @@
-production: localhost:6379
-development: localhost:6379
-test: localhost:6379
-

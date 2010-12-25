@@ -16,16 +16,14 @@ require 'rake'
 require 'resque/tasks'
 require 'travis'
 
-Travis::Builder.class_eval do
-  include Travis::Reporter::Stdout
-  include Travis::Reporter::Rails
-  include Travis::Reporter::Pusher
-end
-
 # task :default => [:cucumber, :test]
 TravisRails::Application.load_tasks
 
-task "resque:setup" => :environment
+task 'travis:config' do
+  Travis::Builder.init
+end
+
+task 'resque:setup' => 'travis:config'
 
 # # gaaawd, rake.
 # Rake.application['test'].actions.clear

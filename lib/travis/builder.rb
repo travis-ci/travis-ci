@@ -3,11 +3,29 @@ require 'resque/plugins/meta'
 
 module Travis
   class Builder
+    autoload :Base,   'travis/builder/base'
+    autoload :Pusher, 'travis/builder/pusher'
+    autoload :Rails,  'travis/builder/rails'
+    autoload :Stdout, 'travis/builder/stdout'
+
     extend Resque::Plugins::Meta
+    include Base
 
     @queue = :builds
 
     class << self
+      def init
+        include Travis::Builder::Stdout
+        include Travis::Builder::Rails
+        include Travis::Builder::Pusher
+
+        Resque.redis = ENV['REDIS_URL'] || config['redis']['url']
+      end
+
+      def config
+        @config ||= YAML.load_file(File.expand_path('../../../config/builder.yml', __FILE__))
+      end
+
       def perform(meta_id, payload)
         EM.run do
           sleep(0.01) until EM.reactor_running?
@@ -19,43 +37,5 @@ module Travis
         end
       end
     end
-
-    module Base
-      attr_reader :build, :meta_id
-
-      def initialize(meta_id, build)
-        @meta_id = meta_id
-        @build   = build.dup
-      end
-
-      def work!
-        on_start
-        result = buildable.build!
-        sleep(1)
-        on_finish
-      end
-
-      def buildable
-        buildable = Travis::Buildable.new('bundle install; rake', :commit => build['commit'], :url => build['repository']['url'])
-      end
-
-      def repository_id
-        build['repository']['id']
-      end
-
-      def on_start
-        build.merge!('log' => '', 'started_at' => Time.now)
-      end
-
-      def on_log(chars)
-        build['log'] << chars
-      end
-
-      def on_finish
-        build.merge!('finished_at' => Time.now)
-      end
-    end
-
-    include Base
   end
 end

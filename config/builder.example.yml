@@ -1,0 +1,11 @@
+redis:
+  url: localhost:6379
+pusher:
+  app_id: 3403
+  key:    882e8e473003bab85875
+  secret: your-pusher-secret
+rails:
+  url: http://travis.heroku.com
+
+
+
