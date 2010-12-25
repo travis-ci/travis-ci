@@ -3,8 +3,6 @@ require 'em-http-request'
 module Travis
   module Reporter
     module Rails
-      attr_reader :done
-
       def work!
         @done = []
         super
@@ -17,7 +15,7 @@ module Travis
 
       def on_log(chars)
         super
-        # TODO buffer chars and post to build/:id/log ?
+        post(:log => chars)
       end
 
       def on_finish
@@ -28,16 +26,10 @@ module Travis
       protected
 
         def post(data)
-          # i've got no idea how to use this in a non-blocking manner
-          EM.run do
-            url  = "http://127.0.0.1:3000/builds/#{build['id']}"
-            data = { :_method => :put, :build => data }
-            # puts "post to {url} : #{data[:build].inspect}"
-
-            http = EventMachine::HttpRequest.new(url).post(:body => data)
-            http.errback  { |r| EM.stop }
-            http.callback { |r| EM.stop }
-          end
+          url  = "http://127.0.0.1:3000/builds/#{build['id']}#{'/log' if data[:log]}"
+          data = { :_method => :put, :build => data }
+          # puts "post to {url} : #{data[:build].inspect}"
+          http = EventMachine::HttpRequest.new(url).post(:body => data)
         end
     end
   end

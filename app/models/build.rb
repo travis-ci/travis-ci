@@ -18,8 +18,8 @@ class Build < ActiveRecord::Base
     end
   end
 
-  def append_log(string)
-    update_attributes!(:log => [self.log, string].join)
+  def append_log!(chars)
+    update_attributes!(:log => [self.log, chars].join)
   end
 
   def finished?

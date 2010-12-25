@@ -13,7 +13,7 @@
 # end unless Rails.env.test?
 
 def pusher_config
-  @pushser_config ||= YAML.load_file(Rails.root.join('config/pusher.yml'))
+  @pusher_config ||= YAML.load_file(Rails.root.join('config/pusher.yml'))
 end
 
 Pusher.app_id = ENV['pusher_app_id'] || pusher_config['app_id']

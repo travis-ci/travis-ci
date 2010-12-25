@@ -9,7 +9,14 @@ module Travis
 
     class << self
       def perform(meta_id, payload)
-        new(meta_id, payload).work!
+        EM.run do
+          sleep(0.01) until EM.reactor_running?
+          EM.defer do
+            new(meta_id, payload).work!
+            sleep(1)
+            EM.stop
+          end
+        end
       end
     end
 
@@ -24,8 +31,8 @@ module Travis
       def work!
         on_start
         result = buildable.build!
+        sleep(1)
         on_finish
-        sleep(10)
       end
 
       def buildable

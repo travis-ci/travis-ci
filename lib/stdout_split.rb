@@ -1,3 +1,5 @@
+require 'eventmachine'
+
 class StdoutSplit
   class << self
     def output
@@ -15,19 +17,19 @@ class StdoutSplit
     @read, @write = IO.pipe
     @stdout = STDOUT.dup
     @callback = callback
-    split!
+    STDOUT.reopen(write)
+    EM.next_tick { pipe! }
   end
 
-  def capture
-    begin
-      result = yield
-    rescue Exception => e
-      close
-      stdout.puts e.message
-      e.backtrace.each { |line| stdout.puts line }
-    ensure
-      close
-    end
+  def split
+    yield
+    close
+  rescue Exception => e
+    close
+    stdout.puts e.message
+    e.backtrace.each { |line| stdout.puts line }
+  # ensure
+  #   sleep(0.1) until read.eof?
   end
 
   def close
@@ -37,22 +39,17 @@ class StdoutSplit
 
   protected
 
-    def split!
-      STDOUT.reopen(write)
-
-      Thread.new do
-        while true
-          begin
-            unless read.eof?
-              data = read.readpartial(1024)
-              stdout << data if self.class.output
-              callback.call(data)
-            end
-          rescue Exception => e
-            stdout.puts e.message
-            e.backtrace.each { |line| stdout.puts line }
-          end
-        end
+    def pipe!
+      unless read.eof?
+        data = read.readpartial(1024)
+        stdout << data if self.class.output
+        callback.call(data)
+        sleep(0.5)
       end
+    rescue Exception => e
+      stdout.puts e.message
+      e.backtrace.each { |line| stdout.puts line }
+    ensure
+      EM.next_tick { pipe! }
     end
 end

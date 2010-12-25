@@ -10,6 +10,7 @@ gem 'minimal'
 gem 'pusher'
 gem 'em-websocket'
 gem 'em-http-request'
+gem 'em-pusher'
 # gem 'em-redis'
 
 group :test do
