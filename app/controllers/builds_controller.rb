@@ -21,6 +21,11 @@ class BuildsController < ApplicationController
     render :text => 'ok'
   end
 
+  def log
+    build.append_log!(params[:build][:log])
+    render :text => 'ok'
+  end
+
   protected
 
     def repository
