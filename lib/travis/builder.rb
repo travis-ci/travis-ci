@@ -19,11 +19,7 @@ module Travis
         include Travis::Builder::Rails
         include Travis::Builder::Pusher
 
-        Resque.redis = ENV['REDIS_URL'] || config['redis']['url']
-      end
-
-      def config
-        @config ||= YAML.load_file(File.expand_path('../../../config/builder.yml', __FILE__))
+        Resque.redis = ENV['REDIS_URL'] || Travis.config['redis']['url']
       end
 
       def perform(meta_id, payload)

@@ -37,7 +37,7 @@ module Travis
         end
 
         def pusher_config
-          @pusher_config ||= Builder.config['pusher']
+          @pusher_config ||= Travis.config['pusher']
         end
     end
   end
