@@ -1,7 +1,7 @@
 require 'em-http-request'
 
 module Travis
-  module Reporter
+  class Builder
     module Rails
       def work!
         @done = []
@@ -26,10 +26,15 @@ module Travis
       protected
 
         def post(data)
-          url  = "http://127.0.0.1:3000/builds/#{build['id']}#{'/log' if data[:log]}"
+          host = rails_config['host'] || 'http://127.0.0.1'
+          url  = "http://#{host}/builds/#{build['id']}#{'/log' if data[:log]}"
           data = { :_method => :put, :build => data }
           # puts "post to {url} : #{data[:build].inspect}"
           http = EventMachine::HttpRequest.new(url).post(:body => data)
+        end
+
+        def rails_config
+          @rails_config ||= Builder.config['rails']
         end
     end
   end

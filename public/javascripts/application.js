@@ -6,7 +6,6 @@ var Travis = {
     Travis.app.run();
   },
   trigger: function(event, data) {
-    console.log([event, data])
     Travis.app.trigger(event, _.extend(data.build, { append_log: data.log }));
   }
 };

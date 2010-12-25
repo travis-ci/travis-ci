@@ -1,6 +1,0 @@
-:hosts:
-  - :host: 127.0.0.1
-    :port: 8080
-    :secret: my_secret_key
-    :secure: false
-

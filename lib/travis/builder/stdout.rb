@@ -1,13 +1,13 @@
-require 'stdout_split'
+require 'em/stdout'
 
 module Travis
-  module Reporter
+  class Builder
     module Stdout
       def work!
-        splitter = StdoutSplit.new do |chars|
+        stdout = EM::Stdout.new do |chars|
           on_log(chars)
         end
-        splitter.split do
+        stdout.split do
           super
         end
       end

@@ -4,4 +4,4 @@ db/*.sqlite3
 log/*.log
 tmp/**/*
 vendor/htmlunit
-config/pusher.yml
+config/builder.yml

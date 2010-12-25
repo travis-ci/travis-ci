@@ -1,7 +1,8 @@
 require 'json'
+require 'em-pusher'
 
 module Travis
-  module Reporter
+  class Builder
     module Pusher
       def on_start
         super
@@ -36,7 +37,7 @@ module Travis
         end
 
         def pusher_config
-          @pusher_config ||= YAML.load_file(File.expand_path('../../../../config/pusher.yml', __FILE__))
+          @pusher_config ||= Builder.config['pusher']
         end
     end
   end
