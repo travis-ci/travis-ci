@@ -1,15 +1,15 @@
 require 'test_helper'
 require 'travis/builder'
-require 'travis/reporter/rails'
+require 'travis/builder/rails'
 
-class TravisReporterRailsTest < Test::Unit::TestCase
+class TravisBuilderRailsTest < Test::Unit::TestCase
   class Buildable
     def build!
     end
   end
 
   class Builder < Travis::Builder
-    include Travis::Reporter::Rails
+    include Travis::Builder::Rails
   end
 
   attr_reader :now, :builder, :rails
@@ -20,20 +20,22 @@ class TravisReporterRailsTest < Test::Unit::TestCase
     Time.stubs(:now).returns(now)
 
     @builder = Builder.new('12345', :id => 1)
-    @rails   = Object.new
-    builder.stubs(:rails).returns(rails)
     builder.stubs(:buildable).returns(Buildable.new)
-    rails.stubs(:post)
+    builder.stubs(:post)
+  end
+
+  def work!
+    EM.run { builder.work!; EM.stop }
   end
 
   test 'updates the build record on start' do
-    rails.expects(:post).with(:query => { :started_at => Time.now }, :timeout => 10)
-    builder.work!
+    builder.expects(:post).with(:started_at => Time.now)
+    work!
   end
 
   test 'updates the build record on finish' do
-    rails.expects(:post).with(:query => { :log => nil, :finished_at => Time.now }, :timeout => 10)
-    builder.work!
+    builder.expects(:post).with(:log => '', :finished_at => Time.now)
+    work!
   end
 end
 

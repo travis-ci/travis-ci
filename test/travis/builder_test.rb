@@ -2,7 +2,7 @@ require 'test_helper'
 require 'resque'
 require 'travis/builder'
 
-class WorkerBuilderTest < Test::Unit::TestCase
+class TravisBuilderTest < Test::Unit::TestCase
   class BuildableMock
     def build!
     end

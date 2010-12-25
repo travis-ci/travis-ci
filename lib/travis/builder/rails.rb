@@ -34,7 +34,7 @@ module Travis
         end
 
         def rails_config
-          @rails_config ||= Builder.config['rails']
+          @rails_config ||= Travis.config['rails']
         end
     end
   end
