@@ -1,21 +1,21 @@
 <div id="repository_{{id}}" class="repository">
   <h3><a href="{{url}}">{{name}}</a></h3>
 
-  {{#last_build}}
+  {{#build}}
     <h4>Current Build</h4>
     <div id="build_{{id}}" class="build">
       {{> builds/_summary}}
     </div>
-  {{/last_build}}
+  {{/build}}
 
   <ul class="tabs">
     <li>
       <h5>Log</h5>
-      {{#last_build}}
+      {{#build}}
         <div id="build_{{id}}" class="build">
           <pre class="log">{{log}}</pre>
         </div>
-      {{/last_build}}
+      {{/build}}
     </li>
     <li>
       <h5>Build History</h5>

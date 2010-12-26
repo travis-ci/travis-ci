@@ -42,11 +42,14 @@ class Layouts::Application < Minimal::Template
       super do
         title 'Travis'
         stylesheet_link_tag 'application'
-        stylesheet_link_tag 'jasmine' if Rails.env.jasmine?
         javascript_include_tag :vendor, :lib, :app, 'application.js'
-        javascript_include_tag :jasmine, :tests if Rails.env.jasmine?
         csrf_meta_tag
         pusher
+
+        if Rails.env.jasmine?
+          stylesheet_link_tag 'jasmine'
+          javascript_include_tag :jasmine, :tests
+        end
       end
     end
 

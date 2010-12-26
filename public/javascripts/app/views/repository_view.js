@@ -36,10 +36,14 @@ var RepositoryView = Backbone.View.extend({
     $('#repository_' + id + ' .summary', this.element).replaceWith($(this.build_template(attributes)));
   },
   update_log: function(id, log) {
-    $('#repository_' + id + ' .log', this.element).html(log).deansi();
+    var element = $('#repository_' + id + ' .log', this.element);
+    element.html(log);
+    element.deansi();
   },
   append_log: function(id, chars) {
-    $('#repository_' + id + ' .log', this.element).append(chars).deansi();
+    var element = $('#repository_' + id + ' .log', this.element);
+    element.append(chars);
+    element.deansi();
   },
 });
 

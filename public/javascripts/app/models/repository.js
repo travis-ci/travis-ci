@@ -22,6 +22,11 @@ var Repository = Backbone.Model.extend({
       var eta = new Date(timestamp + this.get('last_duration') * 1000);
       this.build.set({ eta: eta.toISOString() });
     }
+  },
+  toJSON: function() {
+    return _.extend(Backbone.Model.prototype.toJSON.apply(this), {
+      build: this.build.toJSON()
+    });
   }
 });
 

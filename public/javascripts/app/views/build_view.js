@@ -37,7 +37,9 @@ var BuildView = Backbone.View.extend({
     $('#build_' + attributes.id + ' .summary', this.element).replaceWith($(this.template(attributes)));
   },
   append_log: function(id, chars) {
-    $('#build_' + id + ' .log', this.element).append(chars).deansi();
+    var element = $('#build_' + id + ' .log', this.element);
+    element.append(chars);
+    element.deansi();
   }
 });
 
