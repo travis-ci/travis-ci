@@ -4,7 +4,6 @@ class CreateBuilds < ActiveRecord::Migration
       t.references :repository
       t.integer  :number
       t.integer  :status
-      t.integer  :duration
       t.datetime :started_at
       t.datetime :finished_at
       t.text     :log, :default => ''

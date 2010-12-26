@@ -1,4 +1,4 @@
-<li id="repository_{{id}}" class="repository {{last_build/color}}">
+<li id="repository_{{id}}" class="repository {{build/color}}">
   <a href="/#!/repositories/{{id}}">{{name}}</a>
   {{#build}}
     <a href="/#!/repositories/{{../id}}/builds/{{id}}" class="build">#{{number}}</a>

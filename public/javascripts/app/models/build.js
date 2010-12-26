@@ -3,6 +3,13 @@ var Build = Backbone.Model.extend({
     _.bindAll(this, 'toJSON');
     Backbone.Model.prototype.initialize.apply(this, arguments);
   },
+  toJSON: function() {
+    return _.extend(Backbone.Model.prototype.toJSON.apply(this), {
+      duration: this.duration(),
+      eta: this.eta(),
+      color: this.color()
+    });
+  },
   duration: function() {
     var started_at  = this.get('started_at');
     var finished_at = this.get('finished_at');
@@ -29,11 +36,9 @@ var Build = Backbone.Model.extend({
       return eta.toISOString();
     }
   },
-  toJSON: function() {
-    return _.extend(Backbone.Model.prototype.toJSON.apply(this), {
-      duration: this.duration(),
-      eta: this.eta(),
-    });
+  color: function() {
+    var status = this.get('status');
+    return status == 1 ? 'green' : status == 0 ? 'red' : null;
   }
 });
 

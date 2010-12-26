@@ -39,7 +39,7 @@ class Build < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    build_keys = [:id, :number, :commit, :message, :committed_at, :committer_name, :committer_email]
+    build_keys = [:id, :number, :commit, :message, :status, :committed_at, :committer_name, :committer_email]
     build_keys += [:log, :started_at, :finished_at, :color] if options[:full]
     build_methods = [] # [:color, :eta]
     super(:only => build_keys, :methods => build_methods, :include => { :repository => { :only => [:id, :name, :url, :last_duration] } })
