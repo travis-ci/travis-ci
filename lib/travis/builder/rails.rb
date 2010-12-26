@@ -15,7 +15,7 @@ module Travis
 
       def on_log(chars)
         super
-        post(:log => chars)
+        post(:log => chars, :append => true)
       end
 
       def on_finish
@@ -27,9 +27,9 @@ module Travis
 
         def post(data)
           host = rails_config['host'] || 'http://127.0.0.1'
-          url  = "http://#{host}/builds/#{build['id']}#{'/log' if data[:log]}"
+          url  = "http://#{host}/builds/#{build['id']}#{'/log' if data.delete(:append)}"
           data = { :_method => :put, :build => data }
-          # puts "post to {url} : #{data[:build].inspect}"
+          # $_stdout.puts "-- post to #{url} : #{data[:build].inspect}"
           http = EventMachine::HttpRequest.new(url).post(:body => data)
         end
 

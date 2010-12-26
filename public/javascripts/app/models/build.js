@@ -38,7 +38,7 @@ var Build = Backbone.Model.extend({
   },
   color: function() {
     var status = this.get('status');
-    return status == 1 ? 'green' : status == 0 ? 'red' : null;
+    return status == 0 ? 'green' : status == 1 ? 'red' : null;
   }
 });
 

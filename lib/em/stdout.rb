@@ -16,7 +16,7 @@ module EM
 
     def initialize(&callback)
       @read, @write = IO.pipe
-      @stdout = STDOUT.dup
+      $_stdout = @stdout = STDOUT.dup
       @callback = callback
       STDOUT.reopen(write)
       EM.next_tick { pipe! }
