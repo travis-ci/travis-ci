@@ -5,9 +5,9 @@ class Layouts::Application < Minimal::Template
   #   'rack-cache-purge' => %({ "repository": { "url": "file:///Volumes/Users/sven/Development/projects/rack-cache-purge" }, "commits": [{ "id": "3d2bf4c" }] })
   # }
   GITHUB_PAYLOADS = {
-    'gem-release'      => %({ "repository": { "url": "http://github.com/svenfuchs/gem-release" },      "commits": [{ "id": "9854592" }] }),
-    'minimal'          => %({ "repository": { "url": "http://github.com/svenfuchs/minimal" },          "commits": [{ "id": "add057e" }] }),
-    'rack-cache-purge' => %({ "repository": { "url": "http://github.com/svenfuchs/rack-cache-purge" }, "commits": [{ "id": "83194fc" }] })
+    'gem-release'      => %({ "repository": { "url": "http://github.com/svenfuchs/gem-release" },      "commits": [{ "id": "9854592", "message": "Bump to 0.0.15" }] }),
+    'minimal'          => %({ "repository": { "url": "http://github.com/svenfuchs/minimal" },          "commits": [{ "id": "add057e", "message": "unignore Gemfile.lock" }] }),
+    'rack-cache-purge' => %({ "repository": { "url": "http://github.com/svenfuchs/rack-cache-purge" }, "commits": [{ "id": "83194fc", "message": "add ruby-debug dependency" }] })
   }
 
   def to_html
