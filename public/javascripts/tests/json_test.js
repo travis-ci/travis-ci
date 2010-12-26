@@ -44,14 +44,12 @@ describe('Json API', function() {
   function expectRepositoryMinimal(repository) {
     expect(repository.name).toEqual('svenfuchs/minimal');
     expect(repository.last_build.number).toEqual(3);
-    expect(repository.last_build.duration).toEqual(10);
     expect(repository.last_build.started_at).toBeDefined();
   }
 
   function expectRepositoryEnginex(repository) {
     expect(repository.name).toEqual('josevalim/enginex');
     expect(repository.last_build.number).toEqual(1);
-    expect(repository.last_build.duration).toEqual(20);
     expect(repository.last_build.started_at).toBeDefined();
   }
 });

@@ -20,7 +20,7 @@ module Travis
 
       def on_finish
         super
-        post(:log => build['log'], :finished_at => build['finished_at'])
+        post(:log => build['log'], :status => build['status'], :finished_at => build['finished_at'])
       end
 
       protected
