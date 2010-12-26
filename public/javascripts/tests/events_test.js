@@ -27,14 +27,20 @@ describe('Events:', function() {
     it('updates the build number of the repository list item', function() {
       expect_text('#repositories #repository_' + this.data.repository.id + ' .build', '#' + this.data.repository.last_build.number);
     });
+  }
 
+  var it_sets_the_repository_list_items_build_status_color = function() {
     it('updates the build status color of the repository list item', function() {
-      if(this.data.color) {
-        expect_element('#repositories #repository_' + this.data.repository.id + '.' + this.data.color);
-      } else {
-        var selector = '#repositories #repository_' + this.data.repository.id + '.';
-        expect_no_element(selector + 'red,' + selector + 'green');
-      }
+      var selector = '#repositories #repository_' + this.data.repository.id + '.';
+      expect_element(selector + 'red,' + selector + 'green');
+
+    });
+  };
+
+  var it_resets_the_repository_list_items_build_status_color = function() {
+    it('updates the build status color of the repository list item', function() {
+      var selector = '#repositories #repository_' + this.data.repository.id + '.';
+      expect_no_element(selector + 'red,' + selector + 'green');
     });
   };
 
@@ -139,6 +145,7 @@ describe('Events:', function() {
         });
 
         it_updates_the_repository_list_items_build_information();
+        it_sets_the_repository_list_items_build_status_color();
         it_stops_the_repository_list_item_flashing();
         it_updates_the_build_summary();
       });
@@ -176,6 +183,7 @@ describe('Events:', function() {
         });
 
         it_updates_the_repository_list_items_build_information();
+        it_sets_the_repository_list_items_build_status_color();
         it_stops_the_repository_list_item_flashing();
         it_does_not_update_the_build_summary();
       });
@@ -212,6 +220,7 @@ describe('Events:', function() {
         });
 
         it_updates_the_repository_list_items_build_information();
+        it_sets_the_repository_list_items_build_status_color();
         it_stops_the_repository_list_item_flashing();
         it_updates_the_build_summary();
       });
@@ -242,6 +251,7 @@ describe('Events:', function() {
         });
 
         it_updates_the_repository_list_items_build_information();
+        it_sets_the_repository_list_items_build_status_color();
         it_stops_the_repository_list_item_flashing();
         it_does_not_update_the_build_summary();
       });
