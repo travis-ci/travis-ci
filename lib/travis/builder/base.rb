@@ -10,7 +10,7 @@ module Travis
 
       def work!
         on_start
-        result = buildable.build!
+        build['status'] = buildable.build!
         sleep(1)
         on_finish
       end

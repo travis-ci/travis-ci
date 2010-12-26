@@ -38,6 +38,7 @@ RESQUE_PAYLOADS = {
     'message' => 'Bump to 0.0.15',
     'committer_name' => 'Sven Fuchs',
     'committer_email' => 'svenfuchs@artweb-design.de',
-    'committed_at' => '2010-10-27T04:32:37Z'
+    'committed_at' => '2010-10-27T04:32:37Z',
+    'status' => nil
   }
 }

@@ -34,7 +34,7 @@ class TravisBuilderRailsTest < Test::Unit::TestCase
   end
 
   test 'updates the build record on finish' do
-    builder.expects(:post).with(:log => '', :finished_at => Time.now)
+    builder.expects(:post).with(:log => '', :status => nil, :finished_at => Time.now)
     work!
   end
 end
