@@ -16,7 +16,7 @@ var RepositoriesListView = Backbone.View.extend({
   render: function() {
     this.element.empty();
     var view = this;
-    this.repositories.each(function(item) { view.element.prepend($(view.template(item.toJSON()))); });
+    this.repositories.each(function(item) { view.element.append($(view.template(item.toJSON()))); });
     return this;
   },
   repository_added: function (repository) {
@@ -24,9 +24,8 @@ var RepositoriesListView = Backbone.View.extend({
     this.update_flash(repository);
   },
   repository_updated: function(repository) {
-    var element = $('#repository_' + repository.get('id'), this.element);
-    element.replaceWith(this.template(repository.toJSON()));
-    this.update_flash(repository);
+    $('#repository_' + repository.get('id'), this.element).remove();
+    this.repository_added(repository);
   },
   build_log: function(data) {
     var repository = this.repositories.get(data.id);
