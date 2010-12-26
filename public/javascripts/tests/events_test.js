@@ -1,5 +1,5 @@
 /*
-   build:created
+   build:started
     - includes the full repository and build information
     - updates the repositories list, i.e. changes the last build information, and makes the repository list entry flash
     - updates the current repository view if the build belongs to this repository, i.e. changes the build summary and clears the build log
@@ -88,10 +88,10 @@ describe('Events:', function() {
     });
 
     describe('an incoming event for a new repository', function() {
-      describe('build:created', function() {
+      describe('build:started', function() {
         beforeEach(function() {
           this.data = new_repository_data();
-          Travis.app.trigger('build:created', this.data);
+          Travis.app.trigger('build:started', this.data);
         });
 
         it_prepends_the_repository_to_the_repositories_list();
@@ -112,10 +112,10 @@ describe('Events:', function() {
         this.repository = INIT_DATA.repositories[1];
       });
 
-      describe('build:created', function() {
+      describe('build:started', function() {
         beforeEach(function() {
-          this.data = build_created_data(this.repository);
-          Travis.app.trigger('build:created', this.data);
+          this.data = build_started_data(this.repository);
+          Travis.app.trigger('build:started', this.data);
         });
 
         it_updates_the_repository_list_items_build_information();
@@ -149,10 +149,10 @@ describe('Events:', function() {
         this.repository = INIT_DATA.repositories[0];
       });
 
-      describe('build:created', function() {
+      describe('build:started', function() {
         beforeEach(function() {
-          this.data = build_created_data(this.repository);
-          Travis.app.trigger('build:created', this.data);
+          this.data = build_started_data(this.repository);
+          Travis.app.trigger('build:started', this.data);
         });
 
         it_updates_the_repository_list_items_build_information();

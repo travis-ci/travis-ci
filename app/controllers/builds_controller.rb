@@ -5,7 +5,7 @@ class BuildsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def show
-    render :json => build.as_json['build']
+    render :json => build.as_json(:full => true)['build']
   end
 
   def create

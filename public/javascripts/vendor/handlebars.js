@@ -652,7 +652,6 @@ Handlebars.Runtime.prototype = {
     }
 
     var data = idObj.data;
-
     var type = toString.call(data);
     var functionType = (type === "[object Function]");
 

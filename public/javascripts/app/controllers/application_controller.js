@@ -2,8 +2,8 @@ var ApplicationController = Backbone.Controller.extend({
   templates: {},
   routes: {
     '':                              'repositories_index',
-    '!/repositories/:id':            'repositories_show',
-    '!/repositories/:id/builds/:id': 'builds_show'
+    '!/repositories/:id':            'repository_show',
+    '!/repositories/:id/builds/:id': 'build_show'
   },
   run: function() {
     _.bindAll(this, 'render', 'render_repositories', 'render_repository', 'render_build');
@@ -20,18 +20,20 @@ var ApplicationController = Backbone.Controller.extend({
     this.params = {}
     this.render(this.render_repository);
   },
-  repositories_show: function(repository_id) {
+  repository_show: function(repository_id) {
     this.params = { repository_id: parseInt(repository_id) }
     this.render(this.render_repository);
   },
-  builds_show: function(repository_id, build_id) {
+  build_show: function(repository_id, build_id) {
     this.params = { repository_id: parseInt(repository_id), build_id: parseInt(build_id) }
     this.builds.retrieve(build_id, function(build) {
+      build.repository = this.repositories.find(build.get('repository').id);
       this.build = build;
       this.render(this.render_build);
     }.bind(this));
   },
   render: function(content) {
+    this.reset();
     this.render_repositories();
     content.apply(this);
     this.update_times();
@@ -66,8 +68,24 @@ var ApplicationController = Backbone.Controller.extend({
   },
   update_times: function() {
     $('.timeago').timeago();
+
     $('.finished_at[title=""]').prev('.finished_at_label').hide();
     $('.finished_at[title=""]').next('.eta_label').show().next('.eta').show();
+
+    $('.duration').each(function() {
+      var duration = parseInt($(this).attr('title'));
+      var hours = Math.round(duration / 3600);
+      var minutes = Math.round(duration % 3600 / 60);
+      var seconds = duration - hours * 3600 - minutes * 60;
+
+      if(hours > 0) {
+        $(this).text(hours + ' hours, ' + minutes + ' minutes');
+      } else if(minutes > 0) {
+       $(this).text(minutes + ' minutes, ' + seconds + ' seconds');
+      } else {
+        $(this).text(seconds + ' seconds');
+      }
+    });
   },
   initialize_templates: function() {
     var app = this;

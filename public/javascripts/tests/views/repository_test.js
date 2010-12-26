@@ -10,7 +10,7 @@ describe('The repository details view', function() {
         '.number': '1',
         '.commit-hash': '565294c',
         '.commit-message': 'Update Capybara',
-        '.duration': '20',
+        '.duration': '20 seconds',
       });
     });
   });
