@@ -26,7 +26,7 @@ module Travis
       chdir do
         exists? ? fetch : clone
         execute "git checkout -q #{commit}" if commit
-        execute(script)
+        execute "BUNDLE_GEMFILE='./Gemfile' #{script}"
       end
     end
 
