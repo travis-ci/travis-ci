@@ -65,7 +65,7 @@ module Travis
       end
 
       def extract_path(url)
-        if url[0..16] == 'http://github.com'
+        if url =~ %r(https?://github.com)
           URI.parse(url).path
         elsif url =~ %r(file://)
           File.expand_path(url.gsub('file://', ''))
