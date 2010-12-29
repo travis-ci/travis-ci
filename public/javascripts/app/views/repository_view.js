@@ -7,8 +7,6 @@ var RepositoryView = Backbone.View.extend({
     this.repository_template = args.templates['repositories/show'];
     this.build_template = args.templates['builds/_summary'];
     this.element = $('#right');
-
-    this.bind();
   },
   bind: function() {
     Backbone.Events.bind.apply(this, arguments);
@@ -17,10 +15,12 @@ var RepositoryView = Backbone.View.extend({
   },
   unbind: function() {
     Backbone.Events.unbind.apply(this, arguments);
-    this.repository.unbind('change', this.repository_changed);
     this.app.unbind('build:updated', this.build_log);
+    if(this.repository) this.repository.unbind('change', this.repository_changed);
   },
-  render: function() {
+  render: function(repository) {
+    this.repository = repository;
+    this.bind();
     this.element.html($(this.repository_template(this.repository.toJSON())));
     $('.log', this.element).deansi();
   },

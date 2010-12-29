@@ -11,81 +11,45 @@ var ApplicationController = Backbone.Controller.extend({
     this.initialize_templates();
     this.repositories = new Repositories(INIT_DATA.repositories);
     this.builds = new Builds;
+
     this.repositories_list = new RepositoriesListView({ app: this, repositories: this.repositories, templates: this.templates });
+    this.repository_view   = new RepositoryView({ app: this, templates: this.templates });
+    this.build_view        = new BuildView({ app: this, templates: this.templates });
 
     this.bind('build:started', this.repositories.update)
     this.bind('build:finished', this.repositories.update)
   },
   repositories_index: function() {
-    this.params = {}
-    this.render(this.render_repository);
+    this.render(this.render_repository, this.repositories.last());
   },
   repository_show: function(repository_id) {
-    this.params = { repository_id: parseInt(repository_id) }
-    this.render(this.render_repository);
+    this.render(this.render_repository, this.repositories.find(parseInt(repository_id)));
   },
   build_show: function(repository_id, build_id) {
-    this.params = { repository_id: parseInt(repository_id), build_id: parseInt(build_id) }
     this.builds.retrieve(build_id, function(build) {
       build.repository = this.repositories.find(build.get('repository').id);
-      this.build = build;
-      this.render(this.render_build);
+      this.render(this.render_build, build);
     }.bind(this));
   },
   render: function(content) {
-    this.reset();
+    this.repositories_list.unbind(this);
+    this.repository_view.unbind(this);
+    this.build_view.unbind(this);
+
     this.render_repositories();
-    content.apply(this);
-    this.update_times();
+    content.apply(this, Array.prototype.slice.call(arguments, 1));
+    Util.update_times();
   },
   render_repositories: function() {
     this.repositories_list.render();
   },
-  render_repository: function() {
-    if(this.repository()) {
-      this.details = new RepositoryView({ app: this, repository: this.repository(), templates: this.templates });
-      this.details.render();
-    }
+  render_repository: function(repository) {
+    if(!repository) return
+    this.repository_view.render(repository);
   },
-  render_build: function() {
-    if(this.build) {
-      this.details = new BuildView({ app: this, build: this.build, templates: this.templates });
-      this.details.render();
-    }
-  },
-  reset: function() {
-    this._repository = null;
-    if(this.details != undefined) {
-      this.details.unbind(this);
-      delete this.details;
-    }
-  },
-  repository: function() {
-    if(!this._repository) {
-      this._repository = this.params.repository_id ?  this.repositories.find(this.params.repository_id) : this.repositories.last();
-    }
-    return this._repository;
-  },
-  update_times: function() {
-    $('.timeago').timeago();
-
-    $('.finished_at[title=""]').prev('.finished_at_label').hide();
-    $('.finished_at[title=""]').next('.eta_label').show().next('.eta').show();
-
-    $('.duration').each(function() {
-      var duration = parseInt($(this).attr('title'));
-      var hours = Math.round(duration / 3600);
-      var minutes = Math.round(duration % 3600 / 60);
-      var seconds = duration - hours * 3600 - minutes * 60;
-
-      if(hours > 0) {
-        $(this).text(hours + ' hours, ' + minutes + ' minutes');
-      } else if(minutes > 0) {
-       $(this).text(minutes + ' minutes, ' + seconds + ' seconds');
-      } else {
-        $(this).text(seconds + ' seconds');
-      }
-    });
+  render_build: function(build) {
+    if(!build) return
+    this.build_view.render(build);
   },
   initialize_templates: function() {
     var app = this;
