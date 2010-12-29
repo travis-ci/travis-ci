@@ -23,10 +23,12 @@ module Travis
     end
 
     def build!
-      chdir do
-        exists? ? fetch : clone
-        execute "git checkout -q #{commit}" if commit
-        execute "BUNDLE_GEMFILE='./Gemfile' #{script}"
+      Bundler.with_clean_env do
+        chdir do
+          exists? ? fetch : clone
+          execute "git checkout -q #{commit}" if commit
+          execute "BUNDLE_GEMFILE='./Gemfile' #{script}"
+        end
       end
     end
 
