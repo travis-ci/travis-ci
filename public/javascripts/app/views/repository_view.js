@@ -10,12 +10,12 @@ var RepositoryView = Backbone.View.extend({
   },
   bind: function() {
     Backbone.Events.bind.apply(this, arguments);
-    this.repository.bind('change', this.repository_changed);
     this.app.bind('build:log', this.build_log);
+    this.repository.bind('change', this.repository_changed);
   },
   unbind: function() {
     Backbone.Events.unbind.apply(this, arguments);
-    this.app.unbind('build:updated', this.build_log);
+    this.app.unbind('build:log', this.build_log);
     if(this.repository) this.repository.unbind('change', this.repository_changed);
   },
   render: function(repository) {
