@@ -9,7 +9,7 @@ class Repository < ActiveRecord::Base
   class << self
     def timeline
       # should probably denormalize the last build attributes which are relevant to the timeline at some point
-      includes(:last_build).order(Build.arel_table[:started_at].desc)
+      includes(:last_build).where(Build.arel_table[:started_at].not_eq(nil)).order(Build.arel_table[:started_at].desc)
     end
   end
 
