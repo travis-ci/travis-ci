@@ -3,11 +3,8 @@ var BuildView = Backbone.View.extend({
     _.bindAll(this, 'bind', 'unbind', 'render', 'build_log', 'build_updated', 'build_finished', 'update_summary', 'append_log');
 
     this.app = args.app;
-    this.build = args.build;
     this.template = args.templates['builds/show'];
     this.element = $('#right');
-
-    this.bind();
   },
   bind: function() {
     Backbone.Events.bind.apply(this, arguments);
@@ -20,7 +17,9 @@ var BuildView = Backbone.View.extend({
     this.app.unbind('build:log', this.build_log);
     this.app.unbind('build:finished', this.build_finished);
   },
-  render: function() {
+  render: function(build) {
+    this.build = build;
+    this.bind();
     this.element.html($(this.template(this.build.toJSON())));
     $('.log', this.element).deansi();
   },

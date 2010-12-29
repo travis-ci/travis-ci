@@ -20,6 +20,27 @@ Util = {
   deansi: function(string) {
     string = string || '';
     return string.replace('[31m', '<span class="red">').replace('[32m', '<span class="green">').replace('[0m', '</span>');
+  },
+  update_times: function() {
+    $('.timeago').timeago();
+
+    $('.finished_at[title=""]').prev('.finished_at_label').hide();
+    $('.finished_at[title=""]').next('.eta_label').show().next('.eta').show();
+
+    $('.duration').each(function() {
+      var duration = parseInt($(this).attr('title'));
+      var hours = Math.round(duration / 3600);
+      var minutes = Math.round(duration % 3600 / 60);
+      var seconds = duration - hours * 3600 - minutes * 60;
+
+      if(hours > 0) {
+        $(this).text(hours + ' hours, ' + minutes + ' minutes');
+      } else if(minutes > 0) {
+       $(this).text(minutes + ' minutes, ' + seconds + ' seconds');
+      } else {
+        $(this).text(seconds + ' seconds');
+      }
+    });
   }
 }
 
