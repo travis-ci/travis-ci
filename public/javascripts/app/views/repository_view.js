@@ -34,6 +34,7 @@ var RepositoryView = Backbone.View.extend({
   },
   update_summary: function(id, attributes) {
     $('#repository_' + id + ' .summary', this.element).replaceWith($(this.build_template(attributes)));
+    Util.update_times();
   },
   update_log: function(id, log) {
     var element = $('#repository_' + id + ' .log', this.element);
