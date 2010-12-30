@@ -15,6 +15,9 @@ Travis consists of four main parts:
 * A "Resque":https://github.com/defunkt/resque worker for running a project's test suite remotely.
 * A websocket server for tailing build results to the browser. (This server is currently started within the Rails app process.)
 
+To get an idea: "1:20 quick demo screencast (spike 2)":http://www.youtube.com/watch?v=mNOwCJhjWAw
+
+!https://github.com/svenfuchs/travis/raw/master/docs/travis.spike-2.png!
 
 h2. Goals
 
@@ -45,9 +48,9 @@ h2. Previous spike
 
 My first spike was using Nanite for running workers. These materials are now outdated but maybe still interesting:
 
-* "1:36 quick demo screencast":http://www.youtube.com/watch?v=qdTV-b6BJHA
+* "1:36 quick demo screencast (spike 1)":http://www.youtube.com/watch?v=qdTV-b6BJHA
 
-!https://github.com/svenfuchs/travis/raw/master/docs/travis.png!
+!https://github.com/svenfuchs/travis/raw/master/docs/travis.spike-1.png!
 !https://github.com/svenfuchs/travis/raw/master/mockups/main.png!
 !https://github.com/svenfuchs/travis/raw/master/mockups/build_details.png!
 
