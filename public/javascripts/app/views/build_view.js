@@ -34,6 +34,7 @@ var BuildView = Backbone.View.extend({
   },
   update_summary: function(attributes) {
     $('#build_' + attributes.id + ' .summary', this.element).replaceWith($(this.template(attributes)));
+    Util.update_times();
   },
   append_log: function(id, chars) {
     var element = $('#build_' + id + ' .log', this.element);

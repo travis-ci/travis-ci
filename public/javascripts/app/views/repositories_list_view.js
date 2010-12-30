@@ -22,6 +22,7 @@ var RepositoriesListView = Backbone.View.extend({
   repository_added: function (repository) {
     this.element.prepend($(this.template(repository.toJSON())));
     this.update_flash(repository);
+    Util.update_times();
   },
   repository_updated: function(repository) {
     $('#repository_' + repository.get('id'), this.element).remove();
