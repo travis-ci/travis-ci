@@ -14,12 +14,24 @@
     - updates the current repository view if the build belongs to this repository, i.e. changes the build summary
 */
 
-var delay = 200;
+var delay = 0;
 
 describe('Events:', function() {
+  var it_adds_the_repository_to_the_repositories_collection = function() {
+    it('adds the repository to the repositories collection', function() {
+      expect(Travis.app.repositories.last().get('name')).toEqual('svenfuchs/gem-release');
+    });
+  };
+
   var it_prepends_the_repository_to_the_repositories_list = function() {
     it('prepends the repository to the repositories list', function() {
       expect_text('#repositories .repository:nth-of-type(1) a:nth-of-type(1)', this.data.repository.name)
+    });
+  };
+
+  var it_adds_the_build_to_the_repositorys_builds_collection = function() {
+    it("it adds the build to the repository's builds collection", function() {
+      expect(Travis.app.repositories.last().builds.models.length).toEqual(2);
     });
   };
 
@@ -100,6 +112,7 @@ describe('Events:', function() {
           Travis.app.trigger('build:started', this.data);
         });
 
+        it_adds_the_repository_to_the_repositories_collection();
         it_prepends_the_repository_to_the_repositories_list();
       });
 
@@ -124,6 +137,7 @@ describe('Events:', function() {
           Travis.app.trigger('build:started', this.data);
         });
 
+        it_adds_the_build_to_the_repositorys_builds_collection();
         it_updates_the_repository_list_items_build_information();
         it_makes_the_repository_list_item_flash();
         it_updates_the_build_summary();
@@ -158,7 +172,7 @@ describe('Events:', function() {
 
       describe('build:started', function() {
         beforeEach(function() {
-          this.data = build_started_data(this.repository);
+          this.data = _.extend(build_started_data(this.repository), { number: 4 });
           Travis.app.trigger('build:started', this.data);
         });
 
@@ -214,7 +228,7 @@ describe('Events:', function() {
       describe('build:finished', function() {
         beforeEach(function() {
           runs_after(delay, function() {
-            this.data = build_finished_data(this.repository);
+            this.data = _.extend(build_finished_data(this.repository), { finished_at: '2010-11-11T12:01:30Z' });
             Travis.app.trigger('build:finished', this.data);
           });
         });

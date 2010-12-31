@@ -1,57 +1,80 @@
 var Build = Backbone.Model.extend({
   initialize: function(attributes) {
-    _.bindAll(this, 'toJSON');
+    _.bindAll(this, 'repository', 'is_building', 'color', 'duration', 'eta', 'toJSON');
     Backbone.Model.prototype.initialize.apply(this, arguments);
   },
-  toJSON: function() {
-    return _.extend(Backbone.Model.prototype.toJSON.apply(this), {
-      duration: this.duration(),
-      eta: this.eta(),
-      color: this.color()
-    });
+  repository: function() {
+    return this.collection.repository;
+  },
+  set: function(attributes) {
+    if(attributes.append_log) {
+      var chars = attributes.append_log;
+      this.attributes.log = this.attributes.log + chars;
+      this.trigger('log', this, chars);
+      delete attributes.append_log;
+    }
+    Backbone.Model.prototype.set.apply(this, [attributes]);
+  },
+  is_building: function() {
+    return !this.get('finished_at');
+  },
+  color: function() {
+    var status = this.get('status');
+    return status == 0 ? 'green' : status == 1 ? 'red' : null;
   },
   duration: function() {
     var started_at  = this.get('started_at');
-    var finished_at = this.get('finished_at');
-    var last_duration = this.repository.get('last_duration');
-
-    if (started_at && finished_at) {
-      return Math.round((new Date(finished_at) - new Date(started_at)) / 1000);
-    } else if (started_at) {
-      return Math.round((new Date - new Date(started_at)) / 1000);
-    } else {
-      return 0;
-    }
+    var finished_at = this.get('finished_at') || new Date;
+    var last_duration = this.repository().get('last_duration');
+    return started_at ? Math.round((new Date(finished_at) - new Date(started_at)) / 1000) : 0;
   },
   eta: function() {
     var started_at  = this.get('started_at');
     var finished_at = this.get('finished_at');
-    var last_duration = this.repository.get('last_duration');
-
-    if(finished_at) {
-      return null;
-    } else if(last_duration) {
+    var last_duration = this.repository().get('last_duration');
+    if(!finished_at && last_duration) {
       var timestamp = new Date(started_at).getTime();
       var eta = new Date((timestamp + last_duration));
       return eta.toISOString();
     }
   },
-  color: function() {
-    var status = this.get('status');
-    return status == 0 ? 'green' : status == 1 ? 'red' : null;
+  toJSON: function() {
+    return _.extend(Backbone.Model.prototype.toJSON.apply(this), {
+      duration: this.duration(),
+      eta: this.eta(),
+      color: this.color(),
+      repository: this.repository().toJSON({ include_build: false })
+    });
   }
 });
 
 var Builds = Backbone.Collection.extend({
   url: '/builds',
   model: Build,
-  initialize: function(repositories) {
+  initialize: function(builds, options) {
     _.bindAll(this, 'retrieve');
-    this.repositories = repositories;
+    this.repository = options.repository;
+  },
+  set: function(attributes) {
+    if(attributes) {
+      var build = this.get(attributes.id);
+      build ? build.set(attributes) : this.add(new Build(attributes));
+    }
+  },
+  last: function() {
+    return this.models[this.models.length - 1];
   },
   retrieve: function(id, callback) {
-    var build = new Build({ id: id });
-    this.add(build);
-    build.fetch({ success: callback });
-  }
+    var build = this.get(id);
+    if(build) {
+      callback(build);
+    } else {
+      var build = new Build({ id: id });
+      this.add(build);
+      build.fetch({ success: callback });
+    }
+  },
+  // comparator: function(build) {
+  //   return build.get('started_at');
+  // }
 });

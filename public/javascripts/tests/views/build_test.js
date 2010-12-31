@@ -4,7 +4,7 @@ describe('The build details view', function() {
   });
 
   it('shows build details', function() {
-    runs_after(200, function() {
+    runs_after(300, function() {
       expect_texts('#right .build', {
         'h3': 'josevalim/enginex',
         'h4': 'Build #1',
