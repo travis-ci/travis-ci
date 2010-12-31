@@ -9,7 +9,7 @@ var ApplicationController = Backbone.Controller.extend({
     _.bindAll(this, 'render', 'render_repositories', 'render_repository', 'render_build');
 
     this.initialize_templates();
-    this.repositories = new Repositories(INIT_DATA.repositories);
+    this.repositories = new Repositories(INIT_DATA.repositories, { application: this });
     this.builds = new Builds;
 
     this.repositories_list = new RepositoriesListView({ app: this, repositories: this.repositories, templates: this.templates });
@@ -17,6 +17,7 @@ var ApplicationController = Backbone.Controller.extend({
     this.build_view        = new BuildView({ app: this, templates: this.templates });
 
     this.bind('build:started', this.repositories.update)
+    this.bind('build:log', this.repositories.update)
     this.bind('build:finished', this.repositories.update)
   },
   repositories_index: function() {
@@ -26,8 +27,8 @@ var ApplicationController = Backbone.Controller.extend({
     this.render(this.render_repository, this.repositories.find(parseInt(repository_id)));
   },
   build_show: function(repository_id, build_id) {
-    this.builds.retrieve(build_id, function(build) {
-      build.repository = this.repositories.find(build.get('repository').id);
+    var repository = this.repositories.get(repository_id);
+    repository.builds.retrieve(build_id, function(build) {
       this.render(this.render_build, build);
     }.bind(this));
   },
@@ -44,7 +45,7 @@ var ApplicationController = Backbone.Controller.extend({
     this.repositories_list.render();
   },
   render_repository: function(repository) {
-    if(!repository) return
+    if(!repository) return;
     this.repository_view.render(repository);
   },
   render_build: function(build) {

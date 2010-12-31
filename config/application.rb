@@ -16,8 +16,9 @@ module TravisRails
 
     vendor  = %w(jquery-1.4.4.min.js jquery-ui-1.8.6.min.js jquery.timeago.js underscore handlebars backbone pusher-1.6.min.js) # socky
     jasmine = %w(jasmine jasmine-html)
+
     expansions = javascript_expansions(:lib, :app, :tests)
-    expansions.merge!(:vendor => vendor.map { |name| "vendor/#{name}" })
+    expansions.merge!(:vendor  => vendor.map { |name| "vendor/#{name}" })
     expansions.merge!(:jasmine => jasmine.map { |name| "vendor/#{name}" })
 
     config.autoload_paths << config.paths.app.views.to_a.first

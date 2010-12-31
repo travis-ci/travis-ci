@@ -3,7 +3,7 @@ var build_data = function(repository) {
 }
 
 var build_started_data = function(repository, data) {
-  return _.extend(_.extend(build_data(repository), { started_at: '2010-11-11T12:00:20Z' }), data || {});
+  return _.extend(_.extend(build_data(repository), { id: 1, started_at: '2010-11-11T12:00:20Z' }), data || {});
 }
 
 var build_log_data = function(repository, data) {
