@@ -1,0 +1,10 @@
+h1. Todo
+
+* Ability to log in w/ Github account and have own repositories/builds listed ("my repositories")
+* Notifications about build success/failure
+* Repository specific build configuration (.travis/config.yml)
+* Build dependencies (triggering a build for another repository)
+* Worker VMs
+* Security
+
+
