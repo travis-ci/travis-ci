@@ -18,6 +18,7 @@ class BuildsController < ApplicationController
 
   def update
     build.update_attributes!(params[:build])
+    finished_email.deliver if build.finished?
     render :text => 'ok'
   end
 
@@ -38,6 +39,10 @@ class BuildsController < ApplicationController
 
     def payload
       @payload ||= JSON.parse(params[:payload])
+    end
+
+    def finished_email
+      BuildMailer.finished_email(build)
     end
 end
 

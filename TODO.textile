@@ -1,10 +1,14 @@
 h1. Todo
 
-* Ability to log in w/ Github account and have own repositories/builds listed ("my repositories")
-* Notifications about build success/failure
+h2. Features
+
 * Repository specific build configuration (.travis/config.yml)
-* Build dependencies (triggering a build for another repository)
+* Ability to log in w/ Github account and have own repositories/builds listed ("my repositories")
+* Build dependencies (triggering builds for other commits)
 * Worker VMs
 * Security
+* Build success/failure pub/sub workers (currently sending out emails inline w/ sendgrid)
 
+h2. Stuff
 
+* build author_name and author_email
