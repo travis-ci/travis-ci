@@ -43,5 +43,8 @@ var Repositories = Backbone.Collection.extend({
     var repository = this.get(attributes.id);
     repository ? repository.set(attributes) : this.add(new Repository(attributes));
   },
+  comparator: function(repository) {
+    return repository.builds.last().get('started_at');
+  }
 });
 

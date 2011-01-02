@@ -14,7 +14,7 @@ var RepositoriesListView = Backbone.View.extend({
   render: function() {
     this.element.empty();
     var view = this;
-    this.repositories.each(this.render_item);
+    _.each(this.repositories.toArray(), this.render_item);
     return this;
   },
   render_item: function(repository) {
