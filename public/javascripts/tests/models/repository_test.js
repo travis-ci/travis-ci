@@ -2,7 +2,7 @@ describe('Models:', function() {
   describe('Repository', function() {
     beforeEach(function() {
       var repositories = new Repositories(INIT_DATA.repositories);
-      this.repository = repositories.models[0];
+      this.repository = repositories.models[1];
     });
 
     it('an initial repository holds the expected attributes', function() {
@@ -19,7 +19,7 @@ describe('Models:', function() {
         log: 'minimal build 3 log ...',
         message: 'unignore Gemfile.lock',
         number: 3,
-        started_at: '2010-11-20T13:00:00Z'
+        started_at: '2010-11-12T13:00:00Z'
       });
     });
 

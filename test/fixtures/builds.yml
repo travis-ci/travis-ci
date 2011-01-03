@@ -17,11 +17,11 @@ minimal_1:
   status: 1
   commit: 1a938da
   message: add Gemfile
-  committed_at: 2010-11-20 11:58:00
+  committed_at: 2010-11-12 11:58:00
   committer_name: Sven Fuchs
   committer_email: svenfuchs@artweb-design.de
-  started_at: 2010-11-20 12:00:00
-  finished_at: 2010-11-20 12:00:08
+  started_at: 2010-11-12 12:00:00
+  finished_at: 2010-11-12 12:00:08
   agent: 76f4f2ba
   log: minimal build 1 log ...
 minimal_2:
@@ -30,11 +30,11 @@ minimal_2:
   status: 0
   commit: 91d1b7b
   message: Bump to 0.0.22
-  committed_at: 2010-11-20 12:28:00
+  committed_at: 2010-11-12 12:28:00
   committer_name: Sven Fuchs
   committer_email: svenfuchs@artweb-design.de
-  started_at: 2010-11-20 12:30:00
-  finished_at: 2010-11-20 12:30:08
+  started_at: 2010-11-12 12:30:00
+  finished_at: 2010-11-12 12:30:08
   agent: a1732e4f
   log: minimal build 2 log ...
 minimal_3:
@@ -43,10 +43,10 @@ minimal_3:
   status:
   commit: add057e
   message: unignore Gemfile.lock
-  committed_at: 2010-11-20 12:58:00
+  committed_at: 2010-11-12 12:58:00
   committer_name: Sven Fuchs
   committer_email: svenfuchs@artweb-design.de
-  started_at: 2010-11-20 13:00:00
+  started_at: 2010-11-12 13:00:00
   finished_at:
   agent: 76f4f2ba
   log: minimal build 3 log ...
