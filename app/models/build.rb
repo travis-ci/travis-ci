@@ -4,16 +4,19 @@ class Build < ActiveRecord::Base
   class << self
     def build(data)
       repository = Repository.find_or_create_by_url(data['repository']['url'])
-      commit = data['commits'].first
-      number = repository.builds.count + 1
-      committer = commit['committer'] || commit['author'] || {}
+      commit     = data['commits'].first
+      author     = commit['author'] || {}
+      committer  = commit['committer'] || author || {}
+
       repository.builds.create(
-        :commit => commit['id'],
-        :message => commit['message'],
-        :number => number,
-        :committer_name => committer['name'],
+        :commit          => commit['id'],
+        :message         => commit['message'],
+        :number          => repository.builds.count + 1,
+        :committed_at    => commit['timestamp'],
+        :committer_name  => committer['name'],
         :committer_email => committer['email'],
-        :committed_at => commit['timestamp']
+        :author_name     => author['name'],
+        :author_email    => author['email']
       )
     end
   end
@@ -39,9 +42,9 @@ class Build < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    build_keys = [:id, :number, :commit, :message, :status, :committed_at, :committer_name, :committer_email]
-    build_keys += [:log, :started_at, :finished_at, :color] if options[:full]
-    build_methods = [] # [:color, :eta]
+    build_keys = [:id, :number, :commit, :message, :status, :committed_at, :author_name, :author_email, :committer_name, :committer_email]
+    build_keys += [:log, :started_at, :finished_at] if options[:full]
+    build_methods = []
     super(:only => build_keys, :methods => build_methods, :include => { :repository => { :only => [:id, :name, :url, :last_duration] } })
   end
 end

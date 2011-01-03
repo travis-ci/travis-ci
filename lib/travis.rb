@@ -8,7 +8,9 @@ module Travis
     end
 
     def config_file
-      files = [Rails.env, nil].map { |env| File.expand_path(['../../config/travis', env, 'yml'].compact.join('.'), __FILE__) }
+      paths = [nil]
+      paths.unshift(Rails.env) if defined?(Rails)
+      files = paths.map { |env| File.expand_path(['../../config/travis', env, 'yml'].compact.join('.'), __FILE__) }
       files.detect { |file| File.exist?(file) }
     end
   end

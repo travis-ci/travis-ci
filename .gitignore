@@ -4,5 +4,5 @@ db/*.sqlite3
 log/*.log
 tmp/**/*
 vendor/htmlunit
-config/travis.development.yml
 config/travis.yml
+config/travis.production.yml
