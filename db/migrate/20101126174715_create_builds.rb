@@ -12,6 +12,8 @@ class CreateBuilds < ActiveRecord::Migration
       t.datetime :committed_at
       t.string   :committer_name
       t.string   :committer_email
+      t.string   :author_name
+      t.string   :author_email
       t.string   :job_id
       t.string   :agent
       t.timestamps

@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(:version => 20101126174715) do
     t.datetime "committed_at"
     t.string   "committer_name"
     t.string   "committer_email"
+    t.string   "author_name"
+    t.string   "author_email"
     t.string   "job_id"
     t.string   "agent"
     t.datetime "created_at"

@@ -2,13 +2,22 @@ h1. Todo
 
 h2. Features
 
-* Repository specific build configuration (.travis/config.yml)
-* Ability to log in w/ Github account and have own repositories/builds listed ("my repositories")
+* Repository specific build configuration (.travis/config.yml), allow custom build scripts
 * Build dependencies (triggering builds for other commits)
+* Build matrices (run against different ruby versions and/or Gemfiles)
+* Ability to log in w/ Github account and have own repositories/builds listed ("my repositories")
+  see https://github.com/blog/656-github-oauth2-support
 * Worker VMs
 * Security
 * Build success/failure pub/sub workers (currently sending out emails inline w/ sendgrid)
 
 h2. Stuff
 
-* build author_name and author_email
+* whitelist Github accounts (for now)
+
+h2. Build Matrix
+
+* Build has a flag matrix which selects a different template for rendering
+* Matrix builds spawn child builds for each of the axis/value combinations
+* Build children can be viewed through a separate route
+* Builds collection can overwrite #add so that build children are added to their parents instead of the collection

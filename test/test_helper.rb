@@ -16,9 +16,13 @@ GITHUB_PAYLOADS = {
       "id":        "9854592",
       "message":   "Bump to 0.0.15",
       "timestamp": "2010-10-27 04:32:37",
-      "author":    {
+      "committer": {
         "name":  "Sven Fuchs",
         "email": "svenfuchs@artweb-design.de"
+      },
+      "author": {
+        "name":  "Christopher Floess",
+        "email": "chris@flooose.de"
       }
     }]
   })
