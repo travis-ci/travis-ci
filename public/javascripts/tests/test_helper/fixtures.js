@@ -3,7 +3,7 @@ var build_data = function(repository) {
 }
 
 var build_started_data = function(repository, data) {
-  return _.extend(_.extend(build_data(repository), { id: 1, started_at: '2010-11-11T12:00:20Z' }), data || {});
+  return _.extend(_.extend(build_data(repository), { id: 1, started_at: '2010-11-13T12:00:20Z' }), data || {});
 }
 
 var build_log_data = function(repository, data) {
@@ -11,7 +11,7 @@ var build_log_data = function(repository, data) {
 }
 
 var build_finished_data = function(repository, data) {
-  return _.extend(_.extend(build_data(repository), { status: 1, started_at: '2010-11-11T12:00:20Z', finished_at: '2010-11-11T14:00:20Z' }), data || {});
+  return _.extend(_.extend(build_data(repository), { status: 1, started_at: '2010-11-13T12:00:20Z', finished_at: '2010-11-13T14:00:20Z' }), data || {});
 }
 
 var new_repository_data = function() {
@@ -22,7 +22,7 @@ var new_repository_data = function() {
     commit: 'add057e',
     message: 'Bump to 0.0.15',
     log: '',
-    started_at: '2010-10-27T04:32:37Z',
+    started_at: '2010-11-13T12:00:00Z',
     finished_at: null,
     repository:  {
       id: 1,
