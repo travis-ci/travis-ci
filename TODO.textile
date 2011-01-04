@@ -3,17 +3,15 @@ h1. Todo
 h2. Features
 
 * Repository specific build configuration (.travis/config.yml), allow custom build scripts
-* Build dependencies (triggering builds for other commits)
-* Build matrices (run against different ruby versions and/or Gemfiles)
-* Ability to log in w/ Github account and have own repositories/builds listed ("my repositories")
-  see https://github.com/blog/656-github-oauth2-support
+* Ability to log in w/ Github OAuth and subscribe to own/watched repositories, see https://github.com/blog/656-github-oauth2-support
+* Build history
+
 * Worker VMs
 * Security
+
+* Build dependencies (triggering builds for other commits)
 * Build success/failure pub/sub workers (currently sending out emails inline w/ sendgrid)
-
-h2. Stuff
-
-* whitelist Github accounts (for now)
+* Build matrices (run against different ruby versions and/or Gemfiles)
 
 h2. Build Matrix
 

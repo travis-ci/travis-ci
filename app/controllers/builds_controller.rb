@@ -2,6 +2,7 @@ require 'travis/builder'
 
 class BuildsController < ApplicationController
   respond_to :json
+  before_filter :authenticate, :except => :show
   skip_before_filter :verify_authenticity_token
 
   def show

@@ -7,7 +7,9 @@ class AcceptPingTest < ActionDispatch::IntegrationTest
   end
 
   def ping!
-    post '/builds', :payload => GITHUB_PAYLOADS['gem-release']
+    Travis.config['accounts'] = { 'sven' => 'pass' }
+    credentials = ActionController::HttpAuthentication::Basic.encode_credentials('sven', 'pass')
+    post '/builds', { :payload => GITHUB_PAYLOADS['gem-release'] }, 'HTTP_AUTHORIZATION' => credentials
   end
 
   test 'a ping from github creates a build record (not sure it really should or instead the worker should do this?)' do
