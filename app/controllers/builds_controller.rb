@@ -13,18 +13,18 @@ class BuildsController < ApplicationController
     job = Travis::Builder.enqueue(build.as_json['build'])
     build.update_attributes!(:job_id => job.meta_id)
     build.repository.update_attributes!(:last_built_at => Time.now)
-    render :text => 'ok'
+    render :nothing => true
   end
 
   def update
     build.update_attributes!(params[:build])
     finished_email.deliver if build.finished?
-    render :text => 'ok'
+    render :nothing => true
   end
 
   def log
     build.append_log!(params[:build][:log])
-    render :text => 'ok'
+    render :nothing => true
   end
 
   protected
