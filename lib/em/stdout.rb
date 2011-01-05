@@ -24,6 +24,7 @@ module EM
 
     def split
       yield
+      sleep(1) # TODO get rid of this
       close
     rescue Exception => e
       close

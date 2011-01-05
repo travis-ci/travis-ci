@@ -3,6 +3,8 @@ require 'uri'
 
 module Travis
   class Buildable
+    autoload :Config, 'travis/buildable/config'
+
     class << self
       def base_dir
         @@base_dir ||= '/tmp/travis/builds'
@@ -16,14 +18,12 @@ module Travis
     attr_reader :url, :path, :commit, :script
 
     def initialize(build)
-      @script = build[:script]
       @url    = build[:url] || raise(ArgumentError.new('no url given'))
       @commit = build[:commit]
-      @path   = extract_path(url)
-    end
 
-    def configure
-      Config.new(config_url)
+      config  = build.merge(Config.new(config_url))
+      @script = config[:script]
+      @path   = extract_path(url)
     end
 
     def build!
@@ -31,7 +31,6 @@ module Travis
         chdir do
           exists? ? fetch : clone
           checkout
-          configure
           run_script
         end
       end
