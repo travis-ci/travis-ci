@@ -3,11 +3,6 @@ require 'resque'
 require 'travis/builder'
 
 class TravisBuilderTest < Test::Unit::TestCase
-  class BuildableMock
-    def build!
-    end
-  end
-
   attr_reader :builder, :buildable
 
   def setup

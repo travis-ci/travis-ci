@@ -5,11 +5,6 @@ require 'eventmachine'
 require 'pusher'
 
 class TravisBuilderPusherTest < Test::Unit::TestCase
-  class Buildable
-    def build!
-    end
-  end
-
   class Builder < Travis::Builder
     include Travis::Builder::Pusher
   end
@@ -26,7 +21,7 @@ class TravisBuilderPusherTest < Test::Unit::TestCase
     @pusher  = Object.new
 
     builder.stubs(:pusher).returns(pusher)
-    builder.stubs(:buildable).returns(Buildable.new)
+    builder.stubs(:buildable).returns(BuildableMock.new)
     pusher.stubs(:trigger)
   end
 

@@ -3,11 +3,6 @@ require 'travis/builder'
 require 'travis/builder/rails'
 
 class TravisBuilderRailsTest < Test::Unit::TestCase
-  class Buildable
-    def build!
-    end
-  end
-
   class Builder < Travis::Builder
     include Travis::Builder::Rails
   end
@@ -20,7 +15,7 @@ class TravisBuilderRailsTest < Test::Unit::TestCase
     Time.stubs(:now).returns(now)
 
     @builder = Builder.new('12345', :id => 1)
-    builder.stubs(:buildable).returns(Buildable.new)
+    builder.stubs(:buildable).returns(BuildableMock.new)
     builder.stubs(:post)
   end
 

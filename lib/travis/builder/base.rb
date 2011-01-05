@@ -10,13 +10,20 @@ module Travis
 
       def work!
         on_start
-        build['status'] = buildable.build!
+        config = buildable.configure
+        on_run
+        build['status'] = buildable(config).build!
         sleep(1)
         on_finish
       end
 
-      def buildable
-        buildable = Travis::Buildable.new('bundle install; rake', :commit => build['commit'], :url => build['repository']['url'])
+      def buildable(config = {})
+        defaults = {
+          :script => 'bundle install; rake',
+          :commit => build['commit'],
+          :url => build['repository']['url']
+        }
+        buildable = Travis::Buildable.new(defaults.merge(config))
       end
 
       def repository_id
@@ -25,6 +32,9 @@ module Travis
 
       def on_start
         build.merge!('log' => '', 'started_at' => Time.now)
+      end
+
+      def on_run
       end
 
       def on_log(chars)
