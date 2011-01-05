@@ -40,7 +40,7 @@ class Layouts::Application < Minimal::Template
     end
 
     def pusher
-      javascript_tag 'var pusher = new Pusher("#{Pusher.key}");'
+      javascript_tag "var pusher = new Pusher('#{Pusher.key}');"
     end
 
     def js_init_data
