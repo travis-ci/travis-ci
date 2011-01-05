@@ -54,7 +54,7 @@ var ApplicationController = Backbone.Controller.extend({
   },
   initialize_templates: function() {
     var app = this;
-    $('div[type=text/x-js-template]').map(function() {
+    $('*[type=text/x-js-template]').map(function() {
       var name = $(this).attr('name');
       var source = $(this).html().replace('&gt;', '>');
 
