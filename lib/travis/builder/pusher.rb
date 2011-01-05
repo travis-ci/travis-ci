@@ -23,7 +23,7 @@ module Travis
 
         def push(event, data)
           channel = :"repository_#{repository_id}"
-          # puts "Pusher: notifying channel #{channel} about #{event}: #{data.inspect}"
+          $_stdout.puts "Pusher: notifying channel #{channel} about #{event}: #{data.inspect}"
           pusher(channel).trigger(event, data)
         end
 

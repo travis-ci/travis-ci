@@ -1,4 +1,5 @@
 require 'em-http-request'
+require 'uri'
 
 module Travis
   class Builder
@@ -26,11 +27,14 @@ module Travis
       protected
 
         def post(data)
-          host = rails_config['host'] || 'http://127.0.0.1'
-          url  = "http://#{host}/builds/#{build['id']}#{'/log' if data.delete(:append)}"
+          host = rails_config['url'] || 'http://127.0.0.1'
+          uri  = URI.parse(host)
+          url  = "#{host}/builds/#{build['id']}#{'/log' if data.delete(:append)}"
           data = { :_method => :put, :build => data }
-          # $_stdout.puts "-- post to #{url} : #{data[:build].inspect}"
-          http = EventMachine::HttpRequest.new(url).post(:body => data)
+          # $_stdout.puts "-- post to #{url} : #{{:body => data, :head => { :authorization => [uri.user, uri.password] }}.inspect}"
+          # $_stdout.puts '---'
+          # $_stdout.puts data[:build][:log]
+          http = EventMachine::HttpRequest.new(url).post(:body => data, :head => { :authorization => [uri.user, uri.password] })
         end
 
         def rails_config
