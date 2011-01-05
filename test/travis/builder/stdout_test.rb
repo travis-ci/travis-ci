@@ -6,7 +6,7 @@ require 'em/stdout'
 STDOUT.sync = true
 
 class TravisBuilderStdoutTest < Test::Unit::TestCase
-  class Buildable
+  class StdoutBuildableMock < BuildableMock
     def build!
       system('echo "build output"')
     end
@@ -24,7 +24,7 @@ class TravisBuilderStdoutTest < Test::Unit::TestCase
     Time.stubs(:now).returns(now)
     @build   = RESQUE_PAYLOADS['gem-release']
     @builder = Builder.new(build['job_id'], build)
-    builder.stubs(:buildable).returns(Buildable.new)
+    builder.stubs(:buildable).returns(StdoutBuildableMock.new)
     EM::Stdout.output = false
   end
 

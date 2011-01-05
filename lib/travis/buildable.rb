@@ -15,19 +15,24 @@ module Travis
 
     attr_reader :url, :path, :commit, :script
 
-    def initialize(script, build)
+    def initialize(build)
+      @script = build[:script]
       @url    = build[:url] || raise(ArgumentError.new('no url given'))
       @commit = build[:commit]
       @path   = extract_path(url)
-      @script = script
+    end
+
+    def configure
+      Config.new(config_url)
     end
 
     def build!
       Bundler.with_clean_env do
         chdir do
           exists? ? fetch : clone
-          execute "git checkout -q #{commit}" if commit
-          execute "BUNDLE_GEMFILE='./Gemfile' #{script}"
+          checkout
+          configure
+          run_script
         end
       end
     end
@@ -41,6 +46,14 @@ module Travis
       def fetch
         execute 'git clean -fdx'
         execute 'git fetch'
+      end
+
+      def checkout
+        execute "git checkout -q #{commit}" if commit
+      end
+
+      def run_script
+        execute "BUNDLE_GEMFILE='./Gemfile' #{script}"
       end
 
       def chdir(&block)
@@ -60,8 +73,12 @@ module Travis
         end
       end
 
+      def config_url
+        @config_url ||= "#{url}/raw/HEAD/.travis.yml"
+      end
+
       def git_url
-        url[0..6] == 'file://' ? path : "#{url.gsub('http://', 'git://')}.git"
+        url[0..6] == 'file://' ? path : "#{url.gsub(%r(http://|https://), 'git://')}.git"
       end
 
       def extract_path(url)

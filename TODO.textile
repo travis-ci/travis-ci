@@ -5,6 +5,7 @@ h2. Features
 * Repository specific build configuration (.travis/config.yml), allow custom build scripts
 * Ability to log in w/ Github OAuth and subscribe to own/watched repositories, see https://github.com/blog/656-github-oauth2-support
 * Build history
+* Display queue
 
 * Worker VMs
 * Security
