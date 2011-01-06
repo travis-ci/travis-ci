@@ -1,7 +1,23 @@
 require 'eventmachine'
 
-module EM
-  class Stdout
+module EventMachine
+  class << self
+    def split_stdout
+      stdout = nil
+      EM.next_tick do
+        stdout, read, write = STDOUT.clone, *IO.pipe
+        EM.attach(read, Stdout) do |connection|
+          connection.stdout = stdout
+          yield connection if block_given?
+        end
+        STDOUT.reopen(write)
+      end
+      sleep(0.01) until stdout
+      stdout
+    end
+  end
+
+  class Stdout < EventMachine::Connection
     class << self
       def output
         defined?(@@output) ? @@output : @@output = true
@@ -12,47 +28,19 @@ module EM
       end
     end
 
-    attr_reader :read, :write, :stdout, :callback
+    attr_accessor :stdout
 
-    def initialize(&callback)
-      @read, @write = IO.pipe
-      $_stdout = @stdout = STDOUT.dup
-      @callback = callback
-      STDOUT.reopen(write)
-      EM.next_tick { pipe! }
+    def callback(&block)
+      @callback = block
     end
 
-    def split
-      yield
-      sleep(1) # TODO get rid of this
-      close
-    rescue Exception => e
-      close
-      stdout.puts e.message
-      e.backtrace.each { |line| stdout.puts line }
-    # ensure
-    #   sleep(0.1) until read.eof?
+    def receive_data(data)
+      stdout.print(data) if self.class.output
+      @callback.call(data) if @callback
     end
 
-    def close
+    def unbind
       STDOUT.reopen(stdout)
-      write.close if write && !write.closed?
     end
-
-    protected
-
-      def pipe!
-        unless read.eof?
-          data = read.readpartial(1024)
-          stdout << data if self.class.output
-          callback.call(data)
-          sleep(0.5)
-        end
-      rescue Exception => e
-        stdout.puts e.message
-        e.backtrace.each { |line| stdout.puts line }
-      ensure
-        EM.next_tick { pipe! }
-      end
   end
 end
