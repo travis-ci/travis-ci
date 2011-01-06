@@ -1,7 +1,6 @@
 require 'test_helper'
 require 'travis/builder'
 require 'travis/builder/stdout'
-require 'em/stdout'
 
 STDOUT.sync = true
 

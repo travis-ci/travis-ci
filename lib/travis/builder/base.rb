@@ -11,7 +11,8 @@ module Travis
       def work!
         on_start
         build['status'] = buildable.build!
-        sleep(1)
+        puts "\nDone. Build script exited with: #{build['status']}"
+        # sleep(1)
         on_finish
       end
 

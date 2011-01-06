@@ -8,10 +8,11 @@ class EMStdoutTest < Test::Unit::TestCase
     EM::Stdout.output = false
 
     EM.run do
-      stream = EM::Stdout.new { |data| out << data }
       EM.defer do
+        EM.split_stdout do |c|
+          c.callback { |data| out << data }
+        end
         print '.'
-        stream.close
         EM.stop
       end
     end
