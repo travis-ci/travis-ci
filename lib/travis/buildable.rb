@@ -52,7 +52,8 @@ module Travis
       end
 
       def run_script
-        execute "BUNDLE_GEMFILE='./Gemfile' #{script}"
+        ENV['BUNDLE_GEMFILE'] = nil
+        execute script
       end
 
       def chdir(&block)
