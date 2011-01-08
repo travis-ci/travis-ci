@@ -35,11 +35,11 @@ class BuildsController < ApplicationController
   protected
 
     def repository
-      @repository ||= Repository.find(params[:repository_id])
+      @repository ||= params[:repository_id] ? Repository.find(params[:repository_id]) : build.repository
     end
 
     def build
-      @build ||= params[:id] ? repository.builds.find(params[:id]) : repository.builds.build(payload)
+      @build ||= params[:id] ? Build.find(params[:id]) : Build.build(payload)
     end
 
     def payload
