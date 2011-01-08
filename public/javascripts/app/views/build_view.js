@@ -24,6 +24,7 @@ var BuildView = Backbone.View.extend({
     this.bind();
     this.element.html($(this.show_template(this.build.toJSON())));
     $('.log', this.element).deansi();
+    Util.activate_tab(this.element, 'log');
   },
   build_changed: function(build) {
     $('#build_' + build.id + ' .summary', this.element).replaceWith($(this.summary_template(build.toJSON())));

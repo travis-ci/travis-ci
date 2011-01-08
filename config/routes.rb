@@ -1,5 +1,8 @@
 TravisRails::Application.routes.draw do
-  resources :repositories
+  resources :repositories do
+    resources :builds
+  end
+
   resources :builds do
     put 'log', :on => :member
   end

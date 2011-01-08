@@ -18,7 +18,8 @@ describe('Json API', function() {
   });
 
   it('should return build data', function() {
-    var url = 'builds/' + INIT_DATA.repositories[1].last_build.id + '.json';
+    var repository = INIT_DATA.repositories[1];
+    var url = 'repositories/' + repository.id + '/builds/' + repository.last_build.id + '.json';
     var build = null;
     $.get(url, function(response) { build = response; });
     waitsFor(function() { return !!build; });

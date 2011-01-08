@@ -2,16 +2,20 @@ require 'travis/builder'
 
 class BuildsController < ApplicationController
   respond_to :json
-  before_filter :authenticate, :except => :show
+  before_filter :authenticate, :except => [:index, :show]
   skip_before_filter :verify_authenticity_token
 
+  def index
+    render :json => repository.builds.started.as_json(:full => true)
+  end
+
   def show
-    render :json => build.as_json(:full => true)['build']
+    render :json => build.as_json(:full => true)
   end
 
   def create
     build.save
-    job = Travis::Builder.enqueue(build.as_json['build'])
+    job = Travis::Builder.enqueue(build.as_json)
     build.update_attributes!(:job_id => job.meta_id)
     build.repository.update_attributes!(:last_built_at => Time.now)
     render :nothing => true
@@ -31,11 +35,11 @@ class BuildsController < ApplicationController
   protected
 
     def repository
-      build.repository
+      @repository ||= Repository.find(params[:repository_id])
     end
 
     def build
-      @build ||= params[:id] ? Build.find(params[:id]) : Build.build(payload)
+      @build ||= params[:id] ? repository.builds.find(params[:id]) : repository.builds.build(payload)
     end
 
     def payload

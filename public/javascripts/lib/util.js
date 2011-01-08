@@ -1,4 +1,8 @@
 Util = {
+  activate_tab: function(element, tab) {
+    $('.tabs li', element).removeClass('active');
+    $('#tab_' + tab, element).addClass('active');
+  },
   animated: function(element) {
     return !!element.queue()[0];
   },
@@ -21,13 +25,15 @@ Util = {
     string = string || '';
     return string.replace('[31m', '<span class="red">').replace('[32m', '<span class="green">').replace('[0m', '</span>');
   },
-  update_times: function() {
-    $('.timeago').timeago();
+  update_times: function(element) {
+    element = element || $('body');
 
-    $('.finished_at[title=""]').prev('.finished_at_label').hide();
-    $('.finished_at[title=""]').next('.eta_label').show().next('.eta').show();
+    $('.timeago', element).timeago();
 
-    $('.duration').each(function() {
+    $('.finished_at[title=""]', element).prev('.finished_at_label').hide();
+    $('.finished_at[title=""]', element).next('.eta_label').show().next('.eta').show();
+
+    $('.duration', element).each(function() {
       var duration = parseInt($(this).attr('title'));
       var hours = Math.round(duration / 3600);
       var minutes = Math.round(duration % 3600 / 60);
@@ -41,6 +47,18 @@ Util = {
         $(this).text(seconds + ' seconds');
       }
     });
+  },
+  initialize_templates: function() {
+    var templates = {};
+
+    $('*[type=text/x-js-template]').map(function() {
+      var name = $(this).attr('name');
+      var source = $(this).html().replace('&gt;', '>');
+      if(name.split('/')[1][0] == '_') { Handlebars.registerPartial(name.replace('/', ''), source) }
+      templates[name] = Handlebars.compile(source);
+    });
+
+    return templates;
   }
 }
 
