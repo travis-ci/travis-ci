@@ -45,7 +45,6 @@ describe('Events:', function() {
     it('updates the build status color of the repository list item', function() {
       var selector = '#repositories #repository_' + this.data.repository.id + '.';
       expect_element(selector + 'red,' + selector + 'green');
-
     });
   };
 

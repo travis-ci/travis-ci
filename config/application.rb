@@ -29,5 +29,7 @@ module TravisRails
 
     # config.action_controller.logger = Logger.new(STDOUT)
     config.serve_static_assets = true
+
+    ActiveRecord::Base.include_root_in_json = false
   end
 end

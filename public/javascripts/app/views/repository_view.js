@@ -1,18 +1,21 @@
 var RepositoryView = Backbone.View.extend({
   initialize: function(args) {
-    _.bindAll(this, 'bind', 'unbind', 'render', 'build_started', 'build_changed', 'build_logged');
+    _.bindAll(this, 'bind', 'unbind', 'render', 'render_log', 'render_history', 'build_started', 'build_changed', 'build_logged');
 
     this.app = args.app;
     this.repository = args.repository;
     this.repository_template = args.templates['repositories/show'];
     this.build_template = args.templates['builds/_summary'];
     this.element = $('#right');
+
+    this.builds_list_view = new BuildsListView({ app: args.app, templates: args.templates });
   },
   bind: function() {
     Backbone.Events.bind.apply(this, arguments);
     this.repository.builds.bind('add', this.build_started);
     this.repository.builds.bind('change', this.build_changed);
     this.repository.builds.bind('log', this.build_logged);
+    this.builds_list_view.bind();
   },
   unbind: function() {
     Backbone.Events.unbind.apply(this, arguments);
@@ -21,12 +24,21 @@ var RepositoryView = Backbone.View.extend({
       this.repository.builds.unbind('change', this.update_build);
       this.repository.builds.unbind('log', this.build_logged);
     }
+    this.builds_list_view.unbind();
   },
-  render: function(repository) {
+  render: function(repository, tab) {
+    tab = tab || 'log'
     this.repository = repository;
     this.bind();
     this.element.html($(this.repository_template(this.repository.toJSON())));
+    this['render_' + tab]();
+    Util.activate_tab(this.element, tab);
+  },
+  render_log: function() {
     $('.log', this.element).deansi();
+  },
+  render_history: function() {
+    this.builds_list_view.render(this.repository, $('#tab_history div', this.element));
   },
   build_started: function(build) {
     this.unbind();

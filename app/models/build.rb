@@ -19,6 +19,10 @@ class Build < ActiveRecord::Base
         :author_email    => author['email']
       )
     end
+
+    def started
+      where(arel_table[:started_at].not_eq(nil))
+    end
   end
 
   def append_log!(chars)

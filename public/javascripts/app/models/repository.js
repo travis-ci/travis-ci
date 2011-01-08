@@ -1,7 +1,6 @@
 var Repository = Backbone.Model.extend({
   initialize: function(attributes) {
     this.builds = new Builds([new Build(attributes.last_build)], { repository: this });
-    Backbone.Model.prototype.initialize.apply(this, arguments); // TODO required?
     delete this.attributes.last_build;
   },
   set: function(attributes) {

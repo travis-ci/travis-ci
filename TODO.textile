@@ -2,9 +2,8 @@ h1. Todo
 
 h2. Features
 
-* Ability to log in w/ Github OAuth and subscribe to own/watched repositories, see https://github.com/blog/656-github-oauth2-support
-* Build history
 * Display queue
+* Ability to log in w/ Github OAuth and subscribe to own/watched repositories, see https://github.com/blog/656-github-oauth2-support
 
 * Worker VMs
 * Security
@@ -12,6 +11,10 @@ h2. Features
 * Build dependencies (triggering builds for other commits)
 * Build success/failure pub/sub workers (currently sending out emails inline w/ sendgrid)
 * Build matrices (run against different ruby versions and/or Gemfiles)
+
+h2. Stuff
+
+* ActiveRecord::Base.include_root_in_json = false
 
 h2. Build Matrix
 

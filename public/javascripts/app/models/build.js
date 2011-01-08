@@ -49,11 +49,11 @@ var Build = Backbone.Model.extend({
 });
 
 var Builds = Backbone.Collection.extend({
-  url: '/builds',
   model: Build,
   initialize: function(builds, options) {
-    _.bindAll(this, 'retrieve');
+    _.bindAll(this, 'load', 'retrieve');
     this.repository = options.repository;
+    this.url = 'repositories/' + this.repository.id + '/builds';
   },
   set: function(attributes) {
     if(attributes) {
@@ -63,6 +63,12 @@ var Builds = Backbone.Collection.extend({
   },
   last: function() {
     return this.models[this.models.length - 1];
+  },
+  load: function(callback) {
+    Backbone.sync('read', this, function(models, status, xhr) {
+      _.each(models, function(model) { if(!this.get(model.id)) { this.add(model, { silent: true }); } }.bind(this));
+      if(callback) callback(this);
+    }.bind(this));
   },
   retrieve: function(id, callback) {
     var build = this.get(id);
@@ -74,7 +80,7 @@ var Builds = Backbone.Collection.extend({
       build.fetch({ success: callback });
     }
   },
-  // comparator: function(build) {
-  //   return build.get('started_at');
-  // }
+  comparator: function(build) {
+    return build.get('number');
+  }
 });

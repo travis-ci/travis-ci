@@ -3,10 +3,10 @@
 
   <h4>Build #{{number}}</h4>
   <p><a href="{{url}}">{{url}}</a></p>
-  {{> builds/_summary}}
+  {{> builds_summary}}
 
   <ul class="tabs clearfix">
-    <li>
+    <li id="tab_log" class="tab">
       <h5>Log</h5>
       <div>
         <pre class="log">{{log}}</pre>

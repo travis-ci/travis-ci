@@ -4,23 +4,22 @@
   {{#build}}
     <h4>Current Build</h4>
     <div id="build_{{id}}" class="build">
-      {{> builds/_summary}}
+      {{> builds_summary}}
     </div>
   {{/build}}
 
   <ul class="tabs">
-    <li>
-      <h5>Log</h5>
+    <li id="tab_log">
+      <h5><a href="#!/repositories/{{id}}">Log</a></h5>
       {{#build}}
         <div id="build_{{id}}" class="build">
           <pre class="log">{{log}}</pre>
         </div>
       {{/build}}
     </li>
-    <li>
-      <h5>Build History</h5>
+    <li id="tab_history">
+      <h5><a href="#!/repositories/{{id}}/history">Build History</a></h5>
       <div>
-        ...
       </div>
     </li>
   </ul>

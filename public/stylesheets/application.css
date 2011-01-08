@@ -47,8 +47,14 @@ ul {
 h3 {
   font-size: 24px;
 }
-div[type="text/x-js-template"] {
-  display: none;
+th {
+  font-size: 80%;
+  color: #666;
+}
+th, td {
+  text-align: left;
+  font-size: 80%;
+  padding-right: 20px;
 }
 
 #left .repository {
@@ -111,10 +117,10 @@ dd {
 }
 .tabs { position: relative; width: 100%; top: 10px; }
 .tabs > li { display: inline-block; background-color: #f6f6f6; border: 1px solid #ccc; border-top-left-radius: 4px 4px; border-top-right-radius: 4px 4px; }
-.tabs > li:first-child { background-color: white; border-bottom-color: white; }
+.tabs > li.active { background-color: white; border-bottom-color: white; }
 .tabs > li > h5 { cursor: pointer; margin: 0; padding: 5px 10px; }
-.tabs > li > div { position: absolute; background: white; z-index: -2; left: 0; top: 30px; bottom: 0; right: 0; padding: 20px; border-top: 1px solid #ccc; }
-.tabs > li:first-child > div { z-index: -1; }
+.tabs > li > div { display: none; position: absolute; z-index: -1; background: white; left: 0; top: 30px; bottom: 0; right: 0; padding: 20px; border-top: 1px solid #ccc; }
+.tabs > li.active > div { display: block; }
 
 .eta, .eta_label {
   display: none;
