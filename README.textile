@@ -31,18 +31,28 @@ h2. Status
 This code is not much more than a spike and everything will change very likely. It is here to try out a few basic concepts and building blocks and ask people to share their opinion.
 
 
+h2. Starting a local worker
+
+<pre>
+RAILS_ENV=production VERBOSE=true QUEUE=builds rake resque:work
+</pre>
+
+
 h2. Running the tests
 
 Integration tests are implemented using "Jasmine":http://pivotal.github.com/jasmine and can be run in the browser:
 
+<pre>
 $ RAILS_ENV=jasmine rake db:migrate db:fixtures:load
 $ rails s thin -e jasmine
 $ open http://localhost:3000
+</pre>
 
 To run the unit tests simply do:
 
+<pre>
 $ ruby -Ilib -Itest test/all.rb
-
+</pre>
 
 h2. Previous spike
 
@@ -51,7 +61,5 @@ My first spike was using Nanite for running workers. These materials are now out
 * "1:36 quick demo screencast (spike 1)":http://www.youtube.com/watch?v=qdTV-b6BJHA
 
 !https://github.com/svenfuchs/travis/raw/master/docs/travis.spike-1.png!
-!https://github.com/svenfuchs/travis/raw/master/mockups/main.png!
-!https://github.com/svenfuchs/travis/raw/master/mockups/build_details.png!
 
 
