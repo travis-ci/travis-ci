@@ -31,11 +31,15 @@ GEM
     activesupport (3.0.3)
     addressable (2.2.2)
     arel (2.0.6)
+    bcrypt-ruby (2.1.4)
     builder (2.1.2)
     columnize (0.3.2)
     crack (0.1.8)
     daemons (1.1.0)
     database_cleaner (0.6.0)
+    devise (1.1.5)
+      bcrypt-ruby (~> 2.1.2)
+      warden (~> 1.0.2)
     em-http-request (0.2.15)
       addressable (>= 2.0.0)
       eventmachine (>= 0.12.9)
@@ -50,10 +54,14 @@ GEM
       abstract (>= 1.0.0)
     eventmachine (0.12.10)
     factory_girl (1.3.2)
+    faraday (0.5.3)
+      addressable (~> 2.2.2)
+      multipart-post (~> 1.0.1)
+      rack (>= 1.1.0, < 2)
     i18n (0.5.0)
     json (1.4.6)
     linecache (0.43)
-    mail (2.2.12)
+    mail (2.2.13)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -64,6 +72,11 @@ GEM
       activesupport (>= 3.0.0)
     mocha (0.9.10)
       rake
+    multi_json (0.0.5)
+    multipart-post (1.0.1)
+    oauth2 (0.1.0)
+      faraday (~> 0.5.0)
+      multi_json (~> 0.0.4)
     polyglot (0.3.1)
     pusher (0.7.0)
       crack (~> 0.1.0)
@@ -73,7 +86,7 @@ GEM
     rack (1.2.1)
     rack-mount (0.6.13)
       rack (>= 1.0.0)
-    rack-test (0.5.6)
+    rack-test (0.5.7)
       rack (>= 1.0)
     rails (3.0.3)
       actionmailer (= 3.0.3)
@@ -111,7 +124,11 @@ GEM
       rack (~> 1.1)
       tilt (~> 1.1)
     sqlite3-ruby (1.3.2)
-    test_declarative (0.0.4)
+    svenfuchs-devise_oauth2_authenticatable (0.1.2)
+      devise (>= 1.0.0)
+      json
+      oauth2
+    test_declarative (0.0.5)
     thin (1.2.7)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -123,6 +140,8 @@ GEM
     tzinfo (0.3.23)
     vegas (0.1.8)
       rack (>= 1.0.0)
+    warden (1.0.3)
+      rack (>= 1.0.0)
     web-socket-ruby (0.1.0)
     yajl-ruby (0.7.8)
 
@@ -132,6 +151,7 @@ PLATFORMS
 DEPENDENCIES
   SystemTimer
   database_cleaner
+  devise
   em-http-request
   em-pusher
   em-websocket
@@ -144,6 +164,7 @@ DEPENDENCIES
   resque-meta
   ruby-debug
   sqlite3-ruby
+  svenfuchs-devise_oauth2_authenticatable
   test_declarative
   thin
   web-socket-ruby

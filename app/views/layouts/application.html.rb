@@ -5,6 +5,9 @@ class Layouts::Application < Minimal::Template
       head
       body do
         div :id => :top do
+          ul do
+            li { sign_in_link }
+          end
         end
 
         div :id => :left, :class => :clearfix do
@@ -37,6 +40,10 @@ class Layouts::Application < Minimal::Template
           javascript_include_tag :jasmine, :tests
         end
       end
+    end
+
+    def sign_in_link
+      current_user ? link_to('Sign out', destroy_session_path) : link_to_oauth2('Sign in with Github')
     end
 
     def pusher

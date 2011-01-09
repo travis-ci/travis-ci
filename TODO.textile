@@ -11,6 +11,7 @@ h2. Features
 * Build dependencies (triggering builds for other commits)
 * Build success/failure pub/sub workers (currently sending out emails inline w/ sendgrid)
 * Build matrices (run against different ruby versions and/or Gemfiles)
+* Worker capabilities (inspect installed rubies etc, use for subscribing to queues)
 
 h2. Stuff
 
