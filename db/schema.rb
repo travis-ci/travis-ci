@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101126174715) do
+ActiveRecord::Schema.define(:version => 20110109130532) do
 
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
@@ -40,5 +40,18 @@ ActiveRecord::Schema.define(:version => 20101126174715) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "users", :force => true do |t|
+    t.string   "name"
+    t.string   "login"
+    t.string   "email"
+    t.integer  "oauth2_uid",   :limit => 8
+    t.string   "oauth2_token", :limit => 149
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["login"], :name => "index_users_on_login", :unique => true
+  add_index "users", ["oauth2_uid"], :name => "index_users_on_oauth2_uid", :unique => true
 
 end
