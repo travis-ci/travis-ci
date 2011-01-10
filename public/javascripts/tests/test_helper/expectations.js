@@ -35,6 +35,21 @@ var expect_attribute_value = function(selector, name, expected) {
   expect($(selector).attr(name)).toEqual(expected);
 };
 
+var expect_table = function() {
+  var args  = Array.prototype.slice.call(arguments);
+  var table = args.pop();
+  var base  = $(args.pop());
+
+  _.each(table, function(cells, row) {
+    _.each(cells, function(text, cell) {
+      var selector = _.map(['th', 'td'], function(tag) {
+        return 'tr:nth-child(' + (row + 1) + ') ' + tag + ':nth-child(' + (cell + 1) + ')'
+      }).join(', ');
+      expect_text(selector, text, base);
+    });
+  });
+};
+
 var expect_texts = function() {
   var args  = Array.prototype.slice.call(arguments);
   var texts = args.pop();
@@ -44,8 +59,8 @@ var expect_texts = function() {
   });
 };
 
-var expect_text = function(selector, text) {
-  var actual = $.trim($(selector).text());
+var expect_text = function(selector, text, element) {
+  var actual = $.trim($(selector, element).text());
   expect(actual).toEqual(text);
 };
 
