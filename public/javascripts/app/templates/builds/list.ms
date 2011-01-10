@@ -1,4 +1,4 @@
-<table>
+<table id="builds">
   <tr>
     <th>Build</th>
     <th>Duration</th>
@@ -6,9 +6,9 @@
   </tr>
   {{#each builds}}
     <tr>
-      <td><a href="#!/repositories/{{../repository_id}}/builds/{{id}}">#{{number}}</a></td>
+      <td class="number"><a href="#!/repositories/{{../repository_id}}/builds/{{id}}">#{{number}}</a></td>
       <td class="duration" title="{{duration}}"></td>
-      <td>{{#if finished_at}}{{finished_at}}{{else}}-{{/if}}</td>
+      <td class="finished_at">{{#if finished_at}}{{finished_at}}{{else}}-{{/if}}</td>
     </tr>
   {{/each}}
 </table>
