@@ -27,12 +27,12 @@ var RepositoryView = Backbone.View.extend({
     this.builds_list_view.unbind();
   },
   render: function(repository, tab) {
-    tab = tab || 'log'
+    this.tab = tab || 'log'
     this.repository = repository;
     this.bind();
     this.element.html($(this.repository_template(this.repository.toJSON())));
-    this['render_' + tab]();
-    Util.activate_tab(this.element, tab);
+    this['render_' + this.tab]();
+    Util.activate_tab(this.element, this.tab);
   },
   render_log: function() {
     $('.log', this.element).deansi();
@@ -42,7 +42,7 @@ var RepositoryView = Backbone.View.extend({
   },
   build_started: function(build) {
     this.unbind();
-    this.render(build.repository());
+    this.render(build.repository(), this.tab);
   },
   build_changed: function(build) {
     $('#repository_' + build.repository().id + ' .summary', this.element).replaceWith($(this.build_template(build.toJSON())));
