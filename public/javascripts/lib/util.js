@@ -1,3 +1,7 @@
+$.fn.deansi = function() {
+  this.html(Util.deansi(this.html()));
+}
+
 Util = {
   activate_tab: function(element, tab) {
     $('.tabs li', element).removeClass('active');
