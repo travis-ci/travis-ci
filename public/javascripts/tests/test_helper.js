@@ -6,13 +6,13 @@ beforeEach(function() {
   Backbone.history.loadUrl();
 
   this.left = $('#left').html();
-  this.right = $('#right').html();
+  this.main = $('#main').html();
   this.hash = window.location.hash;
 });
 
 afterEach(function() {
   $('#left').html(this.left);
-  $('#right').html(this.right);
+  $('#main').html(this.main);
   window.location.hash = this.hash;
 });
 

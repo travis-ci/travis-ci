@@ -6,17 +6,17 @@ describe('The repositories list', function() {
     expect($('a:nth-child(1)', repositories[1]).text()).toEqual('josevalim/enginex');
   });
 
-  it('clicking the repository name opens the repository details pane on the right', function() {
+  it('clicking the repository name opens the repository details pane on the main', function() {
     follow('josevalim/enginex');
     runs_after(200, function() {
-      expect_element('#right .repository');
+      expect_element('#main .repository');
     });
   });
 
-  it('clicking the build number opens the build details pane on the right', function() {
+  it('clicking the build number opens the build details pane on the main', function() {
     follow('#1');
     runs_after(200, function() {
-      expect_element('#right .build');
+      expect_element('#main .build');
     });
   });
 });

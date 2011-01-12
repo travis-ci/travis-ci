@@ -1,7 +1,6 @@
 var Build = Backbone.Model.extend({
   initialize: function(attributes) {
     _.bindAll(this, 'repository', 'is_building', 'color', 'duration', 'eta', 'toJSON');
-    Backbone.Model.prototype.initialize.apply(this, arguments);
   },
   repository: function() {
     return this.collection.repository;

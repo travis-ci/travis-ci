@@ -1,10 +1,11 @@
 var ApplicationController = Backbone.Controller.extend({
   templates: {},
   routes: {
-    '':                              'repositories_index',
-    '!/repositories/:id':            'repository_show',
-    '!/repositories/:id/history':    'repository_history',
-    '!/repositories/:id/builds/:id': 'build_show'
+    '':                                        'repositories_index',
+    '!/:username/:repository_name':            'repository_show',
+    '!/:username/:repository_name/builds':     'repository_history',
+    '!/:username/:repository_name/builds/:id': 'build_show',
+    // '!/:username':                             'repositories_index',
   },
   run: function() {
     _.bindAll(this, 'repositories_index', 'repository_show', 'repository_history', 'build_show', 'render', 'render_repositories', 'render_repository', 'render_build');
@@ -12,43 +13,44 @@ var ApplicationController = Backbone.Controller.extend({
     this.templates = Util.initialize_templates();
     this.repositories = new Repositories(INIT_DATA.repositories, { application: this });
 
-    this.repositories_list = new RepositoriesListView({ app: this, repositories: this.repositories, templates: this.templates });
-    this.repository_view   = new RepositoryView({ app: this, templates: this.templates });
-    this.build_view        = new BuildView({ app: this, templates: this.templates });
+    this.repositories_list  = new RepositoriesListView({ app: this, repositories: this.repositories, templates: this.templates });
+    this.repository_view    = new RepositoryView({ app: this, templates: this.templates });
+    this.no_repository_view = new NoRepositoryView({ app: this, templates: this.templates });
+    this.build_view         = new BuildView({ app: this, templates: this.templates });
 
     this.bind('build:started', this.repositories.update)
     this.bind('build:log', this.repositories.update)
     this.bind('build:finished', this.repositories.update)
   },
-  repositories_index: function() {
-    this.render(this.render_repository, this.repositories.last());
+  repositories_index: function(username) {
+    var repository = this.repositories.last(); // TODO ... by usernae
+    this.render(repository, function() { this.repository_view.render(repository); });
   },
-  repository_show: function(repository_id, tab) {
-    this.render(this.render_repository, this.repositories.find(parseInt(repository_id)), tab);
+  repository_show: function(username, repository_name, tab) {
+    var name = username + '/' + repository_name;
+    var repository = this.repositories.find_by_name(name);
+    if(repository) {
+      this.render(repository, function() { this.repository_view.render(repository, tab); });
+    } else {
+      this.render(function() { this.no_repository_view.render(name) })
+    }
   },
-  repository_history: function(repository_id) {
-    this.repository_show(repository_id, 'history')
+  repository_history: function(username, repository_name) {
+    this.repository_show(username, repository_name, 'history')
   },
-  build_show: function(repository_id, build_id) {
-    var repository = this.repositories.get(repository_id);
-    repository.builds.retrieve(build_id, function(build) { this.render(this.render_build, build); }.bind(this));
+  build_show: function(username, repository_name, build_id) {
+    var repository = this.repositories.find_by_name(username + '/' + repository_name);
+    repository.builds.retrieve(build_id, function(build) {
+      this.render(build, function(build) { this.build_view.render(build); });
+    }.bind(this));
   },
-  render: function(content) {
+  render: function() {
     this.repositories_list.unbind(this);
     this.repository_view.unbind(this);
     this.build_view.unbind(this);
 
-    this.render_repositories();
-    content.apply(this, Array.prototype.slice.call(arguments, 1));
+    this.repositories_list.render();
+    arguments[arguments.length - 1].apply(this, Array.prototype.slice.call(arguments, 0, -1));
     Util.update_times();
   },
-  render_repositories: function() {
-    this.repositories_list.render();
-  },
-  render_repository: function(repository, tab) {
-    this.repository_view.render(repository, tab);
-  },
-  render_build: function(build) {
-    this.build_view.render(build);
-  }
 });

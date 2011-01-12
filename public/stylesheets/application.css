@@ -21,14 +21,14 @@ body {
   color: #666;
 }
 
-#left, #right {
+#left, #main {
   float: left;
 }
 #left {
   width: 30%;
   margin: 30px 2% 30px 4%;
 }
-#right {
+#main {
   width: 58%;
   margin: 30px 4% 30px 2%;
 }
@@ -94,10 +94,10 @@ th, td {
   color: #666;
 }
 
-#right h3 {
+#main h3 {
   margin: 0 0 1em 0;
 }
-#right a {
+#main a {
   color: #666;
   text-decoration: underline;
 }

@@ -12,5 +12,7 @@ TravisRails::Application.routes.draw do
     put 'log', :on => :member
   end
 
+  resources :jobs
+
   root :to => 'application#index'
 end
