@@ -12,15 +12,17 @@ var ApplicationController = Backbone.Controller.extend({
 
     this.templates = Util.initialize_templates();
     this.repositories = new Repositories(INIT_DATA.repositories, { application: this });
+    this.jobs = new Jobs;
 
     this.repositories_list  = new RepositoriesListView({ app: this, repositories: this.repositories, templates: this.templates });
     this.repository_view    = new RepositoryView({ app: this, templates: this.templates });
     this.no_repository_view = new NoRepositoryView({ app: this, templates: this.templates });
     this.build_view         = new BuildView({ app: this, templates: this.templates });
+    this.queue_view         = new QueueView({ app: this, templates: this.templates, jobs: this.jobs });
 
-    this.bind('build:started', this.repositories.update)
-    this.bind('build:log', this.repositories.update)
-    this.bind('build:finished', this.repositories.update)
+    this.bind('build:started', this.repositories.update);
+    this.bind('build:log', this.repositories.update);
+    this.bind('build:finished', this.repositories.update);
   },
   repositories_index: function(username) {
     var repository = this.repositories.last(); // TODO ... by usernae
@@ -50,6 +52,7 @@ var ApplicationController = Backbone.Controller.extend({
     this.build_view.unbind(this);
 
     this.repositories_list.render();
+    this.queue_view.render();
     arguments[arguments.length - 1].apply(this, Array.prototype.slice.call(arguments, 0, -1));
     Util.update_times();
   },

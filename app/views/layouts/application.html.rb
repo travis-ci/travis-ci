@@ -10,10 +10,8 @@ class Layouts::Application < Minimal::Template
           end
         end
 
-        div :id => :left, :class => :clearfix do
-          ul '', :id => :repositories
-        end
-
+        div '', :id => :left
+        div '', :id => :right
         div '', :id => :main, :class => :clearfix
 
         js_init_data

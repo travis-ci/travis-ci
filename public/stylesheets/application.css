@@ -21,16 +21,18 @@ body {
   color: #666;
 }
 
-#left, #main {
-  float: left;
-}
 #left {
-  width: 30%;
-  margin: 30px 2% 30px 4%;
+  position: absolute;
+  width: 375px;
+  margin: 30px 50px;
 }
 #main {
-  width: 58%;
-  margin: 30px 4% 30px 2%;
+  margin: 30px 300px 30px 475px;
+}
+#right {
+  float: right;
+  width: 200px;
+  margin: 30px 50px;
 }
 
 a {
@@ -139,6 +141,13 @@ dd {
 }
 .log .green {
   color: lime;
+}
+
+#right h4 {
+  margin-top: 0;
+}
+#queue {
+  font-size: 90%;
 }
 
 .clearfix:after {

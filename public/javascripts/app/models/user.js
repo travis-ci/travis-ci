@@ -7,12 +7,12 @@ var User = Backbone.Model.extend({
 
 var Users = Backbone.Collection.extend({
   model: User,
-  initialize: function(builds, options) {
+  initialize: function(users, options) {
     // _.bindAll(this, 'load', 'retrieve');
     // this.url = 'repositories/' + this.repository.id + '/builds';
   },
-  comparator: function(build) {
-    return build.get('name');
+  comparator: function(user) {
+    return user.get('name');
   }
 });
 
