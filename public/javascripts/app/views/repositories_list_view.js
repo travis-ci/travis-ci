@@ -2,28 +2,32 @@ var RepositoriesListView = Backbone.View.extend({
   tagName: 'ul',
   id: 'repositories',
   initialize: function (args) {
-    _.bindAll(this, 'render', 'render_item', 'repository_added', 'build_added', 'build_changed', 'build_log', 'update_item');
+    _.bindAll(this, 'bind', 'render', 'render_item', 'repository_added', 'build_added', 'build_changed', 'build_log', 'update_item');
 
     this.app = args.app;
     this.repositories = args.repositories;
-    this.template = args.templates['repositories/_item'];
-    this.element = $('#repositories');
+    this.list_template = args.templates['repositories/list'];
+    this.item_template = args.templates['repositories/_item'];
+    this.element = $('#left');
 
     this.repositories.bind('add', this.repository_added);
+  },
+  bind: function(builds) {
+    builds.bind('add', this.build_added, 'foo');
+    builds.last().bind('change', this.build_changed);
   },
   render: function() {
     this.element.empty();
     var view = this;
-    _.each(this.repositories.toArray(), this.render_item);
-    return this;
+    this.element.html(this.list_template(this.repositories.toJSON().reverse()))
+    _.each(this.repositories.models, function(repository) { this.bind(repository.builds) }.bind(this));
   },
   render_item: function(repository) {
-    repository.builds.bind('add', this.build_added, 'foo');
-    repository.builds.last().bind('change', this.build_changed);
     $('#repository_' + repository.id, this.element).remove();
-    this.element.prepend($(this.template(repository.toJSON())));
+    $('#repositories', this.element).prepend($(this.item_template(repository.toJSON())));
   },
   repository_added: function (repository) {
+    this.bind(repository.builds);
     this.render_item(repository);
     this.update_item(repository);
   },

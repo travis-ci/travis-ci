@@ -15,7 +15,7 @@ var BuildsListView = Backbone.View.extend({
 
     repository.builds.load(function() {
       this.bind();
-      element.html($(this.template({ repository_id: repository.id, builds: repository.builds.toJSON().reverse() })));
+      element.html($(this.template({ repository: repository.toJSON(), builds: repository.builds.toJSON().reverse() })));
       Util.update_times(element);
     }.bind(this));
   },

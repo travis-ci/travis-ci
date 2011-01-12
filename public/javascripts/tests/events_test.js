@@ -125,6 +125,14 @@ describe('Events:', function() {
     });
   };
 
+  var it_does_not_prepend_the_build_to_the_builds_history_table = function(delay) {
+    it('does not prepend the build to the builds history table', function() {
+      runs_after(delay, function() {
+        expect_text('#main #builds tr:nth-child(2) td.number', '#' + this.repository.last_build.number)
+      });
+    });
+  }
+
   var it_updates_the_builds_history_table_row = function(delay) {
     it('updates the builds history table row', function() {
       runs_after(400, function() {
@@ -133,9 +141,19 @@ describe('Events:', function() {
     });
   };
 
+  var it_does_not_update_the_builds_history_table_row = function(delay) {
+    it('does not update the builds history table row', function() {
+      runs_after(400, function() {
+        expect_text('#main #builds tr:nth-child(2) td.finished_at', this.repository.last_build.finished_at)
+      });
+    });
+  }
+
+
   describe('on the repository view', function() {
     beforeEach(function() {
-      go_to('#!/' + INIT_DATA.repositories[1].name)
+      this.repository = INIT_DATA.repositories[1];
+      go_to('#!/' + this.repository.name)
     });
 
     describe('an incoming event for a new repository', function() {
@@ -161,7 +179,6 @@ describe('Events:', function() {
 
     describe('an incoming event for the current repository', function() {
       beforeEach(function() {
-        this.repository = INIT_DATA.repositories[1];
       });
 
       describe('build:started', function() {
@@ -199,13 +216,9 @@ describe('Events:', function() {
     });
 
     describe('an incoming event for a different repository', function() {
-      beforeEach(function() {
-        this.repository = INIT_DATA.repositories[0];
-      });
-
       describe('build:started', function() {
         beforeEach(function() {
-          this.data = _.extend(build_started_data(this.repository), { number: 4 });
+          this.data = _.extend(build_started_data(INIT_DATA.repositories[0]), { number: 4 });
           Travis.app.trigger('build:started', this.data);
         });
 
@@ -216,7 +229,7 @@ describe('Events:', function() {
 
       describe('build:log', function() {
         beforeEach(function() {
-          this.data = build_log_data(this.repository, { append_log: ' foo!'});
+          this.data = build_log_data(INIT_DATA.repositories[0], { append_log: ' foo!'});
           Travis.app.trigger('build:log', this.data);
         });
 
@@ -225,7 +238,7 @@ describe('Events:', function() {
 
       describe('build:finished', function() {
         beforeEach(function() {
-          this.data = build_finished_data(this.repository);
+          this.data = build_finished_data(INIT_DATA.repositories[0]);
           Travis.app.trigger('build:finished', this.data);
         });
 
@@ -239,14 +252,11 @@ describe('Events:', function() {
 
   describe('on the build view', function() {
     beforeEach(function() {
-      go_to('#!/' + INIT_DATA.repositories[1].name + '/builds/' + INIT_DATA.repositories[1].last_build.id)
+      this.repository = INIT_DATA.repositories[1];
+      go_to('#!/' + this.repository.name + '/builds/' + this.repository.last_build.id)
     });
 
     describe('an incoming event for the current build', function() {
-      beforeEach(function() {
-        this.repository = INIT_DATA.repositories[1];
-      });
-
       describe('build:log', function() {
         beforeEach(function() {
           runs_after(delay, function() {
@@ -274,14 +284,10 @@ describe('Events:', function() {
     });
 
     describe('an incoming event for a different build', function() {
-      beforeEach(function() {
-        this.repository = INIT_DATA.repositories[0];
-      });
-
       describe('build:log', function() {
         beforeEach(function() {
           runs_after(delay, function() {
-            this.data = build_log_data(this.repository, { append_log: ' foo!'});
+            this.data = build_log_data(INIT_DATA.repositories[0], { append_log: ' foo!'});
             Travis.app.trigger('build:log', this.data);
           });
         });
@@ -292,7 +298,7 @@ describe('Events:', function() {
       describe('build:finished', function() {
         beforeEach(function() {
           runs_after(delay, function() {
-            this.data = build_finished_data(this.repository);
+            this.data = build_finished_data(INIT_DATA.repositories[0]);
             Travis.app.trigger('build:finished', this.data);
           });
         });
@@ -307,14 +313,11 @@ describe('Events:', function() {
 
   describe('on the build history view', function() {
     beforeEach(function() {
-      go_to('#!/' + INIT_DATA.repositories[1].name + '/builds')
+      this.repository = INIT_DATA.repositories[1];
+      go_to('#!/' + this.repository.name + '/builds')
     });
 
     describe('an incoming event for the current build', function() {
-      beforeEach(function() {
-        this.repository = INIT_DATA.repositories[1];
-      });
-
       describe('build:started', function() {
         beforeEach(function() {
           runs_after(200, function() {
@@ -339,34 +342,27 @@ describe('Events:', function() {
     });
 
     describe('an incoming event for a different build', function() {
-      beforeEach(function() {
-        this.repository = INIT_DATA.repositories[0];
+      describe('build:started', function() {
+        beforeEach(function() {
+          runs_after(200, function() {
+            this.data = _.extend(build_started_data(INIT_DATA.repositories[0]), { number: 4 });
+            Travis.app.trigger('build:started', this.data);
+          });
+        });
+
+        it_does_not_prepend_the_build_to_the_builds_history_table(200);
       });
 
-      // describe('build:started', function() {
-      //   beforeEach(function() {
-      //     runs_after(delay, function() {
-      //       this.data = build_log_data(this.repository, { append_log: ' foo!'});
-      //       Travis.app.trigger('build:log', this.data);
-      //     });
-      //   });
+      describe('build:finished', function() {
+        beforeEach(function() {
+          runs_after(delay, function() {
+            this.data = _.extend(build_finished_data(INIT_DATA.repositories[0]), { finished_at: '2010-11-11T12:01:30Z' });
+            Travis.app.trigger('build:finished', this.data);
+          });
+        });
 
-      //   it_does_not_append_to_the_build_log();
-      // });
-
-      // describe('build:finished', function() {
-      //   beforeEach(function() {
-      //     runs_after(delay, function() {
-      //       this.data = build_finished_data(this.repository);
-      //       Travis.app.trigger('build:finished', this.data);
-      //     });
-      //   });
-
-      //   it_updates_the_repository_list_items_build_information();
-      //   it_sets_the_repository_list_items_build_status_color();
-      //   it_stops_the_repository_list_item_flashing();
-      //   it_does_not_update_the_build_summary();
-      // });
+        it_does_not_update_the_builds_history_table_row(delay);
+      });
     });
   });
 });
