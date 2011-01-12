@@ -1,8 +1,14 @@
 require 'test_helper_rails'
 
 class AcceptPingTest < ActionDispatch::IntegrationTest
+  class ChannelMock; def trigger; end; end
+
+  attr_reader :channel
+
   def setup
     super
+    @channel = ChannelMock.new
+    Pusher.stubs(:[]).returns(channel)
     Resque.redis.flushall
   end
 
@@ -39,5 +45,10 @@ class AcceptPingTest < ActionDispatch::IntegrationTest
     ping!
     job = Resque.reserve(:builds)
     assert_equal job.args.first, Build.last.job_id
+  end
+
+  test "sends a build:queued event to Pusher" do
+    channel.expects(:trigger) # TODO uh, this doesn't seem to test anything
+    ping!
   end
 end
