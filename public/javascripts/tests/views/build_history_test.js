@@ -1,10 +1,11 @@
 describe('The build history tab', function() {
   beforeEach(function() {
+    this.delay = 250;
     go_to('#!/' + INIT_DATA.repositories[1].name + '/builds');
   });
 
   it('shows build details', function() {
-    runs_after(200, function() {
+    runs_after(this.delay, function() {
       expect_texts('#main .repository', {
         'h3': 'josevalim/enginex',
         '.summary .number': '1',
@@ -17,7 +18,7 @@ describe('The build history tab', function() {
   });
 
   it('shows a builds list', function() {
-    runs_after(200, function() {
+    runs_after(this.delay, function() {
       expect_table('#main #builds', [
         ['Build', 'Duration',   'Finished'],
         ['#1',    '20 seconds', '2010-11-11T12:00:20Z' ]

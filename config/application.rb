@@ -18,6 +18,8 @@ module TravisRails
     jasmine = %w(jasmine jasmine-html)
 
     expansions = javascript_expansions(:lib, :app, :tests)
+    expansions[:tests].sort! { |lft, rgt| lft.include?('helper') ? -1 : rgt.include?('helper') ? 1 : lft <=> rgt }
+
     expansions.merge!(:vendor  => vendor.map { |name| "vendor/#{name}" })
     expansions.merge!(:jasmine => jasmine.map { |name| "vendor/#{name}" })
 
