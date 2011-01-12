@@ -14,7 +14,7 @@ class Layouts::Application < Minimal::Template
           ul '', :id => :repositories
         end
 
-        div '', :id => :right, :class => :clearfix
+        div '', :id => :main, :class => :clearfix
 
         js_init_data
         js_templates

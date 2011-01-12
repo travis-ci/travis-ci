@@ -5,7 +5,7 @@ var BuildView = Backbone.View.extend({
     this.app = args.app;
     this.show_template = args.templates['builds/show'];
     this.summary_template = args.templates['builds/_summary'];
-    this.element = $('#right');
+    this.element = $('#main');
   },
   bind: function() {
     Backbone.Events.bind.apply(this, arguments);

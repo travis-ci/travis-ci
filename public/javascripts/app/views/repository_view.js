@@ -6,15 +6,17 @@ var RepositoryView = Backbone.View.extend({
     this.repository = args.repository;
     this.repository_template = args.templates['repositories/show'];
     this.build_template = args.templates['builds/_summary'];
-    this.element = $('#right');
+    this.element = $('#main');
 
     this.builds_list_view = new BuildsListView({ app: args.app, templates: args.templates });
   },
   bind: function() {
     Backbone.Events.bind.apply(this, arguments);
-    this.repository.builds.bind('add', this.build_started);
-    this.repository.builds.bind('change', this.build_changed);
-    this.repository.builds.bind('log', this.build_logged);
+    if(this.repository) {
+      this.repository.builds.bind('add', this.build_started);
+      this.repository.builds.bind('change', this.build_changed);
+      this.repository.builds.bind('log', this.build_logged);
+    }
     this.builds_list_view.bind();
   },
   unbind: function() {

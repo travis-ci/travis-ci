@@ -88,7 +88,7 @@ describe('Events:', function() {
   var it_updates_the_build_summary = function(delay) {
     it('updates the build number of the repository build summary', function() {
       runs_after(delay, function() {
-        expect_text('#right .summary .number', this.data.repository.last_build.number + '');
+        expect_text('#main .summary .number', this.data.repository.last_build.number + '');
       });
     });
   };
@@ -96,7 +96,7 @@ describe('Events:', function() {
   var it_does_not_update_the_build_summary = function(delay) {
     it('does not update the build number of the repository build summary', function() {
       runs_after(delay, function() {
-        expect_text('#right .summary .number', INIT_DATA.repositories[1].last_build.number + '');
+        expect_text('#main .summary .number', INIT_DATA.repositories[1].last_build.number + '');
       });
     });
   };
@@ -104,7 +104,7 @@ describe('Events:', function() {
   var it_appends_to_the_build_log = function(delay) {
     it('appends to the build log', function() {
       runs_after(delay, function() {
-        expect_text('#right .log', this.repository.last_build.log + this.data.append_log)
+        expect_text('#main .log', this.repository.last_build.log + this.data.append_log)
       });
     });
   };
@@ -112,7 +112,7 @@ describe('Events:', function() {
   var it_does_not_append_to_the_build_log = function(delay) {
     it('does not append to the build log', function() {
       runs_after(delay, function() {
-        expect_text('#right .log', INIT_DATA.repositories[1].last_build.log)
+        expect_text('#main .log', INIT_DATA.repositories[1].last_build.log)
       });
     });
   };
@@ -120,7 +120,7 @@ describe('Events:', function() {
   var it_prepends_the_build_to_the_builds_history_table = function(delay) {
     it('prepends the build to the builds history table', function() {
       runs_after(delay, function() {
-        expect_text('#right #builds tr:nth-child(2) td.number', '#' + this.data.number)
+        expect_text('#main #builds tr:nth-child(2) td.number', '#' + this.data.number)
       });
     });
   };
@@ -128,14 +128,14 @@ describe('Events:', function() {
   var it_updates_the_builds_history_table_row = function(delay) {
     it('updates the builds history table row', function() {
       runs_after(400, function() {
-        expect_text('#right #builds tr:nth-child(2) td.finished_at', this.data.finished_at)
+        expect_text('#main #builds tr:nth-child(2) td.finished_at', this.data.finished_at)
       });
     });
   };
 
   describe('on the repository view', function() {
     beforeEach(function() {
-      go_to('#!/repositories/' + INIT_DATA.repositories[1].id)
+      go_to('#!/' + INIT_DATA.repositories[1].name)
     });
 
     describe('an incoming event for a new repository', function() {
@@ -239,7 +239,7 @@ describe('Events:', function() {
 
   describe('on the build view', function() {
     beforeEach(function() {
-      go_to('#!/repositories/' +  + INIT_DATA.repositories[1].id + '/builds/' + INIT_DATA.repositories[1].last_build.id);
+      go_to('#!/' + INIT_DATA.repositories[1].name + '/builds/' + INIT_DATA.repositories[1].last_build.id)
     });
 
     describe('an incoming event for the current build', function() {
@@ -307,7 +307,7 @@ describe('Events:', function() {
 
   describe('on the build history view', function() {
     beforeEach(function() {
-      go_to('#!/repositories/' +  + INIT_DATA.repositories[1].id + '/history');
+      go_to('#!/' + INIT_DATA.repositories[1].name + '/builds')
     });
 
     describe('an incoming event for the current build', function() {

@@ -54,14 +54,12 @@ Util = {
   },
   initialize_templates: function() {
     var templates = {};
-
     $('*[type=text/x-js-template]').map(function() {
       var name = $(this).attr('name');
       var source = $(this).html().replace('&gt;', '>');
       if(name.split('/')[1][0] == '_') { Handlebars.registerPartial(name.replace('/', ''), source) }
       templates[name] = Handlebars.compile(source);
     });
-
     return templates;
   }
 }

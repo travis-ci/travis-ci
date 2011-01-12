@@ -29,8 +29,8 @@ var Repositories = Backbone.Collection.extend({
   initialize: function(models) {
     _.bindAll(this, 'find', 'last', 'update');
   },
-  find: function(id) {
-    return this.detect(function(item) { return item.id == id }, this);
+  find_by_name: function(name) {
+    return this.detect(function(item) { return item.get('name') == name }, this); // TODO use an index?
   },
   last: function() {
     return this.models[this.models.length - 1];

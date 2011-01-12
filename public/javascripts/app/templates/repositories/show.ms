@@ -10,7 +10,7 @@
 
   <ul class="tabs">
     <li id="tab_log">
-      <h5><a href="#!/repositories/{{id}}">Log</a></h5>
+      <h5><a href="#!/{{name}}">Log</a></h5>
       {{#build}}
         <div id="build_{{id}}" class="build">
           <pre class="log">{{log}}</pre>
@@ -18,7 +18,7 @@
       {{/build}}
     </li>
     <li id="tab_history">
-      <h5><a href="#!/repositories/{{id}}/history">Build History</a></h5>
+      <h5><a href="#!/{{name}}/builds">Build History</a></h5>
       <div>
       </div>
     </li>
