@@ -33,6 +33,7 @@ var RepositoriesListView = Backbone.View.extend({
   },
   build_added: function(build) {
     var repository = build.repository();
+    this.bind(repository.builds);
     this.render_item(repository);
     this.update_item(repository);
   },
