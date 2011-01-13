@@ -35,7 +35,7 @@ class BuildsController < ApplicationController
   protected
 
     def enqueue!(build)
-      Pusher['queue'].trigger('build:queued', build)
+      Pusher['jobs'].trigger('build:queued', build)
       Travis::Builder.enqueue(build)
     end
 
