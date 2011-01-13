@@ -16,8 +16,8 @@ $(document).ready(function() {
     Backbone.history.start();
   }
 
-  var channels = ['repositories'];
-  channels += _.map(INIT_DATA.repositories, function(repository) { return 'repository_' + repository.id; });
+  var channels = ['repositories', 'jobs'];
+  _.map(INIT_DATA.repositories, function(repository) { channels.push('repository_' + repository.id); });
   _.each(channels, function(channel) { pusher.subscribe(channel).bind_all(Travis.trigger); })
 
 
