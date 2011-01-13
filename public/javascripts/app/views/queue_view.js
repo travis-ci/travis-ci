@@ -9,7 +9,7 @@ var QueueView = Backbone.View.extend({
   bind: function() {
     Backbone.Events.bind.apply(this, arguments);
     this.jobs.bind('add', this.job_added);
-    // this.jobs.bind('log', this.build_logged);
+    this.jobs.bind('remove', this.job_removed);
   },
   unbind: function() {
     Backbone.Events.unbind.apply(this, arguments);
@@ -25,7 +25,10 @@ var QueueView = Backbone.View.extend({
     }.bind(this));
   },
   job_added: function(job) {
-     console.log(job)
+    $('#queue', this.element).prepend($('<li id="job_' + job.get('meta_id') + '">' + job.get('repository').name + ' #' + job.get('number') + '</li>'));
+  },
+  job_removed: function(job) {
+    $('#queue #job_' + job.get('meta_id')).remove();
   }
 });
 

@@ -48,3 +48,5 @@ RESQUE_PAYLOADS = {
     'status' => nil
   }
 }
+
+# {'build': {"committed_at":"2011-01-11T10:33:49Z", "number":13,"repository":{"name":"svenfuchs/minimal","last_duration":null,"url":"https://github.com/svenfuchs/minimal","id":7},"commit":"5329b9b8bf206344f685359c5e60eb9f10400dc9","author_name":"Sven Fuchs","committer_name":"Sven Fuchs","id":86,"author_email":"svenfuchs@artweb-design.de","committer_email":"svenfuchs@artweb-design.de","message":"Bump to 0.0.23","status":null}}
