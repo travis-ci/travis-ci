@@ -15,7 +15,8 @@ class BuildsController < ApplicationController
 
   def create
     build.save!
-    job = enqueue!(build.as_json)
+    job = Travis::Builder.enqueue(build.as_json)
+    Pusher['jobs'].trigger('build:queued', :build => build.as_json.merge(:meta_id => job.meta_id, :enqueued_at => job.enqueued_at))
     build.update_attributes!(:job_id => job.meta_id)
     build.repository.update_attributes!(:last_built_at => Time.now) # TODO the build isn't actually started now
     render :nothing => true
@@ -33,11 +34,6 @@ class BuildsController < ApplicationController
   end
 
   protected
-
-    def enqueue!(build)
-      Pusher['jobs'].trigger('build:queued', :build => build)
-      Travis::Builder.enqueue(build)
-    end
 
     def repository
       @repository ||= params[:repository_id] ? Repository.find(params[:repository_id]) : build.repository

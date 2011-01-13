@@ -12,7 +12,7 @@ var ApplicationController = Backbone.Controller.extend({
 
     this.templates = Util.initialize_templates();
     this.repositories = new Repositories(INIT_DATA.repositories, { application: this });
-    this.jobs = new Jobs;
+    this.jobs = new Jobs();
 
     this.repositories_list  = new RepositoriesListView({ app: this, repositories: this.repositories, templates: this.templates });
     this.repository_view    = new RepositoryView({ app: this, templates: this.templates });
@@ -20,9 +20,11 @@ var ApplicationController = Backbone.Controller.extend({
     this.build_view         = new BuildView({ app: this, templates: this.templates });
     this.queue_view         = new QueueView({ app: this, templates: this.templates, jobs: this.jobs });
 
-    this.bind('build:started', this.repositories.update);
-    this.bind('build:log', this.repositories.update);
+    this.bind('build:started',  this.repositories.update);
+    this.bind('build:log',      this.repositories.update);
     this.bind('build:finished', this.repositories.update);
+    this.bind('build:queued',   this.jobs.add);
+    this.bind('build:started',  this.jobs.remove);
   },
   repositories_index: function(username) {
     var repository = this.repositories.last(); // TODO ... by usernae
