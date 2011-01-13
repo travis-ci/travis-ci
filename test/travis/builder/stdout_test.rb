@@ -28,10 +28,11 @@ class TravisBuilderStdoutTest < Test::Unit::TestCase
   end
 
   def work!
-    EM.run { builder.work!; EM.stop }
+    EM.run { EM.defer { builder.work!; EM.stop } }
   end
 
   test 'pipes the build output to on_log' do
+    builder.stubs(:on_log)
     builder.expects(:on_log).with("build output\n")
     work!
   end

@@ -7,6 +7,13 @@ require 'mocha'
 
 require 'travis'
 
+class Test::Unit::TestCase
+  class BuildableMock
+    def configure; end
+    def build!; end
+  end
+end
+
 GITHUB_PAYLOADS = {
   "gem-release" => %({
     "repository": {
