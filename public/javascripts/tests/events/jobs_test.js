@@ -1,6 +1,6 @@
 describe('Events:', function() {
-  var it_prepends_to_the_queue_view = function(delay) {
-    it('prepends to the queue view', function() {
+  var it_prepends_to_the_jobs_list_view = function(delay) {
+    it('prepends to the jobs list view', function() {
       runs_after(delay, function() {
         expect_text('#queue', '#' + this.data.number)
       });
@@ -24,7 +24,7 @@ describe('Events:', function() {
           });
         });
 
-        it_prepends_to_the_queue_view();
+        it_prepends_to_the_jobs_list_view();
       });
 
       // describe('build:finished', function() {
