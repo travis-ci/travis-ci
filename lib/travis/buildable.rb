@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'uri'
+require 'travis/buildable/config'
 
 module Travis
   class Buildable
@@ -15,14 +16,12 @@ module Travis
       end
     end
 
-    attr_reader :url, :path, :commit, :script
+    attr_reader :url, :path, :commit
 
     def initialize(build)
       @url    = build[:url] || raise(ArgumentError.new('no url given'))
       @commit = build[:commit]
-
-      config  = build.merge(Config.new(config_url))
-      @script = config[:script]
+      @script = build[:script]
       @path   = extract_path(url)
     end
 
@@ -53,7 +52,17 @@ module Travis
 
       def run_script
         ENV['BUNDLE_GEMFILE'] = nil
-        execute script
+        execute(script).tap do |status|
+          puts "\nDone. Build script exited with: #{status}"
+        end
+      end
+
+      def script
+        config[:script] || @script
+      end
+
+      def config
+        @config ||= Config.new(config_url)
       end
 
       def chdir(&block)

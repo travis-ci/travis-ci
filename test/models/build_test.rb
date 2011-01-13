@@ -19,23 +19,21 @@ class BuildTest < Test::Unit::TestCase
   test 'as_json includes everything required for the build:started event' do
     build = Factory(:build)
     expected = {
-      'build' => {
-        'id' => build.id,
-        'number' => nil,
-        'commit' => '62aae5f70ceee39123ef',
-        'message' => nil,
-        'status' => nil,
-        'committed_at' => nil,
-        'committer_name' => nil,
-        'committer_email' => nil,
-        'author_name' => nil,
-        'author_email' => nil,
-        :repository => {
-          'id' => build.repository.id,
-          'name' => 'svenfuchs/minimal',
-          'url' => 'http://github.com/svenfuchs/minimal',
-          'last_duration' => nil,
-        },
+      'id' => build.id,
+      'number' => nil,
+      'commit' => '62aae5f70ceee39123ef',
+      'message' => nil,
+      'status' => nil,
+      'committed_at' => nil,
+      'committer_name' => nil,
+      'committer_email' => nil,
+      'author_name' => nil,
+      'author_email' => nil,
+      :repository => {
+        'id' => build.repository.id,
+        'name' => 'svenfuchs/minimal',
+        'url' => 'http://github.com/svenfuchs/minimal',
+        'last_duration' => nil,
       }
     }
     assert_equal expected, build.as_json
@@ -44,26 +42,24 @@ class BuildTest < Test::Unit::TestCase
   test 'as_json(:full => true) includes everything required for the build details view' do
     build = Factory(:build)
     expected = {
-      'build' => {
-        'id' => build.id,
-        'number' => nil,
-        'log' => '',
-        'status' => nil,
-        'started_at' => nil,
-        'finished_at' => nil,
-        'commit' => '62aae5f70ceee39123ef',
-        'message' => nil,
-        'committed_at' => nil,
-        'committer_name' => nil,
-        'committer_email' => nil,
-        'author_name' => nil,
-        'author_email' => nil,
-        :repository => {
-          'id' => build.repository.id,
-          'name' => 'svenfuchs/minimal',
-          'url' => 'http://github.com/svenfuchs/minimal',
-          'last_duration' => nil,
-        },
+      'id' => build.id,
+      'number' => nil,
+      'log' => '',
+      'status' => nil,
+      'started_at' => nil,
+      'finished_at' => nil,
+      'commit' => '62aae5f70ceee39123ef',
+      'message' => nil,
+      'committed_at' => nil,
+      'committer_name' => nil,
+      'committer_email' => nil,
+      'author_name' => nil,
+      'author_email' => nil,
+      :repository => {
+        'id' => build.repository.id,
+        'name' => 'svenfuchs/minimal',
+        'url' => 'http://github.com/svenfuchs/minimal',
+        'last_duration' => nil,
       }
     }
     assert_equal expected, build.as_json(:full => true)

@@ -1,7 +1,7 @@
 require 'test_helper_rails'
 
 class AcceptPingTest < ActionDispatch::IntegrationTest
-  class ChannelMock; def trigger; end; end
+  class ChannelMock; def trigger(*); end; end
 
   attr_reader :channel
 

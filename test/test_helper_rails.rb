@@ -9,11 +9,6 @@ require 'database_cleaner'
 DatabaseCleaner.strategy = :truncation
 
 class Test::Unit::TestCase
-  class BuildableMock
-    def configure; end
-    def build!; end
-  end
-
   def setup
     DatabaseCleaner.start
   end
