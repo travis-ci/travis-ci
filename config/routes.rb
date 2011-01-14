@@ -13,6 +13,7 @@ TravisRails::Application.routes.draw do
   end
 
   resources :jobs
+  resources :workers
 
   root :to => 'application#index'
 end
