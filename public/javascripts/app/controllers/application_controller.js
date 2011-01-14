@@ -10,14 +10,16 @@ var ApplicationController = Backbone.Controller.extend({
   run: function() {
     _.bindAll(this, 'repositories_index', 'repository_show', 'repository_history', 'build_show', 'render', 'render_repositories', 'render_repository', 'render_build');
 
-    this.templates = Util.initialize_templates();
+    this.templates    = Util.initialize_templates();
     this.repositories = new Repositories(INIT_DATA.repositories, { application: this });
-    this.jobs = new Jobs();
+    this.jobs         = new Jobs();
+    this.workers      = new Workers();
 
     this.repositories_list  = new RepositoriesListView({ app: this, repositories: this.repositories, templates: this.templates });
     this.repository_view    = new RepositoryView({ app: this, templates: this.templates });
     this.no_repository_view = new NoRepositoryView({ app: this, templates: this.templates });
     this.build_view         = new BuildView({ app: this, templates: this.templates });
+    this.workers_list_view  = new WorkersListView({ app: this, templates: this.templates, workers: this.workers });
     this.jobs_list_view     = new JobsListView({ app: this, templates: this.templates, jobs: this.jobs });
 
     this.bind('build:started',  this.repositories.update);
@@ -53,8 +55,10 @@ var ApplicationController = Backbone.Controller.extend({
     this.repository_view.unbind(this);
     this.build_view.unbind(this);
 
-    this.repositories_list.render();
+    this.workers_list_view.render();
     this.jobs_list_view.render();
+    this.repositories_list.render();
+
     arguments[arguments.length - 1].apply(this, Array.prototype.slice.call(arguments, 0, -1));
     Util.update_times();
   },

@@ -143,11 +143,15 @@ dd {
   color: lime;
 }
 
-#right h4 {
+#right {
+  font-size: 90%;
+}
+#right h4:first-of-type {
   margin-top: 0;
 }
-#jobs {
-  font-size: 90%;
+#right li {
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .clearfix:after {
