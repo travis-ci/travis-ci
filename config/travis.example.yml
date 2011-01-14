@@ -1,0 +1,41 @@
+oauth2: &oauth2
+  authorization_server: https://github.com
+  requested_scope: user
+  authorize_path: login/oauth/authorize
+  access_token_path: login/oauth/access_token
+  user_attributes_path: api/v2/json/user/show
+production:
+  redis:
+    url: redis://YOUR_REDIS_URL
+  pusher:
+    app_id: YOUR_PUSHER_APP_ID
+    key:    YOUR_PUSHER_KEY
+    secret: YOUR_PUSHER_SECRET
+  rails:
+    # we're currently restricting access through http-auth, this will go away
+    url: "http://YOUR_USERNAME:YOUR_PASSWORD@travis.heroku.com"
+  accounts:
+    YOUR_USERNAME: YOUR_PASSWORD
+  oauth2:
+    client_id: YOUR_GITHUB_CLIENT_ID
+    client_secret: YOUR_GITHUB_CLIENT_SECRET
+    <<: *oauth2
+development:
+  redis:
+    url: redis://localhost:6379
+  pusher:
+    app_id: YOUR_PUSHER_APP_ID
+    key:    YOUR_PUSHER_KEY
+    secret: YOUR_PUSHER_SECRET
+  rails:
+    host: localhost:3000
+  accounts:
+    sven: test
+  oauth2:
+    client_id: YOUR_GITHUB_CLIENT_ID
+    client_secret: YOUR_GITHUB_CLIENT_SECRET
+    <<: *oauth2
+test:
+  redis:
+    url: redis://localhost:6379
+
