@@ -19,6 +19,7 @@ var WorkersListView = Backbone.View.extend({
   },
   render: function() {
     this.bind();
+    $('#right #workers').remove();
     $('#right').append($(this.list_template({ workers: [] })));
     this.element = $('#right #workers');
     $('.loading', this.element).show();
@@ -35,7 +36,7 @@ var WorkersListView = Backbone.View.extend({
     // Util.update_times(this.element);
   },
   render_item: function(worker) {
-    $(this.element).prepend(this.item_template(worker.toJSON()));
+    $('ul', this.element).prepend(this.item_template(worker.toJSON()));
   },
   worker_added: function(worker) {
     this.render_item(worker);
