@@ -146,7 +146,7 @@ dd {
 #right {
   font-size: 90%;
 }
-#right h4:first-of-type {
+#right div:first-of-type h4 {
   margin-top: 0;
 }
 #right li {
