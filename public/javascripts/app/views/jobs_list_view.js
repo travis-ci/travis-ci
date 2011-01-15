@@ -1,6 +1,6 @@
 var JobsListView = Backbone.View.extend({
   initialize: function(args) {
-    _.bindAll(this, 'bind', 'unbind', 'render', 'render_items', 'render_item', 'job_added', 'job_started');
+    _.bindAll(this, 'bind', 'unbind', 'render', 'render_items', 'render_item', 'job_added', 'job_removed', 'update_empty');
 
     this.jobs = args.jobs;
     this.list_template = args.templates['jobs/list'];
@@ -28,21 +28,23 @@ var JobsListView = Backbone.View.extend({
   },
   render_items: function(jobs) {
     $('.loading', this.element).hide();
-    if(jobs.length == 0) {
-      $('.empty', this.element).show();
-    } else {
-      $('.empty', this.element).hide();
-      _.each(jobs.models, function(job) { this.render_item(job) }.bind(this));
-    }
+    this.update_empty();
+    _.each(jobs.models, function(job) { this.render_item(job) }.bind(this));
     // Util.update_times(this.element);
   },
   render_item: function(job) {
     $('ul', this.element).prepend($(this.item_template(job.toJSON())));
   },
   job_added: function(job) {
+    this.update_empty();
     this.render_item(job);
   },
   job_removed: function(job) {
+    this.update_empty();
     $('#job_' + job.get('meta_id'), this.element).remove();
+  },
+  update_empty: function() {
+    var element = $('.empty', this.element);
+    this.jobs.length == 0 ? element.show() : element.hide();
   }
 });
