@@ -15,6 +15,8 @@ module Travis
 
     class << self
       def init
+        require 'resque/heartbeat'
+
         include Travis::Builder::Stdout
         include Travis::Builder::Rails
         include Travis::Builder::Pusher
