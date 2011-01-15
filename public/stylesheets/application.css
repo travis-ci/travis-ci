@@ -154,6 +154,10 @@ dd {
   overflow: hidden;
 }
 
+.empty, .loading {
+  display: none;
+}
+
 .clearfix:after {
   clear: both;
   content: ".";
