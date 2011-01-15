@@ -67,7 +67,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
-    minimal (0.0.22)
+    minimal (0.0.24)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
     mocha (0.9.10)
