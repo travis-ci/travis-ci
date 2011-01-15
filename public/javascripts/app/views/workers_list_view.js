@@ -1,6 +1,6 @@
 var WorkersListView = Backbone.View.extend({
   initialize: function(args) {
-    _.bindAll(this, 'bind', 'unbind', 'render', 'render_items', 'render_item', 'worker_added', 'worker_started');
+    _.bindAll(this, 'bind', 'unbind', 'render', 'render_items', 'render_item', 'worker_added', 'worker_removed', 'update_empty');
 
     this.workers = args.workers;
     this.list_template = args.templates['workers/list'];
@@ -27,12 +27,8 @@ var WorkersListView = Backbone.View.extend({
   },
   render_items: function(workers) {
     $('.loading', this.element).hide();
-    if(workers.length == 0) {
-      $('.empty', this.element).show();
-    } else {
-      $('.empty', this.element).hide();
-      _.each(workers.models, function(worker) { this.render_item(worker) }.bind(this));
-    }
+    this.update_empty();
+    _.each(workers.models, function(worker) { this.render_item(worker) }.bind(this));
     // Util.update_times(this.element);
   },
   render_item: function(worker) {
@@ -43,6 +39,10 @@ var WorkersListView = Backbone.View.extend({
   },
   worker_removed: function(worker) {
     $('#worker_' + worker.get('meta_id'), this.element).remove();
+  },
+  update_empty: function() {
+    var element = $('.empty', this.element);
+    this.workers.length == 0 ? element.show() : element.hide();
   }
 });
 
