@@ -20,9 +20,14 @@ module Resque
     alias startup_without_heartbeat startup
     alias startup startup_with_heartbeat
 
+    # apparently the Redis connection is not thread-safe, so we connect another instance
+    def heartbeat_redis
+      @heartbeat_redis ||= Redis.new("#{redis.port}:#{redis.port}")
+    end
+
     def heartbeat!
-      redis.sadd(:workers, self)
-      redis.set("worker:#{self}:heartbeat", Time.now.to_s)
+      heartbeat_redis.sadd(:workers, self)
+      heartbeat_redis.set("worker:#{self}:heartbeat", Time.now.to_s)
     end
 
     def last_heartbeat_before?(seconds)
