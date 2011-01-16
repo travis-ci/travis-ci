@@ -12,6 +12,22 @@ class ApplicationController < ActionController::Base
     end
     helper_method :repositories
 
+    def workers
+      @workers ||= Resque.workers.map { |worker| { :id => worker.to_s } }.compact
+    end
+    helper_method :workers
+
+    def jobs
+      @jobs ||= Resque.peek(:builds, 0, 50).map do |job|
+        build = job['args'].last
+        meta  = Travis::Builder.get_meta(job['args'].first)
+        data  = build.slice('id', 'number', 'commit')
+        data.update('repository' => build['repository'].slice('id', 'name', 'url'))
+        data.update(meta.data.slice('meta_id', 'enqueued_at'))
+      end
+    end
+    helper_method :jobs
+
     def authenticate
       authenticate_or_request_with_http_basic do |name, password|
         accounts[name] == password

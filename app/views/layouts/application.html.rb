@@ -50,7 +50,11 @@ class Layouts::Application < Minimal::Template
 
     def js_init_data
       javascript_tag <<-js
-        var INIT_DATA = { repositories: #{Repository.timeline.as_json.to_json} };
+        var INIT_DATA = {
+          repositories: #{Repository.timeline.as_json.to_json},
+          workers: #{workers.to_json},
+          jobs: #{jobs.to_json}
+        };
       js
     end
 
