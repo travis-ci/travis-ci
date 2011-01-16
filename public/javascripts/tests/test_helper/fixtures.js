@@ -15,7 +15,7 @@ var build_finished_data = function(repository, data) {
 }
 
 var build_queued_data = function(repository, data) {
-  {
+  return _.extend({
     'number': 1,
     'enqueued_at': '2011-01-12T15: 32: 54.706695Z',
     'commit': '565294c',
@@ -26,8 +26,7 @@ var build_queued_data = function(repository, data) {
     },
     'meta_id': '4085042bf6ef34d92420036ce2793b7361cd0bd4',
     'id': 143915106
-  }
-  return _.extend({}, data || {});
+  }, data || {});
 }
 
 var new_repository_data = function() {
