@@ -2,7 +2,7 @@ describe('Events:', function() {
   var it_prepends_to_the_jobs_list_view = function(delay) {
     it('prepends to the jobs list view', function() {
       runs_after(delay, function() {
-        expect_text('#queue', '#' + this.data.number)
+        expect_text('#jobs li:first-child', this.data.repository.name + ' #' + this.data.number)
       });
     });
   };
@@ -19,7 +19,7 @@ describe('Events:', function() {
       describe('build:queued', function() {
         beforeEach(function() {
           runs_after(this.delay, function() {
-            this.data = build_queued_data(this.repository);
+            this.data = build_queued_data(this.repository, { number: 2 });
             Travis.app.trigger('build:queued', this.data);
           });
         });

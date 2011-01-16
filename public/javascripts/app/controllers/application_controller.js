@@ -2,7 +2,7 @@ var ApplicationController = Backbone.Controller.extend({
   templates: {},
   routes: {
     '':                                        'repositories_index',
-    '!/:username':                             'repository_index',
+    '!/:username':                             'repositories_index',
     '!/:username/:repository_name':            'repository_show',
     '!/:username/:repository_name/builds':     'repository_history',
     '!/:username/:repository_name/builds/:id': 'build_show',
@@ -29,6 +29,15 @@ var ApplicationController = Backbone.Controller.extend({
     this.bind('build:queued',   this.jobs.add);
     this.bind('build:started',  this.jobs.remove);
   },
+  // bind: function() {
+  // },
+  unbind: function() {
+    this.repositories_list_view.unbind(this);
+    this.repository_view.unbind(this);
+    this.build_view.unbind(this);
+    this.workers_list_view.unbind();
+    this.jobs_list_view.unbind();
+  },
   repositories_index: function(username) {
     var repository = this.repositories.last(); // TODO ... by username
     this.render(repository, function() { this.repository_view.render(repository); });
@@ -52,11 +61,8 @@ var ApplicationController = Backbone.Controller.extend({
     }.bind(this));
   },
   render: function() {
-    this.repositories_list_view.unbind(this);
-    this.repository_view.unbind(this);
-    this.build_view.unbind(this);
-    this.workers_list_view.unbind();
-    this.jobs_list_view.unbind();
+    this.unbind();
+    this.bind();
 
     this.workers_list_view.render();
     this.jobs_list_view.render();

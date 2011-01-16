@@ -13,7 +13,7 @@ var RepositoriesListView = Backbone.View.extend({
     this.repositories.bind('add', this.repository_added);
   },
   bind: function(builds) {
-    builds.bind('add', this.build_added, 'foo');
+    builds.bind('add', this.build_added);
     builds.last().bind('change', this.build_changed);
   },
   render: function() {

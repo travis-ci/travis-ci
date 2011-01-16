@@ -23,7 +23,8 @@ var WorkersListView = Backbone.View.extend({
     $('#right').append($(this.list_template({ workers: [] })));
     this.element = $('#right #workers');
     $('.loading', this.element).show();
-    this.workers.load(this.render_items);
+    this.render_items(this.workers);
+    /* this.workers.load(this.render_items); */
   },
   render_items: function(workers) {
     $('.loading', this.element).hide();

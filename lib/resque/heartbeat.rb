@@ -3,7 +3,7 @@ require 'resque'
 module Resque
   def self.prune_dead_workers
     Worker.all.each do |worker|
-      worker.unregister_worker if worker.last_heartbeat_before?(5)
+      worker.unregister_worker if worker.last_heartbeat_before?(3)
     end
   end
 
@@ -12,7 +12,7 @@ module Resque
       startup_without_heartbeat
       Thread.new do
         loop do
-          sleep(2)
+          sleep(3)
           heartbeat!
         end
       end
@@ -21,6 +21,7 @@ module Resque
     alias startup startup_with_heartbeat
 
     # apparently the Redis connection is not thread-safe, so we connect another instance
+    # see https://github.com/ezmobius/redis-rb/issues#issue/75
     def heartbeat_redis
       @heartbeat_redis ||= Redis.new("#{redis.port}:#{redis.port}")
     end
