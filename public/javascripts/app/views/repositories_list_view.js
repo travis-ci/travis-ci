@@ -2,49 +2,36 @@ var RepositoriesListView = Backbone.View.extend({
   tagName: 'ul',
   id: 'repositories',
   initialize: function (args) {
-    _.bindAll(this, 'bind', 'render', 'render_item', 'repository_added', 'build_added', 'build_changed', 'build_log', 'update_item');
+    _.bindAll(this, 'bind', 'unbind', 'on_refresh', 'on_add', 'on_update', 'render_repository');
 
     this.app = args.app;
-    this.repositories = args.repositories;
-    this.list_template = args.templates['repositories/list'];
-    this.item_template = args.templates['repositories/_item'];
-    this.element = $('#left');
+    this.repositories = args.app.repositories;
+    this.template = args.app.templates['repositories/_item'];
+    this.element = $('#left #repositories');
 
-    this.repositories.bind('add', this.repository_added);
+    this.repositories.bind('refresh', this.on_refresh);
+    this.repositories.bind('add', this.on_add);
+    this.repositories.bind('build:add', this.on_update);
+    this.repositories.bind('build:change', this.on_update);
   },
-  bind: function(builds) {
-    builds.bind('add', this.build_added);
-    builds.last().bind('change', this.build_changed);
-  },
-  render: function() {
+  on_refresh: function() {
     this.element.empty();
-    var view = this;
-    this.element.html(this.list_template(this.repositories.toJSON().reverse()))
-    _.each(this.repositories.models, function(repository) { this.bind(repository.builds) }.bind(this));
+    _.each(this.repositories.models, this.render_repository);
+    this.element.update_times();
   },
-  render_item: function(repository) {
+  on_add: function(item) {
+    var repository = _.isFunction(item.repository) ? item.repository() : item;
+    var element = this.render_repository(repository);
+    element.update_times();
+    // var method = repository.is_building() ? Util.flash : Util.unflash;
+    // method.apply(this, [$('#repository_' + repository.get('id')), this.element]);
+  },
+  on_update: function(item) {
+    var repository = _.isFunction(item.repository) ? item.repository() : item;
     $('#repository_' + repository.id, this.element).remove();
-    $('#repositories', this.element).prepend($(this.item_template(repository.toJSON())));
+    this.on_add(item);
   },
-  repository_added: function (repository) {
-    this.bind(repository.builds);
-    this.render_item(repository);
-    this.update_item(repository);
-  },
-  build_added: function(build) {
-    var repository = build.repository();
-    this.bind(repository.builds);
-    this.render_item(repository);
-    this.update_item(repository);
-  },
-  build_changed: function(build) {
-    var repository = build.repository();
-    this.render_item(repository);
-    this.update_item(repository);
-  },
-  update_item: function(repository) {
-    var method = repository.is_building() ? Util.flash : Util.unflash;
-    method.apply(this, [$('#repository_' + repository.get('id')), this.element]);
-    Util.update_times();
-  },
+  render_repository: function(repository) {
+    return this.element.prepend($(this.template(repository.toJSON())));
+  }
 });

@@ -1,6 +1,11 @@
 var Repository = Backbone.Model.extend({
   initialize: function(attributes) {
+    _.bindAll(this, 'build_added', 'build_changed');
+
     this.builds = new Builds([new Build(attributes.last_build)], { repository: this });
+    this.builds.bind('add', this.build_added);
+    this.builds.bind('change', this.build_changed);
+
     delete this.attributes.last_build;
   },
   set: function(attributes) {
@@ -20,14 +25,29 @@ var Repository = Backbone.Model.extend({
     var data = Backbone.Model.prototype.toJSON.apply(this)
     if(options == undefined) options = { include_build: true }
     return options.include_build ? _.extend(data, { build: this.builds.last().toJSON() }) : data;
+  },
+  build_added: function(build) {
+    this.trigger('build:add', build);
+    this.collection.trigger('build:add', build);
+  },
+  build_changed: function(build) {
+    this.trigger('build:change', build);
+    this.collection.trigger('build:change', build);
   }
 });
 
 var Repositories = Backbone.Collection.extend({
-  url: '/repositories',
   model: Repository,
   initialize: function(models) {
     _.bindAll(this, 'find', 'last', 'update');
+  },
+  url: function() {
+    var url = '/repositories';
+    return '/repositories' + Util.query_string(this.params);
+  },
+  fetch: function(params) {
+    this.params = { username: params.username };
+    Backbone.Collection.prototype.fetch.apply(this, arguments);
   },
   find_by_name: function(name) {
     return this.detect(function(item) { return item.get('name') == name }, this); // TODO use an index?

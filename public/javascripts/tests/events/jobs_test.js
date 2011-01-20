@@ -1,15 +1,17 @@
 describe('Events:', function() {
-  var it_prepends_to_the_jobs_list_view = function(delay) {
+  var it_prepends_to_the_jobs_list_view = function() {
     it('prepends to the jobs list view', function() {
-      runs_after(delay, function() {
-        expect_text('#jobs li:first-child', this.data.repository.name + ' #' + this.data.number)
-      });
+      expect_text('#jobs li:first-child', this.data.repository.name + ' #' + this.data.number)
+    });
+  };
+
+  var it_removes_the_job_from_the_jobs_list_view = function() {
+    it('removes the job from the jobs list view', function() {
+      expect($('#jobs li.empty').attr('style').match('display: none')).toBeFalsy();
     });
   };
 
   describe('the job queue', function() {
-    this.delay = 0;
-
     beforeEach(function() {
       this.repository = INIT_DATA.repositories[1];
       go_to('#!/' + this.repository.name)
@@ -18,28 +20,22 @@ describe('Events:', function() {
     describe('an incoming event for the current build', function() {
       describe('build:queued', function() {
         beforeEach(function() {
-          runs_after(this.delay, function() {
-            this.data = build_queued_data(this.repository, { number: 2 });
-            Travis.app.trigger('build:queued', this.data);
-          });
+          this.data = build_queued_data(this.repository, { number: 2 });
+          Travis.app.trigger('build:queued', this.data);
+          waitsFor(jobs_list_populated(1));
         });
 
         it_prepends_to_the_jobs_list_view();
       });
 
-      // describe('build:finished', function() {
-      //   beforeEach(function() {
-      //     runs_after(this.delay, function() {
-      //       this.data = _.extend(build_finished_data(this.repository), { finished_at: '2010-11-11T12:01:30Z' });
-      //       Travis.app.trigger('build:finished', this.data);
-      //     });
-      //   });
+      describe('build:started', function() {
+        beforeEach(function() {
+          this.data = build_started_data(this.repository);
+          Travis.app.trigger('build:started', this.data);
+        });
 
-      //   it_updates_the_repository_list_items_build_information();
-      //   it_sets_the_repository_list_items_build_status_color();
-      //   it_stops_the_repository_list_item_flashing();
-      //   it_updates_the_build_summary();
-      // });
+        it_removes_the_job_from_the_jobs_list_view();
+      });
     });
   });
 });

@@ -10,12 +10,14 @@ class Layouts::Application < Minimal::Template
           end
         end
 
-        div '', :id => :left
+        div :id => :left do
+          ul '', :id => :repositories
+        end
         div '', :id => :right
         div '', :id => :main, :class => :clearfix
 
-        js_init_data
         js_templates
+        js_init_data if Rails.env.jasmine?
       end
     end
   end

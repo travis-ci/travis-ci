@@ -3,14 +3,17 @@ var BuildsListView = Backbone.View.extend({
     _.bindAll(this, 'bind', 'unbind', 'render', 'build_added', 'build_changed');
 
     this.app = args.app;
-    this.template = args.templates['builds/list'];
-    this.item_template = args.templates['builds/_item']
+
+    this.template = args.app.templates['builds/list'];
+    this.item_template = args.app.templates['builds/_item']
   },
-  bind: function() {
-    if(this.repository) {
-      this.repository.builds.bind('add', this.build_added);
-      this.repository.builds.bind('change', this.build_changed);
-    }
+  element: function() {
+    return $('#tab_history div');
+  },
+  bind: function(repository) {
+    this.repository = repository;
+    this.repository.builds.bind('add', this.build_added);
+    this.repository.builds.bind('change', this.build_changed);
   },
   unbind: function() {
     if(this.repository) {
@@ -18,22 +21,19 @@ var BuildsListView = Backbone.View.extend({
       this.repository.builds.unbind('change', this.build_changed);
     }
   },
-  render: function(repository, element) {
-    this.repository = repository;
-    this.element = element;
-    this.bind();
-
+  render: function(repository) {
     repository.builds.load(function() {
-      this.bind();
+      this.bind(repository);
+      var element = this.element();
       element.html($(this.template({ repository: repository.toJSON(), builds: repository.builds.toJSON().reverse() })));
       Util.update_times(element);
     }.bind(this));
   },
   build_added: function(build) {
-    // hmm, repository_view already re-renders the tab on build_added
+    $('tr:first-child', this.element()).after($(this.item_template(build.toJSON())));
   },
   build_changed: function(build) {
-    $('tr#builds_' + build.id, this.element).html($(this.item_template(build.toJSON())));
+    $('tr#builds_' + build.id, this.element()).html($(this.item_template(build.toJSON())));
   }
 });
 

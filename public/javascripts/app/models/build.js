@@ -1,18 +1,19 @@
 var Build = Backbone.Model.extend({
-  initialize: function(attributes) {
+  initialize: function() {
     _.bindAll(this, 'repository', 'is_building', 'color', 'duration', 'eta', 'toJSON');
+    this.bind('change', function(build) { this.collection.trigger('change', this); });
   },
   repository: function() {
     return this.collection.repository;
   },
-  set: function(attributes) {
+  set: function(attributes, options) {
     if(attributes.append_log) {
       var chars = attributes.append_log;
       this.attributes.log = this.attributes.log + chars;
       this.trigger('log', this, chars);
       delete attributes.append_log;
     }
-    Backbone.Model.prototype.set.apply(this, [attributes]);
+    return Backbone.Model.prototype.set.apply(this, [attributes, options]);
   },
   is_building: function() {
     return !this.get('finished_at');
@@ -76,7 +77,7 @@ var Builds = Backbone.Collection.extend({
     } else {
       var build = new Build({ id: id });
       this.add(build);
-      build.fetch({ success: callback });
+      build.fetch({ silent: true, success: callback });
     }
   },
   comparator: function(build) {

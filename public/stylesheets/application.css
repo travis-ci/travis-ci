@@ -106,6 +106,7 @@ th, td {
 dl {
   color: #666;
   font-size: 80%;
+  margin-bottom: 30px;
 }
 dt {
   clear: left;
@@ -117,12 +118,49 @@ dd {
   width: 200px;
   margin: 0px;
 }
-.tabs { position: relative; width: 100%; top: 10px; }
-.tabs > li { display: inline-block; background-color: #f6f6f6; border: 1px solid #ccc; border-top-left-radius: 4px 4px; border-top-right-radius: 4px 4px; }
-.tabs > li.active { background-color: white; border-bottom-color: white; }
-.tabs > li > h5 { cursor: pointer; margin: 0; padding: 5px 10px; }
-.tabs > li > div { display: none; position: absolute; z-index: -1; background: white; left: 0; top: 30px; bottom: 0; right: 0; padding: 20px; border-top: 1px solid #ccc; }
-.tabs > li.active > div { display: block; }
+
+.tabs {
+  position: relative;
+  width: 100%;
+  top: 10px;
+}
+.tabs > li {
+  display: inline-block;
+  margin-right: 4px;
+}
+.tabs > li > h5 {
+  position: relative;
+  cursor: pointer;
+  margin: 0;
+  padding: 5px 10px;
+  background-color: #f6f6f6;
+  border: 1px solid #ccc;
+  border-top-left-radius: 4px 4px;
+  border-top-right-radius: 4px 4px;
+}
+.tabs > li.active > h5 {
+  background-color: white;
+  border-bottom-color: white;
+  z-index: 2;
+}
+.tabs > li > div {
+  display: none;
+  position: absolute;
+  z-index: -1;
+  background: white;
+  left: 0;
+  top: 30px;
+  bottom: 0;
+  right: 0;
+  padding: 20px;
+  border-top: 1px solid #ccc;
+}
+.tabs > li.active > div {
+  display: block; z-index: 1;
+}
+.tabs > li > h5 > a {
+  text-decoration: none !important;
+}
 
 .eta, .eta_label {
   display: none;
@@ -131,7 +169,11 @@ dd {
   white-space: pre-wrap;
   line-height: 140%;
   font-size: 90%;
-  padding-bottom: 40px;
+  margin: 0 -15px;
+  padding: 15px;
+  color: white;
+  background-color: #333;
+  border-radius: 4px 4px;
 }
 .log .yellow {
   color: yellow;
@@ -156,6 +198,8 @@ dd {
 
 .empty, .loading {
   display: none;
+  font-size: 90%;
+  color: #666;
 }
 
 .clearfix:after {

@@ -2,9 +2,9 @@ var JobsListView = Backbone.View.extend({
   initialize: function(args) {
     _.bindAll(this, 'bind', 'unbind', 'render', 'render_items', 'render_item', 'job_added', 'job_removed', 'update_empty');
 
-    this.jobs = args.jobs;
-    this.list_template = args.templates['jobs/list'];
-    this.item_template = args.templates['jobs/_item'];
+    this.jobs = args.app.jobs;
+    this.list_template = args.app.templates['jobs/list'];
+    this.item_template = args.app.templates['jobs/_item'];
     // this.element = $('#right');
   },
   bind: function() {
@@ -37,7 +37,6 @@ var JobsListView = Backbone.View.extend({
     $('ul', this.element).prepend($(this.item_template(job.toJSON())));
   },
   job_added: function(job) {
-    console.log(job)
     this.update_empty();
     this.render_item(job);
   },

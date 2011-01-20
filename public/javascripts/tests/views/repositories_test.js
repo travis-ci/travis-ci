@@ -1,4 +1,9 @@
-describe('The repositories list', function() {
+describe('Views: the repositories list', function() {
+  beforeEach(function() {
+    go_to('#!/' + INIT_DATA.repositories[1].name);
+    waitsFor(repositories_list_populated(2));
+  });
+
   it("displays repositories ordered by their last build's started_at time", function() {
     var repositories = $('#repositories .repository');
     expect(repositories.size()).toEqual(2);
@@ -8,15 +13,11 @@ describe('The repositories list', function() {
 
   it('clicking the repository name opens the repository details pane on the main', function() {
     follow('josevalim/enginex');
-    runs_after(200, function() {
-      expect_element('#main .repository');
-    });
+    expect_element('#main .repository');
   });
 
   it('clicking the build number opens the build details pane on the main', function() {
     follow('#1');
-    runs_after(200, function() {
-      expect_element('#main .build');
-    });
+    expect_element('#main .build');
   });
 });

@@ -2,7 +2,7 @@
   <dt>Build</dt>
   <dd class="number"><a href="/#!/repositories/{{repository/id}}/builds/{{id}}">{{number}}</a></dd>
   <dt>Commit</dt>
-  <dd class="commit-hash">{{commit}}</dd>
+  <dd class="commit-hash"><a href="{{repository/url}}/commit/{{commit}}">{{commit}}</a></dd>
   <dt>Message</dt>
   <dd class="commit-message">{{message}}</dd>
   <dt>Duration</dt>
