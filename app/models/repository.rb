@@ -13,7 +13,7 @@ class Repository < ActiveRecord::Base
     end
   end
 
-  before_create :init_name
+  before_create :init_names
 
   def as_json(options = {})
     repository_keys = [:id, :name, :url, :last_duration]
@@ -23,7 +23,8 @@ class Repository < ActiveRecord::Base
 
   protected
 
-    def init_name
+    def init_names
       self.name ||= URI.parse(url).path.split('/')[-2, 2].join('/')
+      self.username = name.split('/').first
     end
 end

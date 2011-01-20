@@ -10,6 +10,10 @@ var Travis = {
   }
 };
 
+if(!INIT_DATA) {
+  var INIT_DATA = {};
+}
+
 $(document).ready(function() {
   if(!window.__TESTING__) {
     Travis.start();
@@ -17,7 +21,7 @@ $(document).ready(function() {
   }
 
   var channels = ['repositories', 'jobs'];
-  _.map(INIT_DATA.repositories, function(repository) { channels.push('repository_' + repository.id); });
+  _.map(INIT_DATA.repositories || [], function(repository) { channels.push('repository_' + repository.id); });
   _.each(channels, function(channel) { pusher.subscribe(channel).bind_all(Travis.trigger); })
 
 

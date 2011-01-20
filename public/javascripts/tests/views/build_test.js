@@ -1,19 +1,18 @@
-describe('The build details view', function() {
+describe('Views: the build tab', function() {
   beforeEach(function() {
-    go_to('#!/' + INIT_DATA.repositories[1].name + '/builds/' + INIT_DATA.repositories[1].last_build.id);
+    this.repository = INIT_DATA.repositories[1];
+    go_to('#!/josevalim/enginex/builds/' + this.repository.last_build.id);
+    waitsFor(build_tab_active(this.repository.name, 'build'));
   });
 
   it('shows build details', function() {
-    runs_after(300, function() {
-      expect_texts('#main .build', {
-        'h3': 'josevalim/enginex',
-        'h4': 'Build #1',
-        '.commit-hash': '565294c',
-        '.commit-message': 'Update Capybara',
-        '.duration': '20 seconds',
-        '.log': 'enginex build 1 log ...'
-      });
+    expect_text('#main h3', this.repository.name);
+    expect_texts('#tab_build.active', {
+      'h5': 'Build #1',
+      '.commit-hash': '565294c',
+      '.commit-message': 'Update Capybara',
+      '.duration': '20 seconds',
+      '.log': 'enginex build 1 log ...'
     });
   });
 });
-

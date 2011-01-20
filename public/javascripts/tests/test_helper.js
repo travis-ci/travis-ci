@@ -21,6 +21,11 @@ var runs_after = function(time, func) {
   jasmine.getEnv().currentSpec.runs(func);
 };
 
+var runs_when = function(condition, func) {
+  waitsFor(condition);
+  jasmine.getEnv().currentSpec.runs(func);
+}
+
 var follow = function(text) {
   var link = $('a:contains("' + text + '")');
   go_to(link.attr('href'));

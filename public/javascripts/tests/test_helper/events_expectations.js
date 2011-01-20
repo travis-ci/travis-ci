@@ -1,6 +1,6 @@
-var it_adds_the_repository_to_the_repositories_collection = function(delay) {
+var it_adds_the_repository_to_the_repositories_collection = function() {
   it('adds the repository to the repositories collection', function() {
-    runs_after(delay, function() {
+    runs(function() {
       expect(Travis.app.repositories.last().get('name')).toEqual('svenfuchs/gem-release');
     });
   });
@@ -8,27 +8,27 @@ var it_adds_the_repository_to_the_repositories_collection = function(delay) {
 
 var it_prepends_the_repository_to_the_repositories_list = function(delay) {
   it('prepends the repository to the repositories list', function() {
-    runs_after(delay, function() {
+    runs_when(repositories_list_populated, function() {
       expect_text('#repositories .repository:nth-of-type(1) a:nth-of-type(1)', this.data.repository.name)
-    });
-  });
-};
-
-var it_adds_the_build_to_the_repositorys_builds_collection = function(delay) {
-  it("it adds the build to the repository's builds collection", function() {
-    runs_after(delay, function() {
-     expect(Travis.app.repositories.last().builds.models.length).toEqual(2);
     });
   });
 };
 
 var it_updates_the_repository_list_items_build_information = function(delay) {
   it('updates the build number of the repository list item', function() {
-    runs_after(delay, function() {
+    runs_when(function() { return true; }, function() {
       expect_text('#repositories #repository_' + this.data.repository.id + ' .build', '#' + this.data.repository.last_build.number);
     });
   });
 }
+
+var it_adds_the_build_to_the_repositorys_builds_collection = function(delay) {
+  it("it adds the build to the repository's builds collection", function() {
+    runs(function() {
+      expect(Travis.app.repositories.last().builds.models.length).toEqual(2);
+    });
+  });
+};
 
 var it_sets_the_repository_list_items_build_status_color = function(delay) {
   it('updates the build status color of the repository list item', function() {

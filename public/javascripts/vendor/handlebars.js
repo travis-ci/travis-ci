@@ -390,7 +390,7 @@ case 18: return 5;
 break;
 }
 };
-lexer.rules = [/^(.|\s)*?(?=(\{\{))/,/^(.|\s)+/,/^\{\{>/,/^\{\{#/,/^\{\{\//,/^\{\{\^/,/^\{\{\s*else\b/,/^\{\{\{/,/^\{\{&/,/^\{\{!.*?\}\}/,/^\{\{/,/^\//,/^\s+/,/^\}\}\}/,/^\}\}/,/^"(\\["]|[^"])*"/,/^[a-zA-Z0-9_.]+(?=[} /])/,/^./,/^$/];
+lexer.rules = [/^[^]*?(?=(\{\{))/,/^[^]+/,/^\{\{>/,/^\{\{#/,/^\{\{\//,/^\{\{\^/,/^\{\{\s*else\b/,/^\{\{\{/,/^\{\{&/,/^\{\{!.*?\}\}/,/^\{\{/,/^\//,/^\s+/,/^\}\}\}/,/^\}\}/,/^"(\\["]|[^"])*"/,/^[a-zA-Z0-9_.]+(?=[} /])/,/^./,/^$/];
 lexer.conditions = {"mu":{"rules":[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],"inclusive":false},"INITIAL":{"rules":[0,1,18],"inclusive":true}};return lexer;})()
 parser.lexer = lexer;
 return parser;
@@ -1276,7 +1276,7 @@ Handlebars.VM = {
       return fn(context, helpers, partials);
     };
   },
-  noop: function() {},
+  noop: function() { return ""; },
   compile: function(string) {
     var ast = Handlebars.parse(string);
     var environment = new Handlebars.Compiler().compile(ast);

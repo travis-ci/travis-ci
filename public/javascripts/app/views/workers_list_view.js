@@ -2,9 +2,9 @@ var WorkersListView = Backbone.View.extend({
   initialize: function(args) {
     _.bindAll(this, 'bind', 'unbind', 'render', 'render_items', 'render_item', 'worker_added', 'worker_removed', 'update_empty');
 
-    this.workers = args.workers;
-    this.list_template = args.templates['workers/list'];
-    this.item_template = args.templates['workers/_item'];
+    this.workers = args.app.workers;
+    this.list_template = args.app.templates['workers/list'];
+    this.item_template = args.app.templates['workers/_item'];
   },
   bind: function() {
     Backbone.Events.bind.apply(this, arguments);
@@ -13,9 +13,8 @@ var WorkersListView = Backbone.View.extend({
   },
   unbind: function() {
     Backbone.Events.unbind.apply(this, arguments);
-    if(this.build) {
-      this.workers.bind('add', this.worker_added);
-    }
+    this.workers.unbind('add', this.worker_added);
+    this.workers.unbind('remove', this.worker_removed);
   },
   render: function() {
     this.bind();

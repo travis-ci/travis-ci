@@ -1,6 +1,12 @@
 $.fn.deansi = function() {
   this.html(Util.deansi(this.html()));
 }
+$.fn.update_times = function() {
+  Util.update_times(this);
+}
+$.fn.activate_tab = function(tab) {
+  Util.activate_tab(this, tab);
+}
 
 Util = {
   activate_tab: function(element, tab) {
@@ -61,6 +67,11 @@ Util = {
       templates[name] = Handlebars.compile(source);
     });
     return templates;
+  },
+  query_string: function(params) {
+    if(!params) return '';
+    var query = _.compact(_.map(params, function(value, key) { return value ? key + '=' + value : null }));
+    return query.length > 0 ? '?' + query.join('&') : '';
   }
 }
 

@@ -1,8 +1,9 @@
 describe('Events:', function() {
-  describe('on the repository view', function() {
+  describe('on the repository view (current build tab)', function() {
     beforeEach(function() {
       this.repository = INIT_DATA.repositories[1];
       go_to('#!/' + this.repository.name)
+      waitsFor(repositories_list_populated(2));
     });
 
     describe('an incoming event for a new repository', function() {
@@ -30,12 +31,12 @@ describe('Events:', function() {
       describe('build:started', function() {
         beforeEach(function() {
           this.data = build_started_data(this.repository);
-          Travis.app.trigger('build:started', this.data);
+          Travis.app.trigger('build:started', this.data)
         });
 
         it_adds_the_build_to_the_repositorys_builds_collection();
         it_updates_the_repository_list_items_build_information();
-        it_makes_the_repository_list_item_flash();
+        /* it_makes_the_repository_list_item_flash(); */
         it_updates_the_build_summary();
       });
 
@@ -56,7 +57,7 @@ describe('Events:', function() {
 
         it_updates_the_repository_list_items_build_information();
         it_sets_the_repository_list_items_build_status_color();
-        it_stops_the_repository_list_item_flashing();
+        /* it_stops_the_repository_list_item_flashing(); */
         it_updates_the_build_summary();
       });
     });
@@ -69,7 +70,7 @@ describe('Events:', function() {
         });
 
         it_updates_the_repository_list_items_build_information();
-        it_makes_the_repository_list_item_flash();
+        /* it_makes_the_repository_list_item_flash(); */
         it_does_not_update_the_build_summary();
       });
 
@@ -90,7 +91,7 @@ describe('Events:', function() {
 
         it_updates_the_repository_list_items_build_information();
         it_sets_the_repository_list_items_build_status_color();
-        it_stops_the_repository_list_item_flashing();
+        /* it_stops_the_repository_list_item_flashing(); */
         it_does_not_update_the_build_summary();
       });
     });

@@ -24,7 +24,7 @@ describe('Models:', function() {
         runs(function() {
           this.builds.load();
         });
-        runs_after(300, function() {
+        runs_after(400, function() {
           expect(this.builds.models.length).toEqual(3);
           var attributes = _.pluck(this.builds.models, 'attributes');
           expect(_.pluck(attributes, 'number')).toEqual([1, 2, 3]);

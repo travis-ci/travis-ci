@@ -1,8 +1,8 @@
 describe('Models:', function() {
   describe('Repository', function() {
     beforeEach(function() {
-      var repositories = new Repositories(INIT_DATA.repositories);
-      this.repository = repositories.models[1];
+      this.repositories = new Repositories(INIT_DATA.repositories);
+      this.repository = this.repositories.models[1];
     });
 
     it('an initial repository holds the expected attributes', function() {
@@ -67,6 +67,34 @@ describe('Models:', function() {
         var build = this.repository.builds.last();
         expect_not_triggered(this.repository, 'change', function() {
           this.repository.set({ last_build: { id: build.id, finished_at: new Date } })
+        }.bind(this));
+      });
+    });
+
+    describe('builds add event', function() {
+      it('triggers build:add on the collection', function() {
+        expect_triggered(this.repositories, 'build:add', function() {
+          this.repository.builds.add({ number: 2 });
+        }.bind(this));
+      });
+
+      it('triggers build:add on the repository', function() {
+        expect_triggered(this.repository, 'build:add', function() {
+          this.repository.builds.add({ number: 2 });
+        }.bind(this));
+      });
+    });
+
+    describe('build change event', function() {
+      it('triggers build:change on the collection', function() {
+        expect_triggered(this.repositories, 'build:change', function() {
+          this.repository.builds.models[0].change();
+        }.bind(this));
+      });
+
+      it('trigger build:change on the repository', function() {
+        expect_triggered(this.repository, 'build:change', function() {
+          this.repository.builds.models[0].change();
         }.bind(this));
       });
     });

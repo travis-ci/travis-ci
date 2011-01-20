@@ -1,29 +1,15 @@
-describe('The build history tab', function() {
+describe('Views: the build history tab', function() {
   beforeEach(function() {
-    this.delay = 250;
-    go_to('#!/' + INIT_DATA.repositories[1].name + '/builds');
-  });
-
-  it('shows build details', function() {
-    runs_after(this.delay, function() {
-      expect_texts('#main .repository', {
-        'h3': 'josevalim/enginex',
-        '.summary .number': '1',
-        '.summary .commit-hash': '565294c',
-        '.summary .commit-message': 'Update Capybara',
-        '.summary .duration': '20 seconds',
-        '.log': 'enginex build 1 log ...'
-      });
-    });
+    go_to('#!/josevalim/enginex/builds');
+    waitsFor(build_history_contains_rows(2), 1000, 'the build history to contain 2 rows');
+    // waitsFor(build_tab_active('josevalim/enginex', 'history'));
   });
 
   it('shows a builds list', function() {
-    runs_after(this.delay, function() {
-      expect_table('#main #builds', [
-        ['Build', 'Duration',   'Finished'],
-        ['#1',    '20 seconds', '2010-11-11T12:00:20Z' ]
-      ]);
-    });
+    expect_table('#main #builds', [
+      ['Build', 'Commit',  'Message',         'Duration',   'Finished'],
+      ['#1',    '565294c', 'Update Capybara', '20 seconds', '2010-11-11T12:00:20Z' ]
+    ]);
   });
 });
 
