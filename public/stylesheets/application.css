@@ -57,6 +57,7 @@ th, td {
   text-align: left;
   font-size: 80%;
   padding-right: 20px;
+  vertical-align: top;
 }
 
 #left .repository {
@@ -160,6 +161,10 @@ dd {
 }
 .tabs > li > h5 > a {
   text-decoration: none !important;
+}
+
+td.duration, td.finished_at {
+  white-space: nowrap;
 }
 
 .eta, .eta_label {
