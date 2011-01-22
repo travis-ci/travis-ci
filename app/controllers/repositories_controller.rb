@@ -12,7 +12,7 @@ class RepositoriesController < ApplicationController
   protected
 
     def repositories
-      params[:username] ? Repository.where(:username => params[:username]) : Repository.all
+      params[:username] ? Repository.where(:username => params[:username]).timeline : Repository.timeline
     end
 
     def repository

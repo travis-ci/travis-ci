@@ -14,7 +14,7 @@ describe('Events:', function() {
         });
 
         it_adds_the_repository_to_the_repositories_collection();
-        it_prepends_the_repository_to_the_repositories_list();
+        it_moves_the_repository_to_the_top_of_the_repositories_list();
       });
 
       describe('build:finished', function() {
@@ -23,7 +23,7 @@ describe('Events:', function() {
           Travis.app.trigger('build:finished', this.data);
         });
 
-        it_prepends_the_repository_to_the_repositories_list();
+        it_moves_the_repository_to_the_top_of_the_repositories_list();
       });
     });
 
@@ -32,11 +32,13 @@ describe('Events:', function() {
         beforeEach(function() {
           this.data = build_started_data(this.repository);
           Travis.app.trigger('build:started', this.data)
+          this.data.repository.name = this.repository.name;
         });
 
+        it_moves_the_repository_to_the_top_of_the_repositories_list();
+        // it_makes_the_repository_list_item_flash();
         it_adds_the_build_to_the_repositorys_builds_collection();
         it_updates_the_repository_list_items_build_information();
-        /* it_makes_the_repository_list_item_flash(); */
         it_updates_the_build_summary();
       });
 
