@@ -26,7 +26,7 @@ describe('Events:', function() {
 
         it_updates_the_repository_list_items_build_information();
         it_sets_the_repository_list_items_build_status_color();
-        it_stops_the_repository_list_item_flashing();
+        it_does_not_indicate_the_repository_is_being_built();
         it_updates_the_build_summary();
       });
     });
@@ -49,7 +49,7 @@ describe('Events:', function() {
 
         it_updates_the_repository_list_items_build_information();
         it_sets_the_repository_list_items_build_status_color();
-        it_stops_the_repository_list_item_flashing();
+        it_does_not_indicate_the_repository_is_being_built();
         it_does_not_update_the_build_summary();
       });
     });

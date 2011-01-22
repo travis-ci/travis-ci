@@ -35,7 +35,8 @@ body {
   margin: 30px 50px;
 }
 
-a {
+a, a:visited {
+  color: #333;
   text-decoration: none;
 }
 a:hover {
@@ -72,9 +73,10 @@ th, td {
   border-bottom-left-radius: 4px 4px;
 }
 #repositories .active {
-  -moz-box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px 0;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px 0;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px 0;
+  border-color: #fff;
+  -moz-box-shadow: lightblue 0 0 5px 1px;
+  -webkit-box-shadow: lightblue 0 0 5px 1px;
+  box-shadow: lightblue 0 0 5px 1px;
 }
 #repositories .green {
   background-image: url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wAARCAAPAA8DASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAIE/8QAGhAAAQUBAAAAAAAAAAAAAAAAAAECAxNTkv/EABQBAQAAAAAAAAAAAAAAAAAAAAX/xAAWEQEBAQAAAAAAAAAAAAAAAAAAEQH/2gAMAwEAAhEDEQA/AN90uj+lF0uj+lIADQN1/9k%3D);
