@@ -36,7 +36,7 @@ describe('Events:', function() {
         });
 
         it_moves_the_repository_to_the_top_of_the_repositories_list();
-        // it_makes_the_repository_list_item_flash();
+        it_indicates_the_repository_is_being_built();
         it_adds_the_build_to_the_repositorys_builds_collection();
         it_updates_the_repository_list_items_build_information();
         it_updates_the_build_summary();
@@ -59,7 +59,7 @@ describe('Events:', function() {
 
         it_updates_the_repository_list_items_build_information();
         it_sets_the_repository_list_items_build_status_color();
-        /* it_stops_the_repository_list_item_flashing(); */
+        it_does_not_indicate_the_repository_is_being_built();
         it_updates_the_build_summary();
       });
     });
@@ -72,7 +72,7 @@ describe('Events:', function() {
         });
 
         it_updates_the_repository_list_items_build_information();
-        /* it_makes_the_repository_list_item_flash(); */
+        it_indicates_the_repository_is_being_built();
         it_does_not_update_the_build_summary();
       });
 
@@ -93,7 +93,7 @@ describe('Events:', function() {
 
         it_updates_the_repository_list_items_build_information();
         it_sets_the_repository_list_items_build_status_color();
-        /* it_stops_the_repository_list_item_flashing(); */
+        it_does_not_indicate_the_repository_is_being_built();
         it_does_not_update_the_build_summary();
       });
     });

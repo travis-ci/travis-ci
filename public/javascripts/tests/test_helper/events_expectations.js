@@ -48,18 +48,18 @@ var it_resets_the_repository_list_items_build_status_color = function(delay) {
   });
 };
 
-var it_makes_the_repository_list_item_flash = function(delay) {
-  it('makes the repository list item flash', function() {
+var it_indicates_the_repository_is_being_built = function(delay) {
+  it('it indicates the repository is being built', function() {
     runs_after(delay, function() {
-      expect_element('#repositories #repository_' + this.data.repository.id + ':animated');
+      expect_element('#repositories #repository_' + this.data.repository.id + '.active');
     });
   });
 };
 
-var it_stops_the_repository_list_item_flashing = function(delay) {
-  it('stops the repository list item flashing', function() {
+var it_does_not_indicate_the_repository_is_being_built = function(delay) {
+  it('it does not indicate the repository is being built', function() {
     runs_after(delay, function() {
-      expect_no_element('#repositories #repository_' + this.data.repository.id + ':animated');
+      expect_no_element('#repositories #repository_' + this.data.repository.id + '.active');
     });
   });
 };

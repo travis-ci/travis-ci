@@ -1,3 +1,9 @@
+$.fn.flash = function() {
+  Util.flash(this);
+}
+$.fn.unflash = function() {
+  Util.unflash(this);
+}
 $.fn.deansi = function() {
   this.html(Util.deansi(this.html()));
 }

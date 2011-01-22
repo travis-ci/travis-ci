@@ -26,6 +26,8 @@ var ApplicationController = Backbone.Controller.extend({
     this.bind('build:finished', this.repositories.update);
     this.bind('build:queued',   this.jobs.add);
     this.bind('build:started',  this.jobs.remove);
+
+    this.workers.load();
   },
   unbind: function() {
     this.repository_view.unbind();

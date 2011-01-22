@@ -14,7 +14,7 @@ module TravisRails
       Dir[root.join(dir.to_s).join('**/*.js')].map { |file| file.sub("#{root.to_s}/", '') }
     end
 
-    vendor  = %w(jquery-1.4.4.min.js jquery.timeago.js underscore handlebars backbone pusher-1.6.min.js) # socky jquery-ui-1.8.6.min.js 
+    vendor  = %w(jquery-1.4.4.min.js jquery.timeago.js underscore handlebars backbone pusher-1.6.min.js) # socky jquery-ui-1.8.9.highlight.min.js
     jasmine = %w(jasmine jasmine-html)
 
     expansions = javascript_expansions(:lib, :app, :tests)
