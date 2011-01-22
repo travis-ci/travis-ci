@@ -61,7 +61,7 @@ var Repositories = Backbone.Collection.extend({
     delete attributes.last_build.repository;
     var repository = this.get(attributes.id);
     repository ? repository.set(attributes) : this.add(new Repository(attributes));
-    this.sort();
+    this.sort(); // triggers refresh event
   },
   comparator: function(repository) {
     return repository.builds.last().get('started_at');

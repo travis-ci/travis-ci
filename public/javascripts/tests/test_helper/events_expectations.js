@@ -6,7 +6,7 @@ var it_adds_the_repository_to_the_repositories_collection = function() {
   });
 };
 
-var it_prepends_the_repository_to_the_repositories_list = function(delay) {
+var it_moves_the_repository_to_the_top_of_the_repositories_list = function(delay) {
   it('prepends the repository to the repositories list', function() {
     runs_when(repositories_list_populated, function() {
       expect_text('#repositories .repository:nth-of-type(1) a:nth-of-type(1)', this.data.repository.name)

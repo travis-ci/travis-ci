@@ -22,7 +22,10 @@ module Travis
       protected
 
         def push(event, data)
-          channel = :"repository_#{repository_id}"
+          # TODO fix channels
+          channel = 'repositories'
+          # channel = :"repository_#{repository_id}"
+
           # stdout.puts "Pusher: notifying channel #{channel} about #{event}: #{data.inspect}"
           pusher(channel).trigger(event, data)
           sleep(0.1) # TODO how to better synchronize websocket messages
