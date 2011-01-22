@@ -8,7 +8,7 @@ describe('Views: the build history tab', function() {
   it('shows a builds list', function() {
     expect_table('#main #builds', [
       ['Build', 'Commit',  'Message',         'Duration',   'Finished'],
-      ['#1',    '565294c', 'Update Capybara', '20 seconds', '2010-11-11T12:00:20Z' ]
+      ['#1',    '565294c', 'Update Capybara', '20 seconds', '2 months ago' ]
     ]);
   });
 });

@@ -115,7 +115,7 @@ var it_does_not_prepend_the_build_to_the_builds_history_table = function(delay) 
 var it_updates_the_builds_history_table_row = function(delay) {
   it('updates the builds history table row', function() {
     runs_after(400, function() {
-      expect_text('#main #builds tr:nth-child(2) td.finished_at', this.data.finished_at)
+      expect_attribute_value('#main #builds tr:nth-child(2) td.finished_at', 'title', this.data.finished_at)
     });
   });
 };
@@ -123,7 +123,7 @@ var it_updates_the_builds_history_table_row = function(delay) {
 var it_does_not_update_the_builds_history_table_row = function(delay) {
   it('does not update the builds history table row', function() {
     runs_after(400, function() {
-      expect_text('#main #builds tr:nth-child(2) td.finished_at', this.repository.last_build.finished_at)
+      expect_attribute_value('#main #builds tr:nth-child(2) td.finished_at', 'title', this.repository.last_build.finished_at)
     });
   });
 };

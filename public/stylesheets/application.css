@@ -200,11 +200,13 @@ td.duration, td.finished_at {
   white-space: nowrap;
   overflow: hidden;
 }
-
-.empty, .loading {
-  display: none;
+#right #workers li,
+#right #jobs li {
   font-size: 90%;
   color: #666;
+}
+#right .empty, .loading {
+  display: none;
 }
 
 .clearfix:after {

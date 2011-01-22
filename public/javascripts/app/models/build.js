@@ -19,7 +19,8 @@ var Build = Backbone.Model.extend({
     return !this.get('finished_at');
   },
   commit: function() {
-    return this.get('commit').slice(0, 7);
+    var commit = this.get('commit');
+    return commit ? commit.slice(0, 7) : '';
   },
   color: function() {
     var status = this.get('status');
