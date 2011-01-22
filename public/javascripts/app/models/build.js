@@ -18,6 +18,9 @@ var Build = Backbone.Model.extend({
   is_building: function() {
     return !this.get('finished_at');
   },
+  commit: function() {
+    return this.get('commit').slice(0, 7);
+  },
   color: function() {
     var status = this.get('status');
     return status == 0 ? 'green' : status == 1 ? 'red' : null;
@@ -41,6 +44,7 @@ var Build = Backbone.Model.extend({
   toJSON: function() {
     return _.extend(Backbone.Model.prototype.toJSON.apply(this), {
       duration: this.duration(),
+      commit: this.commit(),
       eta: this.eta(),
       color: this.color(),
       repository: this.repository().toJSON({ include_build: false })
