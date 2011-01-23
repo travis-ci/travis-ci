@@ -102,11 +102,17 @@ th, td {
   color: #666;
 }
 
-#main.loading {
+#main.loading,
+#tab_history div.loading {
   height: 8px;
   background: url(/images/spinner_long.gif) no-repeat;
 }
-#main.loading * {
+#tab_history div.loading {
+  height: 32px;
+  background-position: 24px 24px;
+}
+#main.loading *,
+#tab_history div.loading * {
   display: none;
 }
 #main h3 {

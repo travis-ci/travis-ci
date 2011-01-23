@@ -53,8 +53,8 @@ var ApplicationController = Backbone.Controller.extend({
   },
   render: function() {
     this.unbind();
-    this.repositories_list_view.render();
     this.repositories.fetch({ username: this.params.username, success: this.render_repository });
+    this.repositories_list_view.render();
     this.workers_list_view.render();
     this.jobs_list_view.render();
   },
