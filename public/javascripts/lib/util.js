@@ -46,7 +46,7 @@ Util = {
 
     $('.timeago', element).timeago();
 
-    $('.finished_at[title=""]', element).prev('.finished_at_label').hide();
+    $('.finished_at[title=""]', element).hide().prev('.finished_at_label').hide();
     $('.finished_at[title=""]', element).next('.eta_label').show().next('.eta').show();
 
     $('.duration', element).each(function() {
