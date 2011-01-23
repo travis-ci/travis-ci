@@ -72,6 +72,9 @@ th, td {
   border-bottom-right-radius: 4px 4px;
   border-bottom-left-radius: 4px 4px;
 }
+#repositories .current {
+  background-color: #fafafa;
+}
 #repositories .active {
   border-color: #fff;
   -moz-box-shadow: lightblue 0 0 5px 1px;

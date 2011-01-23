@@ -60,6 +60,7 @@ var ApplicationController = Backbone.Controller.extend({
   },
   render_repository: function() {
     var repository = this.params.name ? this.repositories.find_by_name(this.params.username + '/' + this.params.name) : this.repositories.last();
+    this.repositories_list_view.set_current(repository);
     this.repository_view.render(repository, this.params.build_id, this.params.tab || 'current');
   },
   start_loading: function() {
