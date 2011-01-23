@@ -99,6 +99,13 @@ th, td {
   color: #666;
 }
 
+#main.loading {
+  height: 8px;
+  background: url(/images/spinner_long.gif) no-repeat;
+}
+#main.loading * {
+  display: none;
+}
 #main h3 {
   margin: 0 0 1em 0;
 }
@@ -207,7 +214,8 @@ td.duration, td.finished_at {
   font-size: 90%;
   color: #666;
 }
-#right .empty, .loading {
+#right .empty,
+#right .loading {
   display: none;
 }
 
