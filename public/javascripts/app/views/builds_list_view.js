@@ -12,8 +12,10 @@ var BuildsListView = Backbone.View.extend({
   },
   bind: function(repository) {
     this.repository = repository;
-    this.repository.builds.bind('add', this.build_added);
-    this.repository.builds.bind('change', this.build_changed);
+    repository.builds.bind('add', this.build_added);
+    repository.builds.bind('change', this.build_changed);
+    repository.builds.bind('builds:load:start', this.start_loading);
+    repository.builds.bind('builds:load:done',  this.stop_loading);
   },
   unbind: function() {
     if(this.repository) {
@@ -22,8 +24,8 @@ var BuildsListView = Backbone.View.extend({
     }
   },
   render: function(repository) {
+    this.bind(repository);
     repository.builds.load(function() {
-      this.bind(repository);
       var element = this.element();
       element.html($(this.template({ repository: repository.toJSON(), builds: repository.builds.toJSON().reverse() })));
       Util.update_times(element);
@@ -34,6 +36,12 @@ var BuildsListView = Backbone.View.extend({
   },
   build_changed: function(build) {
     $('tr#builds_' + build.id, this.element()).html($(this.item_template(build.toJSON())));
+  },
+  start_loading: function() {
+    $('#tab_history div').addClass('loading');
+  },
+  stop_loading: function() {
+    $('#tab_history div').removeClass('loading');
   }
 });
 

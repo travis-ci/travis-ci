@@ -70,8 +70,10 @@ var Builds = Backbone.Collection.extend({
     return this.models[this.models.length - 1];
   },
   load: function(callback) {
+    this.trigger('builds:load:start');
     Backbone.sync('read', this, function(models, status, xhr) {
       _.each(models, function(model) { if(!this.get(model.id)) { this.add(model, { silent: true }); } }.bind(this));
+      this.trigger('builds:load:done');
       if(callback) callback(this);
     }.bind(this));
   },
