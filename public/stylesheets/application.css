@@ -119,14 +119,14 @@ dl {
   margin-bottom: 30px;
 }
 dt {
-  clear: left;
-  float: left;
-  width: 100px;
+  position: absolute;
 }
 dd {
-  float: left;
-  width: 200px;
-  margin: 0px;
+  margin-left: 90px;
+  height: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tabs {
