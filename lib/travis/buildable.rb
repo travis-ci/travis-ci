@@ -38,7 +38,7 @@ module Travis
     protected
 
       def clone
-        execute "git clone #{git_url} ."
+        execute "cd ..; git clone #{git_url}; cd -"
       end
 
       def fetch
