@@ -15,10 +15,12 @@ h2. Features
 - Build success/failure pub/sub workers (currently sending out emails inline w/ sendgrid)
 - Build matrices (run against different ruby versions and/or Gemfiles)
 - Worker capabilities (inspect installed rubies etc, use for subscribing to queues)
+- Lists (group repositories)
 
 h2. Stuff
 
 + ActiveRecord::Base.include_root_in_json = false
+- Load indicator for builds history
 - Notify clients about new workers
 
 h2. Build Matrix
