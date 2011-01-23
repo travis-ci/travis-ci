@@ -36,6 +36,10 @@ var RepositoriesListView = Backbone.View.extend({
   render_repository: function(repository) {
     return this.element.prepend($(this.template(repository.toJSON())));
   },
+  set_current: function(repository) {
+    $('.repository', this.element).removeClass('current');
+    $('#repository_' + repository.id, this.element).addClass('current');
+  },
   update_status: function() {
     this.element.removeClass('active');
     _.each(this.repositories.models, function(repository) {
