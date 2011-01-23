@@ -14,7 +14,7 @@ class Layouts::Application < Minimal::Template
           ul '', :id => :repositories
         end
         div '', :id => :right
-        div '', :id => :main, :class => :clearfix
+        div '', :id => :main # , :class => :clearfix
 
         js_templates
         js_init_data if Rails.env.jasmine?

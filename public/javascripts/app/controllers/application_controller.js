@@ -8,7 +8,7 @@ var ApplicationController = Backbone.Controller.extend({
     '!/:username/:name/builds/:id': 'build_show',
   },
   run: function() {
-    _.bindAll(this, 'repositories_index', 'repository_show', 'repository_history', 'build_show', 'render', 'render_repository');
+    _.bindAll(this, 'repositories_index', 'repository_show', 'repository_history', 'build_show', 'render', 'render_repository', 'start_loading', 'stop_loading');
 
     this.templates    = Util.initialize_templates();
     this.repositories = new Repositories();
@@ -26,6 +26,9 @@ var ApplicationController = Backbone.Controller.extend({
     this.bind('build:finished', this.repositories.update);
     this.bind('build:queued',   this.jobs.add);
     this.bind('build:started',  this.jobs.remove);
+
+    this.repositories.bind('repositories:load:start', this.start_loading);
+    this.repositories.bind('repositories:load:done',  this.stop_loading);
   },
   unbind: function() {
     this.repository_view.unbind();
@@ -58,5 +61,11 @@ var ApplicationController = Backbone.Controller.extend({
   render_repository: function() {
     var repository = this.params.name ? this.repositories.find_by_name(this.params.username + '/' + this.params.name) : this.repositories.last();
     this.repository_view.render(repository, this.params.build_id, this.params.tab || 'current');
+  },
+  start_loading: function() {
+    $('#main').addClass('loading');
+  },
+  stop_loading: function() {
+    $('#main').removeClass('loading');
   }
 });

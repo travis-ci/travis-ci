@@ -47,7 +47,10 @@ var Repositories = Backbone.Collection.extend({
   },
   fetch: function(params) {
     this.params = { username: params.username };
-    Backbone.Collection.prototype.fetch.apply(this, arguments);
+    this.trigger('repositories:load:start');
+    var success = params.success;
+    params.success = function() { this.trigger('repositories:load:done'); success(arguments); }.bind(this);
+    Backbone.Collection.prototype.fetch.apply(this, [params]);
   },
   find_by_name: function(name) {
     return this.detect(function(item) { return item.get('name') == name }, this); // TODO use an index?
