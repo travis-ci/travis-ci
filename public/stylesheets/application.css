@@ -144,18 +144,19 @@ dd {
   top: 10px;
 }
 .tabs > li {
-  display: inline-block;
-  margin-right: 4px;
+  width: 100%;
 }
 .tabs > li > h5 {
+  float: left;
   position: relative;
-  cursor: pointer;
   margin: 0;
+  margin-right: 4px;
   padding: 5px 10px;
   background-color: #f6f6f6;
   border: 1px solid #ccc;
   border-top-left-radius: 4px 4px;
   border-top-right-radius: 4px 4px;
+  cursor: pointer;
 }
 .tabs > li.active > h5 {
   background-color: white;
@@ -165,17 +166,18 @@ dd {
 .tabs > li > div {
   display: none;
   position: absolute;
-  z-index: -1;
   background: white;
   left: 0;
   top: 30px;
-  bottom: 0;
   right: 0;
-  padding: 20px;
   border-top: 1px solid #ccc;
 }
 .tabs > li.active > div {
-  display: block; z-index: 1;
+  display: block;
+  z-index: 1;
+}
+.tabs > li > div > div {
+  padding: 20px;
 }
 .tabs > li > h5 > a {
   text-decoration: none !important;
