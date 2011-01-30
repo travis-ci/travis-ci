@@ -17,7 +17,7 @@ class Repository < ActiveRecord::Base
 
   def as_json(options = {})
     repository_keys = [:id, :name, :url, :last_duration]
-    last_build_options = { :only => [:id, :number, :commit, :message, :status, :log, :started_at, :finished_at]}
+    last_build_options = { :only => [:id, :number, :commit, :message, :status, :log, :started_at, :finished_at, :author_name, :author_email, :committer_name, :committer_email] }
     super(:only => repository_keys, :include => { :last_build => last_build_options })
   end
 

@@ -5,6 +5,8 @@ enginex_1:
   commit: 565294c05913cfc23230
   message: Update Capybara
   committed_at: 2010-11-11 11:58:00
+  author_name: Jose Valim
+  author_email: jose@email.com
   committer_name: Jose Valim
   committer_email: jose@email.com
   started_at: 2010-11-11 12:00:00
