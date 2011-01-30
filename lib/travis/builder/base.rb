@@ -17,7 +17,7 @@ module Travis
 
       def buildable
         @buildable ||= Travis::Buildable.new(
-          :script => 'bundle install; rake',
+          :script => 'rake',
           :commit => build['commit'],
           :url => build['repository']['url']
         )

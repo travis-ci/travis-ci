@@ -18,11 +18,11 @@ $(document).ready(function() {
   if(!window.__TESTING__ && $('#application').length == 1) {
     Travis.start();
     Backbone.history.start();
-  }
 
-  var channels = ['repositories', 'jobs'];
-  // _.map(INIT_DATA.repositories || [], function(repository) { channels.push('repository_' + repository.id); });
-  _.each(channels, function(channel) { pusher.subscribe(channel).bind_all(Travis.trigger); })
+    var channels = ['repositories', 'jobs'];
+    // _.map(INIT_DATA.repositories || [], function(repository) { channels.push('repository_' + repository.id); });
+    _.each(channels, function(channel) { pusher.subscribe(channel).bind_all(Travis.trigger); })
+  }
 });
 
 Pusher.log = function() {

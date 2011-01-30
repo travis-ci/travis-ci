@@ -1,5 +1,5 @@
-rails_env   = ENV['RAILS_ENV']  || 'production'
-rails_root  = ENV['RAILS_ROOT'] || '/home/travis/travis'
+rails_env   = ENV['RAILS_ENV']  || "production"
+rails_root  = ENV['RAILS_ROOT'] || "/home/travis/travis"
 num_workers = rails_env == 'production' ? 1 : 1
 
 num_workers.times do |num|
@@ -7,7 +7,7 @@ num_workers.times do |num|
     w.name     = "resque-#{num}"
     w.group    = 'resque'
     w.interval = 30.seconds
-    w.env      = { 'QUEUE' => 'builds', 'RAILS_ENV' => rails_env, 'VERBOSE' => 'true' }
+    w.env      = { "QUEUE" => "builds", "RAILS_ENV" => rails_env, "VERBOSE" => 'true' }
     w.start    = "cd #{rails_root}; rake resque:work"
     w.log      = "#{rails_root}/log/resque-#{num}.log"
 

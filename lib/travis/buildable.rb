@@ -27,9 +27,11 @@ module Travis
 
     def build!
       Bundler.with_clean_env do
+        ENV['BUNDLE_GEMFILE'] = nil
         chdir do
           exists? ? fetch : clone
           checkout
+          install
           run_script
         end
       end
@@ -50,8 +52,11 @@ module Travis
         execute "git checkout -q #{commit}" if commit
       end
 
+      def install
+        execute 'bundle install'
+      end
+
       def run_script
-        ENV['BUNDLE_GEMFILE'] = nil
         execute(script).tap do |status|
           puts "\nDone. Build script exited with: #{status}"
         end
