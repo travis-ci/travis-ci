@@ -181,6 +181,12 @@ dd {
   text-decoration: none !important;
 }
 
+#builds .green .number a {
+  color: green;
+}
+#builds .red .number a {
+  color: #C00;
+}
 td.duration, td.finished_at {
   white-space: nowrap;
 }
