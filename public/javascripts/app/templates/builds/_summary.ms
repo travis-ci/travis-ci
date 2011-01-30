@@ -1,6 +1,6 @@
 <dl class="summary clearfix">
   <dt>Build</dt>
-  <dd class="number"><a href="/#!/repositories/{{repository/id}}/builds/{{id}}">{{number}}</a></dd>
+  <dd class="number"><a href="/#!/{{repository/name}}/builds/{{id}}">{{number}}</a></dd>
   <dt>Commit</dt>
   <dd class="commit-hash"><a href="{{repository/url}}/commit/{{commit}}">{{commit}}</a></dd>
   <dt>Message</dt>
