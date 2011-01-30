@@ -28,7 +28,7 @@ module Travis
 
           # stdout.puts "Pusher: notifying channel #{channel} about #{event}: #{data.inspect}"
           pusher(channel).trigger(event, data)
-          sleep(0.1) # TODO how to better synchronize websocket messages
+          # sleep(0.1) # TODO how to synchronize websocket messages
         end
 
         def pusher(channel)

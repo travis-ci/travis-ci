@@ -6,7 +6,8 @@ class Layouts::Application < Minimal::Template
       body do
         div :id => :top do
           ul do
-            li { sign_in_link }
+            li profile_link if signed_in?(:user)
+            li sign_in_link
           end
         end
 
@@ -14,7 +15,9 @@ class Layouts::Application < Minimal::Template
           ul '', :id => :repositories
         end
         div '', :id => :right
-        div '', :id => :main # , :class => :clearfix
+        div '', :id => :main do # , :class => :clearfix
+          block.call
+        end
 
         js_templates
         js_init_data if Rails.env.jasmine?
@@ -42,8 +45,12 @@ class Layouts::Application < Minimal::Template
       end
     end
 
+    def profile_link
+      capture { link_to 'Profile', profile_path }
+    end
+
     def sign_in_link
-      current_user ? link_to('Sign out', destroy_session_path) : link_to_oauth2('Sign in with Github')
+      capture { current_user ? link_to('Sign out', destroy_session_path) : link_to_oauth2('Sign in with Github') }
     end
 
     def pusher

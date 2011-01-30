@@ -12,10 +12,7 @@ production:
     key:    YOUR_PUSHER_KEY
     secret: YOUR_PUSHER_SECRET
   rails:
-    # we're currently restricting access through http-auth, this will go away
-    url: "http://YOUR_USERNAME:YOUR_PASSWORD@travis.heroku.com"
-  accounts:
-    YOUR_USERNAME: YOUR_PASSWORD
+    url: "YOUR_GITHUB_USERNAME:YOUR_TRAVIS_TOKEN@travis.heroku.com"
   oauth2:
     client_id: YOUR_GITHUB_CLIENT_ID
     client_secret: YOUR_GITHUB_CLIENT_SECRET
@@ -29,8 +26,6 @@ development:
     secret: YOUR_PUSHER_SECRET
   rails:
     host: localhost:3000
-  accounts:
-    sven: test
   oauth2:
     client_id: YOUR_GITHUB_CLIENT_ID
     client_secret: YOUR_GITHUB_CLIENT_SECRET

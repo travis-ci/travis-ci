@@ -28,12 +28,6 @@ class ApplicationController < ActionController::Base
     end
     helper_method :jobs
 
-    def authenticate
-      authenticate_or_request_with_http_basic do |name, password|
-        accounts[name] == password
-      end
-    end
-
     def accounts
       @accounts ||= Travis.config['accounts'] || {}
     end
