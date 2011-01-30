@@ -15,7 +15,7 @@ if(!INIT_DATA) {
 }
 
 $(document).ready(function() {
-  if(!window.__TESTING__) {
+  if(!window.__TESTING__ && $('#application').length == 1) {
     Travis.start();
     Backbone.history.start();
   }
@@ -23,13 +23,6 @@ $(document).ready(function() {
   var channels = ['repositories', 'jobs'];
   // _.map(INIT_DATA.repositories || [], function(repository) { channels.push('repository_' + repository.id); });
   _.each(channels, function(channel) { pusher.subscribe(channel).bind_all(Travis.trigger); })
-
-
-  // fake github pings
-  $('.github_ping').click(function(event) {
-    $.post($(this).attr('href'), { payload: $(this).attr('data-payload') });
-    event.preventDefault();
-  });
 });
 
 Pusher.log = function() {

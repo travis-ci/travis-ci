@@ -3,7 +3,7 @@ class Layouts::Application < Minimal::Template
     doctype
     html do
       head
-      body do
+      body :id => params[:controller].singularize do
         div :id => :top do
           ul do
             li profile_link if signed_in?(:user)
@@ -15,7 +15,7 @@ class Layouts::Application < Minimal::Template
           ul '', :id => :repositories
         end
         div '', :id => :right
-        div '', :id => :main do # , :class => :clearfix
+        div '', :id => :main do
           block.call
         end
 
