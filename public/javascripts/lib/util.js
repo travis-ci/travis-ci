@@ -13,6 +13,9 @@ $.fn.update_times = function() {
 $.fn.activate_tab = function(tab) {
   Util.activate_tab(this, tab);
 }
+$.fn.readable_time = function() {
+  $(this).each(function() { $(this).text(Util.readable_time(parseInt($(this).attr('title')))); })
+}
 
 Util = {
   activate_tab: function(element, tab) {
@@ -45,24 +48,25 @@ Util = {
     element = element || $('body');
 
     $('.timeago', element).timeago();
-
     $('.finished_at[title=""]', element).hide().prev('.finished_at_label').hide();
     $('.finished_at[title=""]', element).next('.eta_label').show().next('.eta').show();
+    $('.duration', element).readable_time();
+  },
+  readable_time: function(duration){
+      var days    = Math.floor(duration / 86400)
+      var hours   = Math.floor(duration % 86400 / 3600);
+      var minutes = Math.floor(duration % 3600 / 60);
+      var seconds = duration % 60;
 
-    $('.duration', element).each(function() {
-      var duration = parseInt($(this).attr('title'));
-      var hours = Math.round(duration / 3600);
-      var minutes = Math.round(duration % 3600 / 60);
-      var seconds = duration - hours * 3600 - minutes * 60;
-
-      if(hours > 0) {
-        $(this).text(hours + ' hours, ' + minutes + ' minutes');
-      } else if(minutes > 0) {
-       $(this).text(minutes + ' minutes, ' + seconds + ' seconds');
+      if(days > 0) {
+        return 'more than 24 hrs';
       } else {
-        $(this).text(seconds + ' seconds');
+        var result = [];
+        if(hours   > 0) { result.push(hours + ' hrs'); }
+        if(minutes > 0) { result.push(minutes + ' min'); }
+        if(seconds > 0) { result.push(seconds + ' sec'); }
+        return result.join(', ')
       }
-    });
   },
   initialize_templates: function() {
     var templates = {};
