@@ -3,18 +3,20 @@ require 'test_helper_rails'
 class AcceptPingTest < ActionDispatch::IntegrationTest
   class ChannelMock; def trigger(*); end; end
 
-  attr_reader :channel
+  attr_reader :channel, :user
 
   def setup
     super
+    @user = User.create!(:login => 'svenfuchs')
+    user.tokens.create!
+
     @channel = ChannelMock.new
     Pusher.stubs(:[]).returns(channel)
     Resque.redis.flushall
   end
 
   def ping!
-    Travis.config['accounts'] = { 'sven' => 'pass' }
-    credentials = ActionController::HttpAuthentication::Basic.encode_credentials('sven', 'pass')
+    credentials = ActionController::HttpAuthentication::Basic.encode_credentials(user.login, user.tokens.first.token)
     post '/builds', { :payload => GITHUB_PAYLOADS['gem-release'] }, 'HTTP_AUTHORIZATION' => credentials
   end
 
