@@ -29,7 +29,7 @@ module Travis
           sleep(0.01) until EM.reactor_running?
           EM.defer do
             new(meta_id, payload).work!
-            EM.add_timer(1) do # TODO get rid of this
+            EM.add_timer(5) do # TODO get rid of this
               EM.stop
             end
           end
