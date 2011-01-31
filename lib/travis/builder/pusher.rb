@@ -32,12 +32,12 @@ module Travis
         end
 
         def pusher(channel)
-          EventMachine::Pusher.new(
-           :app_id      => ENV['pusher_app_id'] || pusher_config['app_id'],
-           :auth_key    => ENV['pusher_key']    || pusher_config['key'],
-           :auth_secret => ENV['pusher_secret'] || pusher_config['secret'],
-           :channel     => channel
-         )
+          register_connection EventMachine::Pusher.new(
+            :app_id      => ENV['pusher_app_id'] || pusher_config['app_id'],
+            :auth_key    => ENV['pusher_key']    || pusher_config['key'],
+            :auth_secret => ENV['pusher_secret'] || pusher_config['secret'],
+            :channel     => channel
+          )
         end
 
         def pusher_config

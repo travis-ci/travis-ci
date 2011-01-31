@@ -28,13 +28,11 @@ module Travis
 
         def post(data)
           host = rails_config['url'] || 'http://127.0.0.1'
-          uri  = URI.parse(host)
           url  = "#{host}/builds/#{build['id']}#{'/log' if data.delete(:append)}"
-          data = { :_method => :put, :build => data }
-          # $_stdout.puts "-- post to #{url} : #{{:body => data, :head => { :authorization => [uri.user, uri.password] }}.inspect}"
-          # $_stdout.puts '---'
-          # $_stdout.puts data[:build][:log]
-          http = EventMachine::HttpRequest.new(url).post(:body => data, :head => { :authorization => [uri.user, uri.password] })
+          uri  = URI.parse(host)
+          data = { :body => { :_method => :put, :build => data }, :head => { :authorization => [uri.user, uri.password] } }
+          # $_stdout.puts "-- post to #{url} : #{data.inspect}"
+          register_connection EventMachine::HttpRequest.new(url).post(data)
         end
 
         def rails_config
