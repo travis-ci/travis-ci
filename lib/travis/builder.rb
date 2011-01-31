@@ -24,14 +24,24 @@ module Travis
         Resque.redis = ENV['REDIS_URL'] || Travis.config['redis']['url']
       end
 
+      def connections
+        @@connections ||= []
+      end
+
+      def register_connection(connection)
+        connections << connection
+        connection.connect { connections.delete(connection) }
+      end
+
       def perform(meta_id, payload)
         EM.run do
           sleep(0.01) until EM.reactor_running?
           EM.defer do
             new(meta_id, payload).work!
-            EM.add_timer(5) do # TODO get rid of this
-              EM.stop
-            end
+            sleep(0.1) until connections.empty?
+            # EM.add_timer(5) do # TODO get rid of this
+            #   EM.stop
+            # end
           end
         end
       end
