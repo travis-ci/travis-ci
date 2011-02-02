@@ -44,7 +44,7 @@ Each of these components could be replaced with something else, e.g. one could e
 
 h2. Usage
 
-Currently one only needs to sign in via Github OAuth2 and an account will automatically be registered.
+Currently one can sign in via Github OAuth2 and an account will automatically be created.
 
 In order to register a project for builds on Travis just supply a Github service hook for the following URL: `YOUR_GITHUB_USERNAME:YOUR_TRAVIS_TOKEN@travis.heroku.com`
 

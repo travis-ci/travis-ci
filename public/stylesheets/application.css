@@ -205,7 +205,7 @@ td.duration, td.finished_at {
   color: white;
   background-color: #333;
   border-radius: 4px 4px;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 .log .yellow {
   color: yellow;
