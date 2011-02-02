@@ -5,7 +5,7 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'thin'
 gem 'SystemTimer'
 gem "devise"
-gem "svenfuchs-devise_oauth2_authenticatable"
+gem "svenfuchs-devise_oauth2_authenticatable", '0.1.4'
 gem 'minimal'
 gem 'pusher'
 
