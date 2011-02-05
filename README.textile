@@ -79,7 +79,7 @@ Or using God:
 
 <pre>
 $ cp config/resque.god.example config/resque.god
-$ god -C config/resque.god
+$ god -c config/resque.god
 </pre>
 
 
