@@ -31,8 +31,10 @@ module Travis
           url  = "#{host}/builds/#{build['id']}#{'/log' if data.delete(:append)}"
           uri  = URI.parse(host)
           data = { :body => { :_method => :put, :build => data }, :head => { :authorization => [uri.user, uri.password] } }
-          # $_stdout.puts "-- post to #{url} : #{data.inspect}"
+          # stdout.puts "-- post to #{url} : #{data.inspect}"
           register_connection EventMachine::HttpRequest.new(url).post(data)
+        rescue Exception => e
+          stdout.puts e.inspect
         end
 
         def rails_config
