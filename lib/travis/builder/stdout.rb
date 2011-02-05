@@ -6,7 +6,7 @@ module Travis
       attr_reader :stdout
 
       def work!
-        @stdout = EM.split_stdout do |c|
+        $_stdout = @stdout = EM.split_stdout do |c|
           c.callback { |data| on_log(data) }
         end
         super

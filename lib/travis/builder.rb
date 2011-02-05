@@ -28,23 +28,30 @@ module Travis
         @@connections ||= []
       end
 
-      def register_connection(connection)
-        connections << connection
-        connection.connect { connections.delete(connection) }
-      end
-
       def perform(meta_id, payload)
         EM.run do
           sleep(0.01) until EM.reactor_running?
           EM.defer do
-            new(meta_id, payload).work!
-            sleep(0.1) until connections.empty?
-            # EM.add_timer(5) do # TODO get rid of this
-            #   EM.stop
-            # end
+            begin
+              new(meta_id, payload).work!
+              sleep(0.1) until connections.empty?
+              EM.stop
+            rescue Exception => e
+              $_stdout.puts e.inspect
+            end
           end
         end
       end
+    end
+
+    def connections
+      self.class.connections
+    end
+
+    def register_connection(connection)
+      connections << connection
+      connection.callback { connections.delete(connection) }
+      connection.errback  { connections.delete(connection) }
     end
   end
 end

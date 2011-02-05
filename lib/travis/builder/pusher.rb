@@ -27,12 +27,12 @@ module Travis
           # channel = :"repository_#{repository_id}"
 
           # stdout.puts "Pusher: notifying channel #{channel} about #{event}: #{data.inspect}"
-          pusher(channel).trigger(event, data)
+          register_connection pusher(channel).trigger(event, data)
           # sleep(0.1) # TODO how to synchronize websocket messages
         end
 
         def pusher(channel)
-          register_connection EventMachine::Pusher.new(
+          EventMachine::Pusher.new(
             :app_id      => ENV['pusher_app_id'] || pusher_config['app_id'],
             :auth_key    => ENV['pusher_key']    || pusher_config['key'],
             :auth_secret => ENV['pusher_secret'] || pusher_config['secret'],
