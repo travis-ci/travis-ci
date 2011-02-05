@@ -14,7 +14,7 @@ var RepositoriesListView = Backbone.View.extend({
     this.repositories.bind('build:add', this.build_updated);
     this.repositories.bind('build:change', this.build_updated);
 
-    setTimeout(500, this.update_status)
+    setTimeout(this.update_status, 500)
   },
   repositories_updated: function() {
     this.element.empty();
