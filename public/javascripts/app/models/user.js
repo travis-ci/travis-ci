@@ -1,7 +1,7 @@
 var User = Backbone.Model.extend({
   initialize: function(attributes) {
     // _.bindAll(this, 'repository', 'is_building', 'color', 'duration', 'eta', 'toJSON');
-    this.repositories = Repositories.new();
+    this.repositories = new Repositories;
   }
 });
 
