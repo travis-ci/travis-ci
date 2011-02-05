@@ -31,4 +31,9 @@ Pusher.log = function() {
   }
 };
 
-
+// Safari does not define bind()
+if(!Function.prototype.bind) {
+  Function.prototype.bind = function(binding) {
+    return _.bind(this, binding);
+  }
+}
