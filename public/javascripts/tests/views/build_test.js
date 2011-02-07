@@ -11,7 +11,7 @@ describe('Views: the build tab', function() {
       'h5': 'Build #1',
       '.commit-hash': '565294c',
       '.commit-message': 'Update Capybara',
-      '.duration': '20 seconds',
+      '.duration': '20 sec',
       '.log': 'enginex build 1 log ...'
     });
   });

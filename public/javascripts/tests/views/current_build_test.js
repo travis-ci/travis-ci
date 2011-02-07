@@ -11,7 +11,7 @@ describe('Views: the current build tab', function() {
       '.number': '1',
       '.commit-hash': '565294c',
       '.commit-message': 'Update Capybara',
-      '.duration': '20 seconds',
+      '.duration': '20 sec',
     });
   });
 });

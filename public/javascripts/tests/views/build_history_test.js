@@ -7,8 +7,8 @@ describe('Views: the build history tab', function() {
 
   it('shows a builds list', function() {
     expect_table('#main #builds', [
-      ['Build', 'Commit',  'Message',         'Duration',   'Finished'],
-      ['#1',    '565294c', 'Update Capybara', '20 seconds', '2 months ago' ]
+      ['Build', 'Commit',  'Message',         'Duration', 'Finished'],
+      ['#1',    '565294c', 'Update Capybara', '20 sec',   '2 months ago' ]
     ]);
   });
 });
