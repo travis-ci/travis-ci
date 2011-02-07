@@ -23,6 +23,7 @@ var BuildView = Backbone.View.extend({
     // Backbone.Events.unbind.apply(this, arguments);
   },
   render: function(build) {
+    this.unbind();
     this.bind(build);
 
     var element = this.element();
