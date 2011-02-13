@@ -5,7 +5,7 @@ Travis is an attemp to create an open-source, distributed build system for the R
 1. allows open-source projects to register their repository and have their test-suites run on demand
 2. allows users to contribute build capacities by connecting a VM that runs a build agent somewhere on their underused servers
 
-If you are interested in Travis please subscribe to the "Google group":http://groups.google.com/group/travis-app
+If you are interested in Travis please subscribe to the "Google group":http://groups.google.com/group/travis-app and check out my introductional blog post over here: "Travis - a distributed build server tool for the Ruby community":http://svenfuchs.com/2011/2/5/travis-a-distributed-build-server-tool-for-the-ruby-community
 
 
 h2. Overview
@@ -46,11 +46,11 @@ h2. Usage
 
 Currently one can sign in via Github OAuth2 and an account will automatically be created.
 
-In order to register a project for builds on Travis just supply a Github service hook for the following URL: `YOUR_GITHUB_USERNAME:YOUR_TRAVIS_TOKEN@travis.heroku.com`
+In order to register a project for builds on Travis just supply a Github service hook for the following URL: @http://[YOUR_GITHUB_USERNAME]:[YOUR_TRAVIS_TOKEN]@@@travis.heroku.com@
 
 You can get a Travis token on the Travis profile page by signing in to your application via Github OAuth2.
 
-One can check in a file `.travis.yml` in order to specify a custom build script (by default `rake` will be executed). See "this file":https://github.com/svenfuchs/routing-filter/blob/master/.travis.yml as an example.
+One can check in a file @.travis.yml@ in order to specify a custom build script (by default @rake@ will be executed). See "this file":https://github.com/svenfuchs/routing-filter/blob/master/.travis.yml as an example.
 
 Please note that this is an experimental installation.
 
@@ -105,7 +105,6 @@ h2. Previous spike
 My first spike was using Nanite for running workers. These materials are now outdated but might be interesting:
 
 * "1:36 quick demo screencast (spike 1)":http://www.youtube.com/watch?v=qdTV-b6BJHA
-
-!https://github.com/svenfuchs/travis/raw/master/docs/travis.spike-1.png!
+* "Architecture diagram (spike 1)":https://github.com/svenfuchs/travis/raw/master/docs/travis.spike-1.png
 
 
