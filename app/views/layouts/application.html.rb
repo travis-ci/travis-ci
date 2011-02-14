@@ -47,7 +47,7 @@ class Layouts::Application < Minimal::Template
     end
 
     def fork_me_link
-      %Q{<a href="http://github.com/svenfuchs/travis"><img style="position: absolute; top: 0; left: 0; border: 0; z-index: 99;" src="https://assets1.github.com/img/ce742187c818c67d98af16f96ed21c00160c234a?repo=&url=http%3A%2F%2Fs3.amazonaws.com%2Fgithub%2Fribbons%2Fforkme_left_gray_6d6d6d.png&path=" alt="Fork me on GitHub"></a>}
+      self << %Q{<a href="http://github.com/svenfuchs/travis"><img style="position: absolute; top: 0; left: 0; border: 0; z-index: 99;" src="https://assets1.github.com/img/ce742187c818c67d98af16f96ed21c00160c234a?repo=&url=http%3A%2F%2Fs3.amazonaws.com%2Fgithub%2Fribbons%2Fforkme_left_gray_6d6d6d.png&path=" alt="Fork me on GitHub"></a>}.html_safe
     end
 
     def profile_link
