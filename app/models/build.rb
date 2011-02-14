@@ -4,7 +4,7 @@ class Build < ActiveRecord::Base
   class << self
     def build(data)
       repository = Repository.find_or_create_by_url(data['repository']['url'])
-      commit     = data['commits'].first
+      commit     = data['commits'].last
       author     = commit['author'] || {}
       committer  = commit['committer'] || author || {}
 
