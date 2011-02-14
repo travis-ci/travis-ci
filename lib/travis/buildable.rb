@@ -49,7 +49,7 @@ module Travis
       end
 
       def checkout
-        execute "git checkout -q #{commit}" if commit
+        execute "git checkout -qf #{commit}" if commit
       end
 
       def install
