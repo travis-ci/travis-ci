@@ -5,12 +5,15 @@ class Layouts::Application < Minimal::Template
       head
       body :id => params[:controller].singularize do
         div :id => :top do
-          fork_me_link
-          ul do
+          header_title
+
+          ul :class => :breadcrumbs do
             li home_link
-            li profile_link if signed_in?(:user)
-            li sign_in_link
           end
+
+          profile_or_signup
+
+          fork_me_link
         end
 
         div :id => :left do
@@ -21,6 +24,7 @@ class Layouts::Application < Minimal::Template
           block.call
         end
 
+        js_includes
         js_templates
         js_init_data if Rails.env.jasmine?
       end
@@ -37,12 +41,26 @@ class Layouts::Application < Minimal::Template
       super do
         title 'Travis'
         stylesheet_link_tag 'application'
-        javascript_include_tag :vendor, :lib, :app, 'application.js'
-        pusher
 
         if Rails.env.jasmine?
           stylesheet_link_tag 'jasmine'
           javascript_include_tag :jasmine, :tests
+        end
+      end
+    end
+
+    def header_title
+      content_tag('h1', 'Travis', :class => :logo)
+    end
+
+    def profile_or_signup
+      content_tag :div, :class => :profile do
+        if current_user
+          image_tag("http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest current_user.email}?s=30", :alt => "", :class => "profile-avatar") +
+          content_tag(:h5, current_user.email) + "<br />" +
+          link_to('Sign out', destroy_session_path)
+        else
+          link_to('Sign in with Github', destroy_session_path, :class => "profile-signup")
         end
       end
     end
@@ -63,8 +81,9 @@ class Layouts::Application < Minimal::Template
       capture { current_user ? link_to('Sign out', destroy_session_path) : link_to_oauth2('Sign in with Github') }
     end
 
-    def pusher
-      javascript_tag "var pusher = new Pusher('#{Pusher.key}');"
+    def js_includes
+        javascript_include_tag(:vendor, :lib, :app, 'application.js') +
+        javascript_tag("var pusher = new Pusher('#{Pusher.key}');")
     end
 
     def js_init_data

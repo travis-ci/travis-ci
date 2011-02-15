@@ -5,17 +5,8 @@ body {
   padding: 0 0 30px 0;
 }
 #top {
-  height: 1em;
-  padding: 8px;
+  height: 55px;
   background-color: #eee;
-}
-#top ul {
-  float: right;
-}
-#top li {
-  float: left;
-  margin: 0 10px 0 0;
-  font-size: 90%;
 }
 #top a {
   color: #666;
@@ -47,6 +38,12 @@ ul {
   padding: 0;
   list-style-type: none;
 }
+h1 {
+  font-size: 32px;
+}
+h2 {
+  font-size: 28px;
+}
 h3 {
   font-size: 24px;
 }
@@ -60,6 +57,68 @@ th, td {
   padding-right: 20px;
   vertical-align: top;
 }
+
+/* --- START --- */
+
+h1.logo {
+   float: left;
+   margin: 17px 0 0 185px;
+   width: 255px;
+}
+
+.breadcrumbs {
+   float: left;
+   margin: 17px 0 0;
+}
+.breadcrumbs li {
+   background: url("arrow.png") no-repeat 0px 4px;
+   float: left;
+   margin-left: 8px;
+   padding-left: 16px;
+}
+.breadcrumbs li:first-child {
+   background: none;
+   margin-left: 0;
+   padding-left: 0;
+}
+.breadcrumbs li a {
+   display: block;
+   font-size: 120%;
+}
+
+.profile {
+   float: right;
+   margin: 5px 10px 0 0;
+   width: 240px;
+}
+.profile-avatar {
+   -webkit-border-radius: 4px 4px;
+   -moz-border-radius: 4px 4px;
+   border-radius: 4px 4px;
+   float: left;
+   height: 45px;
+   margin: 0 5px 0 0;
+   width: 45px;
+}
+.profile h5 {
+   float: left;
+   font-size: 80%;
+   height: 27px;
+   line-height: 100%;
+   margin: 0;
+   overflow: hidden;
+}
+.profile a {
+   font-size: 80%;
+   float: left;
+}
+a.profile-signup {
+   font-size: 120%;
+   margin-top: 12px;
+}
+
+
+/* --- END --- */
 
 #left .repository {
   margin-bottom: 10px;
