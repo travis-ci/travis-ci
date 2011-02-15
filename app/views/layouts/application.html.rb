@@ -57,10 +57,10 @@ class Layouts::Application < Minimal::Template
       content_tag :div, :class => :profile do
         if current_user
           image_tag("http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest current_user.email}?s=30", :alt => "", :class => "profile-avatar") +
-          content_tag(:h5, current_user.email) + "<br />" +
+          content_tag(:h5, profile_link) + "<br />" +
           link_to('Sign out', destroy_session_path)
         else
-          link_to('Sign in with Github', destroy_session_path, :class => "profile-signup")
+          link_to_oauth2('Sign in with Github', :class => "profile-signup")
         end
       end
     end
@@ -74,11 +74,7 @@ class Layouts::Application < Minimal::Template
     end
 
     def profile_link
-      capture { link_to 'Profile', profile_path }
-    end
-
-    def sign_in_link
-      capture { current_user ? link_to('Sign out', destroy_session_path) : link_to_oauth2('Sign in with Github') }
+      capture { link_to current_user.email, profile_path }
     end
 
     def js_includes
