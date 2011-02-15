@@ -54,13 +54,15 @@ class Layouts::Application < Minimal::Template
     end
 
     def profile_or_signup
-      content_tag :div, :class => :profile do
-        if current_user
-          image_tag("http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest current_user.email}?s=30", :alt => "", :class => "profile-avatar") +
-          content_tag(:h5, current_user.email) + "<br />" +
-          link_to('Sign out', destroy_session_path)
-        else
-          link_to('Sign in with Github', destroy_session_path, :class => "profile-signup")
+      capture do
+        content_tag :div, :class => :profile do
+          if current_user
+            image_tag("http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest current_user.email}?s=30", :alt => "", :class => "profile-avatar") +
+            content_tag(:h5, current_user.email) + "<br />" +
+            link_to('Sign out', destroy_session_path)
+          else
+            link_to('Sign in with Github', destroy_session_path, :class => "profile-signup")
+          end
         end
       end
     end
