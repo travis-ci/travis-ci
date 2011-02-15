@@ -9,6 +9,8 @@ gem "svenfuchs-devise_oauth2_authenticatable", '0.1.4'
 gem 'minimal'
 gem 'pusher'
 
+gem 'hoptoad_notifier'
+
 gem 'resque'
 gem 'resque-meta'
 gem 'em-websocket'
