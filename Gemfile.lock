@@ -58,6 +58,9 @@ GEM
       addressable (~> 2.2.2)
       multipart-post (~> 1.0.1)
       rack (>= 1.1.0, < 2)
+    hoptoad_notifier (2.3.12)
+      activesupport
+      builder
     i18n (0.5.0)
     json (1.4.6)
     linecache (0.43)
@@ -156,6 +159,7 @@ DEPENDENCIES
   em-pusher
   em-websocket
   factory_girl
+  hoptoad_notifier
   minimal
   mocha
   pusher
