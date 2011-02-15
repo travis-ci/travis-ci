@@ -33,7 +33,7 @@ h2. Status
 
 This code is a spike and everything will change very likely. It is here to try out a few basic concepts and building blocks and ask people to share their opinion.
 
-Nonetheless we currently have a working demo application running on "http://travis.heroku.com":http://travis.heroku.com which uses
+Nonetheless we currently have a working demo application running on "http://travis-ci.org":http://travis-ci.org which uses
 
 * "RedisToGo":http://redistogo.com as a Redis store
 * "Pusher":http://pusherapp.com as a Websocket server
@@ -46,7 +46,7 @@ h2. Usage
 
 Currently one can sign in via Github OAuth2 and an account will automatically be created.
 
-In order to register a project for builds on Travis just supply a Github service hook for the following URL: @http://[YOUR_GITHUB_USERNAME]:[YOUR_TRAVIS_TOKEN]@@@travis.heroku.com/builds@
+In order to register a project for builds on Travis just supply a Github service hook for the following URL: @http://[YOUR_GITHUB_USERNAME]:[YOUR_TRAVIS_TOKEN]@@@travis-ci.org/builds@
 
 You can get a Travis token on the Travis profile page by signing in to your application via Github OAuth2.
 
