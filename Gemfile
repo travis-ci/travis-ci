@@ -10,6 +10,7 @@ gem 'minimal'
 gem 'pusher'
 
 gem 'hoptoad_notifier'
+gem 'refraction'
 
 gem 'resque'
 gem 'resque-meta'

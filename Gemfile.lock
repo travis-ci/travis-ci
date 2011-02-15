@@ -58,7 +58,7 @@ GEM
       addressable (~> 2.2.2)
       multipart-post (~> 1.0.1)
       rack (>= 1.1.0, < 2)
-    hoptoad_notifier (2.3.12)
+    hoptoad_notifier (2.4.5)
       activesupport
       builder
     i18n (0.5.0)
@@ -108,6 +108,7 @@ GEM
     redis (2.1.1)
     redis-namespace (0.8.0)
       redis (< 3.0.0)
+    refraction (0.2.0)
     resque (1.10.0)
       json (~> 1.4.6)
       redis-namespace (~> 0.8.0)
@@ -164,6 +165,7 @@ DEPENDENCIES
   mocha
   pusher
   rails (= 3.0.3)
+  refraction
   resque
   resque-meta
   ruby-debug
