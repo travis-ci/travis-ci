@@ -1,5 +1,5 @@
 class BuildMailer < ActionMailer::Base
-  default :from => 'notifications@travis.heroku.com'
+  default :from => 'notifications@travis-ci.org'
 
   def finished_email(build)
     @build  = build
