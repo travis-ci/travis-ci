@@ -23,7 +23,7 @@ describe('Json API', function() {
     var build = null;
     $.get(url, function(response) { build = response; });
 
-    runs_when(function() { return !!build; }, function() {
+    runsWhen(function() { return !!build; }, function() {
       expect(build.number).toEqual(1);
       expect(build.started_at).toEqual('2010-11-11T12:00:00Z');
       expect(build.finished_at).toEqual('2010-11-11T12:00:20Z');
