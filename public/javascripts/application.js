@@ -1,8 +1,8 @@
 var Travis = {
-  app: null,
+  Controllers: {}, Collections: {}, Helpers: {}, Models: {}, Views: {},
   start: function() {
     Backbone.history = new Backbone.History;
-    Travis.app = new ApplicationController;
+    Travis.app = new Travis.Controllers.Application;
     Travis.app.run();
   },
   trigger: function(event, data) {
@@ -21,7 +21,7 @@ $(document).ready(function() {
 
     var channels = ['repositories', 'jobs'];
     // _.map(INIT_DATA.repositories || [], function(repository) { channels.push('repository_' + repository.id); });
-    _.each(channels, function(channel) { pusher.subscribe(channel).bind_all(Travis.trigger); })
+    _.each(channels, function(channel) { pusher.subscribe(channel).bindAll(Travis.trigger); })
   }
 });
 

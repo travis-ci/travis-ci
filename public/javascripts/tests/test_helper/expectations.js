@@ -1,41 +1,41 @@
-var expect_attributes = function(model, expected) {
-  expect_properties(model.attributes, expected);
+var expectAttributes = function(model, expected) {
+  expectProperties(model.attributes, expected);
 };
 
-var expect_properties = function(actual, expected) {
+var expectProperties = function(actual, expected) {
   for(var name in expected) {
     expect(actual[name]).toEqual(expected[name]);
   }
 };
 
-var expect_triggered = function(object, event, callback) {
-  expect(actual_triggered_result(object, event, callback)).toBeTruthy();
+var expectTriggered = function(object, event, callback) {
+  expect(actualTriggeredResult(object, event, callback)).toBeTruthy();
 };
 
-var expect_not_triggered = function(object, event, callback) {
-  expect(actual_triggered_result(object, event, callback)).toBeFalsy();
+var expectNotTriggered = function(object, event, callback) {
+  expect(actualTriggeredResult(object, event, callback)).toBeFalsy();
 };
 
-var actual_triggered_result = function(object, event, callback) {
+var actualTriggeredResult = function(object, event, callback) {
   var triggered = false;
   object.bind(event, function() { triggered = true });
   callback.apply();
   return triggered;
 }
 
-var expect_element = function(selector) {
+var expectElement = function(selector) {
   expect($(selector)).not.toBeEmpty();
 };
 
-var expect_no_element = function(selector) {
+var expectNoElement = function(selector) {
   expect($(selector)).toBeEmpty();
 };
 
-var expect_attribute_value = function(selector, name, expected) {
+var expectAttributeValue = function(selector, name, expected) {
   expect($(selector).attr(name)).toEqual(expected);
 };
 
-var expect_table = function() {
+var expectTable = function() {
   var args  = Array.prototype.slice.call(arguments);
   var table = args.pop();
   var base  = $(args.pop());
@@ -45,29 +45,33 @@ var expect_table = function() {
       var selector = _.map(['th', 'td'], function(tag) {
         return 'tr:nth-child(' + (row + 1) + ') ' + tag + ':nth-child(' + (cell + 1) + ')'
       }).join(', ');
-      expect_text(selector, text, base);
+      expectText(selector, text, base);
     });
   });
 };
 
-var expect_texts = function() {
+var expectTexts = function() {
   var args  = Array.prototype.slice.call(arguments);
   var texts = args.pop();
   var base  = args.pop() || '';
   _.each(texts, function(text, selector) {
-    expect_text(base + ' ' + selector, text);
+    expectText(base + ' ' + selector, text);
   });
 };
 
-var expect_text = function(selector, text, element) {
+var expectText = function(selector, text, element) {
   var actual = $.trim($(selector, element).text());
-  expect(actual).toEqual(text);
+  if(typeof text == 'string') {
+    expect(actual).toEqual(text);
+  } else {
+    expect(actual).toMatch(text);
+  }
 };
 
-var expect_called_after = function(object, method, timeout, block) {
+var expectCalledAfter = function(object, method, timeout, block) {
   var spy = spyOn(object, method).andCallThrough();
   block.apply(arguments.caller);
-  runs_after(timeout, function() {
+  runsAfter(timeout, function() {
     expect(spy).toHaveBeenCalled();
   });
 };

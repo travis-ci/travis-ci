@@ -1,6 +1,6 @@
-var Build = Backbone.Model.extend({
+Travis.Models.Build = Backbone.Model.extend({
   initialize: function() {
-    _.bindAll(this, 'repository', 'is_building', 'color', 'duration', 'eta', 'toJSON');
+    _.bindAll(this, 'repository', 'isBuilding', 'color', 'duration', 'eta', 'toJSON');
     this.bind('change', function(build) { this.collection.trigger('change', this); });
   },
   repository: function() {
@@ -15,7 +15,7 @@ var Build = Backbone.Model.extend({
     }
     return Backbone.Model.prototype.set.apply(this, [attributes, options]);
   },
-  is_building: function() {
+  isBuilding: function() {
     return !this.get('finished_at');
   },
   commit: function() {
@@ -27,18 +27,18 @@ var Build = Backbone.Model.extend({
     return status == 0 ? 'green' : status == 1 ? 'red' : null;
   },
   duration: function() {
-    var started_at  = this.get('started_at');
-    var finished_at = this.get('finished_at') || new Date;
-    var last_duration = this.repository().get('last_duration');
-    return started_at ? Math.round((new Date(finished_at) - new Date(started_at)) / 1000) : 0;
+    var startedAt  = this.get('started_at');
+    var finishedAt = this.get('finished_at') || new Date;
+    var lastDuration = this.repository().get('last_duration');
+    return startedAt ? Math.round((new Date(finishedAt) - new Date(startedAt)) / 1000) : 0;
   },
   eta: function() {
-    var started_at  = this.get('started_at');
-    var finished_at = this.get('finished_at');
-    var last_duration = this.repository().get('last_duration');
-    if(!finished_at && last_duration) {
-      var timestamp = new Date(started_at).getTime();
-      var eta = new Date((timestamp + last_duration));
+    var startedAt  = this.get('started_at');
+    var finishedAt = this.get('finished_at');
+    var lastDuration = this.repository().get('last_duration');
+    if(!finishedAt && lastDuration) {
+      var timestamp = new Date(startedAt).getTime();
+      var eta = new Date((timestamp + lastDuration));
       return eta.toISOString();
     }
   },
@@ -48,13 +48,13 @@ var Build = Backbone.Model.extend({
       commit: this.commit(),
       eta: this.eta(),
       color: this.color(),
-      repository: this.repository().toJSON({ include_build: false })
+      repository: this.repository().toJSON({ includeBuild: false })
     });
   }
 });
 
-var Builds = Backbone.Collection.extend({
-  model: Build,
+Travis.Collections.Builds = Backbone.Collection.extend({
+  model: Travis.Models.Build,
   initialize: function(builds, options) {
     _.bindAll(this, 'load', 'retrieve');
     this.repository = options.repository;
@@ -63,7 +63,7 @@ var Builds = Backbone.Collection.extend({
   set: function(attributes) {
     if(attributes) {
       var build = this.get(attributes.id);
-      build ? build.set(attributes) : this.add(new Build(attributes));
+      build ? build.set(attributes) : this.add(new Travis.Models.Build(attributes));
     }
   },
   last: function() {

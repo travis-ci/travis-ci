@@ -1,10 +1,10 @@
-var Worker = Backbone.Model.extend({
+Travis.Models.Worker = Backbone.Model.extend({
   initialize: function(attributes) {
   }
 });
 
-var Workers = Backbone.Collection.extend({
-  model: Worker,
+Travis.Collections.Workers = Backbone.Collection.extend({
+  model: Travis.Models.Worker,
   initialize: function(workers, options) {
     _.bindAll(this, 'add', 'remove');
     this.url = 'workers';
