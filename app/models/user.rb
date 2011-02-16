@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   end
 
   def profile_image_hash
-    self.email? ? Digest::MD5.hexdigest(current_user.email) : '00000000000000000000000000000000'
+    self.email? ? Digest::MD5.hexdigest(self.email) : '00000000000000000000000000000000'
   end
 end
 
