@@ -233,7 +233,7 @@ dd {
   display: block;
   z-index: 1;
 }
-.tabs > li > div > div {
+.tabs > li > div > *:first-child {
   padding: 20px;
 }
 .tabs > li > h5 > a {

@@ -1,4 +1,4 @@
-var NoRepositoryView = Backbone.View.extend({
+Travis.Views.NoRepository = Backbone.View.extend({
   initialize: function(args) {
     _.bindAll(this, 'render');
 

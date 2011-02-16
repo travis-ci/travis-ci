@@ -1,8 +1,8 @@
 var Travis = {
-  app: null,
+  Controllers: {}, Collections: {}, Helpers: {}, Models: {}, Views: {},
   start: function() {
     Backbone.history = new Backbone.History;
-    Travis.app = new ApplicationController;
+    Travis.app = new Travis.Controllers.Application;
     Travis.app.run();
   },
   trigger: function(event, data) {

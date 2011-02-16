@@ -6,13 +6,13 @@
 //   "meta_id":"ddcfedeb38a092c7e533871796527e50327dc1fe",
 //   "id":95
 // }
-var Job = Backbone.Model.extend({
+Travis.Models.Job = Backbone.Model.extend({
   initialize: function(attributes) {
   }
 });
 
-var Jobs = Backbone.Collection.extend({
-  model: Job,
+Travis.Collections.Jobs = Backbone.Collection.extend({
+  model: Travis.Models.Job,
   initialize: function(jobs, options) {
     _.bindAll(this, 'add', 'remove');
     this.url = 'jobs';
