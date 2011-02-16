@@ -109,8 +109,7 @@ class Layouts::Application < Minimal::Template
     def alpha_warning
       div :id => :alpha_warning do
         h4 "This stuff is alpha."
-        p "Please do <strong>not</strong> consider this a stable service. We're still far from that!".html_safe
-        p "But we do appreciate your help. Please see <a href='https://github.com/svenfuchs/travis/wiki'>our wiki</a> for more information.".html_safe
+        p "Please do <strong>not</strong> consider this a stable service. We're still far from that! More info <a href='https://github.com/svenfuchs/travis/wiki'>here.</a>".html_safe
       end
     end
 end
