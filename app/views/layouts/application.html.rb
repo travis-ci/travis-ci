@@ -56,7 +56,7 @@ class Layouts::Application < Minimal::Template
     def profile_or_signup
       content_tag :div, :class => :profile do
         if current_user
-          image_tag("http://www.gravatar.com/avatar/#{current_user.profile_image_hash}?s=30", :alt => "", :class => "profile-avatar") +
+          image_tag("http://www.gravatar.com/avatar/#{current_user.profile_image_hash}?s=30&d=mm", :alt => "", :class => "profile-avatar") +
           content_tag(:h5, profile_link) + "<br />" +
           link_to('Sign out', destroy_session_path)
         else
