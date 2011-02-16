@@ -9,7 +9,7 @@ Travis.Views.Build = Backbone.View.extend({
     }
   },
   element: function() {
-    return $('#tab_build div');
+    return $('#tab_build');
   },
   bind: function(build) {
     this.build = build;
@@ -42,17 +42,4 @@ Travis.Views.Build = Backbone.View.extend({
     element.append(chars);
     element.deansi();
   }
-});
-
-Travis.Views.CurrentBuild = Travis.Views.Build.extend({
-  initialize: function(args) {
-    Travis.Views.Build.prototype.initialize.apply(this, arguments);
-  },
-  element: function() {
-    return $('#tab_current div');
-  },
-  bind: function(build) {
-    build.collection.bind('add', this.render);
-    Travis.Views.Build.prototype.bind.apply(this, arguments);
-  },
 });
