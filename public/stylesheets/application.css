@@ -5,7 +5,7 @@ body {
   padding: 0 0 30px 0;
 }
 #top {
-  height: 55px;
+  height: 70px;
   background-color: #eee;
 }
 #top a {
@@ -17,6 +17,13 @@ body {
   width: 375px;
   margin: 30px 50px;
 }
+
+#left h4.recent-builds {
+  color: #666;
+  margin: 4px 0px 29px;
+  text-align: center;
+}
+
 #main {
   margin: 30px 300px 30px 475px;
 }
@@ -62,13 +69,13 @@ th, td {
 
 h1.logo {
    float: left;
-   margin: 17px 0 0 185px;
+   margin: 25px 0 0 185px;
    width: 284px;
 }
 
 .breadcrumbs {
    float: left;
-   margin: 17px 0 0;
+   margin: 29px 0 0 5px;
 }
 .breadcrumbs li {
    background: url("arrow.png") no-repeat 0px 4px;
@@ -88,7 +95,7 @@ h1.logo {
 
 .profile {
    float: right;
-   margin: 5px 10px 0 0;
+   margin: 12px 10px 0 0;
    width: 240px;
 }
 .profile-avatar {
