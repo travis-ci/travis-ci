@@ -9,6 +9,10 @@ class User < ActiveRecord::Base
     self.update_attributes!(attributes['user'].slice(*%w(name login email)))
     self.tokens.create!
   end
+
+  def profile_image_hash
+    self.email? ? Digest::MD5.hexdigest(current_user.email) : '00000000000000000000000000000000'
+  end
 end
 
 
