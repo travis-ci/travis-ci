@@ -293,6 +293,28 @@ td.duration, td.finished_at {
 #right .loading {
   display: none;
 }
+#alpha_warning {
+  padding: 15px;
+  background-color: #ffffda;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 4px 4px;
+  -moz-border-radius: 4px 4px;
+  border-radius: 4px 4px;
+}
+#alpha_warning h4 {
+  padding-left: 20px;
+  margin-bottom: 0;
+  background: url(/images/construction.png) no-repeat top left;
+  color: #333;
+}
+#alpha_warning p {
+  font-size: 80%;
+  margin-bottom: 0;
+  color: #666;
+}
+#alpha_warning a {
+  text-decoration: underline;
+}
 
 .clearfix:after {
   clear: both;
