@@ -74,7 +74,10 @@ class Layouts::Application < Minimal::Template
     end
 
     def profile_link
-      capture { link_to current_user.email, profile_path }
+      capture do
+        profile_text = current_user.email || current_user.login || 'view my profile'
+        link_to profile_text, profile_path
+      end
     end
 
     def js_includes
