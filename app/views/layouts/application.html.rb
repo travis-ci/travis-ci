@@ -56,7 +56,8 @@ class Layouts::Application < Minimal::Template
     def profile_or_signup
       content_tag :div, :class => :profile do
         if current_user
-          image_tag("http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest current_user.email}?s=30", :alt => "", :class => "profile-avatar") +
+          image_hash = (current_user.email? ? Digest::MD5.hexdigest current_user.email : '00000000000000000000000000000000')
+          image_tag("http://www.gravatar.com/avatar/#{image_hash}?s=30", :alt => "", :class => "profile-avatar") +
           content_tag(:h5, profile_link) + "<br />" +
           link_to('Sign out', destroy_session_path)
         else
