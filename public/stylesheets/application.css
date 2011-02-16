@@ -277,45 +277,61 @@ td.duration, td.finished_at {
 #right {
   font-size: 90%;
 }
-#right div:first-of-type h4 {
+#right > div:first-of-type h4 {
   margin-top: 0;
 }
 #right li {
-  white-space: nowrap;
-  overflow: hidden;
 }
 #right #workers li,
 #right #jobs li {
   font-size: 90%;
   color: #666;
+  white-space: nowrap;
+  overflow: hidden;
 }
 #right .empty,
 #right .loading {
   display: none;
 }
-#alpha_warning {
+#right .box {
+  margin-top: 20px;
   padding: 15px;
-  background-color: #ffffda;
   border: 1px solid #ccc;
   -webkit-border-radius: 4px 4px;
   -moz-border-radius: 4px 4px;
   border-radius: 4px 4px;
 }
-#alpha_warning h4 {
-  padding-left: 20px;
-  margin-bottom: 0;
-  background: url(/images/construction.png) no-repeat top left;
-  color: #333;
+#right .box h4 {
+  margin: 0;
 }
-#alpha_warning p {
+#right .box p,
+#right .box li {
   font-size: 80%;
+}
+#right .box a {
+  text-decoration: underline;
+}
+#right #alpha_warning {
+  margin-top: 0;
+  background-color: #ffffda;
+}
+#right #alpha_warning h4 {
+  padding-left: 20px;
+  background: url(/images/construction.png) no-repeat top left;
+}
+#right #alpha_warning p {
   margin-bottom: 0;
   color: #666;
 }
-#alpha_warning a {
-  text-decoration: underline;
+#right #thanks_sponsors h4 {
+  margin: 0 -2px;
+  padding-left: 21px;
+  background: url(/images/smile.png) no-repeat 1px left;
 }
-
+#right #thanks_sponsors li {
+ list-style-type: square;
+ margin-left: 15px;
+}
 .clearfix:after {
   clear: both;
   content: ".";
