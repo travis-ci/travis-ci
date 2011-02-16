@@ -57,7 +57,7 @@ class Layouts::Application < Minimal::Template
       content_tag :div, :class => :profile do
         if current_user
           image_tag("http://www.gravatar.com/avatar/#{current_user.profile_image_hash}?s=30&d=mm", :alt => "", :class => "profile-avatar") +
-          content_tag(:h5, profile_link) + "<br />" +
+          content_tag(:h5, profile_link) +
           link_to('Sign out', destroy_session_path)
         else
           link_to_oauth2('Sign in with Github', :class => "profile-signup")
