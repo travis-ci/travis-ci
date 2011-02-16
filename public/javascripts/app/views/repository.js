@@ -31,7 +31,7 @@ Travis.Views.Repository = Backbone.View.extend({
   },
   renderBuild: function(repository, id) {
     repository.builds.retrieve(id, function(build) {
-      $('#tab_build', this.element).html(this.templates.tab({ repository: repository.toJSON({ includeBuild: false }), build: build.toJSON() }));
+      // $('#tab_build', this.element).html(this.templates.tab({ repository: repository.toJSON({ includeBuild: false }), build: build.toJSON() }));
       this.buildView.render(build);
     }.bind(this));
   },
