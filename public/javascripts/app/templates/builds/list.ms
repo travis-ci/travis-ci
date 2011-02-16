@@ -10,4 +10,3 @@
     {{> builds_item}}
   {{/each}}
 </table>
-

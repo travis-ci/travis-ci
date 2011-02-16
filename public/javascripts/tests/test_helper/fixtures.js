@@ -1,20 +1,20 @@
-var build_data = function(repository) {
+var buildData = function(repository) {
   return { id: repository.last_build.id, number: 2, repository: { id: repository.id } };
 }
 
-var build_started_data = function(repository, data) {
-  return _.extend(_.extend(build_data(repository), { id: 1, started_at: '2010-11-13T12:00:20Z' }), data || {});
+var buildStartedData = function(repository, data) {
+  return _.extend(_.extend(buildData(repository), { id: 1, started_at: '2010-11-13T12:00:20Z' }), data || {});
 }
 
-var build_log_data = function(repository, data) {
-  return _.extend(build_data(repository), data || {});
+var buildLogData = function(repository, data) {
+  return _.extend(buildData(repository), data || {});
 }
 
-var build_finished_data = function(repository, data) {
-  return _.extend(_.extend(build_data(repository), { status: 1, started_at: '2010-11-13T12:00:20Z', finished_at: '2010-11-13T14:00:20Z' }), data || {});
+var buildFinishedData = function(repository, data) {
+  return _.extend(_.extend(buildData(repository), { status: 1, started_at: '2010-11-13T12:00:20Z', finished_at: '2010-11-13T14:00:20Z' }), data || {});
 }
 
-var build_queued_data = function(repository, data) {
+var buildQueuedData = function(repository, data) {
   return _.extend({
     'number': 1,
     'enqueued_at': '2011-01-12T15: 32: 54.706695Z',
@@ -29,7 +29,7 @@ var build_queued_data = function(repository, data) {
   }, data || {});
 }
 
-var new_repository_data = function() {
+var newRepositoryData = function() {
   return {
     id: 2,
     number: 2,
@@ -43,7 +43,7 @@ var new_repository_data = function() {
       id: 1,
       name: 'svenfuchs/gem-release',
       url: 'http://github.com/svenfuchs/gem-release',
-      last_duration: 10,
+      lastDuration: 10,
     }
   };
 }

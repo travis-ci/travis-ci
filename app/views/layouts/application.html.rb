@@ -83,7 +83,7 @@ class Layouts::Application < Minimal::Template
     end
 
     def js_includes
-        javascript_include_tag(:vendor, :lib, :app, 'application.js') +
+        javascript_include_tag(:vendor, :lib, 'application', :app) +
         javascript_tag("var pusher = new Pusher('#{Pusher.key}');")
     end
 

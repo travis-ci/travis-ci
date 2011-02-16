@@ -1,7 +1,7 @@
 describe('Models:', function() {
   describe('Builds', function() {
     beforeEach(function() {
-      var repositories = new Repositories(INIT_DATA.repositories);
+      var repositories = new Travis.Collections.Repositories(INIT_DATA.repositories);
       this.builds = repositories.models[1].builds;
     });
 
@@ -24,7 +24,7 @@ describe('Models:', function() {
         runs(function() {
           this.builds.load();
         });
-        runs_after(400, function() {
+        runsAfter(400, function() {
           expect(this.builds.models.length).toEqual(3);
           var attributes = _.pluck(this.builds.models, 'attributes');
           expect(_.pluck(attributes, 'number')).toEqual([1, 2, 3]);

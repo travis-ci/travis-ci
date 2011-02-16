@@ -1,38 +1,38 @@
 $.fn.flash = function() {
-  Util.flash(this);
+  Travis.Helpers.Util.flash(this);
 }
 $.fn.unflash = function() {
-  Util.unflash(this);
+  Travis.Helpers.Util.unflash(this);
 }
 $.fn.deansi = function() {
-  this.html(Util.deansi(this.html()));
+  this.html(Travis.Helpers.Util.deansi(this.html()));
 }
-$.fn.update_times = function() {
-  Util.update_times(this);
+$.fn.updateTimes = function() {
+  Travis.Helpers.Util.updateTimes(this);
 }
-$.fn.activate_tab = function(tab) {
-  Util.activate_tab(this, tab);
+$.fn.activateTab = function(tab) {
+  Travis.Helpers.Util.activateTab(this, tab);
 }
-$.fn.readable_time = function() {
-  $(this).each(function() { $(this).text(Util.readable_time(parseInt($(this).attr('title')))); })
+$.fn.readableTime = function() {
+  $(this).each(function() { $(this).text(Travis.Helpers.Util.readableTime(parseInt($(this).attr('title')))); })
 }
 
-Util = {
-  activate_tab: function(element, tab) {
+Travis.Helpers.Util = {
+  activateTab: function(element, tab) {
     $('.tabs li', element).removeClass('active');
-    $('#tab_' + tab, element).addClass('active');
+    $('#tab_' + tab.toLowerCase(), element).addClass('active');
   },
   animated: function(element) {
     return !!element.queue()[0];
   },
   flash: function(element) {
-    if(!element.length == 0 && !Util.animated(element)) {
-      Util._flash(element);
+    if(!element.length == 0 && !Travis.Helpers.Util.animated(element)) {
+      Travis.Helpers.Util._flash(element);
     }
   },
   _flash: function(element) {
     element.effect('highlight', {}, 1000, function () {
-      Util._flash(element)
+      Travis.Helpers.Util._flash(element)
     });
   },
   unflash: function(element) {
@@ -44,15 +44,15 @@ Util = {
     string = string || '';
     return string.replace('[31m', '<span class="red">').replace('[32m', '<span class="green">').replace('[0m', '</span>');
   },
-  update_times: function(element) {
+  updateTimes: function(element) {
     element = element || $('body');
 
     $('.timeago', element).timeago();
     $('.finished_at[title=""]', element).hide().prev('.finished_at_label').hide();
     $('.finished_at[title=""]', element).next('.eta_label').show().next('.eta').show();
-    $('.duration', element).readable_time();
+    $('.duration', element).readableTime();
   },
-  readable_time: function(duration){
+  readableTime: function(duration){
       var days    = Math.floor(duration / 86400)
       var hours   = Math.floor(duration % 86400 / 3600);
       var minutes = Math.floor(duration % 3600 / 60);
@@ -68,7 +68,7 @@ Util = {
         return result.join(', ')
       }
   },
-  initialize_templates: function() {
+  loadTemplates: function() {
     var templates = {};
     $('*[type=text/x-js-template]').map(function() {
       var name = $(this).attr('name');
@@ -78,7 +78,7 @@ Util = {
     });
     return templates;
   },
-  query_string: function(params) {
+  queryString: function(params) {
     if(!params) return '';
     var query = _.compact(_.map(params, function(value, key) { return value ? key + '=' + value : null }));
     return query.length > 0 ? '?' + query.join('&') : '';

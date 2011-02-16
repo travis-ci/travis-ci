@@ -16,27 +16,27 @@ afterEach(function() {
   window.location.hash = this.hash;
 });
 
-var runs_after = function(time, func) {
+var runsAfter = function(time, func) {
   waits(time);
   jasmine.getEnv().currentSpec.runs(func);
 };
 
-var runs_when = function(condition, func) {
+var runsWhen = function(condition, func) {
   waitsFor(condition);
   jasmine.getEnv().currentSpec.runs(func);
 }
 
 var follow = function(text) {
   var link = $('a:contains("' + text + '")');
-  go_to(link.attr('href'));
+  goTo(link.attr('href'));
 }
 
-var go_to = function(hash) {
-  window.location.hash = normalize_hash(hash);
+var goTo = function(hash) {
+  window.location.hash = normalizeHash(hash);
   Backbone.history.loadUrl();
 }
 
-var normalize_hash = function(hash) {
+var normalizeHash = function(hash) {
   hash = '#!/' + hash.replace('#!/', '').replace(/^\//, '');
   return hash.replace(/#|!|\//) == '' ? '' : hash;
 }
