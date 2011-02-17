@@ -3,7 +3,7 @@ source :rubygems
 gem 'rails', '3.0.3'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'thin'
-gem 'SystemTimer'
+gem 'SystemTimer', :platforms => ['ruby_18']
 gem "devise"
 gem "svenfuchs-devise_oauth2_authenticatable", '0.1.4'
 gem 'minimal'
