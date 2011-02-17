@@ -1,4 +1,5 @@
 require 'travis'
+require 'devise/api_token_authenticatable'
 
 OAUTH2_CONFIG = Travis.config['oauth2'] || {}
 

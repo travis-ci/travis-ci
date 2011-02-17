@@ -1,5 +1,3 @@
-require 'devise/api_token_authenticatable'
-
 class User < ActiveRecord::Base
   devise :omniauthable, :api_token_authenticatable
 
