@@ -66,7 +66,7 @@ class Layouts::Application < Minimal::Template
           content_tag(:h5, profile_link) +
           link_to('Sign out', destroy_session_path)
         else
-          link_to_oauth2('Sign in with Github', :class => "profile-signup")
+          link_to('Sign in with Github', user_omniauth_authorize_path(:github), :class => "profile-signup")
         end
       end
     end
