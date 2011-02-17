@@ -31,7 +31,7 @@ Travis.Views.Jobs = Backbone.View.extend({
     this.renderItems(this.jobs);
   },
   renderItems: function(jobs) {
-    $('.loading', this.element).hide();
+    $('.loading', this.element()).hide();
     this.updateEmpty();
     _.each(jobs.models, function(job) { this.renderItem(job) }.bind(this));
     // Travis.Helpers.Util.updateTimes(this.element);
