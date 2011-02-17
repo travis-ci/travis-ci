@@ -343,14 +343,16 @@ td.duration, td.finished_at {
   margin: 15px -15px -15px -15px;
   padding: 10px 15px 5px;
   background-color: #eee;
-  -webkit-border-radius: 4px 4px;
-  -moz-border-radius: 4px 4px;
-  border-radius: 4px 4px;
+  -webkit-border-bottom-left-radius: 4px 4px;
+  -webkit-border-bottom-right-radius: 4px 4px;
+  -moz-border-bottom-left-radius: 4px 4px;
+  -moz-border-bottom-right-radius: 4px 4px;
+  border-bottom-left-radius: 4px 4px;
+  border-bottom-right-radius: 4px 4px;
 }
 #right #thanks_sponsors img {
-  border: 1px solid #999;
-  height: 30px;
-  margin-right: 5px;
+  border: 1px solid #bbb;
+  width: 168px;
 }
 .clearfix:after {
   clear: both;
