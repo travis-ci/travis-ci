@@ -6,6 +6,7 @@ gem 'thin'
 gem 'SystemTimer', :platforms => ['ruby_18']
 gem "devise"
 gem "svenfuchs-devise_oauth2_authenticatable", '0.1.4'
+gem 'unobtrusive_flash'
 gem 'minimal'
 gem 'pusher'
 
