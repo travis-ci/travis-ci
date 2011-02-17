@@ -1,13 +1,19 @@
 require 'devise/api_token_authenticatable'
 
 class User < ActiveRecord::Base
-  devise :oauth2_authenticatable, :api_token_authenticatable
+  devise :omniauthable, :api_token_authenticatable
 
   has_many :tokens
 
-  def before_oauth2_auto_create(attributes)
-    self.update_attributes!(attributes['user'].slice(*%w(name login email)))
-    self.tokens.create!
+  def self.find_for_github_oauth(access_token)
+    data = access_token['extra']['user_hash']
+    if user = User.find_by_login(data["login"])
+      user
+    else
+      user = create!(data.slice(*%w(name login email)))
+      user.tokens.create!
+    end
+    user
   end
 
   def profile_image_hash

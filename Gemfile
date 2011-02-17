@@ -4,8 +4,8 @@ gem 'rails', '3.0.3'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'thin'
 gem 'SystemTimer', :platforms => ['ruby_18']
-gem "devise"
-gem "svenfuchs-devise_oauth2_authenticatable", '0.1.4'
+gem "devise", '1.2rc'
+gem 'omniauth'
 gem 'minimal'
 gem 'pusher'
 
