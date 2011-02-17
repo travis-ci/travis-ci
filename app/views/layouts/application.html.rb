@@ -101,7 +101,7 @@ class Layouts::Application < Minimal::Template
       dir = Rails.root.join('public/javascripts/app/templates/')
       Dir["#{dir}**/*.*"].each do |path|
         template = File.read(path)
-        name = path.gsub(dir, '').sub(File.extname(path), '')
+        name = path.gsub(dir.to_s, '').sub(File.extname(path), '')
         content_tag :script, template.html_safe, :type => 'text/x-js-template', :name => name
       end
     end
