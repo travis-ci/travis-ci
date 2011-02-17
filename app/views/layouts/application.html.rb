@@ -17,6 +17,7 @@ class Layouts::Application < Minimal::Template
         end
 
         div :id => :left do
+          repos_header
           ul '', :id => :repositories
         end
         div :id => :right do
@@ -80,6 +81,10 @@ class Layouts::Application < Minimal::Template
         profile_text = current_user.login? ? current_user.login : 'view my profile'
         link_to profile_text, profile_path
       end
+    end
+
+    def repos_header
+      content_tag('h4', 'Recent Builds', :class => 'recent-builds')
     end
 
     def js_includes
