@@ -130,8 +130,8 @@ class Layouts::Application < Minimal::Template
           li '<a href="http://http://pusherapp.com">Pusher.app</a> for a "big boy" account for messaging.'.html_safe
         end
         div do
-          self << '<img src="/images/logos/pusher.png" />'.html_safe
           self << '<img src="/images/logos/avarteq.png" />'.html_safe
+          self << '<img src="/images/logos/pusher.png" />'.html_safe
         end
       end
     end
