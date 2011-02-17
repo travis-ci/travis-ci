@@ -53,13 +53,10 @@ ActiveRecord::Schema.define(:version => 20110130102621) do
     t.string   "name"
     t.string   "login"
     t.string   "email"
-    t.integer  "oauth2_uid",   :limit => 8
-    t.string   "oauth2_token", :limit => 149
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
-  add_index "users", ["oauth2_uid"], :name => "index_users_on_oauth2_uid", :unique => true
 
 end
