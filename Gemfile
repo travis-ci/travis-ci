@@ -24,7 +24,7 @@ group :test do
   # gem 'locator', :path => '~/Development/projects/locator'
 
   gem 'test_declarative'
-  gem 'ruby-debug', :platforms => ['ruby_18']
+  gem 'ruby-debug',   :platforms => ['ruby_18']
   gem 'ruby-debug19', :platforms => ['ruby_19']
   gem 'mocha'
   gem 'database_cleaner'
