@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
 
   has_many :tokens
 
-  before_save :create_a_token
+  after_save :create_a_token
 
 
   def self.find_for_github_oauth(user_hash)
