@@ -30,6 +30,7 @@ GEM
       activesupport (= 3.0.3)
     activesupport (3.0.3)
     addressable (2.2.2)
+    archive-tar-minitar (0.5.2)
     arel (2.0.7)
     bcrypt-ruby (2.1.4)
     builder (2.1.2)
@@ -64,6 +65,8 @@ GEM
     i18n (0.5.0)
     json (1.4.6)
     linecache (0.43)
+    linecache19 (0.5.11)
+      ruby_core_source (>= 0.1.4)
     mail (2.2.15)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
@@ -121,7 +124,17 @@ GEM
       ruby-debug-base (~> 0.10.4.0)
     ruby-debug-base (0.10.4)
       linecache (>= 0.3)
+    ruby-debug-base19 (0.11.24)
+      columnize (>= 0.3.1)
+      linecache19 (>= 0.5.11)
+      ruby_core_source (>= 0.1.4)
+    ruby-debug19 (0.11.6)
+      columnize (>= 0.3.1)
+      linecache19 (>= 0.5.11)
+      ruby-debug-base19 (>= 0.11.19)
     ruby-hmac (0.4.0)
+    ruby_core_source (0.1.4)
+      archive-tar-minitar (>= 0.5.2)
     signature (0.1.2)
       ruby-hmac
     sinatra (1.1.0)
@@ -169,6 +182,7 @@ DEPENDENCIES
   resque
   resque-meta
   ruby-debug
+  ruby-debug19
   sqlite3-ruby
   svenfuchs-devise_oauth2_authenticatable (= 0.1.4)
   test_declarative
