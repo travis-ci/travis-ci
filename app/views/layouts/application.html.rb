@@ -127,11 +127,11 @@ class Layouts::Application < Minimal::Template
         p "Special thanks go out to:"
         ul do
           li '<a href="http://avarteq.de">Avarteq</a> for a server for running a build worker.'.html_safe
-          li '<a href="http://http://pusherapp.com">Pusher.app</a> for a "big boy" account for messaging.'.html_safe
+          li '<a href="http://pusherapp.com">Pusher.app</a> for a "big boy" account for messaging.'.html_safe
         end
         div do
-          self << '<img src="/images/logos/avarteq.png" />'.html_safe
-          self << '<img src="/images/logos/pusher.png" />'.html_safe
+          link_to('<img src="/images/logos/avarteq.png" />'.html_safe, 'http://avarteq.de')
+          link_to('<img src="/images/logos/pusher.png" />'.html_safe, 'http://pusherapp.com')
         end
       end
     end
