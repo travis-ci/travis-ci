@@ -1,11 +1,11 @@
 source :rubygems
 
 gem 'rails', '3.0.3'
-gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'thin'
-gem 'SystemTimer', :platforms => ['ruby_18']
+gem 'SystemTimer',  :platforms => ['ruby_18']
+
+gem "oa-oauth",     :require => "omniauth/oauth"
 gem "devise", '1.2rc'
-gem 'omniauth'
 gem 'minimal'
 gem 'pusher'
 
@@ -17,6 +17,10 @@ gem 'resque-meta'
 gem 'em-websocket'
 gem 'em-http-request'
 gem 'em-pusher'
+
+group :development do
+  gem 'sqlite3-ruby', :require => 'sqlite3'
+end
 
 group :test do
   # gem 'cucumber'
