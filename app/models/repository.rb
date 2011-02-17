@@ -11,6 +11,10 @@ class Repository < ActiveRecord::Base
       # should probably denormalize the last build attributes which are relevant to the timeline at some point
       includes(:last_build).where(Build.arel_table[:started_at].not_eq(nil)).order(Build.arel_table[:started_at].desc)
     end
+
+    def recent
+      limit(15)
+    end
   end
 
   before_create :init_names
