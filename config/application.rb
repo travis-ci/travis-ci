@@ -11,7 +11,7 @@ module TravisRails
 
     def self.javascripts(dir)
       root = Rails.root.join('public/javascripts')
-      Dir[root.join(dir.to_s).join('**/*.js')].map { |file| file.sub("#{root.to_s}/", '') }
+      Dir[root.join(dir.to_s).join('**/*.js')].map { |file| file.sub("#{root.to_s}/", '') }.sort
     end
 
     vendor  = %w(jquery-1.4.4.min.js jquery.timeago.js underscore handlebars backbone pusher-1.6.min.js) # socky jquery-ui-1.8.9.highlight.min.js
