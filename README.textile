@@ -111,4 +111,8 @@ My first spike was using Nanite for running workers. These materials are now out
 * "1:36 quick demo screencast (spike 1)":http://www.youtube.com/watch?v=qdTV-b6BJHA
 * "Architecture diagram (spike 1)":https://github.com/svenfuchs/travis/raw/master/docs/travis.spike-1.png
 
+h2. Requirements
+
+* Ruby 1.8 is strongly recommended because "SystemTimer":http://rubygems.org/gems/SystemTimer doesn't work with Ruby 1.9
+
 
