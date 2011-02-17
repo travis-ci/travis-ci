@@ -331,13 +331,26 @@ td.duration, td.finished_at {
   color: #666;
 }
 #right #thanks_sponsors h4 {
-  margin: 0 -2px;
-  padding-left: 21px;
-  background: url(/images/smile.png) no-repeat 1px left;
+  margin: 0 -4px 0 0;
+  padding-right: 21px;
+  background: url(/images/smile.png) no-repeat 1px right;
 }
 #right #thanks_sponsors li {
  list-style-type: square;
  margin-left: 15px;
+}
+#right #thanks_sponsors div {
+  margin: 15px -15px -15px -15px;
+  padding: 10px 15px 5px;
+  background-color: #eee;
+  -webkit-border-radius: 4px 4px;
+  -moz-border-radius: 4px 4px;
+  border-radius: 4px 4px;
+}
+#right #thanks_sponsors img {
+  border: 1px solid #999;
+  height: 30px;
+  margin-right: 5px;
 }
 .clearfix:after {
   clear: both;

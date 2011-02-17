@@ -22,9 +22,9 @@ class Layouts::Application < Minimal::Template
         end
         div :id => :right do
           alpha_warning
-          thanks_sponsors
           div '', :id => :workers
           div '', :id => :jobs
+          thanks_sponsors
         end
         div '', :id => :main do
           block.call
@@ -124,10 +124,14 @@ class Layouts::Application < Minimal::Template
     def thanks_sponsors
       div :id => :thanks_sponsors, :class => :box do
         h4 "Thank you, sponsors!"
-        p "Special thanks to:"
+        p "Special thanks go out to:"
         ul do
           li '<a href="http://avarteq.de">Avarteq</a> for a server for running a build worker.'.html_safe
           li '<a href="http://http://pusherapp.com">Pusher.app</a> for a "big boy" account for messaging.'.html_safe
+        end
+        div do
+          self << '<img src="/images/logos/pusher.png" />'.html_safe
+          self << '<img src="/images/logos/avarteq.png" />'.html_safe
         end
       end
     end
