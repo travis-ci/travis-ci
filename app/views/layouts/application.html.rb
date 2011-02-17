@@ -21,9 +21,6 @@ class Layouts::Application < Minimal::Template
         end
         div :id => :right do
           alpha_warning
-          thanks_sponsors
-          div '', :id => :workers
-          div '', :id => :jobs
         end
         div '', :id => :main do
           block.call
@@ -110,20 +107,9 @@ class Layouts::Application < Minimal::Template
     end
 
     def alpha_warning
-      div :id => :alpha_warning, :class => :box do
+      div :id => :alpha_warning do
         h4 "This stuff is alpha."
         p "Please do <strong>not</strong> consider this a stable service. We're still far from that! More info <a href='https://github.com/svenfuchs/travis/wiki'>here.</a>".html_safe
-      end
-    end
-
-    def thanks_sponsors
-      div :id => :thanks_sponsors, :class => :box do
-        h4 "Thank you, sponsors!"
-        p "Special thanks to:"
-        ul do
-          li '<a href="http://avarteq.de">Avarteq</a> for a server for running a build worker.'.html_safe
-          li '<a href="http://http://pusherapp.com">Pusher.app</a> for a "big boy" account for messaging.'.html_safe
-        end
       end
     end
 end
