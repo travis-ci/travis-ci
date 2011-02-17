@@ -3,6 +3,10 @@ require 'devise/strategies/token_authenticatable'
 module Devise
   module Strategies
     class ApiTokenAuthenticatable < TokenAuthenticatable
+      def store?
+        false
+      end
+
       def authenticate!
         resource = mapping.to.find_for_api_token_authentication(authentication_hash)
 
