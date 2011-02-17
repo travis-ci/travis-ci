@@ -1,5 +1,7 @@
 TravisRails::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  # match '/users/auth/failure', :to => 'application#index'
+
   as :user do
     get 'users/sign_out', :to => 'devise/sessions#destroy', :as => :destroy_session
   end
