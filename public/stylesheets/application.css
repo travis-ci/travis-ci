@@ -258,7 +258,7 @@ dd {
 }
 #flash-messages .flash-message {
   padding: 10px 0;
-  background: #dcecaa;
+  background: #c0eb6f;
   opacity: 0.8;
 }
 #flash-messages .flash-message.flash-error {

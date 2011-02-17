@@ -8,7 +8,7 @@ $(function() {
 
   $.flash = function(message, options) {
 
-    options = $.extend({type: 'notice', timeout: 5000}, options);
+    options = $.extend({type: 'notice', timeout: 5000000}, options);
 
     var $flash = $('<div class="flash-message flash-'+options.type+' invisible"><div class="message">'+message+'</div></div>');
 

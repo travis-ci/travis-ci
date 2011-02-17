@@ -47,7 +47,7 @@ class Layouts::Application < Minimal::Template
     def head
       super do
         title 'Travis'
-        stylesheet_link_tag 'application', 'unobtrusive_flash'
+        stylesheet_link_tag 'application'
 
         if Rails.env.jasmine?
           stylesheet_link_tag 'jasmine'
