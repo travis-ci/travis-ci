@@ -267,6 +267,8 @@ dd {
 #flash-messages .flash-message .message {
   width: 960px;
   margin: 0 auto;
+  padding: 0 15px;
+  font-size: 90%;
 }
 
 #builds .green .number a {
