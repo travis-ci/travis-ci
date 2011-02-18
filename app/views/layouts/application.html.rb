@@ -26,6 +26,7 @@ class Layouts::Application < Minimal::Template
           div '', :id => :jobs
           thanks_sponsors
         end
+        div '', :id => :'flash-messages'
         div '', :id => :main do
           block.call
         end
