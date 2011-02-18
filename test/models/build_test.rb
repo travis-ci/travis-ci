@@ -1,4 +1,4 @@
-require 'test_helper_rails'
+require 'test_helper'
 
 class BuildTest < Test::Unit::TestCase
   test 'building a Build from Github ping data' do

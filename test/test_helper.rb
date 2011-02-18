@@ -1,13 +1,25 @@
-require 'rubygems'
-require 'bundler/setup'
-require 'test/unit'
-require 'test_declarative'
-require 'ruby-debug'
-require 'mocha'
+ENV["RAILS_ENV"] = "test"                                                                                                                                                                                                 
+require File.expand_path('../../config/environment', __FILE__)
+require 'rails/test_help'
 
-require 'travis'
+class ActiveSupport::TestCase
+  # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
+  #
+  # Note: You'll currently still have to declare fixtures explicitly in integration tests
+  # -- they do not yet inherit this setting
+  fixtures :all
 
-class Test::Unit::TestCase
+  DatabaseCleaner.strategy = :truncation
+
+  def setup
+    DatabaseCleaner.start
+  end
+
+  def teardown
+    DatabaseCleaner.clean
+  end
+
+  # Add more helper methods to be used by all tests here...
   class BuildableMock
     def configure; end
     def build!; end
