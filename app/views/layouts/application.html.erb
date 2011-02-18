@@ -78,7 +78,7 @@
         template = File.read(path)
         name = path.gsub(dir.to_s, '').sub(File.extname(path), '')
       %>
-      <%= content_tag :script, template.html_safe, :type => 'text/x-js-template', :name => name %>
+      <script name="<%= name %>" type="text/x-js-template"><%= template.html_safe %></script>
     <% end %>
     <% if Rails.env.jasmine? %>
       <% javascript_tag do %>
