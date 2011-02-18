@@ -1,4 +1,4 @@
-require 'test_helper_rails'
+require 'test_helper'
 
 class ModelsRepositoryTest < Test::Unit::TestCase
   attr_reader :repository_1, :repository_2, :build_1, :build_2, :build_3
