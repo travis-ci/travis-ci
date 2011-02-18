@@ -6,7 +6,6 @@ gem 'SystemTimer',  :platforms => ['ruby_18']
 
 gem "oa-oauth",     :require => "omniauth/oauth"
 gem "devise", '1.2.rc'
-gem 'minimal'
 gem 'pusher'
 gem 'unobtrusive_flash'
 
