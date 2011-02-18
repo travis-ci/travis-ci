@@ -8,6 +8,7 @@ gem "oa-oauth",     :require => "omniauth/oauth"
 gem "devise", '1.2rc'
 gem 'minimal'
 gem 'pusher'
+gem 'unobtrusive_flash'
 
 gem 'hoptoad_notifier'
 gem 'refraction'

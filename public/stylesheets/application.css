@@ -24,6 +24,10 @@ body {
   text-align: center;
 }
 
+#flash-messages {
+  margin: 30px 300px 30px 475px;
+  background-color: green;
+}
 #main {
   margin: 30px 300px 30px 475px;
 }
@@ -245,6 +249,24 @@ dd {
 }
 .tabs > li > h5 > a {
   text-decoration: none !important;
+}
+
+#flash-messages {
+  -webkit-border-radius: 4px 4px;
+  -moz-border-radius: 4px 4px;
+  border-radius: 4px 4px;
+}
+#flash-messages .flash-message {
+  padding: 10px 0;
+  background: #c0eb6f;
+  opacity: 0.8;
+}
+#flash-messages .flash-message.flash-error {
+  background: #ffe2e2;
+}
+#flash-messages .flash-message .message {
+  width: 960px;
+  margin: 0 auto;
 }
 
 #builds .green .number a {
