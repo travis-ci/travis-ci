@@ -74,9 +74,6 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
-    minimal (0.0.25)
-      actionpack (>= 3.0.0)
-      activesupport (>= 3.0.0)
     mocha (0.9.12)
     multi_json (0.0.5)
     multipart-post (1.1.0)
@@ -95,7 +92,7 @@ GEM
       multi_json (~> 0.0.4)
     orm_adapter (0.0.4)
     polyglot (0.3.1)
-    pusher (0.7.0)
+    pusher (0.8.0)
       crack (~> 0.1.0)
       json (~> 1.4.0)
       ruby-hmac (~> 0.4.0)
@@ -184,7 +181,6 @@ DEPENDENCIES
   em-websocket
   factory_girl
   hoptoad_notifier
-  minimal
   mocha
   oa-oauth
   pusher
