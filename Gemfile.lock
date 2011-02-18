@@ -178,7 +178,7 @@ PLATFORMS
 DEPENDENCIES
   SystemTimer
   database_cleaner
-  devise (= 1.2rc)
+  devise (= 1.2.rc)
   em-http-request
   em-pusher
   em-websocket
