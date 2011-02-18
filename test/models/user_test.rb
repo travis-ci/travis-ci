@@ -1,4 +1,4 @@
-require 'test_helper_rails'
+require 'test_helper'
 
 class UserTest < Test::Unit::TestCase
   test 'profile_image_hash returns a MD5 hash of the email if an email is set' do
