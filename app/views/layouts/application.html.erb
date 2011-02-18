@@ -1,0 +1,93 @@
+<!doctype html>
+<!--[if lt IE 7 ]>             <html lang="en" class="ie6"> <![endif]-->
+<!--[if IE 7 ]>                <html lang="en" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>                <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9 ]>                <html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Travis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%= stylesheet_link_tag 'application' %>
+    <% if Rails.env.jasmine? %>
+      <%= stylesheet_link_tag :jasmine %>
+      <%= javascript_include_tag :jasmine, :tests %>
+    <% end %>
+  </head>
+  <body id="<%= params[:controller].singularize %>">
+    <div id="top">
+      <h1 class="logo">Travis</h1>
+
+      <ul class="breadcrumbs">
+        <li><%= link_to "Home", root_path %></li>
+      </ul>
+
+      <div class="profile">
+        <% if current_user %>
+          <%= image_tag("http://www.gravatar.com/avatar/#{current_user.profile_image_hash}?s=30&d=mm", :alt => "", :class => "profile-avatar") %>
+          <h5><%= link_to current_user.login? ? current_user.login : 'view my profile', profile_path %></h5>
+          <%= link_to "Sign out", destroy_session_path %>
+        <% else %>
+          <%= link_to "Sign in with Github", user_omniauth_authorize_path(:github), :class => "profile-signup" %>
+        <% end %>
+      </div>
+
+      <a href="http://github.com/svenfuchs/travis"><img style="position: absolute; top: 0; left: 0; border: 0; z-index: 99;" src="https://assets1.github.com/img/ce742187c818c67d98af16f96ed21c00160c234a?repo=&url=http%3A%2F%2Fs3.amazonaws.com%2Fgithub%2Fribbons%2Fforkme_left_gray_6d6d6d.png&path=" alt="Fork me on GitHub"></a>
+    </div>
+
+    <div id="left">
+      <h4 class="recent-builds">Recent Builds</h4>
+      <ul id="repositories"></ul>
+    </div>
+
+    <div id="right">
+      <div id="alpha_warning" class="box">
+        <h4>This stuff is alpha.</h4>
+        <p>Please do <strong>not</strong> consider this a stable service. We're still far from that! More info <a href='https://github.com/svenfuchs/travis/wiki'>here.</a></p>
+      </div>
+      <div id="workers"></div>
+      <div id="jobs"></div>
+      <div id="thanks_sponsors" class="box">
+        <h4>Thank you, sponsors!</h4>
+        <p>Special thanks go out to:</p>
+        <ul>
+          <li><a href="http://avarteq.de">Avarteq</a> for a server for running a build worker.</li>
+          <li><a href="http://pusherapp.com">Pusher.app</a> for a "big boy" account for messaging.</li>
+        </ul>
+        <div>
+          <%= link_to image_tag('/images/logos/avarteq.png'), 'http://avarteq.de' %>
+          <%= link_to image_tag('/images/logos/pusher.png'), 'http://pusherapp.com' %>
+        </div>
+      </div>
+    </div>
+
+    <div id="flash-messages"></div>
+
+    <div id="main">
+      <%= yield %>
+    </div>
+
+    <%= javascript_include_tag :vendor, :lib, 'application', :app %>
+    <%= javascript_tag "var pusher = new Pusher('#{Pusher.key}');" %>
+    <%
+      dir = Rails.root.join('public/javascripts/app/templates/')
+      Dir["#{dir}**/*.*"].each do |path|
+    %>
+      <%
+        template = File.read(path)
+        name = path.gsub(dir.to_s, '').sub(File.extname(path), '')
+      %>
+      <%= content_tag :script, template.html_safe, :type => 'text/x-js-template', :name => name %>
+    <% end %>
+    <% if Rails.env.jasmine? %>
+      <% javascript_tag do %>
+        var INIT_DATA = {
+          repositories: <%= Repository.timeline.as_json.to_json %>,
+          workers: <%= workers.to_json %>,
+          jobs: <%= jobs.to_json %>
+        };
+      <% end %>
+    <% end %>
+  </body>
+</html>
