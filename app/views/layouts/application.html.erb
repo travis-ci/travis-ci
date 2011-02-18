@@ -79,7 +79,7 @@
         name = path.gsub(dir.to_s, '').sub(File.extname(path), '')
       %>
       <script name="<%= name %>" type="text/x-js-template"><%= template.html_safe %></script>
-    <% end %>
+    <% end %> 
     <% if Rails.env.jasmine? %>
       <% javascript_tag do %>
         var INIT_DATA = {
