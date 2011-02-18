@@ -1,10 +1,3 @@
-oauth2: &oauth2
-  authorization_server: https://github.com
-  requested_scope: user
-  authorize_path: login/oauth/authorize
-  access_token_path: login/oauth/access_token
-  user_attributes_path: api/v2/json/user/show
-  user_attribute_uid_key: user/login
 production:
   redis:
     url: redis://YOUR_REDIS_URL
@@ -18,7 +11,6 @@ production:
   oauth2:
     client_id: YOUR_GITHUB_CLIENT_ID
     client_secret: YOUR_GITHUB_CLIENT_SECRET
-    <<: *oauth2
 development:
   redis:
     url: redis://localhost:6379
@@ -31,7 +23,6 @@ development:
   oauth2:
     client_id: YOUR_GITHUB_CLIENT_ID
     client_secret: YOUR_GITHUB_CLIENT_SECRET
-    <<: *oauth2
 test:
   redis:
     url: redis://localhost:6379
