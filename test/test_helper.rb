@@ -17,6 +17,11 @@ class ActiveSupport::TestCase
     def configure; end
     def build!; end
   end
+
+  class ConnectionMock
+    def callback; end
+    def errback; end
+  end
 end
 
 GITHUB_PAYLOADS = {

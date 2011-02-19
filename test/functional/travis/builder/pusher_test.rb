@@ -22,7 +22,7 @@ class TravisBuilderPusherTest < ActiveSupport::TestCase
 
     builder.stubs(:pusher).returns(pusher)
     builder.stubs(:buildable).returns(BuildableMock.new)
-    pusher.stubs(:trigger)
+    pusher.stubs(:trigger).returns(ConnectionMock.new)
   end
 
   def work!
@@ -30,12 +30,12 @@ class TravisBuilderPusherTest < ActiveSupport::TestCase
   end
 
   test 'updates the build record on start' do
-    pusher.expects(:trigger).with('build:started', :build => build.merge('log' => '', 'started_at' => Time.now))
+    pusher.expects(:trigger).with('build:started', :build => build.merge('log' => '', 'started_at' => Time.now)).returns(ConnectionMock.new)
     work!
   end
 
   test 'updates the build record on finish' do
-    pusher.expects(:trigger).with('build:finished', :build => build.merge('log' => '', 'started_at' => Time.now, 'finished_at' => Time.now))
+    pusher.expects(:trigger).with('build:finished', :build => build.merge('log' => '', 'started_at' => Time.now, 'finished_at' => Time.now)).returns(ConnectionMock.new)
     work!
   end
 end
