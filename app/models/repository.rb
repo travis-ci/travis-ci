@@ -26,7 +26,6 @@ class Repository < ActiveRecord::Base
   end
 
   protected
-
     def init_names
       self.name ||= URI.parse(url).path.split('/')[-2, 2].join('/')
       self.username = name.split('/').first

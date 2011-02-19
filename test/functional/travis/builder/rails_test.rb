@@ -33,4 +33,3 @@ class TravisBuilderRailsTest < ActiveSupport::TestCase
     work!
   end
 end
-

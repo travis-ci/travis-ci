@@ -10,7 +10,6 @@ class RepositoriesController < ApplicationController
   end
 
   protected
-
     def repositories
       params[:username] ? Repository.where(:username => params[:username]).timeline : Repository.timeline.recent
     end
@@ -20,6 +19,3 @@ class RepositoriesController < ApplicationController
     end
     helper_method :repository
 end
-
-
-

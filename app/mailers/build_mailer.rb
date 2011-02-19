@@ -7,4 +7,3 @@ class BuildMailer < ActionMailer::Base
     mail(:to => build.committer_email, :subject => subject)
   end
 end
-

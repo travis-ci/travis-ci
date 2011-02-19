@@ -4,7 +4,6 @@ class Token < ActiveRecord::Base
   before_create :generate_token
 
   protected
-
     def generate_token
       self.token = Devise.friendly_token
     end

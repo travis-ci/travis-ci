@@ -12,4 +12,3 @@ EventMachine.run {
     EventMachine.stop
   }
 }
-

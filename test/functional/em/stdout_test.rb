@@ -20,4 +20,3 @@ class EMStdoutTest < Test::Unit::TestCase
     assert_equal '.', out.string
   end
 end
-

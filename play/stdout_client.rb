@@ -10,5 +10,3 @@ redis.psubscribe('*') do |on|
     puts "#{channel} #{message}"
   end
 end
-
-

@@ -56,7 +56,6 @@ class TravisWebSocketServerTest < Test::Unit::TestCase
   end
 
   protected
-
     def start_server
       server = Thread.new do
         EM.run do

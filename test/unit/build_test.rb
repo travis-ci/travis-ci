@@ -65,4 +65,3 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal expected, build.as_json(:full => true)
   end
 end
-

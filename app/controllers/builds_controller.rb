@@ -34,7 +34,6 @@ class BuildsController < ApplicationController
   end
 
   protected
-
     def repository
       @repository ||= params[:repository_id] ? Repository.find(params[:repository_id]) : build.repository
     end
@@ -51,4 +50,3 @@ class BuildsController < ApplicationController
       BuildMailer.finished_email(build)
     end
 end
-

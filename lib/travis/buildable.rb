@@ -38,7 +38,6 @@ module Travis
     end
 
     protected
-
       def clone
         execute "cd ..; git clone #{git_url}; cd -"
       end

@@ -37,6 +37,3 @@ class TravisBuilderStdoutTest < ActiveSupport::TestCase
     work!
   end
 end
-
-
-
