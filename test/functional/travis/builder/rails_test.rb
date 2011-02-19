@@ -2,7 +2,7 @@ require 'test_helper'
 require 'travis/builder'
 require 'travis/builder/rails'
 
-class TravisBuilderRailsTest < Test::Unit::TestCase
+class TravisBuilderRailsTest < ActiveSupport::TestCase
   class Builder < Travis::Builder
     include Travis::Builder::Rails
   end

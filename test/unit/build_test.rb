@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BuildTest < Test::Unit::TestCase
+class BuildTest < ActiveSupport::TestCase
   test 'building a Build from Github ping data' do
     build = Build.build(JSON.parse(GITHUB_PAYLOADS['gem-release']))
 

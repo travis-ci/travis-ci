@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BuildableTest < Test::Unit::TestCase
+class BuildableTest < ActiveSupport::TestCase
   include Travis
   Buildable.send :public, :build_dir, :git_url
   Buildable.base_dir = '/tmp/travis/test'

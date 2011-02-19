@@ -2,7 +2,7 @@ require 'test_helper'
 require 'resque'
 require 'travis/builder'
 
-class TravisBuilderTest < Test::Unit::TestCase
+class TravisBuilderTest < ActiveSupport::TestCase
   attr_reader :builder, :buildable
 
   def setup
