@@ -97,10 +97,10 @@ $ rails s thin -e jasmine
 $ open http://localhost:3000
 </pre>
 
-To run the unit tests simply do:
+To run the whole test suite simply do:
 
 <pre>
-$ ruby -Ilib -Itest test/all.rb
+$ rake test
 </pre>
 
 
@@ -111,8 +111,8 @@ My first spike was using Nanite for running workers. These materials are now out
 * "1:36 quick demo screencast (spike 1)":http://www.youtube.com/watch?v=qdTV-b6BJHA
 * "Architecture diagram (spike 1)":https://github.com/svenfuchs/travis/raw/master/docs/travis.spike-1.png
 
+
 h2. Requirements
 
-* Ruby 1.8 is strongly recommended because "SystemTimer":http://rubygems.org/gems/SystemTimer doesn't work with Ruby 1.9
-
+* Ruby 1.8.7 or Ruby 1.9.2 (Ruby 1.9.1 is not supported).
 
