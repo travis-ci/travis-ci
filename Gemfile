@@ -32,7 +32,6 @@ group :test do
   gem 'ruby-debug19', :platforms => ['ruby_19']
   gem 'mocha'
   gem 'database_cleaner'
-  #gem 'factory_girl', '2.0.0.beta2'
   gem 'factory_girl_rails'
 
   gem 'web-socket-ruby'
