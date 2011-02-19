@@ -87,7 +87,7 @@ module Travis
       end
 
       def config_url
-        @config_url ||= "#{url}/raw/HEAD/.travis.yml"
+        @config_url ||= "#{url}/raw/#{commit}/.travis.yml"
       end
 
       def git_url
