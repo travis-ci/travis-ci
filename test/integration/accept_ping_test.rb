@@ -7,12 +7,13 @@ class AcceptPingTest < ActionDispatch::IntegrationTest
 
   def setup
     super
+    flush_redis
+
     @user = User.create!(:login => 'svenfuchs')
     user.tokens.create!
 
     @channel = ChannelMock.new
     Pusher.stubs(:[]).returns(channel)
-    Resque.redis.flushall
   end
 
   def ping!

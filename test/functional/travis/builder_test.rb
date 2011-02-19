@@ -7,7 +7,8 @@ class TravisBuilderTest < ActiveSupport::TestCase
 
   def setup
     super
-    Resque.redis.flushall
+    flush_redis
+
     payload = RESQUE_PAYLOADS['gem-release']
 
     @buildable = BuildableMock.new
