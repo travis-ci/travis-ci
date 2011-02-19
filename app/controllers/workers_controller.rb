@@ -1,5 +1,3 @@
-require 'resque'
-
 class WorkersController < ApplicationController
   respond_to :json
 
