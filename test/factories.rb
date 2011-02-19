@@ -1,5 +1,3 @@
-require 'factory_girl'
-
 Factory.define :repository do |f|
   f.name 'svenfuchs/minimal'
   f.url  { |r| "http://github.com/#{r.name}" }

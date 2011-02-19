@@ -4,7 +4,7 @@ require 'travis/builder/stdout'
 
 STDOUT.sync = true
 
-class TravisBuilderStdoutTest < Test::Unit::TestCase
+class TravisBuilderStdoutTest < ActiveSupport::TestCase
   class StdoutBuildableMock < BuildableMock
     def build!
       system('echo "build output"')

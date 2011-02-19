@@ -4,7 +4,7 @@ require 'travis/builder/pusher'
 require 'eventmachine'
 require 'pusher'
 
-class TravisBuilderPusherTest < Test::Unit::TestCase
+class TravisBuilderPusherTest < ActiveSupport::TestCase
   class Builder < Travis::Builder
     include Travis::Builder::Pusher
   end
