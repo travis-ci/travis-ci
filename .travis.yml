@@ -1,0 +1,1 @@
+script: "rake db:migrate && rake test"
