@@ -4,6 +4,7 @@ TravisRails::Application.routes.draw do
   as :user do
     get 'users/sign_out', :to => 'devise/sessions#destroy', :as => :destroy_session
   end
+
   resource :profile
 
   resources :repositories do

@@ -50,4 +50,3 @@ class BuildableTest < ActiveSupport::TestCase
     assert_equal 'git://github.com/svenfuchs/travis.git', buildable.git_url
   end
 end
-

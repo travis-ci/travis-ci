@@ -23,4 +23,3 @@ EM.run do
     EM.stop
   end
 end
-

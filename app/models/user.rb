@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
 
   after_save :create_a_token
 
-
   def self.find_for_github_oauth(user_hash)
     data = user_hash['extra']['user_hash']
     if user = User.find_by_login(data["login"])
@@ -19,13 +18,10 @@ class User < ActiveRecord::Base
     self.email? ? Digest::MD5.hexdigest(self.email) : '00000000000000000000000000000000'
   end
 
-
   private
-
     def create_a_token
       self.tokens.create! if self.tokens.empty?
     end
-
 end
 
 

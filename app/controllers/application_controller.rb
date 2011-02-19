@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
   end
 
   protected
-
     def repositories
       @repositories ||= Repository.timeline
     end

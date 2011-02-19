@@ -18,4 +18,3 @@ if defined?(Thin)
     EM.add_periodic_timer(3) { Resque.prune_dead_workers }
   end
 end
-

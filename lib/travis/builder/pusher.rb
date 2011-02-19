@@ -20,7 +20,6 @@ module Travis
       end
 
       protected
-
         def push(event, data)
           # TODO fix channels
           channel = 'repositories'

@@ -52,4 +52,3 @@ num_workers.times do |num|
     end
   end
 end
-

@@ -7,4 +7,3 @@ class WorkersController < ApplicationController
     render :json => workers
   end
 end
-

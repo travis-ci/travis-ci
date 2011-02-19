@@ -11,6 +11,7 @@ production:
   oauth2:
     client_id: YOUR_GITHUB_CLIENT_ID
     client_secret: YOUR_GITHUB_CLIENT_SECRET
+
 development:
   redis:
     url: redis://localhost:6379
@@ -23,7 +24,7 @@ development:
   oauth2:
     client_id: YOUR_GITHUB_CLIENT_ID
     client_secret: YOUR_GITHUB_CLIENT_SECRET
+
 test:
   redis:
     url: redis://localhost:6379
-

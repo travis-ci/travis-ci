@@ -29,7 +29,3 @@ EM.run do
     STDOUT.reopen(stdout)
   end
 end
-
-
-
-

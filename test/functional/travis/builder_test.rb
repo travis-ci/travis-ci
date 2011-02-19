@@ -35,7 +35,6 @@ class TravisBuilderTest < ActiveSupport::TestCase
   # end
 
   protected
-
     def work!
       worker.work(0)
     end

@@ -1,5 +1,4 @@
 Refraction.configure do |req|
-
   if req.host =~ /travis\.heroku\.com/
     if req.path =~ /^\/builds/
       # passthrough with no change (old github webhook)
@@ -16,5 +15,4 @@ Refraction.configure do |req|
   else
     # passthrough with no change
   end
-
 end
