@@ -13,6 +13,12 @@ class ActiveSupport::TestCase
     DatabaseCleaner.clean
   end
 
+  def flush_redis
+    Resque.redis.flushall
+  rescue
+    skip("Cannot connect to Redis. Omitting this test.")
+  end
+
   class BuildableMock
     def configure; end
     def build!; end
