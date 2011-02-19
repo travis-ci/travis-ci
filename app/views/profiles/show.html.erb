@@ -8,7 +8,7 @@
 <h4>Your tokens</h4>
 <ul id="tokens">
   <% current_user.tokens.each do |token| %>
-    <li><%= token %> <%= link_to 'remove', '#' %></li>
+    <li><%= token.token %> <%= link_to 'remove', '#' %></li>
   <% end %>
 </ul>
 <%= link_to 'create', '#' %>
