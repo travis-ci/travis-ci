@@ -193,8 +193,8 @@ DEPENDENCIES
   em-websocket (~> 0.2.0)
   factory_girl_rails
   hoptoad_notifier (~> 2.4.6)
-  minitest
-  minitest_tu_shim
+  minitest (~> 2.0.2)
+  minitest_tu_shim (~> 1.3.2)
   mocha
   oa-oauth
   pusher (~> 0.8.0)

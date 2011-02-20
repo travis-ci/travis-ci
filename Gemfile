@@ -33,8 +33,10 @@ group :test do
   gem 'test_declarative'
   gem 'ruby-debug',       :platforms => ['ruby_18']
   gem 'ruby-debug19',     :platforms => ['ruby_19']
-  gem 'minitest',         :platforms => ['ruby_18']
-  gem 'minitest_tu_shim', :platforms => ['ruby_18']
+
+  gem 'minitest',         '~> 2.0.2', :platforms => ['ruby_18']
+  gem 'minitest_tu_shim', '~> 1.3.2', :platforms => ['ruby_18']
+
   gem 'mocha'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
