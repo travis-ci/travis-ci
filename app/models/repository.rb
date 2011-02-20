@@ -16,7 +16,7 @@ class Repository < ActiveRecord::Base
     end
 
     def recent
-      limit(15)
+      limit(60)
     end
   end
 
