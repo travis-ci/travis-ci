@@ -16,6 +16,14 @@ GIT
       nokogiri (~> 1.4.4)
       rack-test (~> 0.5.6)
 
+GIT
+  remote: https://github.com/thoughtbot/factory_girl_rails.git
+  revision: 8a421148bf70577b1c944f8494bf37295c44b06e
+  specs:
+    factory_girl_rails (1.1.beta1)
+      factory_girl (~> 2.0.0.beta)
+      railties (>= 3.0.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -91,10 +99,7 @@ GEM
       abstract (>= 1.0.0)
     escape_utils (0.2.0)
     eventmachine (0.12.10)
-    factory_girl (1.3.3)
-    factory_girl_rails (1.0.1)
-      factory_girl (~> 1.3)
-      railties (>= 3.0.0)
+    factory_girl (2.0.0.beta2)
     faraday (0.5.6)
       addressable (~> 2.2.4)
       multipart-post (~> 1.1.0)
@@ -236,7 +241,7 @@ DEPENDENCIES
   devise (~> 1.2.rc)
   em-pusher (~> 0.1.0)!
   em-websocket (~> 0.2.0)
-  factory_girl_rails
+  factory_girl_rails!
   hoptoad_notifier (~> 2.4.6)
   minitest (~> 2.0.2)
   minitest_tu_shim (~> 1.3.2)

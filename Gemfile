@@ -40,7 +40,7 @@ group :test do
 
   gem 'mocha'
   gem 'database_cleaner'
-  gem 'factory_girl_rails'
+  gem 'factory_girl_rails', :git => 'https://github.com/thoughtbot/factory_girl_rails.git'
 
   gem 'web-socket-ruby'
 end
