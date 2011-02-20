@@ -17,7 +17,7 @@ module TravisRails
     vendor  = %w(jquery-1.4.4.min.js jquery.timeago.js underscore handlebars backbone pusher-1.6.min.js unobtrusive_flash) # socky jquery-ui-1.8.9.highlight.min.js
     jasmine = %w(jasmine jasmine-html)
 
-    expansions = javascript_expansions(:lib, :app, :tests)
+    expansions = javascript_expansions(:app, :tests)
     expansions[:tests].sort! { |lft, rgt| lft.include?('helper') ? -1 : rgt.include?('helper') ? 1 : lft <=> rgt }
 
     expansions.merge!(:vendor  => vendor.map { |name| "vendor/#{name}" })
