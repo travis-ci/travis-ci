@@ -19,3 +19,6 @@ production:
 jasmine:
   <<: *test
   database: db/jasmine.sqlite3
+
+cucumber:
+  <<: *test
