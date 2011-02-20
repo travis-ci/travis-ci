@@ -12,17 +12,18 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     @build_3 = Factory(:build, :repository => repository_2, :started_at => '2010-11-11 12:00:20')
   end
 
-  test 'Repository.timeline eager loads last_build' do
+  test '.timeline eager loads last_build' do
     assert Repository.timeline.first.last_build.loaded?
   end
 
-  test 'Repository.timeline sorts the most repository with the most recent build to the top' do
+  test '.timeline sorts the most repository with the most recent build to the top' do
     repositories = Repository.timeline.all
     assert_equal repository_2, repositories.first
     assert_equal repository_1, repositories.last
   end
 
-  test 'repository.last_build returns the most recent build' do
+  test '#last_build returns the most recent build' do
     assert_equal build_3, repository_2.last_build
   end
+
 end
