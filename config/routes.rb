@@ -18,5 +18,7 @@ TravisRails::Application.routes.draw do
   resources :jobs
   resources :workers
 
+  match ":user/:repository", :to => redirect("#!/%{user}/%{repository}")
+
   root :to => 'application#index'
 end
