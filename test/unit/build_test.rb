@@ -17,7 +17,7 @@ class BuildTest < ActiveSupport::TestCase
   end
 
   test 'as_json includes everything required for the build:started event' do
-    build = Factory(:build)
+    build = FactoryGirl.create(:build)
     expected = {
       'id' => build.id,
       'number' => nil,
@@ -33,14 +33,14 @@ class BuildTest < ActiveSupport::TestCase
         'id' => build.repository.id,
         'name' => 'svenfuchs/minimal',
         'url' => 'http://github.com/svenfuchs/minimal',
-        'last_duration' => nil,
+        'last_duration' => 60,
       }
     }
     assert_equal expected, build.as_json
   end
 
   test 'as_json(:full => true) includes everything required for the build details view' do
-    build = Factory(:build)
+    build = FactoryGirl.create(:build)
     expected = {
       'id' => build.id,
       'number' => nil,
@@ -59,7 +59,7 @@ class BuildTest < ActiveSupport::TestCase
         'id' => build.repository.id,
         'name' => 'svenfuchs/minimal',
         'url' => 'http://github.com/svenfuchs/minimal',
-        'last_duration' => nil,
+        'last_duration' => 60,
       }
     }
     assert_equal expected, build.as_json(:full => true)
