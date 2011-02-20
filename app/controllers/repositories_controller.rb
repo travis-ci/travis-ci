@@ -2,11 +2,11 @@ class RepositoriesController < ApplicationController
   respond_to :json
 
   def index
-    render :json => repositories.as_json
+    respond_with(repositories)
   end
 
   def show
-    render :json => repository.as_json
+    respond_with(repository)
   end
 
   protected
