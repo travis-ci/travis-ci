@@ -26,7 +26,8 @@ group :development do
 end
 
 group :test do
-  # gem 'cucumber'
+  gem 'cucumber-rails', :git => 'https://github.com/aslakhellesoy/cucumber-rails.git'
+  gem 'capybara'
   # gem 'steam', :path => '~/Development/projects/steam'
   # gem 'locator', :path => '~/Development/projects/locator'
 
