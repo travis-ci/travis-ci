@@ -1,22 +1,25 @@
 source :rubygems
 
-gem 'rails', '3.0.3'
-gem 'thin'
-gem 'SystemTimer',  :platforms => ['ruby_18']
+gem 'rails',        '~> 3.0.3'
+gem 'thin',         '~> 1.2.7'
+gem 'SystemTimer',  '~> 1.2.2', :platforms => ['ruby_18']
 
-gem "oa-oauth",     :require => "omniauth/oauth"
-gem "devise", '1.2.rc'
-gem 'pusher'
-gem 'unobtrusive_flash'
+gem 'yajl-ruby',    '~> 0.8.1'
 
-gem 'hoptoad_notifier'
-gem 'refraction'
+gem "oa-oauth",                 :require => "omniauth/oauth"
+gem "devise",       '~> 1.2.rc'
 
-gem 'resque'
-gem 'resque-meta'
-gem 'em-websocket'
-gem 'em-http-request'
-gem 'em-pusher'
+gem 'pusher',       '~> 0.8.0'
+
+gem 'unobtrusive_flash',  '~> 0.0.2'
+
+gem 'hoptoad_notifier',   '~> 2.4.6'
+gem 'refraction',         '~> 0.2.0'
+
+gem 'resque',             '~> 1.13.0'
+gem 'resque-meta',        '~> 1.0.3'
+gem 'em-websocket',       '~> 0.2.0'
+gem 'em-pusher',          '~> 0.1.0', :git => 'git://github.com/joshk/em-pusher.git'
 
 group :development do
   gem 'sqlite3-ruby', :require => 'sqlite3'
