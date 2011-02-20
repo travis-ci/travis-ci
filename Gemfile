@@ -26,7 +26,7 @@ group :development do
 end
 
 group :test do
-  gem 'cucumber-rails', :git => 'https://github.com/aslakhellesoy/cucumber-rails.git'
+  gem 'cucumber-rails', :git => 'git://github.com/aslakhellesoy/cucumber-rails.git'
   gem 'capybara'
   # gem 'steam', :path => '~/Development/projects/steam'
   # gem 'locator', :path => '~/Development/projects/locator'
@@ -40,7 +40,7 @@ group :test do
 
   gem 'mocha'
   gem 'database_cleaner'
-  gem 'factory_girl_rails', :git => 'https://github.com/thoughtbot/factory_girl_rails.git'
+  gem 'factory_girl_rails', :git => 'git://github.com/thoughtbot/factory_girl_rails.git'
 
   gem 'web-socket-ruby'
 end
