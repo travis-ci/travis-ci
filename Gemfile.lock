@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/aslakhellesoy/cucumber-rails.git
+  revision: f3002faf12560dc7a7dc16cafb282ffbbf892029
+  specs:
+    cucumber-rails (0.4.0.beta.1)
+      cucumber (~> 0.10.0)
+      nokogiri (~> 1.4.4)
+      rack-test (~> 0.5.6)
+
+GIT
   remote: git://github.com/joshk/em-pusher.git
   revision: b0196dd88e6d7bc438dcfd20f39e3ddb1b50f15c
   specs:
@@ -8,16 +17,7 @@ GIT
       ruby-hmac (~> 0.4.0)
 
 GIT
-  remote: https://github.com/aslakhellesoy/cucumber-rails.git
-  revision: f3002faf12560dc7a7dc16cafb282ffbbf892029
-  specs:
-    cucumber-rails (0.4.0.beta.1)
-      cucumber (~> 0.10.0)
-      nokogiri (~> 1.4.4)
-      rack-test (~> 0.5.6)
-
-GIT
-  remote: https://github.com/thoughtbot/factory_girl_rails.git
+  remote: git://github.com/thoughtbot/factory_girl_rails.git
   revision: 8a421148bf70577b1c944f8494bf37295c44b06e
   specs:
     factory_girl_rails (1.1.beta1)
