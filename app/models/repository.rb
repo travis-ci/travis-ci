@@ -18,6 +18,11 @@ class Repository < ActiveRecord::Base
     def recent
       limit(60)
     end
+
+    def human_status_by_name(name)
+      return 'unknown' unless repository = find_by_name(name)
+      repository.last_build.status == 0 ? 'stable' : 'unstable'
+    end
   end
 
   before_create :init_names
