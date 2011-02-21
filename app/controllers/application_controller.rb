@@ -27,8 +27,4 @@ class ApplicationController < ActionController::Base
       end
     end
     helper_method :jobs
-
-    def accounts
-      @accounts ||= Travis.config['accounts'] || {}
-    end
 end
