@@ -19,9 +19,6 @@ TravisRails::Application.routes.draw do
   resources :workers
 
   match ":user/:name.png", :to => 'repositories#show', :format => 'png'
-  #redirect { |params|
-    #"/images/status/#{Repository.human_status_by_name("#{params[:user]}/#{params[:name]}")}.png"
-  #}
 
   match ":user/:repository", :to => redirect("#!/%{user}/%{repository}")
 

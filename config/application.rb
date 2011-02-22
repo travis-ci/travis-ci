@@ -32,7 +32,6 @@ module TravisRails
     # config.action_controller.logger = Logger.new(STDOUT)
     config.serve_static_assets = true
 
-    Mime::Type.register 'image/png', :png
     ActiveRecord::Base.include_root_in_json = false
   end
 end
