@@ -4,7 +4,18 @@ end
 
 Given /^"([^"]*)" has an? (un)?stable last build$/ do |name, status|
   repository = Repository.where(:name => name).first
-  Factory(:build, :started_at => Time.now, :repository => repository, :status => status ? 1 : 0)
+  Factory(
+    :build,
+    :started_at => Time.now,
+    :finished_at => Time.now,
+    :repository => repository,
+    :status => status ? 1 : 0
+  )
+end
+
+Given /^"([^"]*)" has an unfinished last build$/ do |name|
+  repository = Repository.where(:name => name).first
+  Factory(:build, :started_at => Time.now, :repository => repository)
 end
 
 Given /^a repository named "([^"]*)" does not exist$/ do |name|

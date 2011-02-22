@@ -20,7 +20,8 @@ class Repository < ActiveRecord::Base
     end
 
     def human_status_by_name(name)
-      return 'unknown' unless repository = find_by_name(name)
+      repository = find_by_name(name)
+      return 'unknown' if !repository || repository.last_build.finished_at == nil
       repository.last_build.status == 0 ? 'stable' : 'unstable'
     end
   end
