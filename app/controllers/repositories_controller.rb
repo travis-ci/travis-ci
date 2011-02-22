@@ -6,7 +6,15 @@ class RepositoriesController < ApplicationController
   end
 
   def show
-    respond_with(repository)
+    respond_to do |format|
+      format.json { respond_with(repository) }
+      format.png { 
+        send_file(
+          "#{Rails.root}/public/images/status/#{Repository.human_status_by_name("#{params[:user]}/#{params[:name]}")}.png",
+          :type => 'image/png',
+          :disposition => 'inline'
+      ) }
+    end
   end
 
   protected

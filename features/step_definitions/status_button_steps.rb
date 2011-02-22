@@ -3,5 +3,5 @@ When /^I embed the status button for "([^"]*)"$/ do |name|
 end
 
 Then /^the status button should say "([^"]*)"$/ do |status|
-  assert_equal "/images/status/#{status}.png", URI.parse(current_url).path
+  assert_equal File.read("#{Rails.root}/public/images/status/#{status}.png"), page.body
 end
