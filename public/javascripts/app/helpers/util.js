@@ -48,8 +48,8 @@ Travis.Helpers.Util = {
     element = element || $('body');
 
     $('.timeago', element).timeago();
-    $('.finished_at[title=""]', element).hide().prev('.finished_at_label').hide();
-    $('.finished_at[title=""]', element).next('.eta_label').show().next('.eta').show();
+    // $('.finished_at[title=""]', element).hide().prev('.finished_at_label').hide();
+    // $('.finished_at[title=""]', element).next('.eta_label').show().next('.eta').show();
     $('.duration', element).readableTime();
   },
   readableTime: function(duration){
