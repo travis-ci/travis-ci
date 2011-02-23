@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <title>Travis CI - Distributed build plattform for the Ruby community</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <%= stylesheet_link_tag 'application' %>
+    <%= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
     <% if Rails.env.jasmine? %>
       <%= stylesheet_link_tag :jasmine %>
       <%= javascript_include_tag :jasmine, :tests %>
@@ -20,9 +20,9 @@
       <h1>Travis</h1>
 
       <ul id="navigation">
-        <li><a href="/">Home</a></li>
-        <li class="current"><a href="/">Blog</a></li>
-        <li><a href="/">Profile</a></li>
+        <li class="<%= 'current' if request.path == '/' %>"><a href="/">Home</a></li>
+        <li class="<%= 'current' if request.path == '/profile' %>"><a href="/profile">Profile</a></li>
+        <li><a href="/" class="tool-tip" title="Coming soon ...">Blog</a></li>
       </ul>
 
       <div id="profile">
@@ -45,7 +45,7 @@
 
     <div id="left">
       <div id="search">
-        <input type="text" />
+        <input type="text" class="tool-tip" title="Not yet implemented. We could use your help!" />
       </div>
 
       <ul class="tabs">
@@ -56,7 +56,7 @@
           </div>
         </li>
         <li id="tab_watched">
-          <h5>Watched</h5>
+          <h5 class="tool-tip" title="Not yet implemented. We could use your help!">Watched</h5>
           <div class="tab">
           </div>
         </li>

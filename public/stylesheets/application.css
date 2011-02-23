@@ -76,10 +76,13 @@ ul {
 }
 #top #navigation li {
   float: left;
-  padding: 0 15px;
 }
 #top #navigation .current {
   background-color: black;
+}
+#top #navigation li a {
+  display: block;
+  padding: 0 15px;
 }
 #top #profile {
   margin: 0;

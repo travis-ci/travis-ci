@@ -47,4 +47,5 @@ $(document).ready(function() {
     console.log(this)
     $('#profile_menu').toggle();
   });
+  $('.tool-tip').tipsy({ gravity: 'n', fade: true });
 });
