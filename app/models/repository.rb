@@ -2,9 +2,10 @@ require 'uri'
 
 class Repository < ActiveRecord::Base
   has_many :builds, :dependent => :delete_all
-  has_one :last_build,   :class_name => 'Build', :order => 'started_at DESC'
-  has_one :last_success, :class_name => 'Build', :order => 'started_at DESC', :conditions => { :status => 0 }
-  has_one :last_failure, :class_name => 'Build', :order => 'started_at DESC', :conditions => { :status => 1 }
+  has_one :last_build,          :class_name => 'Build', :order => 'started_at DESC'
+  has_one :last_finished_build, :class_name => 'Build', :order => 'started_at DESC', :conditions => 'finished_at IS NOT NULL'
+  has_one :last_success,        :class_name => 'Build', :order => 'started_at DESC', :conditions => { :status => 0 }
+  has_one :last_failure,        :class_name => 'Build', :order => 'started_at DESC', :conditions => { :status => 1 }
 
   REPOSITORY_ATTRS = [:id, :name, :url, :last_duration]
   LAST_BUILD_ATTRS = [:id, :number, :commit, :message, :status, :log, :started_at, :finished_at, :author_name, :author_email, :committer_name, :committer_email]
@@ -21,8 +22,8 @@ class Repository < ActiveRecord::Base
 
     def human_status_by_name(name)
       repository = find_by_name(name)
-      return 'unknown' if !repository || repository.last_build.finished_at == nil
-      repository.last_build.status == 0 ? 'stable' : 'unstable'
+      return 'unknown' unless repository && repository.last_finished_build
+      repository.last_finished_build.status == 0 ? 'stable' : 'unstable'
     end
   end
 
