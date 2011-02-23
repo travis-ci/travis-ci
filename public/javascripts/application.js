@@ -42,3 +42,10 @@ if(!Function.prototype.bind) {
 // [1]: http://stackoverflow.com/questions/1013637/unexpected-caching-of-ajax-results-in-ie8
 $.ajaxSetup({ cache: false });
 
+$(document).ready(function() {
+  $('#profile').click(function() {
+    console.log(this)
+    $('#profile_menu').toggle();
+  });
+  $('.tool-tip').tipsy({ gravity: 'n', fade: true });
+});
