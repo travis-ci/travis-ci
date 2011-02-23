@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <title>Travis CI - Distributed build plattform for the Ruby community</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <%= stylesheet_link_tag 'application' %>
+    <%= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
     <% if Rails.env.jasmine? %>
       <%= stylesheet_link_tag :jasmine %>
       <%= javascript_include_tag :jasmine, :tests %>
@@ -20,19 +20,19 @@
       <h1>Travis</h1>
 
       <ul id="navigation">
-        <li><a href="/">Home</a></li>
-        <li class="current"><a href="/">Blog</a></li>
-        <li><a href="/">Profile</a></li>
+        <li class="<%= 'current' if request.path == '/' %>"><a href="/">Home</a></li>
+        <li class="<%= 'current' if request.path == '/profile' %>"><a href="/profile">Profile</a></li>
+        <li><a href="/" class="tool-tip" title="Coming soon ...">Blog</a></li>
       </ul>
 
       <div id="profile">
         <% if current_user %>
           <a href="#">
             <%= image_tag("http://www.gravatar.com/avatar/#{current_user.profile_image_hash}?s=30&d=mm", :alt => "", :class => "profile-avatar") %>
-            <span class="name">current_user.name</span>
+            <span class="name"><%= current_user.name %></span>
           </a>
           <ul id="profile_menu">
-            <li><%= link_to 'view my profile', profile_path %></li>
+            <li><%= link_to 'Profile', profile_path %></li>
             <li><%= link_to "Sign out", destroy_session_path %></li>
           </ul>
         <% else %>
@@ -45,7 +45,7 @@
 
     <div id="left">
       <div id="search">
-        <input type="text" />
+        <input type="text" class="tool-tip" title="Not yet implemented. We could use your help!" />
       </div>
 
       <ul class="tabs">
@@ -56,7 +56,7 @@
           </div>
         </li>
         <li id="tab_watched">
-          <h5>Watched</h5>
+          <h5 class="tool-tip" title="Not yet implemented. We could use your help!">Watched</h5>
           <div class="tab">
           </div>
         </li>
@@ -76,9 +76,9 @@
         <h4>Join us and help!</h4>
         <p>Travis is an open, distributed build system for the Ruby community. Find us at:</p>
         <ul>
-          <li>Repository: <a href="http://github.com">Github</a></li>
+          <li>Repository: <a href="http://github.com/svenfuchs/travis">Github</a></li>
           <li>Twitter: <a href="http://twitter.com/travisci">@travisci</a></li>
-          <li>Mailinglist: <a href="http://groups.google.com/groups/travis-app">travis-app</a></li>
+          <li>Mailinglist: <a href="http://groups.google.com/group/travis-app">travis-app</a></li>
           <li><a href="irc://irc.freenode.net#travis">irc.freenode.net#travis</a></li>
         </ul>
       </div>
