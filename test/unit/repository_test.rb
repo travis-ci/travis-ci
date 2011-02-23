@@ -8,7 +8,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     @repository_1 = Factory(:repository, :name => '1')
     @repository_2 = Factory(:repository, :name => '2')
     @build_1 = Factory(:build, :repository => repository_1, :started_at => '2010-11-11 12:00:00')
-    @build_2 = Factory(:build, :repository => repository_2, :started_at => '2010-11-11 12:00:10')
+    @build_2 = Factory(:build, :repository => repository_2, :started_at => '2010-11-11 12:00:10', :finished_at => '2010-11-11 12:00:10')
     @build_3 = Factory(:build, :repository => repository_2, :started_at => '2010-11-11 12:00:20')
   end
 
@@ -24,6 +24,10 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
 
   test '#last_build returns the most recent build' do
     assert_equal build_3, repository_2.last_build
+  end
+
+  test '#last_finished_build returns the most recent finished build' do
+    assert_equal build_2, repository_2.last_finished_build
   end
 
 end
