@@ -6,7 +6,7 @@
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
   <head>
     <meta charset="utf-8">
-    <title>Travis</title>
+    <title>Travis CI - Distributed build plattform for the Ruby community</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= stylesheet_link_tag 'application' %>
     <% if Rails.env.jasmine? %>
@@ -14,40 +14,76 @@
       <%= javascript_include_tag :jasmine, :tests %>
     <% end %>
   </head>
+
   <body id="<%= params[:controller].singularize %>">
     <div id="top">
-      <h1 class="logo">Travis</h1>
+      <h1>Travis</h1>
 
-      <ul class="breadcrumbs">
-        <li><%= link_to "Home", root_path %></li>
+      <ul id="navigation">
+        <li><a href="/">Home</a></li>
+        <li class="current"><a href="/">Blog</a></li>
+        <li><a href="/">Profile</a></li>
       </ul>
 
-      <div class="profile">
+      <div id="profile">
         <% if current_user %>
-          <%= image_tag("http://www.gravatar.com/avatar/#{current_user.profile_image_hash}?s=30&d=mm", :alt => "", :class => "profile-avatar") %>
-          <h5><%= link_to current_user.login? ? current_user.login : 'view my profile', profile_path %></h5>
-          <%= link_to "Sign out", destroy_session_path %>
+          <a href="#">
+            <%= image_tag("http://www.gravatar.com/avatar/#{current_user.profile_image_hash}?s=30&d=mm", :alt => "", :class => "profile-avatar") %>
+            <span class="name">current_user.name</span>
+          </a>
+          <ul id="profile_menu">
+            <li><%= link_to 'view my profile', profile_path %></li>
+            <li><%= link_to "Sign out", destroy_session_path %></li>
+          </ul>
         <% else %>
           <%= link_to "Sign in with Github", user_omniauth_authorize_path(:github), :class => "profile-signup" %>
         <% end %>
       </div>
 
-      <a href="http://github.com/svenfuchs/travis"><img style="position: absolute; top: 0; left: 0; border: 0; z-index: 99;" src="https://assets1.github.com/img/ce742187c818c67d98af16f96ed21c00160c234a?repo=&url=http%3A%2F%2Fs3.amazonaws.com%2Fgithub%2Fribbons%2Fforkme_left_gray_6d6d6d.png&path=" alt="Fork me on GitHub"></a>
+      <a id="github_ribbon" class="ribbon" href="http://github.com/svenfuchs/travis" title="Fork me on GitHub">Fork me on Github</a>
     </div>
 
     <div id="left">
-      <h4 class="recent-builds">Recent Builds</h4>
-      <ul id="repositories"></ul>
+      <div id="search">
+        <input type="text" />
+      </div>
+
+      <ul class="tabs">
+        <li id="tab_recent" class="active">
+          <h5>Recent</h5>
+          <div class="tab">
+            <ul id="repositories"></ul>
+          </div>
+        </li>
+        <li id="tab_watched">
+          <h5>Watched</h5>
+          <div class="tab">
+          </div>
+        </li>
+      </ul>
     </div>
 
     <div id="right">
+      <div id="workers"></div>
+      <div id="jobs"></div>
+
       <div id="alpha_warning" class="box">
         <h4>This stuff is alpha.</h4>
         <p>Please do <strong>not</strong> consider this a stable service. We're still far from that! More info <a href='https://github.com/svenfuchs/travis/wiki'>here.</a></p>
       </div>
-      <div id="workers"></div>
-      <div id="jobs"></div>
-      <div id="thanks_sponsors" class="box">
+
+      <div id="about" class="box">
+        <h4>Join us and help!</h4>
+        <p>Travis is an open, distributed build system for the Ruby community. Find us at:</p>
+        <ul>
+          <li>Repository: <a href="http://github.com">Github</a></li>
+          <li>Twitter: <a href="http://twitter.com/travisci">@travisci</a></li>
+          <li>Mailinglist: <a href="http://groups.google.com/groups/travis-app">travis-app</a></li>
+          <li><a href="irc://irc.freenode.net#travis">irc.freenode.net#travis</a></li>
+        </ul>
+      </div>
+
+      <div id="sponsors" class="box">
         <h4>Thank you, sponsors!</h4>
         <p>Special thanks go out to:</p>
         <ul>
@@ -88,5 +124,6 @@
         };
       <% end %>
     <% end %>
+
   </body>
 </html>

@@ -7,6 +7,7 @@
       <span class="finished_at_label">Finished:</span> <abbr class="finished_at timeago" title="{{finished_at}}"></abbr>
       <span class="eta_label">ETA:</span> <abbr class="eta timeago" title="{{eta}}">?</abbr>
     </p>
+    <span class="indicator"></span>
   {{/build}}
 </li>
 

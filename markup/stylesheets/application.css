@@ -155,14 +155,23 @@ ul {
   font-size: 13px;
   color: #666;
 }
+#left .repository .indicator {
+  display: none;
+}
 #left .repository.current .indicator {
+  display: block;
   position: absolute;
   top: 0px;
   right: -17px;
   width: 17px;
-  height: 29px;
   height: 100%;
-  background: url(../images/layout/current-repository-indicator.png) no-repeat center left;
+  background: no-repeat center left;
+}
+#left .repository:nth-child(odd) .indicator {
+  background-image: url(../images/layout/current-repository-indicator-odd.png);
+}
+#left .repository:nth-child(even) .indicator {
+  background-image: url(../images/layout/current-repository-indicator-even.png);
 }
 
 #main h3 {
