@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <title>Travis CI - Distributed build plattform for the Ruby community</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <%= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
+    <%= stylesheet_link_tag 'application', 'jquery.tipsy' %>
     <% if Rails.env.jasmine? %>
       <%= stylesheet_link_tag :jasmine %>
       <%= javascript_include_tag :jasmine, :tests %>
@@ -20,21 +20,21 @@
       <h1>Travis</h1>
 
       <ul id="navigation">
-        <li class="<%= 'current' if request.path == '/' %>"><a href="/">Home</a></li>
-        <% if current_user %>
-          <li class="<%= 'current' if request.path == '/profile' %>"><a href="/profile">Profile</a></li>
+        <li class="<%= 'current' if active_page?("application" => [ "index" ]) %>"><%= link_to "Home", root_path %></li>
+        <% if user_signed_in? %>
+          <li class="<%= 'current' if active_page?("profiles" => []) %>"><%= link_to "Profile", profile_path %></li>
         <% end %>
         <li><a href="/" class="tool-tip" title="Coming soon ...">Blog</a></li>
       </ul>
 
       <div id="profile">
-        <% if current_user %>
+        <% if user_signed_in? %>
           <a href="#">
             <%= image_tag("http://www.gravatar.com/avatar/#{current_user.profile_image_hash}?s=30&d=mm", :alt => "", :class => "profile-avatar") %>
             <span class="name"><%= current_user.name %></span>
           </a>
           <ul id="profile_menu">
-            <li><%= link_to 'Profile', profile_path %></li>
+            <li><%= link_to "Profile", profile_path %></li>
             <li><%= link_to "Sign out", destroy_session_path %></li>
           </ul>
         <% else %>
