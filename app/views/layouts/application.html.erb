@@ -21,7 +21,9 @@
 
       <ul id="navigation">
         <li class="<%= 'current' if request.path == '/' %>"><a href="/">Home</a></li>
-        <li class="<%= 'current' if request.path == '/profile' %>"><a href="/profile">Profile</a></li>
+        <% if current_user %>
+          <li class="<%= 'current' if request.path == '/profile' %>"><a href="/profile">Profile</a></li>
+        <% end %>
         <li><a href="/" class="tool-tip" title="Coming soon ...">Blog</a></li>
       </ul>
 
