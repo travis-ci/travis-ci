@@ -20,9 +20,9 @@
       <h1>Travis</h1>
 
       <ul id="navigation">
-        <li class="<%= 'current' if active_page?("application" => [ "index" ]) %>"><%= link_to "Home", root_path %></li>
+        <li class="<%= 'current' if active_page?("application#index") %>"><%= link_to "Home", root_path %></li>
         <% if user_signed_in? %>
-          <li class="<%= 'current' if active_page?("profiles" => []) %>"><%= link_to "Profile", profile_path %></li>
+          <li class="<%= 'current' if active_page?("profiles#show") %>"><%= link_to "Profile", profile_path %></li>
         <% end %>
         <li><a href="/" class="tool-tip" title="Coming soon ...">Blog</a></li>
       </ul>
