@@ -8,7 +8,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     '!/:username/:name/builds/:id': 'buildShow',
   },
   run: function() {
-    _.bindAll(this, 'repositoriesIndex', 'repositoryShow', 'repositoryHistory', 'buildShow', 'render', 'renderRepository', 'startLoading', 'stopLoading');
+    _.bindAll(this, 'repositoriesIndex', 'repositoryShow', 'repositoryHistory', 'buildShow', 'render', 'startLoading', 'stopLoading');
 
     this.templates    = Travis.Helpers.Util.loadTemplates();
     this.repositories = new Travis.Collections.Repositories();
@@ -16,10 +16,10 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.workers      = new Travis.Collections.Workers();
     this.views        = [];
 
-    this.repositoriesView = new Travis.Views.Repositories({ app: this });
-    this.repositoryView   = new Travis.Views.Repository({ app: this });
-    this.workersView      = new Travis.Views.Workers({ app: this });
-    this.jobsView         = new Travis.Views.Jobs({ app: this });
+    this.repositoriesView = new Travis.Views.Repositories({ templates: this.templates });
+    this.repositoryView   = new Travis.Views.Repository({ templates: this.templates, repositories: this.repositories });
+    this.workersView      = new Travis.Views.Workers({ templates: this.templates });
+    this.jobsView         = new Travis.Views.Jobs({ templates: this.templates });
 
     this.bind('build:started',  this.repositories.update);
     this.bind('build:log',      this.repositories.update);
@@ -30,39 +30,35 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.repositories.bind('repositories:load:start', this.startLoading);
     this.repositories.bind('repositories:load:done',  this.stopLoading);
   },
-  unbind: function() {
-    this.repositoryView.unbind();
-    this.workersView.unbind();
-    this.jobsView.unbind();
-  },
   repositoriesIndex: function(username) {
-    this.params = { username: username }
-    this.render();
+    this.render({ username: username });
   },
   repositoryShow: function(username, name) {
-    this.params = { username: username, name: name }
-    this.render();
+    this.render({ username: username, name: name });
   },
   repositoryHistory: function(username, name) {
-    this.params = { username: username, name: name, tab: 'History' }
-    this.render();
+    this.render({ username: username, name: name, tab: 'History' });
   },
   buildShow: function(username, name, buildId) {
-    this.params = { username: username, name: name, tab: 'Build', buildId: buildId }
-    this.render();
+    this.render({ username: username, name: name, tab: 'Build', buildId: buildId });
   },
-  render: function() {
-    this.unbind();
-    this.repositories.fetch({ username: this.params.username, success: this.renderRepository });
-    this.repositoriesView.render();
-    this.workersView.render();
-    this.jobsView.render();
-  },
-  renderRepository: function() {
-    var repository = this.params.name ? this.repositories.findByName(this.params.username + '/' + this.params.name) : this.repositories.last();
-    if(repository) {
-      this.repositoriesView.setCurrent(repository);
-      this.repositoryView.render(repository, this.params.buildId, this.params.tab || 'Current');
+  render: function(args) {
+    this.repositoriesView.connect(this.repositories);
+    this.repositories.fetch({ username: args.username, success: function() {
+      var repository = args.name ? this.repositories.findByName(args.username + '/' + args.name) : this.repositories.last();
+      if(repository) {
+        // repository.set({ selected: true });
+        this.repositoryView.connect(_.extend(args, { repository: repository }));
+      }
+    }.bind(this) });
+
+    if(!this.workersView.connected()) {
+      this.workersView.connect(this.workers);
+      this.workers.fetch();
+    }
+    if(!this.jobsView.connected()) {
+      this.jobsView.connect(this.jobs);
+      this.jobs.fetch();
     }
   },
   startLoading: function() {

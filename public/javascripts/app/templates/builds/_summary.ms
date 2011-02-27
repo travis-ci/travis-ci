@@ -1,4 +1,5 @@
 <dl class="summary left clearfix">
+{{#if repository}}
   <div class="left">
     <dt>Build</dt>
     <dd class="number"><a href="/#!/{{repository/name}}/builds/{{id}}">{{number}}</a></dd>
@@ -21,4 +22,5 @@
 
   <dt>Message</dt>
   <dd class="commit-message">{{message}}</dd>
+{{/if}}
 </dl>

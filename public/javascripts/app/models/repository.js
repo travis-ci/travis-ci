@@ -43,14 +43,18 @@ Travis.Collections.Repositories = Backbone.Collection.extend({
   },
   url: function() {
     var url = '/repositories';
-    return '/repositories' + Travis.Helpers.Util.queryString(this.params);
+    return '/repositories' + Travis.Helpers.Util.queryString(this.args);
   },
-  fetch: function(params) {
-    this.params = { username: params.username };
+  building: function() {
+    return this.select(function(repository) { return repository.isBuilding(); });
+  },
+  fetch: function(args) {
+    args = args || {};
+    this.args = { username: args.username };
     this.trigger('repositories:load:start');
-    var success = params.success;
-    params.success = function() { this.trigger('repositories:load:done'); success(arguments); }.bind(this);
-    Backbone.Collection.prototype.fetch.apply(this, [params]);
+    var success = args.success;
+    args.success = function() { this.trigger('repositories:load:done'); if(success) success(arguments); }.bind(this);
+    Backbone.Collection.prototype.fetch.apply(this, [args]);
   },
   findByName: function(name) {
     return this.detect(function(item) { return item.get('name') == name }, this); // TODO use an index?

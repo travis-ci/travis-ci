@@ -4,6 +4,7 @@ describe('Events:', function() {
       this.repository = INIT_DATA.repositories[1];
       goTo('#!/' + this.repository.name)
       waitsFor(repositoriesListPopulated(2));
+      waits(300) // hu?
     });
 
     describe('an incoming event for a new repository', function() {
@@ -11,6 +12,7 @@ describe('Events:', function() {
         beforeEach(function() {
           this.data = newRepositoryData();
           Travis.app.trigger('build:started', this.data);
+          waits(500) // hu?
         });
 
         itAddsTheRepositoryToTheRepositoriesCollection();
@@ -33,13 +35,14 @@ describe('Events:', function() {
           this.data = buildStartedData(this.repository);
           Travis.app.trigger('build:started', this.data)
           this.data.repository.name = this.repository.name;
+          waits(500) // hu?
         });
 
         itMovesTheRepositoryToTheTopOfTheRepositoriesList();
         itIndicatesTheRepositoryIsBeingBuilt();
         itAddsTheBuildToTheRepositorysBuildsCollection();
         itUpdatesTheRepositoryListItemsBuildInformation();
-        itUpdatesTheBuildSummary();
+        itUpdatesTheBuildSummary('#tab_current');
       });
 
       describe('build:log', function() {
@@ -48,7 +51,7 @@ describe('Events:', function() {
           Travis.app.trigger('build:log', this.data);
         });
 
-        itAppendsToTheBuildLog();
+        itAppendsToTheBuildLog('#tab_current');
       });
 
       describe('build:finished', function() {
@@ -60,7 +63,7 @@ describe('Events:', function() {
         itUpdatesTheRepositoryListItemsBuildInformation();
         itSetsTheRepositoryListItemsBuildStatusColor();
         itDoesNotIndicateTheRepositoryIsBeingBuilt();
-        itUpdatesTheBuildSummary();
+        itUpdatesTheBuildSummary('#tab_current');
       });
     });
 
@@ -73,7 +76,7 @@ describe('Events:', function() {
 
         itUpdatesTheRepositoryListItemsBuildInformation();
         itIndicatesTheRepositoryIsBeingBuilt();
-        itDoesNotUpdateTheBuildSummary();
+        itDoesNotUpdateTheBuildSummary('#tab_current');
       });
 
       describe('build:log', function() {
@@ -82,7 +85,7 @@ describe('Events:', function() {
           Travis.app.trigger('build:log', this.data);
         });
 
-        itDoesNotAppendToTheBuildLog();
+        itDoesNotAppendToTheBuildLog('#tab_current');
       });
 
       describe('build:finished', function() {
@@ -94,7 +97,7 @@ describe('Events:', function() {
         itUpdatesTheRepositoryListItemsBuildInformation();
         itSetsTheRepositoryListItemsBuildStatusColor();
         itDoesNotIndicateTheRepositoryIsBeingBuilt();
-        itDoesNotUpdateTheBuildSummary();
+        itDoesNotUpdateTheBuildSummary('#tab_current');
       });
     });
   });

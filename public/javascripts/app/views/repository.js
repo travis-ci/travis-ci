@@ -1,38 +1,59 @@
 Travis.Views.Repository = Backbone.View.extend({
   initialize: function(args) {
-    _.bindAll(this, 'bind', 'unbind', 'render'); // 'buildStarted', 'buildChanged', 'buildLogged');
+    _.bindAll(this, 'bind', 'unbind', 'render', 'connect'); // 'buildStarted', 'buildChanged', 'buildLogged');
 
     this.templates = {
-      repository: args.app.templates['repositories/show'],
-      tab:        args.app.templates['builds/_tab']
+      show: args.templates['repositories/show'],
+      tab:  args.templates['builds/_tab']
     }
-    this.element = $('#main');
+    this.render();
 
-    this.currentView = new Travis.Views.CurrentBuild({ app: args.app });
-    this.historyView = new Travis.Views.Builds({ app: args.app });
-    this.buildView   = new Travis.Views.Build({ app: args.app });
+    this.currentView = new Travis.Views.CurrentBuild(args);
+    this.buildsView  = new Travis.Views.Builds(args);
+    this.buildView   = new Travis.Views.Build(args);
   },
-  unbind: function() {
-    this.currentView.unbind();
-    this.historyView.unbind();
-    this.buildView.unbind();
+  element: function(repository) {
+    return $('#main');
   },
   render: function(repository, buildId, tab) {
-    this.unbind();
-    this.element.html($(this.templates.repository(_.extend(repository.toJSON({ includeBuild: false })))));
-    this['render' + tab](repository, buildId);
-    Travis.Helpers.Util.activateTab(this.element, tab);
+    this.element().html($(this.templates.show({})));
   },
-  renderCurrent: function(repository) {
-    this.currentView.render(repository.builds.last());
+  connect: function(args) {
+    this.disconnect();
+
+    this.model   = args.repository;
+    this.buildId = args.buildId;
+    this.tab     = args.tab || 'Current';
+
+    this._updateTitle();
+    this._updateTabs();
+
+    this['_render' + this.tab]();
+    this.element().activateTab(this.tab);
   },
-  renderHistory: function(repository) {
-    this.historyView.render(repository);
+  disconnect: function() {
+    this.currentView.disconnect();
+    this.buildsView.disconnect();
+    this.buildView.disconnect();
+    delete this.model;
   },
-  renderBuild: function(repository, id) {
-    repository.builds.retrieve(id, function(build) {
-      // $('#tab_build', this.element).html(this.templates.tab({ repository: repository.toJSON({ includeBuild: false }), build: build.toJSON() }));
-      this.buildView.render(build);
+  _renderCurrent: function() {
+    this.currentView.connect(this.model.builds.last());
+  },
+  _renderHistory: function() {
+    this.buildsView.connect(this.model.builds);
+  },
+  _renderBuild: function() {
+    this.model.builds.retrieve(this.buildId, function(build) {
+      this.buildView.updateTab(build);
+      this.buildView.connect(build);
     }.bind(this));
   },
+  _updateTitle: function() {
+    $('.repository h3 a', this.element()).attr('href', this.model.get('url')).html(this.model.get('name'));
+  },
+  _updateTabs: function() {
+    this.currentView.updateTab(this.model);
+    this.buildsView.updateTab(this.model);
+  }
 });
