@@ -1,4 +1,4 @@
-<dl class="summary left clearfix">
+<dl class="summary left clearfix {{color}}">
   {{#if repository}}
     <div class="left">
       <dt>Build</dt>
