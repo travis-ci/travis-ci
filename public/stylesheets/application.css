@@ -283,6 +283,31 @@ ul {
 #main .log .green {
   color: lime;
 }
+#main #builds {
+  width: 100%;
+  margin-top: 25px;
+}
+#main #builds th {
+  font-size: 13px;
+  color: #666;
+}
+#main #builds th,
+#main #builds td {
+  text-align: left;
+  font-size: 80%;
+  padding-right: 20px;
+  vertical-align: top;
+}
+#main #builds td.message {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#main #builds tr {
+  max-height: 20px;
+}
+#main #builds tbody tr:nth-child(odd) {
+  background-color: #f6f6f6;
+}
 
 /* right */
 
