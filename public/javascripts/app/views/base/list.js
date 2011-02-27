@@ -51,7 +51,7 @@ Travis.Views.Base.List = Backbone.View.extend({
     this._renderItem(item);
   },
   elementRemoved: function(item) {
-    $(this.selector + '' + this.selectors.item + job.get('id'), this.element()).remove();
+    $(this.selector + '' + this.selectors.item + item.get('id'), this.element()).remove();
   },
   collectionRefreshed: function(collection) {
     this._renderItems();
