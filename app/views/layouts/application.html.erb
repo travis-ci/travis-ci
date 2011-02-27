@@ -120,9 +120,9 @@
     <% if Rails.env.jasmine? %>
       <% javascript_tag do %>
         var INIT_DATA = {
-          repositories: <%= Repository.timeline.as_json.to_json %>,
-          workers: <%= workers.to_json %>,
-          jobs: <%= jobs.to_json %>
+          repositories: <%= Repository.timeline.as_json.to_json.html_safe %>,
+          workers: <%= workers.to_json.html_safe %>,
+          jobs: <%= jobs.to_json.html_safe %>
         };
       <% end %>
     <% end %>

@@ -5,8 +5,8 @@ describe('Events:', function() {
     beforeEach(function() {
       this.repository = INIT_DATA.repositories[1];
       goTo('#!/' + this.repository.name + '/builds/' + this.repository.last_build.id)
-      waitsFor(repositoriesListPopulated(2));
-      waits(500)
+      waitsFor(repositoriesListPopulated(1));
+      waitsFor(buildTabActive(this.repository.name, 'build'));
     });
 
     describe('an incoming event for the current build', function() {

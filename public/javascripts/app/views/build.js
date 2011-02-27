@@ -17,7 +17,6 @@ Travis.Views.Build = Travis.Views.Base.Show.extend({
   },
   connect: function(build) {
     Travis.Views.Base.Show.prototype.connect.apply(this, arguments);
-
     this.updateSummary(build);
     this.updateLog(build);
     this.element().activateTab('Build');
@@ -31,7 +30,7 @@ Travis.Views.Build = Travis.Views.Base.Show.extend({
     element.deansi();
   },
   updateTab: function(build) {
-    var href = '#!/' + build.repository().get('name') + '/' + build.id;
+    var href = '#!/' + build.repository().get('name') + '/builds/' + build.id;
     var title = 'Build #' + build.get('number');
     $('h5 a', this.element().closest('li')).attr('href', href).html(title);
   },

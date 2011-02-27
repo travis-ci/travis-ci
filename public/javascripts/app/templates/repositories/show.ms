@@ -12,7 +12,7 @@
     </li>
     <li id="tab_build">
       <h5><a href="">Build #</a></h5>
-      <div></div>
+      <div class="tab"></div>
     </li>
   </ul>
 </div>

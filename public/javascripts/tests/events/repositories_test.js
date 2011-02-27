@@ -3,8 +3,7 @@ describe('Events:', function() {
     beforeEach(function() {
       this.repository = INIT_DATA.repositories[1];
       goTo('#!/' + this.repository.name)
-      waitsFor(repositoriesListPopulated(2));
-      waits(300) // hu?
+      waitsFor(repositoriesListPopulated(1));
     });
 
     describe('an incoming event for a new repository', function() {
@@ -12,7 +11,6 @@ describe('Events:', function() {
         beforeEach(function() {
           this.data = newRepositoryData();
           Travis.app.trigger('build:started', this.data);
-          waits(500) // hu?
         });
 
         itAddsTheRepositoryToTheRepositoriesCollection();
@@ -35,7 +33,7 @@ describe('Events:', function() {
           this.data = buildStartedData(this.repository);
           Travis.app.trigger('build:started', this.data)
           this.data.repository.name = this.repository.name;
-          waits(500) // hu?
+          waits(200) // hu
         });
 
         itMovesTheRepositoryToTheTopOfTheRepositoriesList();
