@@ -33,7 +33,7 @@ describe('Events:', function() {
           this.data = buildStartedData(this.repository);
           Travis.app.trigger('build:started', this.data)
           this.data.repository.name = this.repository.name;
-          waits(200) // hu
+          waits(700) // hu
         });
 
         itMovesTheRepositoryToTheTopOfTheRepositoriesList();

@@ -8,7 +8,7 @@ Travis.Views.Repositories = Travis.Views.Base.List.extend({
     'build:change': 'buildUpdated'
   },
   initialize: function (args) {
-    _.bindAll(this, 'buildUpdated', 'setCurrent', 'updateStatus', 'repositorySelected');
+    _.bindAll(this, 'buildUpdated', 'updateStatus', 'repositorySelected');
     Travis.Views.Base.List.prototype.initialize.apply(this, arguments);
   },
   connect: function(collection) {
