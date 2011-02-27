@@ -20,4 +20,12 @@ describe('Views: the repositories list', function() {
     follow('#1');
     expectElement('#main .build');
   });
+
+  it('sets the current repository', function() {
+    expect($('#repositories .repository:nth-child(1)').hasClass('current'))
+    expect(!$('#repositories .repository:nth-child(2)').hasClass('current'))
+
+    follow('josevalim/enginex');
+    expect($('#repositories .repository:nth-child(1)').hasClass('current'))
+  });
 });
