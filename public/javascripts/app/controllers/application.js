@@ -47,7 +47,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.repositories.fetch({ username: args.username, success: function() {
       var repository = args.name ? this.repositories.findByName(args.username + '/' + args.name) : this.repositories.last();
       if(repository) {
-        repository.set({ selected: true });
+        this.repositories.setSelected(repository);
         this.repositoryView.connect(_.extend(args, { repository: repository }));
       }
     }.bind(this) });

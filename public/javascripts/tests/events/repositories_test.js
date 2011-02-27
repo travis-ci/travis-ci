@@ -37,6 +37,7 @@ describe('Events:', function() {
         });
 
         itMovesTheRepositoryToTheTopOfTheRepositoriesList();
+        itIndicatesTheCurrentRepository();
         itIndicatesTheRepositoryIsBeingBuilt();
         itAddsTheBuildToTheRepositorysBuildsCollection();
         itUpdatesTheRepositoryListItemsBuildInformation();

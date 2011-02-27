@@ -18,7 +18,7 @@ var itUpdatesTheRepositoryListItemsBuildInformation = function() {
 }
 
 var itAddsTheBuildToTheRepositorysBuildsCollection = function() {
-  it("it adds the build to the repository's builds collection", function() {
+  it("adds the build to the repository's builds collection", function() {
     expect(Travis.app.repositories.last().builds.models.length).toEqual(2);
   });
 };
@@ -37,14 +37,20 @@ var itResetsTheRepositoryListItemsBuildStatusColor = function() {
   });
 };
 
+var itIndicatesTheCurrentRepository = function() {
+  it('indicates the current repository', function() {
+    expectElement('#repositories #repository_' + this.data.repository.id + '.current');
+  });
+};
+
 var itIndicatesTheRepositoryIsBeingBuilt = function() {
-  it('it indicates the repository is being built', function() {
+  it('indicates the repository is being built', function() {
     expectElement('#repositories #repository_' + this.data.repository.id + '.active');
   });
 };
 
 var itDoesNotIndicateTheRepositoryIsBeingBuilt = function() {
-  it('it does not indicate the repository is being built', function() {
+  it('does not indicate the repository is being built', function() {
     expectNoElement('#repositories #repository_' + this.data.repository.id + '.active');
   });
 };
