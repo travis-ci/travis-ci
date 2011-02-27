@@ -58,6 +58,19 @@ If you have any issues, problems, or questions in getting Travis running for you
 
 Please note that this is an experimental installation.
 
+h2. Putting a status button in your project's README
+
+After adding your project to Travis, you can use the status buttons to show the current status of your projects in your @README@ file on Github or your project website.
+
+Your status button is available at the following URL:
+
+bc. http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png
+
+So, when using textile, showing your status button (including a link to your Travis project page) is as simple as adding this to your @README@:
+
+bc. "!http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png!":http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME]
+
+Travis' own status button looks like this: "!http://travis-ci.org/svenfuchs/travis.png!":http://travis-ci.org/svenfuchs/travis
 
 h2. Installation
 

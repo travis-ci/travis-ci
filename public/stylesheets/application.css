@@ -129,6 +129,14 @@ ul {
 #top #profile_menu a:hover {
   background-color: #555;
 }
+#top #profile_menu li:last-child a:hover {
+  -webkit-border-bottom-left-radius: 4px 4px;
+  -webkit-border-bottom-right-radius: 4px 4px;
+  -moz-border-bottom-left-radius: 4px 4px;
+  -moz-border-bottom-right-radius: 4px 4px;
+  border-bottom-left-radius: 4px 4px;
+  border-bottom-right-radius: 4px 4px;
+}
 
 /* left */
 
