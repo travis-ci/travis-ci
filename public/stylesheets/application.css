@@ -316,6 +316,12 @@ ul {
 #main #builds tbody tr:nth-child(odd) {
   background-color: #f6f6f6;
 }
+#builds .green .number a {
+  color: green;
+}
+#builds .red .number a {
+  color: #C00;
+}
 
 /* right */
 
@@ -342,8 +348,12 @@ ul {
   overflow: hidden;
   margin: 0;
 }
-#right .empty,
-#right .loading {
+#right .placeholder,
+#right .indicator {
+  display: none;
+}
+#right .empty .placeholder,
+#right .loading .indicator {
   display: none;
 }
 #right .box {
@@ -355,6 +365,17 @@ ul {
   border-radius: 4px 4px;
   background-color: #fff;
 }
+.list.loading h4 {
+  background: url(/images/spinner.gif) no-repeat 4px right;
+  padding-right: 15px;
+}
+.list ul {
+  min-height: 1em;
+}
+.list li:not(.empty) ~ .empty {
+  display: none;
+}
+
 #right .box h4 {
   margin: 0;
 }

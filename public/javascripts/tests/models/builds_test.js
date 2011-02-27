@@ -20,12 +20,15 @@ describe('Models:', function() {
     });
 
     describe('load', function() {
-      it('loads the build history from remote', function() {
+      it('loads the build collection from remote', function() {
         runs(function() {
           this.builds.load();
         });
-        runsAfter(400, function() {
-          expect(this.builds.models.length).toEqual(3);
+        waitsFor(function() {
+          return this.builds.length > 1;
+        });
+        runs(function() {
+          expect(this.builds.length).toEqual(3);
           var attributes = _.pluck(this.builds.models, 'attributes');
           expect(_.pluck(attributes, 'number')).toEqual([1, 2, 3]);
         });

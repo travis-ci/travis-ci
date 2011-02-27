@@ -1,7 +1,6 @@
-<div id="jobs">
+<div id="jobs" class="list">
   <h4>Queue</h4>
   <ul>
     <li class="empty">no jobs</li>
-    <li class="loading"><img src="/images/spinner.gif" /></li>
   </ul>
 </div>

@@ -64,34 +64,34 @@ var itDoesNotIndicateTheRepositoryIsBeingBuilt = function() {
   });
 };
 
-var itUpdatesTheBuildSummary = function() {
+var itUpdatesTheBuildSummary = function(selector) {
   it('updates the build number of the repository build summary', function() {
     runs(function() {
-      expectText('#main .summary .number', this.data.repository.last_build.number + '');
+      expectText(selector + ' .summary .number', this.data.repository.last_build.number + '');
     });
   });
 };
 
-var itDoesNotUpdateTheBuildSummary = function() {
+var itDoesNotUpdateTheBuildSummary = function(selector) {
   it('does not update the build number of the repository build summary', function() {
     runs(function() {
-      expectText('#main .summary .number', INIT_DATA.repositories[1].last_build.number + '');
+      expectText(selector + ' .summary .number', INIT_DATA.repositories[1].last_build.number + '');
     });
   });
 };
 
-var itAppendsToTheBuildLog = function() {
+var itAppendsToTheBuildLog = function(selector) {
   it('appends to the build log', function() {
     runs(function() {
-      expectText('#main .log', this.repository.last_build.log + this.data.append_log)
+      expectText(selector + ' .log', this.repository.last_build.log + this.data.append_log)
     });
   });
 };
 
-var itDoesNotAppendToTheBuildLog = function() {
+var itDoesNotAppendToTheBuildLog = function(selector) {
   it('does not append to the build log', function() {
     runs(function() {
-      expectText('#main .log', INIT_DATA.repositories[1].last_build.log)
+      expectText(selector + ' .log', INIT_DATA.repositories[1].last_build.log)
     });
   });
 };
@@ -99,7 +99,7 @@ var itDoesNotAppendToTheBuildLog = function() {
 var itPrependsTheBuildToTheBuildsHistoryTable = function() {
   it('prepends the build to the builds history table', function() {
     runs(function() {
-      expectText('#main #builds tr:nth-child(2) td.number', '#' + this.data.number)
+      expectText('#main #builds tbody tr:first-child td.number', '#' + this.data.number)
     });
   });
 };
@@ -107,7 +107,7 @@ var itPrependsTheBuildToTheBuildsHistoryTable = function() {
 var itDoesNotPrependTheBuildToTheBuildsHistoryTable = function() {
   it('does not prepend the build to the builds history table', function() {
     runs(function() {
-      expectText('#main #builds tr:nth-child(2) td.number', '#' + this.repository.last_build.number)
+      expectText('#main #builds tbody tr:first-child td.number', '#' + this.repository.last_build.number)
     });
   });
 }
@@ -115,7 +115,7 @@ var itDoesNotPrependTheBuildToTheBuildsHistoryTable = function() {
 var itUpdatesTheBuildsHistoryTableRow = function() {
   it('updates the builds history table row', function() {
     runs(function() {
-      expectAttributeValue('#main #builds tr:nth-child(2) td.finishedAt', 'title', this.data.finishedAt)
+      expectAttributeValue('#main #builds tbody tr:first-child td.finishedAt', 'title', this.data.finishedAt)
     });
   });
 };
@@ -123,7 +123,7 @@ var itUpdatesTheBuildsHistoryTableRow = function() {
 var itDoesNotUpdateTheBuildsHistoryTableRow = function() {
   it('does not update the builds history table row', function() {
     runs(function() {
-      expectAttributeValue('#main #builds tr:nth-child(2) td.finishedAt', 'title', this.repository.last_build.finishedAt)
+      expectAttributeValue('#main #builds tbody tr:first-child td.finishedAt', 'title', this.repository.last_build.finishedAt)
     });
   });
 };

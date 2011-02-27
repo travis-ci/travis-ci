@@ -1,7 +1,8 @@
 describe('Views: the build history tab', function() {
   beforeEach(function() {
     goTo('#!/josevalim/enginex/builds');
-    waitsFor(buildHistoryContainsRows(2), 1000, 'the build history to contain 2 rows');
+    waitsFor(buildHistoryContainsRows(1), 1000, 'the build history to contain 2 rows');
+    waits(200); // hu?
   });
 
   it('shows a builds list', function() {
