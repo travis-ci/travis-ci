@@ -178,10 +178,12 @@ ul {
 #left .repository:nth-child(even) {
   background-color:#f6f6f6;
 }
-#left .repository.green {
+#left .repository.green,
+#main #builds .build.green td:first-child a {
   background-image: url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wAARCAAPAA8DASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAIE/8QAGhAAAQUBAAAAAAAAAAAAAAAAAAECAxNTkv/EABQBAQAAAAAAAAAAAAAAAAAAAAX/xAAWEQEBAQAAAAAAAAAAAAAAAAAAEQH/2gAMAwEAAhEDEQA/AN90uj+lF0uj+lIADQN1/9k%3D);
 }
-#left .repository.red {
+#left .repository.red,
+#main #builds .build.red td:first-child a {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAIAAACQkWg2AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAE1SURBVHjabFJbcsNACENAj9Rb5P7n6L9tqHjYaWbqScbsgpAQxs/rWwxiCjOBMtgfAO1AKxZFBSKeRzAUycwLLnKl1JNMM0IfqjT6EuISkcckQAhzkEvEOh0ZkyLeWEkqlzOYrWaJellm0Q8NNlUSrsJIMfBm+FgXWzliUvsdi0li1OUI8aX9B1N/nSMJUQyUVFfRd5+YHJ67gWle6RmJwXj0oLTLEI03eRs1ICPDkfkljaFnWrayRzkvH9pk9a2ktGGfxlk3f3qXNmcjY8rL9Kp63LxHahd2BqdDAD8IziBnvhvNlHhsIM+FHRrNY87Bsfq4QWa1J29MjtqojUJnk2S4qfep/a+5fm98PHC5N32izF3UrCMytcTY7ITaor+9QUV17IUwxrOqMoqnczFFfsqvAAMA4+i8rxDjZcMAAAAASUVORK5CYII%3D);
 }
 #left .repository.green a {
@@ -229,6 +231,9 @@ ul {
 }
 #main .tabs {
   margin-top: 35px;
+}
+#main #tab_build:not(.active) {
+  display: none;
 }
 #main .tools {
   display: block;
@@ -303,12 +308,19 @@ ul {
 #main #builds td {
   text-align: left;
   font-size: 80%;
-  padding-right: 20px;
+  padding: 5px 10px;
   vertical-align: top;
+  white-space: nowrap;
+}
+#main #builds td:first-child a {
+  padding-left: 23px;
+  background-repeat: no-repeat;
+  background-position: 0px 0px;
 }
 #main #builds td.message {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: normal;
 }
 #main #builds tr {
   max-height: 20px;

@@ -1,6 +1,6 @@
 describe('Views: the repositories list', function() {
   beforeEach(function() {
-    goTo('#!/' + INIT_DATA.repositories[1].name);
+    goTo('#!/');
     waitsFor(repositoriesListPopulated(2));
   });
 
