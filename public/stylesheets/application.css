@@ -193,6 +193,12 @@ ul {
   padding-left: 20px;
   background-repeat: no-repeat;
 }
+#left .repository.green a {
+  color: green;
+}
+#left .repository.red a {
+  color: #c00;
+}
 #left .repository .build {
   float: right;
 }
