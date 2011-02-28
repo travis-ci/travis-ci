@@ -2,7 +2,7 @@ require 'test_helper'
 
 class BuildableTest < ActiveSupport::TestCase
   include Travis
-  Buildable.send :public, :build_dir, :git_url
+  Buildable.send :public, :build_dir, :git_url, :config_url
   Buildable.base_dir = '/tmp/travis/test'
 
   def setup
@@ -48,5 +48,10 @@ class BuildableTest < ActiveSupport::TestCase
   test 'git_url: given a github web url it returns github git url' do
     buildable = Buildable.new(:script => 'rake', :url => 'http://github.com/svenfuchs/travis')
     assert_equal 'git://github.com/svenfuchs/travis.git', buildable.git_url
+  end
+
+  test "config_url should return the absolute path the .travis.yml file" do
+    buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis')
+    assert_equal "#{File.expand_path('.')}/.travis.yml", buildable.config_url
   end
 end
