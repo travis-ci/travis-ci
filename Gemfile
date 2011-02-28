@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'rails',        '~> 3.0.3'
+gem 'rails',        '~> 3.0.5'
 gem 'thin',         '~> 1.2.7'
 gem 'SystemTimer',  '~> 1.2.2', :platforms => ['ruby_18']
 
