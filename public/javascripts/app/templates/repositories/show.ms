@@ -1,4 +1,4 @@
-<div id="repository_{{id}}" class="repository">
+<div class="repository">
   <h3><a href="{{url}}">{{name}}</a></h3>
 
   <ul class="tabs">
@@ -11,6 +11,8 @@
       <div class="tab"></div>
     </li>
     <li id="tab_build">
+      <h5><a href="">Build #</a></h5>
+      <div class="tab"></div>
     </li>
   </ul>
 </div>

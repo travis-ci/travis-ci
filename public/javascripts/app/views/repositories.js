@@ -1,49 +1,43 @@
-Travis.Views.Repositories = Backbone.View.extend({
-  tagName: 'ul',
-  id: 'repositories',
-  initialize: function (args) {
-    _.bindAll(this, 'bind', 'unbind', 'repositoriesUpdated', 'repositoryAdded', 'buildUpdated', 'buildStarted', 'buildStopped', 'renderRepository', 'updateStatus');
-
-    this.app = args.app;
-    this.repositories = args.app.repositories;
-    this.template = args.app.templates['repositories/_item'];
-    this.element = $('#left #repositories');
-
-    this.repositories.bind('refresh', this.repositoriesUpdated);
-    this.repositories.bind('add', this.repositoryAdded);
-    this.repositories.bind('build:add', this.buildUpdated);
-    this.repositories.bind('build:change', this.buildUpdated);
-
-    setTimeout(this.updateStatus, 500)
+Travis.Views.Repositories = Travis.Views.Base.List.extend({
+  name: 'repositories',
+  selectors: {
+    list: '#repositories'
   },
-  repositoriesUpdated: function() {
-    this.element.empty();
-    _.each(this.repositories.models, this.renderRepository);
-    this.element.updateTimes();
+  collection_events: {
+    'build:add': 'buildUpdated',
+    'build:change': 'buildUpdated'
+  },
+  initialize: function (args) {
+    _.bindAll(this, 'buildUpdated', 'updateStatus');
+    Travis.Views.Base.List.prototype.initialize.apply(this, arguments);
+  },
+  connect: function(collection) {
+    Travis.Views.Base.List.prototype.connect.apply(this, arguments);
+    collection.bind('change:selected', this.updateStatus);
+  },
+  itemAdded: function() {
+    Travis.Views.BaseList.prototype.itemAdded.apply(this);
     this.updateStatus();
   },
-  repositoryAdded: function(item) {
-    var repository = _.isFunction(item.repository) ? item.repository() : item;
-    var element = this.renderRepository(repository);
-    element.updateTimes();
+  collectionRefreshed: function() {
+    Travis.Views.Base.List.prototype.collectionRefreshed.apply(this, arguments);
+    this.element().updateTimes();
+    this.updateStatus();
   },
   buildUpdated: function(item) {
-    var repository = _.isFunction(item.repository) ? item.repository() : item;
-    $('#repository_' + repository.id, this.element).remove();
-    var element = this.renderRepository(repository);
-    element.updateTimes();
-  },
-  renderRepository: function(repository) {
-    return this.element.prepend($(this.template(repository.toJSON())));
-  },
-  setCurrent: function(repository) {
-    $('.repository', this.element).removeClass('current');
-    $('#repository_' + repository.id, this.element).addClass('current');
+    item = _.isFunction(item.repository) ? item.repository() : item;
+    $('#repository_' + item.id, this.element).remove();
+    this._renderItem(item);
+    this.updateStatus();
   },
   updateStatus: function() {
-    this.element.removeClass('active');
-    _.each(this.repositories.models, function(repository) {
-      if(repository.isBuilding()) $('#repository_' + repository.id, this.element).addClass('active');
-    });
+    this.element().removeClass('active');
+    _.each(this.collection.building(), function(repository) {
+      $('#repository_' + repository.id, this.element()).addClass('active');
+    }.bind(this));
+
+    var selected = this.collection.selected();
+    $('.repository', this.element()).removeClass('current');
+    if(selected) { $('#repository_' + selected.id, this.element()).addClass('current'); }
   }
 });

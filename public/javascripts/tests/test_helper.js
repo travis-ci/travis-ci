@@ -3,17 +3,17 @@ var __TESTING__ = true
 beforeEach(function() {
   window.location.hash = '';
   Travis.start();
-  Backbone.history.loadUrl();
+  // Backbone.history.loadUrl();
 
   this.left = $('#left').html();
   this.main = $('#main').html();
-  this.hash = window.location.hash;
+  // this.hash = window.location.hash;
 });
 
 afterEach(function() {
   $('#left').html(this.left);
   $('#main').html(this.main);
-  window.location.hash = this.hash;
+  // window.location.hash = this.hash;
 });
 
 var runsAfter = function(time, func) {

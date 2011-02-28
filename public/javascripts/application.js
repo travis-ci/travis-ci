@@ -1,5 +1,5 @@
 var Travis = {
-  Controllers: {}, Collections: {}, Helpers: {}, Models: {}, Views: {},
+  Controllers: {}, Collections: {}, Helpers: {}, Models: {}, Views: { Base: {} },
   start: function() {
     Backbone.history = new Backbone.History;
     Travis.app = new Travis.Controllers.Application;

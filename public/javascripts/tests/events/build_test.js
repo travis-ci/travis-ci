@@ -5,7 +5,8 @@ describe('Events:', function() {
     beforeEach(function() {
       this.repository = INIT_DATA.repositories[1];
       goTo('#!/' + this.repository.name + '/builds/' + this.repository.last_build.id)
-      waitsFor(repositoriesListPopulated(2));
+      waitsFor(repositoriesListPopulated(1));
+      waitsFor(buildTabActive(this.repository.name, 'build'));
     });
 
     describe('an incoming event for the current build', function() {
@@ -15,7 +16,7 @@ describe('Events:', function() {
           Travis.app.trigger('build:log', this.data);
         });
 
-        itAppendsToTheBuildLog();
+        itAppendsToTheBuildLog('#tab_build');
       });
 
       describe('build:finished', function() {
@@ -27,7 +28,7 @@ describe('Events:', function() {
         itUpdatesTheRepositoryListItemsBuildInformation();
         itSetsTheRepositoryListItemsBuildStatusColor();
         itDoesNotIndicateTheRepositoryIsBeingBuilt();
-        itUpdatesTheBuildSummary();
+        itUpdatesTheBuildSummary('#tab_build');
       });
     });
 
@@ -38,7 +39,7 @@ describe('Events:', function() {
           Travis.app.trigger('build:log', this.data);
         });
 
-        itDoesNotAppendToTheBuildLog();
+        itDoesNotAppendToTheBuildLog('#tab_build');
       });
 
       describe('build:finished', function() {
@@ -50,7 +51,7 @@ describe('Events:', function() {
         itUpdatesTheRepositoryListItemsBuildInformation();
         itSetsTheRepositoryListItemsBuildStatusColor();
         itDoesNotIndicateTheRepositoryIsBeingBuilt();
-        itDoesNotUpdateTheBuildSummary();
+        itDoesNotUpdateTheBuildSummary('#tab_build');
       });
     });
   });

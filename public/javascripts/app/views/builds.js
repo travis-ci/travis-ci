@@ -1,50 +1,35 @@
-Travis.Views.Builds = Backbone.View.extend({
-  initialize: function(args) {
-    _.bindAll(this, 'bind', 'unbind', 'render', 'buildAdded', 'buildChanged');
-
-    this.app = args.app;
-
-    this.templates = {
-      list: args.app.templates['builds/list'],
-      item: args.app.templates['builds/_item']
-    }
+Travis.Views.Builds = Travis.Views.Base.List.extend({
+  name: 'builds',
+  selectors: {
+    element: '#tab_history div',
+    list: '#tab_history tbody'
   },
-  element: function() {
-    return $('#tab_history div');
+  // collection_events: {
+  //   'builds:load:start': 'startLoading',
+  //   'builds:load:done': 'stopLoading'
+  // },
+  connect: function(collection) {
+    Travis.Views.Base.List.prototype.connect.apply(this, arguments);
+    collection.fetch();
   },
-  bind: function(repository) {
-    this.repository = repository;
-    repository.builds.bind('add', this.buildAdded);
-    repository.builds.bind('change', this.buildChanged);
-    repository.builds.bind('builds:load:start', this.startLoading);
-    repository.builds.bind('builds:load:done',  this.stopLoading);
-  },
-  unbind: function() {
+  disconnect: function() {
     if(this.repository) {
       this.repository.builds.unbind('add', this.buildAdded);
       this.repository.builds.unbind('change', this.buildChanged);
     }
   },
-  render: function(repository) {
-    this.bind(repository);
-    repository.builds.load(function() {
-      var element = this.element();
-      element.html($(this.templates.list({ repository: repository.toJSON(), builds: repository.builds.toJSON().reverse() })));
-      Travis.Helpers.Util.updateTimes(element);
-    }.bind(this));
+  collectionRefreshed: function() {
+    Travis.Views.Base.List.prototype.collectionRefreshed.apply(this, arguments);
+    this.element().updateTimes();
   },
-  buildAdded: function(build) {
-    $('tr:first-child', this.element()).after($(this.templates.item(build.toJSON())));
+  elementAdded: function(build) {
+    Travis.Views.Base.List.prototype.elementAdded.apply(this, arguments);
+    this.element().updateTimes();
   },
-  buildChanged: function(build) {
+  elementChanged: function(build) {
     $('tr#builds_' + build.id, this.element()).html($(this.templates.item(build.toJSON())));
   },
-  startLoading: function() {
-    $('#tab_history div').addClass('loading');
+  updateTab: function(repository) {
+    $('h5 a', this.element().closest('li')).attr('href', '#!/' + repository.get('name') + '/builds');
   },
-  stopLoading: function() {
-    $('#tab_history div').removeClass('loading');
-  }
 });
-
-
