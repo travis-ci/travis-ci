@@ -87,7 +87,7 @@ module Travis
       end
 
       def config_url
-        @config_url ||= "#{url}/raw/#{commit}/.travis.yml"
+        @config_url ||= File.expand_path(".travis.yml")
       end
 
       def git_url
