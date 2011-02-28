@@ -5,6 +5,6 @@ class Token < ActiveRecord::Base
 
   protected
     def generate_token
-      self.token = Devise.friendly_token
+      self.token = Devise.friendly_token.first(20)
     end
 end

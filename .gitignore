@@ -5,3 +5,4 @@ log/*.log
 tmp/**/*
 vendor/htmlunit
 config/travis.yml
+.rvmrc
