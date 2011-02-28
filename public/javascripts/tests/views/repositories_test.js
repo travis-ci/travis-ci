@@ -1,6 +1,6 @@
 describe('Views: the repositories list', function() {
   beforeEach(function() {
-    goTo('#!/' + INIT_DATA.repositories[1].name);
+    goTo('#!/');
     waitsFor(repositoriesListPopulated(2));
   });
 
@@ -19,5 +19,13 @@ describe('Views: the repositories list', function() {
   it('clicking the build number opens the build details pane on the main', function() {
     follow('#1');
     expectElement('#main .build');
+  });
+
+  it('sets the current repository', function() {
+    expect($('#repositories .repository:nth-child(1)').hasClass('current'))
+    expect(!$('#repositories .repository:nth-child(2)').hasClass('current'))
+
+    follow('josevalim/enginex');
+    expect($('#repositories .repository:nth-child(1)').hasClass('current'))
   });
 });

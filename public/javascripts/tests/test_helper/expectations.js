@@ -39,12 +39,15 @@ var expectTable = function() {
   var args  = Array.prototype.slice.call(arguments);
   var table = args.pop();
   var base  = $(args.pop());
+  var headers = table.shift();
 
+  _.each(headers, function(text, ix) {
+    var selector = 'thead th:nth-child(' + (ix + 1) + ')';
+    expectText(selector, text, base);
+  });
   _.each(table, function(cells, row) {
     _.each(cells, function(text, cell) {
-      var selector = _.map(['th', 'td'], function(tag) {
-        return 'tr:nth-child(' + (row + 1) + ') ' + tag + ':nth-child(' + (cell + 1) + ')'
-      }).join(', ');
+      var selector = 'tbody tr:nth-child(' + (row + 1) + ') td:nth-child(' + (cell + 1) + ')';
       expectText(selector, text, base);
     });
   });

@@ -4,7 +4,8 @@ describe('Events:', function() {
       this.repository = INIT_DATA.repositories[1];
       goTo('#!/' + this.repository.name + '/builds')
       waitsFor(buildTabActive(this.repository.name, 'history'));
-      waits(400); // TODO ugh ...
+      waitsFor(buildTabLoaded(this.repository.name, 'history'));
+      waitsFor(buildHistoryTimesUpdated(), 1000, 'the build history timestamps have been updated to relative times in words');
     });
 
     describe('an incoming event for the current build', function() {
@@ -12,7 +13,7 @@ describe('Events:', function() {
         beforeEach(function() {
           this.data = _.extend(buildStartedData(this.repository), { number: 4 });
           Travis.app.trigger('build:started', this.data);
-          waitsFor(buildHistoryContainsRows(2));
+          waitsFor(buildHistoryShowsBuilds(2));
         });
 
         itPrependsTheBuildToTheBuildsHistoryTable();

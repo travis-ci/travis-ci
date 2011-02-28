@@ -1,0 +1,69 @@
+// View Event Lifecycle
+
+1. initialize: basic setup, bindAll etc.
+2. render: create/setup a skeleton html element
+3. bindTo (wire?, connect?): bind (start listening) to given collections/models
+4. (event callbacks)
+5. unbind (reset?): unbind from collections/models
+
+// something like this ...
+
+Travis.Views.BaseList = Backbone.View.extend({
+  initialize: function() {
+    this.render();
+    return this;
+  },
+  element: function() {
+    return (this._element || this._element = $(this.selectors.element));
+  },
+  render: function() {
+    this.element().html(this.templates.list({}));
+    this.element().addClass('loading');
+  },
+  renderItem: function(item) {
+    $(this.selectors.list, this.element()).prepend($(this.templates.item(item.toJSON())));
+  },
+  connect: function(collection) {
+    this.disconnect();
+    this.collection = collection;
+    this.collection.bind('add', this.elementAdded);
+    this.collection.bind('remove', this.elementRemoved);
+    this.collection.bind('refresh', this.collectionRefreshed)
+    // render items unless the collection is empty?
+  },
+  disconnect: function() {
+    if(this.collection) {
+      this.collection.unbind('add');
+      delete this.collection;
+      delete this._element;
+    }
+  },
+  elementAdded: function(item) {
+    renderItem(item);
+  },
+  elementRemoved: function(item) {
+    $(this.selector + '' + this.selectors.item + job.get('id'), this.element()).remove();
+  },
+  collectionRefreshed: function(collection) {
+    this.element().removeClass('loading')
+  },
+  updateEmpty: function() {
+    var element = $('.empty', this.element());
+    this.jobs.length == 0 ? element.show() : element.hide();
+  }
+});
+
+Travis.Views.Jobs = Travis.Views.BaseList.extend({
+  selectors: {
+    element: '#jobs',
+    list: '#jobs ul',
+    item: '#job_' // hmm ...
+  },
+  initialize: function(args) {
+    this.templates = {
+      list: args.app.templates['jobs/list'],
+      item: args.app.templates['jobs/_item']
+    };
+    return Travis.Views.BaseList.prototype.initialize.apply(this, arguments);
+  },
+});

@@ -82,7 +82,7 @@ Travis.Collections.Builds = Backbone.Collection.extend({
     if(build) {
       callback(build);
     } else {
-      var build = new Build({ id: id });
+      var build = new Travis.Models.Build({ id: id });
       this.add(build);
       build.fetch({ silent: true, success: callback });
     }

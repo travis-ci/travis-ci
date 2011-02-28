@@ -1,6 +1,6 @@
 Travis.Models.Repository = Backbone.Model.extend({
   initialize: function(attributes) {
-    _.bindAll(this, 'buildAdded', 'buildChanged');
+    _.bindAll(this, 'set', 'isBuilding', 'isCurrent', 'toJSON', 'buildAdded', 'buildChanged');
 
     this.builds = new Travis.Collections.Builds([new Travis.Models.Build(attributes.last_build)], { repository: this });
     this.builds.bind('add', this.buildAdded);
@@ -21,6 +21,9 @@ Travis.Models.Repository = Backbone.Model.extend({
     var build = this.builds.last();
     return build ? !build.get('finished_at') : false;
   },
+  isSelected: function() {
+    return this.get('selected');
+  },
   toJSON: function(options) {
     var data = Backbone.Model.prototype.toJSON.apply(this)
     if(options == undefined) options = { includeBuild: true }
@@ -39,18 +42,29 @@ Travis.Models.Repository = Backbone.Model.extend({
 Travis.Collections.Repositories = Backbone.Collection.extend({
   model: Travis.Models.Repository,
   initialize: function(models) {
-    _.bindAll(this, 'find', 'last', 'update');
+    _.bindAll(this, 'find', 'last', 'setSelected', 'update');
   },
   url: function() {
     var url = '/repositories';
-    return '/repositories' + Travis.Helpers.Util.queryString(this.params);
+    return '/repositories' + Travis.Helpers.Util.queryString(this.args);
   },
-  fetch: function(params) {
-    this.params = { username: params.username };
+  building: function() {
+    return this.select(function(repository) { return repository.isBuilding(); });
+  },
+  selected: function() {
+    return this.detect(function(repository) { return repository.get('selected'); })
+  },
+  setSelected: function(repository) {
+    this.each(function(model) { model.set({ selected: false }, { silent: true }) });
+    repository.set({ selected: true });
+  },
+  fetch: function(args) {
+    args = args || {};
+    this.args = { username: args.username };
     this.trigger('repositories:load:start');
-    var success = params.success;
-    params.success = function() { this.trigger('repositories:load:done'); success(arguments); }.bind(this);
-    Backbone.Collection.prototype.fetch.apply(this, [params]);
+    var success = args.success;
+    args.success = function() { this.trigger('repositories:load:done'); if(success) success(arguments); }.bind(this);
+    Backbone.Collection.prototype.fetch.apply(this, [args]);
   },
   findByName: function(name) {
     return this.detect(function(item) { return item.get('name') == name }, this); // TODO use an index?
