@@ -32,7 +32,7 @@
         <% if user_signed_in? %>
           <a href="#">
             <%= image_tag("http://www.gravatar.com/avatar/#{current_user.profile_image_hash}?s=30&d=mm", :alt => "", :class => "profile-avatar") %>
-            <span class="name"><%= current_user.name %></span>
+            <span class="name"><%= current_user.name || current_user.login %></span>
           </a>
           <ul id="profile_menu">
             <li><%= link_to "Profile", profile_path %></li>
