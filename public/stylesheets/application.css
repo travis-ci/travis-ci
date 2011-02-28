@@ -105,6 +105,7 @@ ul {
   display: none;
   z-index: 2;
   position: absolute;
+  top: 40px;
   right: 160px;
   background-color: #444;
   -webkit-border-bottom-left-radius: 4px 4px;
