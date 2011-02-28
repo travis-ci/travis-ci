@@ -19,7 +19,7 @@ Travis consists of four main parts:
 
 To get an idea: "1:20 quick demo screencast (spike 2)":http://www.youtube.com/watch?v=mNOwCJhjWAw
 
-!https://github.com/svenfuchs/travis/raw/master/docs/travis.spike-2.png!
+!https://github.com/travis-ci/travis-ci/raw/master/docs/travis.spike-2.png!
 
 
 h2. Goals
@@ -120,14 +120,14 @@ h2. Design Iterations
 
 * "Second design Feb 2010":https://skitch.com/svenfuchs/rtfas/travis.2
 * "First design Jan 2010":https://skitch.com/svenfuchs/rtms3/travis-design-1-2010-02
-* "Initial mockup":https://skitch.com/svenfuchs/rtms3/travis-design-1-2010-02
+* Initial mockups of "index":https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/main.png and "details":https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/build_details.png
 
 h2. Previous spike
 
 My first spike was using Nanite for running workers. These materials are now outdated but might be interesting:
 
 * "1:36 quick demo screencast (spike 1)":http://www.youtube.com/watch?v=qdTV-b6BJHA
-* "Architecture diagram (spike 1)":https://github.com/svenfuchs/travis/raw/master/docs/travis.spike-1.png
+* "Architecture diagram (spike 1)":https://github.com/travis-ci/travis-ci/raw/master/docs/travis.spike-1.png
 
 
 h2. Requirements
