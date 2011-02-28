@@ -27,25 +27,32 @@ ul {
   display: block;
   background-color: black;
   height: 40px;
-  padding: 0 160px 0 15px;
+  width: 100%;
+  position: absolute;
+  z-index: 11;
   font-size: 13px;
   line-height: 40px;
   background: url(/images/layout/bg-top.png) repeat-x;
 }
 #left {
   position: absolute;
+  top: 40px;
   width: 400px;
 }
 #main {
-  padding: 20px 360px 30px 460px;
+  padding: 60px 360px 30px 460px;
 }
 #right {
   position: absolute;
   right: 0px;
-  width: 200px;
-  padding: 30px 50px;
+  min-height: 100%;
+  width: 300px;
+  z-index: 10;
   border-left: 1px solid #ccc;
   background-color: #f2f4f9;
+}
+#right .inner {
+  padding: 70px 50px 30px 50px;
 }
 
 
@@ -58,7 +65,7 @@ ul {
   float: left;
   width: 73px;
   height: 30px;
-  margin: 4px 0 0 7px;
+  margin: 4px 0 0 22px;
   text-indent: -99px;
   overflow: hidden;
   color: #d52818;
@@ -86,7 +93,7 @@ ul {
   padding: 0 15px;
 }
 #top #profile {
-  margin: 0;
+  margin: 0 160px 0 0;
   float: right;
 }
 #top #profile img {
@@ -240,6 +247,9 @@ ul {
 #main .tabs {
   margin-top: 35px;
 }
+#main .tabs li {
+  white-space: nowrap;
+}
 #main #tab_build:not(.active) {
   display: none;
 }
@@ -343,7 +353,7 @@ ul {
 #right {
   font-size: 13px;
 }
-#right > div:first-of-type h4 {
+#right .inner > div:first-of-type h4 {
   margin-top: 15px;
 }
 #right h4 {
@@ -493,7 +503,7 @@ ul {
   background: url(/images/github-ribbon.png) no-repeat;
   text-indent: -999px;
   overflow: hidden;
-  z-index: 1;
+  z-index: 3;
 }
 
 .clearfix:after {
