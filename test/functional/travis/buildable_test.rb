@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class BuildableTest < ActiveSupport::TestCase
-  include Travis
-  Buildable.send :public, :build_dir, :git_url, :config_url
+  include Travis, BuildableTestHelper
+
+  Buildable.send :public, :build_dir, :git_url, :config_url, :build!
   Buildable.base_dir = '/tmp/travis/test'
 
   def setup
@@ -17,13 +18,26 @@ class BuildableTest < ActiveSupport::TestCase
     FileUtils.rm_rf(Buildable.base_dir)
   end
 
-  test 'build: clones a repository if the build dir is not a git repository' do
+  test 'run!: builds the repository unless it needs to be configured' do
+    buildable = Buildable.new(:url => 'http://github.com/svenfuchs/travis')
+    buildable.expects(:build!)
+    buildable.run!
+  end
+
+  test 'run!: configures the repository if it needs to be configured' do
+    buildable = Buildable.new(:url => 'http://github.com/svenfuchs/travis')
+    buildable.stubs(:config).returns(config(:matrix => { 'rvm' => ['1.8.7', '1.9.2'] }))
+    buildable.expects(:configure!)
+    buildable.run!
+  end
+
+  test 'build!: clones a repository if the build dir is not a git repository' do
     buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis')
     buildable.expects(:clone)
     buildable.build!
   end
 
-  test 'build: fetches a repository if the build dir is a git repository' do
+  test 'build!: fetches a repository if the build dir is a git repository' do
     buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis')
     buildable.send(:chdir) { `mkdir .git` }
     buildable.expects(:fetch)

@@ -25,19 +25,28 @@ module Travis
       @path   = extract_path(url)
     end
 
-    def build!
+    def run!
       Bundler.with_clean_env do
         ENV['BUNDLE_GEMFILE'] = nil
         chdir do
           exists? ? fetch : clone
           checkout
-          install
-          run_script
+          config.configure? ? configure! : build!
         end
       end
     end
 
     protected
+      def configure!
+        { 'config' => config }
+      end
+
+      def build!
+        install
+        status = run_script
+        { 'status' => status }
+      end
+
       def clone
         execute "cd ..; git clone #{git_url}; cd -"
       end

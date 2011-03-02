@@ -21,7 +21,7 @@ class TravisBuilderTest < ActiveSupport::TestCase
   end
 
   test 'starts a buildable' do
-    buildable.expects(:build!)
+    buildable.expects(:run!).returns({ 'status' => 0 })
     builder.work!
   end
 
