@@ -38,4 +38,17 @@ class BuildTest < ActiveSupport::TestCase
   test 'expanding a matrix build adds a sub-build number to the build number' do
     assert_equal ['2:1', '2:2', '2:3', '2:4'], build.matrix.map(&:number)
   end
+
+  test 'matrix_expanded? returns true if the matrix has just been expanded' do
+    assert build.matrix_expanded?
+  end
+
+  test 'matrix_expanded? returns false if there is no matrix' do
+    assert !Build.create!.matrix_expanded?
+  end
+
+  test 'matrix_expanded? returns false if the matrix existed before' do
+    build.save!
+    assert !build.matrix_expanded?
+  end
 end

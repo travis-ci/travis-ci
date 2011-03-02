@@ -6,7 +6,7 @@ class Build < ActiveRecord::Base
 
   has_many :matrix, :class_name => 'Build', :foreign_key => :parent_id
 
-  after_save :expand_matrix!, :if => :expand_matrix?
+  before_save :expand_matrix!, :if => :expand_matrix?
 
   class << self
     def create_from_github_payload(data)
@@ -60,6 +60,10 @@ class Build < ActiveRecord::Base
     config['matrix'].present?
   end
 
+  def matrix_expanded?
+    @previously_changed['config'][1]['matrix'].present? rescue false # TODO how to use some public API?
+  end
+
   def as_json(options = {})
     build_keys = [:id, :number, :commit, :message, :status, :committed_at, :author_name, :author_email, :committer_name, :committer_email]
     build_keys += [:log, :started_at, :finished_at] if options[:full]
@@ -75,7 +79,7 @@ class Build < ActiveRecord::Base
 
     def expand_matrix!
       expand_matrix_config(config['matrix']).each_with_index do |row, ix|
-        matrix.create!(attributes.merge(:number => "#{number}:#{ix + 1}", :config => Hash[*row.flatten]))
+        matrix.build(attributes.merge(:number => "#{number}:#{ix + 1}", :config => Hash[*row.flatten]))
       end
     end
 
