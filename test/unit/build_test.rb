@@ -2,7 +2,7 @@ require 'test_helper'
 
 class BuildTest < ActiveSupport::TestCase
   test 'building a Build from Github ping data' do
-    build = Build.build(JSON.parse(GITHUB_PAYLOADS['gem-release']))
+    build = Build.create_from_github_payload(JSON.parse(GITHUB_PAYLOADS['gem-release']))
 
     assert_equal '9854592', build.commit
     assert_equal 'Bump to 0.0.15', build.message

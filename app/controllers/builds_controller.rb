@@ -39,7 +39,7 @@ class BuildsController < ApplicationController
     end
 
     def build
-      @build ||= params[:id] ? Build.find(params[:id]) : Build.build(payload)
+      @build ||= params[:id] ? Build.find(params[:id]) : Build.create_from_github_payload(payload)
     end
 
     def payload
