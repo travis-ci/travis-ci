@@ -84,6 +84,8 @@ class Build < ActiveRecord::Base
     end
 
     def expand_matrix_config(config)
+      config = [config] unless config.first.is_a?(Array) # TODO not sure this is just a rails integration test bug? seems to flatten the nested array
+
       # combines each variable value with it's name, e.g. ['rvm', '1.8.7', '1.9.2']
       # becomes [['rvm', '1.8.7'], ['rvm', '1.9.2']]
       variables = config.inject([]) do |result, values|
