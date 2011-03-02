@@ -4,7 +4,9 @@ class Build < ActiveRecord::Base
   belongs_to :repository
   serialize :config
 
-  has_many :children, :class_name => 'Build', :foreign_key => :parent_id
+  has_many :matrix, :class_name => 'Build', :foreign_key => :parent_id
+
+  after_save :expand_matrix!, :if => :expand_matrix?
 
   class << self
     def create_from_github_payload(data)
@@ -30,14 +32,12 @@ class Build < ActiveRecord::Base
     end
   end
 
-  def expand!(config)
-    expand_matrix(config).each_with_index do |row, ix|
-      Build.create!(attributes.merge(:parent_id => id, :number => "#{number}:#{ix + 1}", :config => row))
-    end
-  end
-
   def append_log!(chars)
     update_attributes!(:log => [self.log, chars].join)
+  end
+
+  def config
+    read_attribute(:config) || {}
   end
 
   def finished?
@@ -56,6 +56,10 @@ class Build < ActiveRecord::Base
     pending? ? '' : passed? ? 'green' : 'red'
   end
 
+  def matrix?
+    config['matrix'].present?
+  end
+
   def as_json(options = {})
     build_keys = [:id, :number, :commit, :message, :status, :committed_at, :author_name, :author_email, :committer_name, :committer_email]
     build_keys += [:log, :started_at, :finished_at] if options[:full]
@@ -65,7 +69,17 @@ class Build < ActiveRecord::Base
 
   protected
 
-    def expand_matrix(config)
+    def expand_matrix?
+      matrix? && matrix.empty?
+    end
+
+    def expand_matrix!
+      expand_matrix_config(config['matrix']).each_with_index do |row, ix|
+        matrix.create!(attributes.merge(:number => "#{number}:#{ix + 1}", :config => Hash[*row.flatten]))
+      end
+    end
+
+    def expand_matrix_config(config)
       # combines each variable value with it's name, e.g. ['rvm', '1.8.7', '1.9.2']
       # becomes [['rvm', '1.8.7'], ['rvm', '1.9.2']]
       variables = config.inject([]) do |result, values|
