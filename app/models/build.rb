@@ -2,7 +2,7 @@ class Build < ActiveRecord::Base
   belongs_to :repository
 
   class << self
-    def build(data)
+    def create_from_github_payload(data)
       repository = Repository.find_or_create_by_url(data['repository']['url'])
       commit     = data['commits'].last
       author     = commit['author'] || {}
