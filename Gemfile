@@ -21,6 +21,8 @@ gem 'resque-meta',        '~> 1.0.3'
 gem 'em-websocket',       '~> 0.2.0'
 gem 'em-pusher',          '~> 0.1.0', :git => 'git://github.com/joshk/em-pusher.git'
 
+gem 'compass',            '~> 0.10.6'
+
 group :development do
   gem 'sqlite3-ruby', :require => 'sqlite3'
 end
