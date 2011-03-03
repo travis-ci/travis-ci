@@ -89,7 +89,7 @@ $ rake heroku:config
 Starting a local worker:
 
 <pre>
-$ RAILS_ENV=production VERBOSE=true QUEUE=builds rake resque:work
+$ script/worker
 </pre>
 
 Or using God:

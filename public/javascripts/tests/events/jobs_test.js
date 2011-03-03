@@ -7,7 +7,7 @@ describe('Events:', function() {
 
   var itRemovesTheJobFromTheJobsListView = function() {
     it('removes the job from the jobs list view', function() {
-      expect($('#jobs li:not(.empty)')).toBeEmpty();
+      expect($('#jobs li:not(.empty)').length).toBe(0);
     });
   };
 

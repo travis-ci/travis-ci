@@ -1,0 +1,3 @@
+#!/bin/sh
+
+RAILS_ENV=production VERBOSE=true QUEUE=builds rake resque:work
