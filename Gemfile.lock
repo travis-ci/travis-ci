@@ -73,6 +73,8 @@ GEM
     childprocess (0.1.7)
       ffi (~> 0.6.3)
     columnize (0.3.2)
+    compass (0.10.6)
+      haml (>= 3.0.4)
     crack (0.1.8)
     cucumber (0.10.0)
       builder (>= 2.1.2)
@@ -108,6 +110,7 @@ GEM
       rake (>= 0.8.7)
     gherkin (2.3.3)
       json (~> 1.4.6)
+    haml (3.0.25)
     hoptoad_notifier (2.4.6)
       activesupport
       builder
@@ -236,6 +239,7 @@ PLATFORMS
 DEPENDENCIES
   SystemTimer (~> 1.2.2)
   capybara
+  compass (~> 0.10.6)
   cucumber-rails!
   database_cleaner
   devise (~> 1.2.rc)
