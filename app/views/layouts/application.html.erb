@@ -8,6 +8,7 @@
     <meta charset="utf-8">
     <title>Travis CI - Distributed build plattform for the Ruby community</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon.ico">
     <%= stylesheet_link_tag 'application', 'jquery.tipsy' %>
     <% if Rails.env.jasmine? %>
       <%= stylesheet_link_tag 'jasmine' %>
@@ -31,7 +32,7 @@
         <% if user_signed_in? %>
           <a href="#">
             <%= gravatar(current_user, :size => 24) %>
-            <span class="name"><%= current_user.name %></span>
+            <span class="name"><%= current_user.name || current_user.login %></span>
           </a>
           <ul id="profile_menu">
             <li><%= link_to "Profile", profile_path %></li>
@@ -79,7 +80,7 @@
           <h4>Join us and help!</h4>
           <p>Travis is an open, distributed build system for the Ruby community. Find us at:</p>
           <ul>
-            <li>Repository: <a href="http://github.com/svenfuchs/travis">Github</a></li>
+            <li>Repository: <a href="http://github.com/travis-ci/travis-ci">Github</a></li>
             <li>Twitter: <a href="http://twitter.com/travisci">@travisci</a></li>
             <li>Mailinglist: <a href="http://groups.google.com/group/travis-app">travis-app</a></li>
             <li><a href="irc://irc.freenode.net#travis">irc.freenode.net#travis</a></li>

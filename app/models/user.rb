@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
 
   has_many :tokens
 
-  after_save :create_a_token
+  after_create :create_a_token
 
   def self.find_for_github_oauth(user_hash)
     data = user_hash['extra']['user_hash']
@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
 
   private
     def create_a_token
-      self.tokens.create! if self.tokens.empty?
+      self.tokens.create!
     end
 end
 
