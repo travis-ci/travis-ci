@@ -1,4 +1,4 @@
-Travis.Views.CurrentBuild = Travis.Views.Build.extend({
+Travis.Views.Build.Current = Travis.Views.Build.Build.extend({
   initialize: function(args) {
     this.selectors = this.selectors || {
       element: '#tab_current div'
@@ -7,13 +7,13 @@ Travis.Views.CurrentBuild = Travis.Views.Build.extend({
       show: args.templates['builds/current'],
       summary: args.templates['builds/_summary']
     };
-    Travis.Views.Build.prototype.initialize.apply(this, arguments);
+    Travis.Views.Build.Build.prototype.initialize.apply(this, arguments);
   },
   element: function() {
     return $('#tab_current div');
   },
   connect: function(build) {
-    Travis.Views.Build.prototype.connect.apply(this, arguments);
+    Travis.Views.Build.Build.prototype.connect.apply(this, arguments);
     build.collection.bind('add', this.connect);
     this.element().activateTab('current');
   },
