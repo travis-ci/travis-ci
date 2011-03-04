@@ -1,4 +1,4 @@
-Travis.Views.Builds = Travis.Views.Base.List.extend({
+Travis.Views.Build.List = Travis.Views.Base.List.extend({
   name: 'builds',
   selectors: {
     element: '#tab_history div',

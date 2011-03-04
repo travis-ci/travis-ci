@@ -1,4 +1,4 @@
-Travis.Views.Build = Travis.Views.Base.Show.extend({
+Travis.Views.Build.Build = Travis.Views.Base.Show.extend({
   initialize: function(args) {
     _.bindAll(this, 'buildChanged', 'buildLogged', 'updateTab', 'updateSummary', 'updateLog');
 
