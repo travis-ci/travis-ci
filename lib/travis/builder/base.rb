@@ -18,7 +18,8 @@ module Travis
         @buildable ||= Travis::Buildable.new(
           :script => 'rake',
           :commit => build['commit'],
-          :url => build['repository']['url']
+          :env    => build['config'],
+          :url    => build['repository']['url']
         )
       end
 

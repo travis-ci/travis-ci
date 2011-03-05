@@ -3,10 +3,6 @@ Travis.Views.Build.Current = Travis.Views.Build.Build.extend({
     this.selectors = this.selectors || {
       element: '#tab_current div'
     };
-    this.templates = this.templates || {
-      show: args.templates['builds/current'],
-      summary: args.templates['builds/_summary']
-    };
     Travis.Views.Build.Build.prototype.initialize.apply(this, arguments);
   },
   element: function() {

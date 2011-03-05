@@ -37,7 +37,7 @@ module BuildableTestHelper
 
   def config_file(config = nil)
     Tempfile.new("travis.yml").tap do |file|
-      file.write(YAML.dump(config || { :script => 'testing' }))
+      file.write(YAML.dump(config || { :script => 'rake ci' }))
       file.flush
     end
   end

@@ -44,6 +44,30 @@ class BuildableTest < ActiveSupport::TestCase
     buildable.build!
   end
 
+  test "command: equals the build script if no env is given" do
+    buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis')
+    buildable.stubs(:config).returns(config)
+    assert_equal 'rake ci', buildable.send(:command)
+  end
+
+  test "command: prepends an rvm command if configured" do
+    buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis', :env => [['rvm', '1.9.2']])
+    buildable.stubs(:config).returns(config)
+    assert_equal 'rvm use 1.9.2; rake ci', buildable.send(:command)
+  end
+
+  test "command: prepends an env var if configured" do
+    buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis', :env => [['bundle_gemfile', 'ci/Gemfile.rails-2.3.x']])
+    buildable.stubs(:config).returns(config)
+    assert_equal 'BUNDLE_GEMFILE=ci/Gemfile.rails-2.3.x rake ci', buildable.send(:command)
+  end
+
+  test "command: prepends both rvm command and env var if configured" do
+    buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis', :env => [['rvm', '1.9.2'], ['bundle_gemfile', 'ci/Gemfile.rails-2.3.x']])
+    buildable.stubs(:config).returns(config)
+    assert_equal 'rvm use 1.9.2; BUNDLE_GEMFILE=ci/Gemfile.rails-2.3.x rake ci', buildable.send(:command)
+  end
+
   test 'build_dir: given a local filesystem url it returns a valid path' do
     buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis')
     assert_match %r(/tmp/travis/test/.*_Development_projects/travis), buildable.build_dir

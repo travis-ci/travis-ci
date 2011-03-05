@@ -30,7 +30,7 @@ describe('Models:', function() {
         runs(function() {
           expect(this.builds.length).toEqual(3);
           var attributes = _.pluck(this.builds.models, 'attributes');
-          expect(_.pluck(attributes, 'number')).toEqual([1, 2, 3]);
+          expect(_.pluck(attributes, 'number')).toEqual(['1', '2', '3']);
         });
       });
     });
