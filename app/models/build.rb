@@ -2,9 +2,13 @@ require 'core_ext/array/flatten_once'
 
 class Build < ActiveRecord::Base
   belongs_to :repository
-  serialize :config
+  belongs_to :parent, :class_name => 'Build', :foreign_key => :parent_id
 
   has_many :matrix, :class_name => 'Build', :foreign_key => :parent_id
+
+  validates :repository_id, :presence => true
+
+  serialize :config
 
   before_save :expand_matrix!, :if => :expand_matrix?
 
@@ -64,11 +68,14 @@ class Build < ActiveRecord::Base
     @previously_changed['config'][1]['matrix'].present? rescue false # TODO how to use some public API?
   end
 
-  def as_json(options = {})
-    build_keys = [:id, :number, :commit, :message, :status, :committed_at, :author_name, :author_email, :committer_name, :committer_email]
-    build_keys += [:log, :started_at, :finished_at] if options[:full]
-    build_methods = []
-    super(:only => build_keys, :methods => build_methods, :include => { :repository => { :only => [:id, :name, :url, :last_duration] } })
+  def as_json(options = nil)
+    options ||= {} # ActiveSupport seems to pass nil here?
+    only = options[:only] || []
+    only += [:id, :number, :commit, :message, :status, :committed_at, :author_name, :author_email, :committer_name, :committer_email]
+    only += [:log, :started_at, :finished_at] if options[:full]
+    json = super(:only => only).merge(:repository => repository.as_json(:include_last_build => false))
+    json.merge!(:matrix => matrix.as_json(:only => [:config], :include_last_build => false)) if matrix?
+    json
   end
 
   protected

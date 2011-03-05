@@ -1,11 +1,11 @@
 require 'uri'
 
 class Repository < ActiveRecord::Base
-  has_many :builds, :dependent => :delete_all
-  has_one :last_build,          :class_name => 'Build', :order => 'started_at DESC'
-  has_one :last_finished_build, :class_name => 'Build', :order => 'started_at DESC', :conditions => 'finished_at IS NOT NULL'
-  has_one :last_success,        :class_name => 'Build', :order => 'started_at DESC', :conditions => { :status => 0 }
-  has_one :last_failure,        :class_name => 'Build', :order => 'started_at DESC', :conditions => { :status => 1 }
+  has_many :builds, :dependent => :delete_all, :conditions => 'parent_id IS null'
+  has_one :last_build,          :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS null'
+  has_one :last_finished_build, :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS null AND finished_at IS NOT NULL'
+  has_one :last_success,        :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS null AND status = 0'
+  has_one :last_failure,        :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS null AND status = 1'
 
   REPOSITORY_ATTRS = [:id, :name, :url, :last_duration]
   LAST_BUILD_ATTRS = [:id, :number, :commit, :message, :status, :log, :started_at, :finished_at, :author_name, :author_email, :committer_name, :committer_email]
@@ -29,11 +29,13 @@ class Repository < ActiveRecord::Base
 
   before_create :init_names
 
-  def as_json(options = {})
-    super({
-      :only => REPOSITORY_ATTRS,
-      :include => { :last_build => { :only => LAST_BUILD_ATTRS } }
-    })
+  def as_json(options = nil)
+    options ||= {} # ActiveSupport seems to pass nil here?
+    include_last_build = options.key?(:include_last_build) ? options[:include_last_build] : true
+    options.reverse_merge!(:only => REPOSITORY_ATTRS)
+    json = super(options)
+    json.merge!(:last_build => last_build.as_json(:only => LAST_BUILD_ATTRS)) if include_last_build
+    json
   end
 
 
@@ -43,5 +45,4 @@ class Repository < ActiveRecord::Base
       self.name ||= URI.parse(url).path.split('/')[-2, 2].join('/')
       self.username = name.split('/').first
     end
-
 end

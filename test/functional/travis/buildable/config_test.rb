@@ -9,7 +9,7 @@ class ConfigTest < ActiveSupport::TestCase
   end
 
   test 'when passed a valid file it should load the config correctly' do
-    assert_equal 'testing', config[:script]
+    assert_equal 'rake ci', config[:script]
   end
 
   test 'configure? returns false when no :matrix is defined' do

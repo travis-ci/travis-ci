@@ -28,7 +28,7 @@ class AcceptBuildDataTest < ActionDispatch::IntegrationTest
   def setup
     super
     flush_redis
-    @build = Build.create!
+    @build = Factory(:build)
     @channel = ChannelMock.new
     Pusher.stubs(:[]).returns(channel)
   end

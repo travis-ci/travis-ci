@@ -16,12 +16,13 @@ module Travis
       end
     end
 
-    attr_reader :url, :path, :commit
+    attr_reader :url, :path, :commit, :env
 
     def initialize(build)
       @url    = build[:url] || raise(ArgumentError.new('no url given'))
       @commit = build[:commit]
       @script = build[:script]
+      @env    = build[:env] || {}
       @path   = extract_path(url)
     end
 
@@ -43,7 +44,7 @@ module Travis
 
       def build!
         install
-        status = run_script
+        status = execute_command
         { 'status' => status }
       end
 
@@ -64,10 +65,23 @@ module Travis
         execute 'bundle install'
       end
 
-      def run_script
-        execute(script).tap do |status|
+      def execute_command
+        execute(command).tap do |status|
           puts "\nDone. Build script exited with: #{status}"
         end
+      end
+
+      def command
+        command = env.map do |name, value|
+          case name
+          when 'rvm'
+            "rvm use #{value};"
+          else
+            "#{name.upcase}=#{value}"
+          end
+        end
+        command << script
+        command.join(' ')
       end
 
       def script

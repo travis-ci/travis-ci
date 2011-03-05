@@ -109,7 +109,7 @@
     </div>
 
     <%= javascript_include_tag :vendor, 'application', :app %>
-    <%= javascript_tag "var pusher = new Pusher('#{Pusher.key}');" %>
+    <%= javascript_tag "var pusher = new Pusher('#{Pusher.key}');" unless Rails.env.jasmine? %>
     <%
       dir = Rails.root.join('public/javascripts/app/templates/')
       Dir["#{dir}**/*.*"].each do |path|

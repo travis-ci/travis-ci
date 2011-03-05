@@ -18,7 +18,7 @@ describe('Models:', function() {
         commit: 'add057e66c3e1d59ef1f',
         log: 'minimal build 3 log ...',
         message: 'unignore Gemfile.lock',
-        number: 3,
+        number: '3',
         started_at: '2010-11-12T13:00:00Z'
       });
     });
