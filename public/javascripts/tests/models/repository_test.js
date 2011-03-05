@@ -15,7 +15,7 @@ describe('Models:', function() {
 
     it('has a builds collection', function() {
       expectAttributes(this.repository.builds.models[0], {
-        commit: 'add057e',
+        commit: 'add057e66c3e1d59ef1f',
         log: 'minimal build 3 log ...',
         message: 'unignore Gemfile.lock',
         number: 3,

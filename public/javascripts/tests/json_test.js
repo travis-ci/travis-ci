@@ -29,7 +29,7 @@ describe('Json API', function() {
       expect(build.finished_at).toEqual('2010-11-11T12:00:20Z');
       expect(build.log).toEqual('enginex build 1 log ...');
 
-      expect(build.commit).toEqual('565294c');
+      expect(build.commit).toEqual('565294c05913cfc23230');
       expect(build.message).toEqual('Update Capybara');
       expect(build.committed_at).toEqual('2010-11-11T11:58:00Z');
       expect(build.committer_name).toEqual('Jose Valim');
