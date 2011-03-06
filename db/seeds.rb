@@ -1,4 +1,4 @@
-# encoding: utf-8 
+# encoding: utf-8
 # truncate all tables for test and development
 if Rails.env != 'production'
   require 'database_cleaner'
@@ -11,7 +11,7 @@ minimal = Repository.create!({
   :url => 'https://github.com/svenfuchs/minimal',
   :last_duration => 10
 })
-  
+
 Build.create!({
   :repository => minimal,
   :number => 1,
@@ -42,9 +42,9 @@ Build.create!({
   :log => 'minimal build 2 log ...'
 })
 
-Build.create!({
+Build.create!(
+  :number => '3',
   :repository => minimal,
-  :number => 3,
   :status => '',
   :commit => 'add057e66c3e1d59ef1f',
   :message => 'unignore Gemfile.lock',
@@ -53,8 +53,9 @@ Build.create!({
   :committer_email => 'svenfuchs@artweb-design.de',
   :started_at => '2010-11-12 13:00:00',
   :agent => '76f4f2ba',
-  :log => 'minimal build 3 log ...'
-})
+  :log => 'minimal build 3 log ...',
+  :config => { 'matrix'=>[['rvm', '1.8.7', '1.9.2'], ['gemfile', 'test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x']] }
+)
 
 enginex = Repository.create!({
   :username => 'josevalim',

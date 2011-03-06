@@ -10,11 +10,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110130102621) do
+ActiveRecord::Schema.define(:version => 20110301071656) do
 
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
-    t.integer  "number"
+    t.string   "number"
     t.integer  "status"
     t.datetime "started_at"
     t.datetime "finished_at"
@@ -30,7 +30,12 @@ ActiveRecord::Schema.define(:version => 20110130102621) do
     t.string   "agent"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parent_id"
+    t.text     "config"
   end
+
+  add_index "builds", ["parent_id"], :name => "index_builds_on_parent_id"
+  add_index "builds", ["repository_id"], :name => "index_builds_on_repository_id"
 
   create_table "repositories", :force => true do |t|
     t.string   "name"

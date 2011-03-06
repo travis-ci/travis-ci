@@ -16,28 +16,38 @@ module Travis
       end
     end
 
-    attr_reader :url, :path, :commit
+    attr_reader :url, :path, :commit, :env
 
     def initialize(build)
       @url    = build[:url] || raise(ArgumentError.new('no url given'))
       @commit = build[:commit]
       @script = build[:script]
+      @env    = build[:env] || {}
       @path   = extract_path(url)
     end
 
-    def build!
+    def run!
       Bundler.with_clean_env do
         ENV['BUNDLE_GEMFILE'] = nil
         chdir do
           exists? ? fetch : clone
           checkout
-          install
-          run_script
+          config.configure? ? configure! : build!
         end
       end
     end
 
     protected
+      def configure!
+        { 'config' => config }
+      end
+
+      def build!
+        install
+        status = execute_command
+        { 'status' => status }
+      end
+
       def clone
         execute "cd ..; git clone #{git_url}; cd -"
       end
@@ -55,10 +65,23 @@ module Travis
         execute 'bundle install'
       end
 
-      def run_script
-        execute(script).tap do |status|
+      def execute_command
+        execute(command).tap do |status|
           puts "\nDone. Build script exited with: #{status}"
         end
+      end
+
+      def command
+        command = env.map do |name, value|
+          case name
+          when 'rvm'
+            "rvm use #{value};"
+          else
+            "#{name.upcase}=#{value}"
+          end
+        end
+        command << script
+        command.join(' ')
       end
 
       def script
