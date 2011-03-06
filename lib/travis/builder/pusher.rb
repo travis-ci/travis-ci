@@ -6,17 +6,17 @@ module Travis
     module Pusher
       def on_start
         super
-        push 'build:started', :build => build
+        push 'build:started', 'build' => build.merge('started_at' => started_at)
       end
 
       def on_log(log)
         super
-        push 'build:log', :build => { :id => build['id'], :repository => { :id => build['repository']['id'] } }, :log => log
+        push 'build:log', 'build' => { 'id' => build['id'], 'repository' => { 'id' => build['repository']['id'] } }, 'log' => log
       end
 
       def on_finish
         super
-        push 'build:finished', :build => build
+        push 'build:finished', 'build' => build.merge('finished_at' => finished_at)
       end
 
       protected

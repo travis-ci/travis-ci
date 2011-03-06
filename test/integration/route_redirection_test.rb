@@ -1,4 +1,4 @@
-require 'test_helper'
+require 'test_helper_rails'
 
 class RouteRedirectionTest < ActionDispatch::IntegrationTest
   fixtures :all

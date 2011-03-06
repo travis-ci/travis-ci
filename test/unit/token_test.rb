@@ -1,4 +1,4 @@
-require 'test_helper'
+require 'test_helper_rails'
 
 class TokenTest < ActiveSupport::TestCase
   Token.send :public, :generate_token

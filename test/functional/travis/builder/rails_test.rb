@@ -15,7 +15,7 @@ class TravisBuilderRailsTest < ActiveSupport::TestCase
     Time.stubs(:now).returns(now)
 
     @builder = Builder.new('12345', :id => 1)
-    builder.stubs(:buildable).returns(BuildableMock.new)
+    builder.stubs(:buildable).returns(Mocks::Buildable.new)
     builder.stubs(:post)
   end
 
@@ -24,12 +24,12 @@ class TravisBuilderRailsTest < ActiveSupport::TestCase
   end
 
   test 'updates the build record on start' do
-    builder.expects(:post).with(:started_at => Time.now)
+    builder.expects(:post).with('started_at' => Time.now)
     work!
   end
 
   test 'updates the build record on finish' do
-    builder.expects(:post).with(:log => '', :status => nil, :finished_at => Time.now)
+    builder.expects(:post).with('log' => '', 'status' => nil, 'finished_at' => Time.now)
     work!
   end
 end

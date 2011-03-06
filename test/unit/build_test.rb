@@ -1,4 +1,4 @@
-require 'test_helper'
+require 'test_helper_rails'
 
 class BuildTest < ActiveSupport::TestCase
   test 'building a Build from Github payload' do
@@ -37,7 +37,7 @@ class BuildTest < ActiveSupport::TestCase
         'last_duration' => 60,
       }
     }
-    assert_equal expected, build.as_json
+    assert_equal_hashes expected, build.as_json
   end
 
   test 'as_json(:full => true) includes everything required for the build details view' do
@@ -63,6 +63,6 @@ class BuildTest < ActiveSupport::TestCase
         'last_duration' => 60,
       }
     }
-    assert_equal expected, build.as_json(:full => true)
+    assert_equal_hashes expected, build.as_json(:full => true)
   end
 end

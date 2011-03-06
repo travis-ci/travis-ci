@@ -23,9 +23,4 @@ h2. Stuff
 + Load indicator for builds history
 - Notify clients about new workers
 
-h2. Build Matrix
-
-* Build has a flag matrix which selects a different template for rendering
-* Matrix builds spawn child builds for each of the axis/value combinations
-* Build children can be viewed through a separate route
-* Builds collection can overwrite #add so that build children are added to their parents instead of the collection
+- rename build#config to build#env

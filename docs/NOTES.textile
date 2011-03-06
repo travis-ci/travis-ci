@@ -13,12 +13,12 @@ The point of build matrices is that many open source Ruby projects need to run t
 
 A build matrix for a repository can be specified in the .travis.yml file like this:
 
-<pre><strike>
+<strike><pre>
 # .travis.yml
 matrix:
   rvm: ["1.8.7", "1.9.2"]
-  gemfile: ["test/Gemfile.rails-2.3.x", "test/Gemfile.rails-3.0.x"]
-<strike></pre>
+  bundle_gemfile: ["test/Gemfile.rails-2.3.x", "test/Gemfile.rails-3.0.x"]
+</pre></strike>
 
 Ok ... that didn't work, because on 1.8.7 Hashes aren't sorted and we'd get back the matrix in reverse order randomly. So let's use Arrays like this:
 
@@ -26,7 +26,8 @@ Ok ... that didn't work, because on 1.8.7 Hashes aren't sorted and we'd get back
 # .travis.yml
 matrix:
   - ["rvm", "1.8.7", "1.9.2"]
-  - ["gemfile", "test/Gemfile.rails-2.3.x", "test/Gemfile.rails-3.0.x"]
+  - ["bundle_gemfile", "test/Gemfile.rails-2.3.x", "test/Gemfile.rails-3.0.x"]
+  - ["except", [["rvm", 1.8.7], ["bundle_gemfile", "test/Gemfile.rails-3.0.x"]]]
 </pre>
 
 Travis would need to introduce a separate step to expand the matrix. With a matrix a parent build passes when all its child builds pass, so it's kind of a 2-level tree. We won't get the configuration data from the Github service ping, so we need to fetch it from Github which needs to happen in a worker. Once we have the configuration we can expand the matrix to child builds.
