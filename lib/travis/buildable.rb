@@ -32,7 +32,7 @@ module Travis
         chdir do
           exists? ? fetch : clone
           checkout
-          config.configure? ? configure! : build!
+          env.empty? && config.configure? ? configure! : build!
         end
       end
     end
