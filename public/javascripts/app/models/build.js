@@ -1,6 +1,12 @@
 Travis.Models.Build = Backbone.Model.extend({
-  initialize: function() {
+  initialize: function(attributes, options) {
     _.bindAll(this, 'repository', 'isBuilding', 'color', 'duration', 'eta', 'toJSON');
+
+    if(this.attributes.matrix) {
+      this.matrix = new Travis.Collections.Builds(this.attributes.matrix, { parent: this, repository: options.repository });
+      delete this.attributes.matrix;
+    }
+
     this.bind('change', function(build) { this.collection.trigger('change', this); });
   },
   repository: function() {
@@ -29,7 +35,6 @@ Travis.Models.Build = Backbone.Model.extend({
   duration: function() {
     var startedAt  = this.get('started_at');
     var finishedAt = this.get('finished_at') || new Date;
-    var lastDuration = this.repository().get('last_duration');
     return startedAt ? Math.round((new Date(finishedAt) - new Date(startedAt)) / 1000) : 0;
   },
   eta: function() {
@@ -43,13 +48,20 @@ Travis.Models.Build = Backbone.Model.extend({
     }
   },
   toJSON: function() {
-    return _.extend(Backbone.Model.prototype.toJSON.apply(this), {
+    var json = _.extend(Backbone.Model.prototype.toJSON.apply(this), {
       duration: this.duration(),
       commit: this.commit(),
       eta: this.eta(),
       color: this.color(),
-      repository: this.repository().toJSON({ includeBuild: false })
+      repository: this.repository().toJSON({ includeBuild: false }),
     });
+    if(this.matrix) {
+      json['matrix'] = this.matrix.toJSON();
+    }
+    if(this.get('config')) {
+      json['config'] = _.map(this.get('config'), function(value, key) { return { key: key, value: value } } );
+    }
+    return json;
   }
 });
 
@@ -58,12 +70,16 @@ Travis.Collections.Builds = Backbone.Collection.extend({
   initialize: function(builds, options) {
     _.bindAll(this, 'load', 'retrieve');
     this.repository = options.repository;
+    this.parent = options.parent;
     this.url = 'repositories/' + this.repository.id + '/builds';
+  },
+  dimensions: function() {
+    return this.models[0] ? _.keys(this.models[0].get('config')) : [];
   },
   set: function(attributes) {
     if(attributes) {
       var build = this.get(attributes.id);
-      build ? build.set(attributes) : this.add(new Travis.Models.Build(attributes));
+      build ? build.set(attributes) : this.add(new Travis.Models.Build(attributes, { repository: this.repository }));
     }
   },
   last: function() {

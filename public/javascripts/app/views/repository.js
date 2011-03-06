@@ -8,9 +8,9 @@ Travis.Views.Repository = Backbone.View.extend({
     }
     this.render();
 
-    this.currentView = new Travis.Views.CurrentBuild(args);
-    this.buildsView  = new Travis.Views.Builds(args);
-    this.buildView   = new Travis.Views.Build(args);
+    this.currentView = new Travis.Views.Build.Current(args);
+    this.buildsView  = new Travis.Views.Build.List(args);
+    this.buildView   = new Travis.Views.Build.Build(args);
   },
   element: function(repository) {
     return $('#main');

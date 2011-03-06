@@ -10,8 +10,7 @@ module Travis
 
       def work!
         on_start
-        build['status'] = buildable.build!
-        # sleep(1)
+        build.merge!(buildable.run!)
         on_finish
       end
 
@@ -19,7 +18,8 @@ module Travis
         @buildable ||= Travis::Buildable.new(
           :script => 'rake',
           :commit => build['commit'],
-          :url => build['repository']['url']
+          :env    => build['config'],
+          :url    => build['repository']['url']
         )
       end
 

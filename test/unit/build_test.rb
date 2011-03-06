@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class BuildTest < ActiveSupport::TestCase
-  test 'building a Build from Github ping data' do
+  test 'building a Build from Github payload' do
     build = Build.create_from_github_payload(JSON.parse(GITHUB_PAYLOADS['gem-release']))
 
     assert_equal '9854592', build.commit
@@ -16,6 +16,7 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal 'http://github.com/svenfuchs/gem-release', build.repository.url
   end
 
+  # TODO do we really need these two variants?
   test 'as_json includes everything required for the build:started event' do
     build = FactoryGirl.create(:build)
     expected = {

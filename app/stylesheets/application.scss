@@ -264,6 +264,9 @@ td, th {
   .tabs li {
     white-space: nowrap;
   }
+  .tab {
+    padding-left: 12px;
+  }
   #tab_build:not(.active) {
     display: none;
   }
@@ -326,6 +329,7 @@ td, th {
     white-space: nowrap;
   }
   .log {
+    display: none;
     clear: left;
     white-space: pre-wrap;
     line-height: 140%;

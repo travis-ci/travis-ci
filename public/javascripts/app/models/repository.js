@@ -2,7 +2,7 @@ Travis.Models.Repository = Backbone.Model.extend({
   initialize: function(attributes) {
     _.bindAll(this, 'set', 'isBuilding', 'isCurrent', 'toJSON', 'buildAdded', 'buildChanged');
 
-    this.builds = new Travis.Collections.Builds([new Travis.Models.Build(attributes.last_build)], { repository: this });
+    this.builds = new Travis.Collections.Builds([new Travis.Models.Build(attributes.last_build, { repository: this })], { repository: this });
     this.builds.bind('add', this.buildAdded);
     this.builds.bind('change', this.buildChanged);
 
