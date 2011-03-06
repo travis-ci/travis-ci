@@ -68,7 +68,7 @@ class AcceptBuildDataTest < ActionDispatch::IntegrationTest
   end
 
   test 'PUT to /builds/:id configures the build and expands a given build matrix' do
-    config  = { 'script' => 'rake', 'matrix' => [['rvm', '1.8.7', '1.9.2']] }
+    config  = ActiveSupport::HashWithIndifferentAccess.new('script' => 'rake', 'matrix' => [['rvm', '1.8.7', '1.9.2']])
     payload = { :build => { :config => config, :log => '', :status => nil, :finished_at => nil } }
     authenticated_put(build_path(build), payload)
     build.reload
