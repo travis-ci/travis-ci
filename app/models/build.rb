@@ -8,7 +8,7 @@ class Build < ActiveRecord::Base
 
   validates :repository_id, :presence => true
 
-  serialize :config
+  serialize :config, Hash
 
   before_save :expand_matrix!, :if => :expand_matrix?
 
@@ -42,6 +42,11 @@ class Build < ActiveRecord::Base
 
   def config
     read_attribute(:config) || {}
+  end
+
+  def config=(config)
+    config['matrix'] = config['matrix'].values.map { |row| row.values } if config['matrix'].is_a?(Hash)
+    write_attribute(:config, config)
   end
 
   def finished?
