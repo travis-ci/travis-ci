@@ -8,7 +8,7 @@ class Build < ActiveRecord::Base
 
   validates :repository_id, :presence => true
 
-  serialize :config, Hash
+  serialize :config
 
   before_save :expand_matrix!, :if => :expand_matrix?
 
