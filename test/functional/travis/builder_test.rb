@@ -11,7 +11,7 @@ class TravisBuilderTest < ActiveSupport::TestCase
 
     payload = RESQUE_PAYLOADS['gem-release']
 
-    @buildable = BuildableMock.new
+    @buildable = Mocks::Buildable.new
     @builder = Travis::Builder.new(payload['job_id'], payload)
     builder.stubs(:buildable).returns(buildable)
   end

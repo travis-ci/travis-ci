@@ -22,7 +22,6 @@ class ApplicationController < ActionController::Base
         build = job['args'].last
         meta  = Travis::Builder.get_meta(job['args'].first)
         data  = build.slice('id', 'number', 'commit')
-        p build
         data.update('repository' => (build['repository'] || {}).slice('id', 'name', 'url'))
         data.update(meta.data.slice('meta_id', 'enqueued_at'))
       end

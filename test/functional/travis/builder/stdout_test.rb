@@ -5,9 +5,9 @@ require 'travis/builder/stdout'
 STDOUT.sync = true
 
 class TravisBuilderStdoutTest < ActiveSupport::TestCase
-  class StdoutBuildableMock < BuildableMock
-    def build!
-      system('echo "build output"')
+  class Mocks::StdoutBuildable < Mocks::Buildable
+    def run!
+      system('echo "some build output"')
     end
   end
 
@@ -21,10 +21,9 @@ class TravisBuilderStdoutTest < ActiveSupport::TestCase
     super
     @now = Time.now
     Time.stubs(:now).returns(now)
-    @build   = RESQUE_PAYLOADS['gem-release']
-    @builder = Builder.new(build['job_id'], build)
-    builder.stubs(:buildable).returns(StdoutBuildableMock.new)
-    EM::Stdout.output = false
+
+    @builder = Builder.new('12345', RESQUE_PAYLOADS['gem-release'])
+    builder.stubs(:buildable).returns(Mocks::StdoutBuildable.new)
   end
 
   def work!
@@ -32,8 +31,7 @@ class TravisBuilderStdoutTest < ActiveSupport::TestCase
   end
 
   test 'pipes the build output to on_log' do
-    builder.stubs(:on_log)
-    builder.expects(:on_log).with("build output\n")
+    builder.expects(:on_log).with("some build output\n")
     work!
   end
 end

@@ -3,7 +3,7 @@ Travis.Models.Build = Backbone.Model.extend({
     _.bindAll(this, 'repository', 'isBuilding', 'color', 'duration', 'eta', 'toJSON');
 
     if(this.attributes.matrix) {
-      this.matrix = new Travis.Collections.Builds(this.attributes.matrix, { parent: this, repository: options.repository });
+      this.matrix = new Travis.Collections.Builds(this.attributes.matrix, { repository: options.repository });
       delete this.attributes.matrix;
     }
 
@@ -12,6 +12,9 @@ Travis.Models.Build = Backbone.Model.extend({
   repository: function() {
     return this.collection.repository;
   },
+  // parent: function() {
+  //   return this.collection.find(this.get('parent_id'));
+  // },
   set: function(attributes, options) {
     if(attributes.append_log) {
       var chars = attributes.append_log;
@@ -70,7 +73,6 @@ Travis.Collections.Builds = Backbone.Collection.extend({
   initialize: function(builds, options) {
     _.bindAll(this, 'load', 'retrieve');
     this.repository = options.repository;
-    this.parent = options.parent;
     this.url = 'repositories/' + this.repository.id + '/builds';
   },
   dimensions: function() {

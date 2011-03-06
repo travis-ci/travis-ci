@@ -40,13 +40,8 @@ class Build < ActiveRecord::Base
     update_attributes!(:log => [self.log, chars].join)
   end
 
-  def config
-    read_attribute(:config) || {}
-  end
-
-  def config=(config)
-    config['matrix'] = config['matrix'].values.map { |row| row.values } if config['matrix'].is_a?(Hash)
-    write_attribute(:config, config)
+  def started?
+    started_at.present?
   end
 
   def finished?
@@ -66,17 +61,17 @@ class Build < ActiveRecord::Base
   end
 
   def matrix?
-    config['matrix'].present?
+    parent_id.blank? && matrix_config?
   end
 
   def matrix_expanded?
-    @previously_changed['config'][1]['matrix'].present? rescue false # TODO how to use some public API?
+    Travis::Buildable::Config.matrix?(@previously_changed['config'][1]) rescue false # TODO how to use some public AR API?
   end
 
   def as_json(options = nil)
     options ||= {} # ActiveSupport seems to pass nil here?
     only = options[:only] || []
-    only += [:id, :number, :commit, :message, :status, :committed_at, :author_name, :author_email, :committer_name, :committer_email, :config]
+    only += [:id, :parent_id, :number, :commit, :message, :status, :committed_at, :author_name, :author_email, :committer_name, :committer_email, :config]
     only += [:log, :started_at, :finished_at] if options[:full]
     json = super(:only => only).merge(:repository => repository.as_json(:include_last_build => false))
     json.merge!(:matrix => matrix.as_json(:only => [:config], :include_last_build => false)) if matrix?
@@ -90,28 +85,38 @@ class Build < ActiveRecord::Base
     end
 
     def expand_matrix!
-      expand_matrix_config(config['matrix']).each_with_index do |row, ix|
-        matrix.build(attributes.merge(:number => "#{number}:#{ix + 1}", :config => Hash[*row.flatten]))
+      expand_matrix_config(matrix_config.to_a).each_with_index do |row, ix|
+        matrix.build(attributes.merge(:number => "#{number}.#{ix + 1}", :config => Hash[*row.flatten]))
+      end
+    end
+
+    def matrix_config?
+      matrix_config.present?
+    end
+
+    def matrix_config
+      @matrix_config ||= begin
+        config = self.config || {}
+        keys   = Travis::Buildable::Config::ENV_KEYS & config.keys
+        size   = config.slice(*keys).values.select { |value| value.is_a?(Array) }.max { |lft, rgt| lft.size <=> rgt.size }.try(:size) || 1
+
+        keys.inject([]) do |result, key|
+          values = config[key]
+          values = [values] unless values.is_a?(Array)
+          values += [values.last] * (size - values.size) if values.size < size
+          result << values.map { |value| [key, value] }
+        end if size > 1
       end
     end
 
     def expand_matrix_config(config)
-      config = [config] unless config.first.is_a?(Array) # TODO not sure this is just a rails integration test bug? seems to flatten the nested array
-
-      # combines each variable value with it's name, e.g. ['rvm', '1.8.7', '1.9.2']
-      # becomes [['rvm', '1.8.7'], ['rvm', '1.9.2']]
-      variables = config.inject([]) do |result, values|
-        result << values[1..-1].map { |value| [values.first, value] }
-      end
-
       # recursively builds up permutations of values in the rows of a nested array
       matrix = lambda do |*args|
         base, result = args.shift, args.shift || []
         base = base.dup
         base.empty? ? [result] : base.shift.map { |value| matrix.call(base, result + [value]) }.flatten_once
       end
-
-      matrix.call(variables)
+      matrix.call(config)
     end
 
 end

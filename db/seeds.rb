@@ -54,7 +54,7 @@ Build.create!(
   :started_at => '2010-11-12 13:00:00',
   :agent => '76f4f2ba',
   :log => 'minimal build 3 log ...',
-  :config => { 'matrix'=>[['rvm', '1.8.7', '1.9.2'], ['gemfile', 'test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x']] }
+  :config => { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'] }
 )
 
 enginex = Repository.create!({

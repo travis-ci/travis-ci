@@ -16,13 +16,13 @@ module Travis
       end
     end
 
-    attr_reader :url, :path, :commit, :env
+    attr_reader :url, :path, :commit
 
-    def initialize(build)
-      @url    = build[:url] || raise(ArgumentError.new('no url given'))
-      @commit = build[:commit]
-      @script = build[:script]
-      @env    = build[:env] || {}
+    def initialize(options)
+      @url    = options[:url] || raise(ArgumentError.new('no url given'))
+      @commit = options[:commit]
+      @script = options[:script]
+      @config = options[:config] unless options[:config].blank?
       @path   = extract_path(url)
     end
 
@@ -30,22 +30,25 @@ module Travis
       Bundler.with_clean_env do
         ENV['BUNDLE_GEMFILE'] = nil
         chdir do
-          exists? ? fetch : clone
           checkout
-          env.empty? && config.configure? ? configure! : build!
+          config.configure? ? configure! : build!
         end
       end
     end
 
     protected
       def configure!
-        { 'config' => config }
+        config
       end
 
       def build!
         install
-        status = execute_command
-        { 'status' => status }
+        execute_command
+      end
+
+      def checkout
+        exists? ? fetch : clone
+        execute "git checkout -qf #{commit}" if commit
       end
 
       def clone
@@ -57,35 +60,35 @@ module Travis
         execute 'git fetch'
       end
 
-      def checkout
-        execute "git checkout -qf #{commit}" if commit
-      end
-
       def install
-        execute 'bundle install'
+        execute(prepend_env('bundle install'))
       end
 
       def execute_command
+        command = prepend_env(script)
         execute(command).tap do |status|
           puts "\nDone. Build script exited with: #{status}"
         end
       end
 
-      def command
-        command = env.map do |name, value|
-          case name
+      def prepend_env(command)
+        result = Config::ENV_KEYS.map do |key|
+          next unless value = config[key]
+          case key
           when 'rvm'
             "rvm use #{value};"
+          when 'gemfile'
+            "BUNDLE_GEMFILE=#{value}"
           else
             "#{name.upcase}=#{value}"
           end
         end
-        command << script
-        command.join(' ')
+        result << command
+        result.compact.join(' ')
       end
 
       def script
-        config[:script] || @script
+        config['script'] || @script
       end
 
       def config

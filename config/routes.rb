@@ -12,7 +12,7 @@ TravisRails::Application.routes.draw do
   end
 
   resources :builds do
-    put 'log', :on => :member
+    put 'log', :on => :member, :as => :log
   end
 
   resources :jobs

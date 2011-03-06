@@ -53,6 +53,5 @@ Travis.Views.Build.Build = Travis.Views.Base.Show.extend({
     $('.matrix', this.element()).replaceWith(this.templates.matrix({ dimensions: build.matrix.dimensions(), builds: build.matrix.toJSON() }));
   },
   updateMatrix: function(build) {
-    console.log(build)
   }
 });

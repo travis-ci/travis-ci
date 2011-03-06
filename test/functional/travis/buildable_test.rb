@@ -1,15 +1,16 @@
 require 'test_helper'
 
 class BuildableTest < ActiveSupport::TestCase
-  include Travis, BuildableTestHelper
+  include Travis
 
-  Buildable.send :public, :build_dir, :git_url, :config_url, :build!
+  Buildable.send :public, :checkout, :build_dir, :git_url, :config_url, :build!, :prepend_env
   Buildable.base_dir = '/tmp/travis/test'
 
   def setup
     super
     FileUtils.mkdir_p(Buildable.base_dir)
     Buildable.any_instance.stubs(:execute)
+    Buildable.any_instance.stubs(:config).returns(config)
   end
 
   def teardown
@@ -25,47 +26,48 @@ class BuildableTest < ActiveSupport::TestCase
   end
 
   test 'run!: configures the repository if it needs to be configured' do
+    config = { 'rvm' => ['1.8.7', '1.9.2'] }
     buildable = Buildable.new(:url => 'http://github.com/svenfuchs/travis')
-    buildable.stubs(:config).returns(config(:matrix => { 'rvm' => ['1.8.7', '1.9.2'] }))
-    buildable.expects(:configure!)
-    buildable.run!
+    buildable.stubs(:config).returns(self.config(config))
+    assert_equal config, buildable.run!
   end
 
-  test 'build!: clones a repository if the build dir is not a git repository' do
+  test 'checkout: clones a repository if the build dir is not a git repository' do
     buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis')
+    buildable.stubs(:exists?).returns(false)
     buildable.expects(:clone)
-    buildable.build!
+    buildable.checkout
   end
 
-  test 'build!: fetches a repository if the build dir is a git repository' do
+  test 'checkout: fetches a repository if the build dir is a git repository' do
     buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis')
     buildable.send(:chdir) { `mkdir .git` }
     buildable.expects(:fetch)
-    buildable.build!
+    buildable.checkout
   end
 
-  test "command: equals the build script if no env is given" do
+  test "prepend_command: equals the build script if no env is given" do
     buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis')
     buildable.stubs(:config).returns(config)
-    assert_equal 'rake ci', buildable.send(:command)
+    assert_equal 'rake ci', buildable.prepend_env('rake ci')
   end
 
-  test "command: prepends an rvm command if configured" do
+  test "prepend_command: prepends an rvm command if configured" do
     buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis', :env => [['rvm', '1.9.2']])
-    buildable.stubs(:config).returns(config)
-    assert_equal 'rvm use 1.9.2; rake ci', buildable.send(:command)
+    buildable.stubs(:config).returns(config('rvm' => '1.9.2'))
+    assert_equal 'rvm use 1.9.2; rake ci', buildable.prepend_env('rake ci')
   end
 
-  test "command: prepends an env var if configured" do
+  test "prepend_command: prepends an env var if configured" do
     buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis', :env => [['bundle_gemfile', 'ci/Gemfile.rails-2.3.x']])
-    buildable.stubs(:config).returns(config)
-    assert_equal 'BUNDLE_GEMFILE=ci/Gemfile.rails-2.3.x rake ci', buildable.send(:command)
+    buildable.stubs(:config).returns(config('gemfile' => 'gemfiles/rails-2.3.x'))
+    assert_equal 'BUNDLE_GEMFILE=gemfiles/rails-2.3.x rake ci', buildable.prepend_env('rake ci')
   end
 
-  test "command: prepends both rvm command and env var if configured" do
+  test "prepend_command: prepends both rvm command and env var if configured" do
     buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis', :env => [['rvm', '1.9.2'], ['bundle_gemfile', 'ci/Gemfile.rails-2.3.x']])
-    buildable.stubs(:config).returns(config)
-    assert_equal 'rvm use 1.9.2; BUNDLE_GEMFILE=ci/Gemfile.rails-2.3.x rake ci', buildable.send(:command)
+    buildable.stubs(:config).returns(config('rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-2.3.x'))
+    assert_equal 'rvm use 1.9.2; BUNDLE_GEMFILE=gemfiles/rails-2.3.x rake ci', buildable.prepend_env('rake ci')
   end
 
   test 'build_dir: given a local filesystem url it returns a valid path' do

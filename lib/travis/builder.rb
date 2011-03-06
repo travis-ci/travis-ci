@@ -11,8 +11,6 @@ module Travis
     extend Resque::Plugins::Meta
     include Base
 
-    @queue = :builds
-
     class << self
       def init
         require 'resque/heartbeat'
@@ -42,16 +40,6 @@ module Travis
           end
         end
       end
-    end
-
-    def connections
-      self.class.connections
-    end
-
-    def register_connection(connection)
-      connections << connection
-      connection.callback { connections.delete(connection) }
-      connection.errback  { connections.delete(connection) }
     end
   end
 end

@@ -1,16 +1,17 @@
 module Travis
   class Builder
     module Base
-      attr_reader :build, :meta_id
+      attr_reader :build, :meta_id, :started_at, :finished_at, :log, :result
 
       def initialize(meta_id, build)
         @meta_id = meta_id
         @build   = build.dup
+        @log     = ''
       end
 
       def work!
         on_start
-        build.merge!(buildable.run!)
+        result = buildable.run!
         on_finish
       end
 
@@ -18,7 +19,7 @@ module Travis
         @buildable ||= Travis::Buildable.new(
           :script => 'rake',
           :commit => build['commit'],
-          :env    => build['config'],
+          :config => build['config'],
           :url    => build['repository']['url']
         )
       end
@@ -28,15 +29,28 @@ module Travis
       end
 
       def on_start
-        build.merge!('log' => '', 'started_at' => Time.now)
+        @started_at = Time.now
+      end
+
+      def on_configure
       end
 
       def on_log(chars)
-        build['log'] << chars
+        log << chars
       end
 
       def on_finish
-        build.merge!('finished_at' => Time.now)
+        @finished_at = Time.now
+      end
+
+      def connections
+        self.class.connections
+      end
+
+      def register_connection(connection)
+        connections << connection
+        connection.callback { connections.delete(connection) }
+        connection.errback  { connections.delete(connection) }
       end
     end
   end

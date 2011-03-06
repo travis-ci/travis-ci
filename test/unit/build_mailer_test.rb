@@ -1,4 +1,4 @@
-require 'test_helper'
+require 'test_helper_rails'
 
 class BuildMailerTest < ActionMailer::TestCase
   def test_finished_email
