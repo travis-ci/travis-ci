@@ -19,7 +19,12 @@ ul {
   margin: 0;
   list-style-type: none;
 }
-
+td, th {
+  text-align: left;
+  font-size: 80%;
+  padding: 5px 10px;
+  vertical-align: top;
+}
 
 /* layout */
 
@@ -225,6 +230,7 @@ ul {
 
 #left .repository.green,
 #main .summary.green .number a,
+#main #matrix .green td:first-child a,
 #main #builds .build.green td:first-child a {
   background-image: url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5Ojf/2wBDAQoKCg0MDRoPDxo3JR8lNzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzf/wAARCAAPAA8DASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAIE/8QAGhAAAQUBAAAAAAAAAAAAAAAAAAECAxNTkv/EABQBAQAAAAAAAAAAAAAAAAAAAAX/xAAWEQEBAQAAAAAAAAAAAAAAAAAAEQH/2gAMAwEAAhEDEQA/AN90uj+lF0uj+lIADQN1/9k%3D);
   color: green;
@@ -257,6 +263,9 @@ ul {
   }
   .tabs li {
     white-space: nowrap;
+  }
+  .tab {
+    padding-left: 12px;
   }
   #tab_build:not(.active) {
     display: none;
@@ -293,29 +302,34 @@ ul {
     clear: right;
   }
   .summary {
-    margin: 20px 0 0 12px;
+    margin: 20px 0 0 0;
   }
   .summary .left,
   .summary .right {
     float: left;
-    width: 50%;
   }
   .summary dt,
   .summary dd {
     float: left;
     height: 25px;
+    margin: 0;
   }
   .summary dt {
     clear: left;
-    width: 40px;
+    width: 70px;
+  }
+  .summary dd {
+    width: 120px;
   }
   .summary > dd {
-    width: 90%;
+    width: 80%;
+    min-width: 315px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
   .log {
+    display: none;
     clear: left;
     white-space: pre-wrap;
     line-height: 140%;
@@ -336,9 +350,12 @@ ul {
   .log .green {
     color: lime;
   }
+  #matrix {
+    margin-left: -12px;
+  }
   #builds {
     width: 100%;
-    margin-top: 25px;
+    margin: 25px 0 0 -12px;
   }
   #builds th {
     font-size: 13px;
@@ -346,10 +363,6 @@ ul {
   }
   #builds th,
   #builds td {
-    text-align: left;
-    font-size: 80%;
-    padding: 5px 10px;
-    vertical-align: top;
     white-space: nowrap;
   }
   #builds td.message {
