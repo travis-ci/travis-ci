@@ -23,7 +23,7 @@ class BuildsController < ApplicationController
   def update
     build.update_attributes!(params[:build])
     if build.matrix_expanded?
-      build.matrix.each { |child| enqueue!(build) }
+      build.matrix.each { |child| enqueue!(child) }
     elsif build.finished?
       finished_email.deliver
     end
