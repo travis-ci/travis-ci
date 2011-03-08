@@ -1,70 +1,64 @@
 Travis.Controllers.Application = Backbone.Controller.extend({
   templates: {},
   routes: {
-    '':                             'repositoriesIndex',
-    '!/:username':                  'repositoriesIndex',
-    '!/:username/:name':            'repositoryShow',
+    '':                             'recent',
+    // '!/:username':                  'byUser',
+    '!/:username/:name':            'repository',
     '!/:username/:name/builds':     'repositoryHistory',
-    '!/:username/:name/builds/:id': 'buildShow',
+    '!/:username/:name/builds/:id': 'repositoryBuild',
+  },
+  initialize: function() {
+    _.bindAll(this, 'recent', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'reset', 'repositorySelected');
+    this.templates = Util.loadTemplates();
   },
   run: function() {
-    _.bindAll(this, 'repositoriesIndex', 'repositoryShow', 'repositoryHistory', 'buildShow', 'render', 'startLoading', 'stopLoading');
-
-    this.templates    = Travis.Helpers.Util.loadTemplates();
     this.repositories = new Travis.Collections.Repositories();
     this.jobs         = new Travis.Collections.Jobs();
     this.workers      = new Travis.Collections.Workers();
-    this.views        = [];
 
-    this.repositoriesView = new Travis.Views.Repositories({ templates: this.templates });
-    this.repositoryView   = new Travis.Views.Repository({ templates: this.templates, repositories: this.repositories });
-    this.workersView      = new Travis.Views.Workers({ templates: this.templates });
-    this.jobsView         = new Travis.Views.Jobs({ templates: this.templates });
+    this.repositoriesList = new Travis.Views.Repositories.List({ el: $('#repositories') })
+    this.repositoryShow   = new Travis.Views.Repository.Show({ el: $('#main') })
+    this.workersView      = new Travis.Views.Workers.List();
+    this.jobsView         = new Travis.Views.Jobs.List();
 
-    this.bind('build:started',  this.repositories.update);
-    this.bind('build:log',      this.repositories.update);
-    this.bind('build:finished', this.repositories.update);
-    this.bind('build:queued',   this.jobs.add);
-    this.bind('build:started',  this.jobs.remove);
+    this.repositoriesList.render();
+    this.repositoryShow.render();
 
-    this.repositories.bind('repositories:load:start', this.startLoading);
-    this.repositories.bind('repositories:load:done',  this.stopLoading);
+    this.repositoriesList.attachTo(this.repositories);
+    this.repositoryShow.attachTo(this.repositories)
+    this.repositories.bind('select', this.repositorySelected);
   },
-  repositoriesIndex: function(username) {
-    this.render({ username: username });
+  recent: function() {
+    this.reset();
+    this.repositories.whenLoaded(this.repositories.selectLast); // TODO currently whenLoaded doesn't actually do anything useful
+    this.repositoryShow.activateTab('current');
   },
-  repositoryShow: function(username, name) {
-    this.render({ username: username, name: name });
+  repository: function(username, name) {
+    this.reset();
+    this.repositories.whenLoaded(this.repositories.selectBy, { name: username + '/' + name });
+    this.repositoryShow.activateTab('current');
   },
   repositoryHistory: function(username, name) {
-    this.render({ username: username, name: name, tab: 'History' });
+    this.reset();
+    this.repositories.whenLoaded(this.repositories.selectBy, { name: username + '/' + name });
+    this.repositoryShow.activateTab('history');
   },
-  buildShow: function(username, name, buildId) {
-    this.render({ username: username, name: name, tab: 'Build', buildId: buildId });
+  repositoryBuild: function(username, name, buildId) {
+    this.reset();
+    this.buildId = parseInt(buildId);
+    this.repositories.whenLoaded(this.repositories.selectBy, { name: username + '/' + name });
+    this.repositoryShow.activateTab('build');
   },
-  render: function(args) {
-    this.repositoriesView.connect(this.repositories);
-    this.repositories.fetch({ username: args.username, success: function() {
-      var repository = args.name ? this.repositories.findByName(args.username + '/' + args.name) : this.repositories.last();
-      if(repository) {
-        this.repositories.setSelected(repository);
-        this.repositoryView.connect(_.extend(args, { repository: repository }));
-      }
-    }.bind(this) });
-
-    if(!this.workersView.connected()) {
-      this.workersView.connect(this.workers);
-      this.workers.fetch();
+  reset: function() {
+    delete this.buildId;
+  },
+  repositorySelected: function(repository) {
+    if(repository.builds.length == 0) { // TODO collection might be empty. maintain collection.loaded or something
+      repository.builds.fetch();
     }
-    if(!this.jobsView.connected()) {
-      this.jobsView.connect(this.jobs);
-      this.jobs.fetch();
+    if(this.buildId) {
+      repository.builds.whenLoaded(function() { repository.builds.select(this.buildId) }.bind(this));
     }
-  },
-  startLoading: function() {
-    $('#main').addClass('loading');
-  },
-  stopLoading: function() {
-    $('#main').removeClass('loading');
   }
 });
+

@@ -11,8 +11,8 @@ Travis.Views.Base.List = Backbone.View.extend({
     }, this.selectors || {});
 
     this.templates = _.extend({
-      list: args.templates[this.name + '/list'],
-      item: args.templates[this.name + '/_item']
+      list: Travis.app.templates[this.name + '/list'],
+      item: Travis.app.templates[this.name + '/item']
     }, this.templates || {});
 
     this.collection_events = _.extend({
@@ -72,4 +72,3 @@ Travis.Views.Base.List = Backbone.View.extend({
     this.element().removeClass('loading');
   },
 });
-

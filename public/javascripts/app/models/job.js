@@ -30,5 +30,3 @@ Travis.Collections.Jobs = Backbone.Collection.extend({
     return job.get('enqueued_at');
   }
 });
-
-

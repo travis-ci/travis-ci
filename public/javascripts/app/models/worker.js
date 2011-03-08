@@ -22,5 +22,3 @@ Travis.Collections.Workers = Backbone.Collection.extend({
     return worker.get('id');
   }
 });
-
-

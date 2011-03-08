@@ -1,0 +1,9 @@
+Repositories List requires:
+
+{
+  name: 'svenfuchs/minimal',
+  duration: 10,
+  started_at: '...',
+  finished_at: '...'
+  last_build: { id: 1, number: 2, status: 0 }
+}
