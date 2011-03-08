@@ -1,57 +1,21 @@
-Travis.Views.Build.Build = Travis.Views.Base.Show.extend({
-  initialize: function(args) {
-    _.bindAll(this, 'buildChanged', 'buildLogged', 'updateTab', 'updateSummary', 'updateLog', 'updateMatrix');
-
-    this.selectors = _.extend({
-      element: '#tab_build div'
-    }, this.selectors || {});
-
-    this.templates = _.extend({
-      show: args.templates['builds/show'],
-      summary: args.templates['builds/_summary'],
-      matrix: args.templates['builds/_matrix']
-    }, this.templates || {});
-
-    this.model_events = _.extend({
-      change: 'buildChanged',
-      log: 'buildLogged'
-    }, this.model_events || {});
-
-    Travis.Views.Base.Show.prototype.initialize.apply(this, arguments);
+Travis.Views.Build.Build = Backbone.View.extend({
+  initialize: function() {
+    _.bindAll(this, 'render', 'attachTo', 'update', 'setTab');
+    _.extend(this, this.options);
   },
-  connect: function(build) {
-    Travis.Views.Base.Show.prototype.connect.apply(this, arguments);
-    this.updateSummary(build);
-    build.matrix ? this.renderMatrix(build) : this.updateLog(build);
-    this.element().updateTimes();
-    this.element().activateTab('Build');
+  attachTo: function(repository) {
+    this.repository = repository;
+    this.repository.builds.bind('select', this.update);
+    // this.repository.builds.whenLoaded(this.update);
   },
-  buildChanged: function(build) {
-    this.updateSummary(build);
-    this.updateMatrix(build);
+  update: function(build) {
+    this.build = build;
+    this.setTab();
+    this.el.empty();
+    this.el.append(new Travis.Views.Build.Summary({ model: this.build }).render().el);
+    this.el.append(new Travis.Views.Build.Log({ model: this.build }).render().el);
   },
-  buildLogged: function(build, chars) {
-    var element = $('.log', this.element());
-    element.append(chars);
-    element.deansi();
-  },
-  updateTab: function(build) {
-    var href = '#!/' + build.repository().get('name') + '/builds/' + build.id;
-    var title = 'Build #' + build.get('number');
-    $('h5 a', this.element().closest('li')).attr('href', href).html(title);
-  },
-  updateSummary: function(build) {
-    $('.summary', this.element()).replaceWith(this.templates.summary(build.toJSON()));
-  },
-  updateLog: function(build) {
-    var element = $('.log', this.element());
-    element.show();
-    element.html(build.get('log'));
-    element.deansi();
-  },
-  renderMatrix: function(build) {
-    $('.matrix', this.element()).replaceWith(this.templates.matrix({ dimensions: build.matrix.dimensions(), builds: build.matrix.toJSON() }));
-  },
-  updateMatrix: function(build) {
+  setTab: function() {
+    $('a', this.el.prev()).attr('href', '!/' + this.build.repository.get('name') + builds).html('Build #' + this.build.get('number'));
   }
 });

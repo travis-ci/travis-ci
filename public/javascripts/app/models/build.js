@@ -1,31 +1,22 @@
-Travis.Models.Build = Backbone.Model.extend({
+Travis.Models.Build = Travis.Models.Base.extend({
   initialize: function(attributes, options) {
-    _.bindAll(this, 'repository', 'isBuilding', 'color', 'duration', 'eta', 'toJSON');
+    _.bindAll(this, 'color', 'duration', 'eta', 'toJSON');
+    _.extend(this, options);
+
+    this.repository = this.repository || this.collection.repository;
 
     if(this.attributes.matrix) {
-      this.matrix = new Travis.Collections.Builds(this.attributes.matrix, { repository: options.repository });
+      this.matrix = new Travis.Collections.Builds(this.attributes.matrix, { repository: this.repository });
+      this.matrix.each(function(build) { build.repository = this.repository }.bind(this)); // wtf
       delete this.attributes.matrix;
     }
 
-    this.bind('change', function(build) { this.collection.trigger('change', this); });
-  },
-  repository: function() {
-    return this.collection.repository;
-  },
-  // parent: function() {
-  //   return this.collection.find(this.get('parent_id'));
-  // },
-  set: function(attributes, options) {
-    if(attributes.append_log) {
-      var chars = attributes.append_log;
-      this.attributes.log = this.attributes.log + chars;
-      this.trigger('log', this, chars);
-      delete attributes.append_log;
+    if(this.collection) {
+      this.bind('change', function(build) { this.collection.trigger('change', this); });
     }
-    return Backbone.Model.prototype.set.apply(this, [attributes, options]);
   },
-  isBuilding: function() {
-    return !this.get('finished_at');
+  url: function() {
+    return 'builds/' + this.id;
   },
   commit: function() {
     var commit = this.get('commit');
@@ -43,7 +34,7 @@ Travis.Models.Build = Backbone.Model.extend({
   eta: function() {
     var startedAt  = this.get('started_at');
     var finishedAt = this.get('finished_at');
-    var lastDuration = this.repository().get('last_duration');
+    var lastDuration = this.repository.get('last_duration');
     if(!finishedAt && lastDuration) {
       var timestamp = new Date(startedAt).getTime();
       var eta = new Date((timestamp + lastDuration));
@@ -56,7 +47,7 @@ Travis.Models.Build = Backbone.Model.extend({
       commit: this.commit(),
       eta: this.eta(),
       color: this.color(),
-      repository: this.repository().toJSON({ includeBuild: false }),
+      repository: this.repository.toJSON(),
     });
     if(this.matrix) {
       json['matrix'] = this.matrix.toJSON();
@@ -68,44 +59,12 @@ Travis.Models.Build = Backbone.Model.extend({
   }
 });
 
-Travis.Collections.Builds = Backbone.Collection.extend({
+Travis.Collections.Builds = Travis.Collections.Base.extend({
   model: Travis.Models.Build,
-  initialize: function(builds, options) {
-    _.bindAll(this, 'load', 'retrieve');
-    this.repository = options.repository;
-    this.url = 'repositories/' + this.repository.id + '/builds';
+  initialize: function(models, options) {
+    _.extend(this, options);
   },
-  dimensions: function() {
-    return this.models[0] ? _.keys(this.models[0].get('config')) : [];
+  url: function() {
+    return '/repositories/' + this.repository.id + '/builds' + Util.queryString(this.args);
   },
-  set: function(attributes) {
-    if(attributes) {
-      var build = this.get(attributes.id);
-      build ? build.set(attributes) : this.add(new Travis.Models.Build(attributes, { repository: this.repository }));
-    }
-  },
-  last: function() {
-    return this.models[this.models.length - 1];
-  },
-  load: function(callback) {
-    this.trigger('builds:load:start');
-    Backbone.sync('read', this, function(models, status, xhr) {
-      _.each(models, function(model) { if(!this.get(model.id)) { this.add(model, { silent: true }); } }.bind(this));
-      this.trigger('builds:load:done');
-      if(callback) callback(this);
-    }.bind(this));
-  },
-  retrieve: function(id, callback) {
-    var build = this.get(id);
-    if(build) {
-      callback(build);
-    } else {
-      var build = new Travis.Models.Build({ id: id });
-      this.add(build);
-      build.fetch({ silent: true, success: callback });
-    }
-  },
-  comparator: function(build) {
-    return build.get('number');
-  }
 });

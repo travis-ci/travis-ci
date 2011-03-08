@@ -1,0 +1,9 @@
+javascripts:
+  travis:
+    - public/javascripts/vendor/jquery*.js
+    - public/javascripts/vendor/underscore*.js
+    - public/javascripts/vendor/**/*.js
+    - public/javascripts/application.js
+    - public/javascripts/lib/**/*.js
+    - public/javascripts/app/**/*.js
+
