@@ -31,10 +31,8 @@ $(document).ready(function() {
   $('.tool-tip').tipsy({ gravity: 'n', fade: true });
 });
 
-Pusher.log = function() {
-  if (window.console) {
-    // window.console.log.apply(window.console, arguments);
-  }
+if (window.console) {
+  Pusher.log = function() { window.console.log.apply(window.console, arguments); }
 };
 
 // Safari does not define bind()

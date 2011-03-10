@@ -1,6 +1,7 @@
 Travis.Models.Build = Travis.Models.Base.extend({
   initialize: function(attributes, options) {
-    _.bindAll(this, 'color', 'duration', 'eta', 'toJSON');
+    Travis.Models.Base.prototype.initialize.apply(this, arguments);
+    _.bindAll(this, 'set', 'url', 'commit', 'color', 'duration', 'eta', 'toJSON');
     _.extend(this, options);
 
     this.repository = this.repository || this.collection.repository;
@@ -71,6 +72,8 @@ Travis.Models.Build = Travis.Models.Base.extend({
 Travis.Collections.Builds = Travis.Collections.Base.extend({
   model: Travis.Models.Build,
   initialize: function(models, options) {
+    Travis.Collections.Base.prototype.initialize.apply(this, arguments);
+    _.bindAll(this, 'url', 'dimensions', 'set');
     _.extend(this, options);
   },
   url: function() {

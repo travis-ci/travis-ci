@@ -1,6 +1,7 @@
 Travis.Models.Repository = Travis.Models.Base.extend({
   initialize: function() {
-    _.bindAll(this, 'color', 'select', 'toJSON');
+    Travis.Models.Base.prototype.initialize.apply(this, arguments);
+    _.bindAll(this, 'color', 'toJSON');
     this.builds = new Travis.Collections.Builds([], { repository: this });
   },
   color: function() {
@@ -16,6 +17,10 @@ Travis.Models.Repository = Travis.Models.Base.extend({
 
 Travis.Collections.Repositories = Travis.Collections.Base.extend({
   model: Travis.Models.Repository,
+  initialize: function(models) {
+    Travis.Collections.Base.prototype.initialize.apply(this, arguments);
+    _.bindAll(this, 'url', 'update');
+  },
   url: function() {
     return '/repositories' + Util.queryString(this.options);
   },
