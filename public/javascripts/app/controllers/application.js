@@ -27,6 +27,12 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.repositoriesList.attachTo(this.repositories);
     this.repositoryShow.attachTo(this.repositories)
     this.repositories.bind('select', this.repositorySelected);
+
+    this.bind('build:started',  this.repositories.update);
+    this.bind('build:log',      this.repositories.update);
+    this.bind('build:finished', this.repositories.update);
+    this.bind('build:queued',   this.jobs.add);
+    this.bind('build:started',  this.jobs.remove);
   },
   recent: function() {
     this.reset();
