@@ -32,7 +32,7 @@ module Travis
       protected
         def post(data)
           host = rails_config['url'] || 'http://127.0.0.1'
-          url  = "#{host}/builds/#{build['id']}#{'/log' if data.delete(:append)}"
+          url  = "#{host}/builds/#{build['id']}#{'/log' if data.delete('append')}"
           uri  = URI.parse(host)
           data = { :body => { '_method' => 'put', 'build' => data }, :head => { :authorization => [uri.user, uri.password] } }
           # stdout.puts "-- post to #{url} : #{data.inspect}"
