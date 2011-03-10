@@ -11,7 +11,7 @@ module Travis
 
       def work!
         on_start
-        result = buildable.run!
+        @result = buildable.run!
         on_finish
       end
 
