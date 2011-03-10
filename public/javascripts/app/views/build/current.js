@@ -12,7 +12,7 @@ Travis.Views.Build.Current = Travis.Views.Build.Build.extend({
     this.repository.builds.whenLoaded(this.update);
   },
   update: function() {
-    this.build = this.repository.builds.last();
+    this.build = this.repository.builds.first();
     this.setTab();
     this.el.empty();
 

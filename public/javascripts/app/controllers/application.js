@@ -30,7 +30,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   },
   recent: function() {
     this.reset();
-    this.repositories.whenLoaded(this.repositories.selectLast); // TODO currently whenLoaded doesn't actually do anything useful
+    this.repositories.whenLoaded(this.repositories.selectFirst); // TODO currently whenLoaded doesn't actually do anything useful
     this.repositoryShow.activateTab('current');
   },
   repository: function(username, name) {
