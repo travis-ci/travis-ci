@@ -6,4 +6,9 @@ javascripts:
     - public/javascripts/application.js
     - public/javascripts/lib/**/*.js
     - public/javascripts/app/**/*.js
+  jasmine:
+    - public/javascripts/tests/vendor/jasmine.js
+    - public/javascripts/tests/vendor/**/*.js
+    - public/javascripts/tests/test_helper/**/*.js
+    - public/javascripts/tests/**/*.js
 

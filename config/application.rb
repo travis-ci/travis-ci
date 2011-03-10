@@ -7,7 +7,7 @@ module TravisRails
   class Application < Rails::Application
     config.autoload_paths << config.paths.app.views.to_a.first
     config.action_view.javascript_expansions = {
-      :jasmine => %w(test/vendor/jasmine test/vendor/jasmine-html)
+      :jasmine => %w(tests/vendor/jasmine tests/vendor/jasmine-html)
     }
 
     config.encoding = "utf-8"
