@@ -99,6 +99,7 @@ class BuildTest < ActiveSupport::TestCase
   test 'matrix build as_json' do
     build = Factory(:build, :number => '2', :commit => '12345', :config => config)
     attributes = {
+      'parent_id' => build.id,
       'committed_at' => nil,
       'commit' => '12345',
       'author_name' => nil,
@@ -120,6 +121,7 @@ class BuildTest < ActiveSupport::TestCase
     }
     expected = {
       'id' => build.id,
+      'parent_id' => nil,
       'number' => '2',
       'commit' => '12345',
       'message' => nil,

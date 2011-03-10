@@ -1,7 +1,7 @@
 module Mocks
   class Buildable
     def configure; end
-    def run!; {} end
+    def run!; end
   end
 
   class Connection
