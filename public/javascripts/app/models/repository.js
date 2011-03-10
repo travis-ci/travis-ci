@@ -19,4 +19,10 @@ Travis.Collections.Repositories = Travis.Collections.Base.extend({
   url: function() {
     return '/repositories' + Util.queryString(this.options);
   },
+  update: function(data) {
+    var attributes = data.repository;
+    attributes.last_build = _.clone(data);
+    var repository = this.get(attributes.id);
+    repository ? repository.set(attributes) : this.add(new Travis.Models.Repository(attributes));
+  },
 });
