@@ -1,6 +1,6 @@
 Travis.Views.Build.History.Table = Backbone.View.extend({
   initialize: function() {
-    _.bindAll(this, 'render', 'attachTo', 'update', 'updateRow', 'setTab');
+    _.bindAll(this, 'render', 'attachTo', 'update', 'appendRow', 'prependRow', 'renderRow', 'setTab');
     _.extend(this, this.options);
     this.template = Travis.app.templates['build/history/table'];
   },
@@ -20,12 +20,17 @@ Travis.Views.Build.History.Table = Backbone.View.extend({
   },
   update: function() {
     this.$('tbody').empty();
-    this.repository.builds.each(this.updateRow);
+    this.repository.builds.each(this.appendRow);
     this.repository.builds.bind('add', this.buildAdded);
   },
-  updateRow: function(build) {
-    var view = new Travis.Views.Build.History.Row({ model: build });
-    this.$('tbody').prepend(view.render().el);
+  appendRow: function(build) {
+    this.$('tbody').append(this.renderRow(build));
+  },
+  prependRow: function(build) {
+    this.$('tbody').prepend(this.renderRow(build));
+  },
+  renderRow: function(build) {
+    return new Travis.Views.Build.History.Row({ model: build }).render().el;
   },
   setTab: function() {
     $('a', this.el.prev()).attr('href', '#!/' + this.repository.get('name') + '/builds');

@@ -6,7 +6,7 @@ class BuildsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def index
-    render :json => repository.builds.started.limit(10).as_json(:full => true, :include_repository => false)
+    render :json => repository.builds.started.order('id DESC').limit(10).as_json(:full => true, :include_repository => false)
   end
 
   def show
