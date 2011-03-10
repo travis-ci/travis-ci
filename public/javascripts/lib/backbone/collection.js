@@ -13,7 +13,7 @@ Travis.Collections.Base = Backbone.Collection.extend({
   select: function(id) {
     this.getOrFetch(id, function(element) { if(element) element.select(); }.bind(this));
   },
-  selectLast: function() {
+  selectFirst: function() {
     this.getOrFetchLast(function(element) { if(element) element.select(); }.bind(this))
   },
   selectBy: function(options) {
@@ -26,7 +26,7 @@ Travis.Collections.Base = Backbone.Collection.extend({
     var element = this.selected();
     if(element) element.deselect();
   },
-  getOrFetchLast: function(callback) {
+  getOrFetchFirst: function(callback) {
     if(this.length > 0) {
       callback(this.first());
     } else {
