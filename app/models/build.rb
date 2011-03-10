@@ -70,10 +70,14 @@ class Build < ActiveRecord::Base
 
   def as_json(options = nil)
     options ||= {} # ActiveSupport seems to pass nil here?
+    include_repository = options.key?(:include_repository) ? options[:include_repository] : true
+
     only = options[:only] || []
     only += [:id, :parent_id, :number, :commit, :message, :status, :committed_at, :author_name, :author_email, :committer_name, :committer_email, :config]
     only += [:log, :started_at, :finished_at] if options[:full]
-    json = super(:only => only).merge(:repository => repository.as_json(:include_last_build => false))
+
+    json = super(:only => only)
+    json.merge!(:repository => repository.as_json(:include_last_build => false)) if include_repository
     json.merge!(:matrix => matrix.as_json(:only => [:config], :include_last_build => false)) if matrix?
     json
   end
