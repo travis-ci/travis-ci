@@ -1,26 +1,19 @@
 source :rubygems
 
-gem 'rails',        '~> 3.0.5'
-gem 'thin',         '~> 1.2.7'
-gem 'SystemTimer',  '~> 1.2.2', :platforms => ['ruby_18']
-
-gem 'yajl-ruby',    '~> 0.8.1'
-
-gem "oa-oauth",                 :require => "omniauth/oauth"
-gem "devise",       '~> 1.2.rc'
-
-gem 'pusher',       '~> 0.8.0'
-
+gem 'rails',              '~> 3.0.5'
+gem 'thin',               '~> 1.2.7'
+gem 'SystemTimer',        '~> 1.2.2', :platforms => ['ruby_18']
+gem 'yajl-ruby',          '~> 0.8.1'
+gem "oa-oauth",                       :require => "omniauth/oauth"
+gem "devise",             '~> 1.2.rc'
+gem 'pusher',             '~> 0.8.0'
 gem 'unobtrusive_flash',  '~> 0.0.2'
-
 gem 'hoptoad_notifier',   '~> 2.4.6'
 gem 'refraction',         '~> 0.2.0'
-
 gem 'resque',             '~> 1.13.0'
 gem 'resque-meta',        '~> 1.0.3'
 gem 'em-websocket',       '~> 0.2.0'
-gem 'em-pusher',          '~> 0.1.0', :git => 'git://github.com/joshk/em-pusher.git'
-
+gem 'travis-ci-em-pusher',  '~> 0.1.1'
 gem 'compass',            '~> 0.10.6'
 gem 'jammit'
 
