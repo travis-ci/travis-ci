@@ -3769,10 +3769,11 @@ $(document).ready(function() {
     $('#jobs').after(Travis.app.templates['tools/events']());
     var events = {
       'build:queued':   { 'build': { 'id': 4, 'number': 46, 'repository': { 'name': 'travis-ci/travis-ci' } } },
-      'build:started':  { 'build': { 'id': 4, 'number': 1, 'repository': { 'name': 'travis-ci/travis-ci', 'id': 3 }, 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'started_at': '2011-03-10T19: 07: 24+01: 00' } },
+      // 'build:started':  { 'build': { 'id': 4, 'number': 1, 'repository': { 'name': 'travis-ci/travis-ci', 'id': 3 }, 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'started_at': '2011-03-10T19: 07: 24+01: 00' } },
+      'build:started':  { 'build': { 'id': 9, 'number': 4, 'repository': { 'name': 'svenfuchs/minimal', 'id': 1 }, 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'started_at': '2011-03-10T19: 07: 24+01: 00' } },
       // 'build:log':      { 'build': { 'id': 8, 'repository': { 'id': 2 } }, 'log': '$ git clean -fdx' },
       'build:log':      { 'build': { 'id': 1, 'repository': { 'id': 1 } }, 'log': '$ git clean -fdx' },
-      'build:finished': { 'build': { 'id': 3, 'number': '3', 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'committed_at': '2011-03-10T17: 18: 27Z', 'repository': { 'name': 'travis-ci/travis-ci', 'last_duration': null, 'url': 'https: //github.com/travis-ci/travis-ci', 'id': 1 }, 'finished_at': '2011-03-10T19: 07: 47+01: 00', 'status': 0 } },
+      'build:finished': { 'build': { 'id': 9, 'number': 4, 'repository': { 'name': 'svenfuchs/minimal', 'last_duration': null, 'url': 'https: //github.com/svenfuchs/minimal', 'id': 1 }, 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'committed_at': '2011-03-10T17: 18: 27Z', 'finished_at': '2011-03-10T19: 07: 47+01: 00', 'status': 0 } },
     };
     _.each(events, function(data, event) {
       $('#' + event.replace(':', '_')).click(function(e) {
@@ -3803,7 +3804,7 @@ $.ajaxSetup({ cache: false });
 Travis.Collections.Base = Backbone.Collection.extend({
   initialize: function() {
     Backbone.Collection.prototype.initialize.apply(this, arguments);
-    _.bindAll(this, 'whenLoaded', 'selectFirst', 'selectBy', 'select', 'deselect', 'getOrFetchFirst', 'getOrFetchFirstBy', 'getBy', 'fetchBy');
+    _.bindAll(this, 'whenLoaded', 'selectLast', 'selectBy', 'select', 'deselect', 'getOrFetchLast', 'getOrFetchLastBy', 'getBy', 'fetchBy');
   },
   whenLoaded: function(callback, options) {
     if(this.loading) {
@@ -3815,11 +3816,11 @@ Travis.Collections.Base = Backbone.Collection.extend({
   select: function(id) {
     this.getOrFetch(id, function(element) { if(element) element.select(); }.bind(this));
   },
-  selectFirst: function() {
-    this.getOrFetchFirst(function(element) { if(element) element.select(); }.bind(this))
+  selectLast: function() {
+    this.getOrFetchLast(function(element) { if(element) element.select(); }.bind(this))
   },
   selectBy: function(options) {
-    this.getOrFetchFirstBy(options, function(element) { if(element) element.select(); }.bind(this));
+    this.getOrFetchLastBy(options, function(element) { if(element) element.select(); }.bind(this));
   },
   selected: function() {
     return this.detect(function(element) { return element.get('selected'); });
@@ -3828,11 +3829,11 @@ Travis.Collections.Base = Backbone.Collection.extend({
     var element = this.selected();
     if(element) element.deselect();
   },
-  getOrFetchFirst: function(callback) {
+  getOrFetchLast: function(callback) {
     if(this.length > 0) {
-      callback(this.first());
+      callback(this.last());
     } else {
-      this.fetch({ success: function() { callback(this.first()); }.bind(this) });
+      this.fetch({ success: function() { callback(this.last()); }.bind(this) });
     }
   },
   getOrFetch: function(id, callback) {
@@ -3843,7 +3844,7 @@ Travis.Collections.Base = Backbone.Collection.extend({
       new this.model({ id: id }, { collection: this }).fetch({ success: callback });
     }
   },
-  getOrFetchFirstBy: function(options, callback) {
+  getOrFetchLastBy: function(options, callback) {
     var element = this.getBy(options);
     if(element) {
       callback(element);
@@ -4048,7 +4049,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   },
   recent: function() {
     this.reset();
-    this.repositories.whenLoaded(this.repositories.selectFirst); // TODO currently whenLoaded doesn't actually do anything useful
+    this.repositories.whenLoaded(this.repositories.selectLast); // TODO currently whenLoaded doesn't actually do anything useful
     this.repositoryShow.activateTab('current');
     this.followBuilds = true;
   },
@@ -4094,7 +4095,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     if(this.followBuilds) {
       var repository = this.repositories.get(data.id);
       repository.select();
-      repository.builds().fetch({ success: function(builds) { builds.select(data.build.id) } });
+      repository.builds().select(data.build.id);
     }
   },
   buildFinished: function(data) {
@@ -4204,6 +4205,9 @@ Travis.Collections.Builds = Travis.Collections.Base.extend({
   dimensions: function() {
     return this.models[0] ? _.keys(this.models[0].get('config')) : [];
   },
+  comparator: function(build) {
+    return build.get('number');
+  }
 });
 
 // {
@@ -4249,7 +4253,7 @@ Travis.Models.Repository = Travis.Models.Base.extend({
   },
   set: function(attributes) {
     var build = attributes.build;
-    // delete attributes.build;
+    delete attributes.build;
     if(build) {
       this.builds().set(build);
       attributes.last_build = build;
@@ -4281,6 +4285,9 @@ Travis.Collections.Repositories = Travis.Collections.Base.extend({
     var repository = this.get(attributes.id);
     repository ? repository.set(attributes) : this.add(new Travis.Models.Repository(attributes));
   },
+  // comparator: function(repository) {
+  //   return repository.builds().last().get('started_at');
+  // }
 });
 
 Travis.Models.Worker = Backbone.Model.extend({
@@ -4406,7 +4413,7 @@ Travis.Views.Build.Build = Backbone.View.extend({
 
 Travis.Views.Build.Current = Travis.Views.Build.Build.extend({
   initialize: function() {
-    _.bindAll(this, 'attachTo', 'update', 'setTab');
+    _.bindAll(this, 'attachTo', 'buildsRefreshed', 'buildSelected', 'update', 'setTab');
     Travis.Views.Build.Build.prototype.initialize.apply(this, arguments);
   },
   attachTo: function(repository) {
@@ -4414,16 +4421,22 @@ Travis.Views.Build.Current = Travis.Views.Build.Build.extend({
     this.setTab();
 
     var builds = this.repository.builds();
-    builds.bind('load', this.update); // TODO
-    builds.bind('refresh', this.update);
-    builds.bind('add', this.update);
-    builds.whenLoaded(this.update);
+    builds.bind('refresh', this.buildsRefreshed);
+    builds.bind('select', this.buildSelected);
+    // builds.bind('add', this.update);
+    builds.whenLoaded(this.buildsRefreshed); // ???
+  },
+  buildsRefreshed: function() {
+    this.build = this.repository.builds().last();
+    this.update();
+  },
+  buildSelected: function(build) {
+    this.build = build;
+    this.update();
   },
   update: function() {
-    this.build = this.repository.builds().first();
     this.setTab();
     this.el.empty();
-
     if(this.build) {
       this.renderSummary();
       this.build.matrix ? this.renderMatrix() : this.renderLog();
@@ -4476,7 +4489,7 @@ Travis.Views.Build.History.Row = Backbone.View.extend({
 
 Travis.Views.Build.History.Table = Backbone.View.extend({
   initialize: function() {
-    _.bindAll(this, 'render', 'attachTo', 'buildAdded', 'update', 'appendRow', 'prependRow', 'renderRow', 'setTab');
+    _.bindAll(this, 'render', 'attachTo', 'buildAdded', 'update', 'prependRow', 'renderRow', 'setTab');
     _.extend(this, this.options);
     this.template = Travis.app.templates['build/history/table'];
   },
@@ -4498,11 +4511,8 @@ Travis.Views.Build.History.Table = Backbone.View.extend({
   },
   update: function() {
     this.$('tbody').empty();
-    this.builds.each(this.appendRow);
+    this.builds.each(this.prependRow);
     this.builds.bind('add', this.buildAdded);
-  },
-  appendRow: function(build) {
-    this.$('tbody').append(this.renderRow(build));
   },
   prependRow: function(build) {
     this.$('tbody').prepend(this.renderRow(build));
@@ -4650,8 +4660,9 @@ Travis.Views.Repositories.Item = Backbone.View.extend({
   },
   setLastBuild: function() {
     this.setStatus();
-    if(this.last_build && this.last_build.number) {
-      this.$('.build').attr('href', Travis.app.buildUrl(this.model, this.last_build.id)).text('#' + this.last_build.number)
+    var last_build = this.model.get('last_build');
+    if(last_build && last_build.number) {
+      this.$('.build').attr('href', '#!/' + this.model.name + '/builds/' + last_build.id).text('#' + last_build.number)
     }
   },
   setDuration: function() {

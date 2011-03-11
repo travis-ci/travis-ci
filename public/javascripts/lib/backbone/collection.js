@@ -1,7 +1,7 @@
 Travis.Collections.Base = Backbone.Collection.extend({
   initialize: function() {
     Backbone.Collection.prototype.initialize.apply(this, arguments);
-    _.bindAll(this, 'whenLoaded', 'selectFirst', 'selectBy', 'select', 'deselect', 'getOrFetchFirst', 'getOrFetchFirstBy', 'getBy', 'fetchBy');
+    _.bindAll(this, 'whenLoaded', 'selectLast', 'selectBy', 'select', 'deselect', 'getOrFetchLast', 'getOrFetchLastBy', 'getBy', 'fetchBy');
   },
   whenLoaded: function(callback, options) {
     if(this.loading) {
@@ -13,11 +13,11 @@ Travis.Collections.Base = Backbone.Collection.extend({
   select: function(id) {
     this.getOrFetch(id, function(element) { if(element) element.select(); }.bind(this));
   },
-  selectFirst: function() {
-    this.getOrFetchFirst(function(element) { if(element) element.select(); }.bind(this))
+  selectLast: function() {
+    this.getOrFetchLast(function(element) { if(element) element.select(); }.bind(this))
   },
   selectBy: function(options) {
-    this.getOrFetchFirstBy(options, function(element) { if(element) element.select(); }.bind(this));
+    this.getOrFetchLastBy(options, function(element) { if(element) element.select(); }.bind(this));
   },
   selected: function() {
     return this.detect(function(element) { return element.get('selected'); });
@@ -26,11 +26,11 @@ Travis.Collections.Base = Backbone.Collection.extend({
     var element = this.selected();
     if(element) element.deselect();
   },
-  getOrFetchFirst: function(callback) {
+  getOrFetchLast: function(callback) {
     if(this.length > 0) {
-      callback(this.first());
+      callback(this.last());
     } else {
-      this.fetch({ success: function() { callback(this.first()); }.bind(this) });
+      this.fetch({ success: function() { callback(this.last()); }.bind(this) });
     }
   },
   getOrFetch: function(id, callback) {
@@ -41,7 +41,7 @@ Travis.Collections.Base = Backbone.Collection.extend({
       new this.model({ id: id }, { collection: this }).fetch({ success: callback });
     }
   },
-  getOrFetchFirstBy: function(options, callback) {
+  getOrFetchLastBy: function(options, callback) {
     var element = this.getBy(options);
     if(element) {
       callback(element);

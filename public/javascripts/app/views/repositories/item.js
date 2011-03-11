@@ -20,8 +20,9 @@ Travis.Views.Repositories.Item = Backbone.View.extend({
   },
   setLastBuild: function() {
     this.setStatus();
-    if(this.last_build && this.last_build.number) {
-      this.$('.build').attr('href', Travis.app.buildUrl(this.model, this.last_build.id)).text('#' + this.last_build.number)
+    var last_build = this.model.get('last_build');
+    if(last_build && last_build.number) {
+      this.$('.build').attr('href', '#!/' + this.model.name + '/builds/' + last_build.id).text('#' + last_build.number)
     }
   },
   setDuration: function() {

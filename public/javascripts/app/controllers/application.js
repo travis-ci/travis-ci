@@ -37,7 +37,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   },
   recent: function() {
     this.reset();
-    this.repositories.whenLoaded(this.repositories.selectFirst); // TODO currently whenLoaded doesn't actually do anything useful
+    this.repositories.whenLoaded(this.repositories.selectLast); // TODO currently whenLoaded doesn't actually do anything useful
     this.repositoryShow.activateTab('current');
     this.followBuilds = true;
   },
@@ -83,7 +83,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     if(this.followBuilds) {
       var repository = this.repositories.get(data.id);
       repository.select();
-      repository.builds().fetch({ success: function(builds) { builds.select(data.build.id) } });
+      repository.builds().select(data.build.id);
     }
   },
   buildFinished: function(data) {

@@ -92,4 +92,7 @@ Travis.Collections.Builds = Travis.Collections.Base.extend({
   dimensions: function() {
     return this.models[0] ? _.keys(this.models[0].get('config')) : [];
   },
+  comparator: function(build) {
+    return build.get('number');
+  }
 });
