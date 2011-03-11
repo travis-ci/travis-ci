@@ -27,7 +27,6 @@ Travis.Models.Build = Travis.Models.Base.extend({
   },
   appendLog: function(chars) {
     this.attributes.log = this.attributes.log + chars;
-    console.log(this)
     this.trigger('append:log', chars);
   },
   url: function() {

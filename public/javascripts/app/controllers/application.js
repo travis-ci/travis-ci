@@ -8,7 +8,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     '!/:username/:name/builds/:id': 'repositoryBuild',
   },
   initialize: function() {
-    _.bindAll(this, 'recent', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'reset', 'repositorySelected', 'log');
+    _.bindAll(this, 'recent', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'reset', 'repositorySelected', 'buildQueued', 'buildStarted', 'buildLogged', 'buildFinished');
     this.templates = Util.loadTemplates();
   },
   run: function() {
@@ -30,16 +30,16 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.jobsView.attachTo(this.jobs)
     this.repositories.bind('select', this.repositorySelected);
 
-    this.bind('build:started',  this.repositories.update);
-    this.bind('build:finished', this.repositories.update);
-    this.bind('build:log',      this.log);
-    this.bind('build:queued',   function(data) { this.jobs.add({ name: data.name, number: data.last_build.number, id: data.last_build.id }) }.bind(this));
-    this.bind('build:started',  function(data) { this.jobs.remove({ id: data.last_build.id }) }.bind(this));
+    this.bind('build:started',  this.buildStarted);
+    this.bind('build:finished', this.buildFinished);
+    this.bind('build:log',      this.buildLogged);
+    this.bind('build:queued',   this.buildQueued);
   },
   recent: function() {
     this.reset();
     this.repositories.whenLoaded(this.repositories.selectFirst); // TODO currently whenLoaded doesn't actually do anything useful
     this.repositoryShow.activateTab('current');
+    this.followBuilds = true;
   },
   repository: function(username, name) {
     this.reset();
@@ -59,6 +59,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   },
   reset: function() {
     delete this.buildId;
+    this.followBuilds = false;
   },
   repositorySelected: function(repository) {
     if(repository.builds.length == 0) { // TODO collection might be empty. maintain collection.loaded or something
@@ -73,7 +74,22 @@ Travis.Controllers.Application = Backbone.Controller.extend({
       }
     }
   },
-  log: function(data) {
+  buildQueued: function(data) {
+    this.jobs.add({ name: data.name, number: data.last_build.number, id: data.last_build.id });
+  },
+  buildStarted: function(data) {
+    this.repositories.update(data);
+    this.jobs.remove({ id: data.last_build.id });
+    if(this.followBuilds) {
+      var repository = this.repositories.get(data.id);
+      repository.select();
+      repository.builds.fetch({ success: function(builds) { builds.select(data.last_build.id) } });
+    }
+  },
+  buildFinished: function(data) {
+    this.repositories.update(data);
+  },
+  buildLogged: function(data) {
     var repository = this.repositories.get(data.id);
     if(!repository) return;
     var build = repository.builds.get(data.last_build.id);
