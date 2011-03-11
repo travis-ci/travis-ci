@@ -10,18 +10,20 @@ Travis.Views.Build.History.Table = Backbone.View.extend({
   },
   attachTo: function(repository) {
     this.repository = repository;
+    this.builds = repository.builds();
     this.setTab();
-    this.repository.builds.bind('refresh', this.update);
-    this.repository.builds.bind('load', this.update); // TODO
-    this.repository.builds.whenLoaded(this.update);
+
+    this.builds.bind('refresh', this.update);
+    this.builds.bind('load', this.update); // TODO
+    this.builds.whenLoaded(this.update);
   },
   buildAdded: function(build) {
     this.prependRow(build);
   },
   update: function() {
     this.$('tbody').empty();
-    this.repository.builds.each(this.appendRow);
-    this.repository.builds.bind('add', this.buildAdded);
+    this.builds.each(this.appendRow);
+    this.builds.bind('add', this.buildAdded);
   },
   appendRow: function(build) {
     this.$('tbody').append(this.renderRow(build));

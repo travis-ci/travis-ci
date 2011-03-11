@@ -62,28 +62,28 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.followBuilds = false;
   },
   repositorySelected: function(repository) {
-    if(repository.builds.length == 0) { // TODO collection might be empty. maintain collection.loaded or something
-      repository.builds.fetch({ success: function() {
+    if(repository.builds().length == 0) { // TODO collection might be empty. maintain collection.loaded or something
+      repository.builds().fetch({ success: function() {
         if(this.buildId) {
-          repository.builds.whenLoaded(function() { repository.builds.select(this.buildId) }.bind(this));
+          repository.builds().whenLoaded(function() { repository.builds().select(this.buildId) }.bind(this));
         }
       }.bind(this)});
     } else {
       if(this.buildId) {
-        repository.builds.whenLoaded(function() { repository.builds.select(this.buildId) }.bind(this));
+        repository.builds().whenLoaded(function() { repository.builds().select(this.buildId) }.bind(this));
       }
     }
   },
   buildQueued: function(data) {
-    this.jobs.add({ name: data.name, number: data.last_build.number, id: data.last_build.id });
+    this.jobs.add({ name: data.name, number: data.build.number, id: data.build.id });
   },
   buildStarted: function(data) {
     this.repositories.update(data);
-    this.jobs.remove({ id: data.last_build.id });
+    this.jobs.remove({ id: data.build.id });
     if(this.followBuilds) {
       var repository = this.repositories.get(data.id);
       repository.select();
-      repository.builds.fetch({ success: function(builds) { builds.select(data.last_build.id) } });
+      repository.builds().fetch({ success: function(builds) { builds.select(data.build.id) } });
     }
   },
   buildFinished: function(data) {
@@ -92,7 +92,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   buildLogged: function(data) {
     var repository = this.repositories.get(data.id);
     if(!repository) return;
-    var build = repository.builds.get(data.last_build.id);
+    var build = repository.builds().get(data.build.id);
     if(!build) return;
     build.appendLog(data.log);
   }

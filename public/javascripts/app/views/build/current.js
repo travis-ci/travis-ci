@@ -6,13 +6,15 @@ Travis.Views.Build.Current = Travis.Views.Build.Build.extend({
   attachTo: function(repository) {
     this.repository = repository;
     this.setTab();
-    this.repository.builds.bind('load', this.update); // TODO
-    this.repository.builds.bind('refresh', this.update);
-    this.repository.builds.bind('add', this.update);
-    this.repository.builds.whenLoaded(this.update);
+
+    var builds = this.repository.builds();
+    builds.bind('load', this.update); // TODO
+    builds.bind('refresh', this.update);
+    builds.bind('add', this.update);
+    builds.whenLoaded(this.update);
   },
   update: function() {
-    this.build = this.repository.builds.first();
+    this.build = this.repository.builds().first();
     this.setTab();
     this.el.empty();
 
