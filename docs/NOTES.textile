@@ -51,4 +51,3 @@ That might be a viable optimization in the future, but there are two things to t
 * Workers capabilities. At some point we'll want workers to be able to automatically announce their capabilities (e.g. "i support the RVMs a, b, c. i support the databases x, y, z."). Repositories/build configurations can then require certain capabilities for running the build. From this point on any worker will be able to configure a build but might not be able to actually run the first child or even any child.
 
 So it seems that posting the configuration back to the app is a more solid pattern and doesn't need to be changed once we tackle security and/or worker capabilities.
-
