@@ -41,7 +41,6 @@ Travis.Collections.Repositories = Travis.Collections.Base.extend({
     repository ? repository.set(attributes) : this.add(new Travis.Models.Repository(attributes));
   },
   comparator: function(repository) {
-    console.log(repository.get('last_build').started_at)
     return repository.get('last_build').started_at;
   }
   // comparator: function(repository) {
