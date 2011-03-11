@@ -8,11 +8,9 @@ var Travis = {
   },
   trigger: function(event, data) {
     var repository = data.build.repository;
-    repository.build = _.clone(data.build);
-    delete repository.build.repository;
-    if(data.log) {
-      repository.build.append_log = data.log;
-    }
+    repository.last_build = _.clone(data.build);
+    delete repository.last_build.repository;
+    if(data.log) repository.log = data.log;
     Travis.app.trigger(event, repository);
   }
 };
@@ -36,7 +34,7 @@ $(document).ready(function() {
   if(env == 'development') {
     $('#jobs').after(Travis.app.templates['tools/events']());
     var events = {
-      'build:queued':   { 'build': { 'number': 46, 'repository': { 'name': 'travis-ci/travis-ci' } } },
+      'build:queued':   { 'build': { 'id': 4, 'number': 46, 'repository': { 'name': 'travis-ci/travis-ci' } } },
       'build:started':  { 'build': { 'id': 4, 'number': 1, 'repository': { 'name': 'travis-ci/travis-ci', 'id': 3 }, 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'started_at': '2011-03-10T19: 07: 24+01: 00' } },
       // 'build:log':      { 'build': { 'id': 8, 'repository': { 'id': 2 } }, 'log': '$ git clean -fdx' },
       'build:log':      { 'build': { 'id': 1, 'repository': { 'id': 1 } }, 'log': '$ git clean -fdx' },
@@ -44,8 +42,8 @@ $(document).ready(function() {
     };
     _.each(events, function(data, event) {
       $('#' + event.replace(':', '_')).click(function(e) {
-        Travis.trigger(event, _.clone(data));
         e.preventDefault();
+        Travis.trigger(event, _.clone(data));
       });
     });
   }

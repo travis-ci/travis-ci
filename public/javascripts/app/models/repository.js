@@ -8,9 +8,6 @@ Travis.Models.Repository = Travis.Models.Base.extend({
     var build = attributes.build;
     delete attributes.build;
     if(build) {
-      if(this.get('last_build').id == build.id) {
-        attributes.last_build = _.clone(build);
-      }
       this.builds.set(build);
     }
     Backbone.Model.prototype.set.apply(this, [attributes]);
