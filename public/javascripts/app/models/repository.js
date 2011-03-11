@@ -4,6 +4,17 @@ Travis.Models.Repository = Travis.Models.Base.extend({
     _.bindAll(this, 'color', 'toJSON');
     this.builds = new Travis.Collections.Builds([], { repository: this });
   },
+  set: function(attributes) {
+    var build = attributes.build;
+    delete attributes.build;
+    if(build) {
+      if(this.get('last_build').id == build.id) {
+        attributes.last_build = _.clone(build);
+      }
+      this.builds.set(build);
+    }
+    Backbone.Model.prototype.set.apply(this, [attributes]);
+  },
   color: function() {
     var status = this.get('last_build').status;
     return status == 0 ? 'green' : status == 1 ? 'red' : null;
@@ -24,9 +35,7 @@ Travis.Collections.Repositories = Travis.Collections.Base.extend({
   url: function() {
     return '/repositories' + Util.queryString(this.options);
   },
-  update: function(data) {
-    var attributes = data.repository;
-    attributes.last_build = _.clone(data);
+  update: function(attributes) {
     var repository = this.get(attributes.id);
     repository ? repository.set(attributes) : this.add(new Travis.Models.Repository(attributes));
   },

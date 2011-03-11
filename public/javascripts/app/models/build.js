@@ -19,9 +19,9 @@ Travis.Models.Build = Travis.Models.Base.extend({
   set: function(attributes, options) {
     if(attributes.append_log) {
       var chars = attributes.append_log;
-      this.attributes.log = this.attributes.log + chars;
-      this.trigger('log', this, chars);
       delete attributes.append_log;
+      this.attributes.log = this.attributes.log + chars;
+      this.trigger('append:log', chars);
     }
     return Backbone.Model.prototype.set.apply(this, [attributes, options]);
   },
@@ -76,16 +76,16 @@ Travis.Collections.Builds = Travis.Collections.Base.extend({
     _.bindAll(this, 'url', 'dimensions', 'set');
     _.extend(this, options);
   },
-  url: function() {
-    return '/repositories/' + this.repository.id + '/builds' + Util.queryString(this.args);
-  },
-  dimensions: function() {
-    return this.models[0] ? _.keys(this.models[0].get('config')) : [];
-  },
   set: function(attributes) {
     if(attributes) {
       var build = this.get(attributes.id);
       build ? build.set(attributes) : this.add(new Travis.Models.Build(attributes, { repository: this.repository }));
     }
+  },
+  url: function() {
+    return '/repositories/' + this.repository.id + '/builds' + Util.queryString(this.args);
+  },
+  dimensions: function() {
+    return this.models[0] ? _.keys(this.models[0].get('config')) : [];
   },
 });

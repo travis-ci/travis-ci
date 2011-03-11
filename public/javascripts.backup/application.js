@@ -44,8 +44,9 @@ $.ajaxSetup({ cache: false });
 
 $(document).ready(function() {
   $('#profile').click(function() {
-    console.log(this)
     $('#profile_menu').toggle();
   });
+
   $('.tool-tip').tipsy({ gravity: 'n', fade: true });
+
 });

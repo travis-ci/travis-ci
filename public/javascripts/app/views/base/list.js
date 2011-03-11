@@ -2,7 +2,7 @@
 //
 Travis.Views.Base.List = Backbone.View.extend({
   initialize: function(args) {
-    _.bindAll(this, 'element', 'render', 'connect', 'disconnect', 'elementAdded', 'elementRemoved', 'collectionRefreshed');
+    _.bindAll(this, 'element', 'render', 'attached', 'detach', 'elementAdded', 'elementRemoved', 'collectionRefreshed');
 
     this.selectors = _.extend({
       element: '#' + this.name,
@@ -31,16 +31,16 @@ Travis.Views.Base.List = Backbone.View.extend({
     this.element().replaceWith(this.templates.list({}));
     // this.element().addClass('loading');
   },
-  connected: function() {
+  attached: function() {
     return !!this.collection;
   },
-  connect: function(collection) {
-    this.disconnect();
+  attachTo: function(collection) {
+    this.detach();
     this.collection = collection;
     this._bind(collection, this.collection_events);
     if(collection.length > 0) this._renderItems();
   },
-  disconnect: function() {
+  detach: function() {
     if(this.collection) {
       this._unbind(this.collection, this.collection_events);
       delete this.collection;
