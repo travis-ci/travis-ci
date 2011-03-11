@@ -4697,7 +4697,7 @@ Travis.Views.Repositories.List = Backbone.View.extend({
   },
   update: function() {
     this.collection.each(function(element) {
-      this.el.append(this.renderItem(element));
+      this.el.prepend(this.renderItem(element));
     }.bind(this));
   },
   renderItem: function(element) {
