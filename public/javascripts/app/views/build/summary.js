@@ -1,6 +1,6 @@
 Travis.Views.Build.Summary = Backbone.View.extend({
   initialize: function() {
-    _.bindAll(this, 'render', 'setStatus');
+    _.bindAll(this, 'render', 'setStatus', 'setDuration', 'setFinishedAt');
     this.template = Travis.app.templates['build/summary'];
 
     this.model.bind('change:status', this.setStatus);

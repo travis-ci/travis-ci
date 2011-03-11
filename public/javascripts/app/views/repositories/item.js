@@ -19,6 +19,7 @@ Travis.Views.Repositories.Item = Backbone.View.extend({
     $(this.el).removeClass('red green').addClass(this.model.color());
   },
   setLastBuild: function() {
+    console.log('FOOOOO!')
     this.setStatus();
     if(this.last_build) {
       this.$('.build').attr('href', Travis.app.buildUrl(this.model, this.last_build.id)).text('#' + this.last_build.number)

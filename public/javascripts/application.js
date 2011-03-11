@@ -7,7 +7,13 @@ var Travis = {
     Backbone.history.start();
   },
   trigger: function(event, data) {
-    Travis.app.trigger(event, _.extend(data.build, { append_log: data.log }));
+    var repository = data.build.repository;
+    repository.build = _.clone(data.build);
+    delete repository.build.repository;
+    if(data.log) {
+      repository.build.append_log = data.log;
+    }
+    Travis.app.trigger(event, repository);
   }
 };
 
@@ -24,15 +30,29 @@ $(document).ready(function() {
     _.each(channels, function(channel) { pusher.subscribe(channel).bind_all(Travis.trigger); })
   }
 
-  $('#profile').click(function() {
-    console.log(this)
-    $('#profile_menu').toggle();
-  });
+  $('#profile').click(function() { $('#profile_menu').toggle(); });
   $('.tool-tip').tipsy({ gravity: 'n', fade: true });
+
+  if(env == 'development') {
+    $('#jobs').after(Travis.app.templates['tools/events']());
+    var events = {
+      'build:queued':   { 'build': { 'number': 46, 'repository': { 'name': 'travis-ci/travis-ci' } } },
+      'build:started':  { 'build': { 'id': 4, 'number': 1, 'repository': { 'name': 'travis-ci/travis-ci', 'id': 3 }, 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'started_at': '2011-03-10T19: 07: 24+01: 00' } },
+      // 'build:log':      { 'build': { 'id': 8, 'repository': { 'id': 2 } }, 'log': '$ git clean -fdx' },
+      'build:log':      { 'build': { 'id': 1, 'repository': { 'id': 1 } }, 'log': '$ git clean -fdx' },
+      'build:finished': { 'build': { 'id': 3, 'number': '3', 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'committed_at': '2011-03-10T17: 18: 27Z', 'repository': { 'name': 'travis-ci/travis-ci', 'last_duration': null, 'url': 'https: //github.com/travis-ci/travis-ci', 'id': 1 }, 'finished_at': '2011-03-10T19: 07: 47+01: 00', 'status': 0 } },
+    };
+    _.each(events, function(data, event) {
+      $('#' + event.replace(':', '_')).click(function(e) {
+        Travis.trigger(event, _.clone(data));
+        e.preventDefault();
+      });
+    });
+  }
 });
 
 if (window.console) {
-  Pusher.log = function() { window.console.log.apply(window.console, arguments); }
+  // Pusher.log = function() { window.console.log.apply(window.console, arguments); }
 };
 
 // Safari does not define bind()

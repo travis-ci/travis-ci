@@ -3,9 +3,8 @@
     <dt>Build</dt>
     <dd class="number"><a href="/#!/{{repository/name}}/builds/{{id}}">{{number}}</a></dd>
     <dt class="finished_at_label">Finished</dt>
-    <dd class="finished_at timeago" title="{{finished_at}}"></d>
-    <!-- <dt class="eta_label">ETA</dt>
-    <dd class="eta timeago" title="{{eta}}">?</dd> -->
+    <dd class="finished_at timeago" title="{{finished_at}}"></dd>
+    <!-- <dt class="eta_label">ETA</dt><dd class="eta timeago" title="{{eta}}">?</dd> -->
     <dt>Duration</dt>
     <dd class="duration" title="{{duration}}"></dd>
   </div>

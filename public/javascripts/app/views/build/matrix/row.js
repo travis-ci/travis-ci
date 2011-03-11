@@ -25,4 +25,3 @@ Travis.Views.Build.Matrix.Row = Backbone.View.extend({
     this.el.updateTimes();
   },
 });
-

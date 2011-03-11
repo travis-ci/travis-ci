@@ -19,7 +19,7 @@ Travis.Models.Build = Backbone.Model.extend({
     if(attributes.append_log) {
       var chars = attributes.append_log;
       this.attributes.log = this.attributes.log + chars;
-      this.trigger('log', this, chars);
+      this.trigger('append:log', this, chars);
       delete attributes.append_log;
     }
     return Backbone.Model.prototype.set.apply(this, [attributes, options]);

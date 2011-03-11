@@ -26,6 +26,8 @@ Travis.Controllers.Application = Backbone.Controller.extend({
 
     this.repositoriesList.attachTo(this.repositories);
     this.repositoryShow.attachTo(this.repositories)
+    this.workersView.attachTo(this.workers)
+    this.jobsView.attachTo(this.jobs)
     this.repositories.bind('select', this.repositorySelected);
 
     this.bind('build:started',  this.repositories.update);
@@ -60,10 +62,15 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   },
   repositorySelected: function(repository) {
     if(repository.builds.length == 0) { // TODO collection might be empty. maintain collection.loaded or something
-      repository.builds.fetch();
-    }
-    if(this.buildId) {
-      repository.builds.whenLoaded(function() { repository.builds.select(this.buildId) }.bind(this));
+      repository.builds.fetch({ success: function() {
+        if(this.buildId) {
+          repository.builds.whenLoaded(function() { repository.builds.select(this.buildId) }.bind(this));
+        }
+      }.bind(this)});
+    } else {
+      if(this.buildId) {
+        repository.builds.whenLoaded(function() { repository.builds.select(this.buildId) }.bind(this));
+      }
     }
   }
 });

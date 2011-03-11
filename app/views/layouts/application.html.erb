@@ -15,6 +15,7 @@
     <% end %>
     <%= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
     <%= include_javascripts :travis %>
+    <%= javascript_tag "var env = '#{Rails.env}';" %>
   </head>
 
   <body id="<%= params[:controller].singularize %>">
