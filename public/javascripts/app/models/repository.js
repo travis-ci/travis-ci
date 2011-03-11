@@ -8,7 +8,7 @@ Travis.Models.Repository = Travis.Models.Base.extend({
   },
   set: function(attributes) {
     var build = attributes.build;
-    // delete attributes.build;
+    delete attributes.build;
     if(build) {
       this.builds().set(build);
       attributes.last_build = build;
@@ -40,4 +40,7 @@ Travis.Collections.Repositories = Travis.Collections.Base.extend({
     var repository = this.get(attributes.id);
     repository ? repository.set(attributes) : this.add(new Travis.Models.Repository(attributes));
   },
+  // comparator: function(repository) {
+  //   return repository.builds().last().get('started_at');
+  // }
 });

@@ -1,6 +1,6 @@
 Travis.Views.Build.Current = Travis.Views.Build.Build.extend({
   initialize: function() {
-    _.bindAll(this, 'attachTo', 'update', 'setTab');
+    _.bindAll(this, 'attachTo', 'buildsRefreshed', 'buildSelected', 'update', 'setTab');
     Travis.Views.Build.Build.prototype.initialize.apply(this, arguments);
   },
   attachTo: function(repository) {
@@ -8,16 +8,22 @@ Travis.Views.Build.Current = Travis.Views.Build.Build.extend({
     this.setTab();
 
     var builds = this.repository.builds();
-    builds.bind('load', this.update); // TODO
-    builds.bind('refresh', this.update);
-    builds.bind('add', this.update);
-    builds.whenLoaded(this.update);
+    builds.bind('refresh', this.buildsRefreshed);
+    builds.bind('select', this.buildSelected);
+    // builds.bind('add', this.update);
+    builds.whenLoaded(this.buildsRefreshed); // ???
+  },
+  buildsRefreshed: function() {
+    this.build = this.repository.builds().last();
+    this.update();
+  },
+  buildSelected: function(build) {
+    this.build = build;
+    this.update();
   },
   update: function() {
-    this.build = this.repository.builds().first();
     this.setTab();
     this.el.empty();
-
     if(this.build) {
       this.renderSummary();
       this.build.matrix ? this.renderMatrix() : this.renderLog();

@@ -16,7 +16,7 @@ module Travis
 
       def on_finish
         super
-        push 'build:finished', 'build' => build.merge('finished_at' => finished_at)
+        push 'build:finished', 'build' => build.merge('status' => result, 'finished_at' => finished_at)
       end
 
       protected
