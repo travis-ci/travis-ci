@@ -8,7 +8,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     '!/:username/:name/builds/:id': 'repositoryBuild',
   },
   initialize: function() {
-    _.bindAll(this, 'recent', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'reset', 'repositorySelected');
+    _.bindAll(this, 'recent', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'reset', 'repositorySelected', 'log');
     this.templates = Util.loadTemplates();
   },
   run: function() {
@@ -31,10 +31,10 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.repositories.bind('select', this.repositorySelected);
 
     this.bind('build:started',  this.repositories.update);
-    this.bind('build:log',      this.repositories.update);
     this.bind('build:finished', this.repositories.update);
-    this.bind('build:queued',   this.jobs.add);
-    this.bind('build:started',  this.jobs.remove);
+    this.bind('build:log',      this.log);
+    this.bind('build:queued',   function(data) { this.jobs.add({ name: data.name, number: data.last_build.number, id: data.last_build.id }) }.bind(this));
+    this.bind('build:started',  function(data) { this.jobs.remove({ id: data.last_build.id }) }.bind(this));
   },
   recent: function() {
     this.reset();
@@ -72,6 +72,13 @@ Travis.Controllers.Application = Backbone.Controller.extend({
         repository.builds.whenLoaded(function() { repository.builds.select(this.buildId) }.bind(this));
       }
     }
+  },
+  log: function(data) {
+    var repository = this.repositories.get(data.id);
+    if(!repository) return;
+    var build = repository.builds.get(data.last_build.id);
+    if(!build) return;
+    build.appendLog(data.log);
   }
 });
 

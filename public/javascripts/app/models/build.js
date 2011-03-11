@@ -17,13 +17,18 @@ Travis.Models.Build = Travis.Models.Base.extend({
     }
   },
   set: function(attributes, options) {
-    if(attributes.append_log) {
-      var chars = attributes.append_log;
-      delete attributes.append_log;
-      this.attributes.log = this.attributes.log + chars;
-      this.trigger('append:log', chars);
-    }
+    // if(attributes.append_log) {
+    //   var chars = attributes.append_log;
+    //   delete attributes.append_log;
+    //   this.attributes.log = this.attributes.log + chars;
+    //   this.trigger('append:log', chars);
+    // }
     return Backbone.Model.prototype.set.apply(this, [attributes, options]);
+  },
+  appendLog: function(chars) {
+    this.attributes.log = this.attributes.log + chars;
+    console.log(this)
+    this.trigger('append:log', chars);
   },
   url: function() {
     return 'builds/' + this.id;
