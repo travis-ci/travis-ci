@@ -3742,8 +3742,8 @@ var Travis = {
   },
   trigger: function(event, data) {
     var repository = data.build.repository;
-    repository.last_build = _.clone(data.build);
-    delete repository.last_build.repository;
+    repository.build = _.clone(data.build);
+    delete repository.build.repository;
     if(data.log) repository.log = data.log;
     Travis.app.trigger(event, repository);
   }
@@ -4073,28 +4073,28 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.followBuilds = false;
   },
   repositorySelected: function(repository) {
-    if(repository.builds.length == 0) { // TODO collection might be empty. maintain collection.loaded or something
-      repository.builds.fetch({ success: function() {
+    if(repository.builds().length == 0) { // TODO collection might be empty. maintain collection.loaded or something
+      repository.builds().fetch({ success: function() {
         if(this.buildId) {
-          repository.builds.whenLoaded(function() { repository.builds.select(this.buildId) }.bind(this));
+          repository.builds().whenLoaded(function() { repository.builds().select(this.buildId) }.bind(this));
         }
       }.bind(this)});
     } else {
       if(this.buildId) {
-        repository.builds.whenLoaded(function() { repository.builds.select(this.buildId) }.bind(this));
+        repository.builds().whenLoaded(function() { repository.builds().select(this.buildId) }.bind(this));
       }
     }
   },
   buildQueued: function(data) {
-    this.jobs.add({ name: data.name, number: data.last_build.number, id: data.last_build.id });
+    this.jobs.add({ name: data.name, number: data.build.number, id: data.build.id });
   },
   buildStarted: function(data) {
     this.repositories.update(data);
-    this.jobs.remove({ id: data.last_build.id });
+    this.jobs.remove({ id: data.build.id });
     if(this.followBuilds) {
       var repository = this.repositories.get(data.id);
       repository.select();
-      repository.builds.fetch({ success: function(builds) { builds.select(data.last_build.id) } });
+      repository.builds().fetch({ success: function(builds) { builds.select(data.build.id) } });
     }
   },
   buildFinished: function(data) {
@@ -4103,7 +4103,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   buildLogged: function(data) {
     var repository = this.repositories.get(data.id);
     if(!repository) return;
-    var build = repository.builds.get(data.last_build.id);
+    var build = repository.builds().get(data.build.id);
     if(!build) return;
     build.appendLog(data.log);
   }
@@ -4243,13 +4243,16 @@ Travis.Models.Repository = Travis.Models.Base.extend({
   initialize: function() {
     Travis.Models.Base.prototype.initialize.apply(this, arguments);
     _.bindAll(this, 'color', 'toJSON');
-    this.builds = new Travis.Collections.Builds([], { repository: this });
+  },
+  builds: function() {
+    return this._builds || (this._builds = new Travis.Collections.Builds([], { repository: this }));
   },
   set: function(attributes) {
     var build = attributes.build;
-    delete attributes.build;
+    // delete attributes.build;
     if(build) {
-      this.builds.set(build);
+      this.builds().set(build);
+      attributes.last_build = build;
     }
     Backbone.Model.prototype.set.apply(this, [attributes]);
   },
@@ -4274,6 +4277,7 @@ Travis.Collections.Repositories = Travis.Collections.Base.extend({
     return '/repositories' + Util.queryString(this.options);
   },
   update: function(attributes) {
+    attributes = _.extend(_.clone(attributes), { build: _.clone(attributes.build) });
     var repository = this.get(attributes.id);
     repository ? repository.set(attributes) : this.add(new Travis.Models.Repository(attributes));
   },
@@ -4386,8 +4390,7 @@ Travis.Views.Build.Build = Backbone.View.extend({
   },
   attachTo: function(repository) {
     this.repository = repository;
-    this.repository.builds.bind('select', this.update);
-    // this.repository.builds.whenLoaded(this.update);
+    this.repository.builds().bind('select', this.update);
   },
   update: function(build) {
     this.build = build;
@@ -4397,7 +4400,7 @@ Travis.Views.Build.Build = Backbone.View.extend({
     this.el.append(new Travis.Views.Build.Log({ model: this.build }).render().el);
   },
   setTab: function() {
-    $('a', this.el.prev()).attr('href', '!/' + this.build.repository.get('name') + builds).html('Build #' + this.build.get('number'));
+    $('a', this.el.prev()).attr('href', '!/' + this.build.repository.get('name') + 'builds').html('Build #' + this.build.get('number'));
   }
 });
 
@@ -4409,13 +4412,15 @@ Travis.Views.Build.Current = Travis.Views.Build.Build.extend({
   attachTo: function(repository) {
     this.repository = repository;
     this.setTab();
-    this.repository.builds.bind('load', this.update); // TODO
-    this.repository.builds.bind('refresh', this.update);
-    this.repository.builds.bind('add', this.update);
-    this.repository.builds.whenLoaded(this.update);
+
+    var builds = this.repository.builds();
+    builds.bind('load', this.update); // TODO
+    builds.bind('refresh', this.update);
+    builds.bind('add', this.update);
+    builds.whenLoaded(this.update);
   },
   update: function() {
-    this.build = this.repository.builds.first();
+    this.build = this.repository.builds().first();
     this.setTab();
     this.el.empty();
 
@@ -4481,18 +4486,20 @@ Travis.Views.Build.History.Table = Backbone.View.extend({
   },
   attachTo: function(repository) {
     this.repository = repository;
+    this.builds = repository.builds();
     this.setTab();
-    this.repository.builds.bind('refresh', this.update);
-    this.repository.builds.bind('load', this.update); // TODO
-    this.repository.builds.whenLoaded(this.update);
+
+    this.builds.bind('refresh', this.update);
+    this.builds.bind('load', this.update); // TODO
+    this.builds.whenLoaded(this.update);
   },
   buildAdded: function(build) {
     this.prependRow(build);
   },
   update: function() {
     this.$('tbody').empty();
-    this.repository.builds.each(this.appendRow);
-    this.repository.builds.bind('add', this.buildAdded);
+    this.builds.each(this.appendRow);
+    this.builds.bind('add', this.buildAdded);
   },
   appendRow: function(build) {
     this.$('tbody').append(this.renderRow(build));
