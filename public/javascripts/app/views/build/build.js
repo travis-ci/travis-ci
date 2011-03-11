@@ -5,8 +5,7 @@ Travis.Views.Build.Build = Backbone.View.extend({
   },
   attachTo: function(repository) {
     this.repository = repository;
-    this.repository.builds.bind('select', this.update);
-    // this.repository.builds.whenLoaded(this.update);
+    this.repository.builds().bind('select', this.update);
   },
   update: function(build) {
     this.build = build;
@@ -16,6 +15,6 @@ Travis.Views.Build.Build = Backbone.View.extend({
     this.el.append(new Travis.Views.Build.Log({ model: this.build }).render().el);
   },
   setTab: function() {
-    $('a', this.el.prev()).attr('href', '!/' + this.build.repository.get('name') + builds).html('Build #' + this.build.get('number'));
+    $('a', this.el.prev()).attr('href', '!/' + this.build.repository.get('name') + 'builds').html('Build #' + this.build.get('number'));
   }
 });
