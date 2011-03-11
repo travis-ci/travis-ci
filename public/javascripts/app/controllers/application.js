@@ -80,7 +80,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   buildStarted: function(data) {
     this.repositories.update(data);
     this.jobs.remove({ id: data.build.id });
-    if(this.followBuilds) {
+    if(this.followBuilds || this.repositories.selected().get('name') == data.name) {
       var repository = this.repositories.get(data.id);
       repository.select();
       repository.builds().select(data.build.id);

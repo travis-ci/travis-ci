@@ -4092,7 +4092,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   buildStarted: function(data) {
     this.repositories.update(data);
     this.jobs.remove({ id: data.build.id });
-    if(this.followBuilds) {
+    if(this.followBuilds || this.repositories.selected().get('name') == data.name) {
       var repository = this.repositories.get(data.id);
       repository.select();
       repository.builds().select(data.build.id);
@@ -4285,6 +4285,10 @@ Travis.Collections.Repositories = Travis.Collections.Base.extend({
     var repository = this.get(attributes.id);
     repository ? repository.set(attributes) : this.add(new Travis.Models.Repository(attributes));
   },
+  comparator: function(repository) {
+    console.log(repository.get('last_build').started_at)
+    return repository.get('last_build').started_at;
+  }
   // comparator: function(repository) {
   //   return repository.builds().last().get('started_at');
   // }
@@ -4694,7 +4698,7 @@ Travis.Views.Repositories.List = Backbone.View.extend({
   },
   update: function() {
     this.collection.each(function(element) {
-      this.el.append(this.renderItem(element));
+      this.el.prepend(this.renderItem(element));
     }.bind(this));
   },
   renderItem: function(element) {
