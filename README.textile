@@ -71,6 +71,7 @@ So, when using textile, showing your status button (including a link to your Tra
 bc. "!http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png!":http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME]
 
 Or if you're using markdown:
+
 bc. [![Build Status](http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png)](http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME])
 
 Travis' own status button looks like this: "!http://travis-ci.org/svenfuchs/travis.png!":http://travis-ci.org/svenfuchs/travis
