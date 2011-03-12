@@ -14,7 +14,9 @@ Travis.Views.Build.Log = Backbone.View.extend({
     this.el.deansi();
   },
   appendLog: function(chars) {
-    this.el.append(chars);
-    this.el.deansi();
+    if(chars) {
+      this.el.append(chars);
+      this.el.deansi();
+    }
   }
 });

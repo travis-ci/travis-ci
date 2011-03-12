@@ -34,6 +34,9 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.bind('build:finished', this.buildFinished);
     this.bind('build:log',      this.buildLogged);
     this.bind('build:queued',   this.buildQueued);
+
+    this.workers.fetch();
+    this.jobs.fetch();
   },
   recent: function() {
     this.reset();

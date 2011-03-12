@@ -4046,6 +4046,9 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.bind('build:finished', this.buildFinished);
     this.bind('build:log',      this.buildLogged);
     this.bind('build:queued',   this.buildQueued);
+
+    this.workers.fetch();
+    this.jobs.fetch();
   },
   recent: function() {
     this.reset();
@@ -4544,8 +4547,10 @@ Travis.Views.Build.Log = Backbone.View.extend({
     this.el.deansi();
   },
   appendLog: function(chars) {
-    this.el.append(chars);
-    this.el.deansi();
+    if(chars) {
+      this.el.append(chars);
+      this.el.deansi();
+    }
   }
 });
 
