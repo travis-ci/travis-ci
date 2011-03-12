@@ -13,8 +13,9 @@ module TravisRails
     config.encoding = "utf-8"
     config.filter_parameters += [:password]
 
-    # config.action_controller.logger = Logger.new(STDOUT)
+    config.action_controller.logger = Logger.new(STDOUT)
     config.serve_static_assets = true
+    config.action_controller.page_cache_directory = root.join('tmp/assets')
 
     ActiveRecord::Base.include_root_in_json = false
   end

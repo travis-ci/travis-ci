@@ -1,3 +1,4 @@
+package_path: javascripts
 compress_assets: off
 embed_assets: off
 gzip_assets: off
