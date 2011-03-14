@@ -6,7 +6,7 @@ Travis.Views.Repositories.Item = Backbone.View.extend({
     this.model.bind('change:duration', this.setDuration);
     this.model.bind('change:finished_at', this.setFinishedAt);
     this.model.bind('change:last_build', this.setLastBuild);
-    this.model.bind('change:selected', this.setSelected);
+    this.model.bind('select', this.setSelected);
 
     this.template = Travis.templates['repositories/item'];
   },
@@ -34,6 +34,6 @@ Travis.Views.Repositories.Item = Backbone.View.extend({
     this.el.updateTimes();
   },
   setSelected: function() {
-    this.model.get('selected') ? this.el.addClass('selected') : this.el.removeClass('selected');
+    this.model.selected ? this.el.addClass('selected') : this.el.removeClass('selected');
   }
 });

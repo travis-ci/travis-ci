@@ -36,6 +36,6 @@ Travis.Views.Build.Matrix.Table = Backbone.View.extend({
   },
   updateRow: function(build) {
     var view = new Travis.Views.Build.Matrix.Row({ model: build });
-    this.el.find('tbody').prepend(view.render().el);
+    this.el.find('tbody').append(view.render().el);
   },
 });

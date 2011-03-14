@@ -7,8 +7,8 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     '!/:username/:name/builds/:id': 'repositoryBuild',
   },
   initialize: function() {
-    _.bindAll(this, 'recent', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'reset', 'repositorySelected',
-      'buildQueued', 'buildStarted', 'buildLogged', 'buildFinished', 'selectBuild');
+    _.bindAll(this, 'recent', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'repositorySelected',
+      'buildQueued', 'buildStarted', 'buildLogged', 'buildFinished');
   },
   run: function() {
     this.repositories = new Travis.Collections.Repositories();
@@ -37,10 +37,13 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.workers.fetch();
     this.jobs.fetch();
   },
+
+  // actions
+
   recent: function() {
     this.reset();
     this.tab = 'current';
-    this.repositories.whenFetched(this.repositories.selectLast); // TODO currently whenFetched doesn't actually do anything useful
+    this.repositories.whenFetched(this.repositories.selectLast);
     this.selectTab();
     this.followBuilds = true;
   },
@@ -69,12 +72,11 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.followBuilds = false;
   },
   repositorySelected: function(repository) {
-    if(repository.builds().length == 0) { // TODO collection might be empty. maintain collection.loaded or something
-      repository.builds().fetch({ success: function() { this.selectBuild(repository) }.bind(this) });
-    } else {
-      this.selectBuild(repository);
-    }
+    repository.builds().whenFetched(function(builds) { if(this.buildId) { builds.select(this.buildId); } }.bind(this));
   },
+
+  // external events
+
   buildQueued: function(data) {
     this.jobs.add({ number: data.build.number, id: data.build.id, repository: { name: data.name } });
   },
@@ -100,13 +102,5 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   selectTab: function() {
     this.repositoryShow.activateTab(this.tab);
   },
-  selectBuild: function(repository) {
-    if(this.buildId) {
-      repository.builds().whenFetched(function(builds) { builds.select(this.buildId) }.bind(this));
-    } else if(this.tab == 'current') {
-      var build = repository.builds().last();
-      if(build) { build.select(); }
-    }
-  }
 });
 
