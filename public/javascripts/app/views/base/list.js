@@ -11,8 +11,8 @@ Travis.Views.Base.List = Backbone.View.extend({
     }, this.selectors || {});
 
     this.templates = _.extend({
-      list: Travis.app.templates[this.name + '/list'],
-      item: Travis.app.templates[this.name + '/item']
+      list: Travis.templates[this.name + '/list'],
+      item: Travis.templates[this.name + '/item']
     }, this.templates || {});
 
     this.collection_events = _.extend({
@@ -64,7 +64,7 @@ Travis.Views.Base.List = Backbone.View.extend({
     _.each(events, function(callback, name) { target.unbind(name); }.bind(this));
   },
   _renderItem: function(item) {
-    $(this.selectors.list).prepend($(this.templates.item(item.toJSON())));
+    $('.empty', this.selectors.list).before($(this.templates.item(item.toJSON())));
   },
   _renderItems: function() {
     $('*:not(.empty)', this.selectors.list).remove();

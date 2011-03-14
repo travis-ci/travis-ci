@@ -14,6 +14,7 @@ var jsApiReporter;
 
   window.onload = function() {
     jasmineEnv.execute();
+    $('body').append($('<div id="jasmine_content"></div>'));
   };
 })();
 

@@ -4,7 +4,7 @@ Travis.Views.Repository.Show = Backbone.View.extend({
     _.extend(this, this.options);
     _.bindAll(this, 'render', 'attachTo', 'createTab', 'renderTab', 'activateTab', 'repositorySelected');
 
-    this.template = Travis.app.templates['repository/show'];
+    this.template = Travis.templates['repository/show'];
     _.each(['current', 'history', 'build'], this.createTab);
   },
   render: function() {

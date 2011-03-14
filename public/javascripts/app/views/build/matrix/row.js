@@ -6,7 +6,7 @@ Travis.Views.Build.Matrix.Row = Backbone.View.extend({
     this.model.bind('change:duration', this.setDuration);
     this.model.bind('change:finished_at', this.setFinishedAt);
 
-    this.template = Travis.app.templates['build/matrix/row'];
+    this.template = Travis.templates['build/matrix/row'];
   },
   render: function() {
     this.el = $(this.template(this.model.toJSON()));

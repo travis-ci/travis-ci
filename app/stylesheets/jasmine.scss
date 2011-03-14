@@ -153,8 +153,9 @@
 
 
 #jasmine_content {
-  position:fixed;
-  right: 100%;
+  position: absolute;
+  top: 30px;
+  width: 100%;
 }
 
 .runner {

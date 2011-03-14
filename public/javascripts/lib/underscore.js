@@ -5,7 +5,7 @@ _.mixin({
     });
   },
   capitalize: function(string) {
-    return string.charAt(0).toUpperCase() + string.substring(1);
+    return string[0].toUpperCase() + string.substring(1);
   }
 });
 

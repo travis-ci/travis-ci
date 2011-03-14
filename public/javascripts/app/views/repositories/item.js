@@ -8,7 +8,7 @@ Travis.Views.Repositories.Item = Backbone.View.extend({
     this.model.bind('change:last_build', this.setLastBuild);
     this.model.bind('change:selected', this.setSelected);
 
-    this.template = Travis.app.templates['repositories/item'];
+    this.template = Travis.templates['repositories/item'];
   },
   render: function() {
     this.el = $(this.template(this.model.toJSON()));

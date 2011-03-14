@@ -25,6 +25,12 @@ td, th {
   padding: 5px 10px;
   vertical-align: top;
 }
+caption {
+  text-align: left;
+  font-size: 16px;
+  font-weight: bold;
+  color: #666;
+}
 
 /* layout */
 
@@ -361,7 +367,11 @@ td, th {
     color: lime;
   }
   #matrix {
-    margin-left: -12px;
+    margin: 20px 0 0 -12px;
+  }
+  #matrix caption {
+    margin-left: 12px;
+    margin-bottom: 8px;
   }
   #builds {
     width: 100%;

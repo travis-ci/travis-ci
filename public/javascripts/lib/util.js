@@ -1,7 +1,7 @@
 Util = {
   loadTemplates: function() {
     var templates = {};
-    $('*[type=text/x-js-template]').map(function() {
+    $('*[type="text/x-js-template"]').map(function() {
       var name = $(this).attr('name');
       var source = $(this).html().replace('&gt;', '>');
       if(name.split('/')[1][0] == '_') { Handlebars.registerPartial(name.replace('/', ''), source) }

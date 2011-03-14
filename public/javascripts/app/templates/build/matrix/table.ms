@@ -1,6 +1,5 @@
-<h4>Build Matrix</h4>
-
 <table id="matrix">
+  <caption>Build Matrix</caption>
   <thead>
     <tr>
       <th>Build</th>
@@ -13,4 +12,4 @@
   </thead>
   <tbody>
   </tbody>
-</trable>
+</table>
