@@ -40,27 +40,27 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   recent: function() {
     this.reset();
     this.tab = 'current';
-    this.repositories.whenLoaded(this.repositories.selectLast); // TODO currently whenLoaded doesn't actually do anything useful
+    this.repositories.whenFetched(this.repositories.selectLast); // TODO currently whenFetched doesn't actually do anything useful
     this.selectTab();
     this.followBuilds = true;
   },
   repository: function(username, name) {
     this.reset();
     this.tab = 'current';
-    this.repositories.whenLoaded(function(repositories) { repositories.selectBy({ name: username + '/' + name }) });
+    this.repositories.whenFetched(function(repositories) { repositories.selectBy({ name: username + '/' + name }) });
     this.selectTab();
   },
   repositoryHistory: function(username, name) {
     this.reset();
     this.tab = 'history';
-    this.repositories.whenLoaded(function(repositories) { repositories.selectBy({ name: username + '/' + name }) });
+    this.repositories.whenFetched(function(repositories) { repositories.selectBy({ name: username + '/' + name }) });
     this.selectTab();
   },
   repositoryBuild: function(username, name, buildId) {
     this.reset();
     this.tab = 'build';
     this.buildId = parseInt(buildId);
-    this.repositories.whenLoaded(function(repositories) { repositories.selectBy({ name: username + '/' + name }) });
+    this.repositories.whenFetched(function(repositories) { repositories.selectBy({ name: username + '/' + name }) });
     this.selectTab();
   },
   reset: function() {
@@ -102,7 +102,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   },
   selectBuild: function(repository) {
     if(this.buildId) {
-      repository.builds().whenLoaded(function(builds) { builds.select(this.buildId) }.bind(this));
+      repository.builds().whenFetched(function(builds) { builds.select(this.buildId) }.bind(this));
     } else if(this.tab == 'current') {
       var build = repository.builds().last();
       if(build) { build.select(); }
