@@ -1851,6 +1851,7 @@ sinon.fakeServer = (function () {
         var url = response.url;
         var matchUrl = !url || url == reqUrl || (typeof url.test == "function" && url.test(reqUrl));
 
+        // console.log([matchUrl, reqUrl, url, response])
         return matchMethod && matchUrl;
     }
 
@@ -1949,12 +1950,11 @@ sinon.fakeServer = (function () {
 
         respond: function respond() {
             var queue = this.queue || [];
+            var request;
 
-            for (var i = 0, l = queue.length; i < l; i++) {
-                this.processRequest(queue[i]);
+            while(request = queue.shift()) {
+                this.processRequest(request);
             }
-
-            this.queue = [];
         },
 
         processRequest: function processRequest(request) {

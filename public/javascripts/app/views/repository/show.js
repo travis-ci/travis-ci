@@ -7,15 +7,20 @@ Travis.Views.Repository.Show = Backbone.View.extend({
     this.template = Travis.templates['repository/show'];
     _.each(['current', 'history', 'build'], this.createTab);
   },
+  detach: function() {
+    if(this.collection) {
+      this.collection.unbind('select', this.repositorySelected);
+    }
+  },
+  attachTo: function(collection) {
+    this.collection = collection;
+    this.collection.bind('select', this.repositorySelected);
+  },
   render: function() {
     this.el.html($(this.template({})));
     this.el.addClass('loading');
     _.each(this.tabs, this.renderTab);
     return this;
-  },
-  attachTo: function(collection) {
-    this.collection = collection;
-    this.collection.bind('select', this.repositorySelected);
   },
   createTab: function(name) {
     this.tabs[name] = new Travis.Views.Repository.Tab({ name: name });

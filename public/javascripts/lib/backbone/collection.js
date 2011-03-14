@@ -1,4 +1,6 @@
 Travis.Collections.Base = Backbone.Collection.extend({
+  fetched: false,
+  fetching: false,
   initialize: function() {
     Backbone.Collection.prototype.initialize.apply(this, arguments);
     _.bindAll(this, 'whenFetched', 'selectLast', 'selectBy', 'select', 'deselect', 'getOrFetchLast', 'getOrFetchLastBy', 'getBy');
@@ -11,18 +13,18 @@ Travis.Collections.Base = Backbone.Collection.extend({
       success: function() {
         if(options.success) options.success.apply(this, arguments);
         collection.finishFetching();
-      },
+      }.bind(this),
       error: function() {
         if(options.error) options.error.apply(this, arguments);
         collection.finishFetching();
-      }
+      }.bind(this)
     });
   },
   whenFetched: function(callback, options) {
-    if(!this.loaded || this.loading) {
-      var collection = this;
-      this.bind('loaded', function() { this.unbind('loaded'); return callback(collection, options); });
-      if(!this.loading) this.fetch();
+    if(!this.fetched || this.fetching) {
+      var _callback = function() { this.unbind('fetched', _callback); return callback(this, options); }.bind(this);
+      this.bind('fetched', _callback);
+      if(!this.fetching) this.fetch();
     } else {
       callback(this, options);
     }
@@ -72,13 +74,13 @@ Travis.Collections.Base = Backbone.Collection.extend({
     });
   },
   startFetching: function() {
-    this.loading = true;
-    this.trigger('load');
+    this.fetching = true;
+    this.trigger('fetch');
   },
   finishFetching: function() {
-    this.trigger('loaded');
-    this.loaded = true;
-    this.loading = false;
+    this.trigger('fetched');
+    this.fetched = true;
+    this.fetching = false;
   },
 });
 
