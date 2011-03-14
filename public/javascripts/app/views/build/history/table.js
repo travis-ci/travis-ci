@@ -25,7 +25,6 @@ Travis.Views.Build.History.Table = Backbone.View.extend({
     this.builds.bind('add', this.buildAdded);
 
     if(this.parent) this.parent.setTab();
-    this.builds.whenLoaded(this.update);
   },
   render: function() {
     this.el = $(this.template({}));
