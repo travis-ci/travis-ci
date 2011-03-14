@@ -1,6 +1,7 @@
 var Travis = {
   Controllers: {}, Collections: {}, Helpers: {}, Models: {}, Views: { Base: {}, Build: { History: {}, Matrix: {} }, Jobs: {}, Repositories: {}, Repository: {}, Workers: {} },
   start: function() {
+    Travis.templates = Util.loadTemplates();
     Backbone.history = new Backbone.History;
     Travis.app = new Travis.Controllers.Application();
     Travis.app.run();
@@ -15,9 +16,9 @@ var Travis = {
   }
 };
 
-if(!INIT_DATA) {
-  var INIT_DATA = {};
-}
+// if(!INIT_DATA) {
+//   var INIT_DATA = {};
+// }
 
 $(document).ready(function() {
   if(!window.__TESTING__ && $('#application').length == 1) {
@@ -26,13 +27,15 @@ $(document).ready(function() {
     var channels = ['repositories', 'jobs'];
     // _.map(INIT_DATA.repositories || [], function(repository) { channels.push('repository_' + repository.id); });
     _.each(channels, function(channel) { pusher.subscribe(channel).bind_all(Travis.trigger); })
+  } else {
+    Travis.templates = Util.loadTemplates();
   }
 
   $('#profile').click(function() { $('#profile_menu').toggle(); });
   $('.tool-tip').tipsy({ gravity: 'n', fade: true });
 
   if(env == 'development') {
-    $('#jobs').after(Travis.app.templates['tools/events']());
+    $('#jobs').after(Travis.templates['tools/events']());
     var events = {
       'build:queued':   { 'build': { 'id': 4, 'number': 46, 'repository': { 'name': 'travis-ci/travis-ci' } } },
       // 'build:started':  { 'build': { 'id': 4, 'number': 1, 'repository': { 'name': 'travis-ci/travis-ci', 'id': 3 }, 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'started_at': '2011-03-10T19: 07: 24+01: 00' } },

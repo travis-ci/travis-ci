@@ -5,9 +5,9 @@ Travis.Collections.Base = Backbone.Collection.extend({
   },
   whenLoaded: function(callback, options) {
     if(this.loading) {
-      this.bind('loaded', function() { this.unbind('loaded'); callback(options); }.bind(this));
+      this.bind('loaded', function() { this.unbind('loaded'); callback(this, options); }.bind(this));
     } else {
-      callback(options);
+      callback(this, options);
     }
   },
   select: function(id) {

@@ -121,7 +121,7 @@
       %>
       <script name="<%= name %>" type="text/x-js-template"><%= template.html_safe %></script>
     <% end %>
-    <% if Rails.env.jasmine? %>
+    <% if false && Rails.env.jasmine? %>
       <% javascript_tag do %>
         var INIT_DATA = {
           repositories: <%= Repository.timeline.as_json.to_json.html_safe %>,

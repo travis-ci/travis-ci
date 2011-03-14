@@ -1,37 +1,55 @@
 Travis.Views.Build.History.Table = Backbone.View.extend({
   initialize: function() {
-    _.bindAll(this, 'render', 'attachTo', 'buildAdded', 'update', 'prependRow', 'renderRow', 'setTab');
+    _.bindAll(this, 'render', 'detach', 'attachTo', 'buildAdded', 'update', 'prependRow');
     _.extend(this, this.options);
-    this.template = Travis.app.templates['build/history/table'];
+    this.template = Travis.templates['build/history/table'];
+
+    if(this.repository) {
+      this.attachTo(this.repository);
+    }
   },
-  render: function() {
-    this.el.html($(this.template({})));
-    return this;
+  detach: function() {
+    if(this.builds) {
+      this.builds.unbind('refresh');
+      this.builds.unbind('add');
+      delete this.repository;
+      delete this.builds;
+    }
   },
   attachTo: function(repository) {
+    this.detach();
     this.repository = repository;
     this.builds = repository.builds();
-    this.setTab();
 
     this.builds.bind('refresh', this.update);
-    this.builds.bind('load', this.update); // TODO
+    this.builds.bind('add', this.buildAdded);
+
+    if(this.parent) this.parent.setTab();
     this.builds.whenLoaded(this.update);
+  },
+  render: function() {
+    this.el = $(this.template({}));
+    this.update();
+    return this;
+  },
+  update: function() {
+    this.el.find('tbody').empty();
+    this.renderRows();
+    if(this.parent && this.repository) this.parent.setTab();
   },
   buildAdded: function(build) {
     this.prependRow(build);
   },
-  update: function() {
-    this.$('tbody').empty();
-    this.builds.each(this.prependRow);
-    this.builds.bind('add', this.buildAdded);
+  renderRows: function() {
+    if(this.builds) {
+      this.builds.each(this.prependRow);
+    }
   },
   prependRow: function(build) {
-    this.$('tbody').prepend(this.renderRow(build));
+    var row = new Travis.Views.Build.History.Row({ model: build }).render().el;
+    this.el.find('tbody').prepend(row);
   },
-  renderRow: function(build) {
-    return new Travis.Views.Build.History.Row({ model: build }).render().el;
+  tab: function() {
+    return { url: '#!/' + this.repository.get('name') + '/builds', caption: 'Build History' };
   },
-  setTab: function() {
-    $('a', this.el.prev()).attr('href', '#!/' + this.repository.get('name') + '/builds');
-  }
 });

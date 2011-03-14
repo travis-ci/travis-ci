@@ -4,7 +4,7 @@ Travis.Models.Build = Travis.Models.Base.extend({
     _.bindAll(this, 'set', 'url', 'commit', 'color', 'duration', 'eta', 'toJSON');
     _.extend(this, options);
 
-    this.repository = this.repository || this.collection.repository;
+    this.repository = this.repository || (this.collection ? this.collection.repository : undefined);
 
     if(this.attributes.matrix) {
       this.matrix = new Travis.Collections.Builds(this.attributes.matrix, { repository: this.repository });
@@ -90,7 +90,7 @@ Travis.Collections.Builds = Travis.Collections.Base.extend({
     return '/repositories/' + this.repository.id + '/builds' + Util.queryString(this.args);
   },
   dimensions: function() {
-    return this.models[0] ? _.keys(this.models[0].get('config')) : [];
+    return this.models[0] ? _(this.models[0].get('config')).keys().map(function(key) { return _.capitalize(key) }) : [];
   },
   comparator: function(build) {
     return build.get('number');

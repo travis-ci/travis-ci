@@ -2,11 +2,27 @@ Travis.Views.Build.History.Row = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, 'render', 'setStatus', 'setDuration', 'setFinishedAt', 'setLastBuild', 'setSelected');
 
+    this.template = Travis.templates['build/history/row'];
+
+    if(this.model) {
+      this.attachTo(this.model);
+    }
+  },
+  detach: function() {
+    if(this.model) {
+      this.model.unbind('change:status');
+      this.model.unbind('change:duration');
+      this.model.unbind('change:finished_at');
+      delete this.model;
+    }
+  },
+  attachTo: function(model) {
+    this.detach();
+
+    this.model = model;
     this.model.bind('change:status', this.setStatus);
     this.model.bind('change:duration', this.setDuration);
     this.model.bind('change:finished_at', this.setFinishedAt);
-
-    this.template = Travis.app.templates['build/history/row'];
   },
   render: function() {
     this.el = $(this.template(this.model.toJSON()));

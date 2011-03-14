@@ -2,17 +2,19 @@ var __TESTING__ = true
 
 beforeEach(function() {
   window.location.hash = '';
-  Travis.start();
+  // Travis.start();
   // Backbone.history.loadUrl();
 
-  this.left = $('#left').html();
-  this.main = $('#main').html();
+  $('#jasmine_content').empty();
+  $('#left, #main, #right').empty();
+  // this.left = $('#left').html();
+  // this.main = $('#main').html();
   // this.hash = window.location.hash;
 });
 
 afterEach(function() {
-  $('#left').html(this.left);
-  $('#main').html(this.main);
+  // $('#left').html(this.left);
+  // $('#main').html(this.main);
   // window.location.hash = this.hash;
 });
 
@@ -40,3 +42,4 @@ var normalizeHash = function(hash) {
   hash = '#!/' + hash.replace('#!/', '').replace(/^\//, '');
   return hash.replace(/#|!|\//) == '' ? '' : hash;
 }
+

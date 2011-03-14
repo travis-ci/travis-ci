@@ -6,10 +6,6 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 module TravisRails
   class Application < Rails::Application
     config.autoload_paths << config.paths.app.views.to_a.first
-    config.action_view.javascript_expansions = {
-      :jasmine => %w(tests/vendor/jasmine tests/vendor/jasmine-html)
-    }
-
     config.encoding = "utf-8"
     config.filter_parameters += [:password]
 

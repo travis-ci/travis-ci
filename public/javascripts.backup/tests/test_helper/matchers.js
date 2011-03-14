@@ -4,7 +4,10 @@ beforeEach(function() {
       return this.actual.match(pattern);
     },
     toBeEmpty: function() {
-      return this.actual.children().size() == 0;
+      return this.actual.length == 0;
+    },
+    toNotBeEmpty: function() {
+      return this.actual.length > 0;
     }
   });
 });
