@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  before_filter :set_gitsha_header
   after_filter :prepare_unobtrusive_flash
 
   def index
@@ -27,4 +28,8 @@ class ApplicationController < ActionController::Base
       end
     end
     helper_method :jobs
+
+    def set_gitsha_header
+      headers['X-Gitsha'] = TravisRails::Application::GIT_SHA
+    end
 end
