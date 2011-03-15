@@ -10,8 +10,8 @@ describe('Views: the build history table view', function() {
 
   it('renders the build history', function() {
     expect(this.history.el).toMatchTable([
-      ['Build', 'Commit',  'Message',              ], // FIXME  'Duration', 'Finished'
-      ['3',     'add057e', 'unignore Gemfile.lock' ], //        '20 sec',   /\d+ months ago/
+      ['Build', 'Commit',  'Message',              ],
+      ['3',     'add057e', 'unignore Gemfile.lock' ],
       ['2',     '91d1b7b', 'Bump to 0.0.22'        ],
       ['1',     '1a738d9', 'add Gemfile'           ]
     ]);

@@ -21,6 +21,7 @@ Travis.Views.Build.Summary = Backbone.View.extend({
   },
   render: function() {
     this.el = $(this.template(this.model.toJSON()));
+    this.el.updateTimes();
     return this;
   },
   setStatus: function() {

@@ -1,8 +1,19 @@
+It probably would make sense to refactor to use both "global" and "local" collections. Or maybe even
+omit the local collections entirely and just reference models using an array of ids there.
+
+E.g. a global collection of Builds could just store all builds that ever were downloaded to the client.
+A build/show view could use models retrieved from this global collection.
+
+This should greatly reduce complexity and fix complicated situations where a matrix child build is
+referenced through a shallow route /repo/builds/:id and it's hard to look this (currently bound) model
+up when an external event comes in for this model.
+
+--------------------------------------------------------------------------------------
+
 Unless i'm still not getting it `attachTo` should happen after the element has been rendered (i.e.
 at least created) because otherwise an event could be triggered and the element is then missing.
 
 This currently isn't actually implemented across all views.
-
 
 --------------------------------------------------------------------------------------
 

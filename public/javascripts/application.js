@@ -1,7 +1,7 @@
 var Travis = {
   Controllers: {}, Collections: {}, Helpers: {}, Models: {}, Views: { Base: {}, Build: { History: {}, Matrix: {} }, Jobs: {}, Repositories: {}, Repository: {}, Workers: {} },
   start: function() {
-    Travis.templates = Util.loadTemplates();
+    Travis.templates = Utils.loadTemplates();
     Backbone.history = new Backbone.History;
     Travis.app = new Travis.Controllers.Application();
     Travis.app.run();
@@ -28,7 +28,7 @@ $(document).ready(function() {
     // _.map(INIT_DATA.repositories || [], function(repository) { channels.push('repository_' + repository.id); });
     _.each(channels, function(channel) { pusher.subscribe(channel).bind_all(Travis.trigger); })
   } else {
-    Travis.templates = Util.loadTemplates();
+    Travis.templates = Utils.loadTemplates();
   }
 
   $('#profile').click(function() { $('#profile_menu').toggle(); });
@@ -42,7 +42,7 @@ $(document).ready(function() {
       'build:started':  { 'build': { 'id': 9, 'number': 4, 'repository': { 'name': 'svenfuchs/minimal', 'id': 1 }, 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'started_at': '2011-03-10T19: 07: 24+01: 00' } },
       'build:log':      { 'build': { 'id': 8, 'repository': { 'id': 2 } }, 'log': '$ git clean -fdx' },
       // 'build:log':      { 'build': { 'id': 1, 'repository': { 'id': 1 } }, 'log': '$ git clean -fdx' },
-      'build:finished': { 'build': { 'id': 9, 'number': 4, 'repository': { 'name': 'svenfuchs/minimal', 'last_duration': null, 'url': 'https: //github.com/svenfuchs/minimal', 'id': 1 }, 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'committed_at': '2011-03-10T17: 18: 27Z', 'finished_at': '2011-03-10T19: 07: 47+01: 00', 'status': 0 } },
+      'build:finished': { 'build': { 'id': 9, 'number': 4, 'repository': { 'name': 'svenfuchs/minimal', 'last_duration': null, 'url': 'https: //github.com/svenfuchs/minimal', 'id': 1 }, 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'committed_at': '2011-03-10T17: 18: 27Z', 'finished_at': '2011-03-10T19:07:47+01:00', 'status': 0 } },
     };
     _.each(events, function(data, event) {
       $('#' + event.replace(':', '_')).click(function(e) {

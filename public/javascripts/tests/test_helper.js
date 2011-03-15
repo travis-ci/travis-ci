@@ -12,9 +12,12 @@ beforeEach(function() {
   $('#jasmine_content').empty();
   storeElements();
   serveFixtures();
+
+  jasmine.clock = sinon.useFakeTimers(Date.parse('2010-11-12T17:00:30Z'), 'Date');
 });
 
 afterEach(function() {
+  jasmine.clock.restore();
 });
 
 var loadJson = function(paths) {
