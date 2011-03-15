@@ -50,20 +50,20 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   repository: function(username, name) {
     this.reset();
     this.tab = 'current';
-    this.repositories.whenFetched(function(repositories) { repositories.selectBy({ name: username + '/' + name }) });
+    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ name: username + '/' + name }) });
     this.selectTab();
   },
   repositoryHistory: function(username, name) {
     this.reset();
     this.tab = 'history';
-    this.repositories.whenFetched(function(repositories) { repositories.selectBy({ name: username + '/' + name }) });
+    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ name: username + '/' + name }) });
     this.selectTab();
   },
   repositoryBuild: function(username, name, buildId) {
     this.reset();
     this.tab = 'build';
     this.buildId = parseInt(buildId);
-    this.repositories.whenFetched(function(repositories) { repositories.selectBy({ name: username + '/' + name }) });
+    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ name: username + '/' + name }) });
     this.selectTab();
   },
   reset: function() {

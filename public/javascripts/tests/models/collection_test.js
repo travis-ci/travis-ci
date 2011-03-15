@@ -62,8 +62,8 @@ describe('Collection:', function() {
       expect(this.collection.last().selected).toBeTruthy();
     });
 
-    it('selectBy: selects the model by the given attributes', function() {
-      this.collection.selectBy({ number: 1 });
+    it('selectLastBy: selects the model by the given attributes', function() {
+      this.collection.selectLastBy({ number: 1 });
       expect(this.collection.get(1).selected).toBeTruthy();
     });
 
@@ -99,8 +99,8 @@ describe('Collection:', function() {
       expect(this.collection.last().selected).toBeTruthy();
     });
 
-    it('selectBy: selects the model by the given attributes', function() {
-      this.collection.selectBy({ number: 1 });
+    it('selectLastBy: selects the model by the given attributes', function() {
+      this.collection.selectLastBy({ number: 1 });
       this.server.respond();
       expect(this.collection.get(1).selected).toBeTruthy();
     });
