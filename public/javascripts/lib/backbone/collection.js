@@ -3,7 +3,7 @@ Travis.Collections.Base = Backbone.Collection.extend({
   fetching: false,
   initialize: function() {
     Backbone.Collection.prototype.initialize.apply(this, arguments);
-    _.bindAll(this, 'whenFetched', 'selectLast', 'selectBy', 'select', 'deselect', 'getOrFetchLast', 'getOrFetchLastBy', 'getBy');
+    _.bindAll(this, 'whenFetched', 'select', 'selectLast', 'selectLastBy', 'deselect', 'getOrFetchLast', 'getOrFetchLastBy', 'getBy');
   },
   fetch: function(options) {
     options = options || {};
@@ -38,7 +38,7 @@ Travis.Collections.Base = Backbone.Collection.extend({
   selectLast: function() {
     this.getOrFetchLast(function(element) { if(element) element.select(); })
   },
-  selectBy: function(options) {
+  selectLastBy: function(options) {
     this.getOrFetchLastBy(options, function(element) { if(element) element.select(); });
   },
   deselect: function() {
