@@ -14,7 +14,7 @@ Travis.Views.Build.Build = Backbone.View.extend({
   attachTo: function(repository) {
     this.detach();
     this.repository = repository;
-    this.repository.builds().bind('select', this.buildSelected);
+    this.repository.builds.bind('select', this.buildSelected);
 
     if(this.parent) this.parent.setTab();
   },

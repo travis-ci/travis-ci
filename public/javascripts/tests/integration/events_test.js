@@ -38,7 +38,7 @@ describe('Events:', function() {
       beforeEach(function() {
         goTo('/');
         waitsFor(repositoriesFetched());
-        runs(function() { Travis.app.repositories.get(2).builds().fetch(); }); // required so we can assert the new build was added, because the fixtures don't contain it
+        runs(function() { Travis.app.repositories.get(2).builds.fetch(); }); // required so we can assert the new build was added, because the fixtures don't contain it
 
         trigger('build:queued', EVENT_PAYLOADS['build:queued']);
         trigger('build:started', EVENT_PAYLOADS['build:started:1']);
@@ -54,7 +54,7 @@ describe('Events:', function() {
 
       it('adds the build to the repository builds collection', function() {
         var repository = Travis.app.repositories.get(2);
-        var build = repository.builds().get(10);
+        var build = repository.builds.get(10);
         expect(build.get('number')).toEqual(2);
       });
 
@@ -76,7 +76,7 @@ describe('Events:', function() {
 
       it('adds the repository to the repositories collection and adds build to its builds collection', function() {
         var repository = Travis.app.repositories.get(3);
-        var build = repository.builds().get(11);
+        var build = repository.builds.get(11);
         expect(repository.get('name')).toEqual('travis-ci/travis-ci')
         expect(build.get('number')).toEqual(1);
       });

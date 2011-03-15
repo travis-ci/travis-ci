@@ -34,10 +34,10 @@ var expectRepositoryView = function(options) {
     expect('#left #repositories li:nth-child(2)').toListRepository({ name: 'josevalim/enginex', build: 1, color: 'red', selected: position == 2 });
   });
 
-  waitsFor(function() { return repository.builds().fetched; });
+  waitsFor(function() { return repository.builds.fetched; });
 
   runs(function() {
-    var build = repository.builds().get(options.build);
+    var build = repository.builds.get(options.build);
 
     expect('#main .repository h3').toHaveText(repository.get('name'));
     expect('#main .repository').toShowActiveTab(options.tab);
