@@ -3,7 +3,7 @@
   {{#each config}}
     <td>{{value}}</td>
   {{/each}}
-  <td>{{finished_at}}</td>
-  <td>{{duration}}</td>
+  <td class="finished_at timeago" title="{{finished_at}}">-</td>
+  <td class="duration" title="{{duration}}">-</td>
 </tr>
 

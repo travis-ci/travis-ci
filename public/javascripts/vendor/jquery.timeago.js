@@ -3,7 +3,7 @@
  * @requires jQuery v1.2.3 or later
  *
  * Timeago is a jQuery plugin that makes it easy to support automatically
- * updating fuzzy timestamps (e.g. "4 minutes ago" or "about 1 day ago").
+ * updating fuzzy timestamps (e.g. '4 minutes ago' or 'about 1 day ago').
  *
  * For usage and examples, visit:
  * http://timeago.yarp.com/
@@ -16,7 +16,7 @@
 (function($) {
   $.timeago = function(timestamp) {
     if (timestamp instanceof Date) return inWords(timestamp);
-    else if (typeof timestamp == "string") return inWords($.timeago.parse(timestamp));
+    else if (typeof timestamp == 'string') return inWords($.timeago.parse(timestamp));
     else return inWords($.timeago.datetime(timestamp));
   };
   var $t = $.timeago;
@@ -28,21 +28,24 @@
       strings: {
         prefixAgo: null,
         prefixFromNow: null,
-        suffixAgo: "ago",
-        suffixFromNow: "from now",
-        seconds: "less than a minute",
-        minute: "about a minute",
-        minutes: "%d minutes",
-        hour: "about an hour",
-        hours: "about %d hours",
-        day: "a day",
-        days: "%d days",
-        month: "about a month",
-        months: "%d months",
-        year: "about a year",
-        years: "%d years",
+        suffixAgo: 'ago',
+        suffixFromNow: 'from now',
+        seconds: 'less than a minute',
+        minute: 'about a minute',
+        minutes: '%d minutes',
+        hour: 'about an hour',
+        hours: 'about %d hours',
+        day: 'a day',
+        days: '%d days',
+        month: 'about a month',
+        months: '%d months',
+        year: 'about a year',
+        years: '%d years',
         numbers: []
       }
+    },
+    distanceInWords: function(date) {
+      return $.timeago.inWords($.timeago.distance(date));
     },
     inWords: function(distanceMillis) {
       var $l = this.settings.strings;
@@ -80,52 +83,37 @@
         years < 2 && substitute($l.year, 1) ||
         substitute($l.years, Math.floor(years));
 
-      return $.trim([prefix, words, suffix].join(" "));
+      return $.trim([prefix, words, suffix].join(' '));
+    },
+    distance: function(date) {
+      return (new Date().getTime() - date.getTime());
     },
     parse: function(iso8601) {
       var s = $.trim(iso8601);
-      s = s.replace(/\.\d\d\d+/,""); // remove milliseconds
-      s = s.replace(/-/,"/").replace(/-/,"/");
-      s = s.replace(/T/," ").replace(/Z/," UTC");
-      s = s.replace(/([\+-]\d\d)\:?(\d\d)/," $1$2"); // -04:00 -> -0400
+      s = s.replace(/\.\d\d\d+/,''); // remove milliseconds
+      s = s.replace(/-/,'/').replace(/-/,'/');
+      s = s.replace(/T/,' ').replace(/Z/,' UTC');
+      s = s.replace(/([\+-]\d\d)\:?(\d\d)/,' $1$2'); // -04:00 -> -0400
       return new Date(s);
-    },
-    datetime: function(elem) {
-      // jQuery's `is()` doesn't play well with HTML5 in IE
-      var isTime = $(elem).get(0).tagName.toLowerCase() == "time"; // $(elem).is("time");
-      var iso8601 = isTime ? $(elem).attr("datetime") : $(elem).attr("title");
-      return $t.parse(iso8601);
     }
   });
 
   $.fn.timeago = function() {
-    var self = this;
-    self.each(refresh);
-
-    var $s = $t.settings;
-    if ($s.refreshMillis > 0 && !$s.running) {
-      $s.running = true;
-      setInterval(function() { self.each(refresh); }, $s.refreshMillis);
-    }
-    return self;
-  };
-
-  function refresh() {
-    var data = prepareData(this);
-    if (!isNaN(data.datetime)) {
-      $(this).text(inWords(data.datetime));
-    }
+    this.each(function() {
+      var data = prepareData(this);
+      if (!isNaN(data.datetime)) {
+        $(this).text(inWords(data.datetime));
+      }
+    });
     return this;
-  }
+  };
 
   function prepareData(element) {
     element = $(element);
-    if (!element.data("timeago")) {
-      element.data("timeago", { datetime: $t.datetime(element) });
-      var text = $.trim(element.text());
-      if (text.length > 0) element.attr("title", text);
+    if (!element.data('timeago') || (element.data('timeago').title != element.attr('title'))) {
+      element.data('timeago', { datetime: $t.parse(element.attr('title')), title: element.attr('title') });
     }
-    return element.data("timeago");
+    return element.data('timeago');
   }
 
   function inWords(date) {
@@ -133,11 +121,11 @@
   }
 
   function distance(date) {
-    return (new Date().getTime() - date.getTime());
+    return $t.distance(date);
   }
 
   // fix for IE6 suckage
-  document.createElement("abbr");
-  document.createElement("time");
+  document.createElement('abbr');
+  document.createElement('time');
 })(jQuery);
 

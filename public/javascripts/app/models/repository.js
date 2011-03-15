@@ -13,6 +13,11 @@ Travis.Models.Repository = Travis.Models.Base.extend({
       this.builds.set(build);
       attributes.last_build = build;
     }
+
+    if(attributes.last_build) {
+      attributes.last_build.duration = Utils.duration(attributes.last_build.started_at, attributes.last_build.finished_at);
+    }
+
     Backbone.Model.prototype.set.apply(this, [attributes]);
   },
   color: function() {
@@ -21,7 +26,7 @@ Travis.Models.Repository = Travis.Models.Base.extend({
   },
   toJSON: function(options) {
     return _.extend(Backbone.Model.prototype.toJSON.apply(this), {
-      color: this.color()
+      color: this.color(),
     });
   },
 });
@@ -33,7 +38,7 @@ Travis.Collections.Repositories = Travis.Collections.Base.extend({
     _.bindAll(this, 'url', 'update');
   },
   url: function() {
-    return '/repositories' + Util.queryString(this.options);
+    return '/repositories' + Utils.queryString(this.options);
   },
   update: function(attributes) {
     attributes = _.extend(_.clone(attributes), { build: _.clone(attributes.build) });

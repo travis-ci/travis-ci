@@ -32,9 +32,7 @@ Travis.Models.Build = Travis.Models.Base.extend({
     return status == 0 ? 'green' : status == 1 ? 'red' : null;
   },
   duration: function() {
-    var startedAt  = this.get('started_at');
-    var finishedAt = this.get('finished_at') || new Date;
-    return startedAt ? Math.round((new Date(finishedAt) - new Date(startedAt)) / 1000) : 0;
+    return Utils.duration(this.get('started_at'), this.get('finished_at'));
   },
   eta: function() {
     var startedAt  = this.get('started_at');
@@ -78,7 +76,7 @@ Travis.Collections.Builds = Travis.Collections.Base.extend({
     }
   },
   url: function() {
-    return '/repositories/' + this.repository.id + '/builds' + Util.queryString(this.args);
+    return '/repositories/' + this.repository.id + '/builds' + Utils.queryString(this.args);
   },
   dimensions: function() {
     return this.models[0] ? _(this.models[0].get('config')).keys().map(function(key) { return _.capitalize(key) }) : [];

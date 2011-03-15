@@ -81,10 +81,8 @@ beforeEach(function() {
       var expectations = {
         'a:nth-child(1)': repository.name,
         'a:nth-child(2)': '#' + repository.build,
-
-        // FIXME
-        // 'li:nth-child(' + repository.position + ') .duration': repository.duration,
-        // 'li:nth-child(' + repository.position + ') .finished_at': repository.finished_at
+        '.duration': repository.duration,
+        '.finished_at': repository.finished_at
       };
       _.each(expectations, function(text, selector) {
         var actual = $(selector, this.actual).text();
@@ -116,11 +114,10 @@ beforeEach(function() {
         '.summary .number': summary.build,
         '.summary .commit-hash': summary.commit,
         '.summary .committer': summary.committer,
-
+        '.summary .duration': summary.duration,
+        '.summary .finished_at': summary.finished_at
         // FIXME
         // '.author': summary.author,
-        // '.duration': summary.duration,
-        // '.finished_at': summary.finished_at
       }
 
       _.each(expectations, function(text, selector) {
