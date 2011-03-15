@@ -72,7 +72,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.followBuilds = false;
   },
   repositorySelected: function(repository) {
-    repository.builds().whenFetched(function(builds) { if(this.buildId) { builds.select(this.buildId); } }.bind(this));
+    repository.builds.whenFetched(function(builds) { if(this.buildId) { builds.select(this.buildId); } }.bind(this));
   },
 
   // external events
@@ -86,7 +86,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     if((this.followBuilds || this.repositories.selected().get('name') == data.name) && !this.buildId) {
       var repository = this.repositories.get(data.id);
       if(!repository.selected) repository.select();
-      repository.builds().select(data.build.id);
+      repository.builds.select(data.build.id);
     }
   },
   buildFinished: function(data) {
@@ -95,7 +95,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   buildLogged: function(data) {
     var repository = this.repositories.get(data.id);
     if(!repository) return;
-    var build = repository.builds().get(data.build.id);
+    var build = repository.builds.get(data.build.id);
     if(!build) return;
     build.appendLog(data.log);
   },

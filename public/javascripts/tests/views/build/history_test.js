@@ -2,7 +2,7 @@ describe('Views: the build history table view', function() {
   beforeEach(function() {
     var repositories = new Travis.Collections.Repositories(eval(jasmine.getFixture('models/repositories.json')));
     var repository = repositories.get(1);
-    this.builds = repository.builds();
+    this.builds = repository.builds;
     this.builds.add(eval(jasmine.getFixture('models/repositories/1/builds.json')));
 
     this.history = new Travis.Views.Build.History.Table({ repository: repository }).render();

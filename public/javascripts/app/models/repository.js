@@ -2,15 +2,15 @@ Travis.Models.Repository = Travis.Models.Base.extend({
   initialize: function() {
     Travis.Models.Base.prototype.initialize.apply(this, arguments);
     _.bindAll(this, 'color', 'toJSON');
-  },
-  builds: function() {
-    return this._builds || (this._builds = new Travis.Collections.Builds([], { repository: this }));
+    this.builds = this.builds || new Travis.Collections.Builds([], { repository: this });
   },
   set: function(attributes) {
+    this.builds = this.builds || new Travis.Collections.Builds([], { repository: this });
+
     var build = attributes.build;
     delete attributes.build;
     if(build) {
-      this.builds().set(build);
+      this.builds.set(build);
       attributes.last_build = build;
     }
     Backbone.Model.prototype.set.apply(this, [attributes]);

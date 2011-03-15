@@ -19,7 +19,7 @@ Travis.Views.Build.History.Table = Backbone.View.extend({
   attachTo: function(repository) {
     this.detach();
     this.repository = repository;
-    this.builds = repository.builds();
+    this.builds = repository.builds;
 
     this.builds.bind('refresh', this.update);
     this.builds.bind('add', this.buildAdded);

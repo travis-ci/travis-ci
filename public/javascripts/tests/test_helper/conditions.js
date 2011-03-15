@@ -1,5 +1,5 @@
 var repositoriesFetched       = function(count) { return function() { return Travis.app.repositories.fetched; }; };
-var buildsFetched        = function(repository) { return function() { return repository.builds().fetched; } }
+var buildsFetched        = function(repository) { return function() { return repository.builds.fetched; } }
 var repositoriesListPopulated = function(count) { return function() { return $('#repositories .repository').length >= (count || 1); }; };
 var repositoryRendered        = function()      { return function() { return $('#main .repository h3').text() != ''; }; };
 var tabRendered               = function(tab)   { return function() { return tab == 'history' ? $('#main #builds tbody').children().length > 0 : $('#main #tab_' + tab + ' .tab div').children().length > 0; }; };

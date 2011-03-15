@@ -2,8 +2,8 @@ describe('Views: the build summary view', function() {
   beforeEach(function() {
     var repositories = new Travis.Collections.Repositories(eval(jasmine.getFixture('models/repositories.json')));
     var repository = repositories.get(1);
-    repository.builds().add(eval(jasmine.getFixture('models/repositories/1/builds.json')));
-    build = repository.builds().get(1);
+    repository.builds.add(eval(jasmine.getFixture('models/repositories/1/builds.json')));
+    build = repository.builds.get(1);
 
     this.summary = new Travis.Views.Build.Summary({ model: build }).render();
   });
