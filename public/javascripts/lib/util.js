@@ -15,3 +15,13 @@ Util = {
     return query.length > 0 ? '?' + query.join('&') : '';
   }
 }
+
+function trace() {
+  try {
+    i.dont.exist; // force an exception
+  } catch(e) {
+    var lines = e.stack.split('\n').slice(2);
+    var stack = _.map(lines, function(line) { return line.replace(/^\s*at/, ''); });
+    _.each(stack, function(line) { console.log(line); })
+  }
+}

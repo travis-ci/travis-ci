@@ -1,7 +1,7 @@
 describe('Views: the build matrix table view', function() {
   beforeEach(function() {
     var repositories = new Travis.Collections.Repositories(eval(jasmine.getFixture('models/repositories.json')));
-    repositories.get(1).builds().add(eval(jasmine.getFixture('models/builds.json')));
+    repositories.get(1).builds().add(eval(jasmine.getFixture('models/repositories/1/builds.json')));
     this.builds = repositories.get(1).builds().get(3).matrix;
 
     this.matrix = new Travis.Views.Build.Matrix.Table({ builds: this.builds }).render();

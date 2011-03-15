@@ -9,7 +9,9 @@ Travis.Views.Build.Summary = Backbone.View.extend({
   },
   detach: function() {
     if(this.model) {
-      this.model.unbind('append:log');
+      this.model.unbind('change:status', this.setStatus);
+      this.model.unbind('change:duration', this.setDuration);
+      this.model.unbind('change:finished_at', this.setFinishedAt);
       delete this.model;
     }
   },

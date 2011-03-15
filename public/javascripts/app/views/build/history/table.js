@@ -10,8 +10,8 @@ Travis.Views.Build.History.Table = Backbone.View.extend({
   },
   detach: function() {
     if(this.builds) {
-      this.builds.unbind('refresh');
-      this.builds.unbind('add');
+      this.builds.unbind('refresh', this.update);
+      this.builds.unbind('add', this.buildAdded);
       delete this.repository;
       delete this.builds;
     }

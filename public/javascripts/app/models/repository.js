@@ -43,7 +43,4 @@ Travis.Collections.Repositories = Travis.Collections.Base.extend({
   comparator: function(repository) {
     return repository.get('last_build').started_at;
   }
-  // comparator: function(repository) {
-  //   return repository.builds().last().get('started_at');
-  // }
 });

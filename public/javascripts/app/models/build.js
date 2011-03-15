@@ -16,15 +16,6 @@ Travis.Models.Build = Travis.Models.Base.extend({
       this.bind('change', function(build) { this.collection.trigger('change', this); });
     }
   },
-  set: function(attributes, options) {
-    // if(attributes.append_log) {
-    //   var chars = attributes.append_log;
-    //   delete attributes.append_log;
-    //   this.attributes.log = this.attributes.log + chars;
-    //   this.trigger('append:log', chars);
-    // }
-    return Backbone.Model.prototype.set.apply(this, [attributes, options]);
-  },
   appendLog: function(chars) {
     this.attributes.log = this.attributes.log + chars;
     this.trigger('append:log', chars);

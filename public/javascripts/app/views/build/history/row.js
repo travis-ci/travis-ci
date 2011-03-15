@@ -10,9 +10,9 @@ Travis.Views.Build.History.Row = Backbone.View.extend({
   },
   detach: function() {
     if(this.model) {
-      this.model.unbind('change:status');
-      this.model.unbind('change:duration');
-      this.model.unbind('change:finished_at');
+      this.model.unbind('change:status', this.setStatus);
+      this.model.unbind('change:duration', this.setDuration);
+      this.model.unbind('change:finished_at', this.setFinishedAt);
       delete this.model;
     }
   },
