@@ -1,3 +1,11 @@
+Unless i'm still not getting it `attachTo` should happen after the element has been rendered (i.e.
+at least created) because otherwise an event could be triggered and the element is then missing.
+
+This currently isn't actually implemented across all views.
+
+
+--------------------------------------------------------------------------------------
+
 // View Event Lifecycle
 
 1. initialize: basic setup, bindAll etc.

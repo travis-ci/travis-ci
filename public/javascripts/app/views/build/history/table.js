@@ -1,16 +1,22 @@
 Travis.Views.Build.History.Table = Backbone.View.extend({
   initialize: function() {
-    _.bindAll(this, 'render', 'detach', 'attachTo', 'buildAdded', 'update', 'prependRow');
+    _.bindAll(this, 'render', 'detach', 'attachTo', 'collectionRefreshed', 'buildAdded', '_update', '_prependRow', 'tab');
     _.extend(this, this.options);
     this.template = Travis.templates['build/history/table'];
 
+    this.render();
     if(this.repository) {
       this.attachTo(this.repository);
     }
   },
+  render: function() {
+    this.el = $(this.template({}));
+    this._update();
+    return this;
+  },
   detach: function() {
     if(this.builds) {
-      this.builds.unbind('refresh', this.update);
+      this.builds.unbind('refresh', this.collectionRefreshed);
       this.builds.unbind('add', this.buildAdded);
       delete this.repository;
       delete this.builds;
@@ -21,30 +27,24 @@ Travis.Views.Build.History.Table = Backbone.View.extend({
     this.repository = repository;
     this.builds = repository.builds;
 
-    this.builds.bind('refresh', this.update);
+    this.builds.bind('refresh', this.collectionRefreshed);
     this.builds.bind('add', this.buildAdded);
 
     if(this.parent) this.parent.setTab();
+    this._update();
   },
-  render: function() {
-    this.el = $(this.template({}));
-    this.update();
-    return this;
-  },
-  update: function() {
-    this.el.find('tbody').empty();
-    this.renderRows();
-    if(this.parent && this.repository) this.parent.setTab();
+  collectionRefreshed: function() {
+    this._update();
   },
   buildAdded: function(build) {
-    this.prependRow(build);
+    this._prependRow(build);
   },
-  renderRows: function() {
-    if(this.builds) {
-      this.builds.each(this.prependRow);
-    }
+  _update: function() {
+    this.el.find('tbody').empty();
+    if(this.builds) this.builds.each(this._prependRow);
+    if(this.parent && this.repository) this.parent.setTab();
   },
-  prependRow: function(build) {
+  _prependRow: function(build) {
     var row = new Travis.Views.Build.History.Row({ model: build }).render().el;
     this.el.find('tbody').prepend(row);
   },

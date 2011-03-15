@@ -1,39 +1,39 @@
 Travis.Views.Build.Matrix.Table = Backbone.View.extend({
   initialize: function() {
-    _.bindAll(this, 'render', 'attachTo', 'update', 'updateRow');
+    _.bindAll(this, 'render', 'attachTo', 'collectionRefreshed', 'buildAdded', '_update', '_appendRow');
     _.extend(this, this.options);
     this.template = Travis.templates['build/matrix/table'];
-
-    if(this.builds) {
-      this.attachTo(this.builds);
-    }
+    if(this.builds) this.attachTo(this.builds);
   },
   detach: function() {
     if(this.builds) {
-      this.builds.unbind('refresh', this.update);
+      this.builds.unbind('refresh', this.collectionRefreshed);
       delete this.builds;
     }
   },
   attachTo: function(builds) {
     this.detach();
     this.builds = builds;
-    this.builds.bind('refresh', this.update);
+    this.builds.bind('refresh', this.collectionRefreshed);
   },
   render: function() {
     this.el = $(this.template({ dimensions: this.builds.dimensions() }));
-    this.update();
+    this._update();
     this.attachTo(this.builds);
     return this;
   },
-  update: function() {
-    this.el.find('tbody').empty();
-    this.builds.each(this.updateRow);
-    this.builds.bind('add', this.buildAdded);
+  collectionRefreshed: function() {
+    this._update();
   },
   buildAdded: function(build) {
-    this.updateRow(build);
+    this._appendRow(build);
   },
-  updateRow: function(build) {
+  _update: function() {
+    this.el.find('tbody').empty();
+    this.builds.each(this._appendRow);
+    this.builds.bind('add', this._buildAdded);
+  },
+  _appendRow: function(build) {
     var view = new Travis.Views.Build.Matrix.Row({ model: build });
     this.el.find('tbody').append(view.render().el);
   },
