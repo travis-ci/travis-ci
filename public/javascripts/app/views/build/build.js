@@ -7,7 +7,7 @@ Travis.Views.Build.Build = Backbone.View.extend({
   },
   detach: function() {
     if(this.builds) {
-      this.builds.unbind('select');
+      this.builds.unbind('select', this.buildSelected);
       delete this.repository;
     }
   },

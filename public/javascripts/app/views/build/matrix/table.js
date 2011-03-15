@@ -10,8 +10,7 @@ Travis.Views.Build.Matrix.Table = Backbone.View.extend({
   },
   detach: function() {
     if(this.builds) {
-      this.builds.unbind('refresh');
-      this.builds.unbind('load');
+      this.builds.unbind('refresh', this.update);
       delete this.builds;
     }
   },

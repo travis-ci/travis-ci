@@ -9,7 +9,8 @@ Travis.Views.Build.Log = Backbone.View.extend({
   },
   detach: function() {
     if(this.model) {
-      this.model.unbind('append:log');
+      this.model.unbind('append:log', this.appendLog);
+      this.model.unbind('change:log', this.setLog);
       delete this.model;
     }
   },

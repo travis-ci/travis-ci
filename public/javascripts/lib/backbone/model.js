@@ -7,13 +7,11 @@ Travis.Models.Base = Backbone.Model.extend({
   select: function() {
     this.collection.deselect();
     this.selected = true;
-    this.trigger('select', this);
-    this.collection.trigger('select', this);
+    this.trigger('select', this); // Backbone will make this trigger on the collection as well
   },
   deselect: function() {
     this.selected = false;
-    this.trigger('select', this);
-    this.collection.trigger('deselect', this);
+    this.trigger('deselect', this);
   },
 });
 

@@ -101,8 +101,8 @@ beforeEach(function() {
 
       if(repository.color && !$(this.actual).hasClass(repository.color)) {
         errors.push('expected "' + this.actual.selector + '" to be ' + repository.color + ' but it is not.');
-      } else if(!repository.color && $(this.actual).hasClass(repository.color)) {
-        errors.push('expected "' + this.actual.selector + '" not to be ' + repository.color + ' but it is.');
+      } else if(_.include(_.keys(repository), 'color') && !repository.color && _.any(['red', 'green'], function(color) { return $(this.actual).hasClass(color) })) {
+        errors.push('expected "' + this.actual.selector + '" not to have a color class but it has.');
       }
 
       this.message = function() { return errors.join("\n"); };
@@ -129,6 +129,12 @@ beforeEach(function() {
           errors.push('expected "' + this.actual.selector + ' ' + selector + '" to have the text "' + text + '", but actually has: "' + actual + '".');
         }
       }.bind(this));
+
+      if(summary.color && !$('.summary', this.actual).hasClass(summary.color)) {
+        errors.push('expected "' + this.actual.selector + '" to be ' + summary.color + ' but it is not.');
+      } else if(_.include(_.keys(summary), 'color') && !summary.color && _.any(['red', 'green'], function(color) { return $('.summary', this.actual).hasClass(color) })) {
+        errors.push('expected "' + this.actual.selector + '" not to have a color class but it has.');
+      }
 
       this.message = function() { return errors.join("\n"); };
       return errors.length == 0;

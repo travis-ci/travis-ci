@@ -5,7 +5,6 @@ var Travis = {
     Backbone.history = new Backbone.History;
     Travis.app = new Travis.Controllers.Application();
     Travis.app.run();
-    Backbone.history.start();
   },
   trigger: function(event, data) {
     var repository = data.build.repository;
@@ -23,6 +22,7 @@ var Travis = {
 $(document).ready(function() {
   if(!window.__TESTING__ && $('#application').length == 1) {
     Travis.start();
+    Backbone.history.start();
 
     var channels = ['repositories', 'jobs'];
     // _.map(INIT_DATA.repositories || [], function(repository) { channels.push('repository_' + repository.id); });
@@ -40,8 +40,8 @@ $(document).ready(function() {
       'build:queued':   { 'build': { 'id': 4, 'number': 46, 'repository': { 'name': 'travis-ci/travis-ci' } } },
       // 'build:started':  { 'build': { 'id': 4, 'number': 1, 'repository': { 'name': 'travis-ci/travis-ci', 'id': 3 }, 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'started_at': '2011-03-10T19: 07: 24+01: 00' } },
       'build:started':  { 'build': { 'id': 9, 'number': 4, 'repository': { 'name': 'svenfuchs/minimal', 'id': 1 }, 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'started_at': '2011-03-10T19: 07: 24+01: 00' } },
-      // 'build:log':      { 'build': { 'id': 8, 'repository': { 'id': 2 } }, 'log': '$ git clean -fdx' },
-      'build:log':      { 'build': { 'id': 1, 'repository': { 'id': 1 } }, 'log': '$ git clean -fdx' },
+      'build:log':      { 'build': { 'id': 8, 'repository': { 'id': 2 } }, 'log': '$ git clean -fdx' },
+      // 'build:log':      { 'build': { 'id': 1, 'repository': { 'id': 1 } }, 'log': '$ git clean -fdx' },
       'build:finished': { 'build': { 'id': 9, 'number': 4, 'repository': { 'name': 'svenfuchs/minimal', 'last_duration': null, 'url': 'https: //github.com/svenfuchs/minimal', 'id': 1 }, 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'committed_at': '2011-03-10T17: 18: 27Z', 'finished_at': '2011-03-10T19: 07: 47+01: 00', 'status': 0 } },
     };
     _.each(events, function(data, event) {

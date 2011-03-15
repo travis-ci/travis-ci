@@ -2,7 +2,7 @@ describe('Views: the build details view', function() {
   beforeEach(function() {
     this.repositories = new Travis.Collections.Repositories(eval(jasmine.getFixture('models/repositories.json')));
     this.repository = this.repositories.get(1)
-    this.repository.builds().add(eval(jasmine.getFixture('models/builds.json')));
+    this.repository.builds().add(eval(jasmine.getFixture('models/repositories/1/builds.json')));
   });
 
   var it_renders_the_build_summary = function() {

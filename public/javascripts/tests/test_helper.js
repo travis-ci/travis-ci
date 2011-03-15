@@ -1,45 +1,39 @@
 var __TESTING__ = true
+var FIXTURES = [
+  'models/repositories.json',
+  'models/repositories/1/builds.json',
+  'models/repositories/2/builds.json',
+  'models/jobs.json',
+  'models/workers.json'
+];
 
 beforeEach(function() {
   window.location.hash = '';
-  // Travis.start();
-  // Backbone.history.loadUrl();
-
   $('#jasmine_content').empty();
   storeElements();
-  $('#left, #main, #right').empty();
-  // this.hash = window.location.hash;
+  serveFixtures();
 });
 
 afterEach(function() {
-  // $('#left').html(this.left);
-  // $('#main').html(this.main);
-  // window.location.hash = this.hash;
 });
 
-jasmine.Env.prototype.loadJson = function(paths) {
+var loadJson = function(paths) {
   jasmine.json = _.inject(paths, function(json, path) {
     json[path] = jasmine.getFixture(path);
     return json;
   }, {});
 };
 
-jasmine.Env.prototype.loadFixtures = function(paths) {
-  this.loadJson(paths);
+var loadFixtures = function(paths) {
+  loadJson(paths);
   jasmine.fixtures = _.inject(jasmine.json, function(fixtures, json, path) {
     fixtures[path] = eval(json);
     return fixtures;
   }, {});
 }
 
-jasmine.Env.prototype.serveFixtures = function() {
-  this.loadFixtures([
-    'models/repositories.json',
-    'models/repositories/1/builds.json',
-    'models/repositories/2/builds.json',
-    'models/jobs.json',
-    'models/workers.json'
-  ]);
+var serveFixtures = function() {
+  this.loadFixtures(FIXTURES);
 
   jasmine.server = sinon.fakeServer.create();
   jasmine.server.autoRespond = true;
@@ -48,12 +42,6 @@ jasmine.Env.prototype.serveFixtures = function() {
     var response = [200, { 'Content-Type': 'application/json' }, json];
     jasmine.server.respondWith('GET', new RegExp('^' + path + '\\\?_=\\\d+$'), response);
   }.bind(this));
-
-  afterEach(function() { if(this.server) this.server.restore(); });
-};
-
-var serveFixtures = function() {
-  jasmine.getEnv().serveFixtures();
 };
 
 var storeElements = function() {
@@ -73,12 +61,15 @@ var restoreElements = function() {
 var startApp = function() {
   restoreElements();
   Travis.start();
+  Backbone.history.start();
 };
 
 var stopApp = function() {
   restoreElements();
-  Travis.app.repositoriesList.detach();
-  Travis.app.repositoryShow.detach();
+  if(Travis.app) {
+    Travis.app.repositoriesList.detach();
+    Travis.app.repositoryShow.detach();
+  }
   delete Travis.app;
   delete Backbone.history;
 }
@@ -93,14 +84,21 @@ var runsWhen = function(condition, func) {
   jasmine.getEnv().currentSpec.runs(func);
 };
 
-var follow = function(text) {
-  var link = $('a:contains("' + text + '")');
-  goTo(link.attr('href'));
+var follow = function(text, context) {
+  runs(function() {
+    var link = $('a:contains("' + text + '")', context);
+    if(link.length == 0) {
+      throw('could not find a link "' + text + '"')
+    }
+    goTo(link.attr('href'));
+  });
 };
 
 var goTo = function(hash) {
-  window.location.hash = normalizeHash(hash);
-  Backbone.history.loadUrl();
+  runs(function() {
+    window.location.hash = normalizeHash(hash);
+    Backbone.history.loadUrl();
+  });
 };
 
 var normalizeHash = function(hash) {
