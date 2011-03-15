@@ -14,14 +14,14 @@ Travis.Views.Build.Matrix.Row = Backbone.View.extend({
     return this;
   },
   setStatus: function() {
-    $(this.el).removeClass('red green').addClass(this.model.color());
+    this.el.removeClass('red green').addClass(this.model.color());
   },
   setDuration: function() {
-    this.$('.duration').attr('title', this.model.get('duration'));
+    this.el.find('.duration').attr('title', this.model.get('duration'));
     this.el.updateTimes();
   },
   setFinishedAt: function() {
-    this.$('.finished_at').attr('title', this.model.get('finishedAt'));
+    this.el.find('.finished_at').attr('title', this.model.get('finishedAt'));
     this.el.updateTimes();
   },
 });

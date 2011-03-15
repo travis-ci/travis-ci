@@ -18,7 +18,8 @@ describe('Events:', function() {
   });
 
   var trigger = function(event, payload) {
-   runs(function() { Travis.trigger(event, payload); })
+   runs(function() { Travis.trigger(event, payload); });
+   waits(50);
   }
 
   describe('build:queued', function() {
@@ -114,7 +115,7 @@ describe('Events:', function() {
 
     describe('build:finished for a normal build', function() {
       beforeEach(function() {
-        goTo('/');
+        goTo('josevalim/enginex');
         waitsFor(repositoriesFetched());
         trigger('build:started', EVENT_PAYLOADS['build:started:1']);
         trigger('build:finished', EVENT_PAYLOADS['build:finished:1']);
@@ -125,7 +126,7 @@ describe('Events:', function() {
       });
 
       it('updates the build summary', function() {
-        expect($('#tab_build')).toShowBuildSummary({ build: 2, commit: '1111111', committer: 'Jose Valim', color: 'green' }); // FIXME  'Duration', 'Finished'
+        expect($('#tab_current')).toShowBuildSummary({ build: 2, commit: '1111111', committer: 'Jose Valim', color: 'green' }); // FIXME  'Duration', 'Finished'
       })
     });
 
@@ -229,7 +230,7 @@ describe('Events:', function() {
   describe('on the "build" tab', function() {
     describe('for the same repository and (normal) build', function() {
       beforeEach(function() {
-        goTo('/');
+        goTo('josevalim/enginex');
         waitsFor(repositoriesFetched());
         trigger('build:started', EVENT_PAYLOADS['build:started:1']);
         goTo('/josevalim/enginex/builds/10');
