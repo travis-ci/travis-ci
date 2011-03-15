@@ -56,7 +56,7 @@ var expectRepositoryView = function(options) {
   })
 }
 
-describe('Integration: browsing', function() {
+describe('Integration:', function() {
   beforeEach(function() {
     startApp();
   });

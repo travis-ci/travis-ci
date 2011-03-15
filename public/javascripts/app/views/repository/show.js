@@ -17,8 +17,8 @@ Travis.Views.Repository.Show = Backbone.View.extend({
     this.collection.bind('select', this.repositorySelected);
   },
   render: function() {
-    this.el.html($(this.template({})));
-    this.el.addClass('loading');
+    this.el = $(this.template({}));
+    // this.el.addClass('loading');
     _.each(this.tabs, this.renderTab);
     return this;
   },
@@ -26,7 +26,7 @@ Travis.Views.Repository.Show = Backbone.View.extend({
     this.tabs[name] = new Travis.Views.Repository.Tab({ name: name });
   },
   renderTab: function(tab) {
-    this.$('.tabs').append(tab.render().el);
+    this.el.find('.tabs').append(tab.render().el);
   },
   activateTab: function(name, buildId) {
     _.each(this.tabs, function(tab) { if(tab.name != name) tab.deactivate(); })
@@ -38,6 +38,6 @@ Travis.Views.Repository.Show = Backbone.View.extend({
     _.each(this.tabs, function(tab) { tab.attachTo(repository); }.bind(this));
   },
   setTitle: function() {
-    this.$('.repository h3 a').attr('href', 'http://github.com/' + this.repository.get('name')).text(this.repository.get('name'));
+    this.el.find('h3 a').attr('href', 'http://github.com/' + this.repository.get('name')).text(this.repository.get('name'));
   }
 });

@@ -15,13 +15,13 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.jobs         = new Travis.Collections.Jobs();
     this.workers      = new Travis.Collections.Workers();
 
-    this.repositoriesList = new Travis.Views.Repositories.List({ el: $('#repositories') })
-    this.repositoryShow   = new Travis.Views.Repository.Show({ el: $('#main') })
+    this.repositoriesList = new Travis.Views.Repositories.List();
+    this.repositoryShow   = new Travis.Views.Repository.Show();
     this.workersView      = new Travis.Views.Workers.List();
     this.jobsView         = new Travis.Views.Jobs.List();
 
-    this.repositoriesList.render();
-    this.repositoryShow.render();
+    $('#left #tab_recent .tab').append(this.repositoriesList.render().el);
+    $('#main').append(this.repositoryShow.render().el);
 
     this.repositoriesList.attachTo(this.repositories);
     this.repositoryShow.attachTo(this.repositories)

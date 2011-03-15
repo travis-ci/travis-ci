@@ -1,6 +1,7 @@
 Travis.Views.Repositories.List = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, 'elementAdded', 'update');
+    this.template = Travis.templates['repositories/list']
   },
   detach: function() {
     if(this.collection) {
@@ -15,6 +16,8 @@ Travis.Views.Repositories.List = Backbone.View.extend({
     this.collection.bind('refresh', this.update);
   },
   render: function() {
+    this.el = $(this.template({}));
+    return this;
   },
   elementAdded: function(element) {
     this.el.prepend(this.renderItem(element));
