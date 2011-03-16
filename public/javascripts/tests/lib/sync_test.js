@@ -10,7 +10,7 @@ describe('The message synchronizer', function() {
     sync.push('build:log', { msg_id: 2 });
 
     expect(_.map(sync.messages, function(message) { return message[1].msg_id })).toEqual([1, 2, 3]);
-  })
+  });
 
   it('forwards messages in a synchronized order', function() {
     var receiver = [];

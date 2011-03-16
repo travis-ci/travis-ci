@@ -11,8 +11,18 @@ $.fn.extend({
   unflash: function() {
     Utils.unflash(this);
   },
+  filterLog: function() {
+    this.deansi();
+    this.foldLog();
+  },
   deansi: function() {
     this.html(Utils.deansi(this.html()));
+  },
+  foldLog: function() {
+    this.html(Utils.foldLog(this.html()));
+  },
+  unfoldLog: function() {
+    this.html(Utils.unfoldLog(this.html()));
   },
   updateTimes: function() {
     Utils.updateTimes(this);
@@ -23,7 +33,4 @@ $.fn.extend({
   readableTime: function() {
     $(this).each(function() { $(this).text(Utils.readableTime(parseInt($(this).attr('title')))); })
   }
-})
-
-
-
+});
