@@ -33,6 +33,7 @@ $(document).ready(function() {
 
   $('#profile').click(function() { $('#profile_menu').toggle(); });
   $('.tool-tip').tipsy({ gravity: 'n', fade: true });
+  $('.fold').live('click', function() { $(this).hasClass('open') ? $(this).removeClass('open') : $(this).addClass('open'); })
 
   if(env == 'development') {
     $('#jobs').after(Travis.templates['tools/events']());

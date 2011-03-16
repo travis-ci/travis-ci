@@ -43,7 +43,25 @@ Utils = {
   },
   deansi: function(string) {
     string = string || '';
-    return string.replace('[31m', '<span class="red">').replace('[32m', '<span class="green">').replace('[0m', '</span>');
+    string = string.replace(/\[31m/g, '<span class="red">').replace(/\[32m/g, '<span class="green">').replace(/\[0m/g, '</span>');
+    return string;
+  },
+  foldLog: function(string) {
+    string = Utils.unfoldLog(string);
+    var folds = [
+      /(^|<\/div>)(\$ git clean.*\n(?:Removing .*\n)+\n*)/m,
+      /(^|<\/div>)(\$ git fetch.*\nFrom .*\n   .*)\n/m,
+      /(^|<\/div>)(\$ bundle install.*\n(?:(Fetching|Using|Installing).*?\n)*)/m,
+      /(^|<\/div>)(\$ rake db:migrate[\s\S]*(?:^== +\w+: migrated \(.*\) =+\n))\n?/m,
+      /(^|<\/div>)(\/home\/travis\/.rvm\/rubies\/.*)\n/m
+    ];
+    _.each(folds, function(fold) {
+      string = string.replace(fold, function() { return arguments[1] + '<div class="fold">' + arguments[2].trim() + '</div>'; });
+    })
+    return string;
+  },
+  unfoldLog: function(string) {
+    return string.replace(/<div class="fold">([\s\S]*?)<\/div>/mg, '$1\n');
   },
   updateTimes: function(element) {
     $('.timeago', element).timeago();
@@ -81,3 +99,4 @@ function trace() {
     _.each(stack, function(line) { console.log(line); });
   }
 }
+
