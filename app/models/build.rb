@@ -11,6 +11,7 @@ class Build < ActiveRecord::Base
   serialize :config
 
   before_save :expand_matrix!, :if => :expand_matrix?
+  after_save :denormalize_to_repository, :if => :denormalize_to_repository?
 
   class << self
     def create_from_github_payload(data)
@@ -83,6 +84,21 @@ class Build < ActiveRecord::Base
   end
 
   protected
+
+    def denormalize_to_repository?
+      repository.last_build == self && changed & %w(number status started_at finished_at)
+    end
+
+
+    def denormalize_to_repository
+      repository.update_attributes!(
+        :last_build_id => id,
+        :last_build_number => number,
+        :last_build_status => status,
+        :last_build_started_at => started_at,
+        :last_build_finished_at => finished_at
+      )
+    end
 
     def expand_matrix?
       matrix? && matrix.empty?
