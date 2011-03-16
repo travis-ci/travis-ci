@@ -26,7 +26,7 @@ $(document).ready(function() {
 
     var channels = ['repositories', 'jobs'];
     // _.map(INIT_DATA.repositories || [], function(repository) { channels.push('repository_' + repository.id); });
-    _.each(channels, function(channel) { pusher.subscribe(channel).bind_all(Travis.trigger); })
+    _.each(channels, function(channel) { pusher.subscribe(channel).bind_all(Travis.receive); })
   } else {
     Travis.templates = Utils.loadTemplates();
   }
