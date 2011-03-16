@@ -1,13 +1,13 @@
 Travis.Views.Repositories.Item = Backbone.View.extend({
   initialize: function() {
-    _.bindAll(this, 'render', 'setStatus', 'setDuration', 'setFinishedAt', 'setLastBuild', 'setSelected');
+    _.bindAll(this, 'render', 'setSelected', 'setLastBuild', '_setStatus', '_setDuration', '_setFinishedAt', '_setNumber');
 
-    // this.model.bind('change:status', this.setStatus);
-    // this.model.bind('change:duration', this.setDuration);
-    // this.model.bind('change:finished_at', this.setFinishedAt);
-    this.model.bind('change:last_build', this.setLastBuild);
     this.model.bind('select', this.setSelected);
     this.model.bind('deselect', this.setSelected);
+    this.model.bind('change:last_build_number', this.setLastBuild);
+    this.model.bind('change:last_build_status', this.setLastBuild);
+    this.model.bind('change:last_build_duration', this.setLastBuild);
+    this.model.bind('change:last_build_finished_at', this.setLastBuild);
 
     this.template = Travis.templates['repositories/item'];
   },
@@ -16,34 +16,27 @@ Travis.Views.Repositories.Item = Backbone.View.extend({
     this.el.updateTimes();
     return this;
   },
-  setStatus: function() {
-    this.el.parent().prepend(this.el);
-    this.el.removeClass('red green').addClass(this.model.color());
-  },
-  setLastBuild: function() {
-    this.setStatus();
-    this.setFinishedAt();
-    this.setDuration();
-    var last_build = this.model.get('last_build');
-    if(last_build && last_build.number) {
-      this.el.find('.build').attr('href', '#!/' + this.model.name + '/builds/' + last_build.id).text('#' + last_build.number)
-    }
-  },
-  setDuration: function() {
-    var last_build = this.model.get('last_build');
-    if(last_build) {
-      this.el.find('.duration').attr('title', last_build.duration);
-      this.el.updateTimes();
-    }
-  },
-  setFinishedAt: function() {
-    var last_build = this.model.get('last_build');
-    if(last_build) {
-      this.el.find('.finished_at').attr('title', last_build.finished_at);
-      this.el.updateTimes();
-    }
-  },
   setSelected: function() {
     this.model.selected ? this.el.addClass('selected') : this.el.removeClass('selected');
-  }
+  },
+  setLastBuild: function() {
+    this.el.parent().prepend(this.el);
+    this._setStatus();
+    this._setDuration();
+    this._setFinishedAt();
+    this._setNumber();
+    this.el.updateTimes();
+  },
+  _setStatus: function() {
+    this.el.removeClass('red green').addClass(this.model.color());
+  },
+  _setDuration: function() {
+    this.el.find('.duration').attr('title', this.model.last_build_duration());
+  },
+  _setFinishedAt: function() {
+    this.el.find('.finished_at').attr('title', this.model.get('last_build_finished_at'));
+  },
+  _setNumber: function() {
+    this.el.find('.build').attr('href', '#!/' + this.model.get('name') + '/builds/' + this.model.get('last_build_id')).text('#' + this.model.get('last_build_number'))
+  },
 });

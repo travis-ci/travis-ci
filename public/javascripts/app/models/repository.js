@@ -6,27 +6,21 @@ Travis.Models.Repository = Travis.Models.Base.extend({
   },
   set: function(attributes) {
     this.builds = this.builds || new Travis.Collections.Builds([], { repository: this });
-
-    var build = attributes.build;
+    if(attributes.build) this.builds.set(attributes.build);
     delete attributes.build;
-    if(build) {
-      this.builds.set(build);
-      attributes.last_build = build;
-    }
-
-    if(attributes.last_build) {
-      attributes.last_build.duration = Utils.duration(attributes.last_build.started_at, attributes.last_build.finished_at);
-    }
-
     Backbone.Model.prototype.set.apply(this, [attributes]);
   },
   color: function() {
-    var status = this.get('last_build').status;
+    var status = this.get('last_build_status');
     return status == 0 ? 'green' : status == 1 ? 'red' : null;
+  },
+  last_build_duration: function() {
+    return Utils.duration(this.get('last_build_started_at'), this.get('last_build_finished_at'));
   },
   toJSON: function(options) {
     return _.extend(Backbone.Model.prototype.toJSON.apply(this), {
       color: this.color(),
+      last_build_duration: this.last_build_duration()
     });
   },
 });
@@ -40,12 +34,12 @@ Travis.Collections.Repositories = Travis.Collections.Base.extend({
   url: function() {
     return '/repositories' + Utils.queryString(this.options);
   },
-  update: function(attributes) {
+  set: function(attributes) {
     attributes = _.extend(_.clone(attributes), { build: _.clone(attributes.build) });
     var repository = this.get(attributes.id);
     repository ? repository.set(attributes) : this.add(new Travis.Models.Repository(attributes));
   },
   comparator: function(repository) {
-    return repository.get('last_build').started_at;
+    return repository.get('last_build_started_at');
   }
 });

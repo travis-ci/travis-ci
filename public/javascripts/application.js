@@ -7,8 +7,10 @@ var Travis = {
     Travis.app.run();
   },
   trigger: function(event, data) {
-    var repository = data.build.repository;
-    repository.build = _.clone(data.build);
+    var repository = _.extend(data.build.repository, { build: _.clone(data.build) });
+    _.each(['id', 'number', 'status', 'started_at', 'finished_at'], function(key) {
+      if(_.key(data.build, key)) repository['last_build_' + key] = data.build[key];
+    });
     delete repository.build.repository;
     if(data.log) repository.log = data.log;
     Travis.app.trigger(event, repository);

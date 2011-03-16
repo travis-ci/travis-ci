@@ -1,49 +1,49 @@
-var buildData = function(repository) {
-  return { id: repository.last_build.id, number: 2, repository: { id: repository.id } };
-}
+// Loads fixure markup into the DOM as a child of the jasmine_content div
+jasmine.loadFixture = function(fixtureName) {
+  var $destination = $('#jasmine_content');
 
-var buildStartedData = function(repository, data) {
-  return _.extend(_.extend(buildData(repository), { id: 1, started_at: '2010-11-13T12:00:20Z' }), data || {});
-}
+  // get the markup, inject it into the dom
+  $destination.html(jasmine.cachedFixture(fixtureName));
 
-var buildLogData = function(repository, data) {
-  return _.extend(buildData(repository), data || {});
-}
+  // keep track of fixture count to fail jasmines that
+  // call loadFixture() more than once
+  jasmine.loadFixtureCount++;
+};
 
-var buildFinishedData = function(repository, data) {
-  return _.extend(_.extend(buildData(repository), { status: 1, started_at: '2010-11-13T12:00:20Z', finished_at: '2010-11-13T14:00:20Z' }), data || {});
-}
+// Returns fixture markup as a string. Useful for fixtures that
+// represent the response text of ajax requests.
+jasmine.getFixture = function(fixtureName) {
+  return jasmine.cachedFixture(fixtureName);
+};
 
-var buildQueuedData = function(repository, data) {
-  return _.extend({
-    'number': 1,
-    'enqueued_at': '2011-01-12T15: 32: 54.706695Z',
-    'commit': '565294c',
-    'repository': {
-      'name': 'josevalim/enginex',
-      'url': 'https: //github.com/josevalim/enginex',
-      'id': 524108036
-    },
-    'meta_id': '4085042bf6ef34d92420036ce2793b7361cd0bd4',
-    'id': 143915106
-  }, data || {});
-}
+jasmine.cachedFixture = function(fixtureName) {
+  if (!jasmine.fixtureCache[fixtureName]) {
+    jasmine.fixtureCache[fixtureName] = jasmine.retrieveFixture(fixtureName);
+  }
+  return jasmine.fixtureCache[fixtureName];
+};
 
-var newRepositoryData = function() {
-  return {
-    id: 2,
-    number: 2,
-    status: 1,
-    commit: 'add057e',
-    message: 'Bump to 0.0.15',
-    log: '',
-    started_at: '2010-11-13T12:00:00Z',
-    finished_at: null,
-    repository:  {
-      id: 1,
-      name: 'svenfuchs/gem-release',
-      url: 'http://github.com/svenfuchs/gem-release',
-      lastDuration: 10,
-    }
-  };
-}
+jasmine.retrieveFixture = function(fixtureName) {
+  // construct a path to the fixture, including a cache-busting timestamp
+  var path = '/javascripts/tests/fixtures/' + fixtureName + "?" + new Date().getTime();
+  var xhr;
+
+  // retrieve the fixture markup via xhr request to jasmine server
+  try {
+    xhr = new jasmine.XmlHttpRequest();
+    xhr.open("GET", path, false);
+    xhr.send(null);
+  } catch(e) {
+    throw new Error("couldn't fetch " + path + ": " + e);
+  }
+  var regExp = new RegExp(/Couldn\\\'t load \/fixture/);
+  if (regExp.test(xhr.responseText)) {
+    throw new Error("Couldn't load fixture with key: '" + fixtureName + "'. No such file: '" + path + "'.");
+  }
+
+  return xhr.responseText;
+};
+
+jasmine.loadFixtureCount = 0;
+jasmine.fixtureCache = {};
+

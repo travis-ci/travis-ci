@@ -1,4 +1,7 @@
 _.mixin({
+  key: function(object, key) {
+    return _.keys(object).indexOf(key) != -1;
+  },
   camelize: function(string) {
     return _.capitalize(string).replace(/_(.)?/g, function(match, chr) {
       return chr ? chr.toUpperCase() : '';
