@@ -4,14 +4,17 @@ require 'em-pusher'
 module Travis
   class Builder
     module Pusher
+      attr_accessor :msg_id
+
       def on_start
         super
+        self.msg_id = 0
         push 'build:started', 'build' => build.merge('started_at' => started_at)
       end
 
       def on_log(log)
         super
-        push 'build:log', 'build' => { 'id' => build['id'], 'repository' => { 'id' => build['repository']['id'] } }, 'log' => log
+        push 'build:log', 'build' => { 'id' => build['id'], 'repository' => { 'id' => build['repository']['id'] } }, 'log' => log, 'msg_id' => (self.msg_id += 1)
       end
 
       def on_finish
