@@ -20,10 +20,13 @@ TravisRails::Application.routes.draw do
 
   match ":user/:name.png", :to => 'repositories#show', :format => 'png'
 
-  # match ":user", :to => redirect("/#!/%{user}")
-  # match ":user/:repository", :to => redirect("/#!/%{user}/%{repository}")
-  # match ":user/:repository/builds", :to => redirect("/#!/%{user}/%{repository}/builds")
-  # match ":user/:repository/builds/:id", :to => redirect("/#!/%{user}/%{repository}/builds/%{id}")
+  # need to include the jammit route here so it preceeds the user route below
+  match "/#{Jammit.package_path}/:package.:extension", :to => 'jammit#package', :as => :jammit, :constraints => { :extension => /.+/ }
+
+  match ":user", :to => redirect("/#!/%{user}")
+  match ":user/:repository", :to => redirect("/#!/%{user}/%{repository}")
+  match ":user/:repository/builds", :to => redirect("/#!/%{user}/%{repository}/builds")
+  match ":user/:repository/builds/:id", :to => redirect("/#!/%{user}/%{repository}/builds/%{id}")
 
   root :to => 'application#index'
 end
