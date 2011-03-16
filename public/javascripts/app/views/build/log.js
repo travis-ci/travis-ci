@@ -19,6 +19,7 @@ Travis.Views.Build.Log = Backbone.View.extend({
   },
   render: function() {
     this.el = $(this.template({ log: this.model.get('log') }));
+    this.el.deansi();
     return this;
   },
   setLog: function() {
