@@ -9,7 +9,7 @@ class RepositoriesDenormalizeLastBuildAttributes < ActiveRecord::Migration
     end
 
     Repository.all.each do |repository|
-      repository.last_build.denormalize_to_repository
+      repository.last_build.denormalize_to_repository if repository.last_build
     end
   end
 
