@@ -84,6 +84,6 @@ Travis.Collections.Builds = Travis.Collections.Base.extend({
     return this.models[0] ? _(this.models[0].get('config')).keys().map(function(key) { return _.capitalize(key) }) : [];
   },
   comparator: function(build) {
-    return build.get('number');
+    return parseFloat(build.get('number'));
   }
 });
