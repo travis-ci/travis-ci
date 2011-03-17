@@ -217,7 +217,7 @@ describe('Events:', function() {
 
   describe('on the "build" tab of any repository', function() {
     beforeEach(function() {
-      goTo('josevalim/enginex/builds/1');
+      goTo('josevalim/enginex/builds/8');
       waitsFor(repositoriesListPopulated());
       trigger('build:started', EVENT_PAYLOADS['build:started:1']);
     });

@@ -4,6 +4,9 @@ Travis.Models.Repository = Travis.Models.Base.extend({
     _.bindAll(this, 'color', 'toJSON');
     this.builds = this.builds || new Travis.Collections.Builds([], { repository: this });
   },
+  url: function() {
+    return '/repositories/' + this.id;
+  },
   set: function(attributes) {
     this.builds = this.builds || new Travis.Collections.Builds([], { repository: this });
     if(attributes.build) this.builds.set(attributes.build);

@@ -32,31 +32,36 @@ var expectRepositoryView = function(options) {
 
     expect('#left #repositories li:nth-child(1)').toListRepository({ name: 'svenfuchs/minimal', build: 3, color: null,  selected: position == 1, finished_at: '-', duration: '4 hrs 30 sec' });
     expect('#left #repositories li:nth-child(2)').toListRepository({ name: 'josevalim/enginex', build: 1, color: 'red', selected: position == 2, finished_at: 'a day ago', duration: '20 sec' });
-  });
-
-  waitsFor(function() { return repository.builds.fetched; });
-
-  runs(function() {
-    var build = repository.builds.get(options.build);
 
     expect('#main .repository h3').toHaveText(repository.get('name'));
     expect('#main .repository').toShowActiveTab(options.tab);
 
     if(options.tab == 'current' || options.tab == 'build') {
-      var finished_at = build.get('finished_at');
-      var duration = Utils.readableTime(Utils.duration(build.get('started_at'), finished_at));
-      finished_at = finished_at ? $.timeago.distanceInWords(new Date(finished_at)) : '-';
-      expect('#tab_' + options.tab).toShowBuildSummary({ build: build.get('number'), commit: build.commit(), committer: build.get('committer_name'), finished_at: finished_at, duration: duration });
-    }
+      var build;
+      waitsFor(function() { build = repository.builds.get(options.build); return build; });
 
-    if(options.log != undefined) {
-      expect('#tab_' + options.tab).toShowBuildLog(options.log);
-    } else if(options.matrix) {
-      expect('#tab_' + options.tab + ' #matrix').toMatchTable(options.matrix);
+      runs(function() {
+        expect('#tab_' + options.tab).toShowBuildSummary({
+          build: build.get('number'),
+          commit: build.commit(),
+          committer: build.get('committer_name'),
+          finished_at: build.get('finished_at') ? $.timeago.distanceInWords(new Date(build.get('finished_at'))) : '-',
+          duration: Utils.readableTime(build.duration())
+        });
+
+        if(options.log != undefined) {
+          expect('#tab_' + options.tab).toShowBuildLog(options.log);
+        } else if(options.matrix) {
+          expect('#tab_' + options.tab + ' #matrix').toMatchTable(options.matrix);
+        }
+      });
     } else if(options.history) {
-      expect('#tab_history #builds').toMatchTable(options.history);
+      waitsFor(function() { return repository.builds.fetched });
+      runs(function() {
+        expect('#tab_history #builds').toMatchTable(options.history);
+      });
     }
-  })
+  });
 }
 
 describe('Integration:', function() {
@@ -110,24 +115,36 @@ describe('Integration:', function() {
     goTo('/');
     waitsFor(repositoriesListPopulated());
 
-    _.times(2, function() {
+    _.times(1, function() {
       follow('svenfuchs/minimal');
+      waits(100)
       expectRepositoryView({ name: 'svenfuchs/minimal', build: 3, tab: 'current', matrix: MATRIX });
+      waits(100)
 
       follow('Build History');
+      waits(100)
       expectRepositoryView({ name: 'svenfuchs/minimal', tab: 'history', history: HISTORY['svenfuchs/minimal'] });
+      waits(100)
 
       follow('2', '#builds');
+      waits(100)
       expectRepositoryView({ name: 'svenfuchs/minimal', build: 2, tab: 'build', log: 'minimal build 2 log ...' });
+      waits(100)
 
       follow('josevalim/enginex');
+      waits(100)
       expectRepositoryView({ name: 'josevalim/enginex', build: 8, tab: 'current', log: 'enginex build 1 log ...' });
+      waits(100)
 
       follow('Build History');
+      waits(100)
       expectRepositoryView({ name: 'josevalim/enginex', tab: 'history', history: HISTORY['josevalim/enginex'] });
+      waits(100)
 
       follow('1', '#builds');
+      waits(100)
       expectRepositoryView({ name: 'josevalim/enginex', build: 8, tab: 'build', log: 'enginex build 1 log ...' });
+      waits(100)
     });
   });
 });

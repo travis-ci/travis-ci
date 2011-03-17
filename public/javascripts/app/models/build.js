@@ -4,7 +4,9 @@ Travis.Models.Build = Travis.Models.Base.extend({
     _.bindAll(this, 'set', 'url', 'commit', 'color', 'duration', 'eta', 'toJSON');
     _.extend(this, options);
 
-    this.repository = this.repository || (this.collection ? this.collection.repository : undefined);
+    this.repository = this.repository;
+    if(!this.repository && this.collection) this.repository = this.collection.repository;
+    if(!this.repository && Travis.app) this.repository = Travis.app.repositories.get(this.get('repository_id'));
 
     if(this.attributes.matrix) {
       this.matrix = new Travis.Collections.Builds(this.attributes.matrix, { repository: this.repository });
@@ -21,7 +23,7 @@ Travis.Models.Build = Travis.Models.Base.extend({
     this.trigger('append:log', chars);
   },
   url: function() {
-    return 'builds/' + this.id;
+    return '/builds/' + this.id;
   },
   commit: function() {
     var commit = this.get('commit');

@@ -3,6 +3,14 @@ var FIXTURES = [
   'models/repositories.json',
   'models/repositories/1/builds.json',
   'models/repositories/2/builds.json',
+  'models/builds/1.json',
+  'models/builds/2.json',
+  'models/builds/3.json',
+  'models/builds/4.json',
+  'models/builds/5.json',
+  'models/builds/6.json',
+  'models/builds/7.json',
+  'models/builds/8.json',
   'models/jobs.json',
   'models/workers.json'
 ];
@@ -30,7 +38,7 @@ var loadJson = function(paths) {
 var loadFixtures = function(paths) {
   loadJson(paths);
   jasmine.fixtures = _.inject(jasmine.json, function(fixtures, json, path) {
-    fixtures[path] = eval(json);
+    fixtures[path] = JSON.parse(json);
     return fixtures;
   }, {});
 }

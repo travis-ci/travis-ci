@@ -10,7 +10,7 @@ describe('Fixtures:', function() {
       var fixture = jasmine.getFixture(path);
       var actual  = $.ajax(path.replace('models', '').replace('.json', ''), { async: false }).responseText;
 
-      expect(eval(fixture)).toEqual(eval(actual));
+      expect(JSON.parse(fixture)).toEqual(JSON.parse(actual));
     });
   })
 
