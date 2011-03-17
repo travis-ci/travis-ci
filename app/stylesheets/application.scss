@@ -370,15 +370,14 @@ caption {
   .log .fold {
     height: 16px;
     overflow: hidden;
-    background-color: #666;
     margin: 0 -15px;
     padding: 0 15px;
-    background: #666 url(/images/icons/log.fold.closed.png) no-repeat 99.5% 3px;
+    background: #444 url(/images/icons/log.fold.closed.2.png) no-repeat 99.5% 2px;
     cursor: pointer;
   }
   .log .fold.open {
     height: auto;
-    background-image: url(/images/icons/log.fold.open.png);
+    background-image: url(/images/icons/log.fold.open.2.png);
   }
   #matrix {
     margin: 20px 0 0 -12px;
