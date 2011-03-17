@@ -50,14 +50,15 @@ Utils = {
     string = Utils.unfoldLog(string);
     var folds = [
       /(^|<\/div>)(\$ git clean.*\n(?:Removing .*\n)+\n*)/m,
-      /(^|<\/div>)(\$ git fetch.*\nFrom .*\n   .*)\n/m,
+      /(^|<\/div>)(\$ git fetch.*\nFrom .*\n.*)\n/m,
       /(^|<\/div>)(\$ bundle install.*\n(?:(Fetching|Using|Installing).*?\n)*)/m,
       /(^|<\/div>)(\$ rake db:migrate[\s\S]*(?:^== +\w+: migrated \(.*\) =+\n))\n?/m,
-      /(^|<\/div>)(\/home\/travis\/.rvm\/rubies\/.*)\n/m
+      /(^|<\/div>)(\/home\/travis\/.rvm\/rubies\/.{140}.*)\n/m
     ];
     _.each(folds, function(fold) {
       string = string.replace(fold, function() { return arguments[1] + '<div class="fold">' + arguments[2].trim() + '</div>'; });
-    })
+    });
+    string = string.replace(/(\.{120})/g, '$1\n')
     return string;
   },
   unfoldLog: function(string) {
