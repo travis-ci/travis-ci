@@ -86,7 +86,7 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
       build = Build.last
       assert_equal '9854592', build.commit
       assert_equal build.attributes.slice('id', 'commit'), args.slice('id', 'commit')
-      assert_equal build.repository.attributes.slice('id', 'url'), args['repository'].slice('id', 'url')
+      assert_equal build.repository.attributes.slice('id'), args['repository'].slice('id')
     end
 
     def assert_build_started

@@ -118,15 +118,6 @@
       %>
       <script name="<%= name %>" type="text/x-js-template"><%= template.html_safe %></script>
     <% end %>
-    <% if false && Rails.env.jasmine? %>
-      <% javascript_tag do %>
-        var INIT_DATA = {
-          repositories: <%= Repository.timeline.as_json.to_json.html_safe %>,
-          workers: <%= workers.to_json.html_safe %>,
-          jobs: <%= jobs.to_json.html_safe %>
-        };
-      <% end %>
-    <% end %>
 
   </body>
 </html>

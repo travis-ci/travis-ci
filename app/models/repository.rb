@@ -7,8 +7,8 @@ class Repository < ActiveRecord::Base
   has_one :last_success,        :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS null AND status = 0'
   has_one :last_failure,        :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS null AND status = 1'
 
-  REPOSITORY_ATTRS = [:id, :name, :url, :last_build_id, :last_build_number, :last_build_status, :last_build_started_at, :last_build_finished_at]
-  LAST_BUILD_ATTRS = [:id, :number, :commit, :message, :status, :log, :started_at, :finished_at, :author_name, :author_email, :committer_name, :committer_email]
+  REPOSITORY_ATTRS = [:id, :name]
+  LAST_BUILD_ATTRS = [:last_build_id, :last_build_number, :last_build_status, :last_build_started_at, :last_build_finished_at]
 
   class << self
     def timeline
@@ -29,17 +29,10 @@ class Repository < ActiveRecord::Base
   before_create :init_names
 
   def as_json(options = nil)
-    case options[:for]
-    when :web # TODO make this the default
-      super(:only => REPOSITORY_ATTRS)
-    else
-      options ||= {} # ActiveSupport seems to pass nil here?
-      include_last_build = options.key?(:include_last_build) ? options[:include_last_build] : true
-      options.reverse_merge!(:only => REPOSITORY_ATTRS)
-      json = super(options)
-      json.merge!(:last_build => last_build.as_json(:only => LAST_BUILD_ATTRS)) if include_last_build
-      json
-    end
+    options ||= {} # ActiveSupport seems to pass nil here?
+    options.reverse_merge!(:only => REPOSITORY_ATTRS)
+    options[:only] += LAST_BUILD_ATTRS unless options[:for] == :build
+    super(options)
   end
 
 
