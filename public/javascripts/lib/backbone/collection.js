@@ -14,7 +14,7 @@ Travis.Collections.Base = Backbone.Collection.extend({
         if(options.success) options.success.apply(this, arguments);
         collection.finishFetching();
       }.bind(this),
-      error: function() {
+      error: function(e) {
         if(options.error) options.error.apply(this, arguments);
         collection.finishFetching();
       }.bind(this)

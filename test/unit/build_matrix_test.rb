@@ -99,6 +99,7 @@ class BuildTest < ActiveSupport::TestCase
   test 'matrix build as_json' do
     build = Factory(:build, :number => '2', :commit => '12345', :config => config)
     attributes = {
+      'repository_id' => build.repository.id,
       'parent_id' => build.id,
       'committed_at' => nil,
       'commit' => '12345',
@@ -106,14 +107,11 @@ class BuildTest < ActiveSupport::TestCase
       'author_email' => nil,
       'committer_name' => nil,
       'committer_email' => nil,
-      :repository => {
-        'id' => build.repository.id,
-        'name' => 'svenfuchs/minimal',
-        'last_duration' => 60,
-        'url' => 'http://github.com/svenfuchs/minimal',
-      },
       'message' => nil,
       'status' => nil,
+      'started_at' => nil,
+      'finished_at' => nil,
+      'log' => '',
       'config' => {
         'gemfile' => 'gemfiles/Gemfile.rails-2.3.x',
         'rvm' => '1.8.7'
@@ -121,6 +119,7 @@ class BuildTest < ActiveSupport::TestCase
     }
     expected = {
       'id' => build.id,
+      'repository_id' => build.repository.id,
       'parent_id' => nil,
       'number' => '2',
       'commit' => '12345',
@@ -131,13 +130,10 @@ class BuildTest < ActiveSupport::TestCase
       'committer_email' => nil,
       'author_name' => nil,
       'author_email' => nil,
+      'started_at' => nil,
+      'finished_at' => nil,
+      'log' => '',
       'config' => { 'gemfile' => ['gemfiles/rails-2.3.x', 'gemfiles/rails-3.0.x'], 'rvm' => ['1.8.7', '1.9.2'] },
-      :repository => {
-        'id' => build.repository.id,
-        'name' => 'svenfuchs/minimal',
-        'url' => 'http://github.com/svenfuchs/minimal',
-        'last_duration' => 60,
-      },
       :matrix => [
         attributes.merge('id' => build.id + 1, 'number' => '2.1', 'config' => { 'gemfile' => 'gemfiles/rails-2.3.x', 'rvm' => '1.8.7' }),
         attributes.merge('id' => build.id + 2, 'number' => '2.2', 'config' => { 'gemfile' => 'gemfiles/rails-3.0.x', 'rvm' => '1.8.7' }),

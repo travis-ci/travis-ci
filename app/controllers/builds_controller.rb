@@ -6,11 +6,11 @@ class BuildsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def index
-    render :json => repository.builds.started.order('id DESC').limit(10).as_json(:full => true, :include_repository => false)
+    render :json => repository.builds.started.order('id DESC').limit(10).as_json
   end
 
   def show
-    render :json => build.as_json(:full => true)
+    render :json => build.as_json
   end
 
   def create
@@ -49,8 +49,9 @@ class BuildsController < ApplicationController
     end
 
     def enqueue!(build)
-      job = Travis::Builder.enqueue(build.as_json)
-      Pusher['jobs'].trigger('build:queued', :build => build.as_json.merge(:meta_id => job.meta_id, :enqueued_at => job.enqueued_at))
+      json = build.as_json.merge(:repository => build.repository.as_json)
+      job  = Travis::Builder.enqueue(json)
+      Pusher['jobs'].trigger('build:queued', :build => json.merge(:meta_id => job.meta_id, :enqueued_at => job.enqueued_at))
       build.update_attributes!(:job_id => job.meta_id)
     end
 

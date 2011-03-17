@@ -1,9 +1,9 @@
 var MATRIX = [
-  ['Build', 'Gemfile',                  'Rvm',   'Finished', 'Duration' ],
-  ['3.1',   'test/Gemfile.rails-2.3.x', '1.8.7', '-',        '-'        ],
-  ['3.2',   'test/Gemfile.rails-3.0.x', '1.8.7', '-',        '-'        ],
-  ['3.3',   'test/Gemfile.rails-2.3.x', '1.9.2', '-',        '-'        ],
-  ['3.4',   'test/Gemfile.rails-3.0.x', '1.9.2', '-',        '-'        ],
+  ['Build', 'Gemfile',                  'Rvm',   'Finished', 'Duration'     ],
+  ['3.1',   'test/Gemfile.rails-2.3.x', '1.8.7', '-',        '4 hrs 30 sec' ],
+  ['3.2',   'test/Gemfile.rails-3.0.x', '1.8.7', '-',        '4 hrs 30 sec' ],
+  ['3.3',   'test/Gemfile.rails-2.3.x', '1.9.2', '-',        '4 hrs 30 sec' ],
+  ['3.4',   'test/Gemfile.rails-3.0.x', '1.9.2', '-',        '4 hrs 30 sec' ],
 ];
 
 var HISTORY = {

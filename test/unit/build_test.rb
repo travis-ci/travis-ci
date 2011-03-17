@@ -16,34 +16,32 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal 'http://github.com/svenfuchs/gem-release', build.repository.url
   end
 
-  # TODO do we really need these two variants?
-  test 'as_json includes everything required for the build:started event' do
+  test 'as_json includes everything required for the build details view, the build:started event and the resque build job' do
     build = FactoryGirl.create(:build)
     expected = {
       'id' => build.id,
+      'repository_id' => build.repository.id,
       'number' => nil,
+      'log' => '',
+      'status' => nil,
+      'started_at' => nil,
+      'finished_at' => nil,
       'commit' => '62aae5f70ceee39123ef',
       'message' => nil,
-      'status' => nil,
       'committed_at' => nil,
       'committer_name' => nil,
       'committer_email' => nil,
       'author_name' => nil,
       'author_email' => nil,
-      :repository => {
-        'id' => build.repository.id,
-        'name' => 'svenfuchs/minimal',
-        'url' => 'http://github.com/svenfuchs/minimal',
-        'last_duration' => 60,
-      }
     }
     assert_equal_hashes expected, build.as_json
   end
 
-  test 'as_json(:full => true) includes everything required for the build details view' do
+  test 'as_json(:for => :event) includes everything required for the build:started event (and the resque build job)' do
     build = FactoryGirl.create(:build)
     expected = {
       'id' => build.id,
+      'repository_id' => build.repository.id,
       'number' => nil,
       'log' => '',
       'status' => nil,
@@ -58,11 +56,9 @@ class BuildTest < ActiveSupport::TestCase
       'author_email' => nil,
       :repository => {
         'id' => build.repository.id,
-        'name' => 'svenfuchs/minimal',
-        'url' => 'http://github.com/svenfuchs/minimal',
-        'last_duration' => 60,
+        'name' => build.repository.name
       }
     }
-    assert_equal_hashes expected, build.as_json(:full => true)
+    assert_equal_hashes expected, build.as_json(:for => :event)
   end
 end
