@@ -66,13 +66,27 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ name: username + '/' + name }) });
     this.selectTab();
   },
+
+  // helpers
+
   reset: function() {
     delete this.buildId;
     delete this.tab;
     this.followBuilds = false;
   },
+
+  // internal events
+
   repositorySelected: function(repository) {
-    repository.builds.whenFetched(function(builds) { if(this.buildId) { builds.select(this.buildId); } }.bind(this));
+    switch(this.tab) {
+      case 'current':
+      case 'build':
+        repository.builds.select(this.buildId || repository.get('last_build_id'));
+        break;
+      case 'history':
+        repository.builds.fetch();
+        break;
+    };
   },
 
   // external events

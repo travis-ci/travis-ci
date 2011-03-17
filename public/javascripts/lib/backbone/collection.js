@@ -52,14 +52,6 @@ Travis.Collections.Base = Backbone.Collection.extend({
       this.fetch({ success: function() { callback(this.last()); }.bind(this) });
     }
   },
-  getOrFetch: function(id, callback) {
-    var element = this.get(id);
-    if(element) {
-      callback(element);
-    } else if(!this.fetched) {
-      this.whenFetched(function(collection) { callback(collection.get(id)); });
-    }
-  },
   getOrFetchLastBy: function(options, callback) {
     var element = this.getBy(options);
     if(element) {
@@ -72,6 +64,25 @@ Travis.Collections.Base = Backbone.Collection.extend({
     return this.detect(function(element) {
       return _.all(options, function(value, name) { return element.get(name) == value; })
     });
+  },
+  getOrFetch: function(id, callback) {
+    var element = this.get(id);
+    if(element) {
+      callback(element);
+    } else if(!this.fetched) {
+      // this.whenFetched(function(collection) { callback(collection.get(id)); });
+      new this.model({ id: id, collection: this }).fetch({
+        success: function(model) {
+          var model = new this.model(model.attributes, { collection: this });
+          this.add(model);
+          callback(model);
+        }.bind(this),
+        error: function() {
+          console.log('could not retrieve model:')
+          console.log(arguments);
+        }
+      });
+    }
   },
   startFetching: function() {
     this.fetching = true;

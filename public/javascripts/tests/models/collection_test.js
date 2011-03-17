@@ -1,14 +1,20 @@
 describe('Collection:', function() {
   beforeEach(function() {
-    this.collection = new Travis.Collections.Base();
-    this.collection.model = Travis.Models.Base;
-    this.collection.url = '/';
+    var Model = Travis.Models.Base.extend({
+      url: '/builds/1'
+    });
+    var Collection = Travis.Collections.Base.extend({
+      model: Model,
+      url: '/builds'
+    })
 
-    this.json = jasmine.getFixture('models/jobs.json');
+
+    this.json = jasmine.getFixture('models/repositories/1/builds.json');
     this.fixtures = eval(this.json);
     this.server = sinon.fakeServer.create();
     this.server.respondWith('GET', /./, [200, { 'Content-Type': 'application/json' }, this.json]);
 
+    this.collection = new Collection();
     expect(this.collection).toBeEmpty();
   });
 
