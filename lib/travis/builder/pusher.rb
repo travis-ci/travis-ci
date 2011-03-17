@@ -4,25 +4,27 @@ require 'em-pusher'
 module Travis
   class Builder
     module Pusher
-      attr_accessor :msg_id
-
       def on_start
         super
-        self.msg_id = 0
+        @msg_id = 0
         push 'build:started', 'build' => build.merge('started_at' => started_at)
       end
 
       def on_log(log)
         super
-        push 'build:log', 'build' => { 'id' => build['id'], 'repository' => { 'id' => build['repository']['id'] } }, 'log' => log, 'msg_id' => (self.msg_id += 1)
+        push 'build:log', 'build' => { 'id' => build['id'], 'repository' => { 'id' => build['repository']['id'] } }, 'log' => log, 'msg_id' => msg_id
       end
 
       def on_finish
         super
-        push 'build:finished', 'build' => build.merge('status' => result, 'finished_at' => finished_at)
+        push 'build:finished', 'build' => { 'id' => build['id'], 'status' => result, 'finished_at' => finished_at, 'repository' => { 'id' => build['repository']['id'] } }
       end
 
       protected
+        def msg_id
+          @msg_id += 1
+        end
+
         def push(event, data)
           # TODO fix channels
           channel = 'repositories'
