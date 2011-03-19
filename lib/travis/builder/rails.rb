@@ -6,6 +6,7 @@ module Travis
     module Rails
       def work!
         @done = []
+        @msg_id = 0
         super
       end
 
@@ -21,7 +22,7 @@ module Travis
 
       def on_log(chars)
         super
-        post('log' => chars, 'append' => true)
+        post('log' => chars, 'append' => true, 'msg_id' => msg_id)
       end
 
       def on_finish
@@ -30,6 +31,10 @@ module Travis
       end
 
       protected
+        def msg_id
+          @msg_id += 1
+        end
+
         def post(data)
           host = rails_config['url'] || 'http://127.0.0.1'
           url  = "#{host}/builds/#{build['id']}#{'/log' if data.delete('append')}"

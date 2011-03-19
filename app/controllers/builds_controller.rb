@@ -31,7 +31,7 @@ class BuildsController < ApplicationController
   end
 
   def log
-    build.append_log!(params[:build][:log])
+    build.append_log!(params[:build][:log], params[:msg_id])
     render :nothing => true
   end
 
