@@ -8,4 +8,15 @@ module Mocks
     def callback; end
     def errback; end
   end
+
+  class Pusher
+    attr_accessor :messages
+    def initialize
+      @messages = []
+    end
+
+    def push(*args)
+      messages << args
+    end
+  end
 end

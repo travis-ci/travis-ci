@@ -7,11 +7,10 @@ var Travis = {
     Travis.app.run();
   },
   trigger: function(event, data) {
-    var repository = _.extend(data.build.repository, { build: _.clone(data.build) });
+    var repository = _.extend(data.repository, { build: _.clone(data.build) });
     _.each(['id', 'number', 'status', 'started_at', 'finished_at'], function(key) {
       if(_.key(data.build, key)) repository['last_build_' + key] = data.build[key];
     });
-    delete repository.build.repository;
     if(data.log) repository.log = data.log;
     Travis.app.trigger(event, repository);
   }
@@ -35,12 +34,10 @@ $(document).ready(function() {
   if(env == 'development') {
     $('#jobs').after(Travis.templates['tools/events']());
     var events = {
-      'build:queued':   { 'build': { 'id': 4, 'number': 46, 'repository': { 'name': 'travis-ci/travis-ci' } } },
-      // 'build:started':  { 'build': { 'id': 4, 'number': 1, 'repository': { 'name': 'travis-ci/travis-ci', 'id': 3 }, 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'started_at': '2011-03-10T19: 07: 24+01: 00' } },
-      'build:started':  { 'build': { 'id': 9, 'number': 4, 'repository': { 'name': 'svenfuchs/minimal', 'id': 1 }, 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'started_at': '2011-03-10T19: 07: 24+01: 00' } },
-      'build:log':      { 'build': { 'id': 8, 'repository': { 'id': 2 } }, 'log': '$ git clean -fdx' },
-      // 'build:log':      { 'build': { 'id': 1, 'repository': { 'id': 1 } }, 'log': '$ git clean -fdx' },
-      'build:finished': { 'build': { 'id': 9, 'number': 4, 'repository': { 'name': 'svenfuchs/minimal', 'last_duration': null, 'url': 'https: //github.com/svenfuchs/minimal', 'id': 1 }, 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'committed_at': '2011-03-10T17: 18: 27Z', 'finished_at': '2011-03-10T19:07:47+01:00', 'status': 0 } },
+      'build:queued':   { 'repository': { 'id': 3, 'name': 'travis-ci/travis-ci' }, 'build': { 'id': 4, 'number': 46 } },
+      'build:started':  { 'repository': { 'id': 1, 'name': 'svenfuchs/minimal' }, 'build': { 'id': 9, 'number': 4, 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'started_at': '2011-03-10T19: 07: 24+01: 00' } },
+      'build:log':      { 'repository': { 'id': 1 }, 'build': { 'id': 9 }, 'log': '$ git clean -fdx' },
+      'build:finished': { 'repository': { 'id': 1, 'name': 'svenfuchs/minimal', 'last_duration': null, 'id': 1 }, 'build': { 'id': 9, 'finished_at': '2011-03-10T19:07:47+01:00', 'status': 0 } },
     };
     _.each(events, function(data, event) {
       $('#' + event.replace(':', '_')).click(function(e) {

@@ -2,13 +2,10 @@ require 'uri'
 
 class Repository < ActiveRecord::Base
   has_many :builds, :dependent => :delete_all, :conditions => 'parent_id IS null'
-  has_one :last_build,          :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS null AND started_at IS NOT NULL'
-  has_one :last_finished_build, :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS null AND finished_at IS NOT NULL'
-  has_one :last_success,        :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS null AND status = 0'
-  has_one :last_failure,        :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS null AND status = 1'
-
-  REPOSITORY_ATTRS = [:id, :name]
-  LAST_BUILD_ATTRS = [:last_build_id, :last_build_number, :last_build_status, :last_build_started_at, :last_build_finished_at]
+  has_one :last_build,          :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS NULL AND started_at IS NOT NULL'
+  has_one :last_finished_build, :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS NULL AND finished_at IS NOT NULL'
+  has_one :last_success,        :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS NULL AND status = 0'
+  has_one :last_failure,        :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS NULL AND status = 1'
 
   class << self
     def timeline
@@ -28,11 +25,22 @@ class Repository < ActiveRecord::Base
 
   before_create :init_names
 
+  base_attrs       = [:id, :name]
+  last_build_attrs = [:last_build_id, :last_build_number, :last_build_status, :last_build_started_at, :last_build_finished_at]
+  all_attrs        = base_attrs + last_build_attrs
+
+  JSON_ATTRS = {
+    :default          => all_attrs,
+    :job              => base_attrs,
+    :'build:queued'   => base_attrs,
+    :'build:log'      => [:id],
+    :'build:started'  => all_attrs,
+    :'build:finished' => all_attrs
+  }
+
   def as_json(options = nil)
     options ||= {} # ActiveSupport seems to pass nil here?
-    options.reverse_merge!(:only => REPOSITORY_ATTRS)
-    options[:only] += LAST_BUILD_ATTRS unless options[:for] == :build
-    super(options)
+    super(:only => JSON_ATTRS[options[:for] || :default])
   end
 
 

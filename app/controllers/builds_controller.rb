@@ -49,9 +49,8 @@ class BuildsController < ApplicationController
     end
 
     def enqueue!(build)
-      json = build.as_json.merge(:repository => build.repository.as_json)
-      job  = Travis::Builder.enqueue(json)
-      Pusher['jobs'].trigger('build:queued', :build => json.merge(:meta_id => job.meta_id, :enqueued_at => job.enqueued_at))
+      job  = Travis::Builder.enqueue('build' => build.as_json(:for => :job), 'repository' => build.repository.as_json(:for => :job))
+      Pusher['jobs'].trigger('build:queued', 'build' => build.as_json(:for => :'build:queued'), 'repository' => build.repository.as_json(:for => :'build:queued'))
       build.update_attributes!(:job_id => job.meta_id)
     end
 

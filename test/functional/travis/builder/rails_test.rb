@@ -14,7 +14,7 @@ class TravisBuilderRailsTest < ActiveSupport::TestCase
     @now = Time.now
     Time.stubs(:now).returns(now)
 
-    @builder = Builder.new('12345', :id => 1)
+    @builder = Builder.new('12345', 'build' => { 'id' => 1 }, 'repository' => { 'id' => 1 })
     builder.stubs(:buildable).returns(Mocks::Buildable.new)
     builder.stubs(:post)
   end

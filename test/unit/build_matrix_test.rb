@@ -25,8 +25,8 @@ class BuildTest < ActiveSupport::TestCase
   test 'matrix_config w/ just array values' do
     build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['gemfiles/rails-2.3.x', 'gemfiles/rails-3.0.x'] })
     expected = [
-      [["rvm", "1.8.7"], ["rvm", "1.9.2"]],
-      [["gemfile", "gemfiles/rails-2.3.x"], ["gemfile", "gemfiles/rails-3.0.x"]]
+      [['rvm', '1.8.7'], ['rvm', '1.9.2']],
+      [['gemfile', 'gemfiles/rails-2.3.x'], ['gemfile', 'gemfiles/rails-3.0.x']]
     ]
     assert_equal expected, build.matrix_config
   end
@@ -34,9 +34,9 @@ class BuildTest < ActiveSupport::TestCase
   test 'matrix_config w/ unjust array values' do
     build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2', 'ree'], 'gemfile' => ['gemfiles/rails-3.0.x'], 'env' => ['FOO=bar', 'FOO=baz'] })
     expected = [
-      [["rvm", "1.8.7"], ["rvm", "1.9.2"], ["rvm", "ree"]],
-      [["gemfile", "gemfiles/rails-3.0.x"], ["gemfile", "gemfiles/rails-3.0.x"], ["gemfile", "gemfiles/rails-3.0.x"]],
-      [["env", "FOO=bar"], ["env", "FOO=baz"], ["env", "FOO=baz"]]
+      [['rvm', '1.8.7'], ['rvm', '1.9.2'], ['rvm', 'ree']],
+      [['gemfile', 'gemfiles/rails-3.0.x'], ['gemfile', 'gemfiles/rails-3.0.x'], ['gemfile', 'gemfiles/rails-3.0.x']],
+      [['env', 'FOO=bar'], ['env', 'FOO=baz'], ['env', 'FOO=baz']]
     ]
     assert_equal expected, build.matrix_config
   end
@@ -44,8 +44,8 @@ class BuildTest < ActiveSupport::TestCase
   test 'matrix_config w/ an array value and a non-array value' do
     build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => 'gemfiles/rails-2.3.x' })
     expected = [
-      [["rvm", "1.8.7"], ["rvm", "1.9.2"]],
-      [["gemfile", "gemfiles/rails-2.3.x"], ["gemfile", "gemfiles/rails-2.3.x"]]
+      [['rvm', '1.8.7'], ['rvm', '1.9.2']],
+      [['gemfile', 'gemfiles/rails-2.3.x'], ['gemfile', 'gemfiles/rails-2.3.x']]
     ]
     assert_equal expected, build.matrix_config
   end
@@ -98,49 +98,42 @@ class BuildTest < ActiveSupport::TestCase
 
   test 'matrix build as_json' do
     build = Factory(:build, :number => '2', :commit => '12345', :config => config)
-    attributes = {
+    build_attributes = {
+      'id' => build.id,
+      'repository_id' => build.repository.id,
+      'parent_id' => nil,
+      'number' => '2',
+      'commit' => '12345',
+      'message' => 'the commit message',
+      'committed_at' => nil,
+      'committer_name' => 'Sven Fuchs',
+      'committer_email' => 'svenfuchs@artweb-design.de',
+      'author_name' => nil,
+      'author_email' => nil,
+      'started_at' => nil,
+      'config' => { 'gemfile' => ['gemfiles/rails-2.3.x', 'gemfiles/rails-3.0.x'], 'rvm' => ['1.8.7', '1.9.2']},
+    }
+    matrix_attributes = {
       'repository_id' => build.repository.id,
       'parent_id' => build.id,
       'committed_at' => nil,
       'commit' => '12345',
       'author_name' => nil,
       'author_email' => nil,
-      'committer_name' => nil,
-      'committer_email' => nil,
-      'message' => nil,
-      'status' => nil,
+      'committer_name' => 'Sven Fuchs',
+      'committer_email' => 'svenfuchs@artweb-design.de',
+      'message' => 'the commit message',
       'started_at' => nil,
-      'finished_at' => nil,
-      'log' => '',
-      'config' => {
-        'gemfile' => 'gemfiles/Gemfile.rails-2.3.x',
-        'rvm' => '1.8.7'
-      }
     }
-    expected = {
-      'id' => build.id,
-      'repository_id' => build.repository.id,
-      'parent_id' => nil,
-      'number' => '2',
-      'commit' => '12345',
-      'message' => nil,
-      'status' => nil,
-      'committed_at' => nil,
-      'committer_name' => nil,
-      'committer_email' => nil,
-      'author_name' => nil,
-      'author_email' => nil,
-      'started_at' => nil,
-      'finished_at' => nil,
-      'log' => '',
-      'config' => { 'gemfile' => ['gemfiles/rails-2.3.x', 'gemfiles/rails-3.0.x'], 'rvm' => ['1.8.7', '1.9.2'] },
+    expected = build_attributes.merge(
       :matrix => [
-        attributes.merge('id' => build.id + 1, 'number' => '2.1', 'config' => { 'gemfile' => 'gemfiles/rails-2.3.x', 'rvm' => '1.8.7' }),
-        attributes.merge('id' => build.id + 2, 'number' => '2.2', 'config' => { 'gemfile' => 'gemfiles/rails-3.0.x', 'rvm' => '1.8.7' }),
-        attributes.merge('id' => build.id + 3, 'number' => '2.3', 'config' => { 'gemfile' => 'gemfiles/rails-2.3.x', 'rvm' => '1.9.2' }),
-        attributes.merge('id' => build.id + 4, 'number' => '2.4', 'config' => { 'gemfile' => 'gemfiles/rails-3.0.x', 'rvm' => '1.9.2' }),
+        matrix_attributes.merge('id' => build.id + 1, 'number' => '2.1', 'config' => { 'gemfile' => 'gemfiles/rails-2.3.x', 'rvm' => '1.8.7' }),
+        matrix_attributes.merge('id' => build.id + 2, 'number' => '2.2', 'config' => { 'gemfile' => 'gemfiles/rails-3.0.x', 'rvm' => '1.8.7' }),
+        matrix_attributes.merge('id' => build.id + 3, 'number' => '2.3', 'config' => { 'gemfile' => 'gemfiles/rails-2.3.x', 'rvm' => '1.9.2' }),
+        matrix_attributes.merge('id' => build.id + 4, 'number' => '2.4', 'config' => { 'gemfile' => 'gemfiles/rails-3.0.x', 'rvm' => '1.9.2' }),
       ]
-    }
-    assert_equal_hashes expected, build.as_json
+    )
+    assert_equal_hashes expected, build.as_json(:for => :'build:started')
   end
 end
+

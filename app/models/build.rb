@@ -11,7 +11,9 @@ class Build < ActiveRecord::Base
   serialize :config
 
   before_save :expand_matrix!, :if => :expand_matrix?
+
   after_save :denormalize_to_repository, :if => :denormalize_to_repository?
+  after_save :sync_changes
 
   class << self
     def create_from_github_payload(data)
@@ -37,7 +39,14 @@ class Build < ActiveRecord::Base
     end
   end
 
+  attr_accessor :log_appended
+
+  def log_appended?
+    log_appended.present?
+  end
+
   def append_log!(chars)
+    self.log_appended = chars
     update_attributes!(:log => [self.log, chars].join)
   end
 
@@ -45,8 +54,16 @@ class Build < ActiveRecord::Base
     started_at.present?
   end
 
+  def was_started?
+    started? && started_at_changed?
+  end
+
   def finished?
     finished_at.present?
+  end
+
+  def was_finished?
+    finished? && finished_at_changed?
   end
 
   def pending?
@@ -69,30 +86,26 @@ class Build < ActiveRecord::Base
     Travis::Buildable::Config.matrix?(@previously_changed['config'][1]) rescue false # TODO how to use some public AR API?
   end
 
+  all_attrs = [:id, :repository_id, :parent_id, :number, :commit, :message, :status, :log, :started_at, :committed_at,
+    :committer_name, :committer_email, :author_name, :author_email, :config]
+
+  JSON_ATTRS = {
+    :default          => all_attrs,
+    :job              => [:id, :commit, :config],
+    :'build:queued'   => [:id, :number],
+    :'build:started'  => all_attrs - [:status, :log],
+    :'build:log'      => [:id],
+    :'build:finished' => [:id, :status, :finished_at],
+  }
+
   def as_json(options = nil)
     options ||= {}
-    json = super(:except => [:created_at, :updated_at, :agent, :job_id])
-    json.merge!(:repository => repository.as_json(:for => :build)) if options[:for] == :event
-    json.merge!(:matrix => matrix.as_json(:only => [:config], :for => :build)) if matrix?
+    json = super(:only => JSON_ATTRS[options[:for] || :default])
+    json.merge!(:matrix => matrix.as_json(:for => :'build:started')) if matrix?
     json
   end
 
   protected
-
-    def denormalize_to_repository?
-      repository.last_build == self && changed & %w(number status started_at finished_at)
-    end
-
-
-    def denormalize_to_repository
-      repository.update_attributes!(
-        :last_build_id => id,
-        :last_build_number => number,
-        :last_build_status => status,
-        :last_build_started_at => started_at,
-        :last_build_finished_at => finished_at
-      )
-    end
 
     def expand_matrix?
       matrix? && matrix.empty?
@@ -133,4 +146,33 @@ class Build < ActiveRecord::Base
       matrix.call(config)
     end
 
+    def denormalize_to_repository?
+      repository.last_build == self && changed & %w(number status started_at finished_at)
+    end
+
+
+    def denormalize_to_repository
+      repository.update_attributes!(
+        :last_build_id => id,
+        :last_build_number => number,
+        :last_build_status => status,
+        :last_build_started_at => started_at,
+        :last_build_finished_at => finished_at
+      )
+    end
+
+    def sync_changes
+      if was_started?
+        push 'build:started', 'build' => as_json(:for => :'build:started'), 'repository' => repository.as_json(:for => :'build:started')
+      elsif log_appended?
+        # TODO somehow add the msg_id
+        push 'build:log', 'build' => as_json(:for => :'build:log'), 'repository' => repository.as_json(:for => :'build:log'), 'log' => log_appended
+      elsif was_finished?
+        push 'build:finished', 'build' => as_json(:for => :'build:finished'), 'repository' => repository.as_json(:for => :'build:finished')
+      end
+    end
+
+    def push(event, data)
+      Travis.pusher.push(event, data) if Travis.pusher
+    end
 end

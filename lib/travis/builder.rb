@@ -19,7 +19,7 @@ module Travis
 
         include Travis::Builder::Stdout
         include Travis::Builder::Rails
-        include Travis::Builder::Pusher
+        # include Travis::Builder::Pusher
 
         Resque.redis = ENV['REDIS_URL'] || Travis.config['redis']['url']
       end

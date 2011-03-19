@@ -1,5 +1,4 @@
 FactoryGirl.define do
-
   factory :repository do
     username 'svenfuchs'
     name { "#{username}/minimal" }
@@ -12,7 +11,11 @@ FactoryGirl.define do
 
   factory :build do
     repository { Repository.first || Factory(:repository) }
+    number '1'
     commit '62aae5f70ceee39123ef'
+    message 'the commit message'
+    committer_name 'Sven Fuchs'
+    committer_email 'svenfuchs@artweb-design.de'
   end
 
   factory :user do
@@ -20,5 +23,4 @@ FactoryGirl.define do
     login 'svenfuchs'
     email 'sven@fuchs.com'
   end
-
 end

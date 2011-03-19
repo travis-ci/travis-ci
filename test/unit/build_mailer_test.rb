@@ -7,7 +7,7 @@ class BuildMailerTest < ActionMailer::TestCase
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [ build.committer_email ], email.to
-    assert_equal "svenfuchs/minimal# (62aae5f): the build has failed", email.subject
+    assert_equal "svenfuchs/minimal#1 (62aae5f): the build has failed", email.subject
     assert_match /master     -> origin\/master/, email.encoded
   end
 end

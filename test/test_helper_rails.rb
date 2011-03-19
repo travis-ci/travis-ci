@@ -7,11 +7,13 @@ class ActiveSupport::TestCase
   DatabaseCleaner.strategy = :truncation
 
   def setup
+    Travis.pusher = Mocks::Pusher.new
     DatabaseCleaner.start
     super
   end
 
   def teardown
+    Travis.pusher = nil
     DatabaseCleaner.clean
     super
   end
