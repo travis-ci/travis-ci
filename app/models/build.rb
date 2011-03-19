@@ -39,14 +39,15 @@ class Build < ActiveRecord::Base
     end
   end
 
-  attr_accessor :log_appended
+  attr_accessor :log_appended, :msg_id
 
   def log_appended?
     log_appended.present?
   end
 
-  def append_log!(chars)
+  def append_log!(chars, msg_id)
     self.log_appended = chars
+    self.msg_id = msg_id
     update_attributes!(:log => [self.log, chars].join)
   end
 
@@ -165,8 +166,7 @@ class Build < ActiveRecord::Base
       if was_started?
         push 'build:started', 'build' => as_json(:for => :'build:started'), 'repository' => repository.as_json(:for => :'build:started')
       elsif log_appended?
-        # TODO somehow add the msg_id
-        push 'build:log', 'build' => as_json(:for => :'build:log'), 'repository' => repository.as_json(:for => :'build:log'), 'log' => log_appended
+        push 'build:log', 'build' => as_json(:for => :'build:log'), 'repository' => repository.as_json(:for => :'build:log'), 'log' => log_appended, 'msg_id' => msg_id
       elsif was_finished?
         push 'build:finished', 'build' => as_json(:for => :'build:finished'), 'repository' => repository.as_json(:for => :'build:finished')
       end
