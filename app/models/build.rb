@@ -173,6 +173,6 @@ class Build < ActiveRecord::Base
     end
 
     def push(event, data)
-      Travis.pusher.push(event, data) if Travis.pusher
+      Pusher['repositories'].trigger(event, data) # if Travis.pusher
     end
 end
