@@ -30,6 +30,6 @@ class ApplicationController < ActionController::Base
     helper_method :jobs
 
     def set_gitsha_header
-      headers['X-Gitsha'] = TravisRails::Application::GIT_SHA
+      headers['X-GIT_SHA'] = Travis::Application::GIT_SHA
     end
 end
