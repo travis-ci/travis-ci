@@ -1,4 +1,4 @@
-TravisRails::Application.routes.draw do
+Travis::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   as :user do
