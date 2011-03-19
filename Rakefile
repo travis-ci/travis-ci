@@ -6,4 +6,4 @@ require 'rake'
 
 require 'resque/tasks'
 
-TravisRails::Application.load_tasks
+Travis::Application.load_tasks
