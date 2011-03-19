@@ -1,12 +1,13 @@
 module Travis
   class Builder
     module Base
-      attr_reader :build, :meta_id, :started_at, :finished_at, :log, :result
+      attr_reader :repository, :build, :meta_id, :started_at, :finished_at, :log, :result
 
-      def initialize(meta_id, build)
-        @meta_id = meta_id
-        @build   = build.dup
-        @log     = ''
+      def initialize(meta_id, payload)
+        @meta_id    = meta_id
+        @repository = payload['repository'].dup
+        @build      = payload['build'].dup
+        @log        = ''
       end
 
       def work!
@@ -20,7 +21,7 @@ module Travis
           :script => 'rake',
           :commit => build['commit'],
           :config => build['config'],
-          :url    => build['repository']['url'] || "https://github.com/#{build['repository']['name']}"
+          :url    => repository['url'] || "https://github.com/#{repository['name']}"
         )
       end
 

@@ -17,7 +17,11 @@ class TravisBuilderTest < ActiveSupport::TestCase
   end
 
   test 'holds the build data' do
-    assert_equal RESQUE_PAYLOADS['gem-release'], builder.build
+    assert_equal RESQUE_PAYLOADS['gem-release']['build'], builder.build
+  end
+
+  test 'holds the repository data' do
+    assert_equal RESQUE_PAYLOADS['gem-release']['repository'], builder.repository
   end
 
   test 'starts a buildable' do
