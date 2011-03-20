@@ -85,14 +85,14 @@ class Build < ActiveRecord::Base
     Travis::Buildable::Config.matrix?(@previously_changed['config'][1]) rescue false # TODO how to use some public AR API?
   end
 
-  all_attrs = [:id, :repository_id, :parent_id, :number, :commit, :message, :status, :log, :started_at, :committed_at,
+  all_attrs = [:id, :repository_id, :parent_id, :number, :commit, :message, :status, :log, :started_at, :finished_at, :committed_at,
     :committer_name, :committer_email, :author_name, :author_email, :config]
 
   JSON_ATTRS = {
     :default          => all_attrs,
     :job              => [:id, :commit, :config],
     :'build:queued'   => [:id, :number],
-    :'build:started'  => all_attrs - [:status, :log],
+    :'build:started'  => all_attrs - [:status, :log, :finished_at],
     :'build:log'      => [:id],
     :'build:finished' => [:id, :status, :finished_at],
   }
