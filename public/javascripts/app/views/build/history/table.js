@@ -1,6 +1,6 @@
 Travis.Views.Build.History.Table = Backbone.View.extend({
   initialize: function() {
-    _.bindAll(this, 'render', 'detach', 'attachTo', 'collectionRefreshed', 'buildAdded', '_update', '_prependRow', 'tab');
+    _.bindAll(this, 'render', 'detach', 'attachTo', 'collectionRefreshed', 'buildAdded', '_update', '_prependRow', 'tab', 'updateTab');
     _.extend(this, this.options);
     this.template = Travis.templates['build/history/table'];
 
@@ -30,8 +30,8 @@ Travis.Views.Build.History.Table = Backbone.View.extend({
     this.builds.bind('refresh', this.collectionRefreshed);
     this.builds.bind('add', this.buildAdded);
 
-    if(this.parent) this.parent.setTab();
     this._update();
+    this.updateTab();
   },
   collectionRefreshed: function() {
     this._update();
@@ -42,13 +42,14 @@ Travis.Views.Build.History.Table = Backbone.View.extend({
   _update: function() {
     this.el.find('tbody').empty();
     if(this.builds) this.builds.each(this._prependRow);
-    if(this.parent && this.repository) this.parent.setTab();
+    if(this.parent && this.repository) this.parent.updateTab();
   },
   _prependRow: function(build) {
-    var row = new Travis.Views.Build.History.Row({ model: build }).render().el;
-    this.el.find('tbody').prepend(row);
+    if(!build.get('parent_id')) {
+      this.el.find('tbody').prepend(new Travis.Views.Build.History.Row({ model: build }).render().el);
+    }
   },
-  tab: function() {
-    return { url: '#!/' + this.repository.get('name') + '/builds', caption: 'Build History' };
+  updateTab: function() {
+    $('#tab_history h5 a').attr('href', '#!/' + this.repository.get('name') + '/builds');
   },
 });

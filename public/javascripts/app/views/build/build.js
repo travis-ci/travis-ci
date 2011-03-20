@@ -1,6 +1,6 @@
 Travis.Views.Build.Build = Backbone.View.extend({
   initialize: function() {
-    _.bindAll(this, 'attachTo', 'buildSelected');
+    _.bindAll(this, 'attachTo', 'buildSelected', 'updateTab');
     _.extend(this, this.options);
 
     this.el = $('<div></div>');
@@ -14,23 +14,32 @@ Travis.Views.Build.Build = Backbone.View.extend({
     return this;
   },
   detach: function() {
-    if(this.builds) {
-      this.builds.unbind('select', this.buildSelected);
+    if(this.repository) {
+      this.repository.builds.unbind('select', this.buildSelected);
       delete this.repository;
+      delete this.build;
     }
   },
   attachTo: function(repository) {
     this.detach();
     this.repository = repository;
     this.repository.builds.bind('select', this.buildSelected);
-
     this._update();
-    if(this.parent) this.parent.setTab();
+    this.updateTab();
   },
   buildSelected: function(build) {
     this.build = build;
     this._update();
-    if(this.parent) this.parent.setTab();
+    this.updateTab();
+  },
+  updateTab: function() {
+    if(this.build) {
+      $('#tab_build h5 a').attr('href', '#!/' + this.repository.get('name') + '/builds/' + this.build.id).html('Build ' + this.build.get('number'));
+      $('#tab_parent').hide();
+      this.build.parent(function(parent) {
+        $('#tab_parent').show().find('h5 a').attr('href', '#!/' + parent.repository.get('name') + '/builds/' + parent.id).html('Build ' + parent.get('number'));
+      });
+    }
   },
   _update: function() {
     this.el.empty();
@@ -47,8 +56,5 @@ Travis.Views.Build.Build = Backbone.View.extend({
   },
   _renderMatrix: function() {
     this.el.append(new Travis.Views.Build.Matrix.Table({ builds: this.build.matrix }).render().el);
-  },
-  tab: function() {
-    return this.build ? { url: '#!/' + this.repository.get('name') + '/builds/' + this.build.id, caption: 'Build ' + this.build.get('number') } : {};
   },
 });

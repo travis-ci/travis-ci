@@ -84,7 +84,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
         repository.builds.select(this.buildId || repository.get('last_build_id'));
         break;
       case 'history':
-        repository.builds.fetch();
+        if(!repository.builds.fetched) repository.builds.fetch();
         break;
     };
   },

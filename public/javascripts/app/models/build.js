@@ -18,6 +18,9 @@ Travis.Models.Build = Travis.Models.Base.extend({
       this.bind('change', function(build) { this.collection.trigger('change', this); });
     }
   },
+  parent: function(callback) {
+    if(this.get('parent_id')) this.collection.getOrFetch(this.get('parent_id'), callback);
+  },
   appendLog: function(chars) {
     this.attributes.log = this.attributes.log + chars;
     this.trigger('append:log', chars);
