@@ -109,7 +109,7 @@ class Build < ActiveRecord::Base
   def as_json(options = nil)
     options ||= {}
     json = super(:only => JSON_ATTRS[options[:for] || :default])
-    json.merge!(:matrix => matrix.as_json(:for => :'build:started')) if matrix?
+    json.merge!(:matrix => matrix.as_json(:for => options[:for])) if matrix?
     json.compact
   end
 
