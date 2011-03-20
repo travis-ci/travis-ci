@@ -101,29 +101,20 @@ class BuildTest < ActiveSupport::TestCase
     build_attributes = {
       'id' => build.id,
       'repository_id' => build.repository.id,
-      'parent_id' => nil,
       'number' => '2',
       'commit' => '12345',
       'message' => 'the commit message',
-      'committed_at' => nil,
       'committer_name' => 'Sven Fuchs',
       'committer_email' => 'svenfuchs@artweb-design.de',
-      'author_name' => nil,
-      'author_email' => nil,
-      'started_at' => nil,
       'config' => { 'gemfile' => ['gemfiles/rails-2.3.x', 'gemfiles/rails-3.0.x'], 'rvm' => ['1.8.7', '1.9.2']},
     }
     matrix_attributes = {
       'repository_id' => build.repository.id,
       'parent_id' => build.id,
-      'committed_at' => nil,
       'commit' => '12345',
-      'author_name' => nil,
-      'author_email' => nil,
       'committer_name' => 'Sven Fuchs',
       'committer_email' => 'svenfuchs@artweb-design.de',
       'message' => 'the commit message',
-      'started_at' => nil,
     }
     expected = build_attributes.merge(
       :matrix => [

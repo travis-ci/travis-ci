@@ -1,24 +1,35 @@
 require 'test_helper_rails'
 
 class BuildsControllerTest < ActionDispatch::IntegrationTest
-  class ChannelMock; def trigger(*); end; end
-
   attr_reader :channel, :build
 
   def setup
-    super
     flush_redis
-    @build = Factory(:build)
-    @channel = ChannelMock.new
+
+    @build = Factory(:build).reload
+    @channel = Mocks::Channel.new
     Pusher.stubs(:[]).returns(channel)
+
+    Travis::Synchronizer.timeout = 0.5
+    Travis::Synchronizer.synchronizers.clear
   end
 
   test 'POST to /builds (ping from github) creates a build record and a build job and sends a build:queued event to Pusher' do
-    channel.expects(:trigger) # TODO uh, this doesn't seem to test anything
-    # assert_difference('Build.count', 1) do
+    assert_difference('Build.count', 1) do
       ping_from_github!
+      build = Build.last
       assert_build_job
-    # end
+      assert_equal ['build:queued', {
+          'repository' => {
+          'id' => build.repository.id,
+          'name' =>
+          'svenfuchs/gem-release'
+        }, 'build' => {
+          'id' => build.id,
+          'number' => 1
+        }
+      }], channel.messages.first
+    end
   end
 
   test 'PUT to /builds/:id configures the build and expands a given build matrix' do
@@ -29,31 +40,86 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
   test 'PUT to /builds/:id starts the build' do
     start_from_worker!
     assert_build_started
+    assert_equal ['build:started', {
+      'repository' => {
+        'id' => build.repository.id,
+        'name' => 'svenfuchs/minimal',
+        'last_build_id' => build.id,
+        'last_build_number' => '1',
+        'last_build_status' => nil,
+        'last_build_started_at' => build.started_at,
+        'last_build_finished_at' => nil
+      },
+      'build' => {
+        'id' => build.id,
+        'repository_id' => build.repository.id,
+        'number' => '1',
+        'commit' => '62aae5f70ceee39123ef',
+        'message' => 'the commit message',
+        'committer_name' => 'Sven Fuchs',
+        'committer_email' => 'svenfuchs@artweb-design.de',
+        'started_at' => build.started_at,
+      }
+    }], channel.messages.first
   end
 
   test 'PUT to /builds/:id/log appends to the build log' do
-    build.update_attributes!(:log => 'some log')
-    log_from_worker!
-    assert_equal 'some log ... appended', build.log
+    EM.run do
+      build.update_attributes!(:log => 'some log')
+      log_from_worker!(1)
+      assert_equal 'some log ... appended', build.log
+      assert_equal ['build:log', {
+        'repository' => {
+          'id' => build.repository.id
+        },
+        'build' => {
+          'id' => build.id
+        },
+        'log' => ' ... appended',
+        'msg_id' => '1'
+      }], channel.messages.first
+      EM.stop
+    end
   end
 
   test 'PUT to /builds/:id finishes the build' do
+    build.update_attributes(:started_at => Time.now)
+
     finish_from_worker!
     assert_build_finished
+    assert_equal ['build:finished', {
+      'repository' => {
+        'id' => build.repository.id,
+        'name' => 'svenfuchs/minimal',
+        'last_build_id' => build.id,
+        'last_build_number' => '1',
+        'last_build_status' => 1,
+        'last_build_started_at' => build.started_at,
+        'last_build_finished_at' => build.finished_at
+      },
+      'build' => {
+        'id' => build.id,
+        'status' => build.repository.id,
+        'finished_at' => build.finished_at,
+      }
+    }], channel.messages.first
   end
 
   test 'walkthrough from Github ping to finished build' do
-    ping_from_github!
-    assert_build_job
+    EM.run do
+      ping_from_github!
+      assert_build_job
 
-    start_from_worker!
-    assert_build_started
+      start_from_worker!
+      assert_build_started
 
-    3.times { log_from_worker! }
-    assert_equal ' ... appended ... appended ... appended', build.log
+      3.times { |ix| log_from_worker!(ix + 1) }
+      assert_equal ' ... appended ... appended ... appended', build.log
 
-    finish_from_worker!
-    assert_build_finished
+      finish_from_worker!
+      assert_build_finished
+      EM.stop
+    end
   end
 
   protected
@@ -71,8 +137,10 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
       build.reload
     end
 
-    def log_from_worker!
-      authenticated_put(log_build_path(build), WORKER_PAYLOADS[:log])
+    def log_from_worker!(msg_id = 1)
+      payload = WORKER_PAYLOADS[:log]
+      payload['build'].merge!('msg_id' => msg_id)
+      authenticated_put(log_build_path(build), payload)
       build.reload
     end
 

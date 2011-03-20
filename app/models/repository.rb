@@ -1,4 +1,5 @@
 require 'uri'
+require 'core_ext/hash/compact'
 
 class Repository < ActiveRecord::Base
   has_many :builds, :dependent => :delete_all, :conditions => 'parent_id IS null'
@@ -40,7 +41,7 @@ class Repository < ActiveRecord::Base
 
   def as_json(options = nil)
     options ||= {} # ActiveSupport seems to pass nil here?
-    super(:only => JSON_ATTRS[options[:for] || :default])
+    super(:only => JSON_ATTRS[options[:for] || :default]) #.compact
   end
 
 
