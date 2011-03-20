@@ -13,8 +13,8 @@ module Travis
         end
       end
 
-      def initialize(source)
-        config = File.read(source)
+      def initialize(config)
+        config = File.read(config) if config.is_a?(String)
         replace(YAML.load(config).stringify_keys) rescue nil
       rescue Errno::ENOENT => e
         {}
