@@ -2,13 +2,13 @@ class RepositoriesController < ApplicationController
   respond_to :json
 
   def index
-    render :json => repositories.as_json(:for => :web)
+    render :json => repositories.as_json
   end
 
   def show
     respond_to do |format|
       format.json do
-        render :json => repository.as_json(:for => :web)
+        render :json => repository.as_json
       end
       format.png do
         status = Repository.human_status_by_name("#{params[:user]}/#{params[:name]}")

@@ -69,12 +69,13 @@ Travis.Collections.Base = Backbone.Collection.extend({
     var element = this.get(id);
     if(element) {
       callback(element);
-    } else if(!this.fetched) {
-      // this.whenFetched(function(collection) { callback(collection.get(id)); });
+    } else {
       new this.model({ id: id, collection: this }).fetch({
         success: function(model) {
           var model = new this.model(model.attributes, { collection: this });
-          this.add(model);
+          // model.bind('all', this._onModelEvent);
+          // model.collection = this;
+          this.add(model, { silent: true });
           callback(model);
         }.bind(this),
         error: function() {
