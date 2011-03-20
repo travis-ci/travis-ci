@@ -105,6 +105,10 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     }], channel.messages.first
   end
 
+  test 'PUT to /builds/:id finishes a matrix build' do
+    # TODO
+  end
+
   test 'walkthrough from Github ping to finished build' do
     EM.run do
       ping_from_github!

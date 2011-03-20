@@ -13,7 +13,7 @@ module Travis
       def work!
         on_start
         @result = buildable.run!
-        on_finish
+        result.is_a?(Hash) ? on_configure : on_finish # TODO hrmmm ...
       end
 
       def buildable

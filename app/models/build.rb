@@ -13,6 +13,7 @@ class Build < ActiveRecord::Base
 
   before_save :expand_matrix!, :if => :expand_matrix?
   after_save :denormalize_to_repository, :if => :denormalize_to_repository?
+  after_save :propagate_status_to_parent, :if => :was_finished?
 
   class << self
     def create_from_github_payload(data)
@@ -54,7 +55,7 @@ class Build < ActiveRecord::Base
   end
 
   def was_started?
-    started? && @previously_changed.keys.include?('started_at')
+    started? && (started_at_changed? || @previously_changed.keys.include?('started_at'))
   end
 
   def finished?
@@ -62,7 +63,7 @@ class Build < ActiveRecord::Base
   end
 
   def was_finished?
-    finished? && @previously_changed.keys.include?('finished_at')
+    finished? && (finished_at_changed? || @previously_changed.keys.include?('finished_at'))
   end
 
   def pending?
@@ -83,6 +84,10 @@ class Build < ActiveRecord::Base
 
   def matrix_expanded?
     Travis::Buildable::Config.matrix?(@previously_changed['config'][1]) rescue false # TODO how to use some public AR API?
+  end
+
+  def update_matrix_status!
+    update_attributes!(:status => matrix.map(&:status).include?(1) ? 1 : 0, :finished_at => Time.now) if matrix.all?(&:finished?)
   end
 
   all_attrs = [:id, :repository_id, :parent_id, :number, :commit, :message, :status, :log, :started_at, :finished_at, :committed_at,
@@ -149,7 +154,6 @@ class Build < ActiveRecord::Base
       repository.last_build == self && changed & %w(number status started_at finished_at)
     end
 
-
     def denormalize_to_repository
       repository.update_attributes!(
         :last_build_id => id,
@@ -158,5 +162,9 @@ class Build < ActiveRecord::Base
         :last_build_started_at => started_at,
         :last_build_finished_at => finished_at
       )
+    end
+
+    def propagate_status_to_parent
+      parent.update_matrix_status! if was_finished? && parent
     end
 end
