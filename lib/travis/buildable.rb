@@ -22,7 +22,7 @@ module Travis
       @url    = options[:url] || raise(ArgumentError.new('no url given'))
       @commit = options[:commit]
       @script = options[:script]
-      @config = options[:config] unless options[:config].blank?
+      @config = Config.new(options[:config]) unless options[:config].blank?
       @path   = extract_path(url)
     end
 
