@@ -30,7 +30,7 @@ class BuildsController < ApplicationController
       # TODO need to push the new matrix via Pusher, too
     elsif build.was_finished?
       trigger('build:finished')
-      finished_email.deliver
+      deliver_finished_email
     end
 
     render :nothing => true
@@ -66,8 +66,8 @@ class BuildsController < ApplicationController
       trigger('build:queued', build)
     end
 
-    def finished_email
-      BuildMailer.finished_email(build)
+    def deliver_finished_email
+      BuildMailer.finished_email(build.parent || build).deliver if !build.parent || build.parent.finished?
     end
 
     def trigger(event, build = self.build, data = {})
