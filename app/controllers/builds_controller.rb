@@ -22,16 +22,27 @@ class BuildsController < ApplicationController
 
   def update
     build.update_attributes!(params[:build])
-    if build.matrix_expanded?
+
+    if build.was_started?
+      trigger('build:started')
+    elsif build.matrix_expanded?
       build.matrix.each { |child| enqueue!(child) }
-    elsif build.finished?
+    elsif build.was_finished?
+      trigger('build:finished')
       finished_email.deliver
     end
+
     render :nothing => true
   end
 
   def log
-    build.append_log!(params[:build][:log], params[:msg_id])
+    id, msg_id, log = params[:build].values_at(*%w(id msg_id log))
+
+    Travis::Synchronizer.receive(id, msg_id) do
+      build.append_log!(log)
+      trigger('build:log', 'log' => log, 'msg_id' => msg_id)
+    end
+
     render :nothing => true
   end
 
@@ -49,12 +60,24 @@ class BuildsController < ApplicationController
     end
 
     def enqueue!(build)
-      job  = Travis::Builder.enqueue('build' => build.as_json(:for => :job), 'repository' => build.repository.as_json(:for => :job))
-      Pusher['jobs'].trigger('build:queued', 'build' => build.as_json(:for => :'build:queued'), 'repository' => build.repository.as_json(:for => :'build:queued'))
+      job  = Travis::Builder.enqueue(json_for(:job))
       build.update_attributes!(:job_id => job.meta_id)
+      trigger('build:queued')
     end
 
     def finished_email
       BuildMailer.finished_email(build)
+    end
+
+    def trigger(event, data = {})
+      push(event, json_for(event).merge(data))
+    end
+
+    def json_for(event)
+      { 'build' => build.as_json(:for => event.to_sym), 'repository' => repository.as_json(:for => event.to_sym) }
+    end
+
+    def push(event, data)
+      Pusher[event == 'build:queued' ? 'jobs' : 'repositories'].trigger(event, data)
     end
 end

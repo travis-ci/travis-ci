@@ -9,6 +9,17 @@ module Mocks
     def errback; end
   end
 
+  class Channel
+    attr_accessor :messages
+    def initialize
+      @messages = []
+    end
+
+    def trigger(*args)
+      messages << args
+    end
+  end
+
   class Pusher
     attr_accessor :messages
     def initialize

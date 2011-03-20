@@ -27,8 +27,8 @@ module Travis
 
       def on_finish
         super
-        post('log' => log, 'status' => result, 'finished_at' => Time.now)
-      end
+        post('status' => result, 'finished_at' => Time.now) # 'log' => log,
+     end
 
       protected
         def msg_id

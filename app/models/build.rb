@@ -1,4 +1,5 @@
 require 'core_ext/array/flatten_once'
+require 'core_ext/hash/compact'
 
 class Build < ActiveRecord::Base
   belongs_to :repository
@@ -11,9 +12,7 @@ class Build < ActiveRecord::Base
   serialize :config
 
   before_save :expand_matrix!, :if => :expand_matrix?
-
   after_save :denormalize_to_repository, :if => :denormalize_to_repository?
-  after_save :sync_changes
 
   class << self
     def create_from_github_payload(data)
@@ -39,15 +38,14 @@ class Build < ActiveRecord::Base
     end
   end
 
-  attr_accessor :log_appended, :msg_id
+  attr_accessor :log_appended
 
   def log_appended?
     log_appended.present?
   end
 
-  def append_log!(chars, msg_id)
+  def append_log!(chars)
     self.log_appended = chars
-    self.msg_id = msg_id
     update_attributes!(:log => [self.log, chars].join)
   end
 
@@ -56,7 +54,7 @@ class Build < ActiveRecord::Base
   end
 
   def was_started?
-    started? && started_at_changed?
+    started? && @previously_changed.keys.include?('started_at')
   end
 
   def finished?
@@ -64,7 +62,7 @@ class Build < ActiveRecord::Base
   end
 
   def was_finished?
-    finished? && finished_at_changed?
+    finished? && @previously_changed.keys.include?('finished_at')
   end
 
   def pending?
@@ -103,7 +101,7 @@ class Build < ActiveRecord::Base
     options ||= {}
     json = super(:only => JSON_ATTRS[options[:for] || :default])
     json.merge!(:matrix => matrix.as_json(:for => :'build:started')) if matrix?
-    json
+    json.compact
   end
 
   protected
@@ -160,19 +158,5 @@ class Build < ActiveRecord::Base
         :last_build_started_at => started_at,
         :last_build_finished_at => finished_at
       )
-    end
-
-    def sync_changes
-      if was_started?
-        push 'build:started', 'build' => as_json(:for => :'build:started'), 'repository' => repository.as_json(:for => :'build:started')
-      elsif log_appended?
-        push 'build:log', 'build' => as_json(:for => :'build:log'), 'repository' => repository.as_json(:for => :'build:log'), 'log' => log_appended, 'msg_id' => msg_id
-      elsif was_finished?
-        push 'build:finished', 'build' => as_json(:for => :'build:finished'), 'repository' => repository.as_json(:for => :'build:finished')
-      end
-    end
-
-    def push(event, data)
-      Pusher['repositories'].trigger(event, data) # if Travis.pusher
     end
 end
