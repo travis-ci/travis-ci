@@ -96,6 +96,26 @@ class BuildTest < ActiveSupport::TestCase
     assert !build.matrix_expanded?
   end
 
+  test 'update_matrix_status! does not do anything if any child build has not finished' do
+    build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'] })
+    build.update_matrix_status!
+    assert_equal nil, build.reload.status
+  end
+
+  test 'update_matrix_status! sets the status to 1 if any child has the status 1' do
+    build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'] })
+    build.matrix[0].update_attributes(:status => 1, :finished_at => Time.now)
+    build.matrix[1].update_attributes(:status => 0, :finished_at => Time.now)
+    assert_equal 1, build.reload.status
+  end
+
+  test 'update_matrix_status! sets the status to 0 if all children have the status 0' do
+    build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'] })
+    build.matrix[0].update_attributes(:status => 0, :finished_at => Time.now)
+    build.matrix[1].update_attributes(:status => 0, :finished_at => Time.now)
+    assert_equal 0, build.reload.status
+  end
+
   test 'matrix build as_json' do
     build = Factory(:build, :number => '2', :commit => '12345', :config => config)
     build_attributes = {
