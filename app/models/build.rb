@@ -41,6 +41,10 @@ class Build < ActiveRecord::Base
 
   attr_accessor :log_appended
 
+  def config=(config)
+    write_attribute(:config, normalize_config(config))
+  end
+
   def log_appended?
     log_appended.present?
   end
@@ -166,5 +170,12 @@ class Build < ActiveRecord::Base
 
     def propagate_status_to_parent
       parent.update_matrix_status! if was_finished? && parent
+    end
+
+    def normalize_config(config)
+      Travis::Buildable::Config::ENV_KEYS.inject(config) do |config, key|
+        config[key] = config[key].values if config[key].is_a?(Hash)
+        config
+      end
     end
 end
