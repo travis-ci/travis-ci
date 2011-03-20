@@ -17,6 +17,20 @@ class BuildTest < ActiveSupport::TestCase
     yaml
   end
 
+  test 'updating the build config w/ stupid rack params' do
+    build = Factory(:build, :config => {
+      'rvm'     => { '0' => '1.8.7', '1' => '1.9.2' },
+      'gemfile' => { '0' => 'gemfiles/rails-2.3.x', '1' => 'gemfiles/rails-3.0.x' },
+      'env'     => { '0' => 'FOO=bar', '1' => 'FOO=baz' }
+    })
+    expected = {
+      'rvm'     => ['1.8.7', '1.9.2'],
+      'gemfile' => ['gemfiles/rails-2.3.x', 'gemfiles/rails-3.0.x'],
+      'env'     => ['FOO=bar', 'FOO=baz']
+    }
+    assert_equal expected, build.config
+  end
+
   test 'matrix_config w/ no array values' do
     build = Factory(:build, :config => { 'rvm' => '1.8.7', 'gemfile' => 'gemfiles/rails-2.3.x', 'env' => 'FOO=bar' })
     assert_nil build.matrix_config
