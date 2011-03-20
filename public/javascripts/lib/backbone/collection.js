@@ -73,14 +73,12 @@ Travis.Collections.Base = Backbone.Collection.extend({
       new this.model({ id: id, collection: this }).fetch({
         success: function(model) {
           var model = new this.model(model.attributes, { collection: this });
-          // model.bind('all', this._onModelEvent);
-          // model.collection = this;
           this.add(model, { silent: true });
           callback(model);
         }.bind(this),
         error: function() {
-          console.log('could not retrieve model:')
-          console.log(arguments);
+          // console.log('could not retrieve model:')
+          // console.log(arguments);
         }
       });
     }

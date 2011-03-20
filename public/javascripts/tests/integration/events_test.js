@@ -1,11 +1,11 @@
 var EVENT_PAYLOADS = {
-  'build:queued':     { build: { id: 10, number: 4, repository: { id: 1, name: 'svenfuchs/minimal'   } } },
-  'build:started:1':  { build: { id: 10, number: 2, repository: { id: 2, name: 'josevalim/enginex'   }, started_at: '2010-11-12T17:00:00Z', commit: '1111111', committer_name: 'Jose Valim', message: 'enginex commit', log: 'the enginex build 2 log ... ' } },
-  'build:started:2':  { build: { id: 11, number: 1, repository: { id: 3, name: 'travis-ci/travis-ci' }, started_at: '2010-11-12T17:00:00Z', commit: '2222222', committer_name: 'Sven Fuchs', message: 'minimal commit', log: 'the travis-ci build 1 log ... ' } },
-  'build:log:1':      { build: { id: 10, repository: { id: 2 } }, log: 'with appended chars' },
-  'build:finished:1': { build: { id: 10, status: 0, repository: { id: 2 }, finished_at: '2010-11-12T17:00:10Z' } },
-  'build:finished:2': { build: { id: 3,  status: 0, repository: { id: 1 }, finished_at: '2010-11-12T17:00:10Z' } },
-  'build:finished:3': { build: { id: 4,  status: 0, repository: { id: 1 }, finished_at: '2010-11-12T17:00:00Z' } },
+  'build:queued':     { repository: { id: 1, name: 'svenfuchs/minimal'   }, build: { id: 10, number: 4,  } },
+  'build:started:1':  { repository: { id: 2, name: 'josevalim/enginex'   }, build: { id: 10, number: 2, started_at: '2010-11-12T17:00:00Z', commit: '1111111', committer_name: 'Jose Valim', message: 'enginex commit', log: 'the enginex build 2 log ... ' } },
+  'build:started:2':  { repository: { id: 3, name: 'travis-ci/travis-ci' }, build: { id: 11, number: 1, started_at: '2010-11-12T17:00:00Z', commit: '2222222', committer_name: 'Sven Fuchs', message: 'minimal commit', log: 'the travis-ci build 1 log ... ' } },
+  'build:log:1':      { repository: { id: 2 }, build: { id: 10, }, log: 'with appended chars' },
+  'build:finished:1': { repository: { id: 2 }, build: { id: 10, status: 0, finished_at: '2010-11-12T17:00:10Z' } },
+  'build:finished:2': { repository: { id: 1 }, build: { id: 3,  status: 0, finished_at: '2010-11-12T17:00:10Z' } },
+  'build:finished:3': { repository: { id: 1 }, build: { id: 4,  status: 0, finished_at: '2010-11-12T17:00:00Z' } },
 }
 
 describe('Events:', function() {
