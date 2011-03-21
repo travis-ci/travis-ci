@@ -87,6 +87,9 @@ Travis.Collections.Builds = Travis.Collections.Base.extend({
     return this.models[0] ? _(this.models[0].get('config')).keys().map(function(key) { return _.capitalize(key) }) : [];
   },
   comparator: function(build) {
-    return parseFloat(build.get('number'));
+    // this sorts matrix child builds below their child builds, i.e. the actual order will be like: 4, 3, 3.1, 3.2, 3.3., 2, 1
+    var number = parseInt(build.get('number'));
+    var fraction = parseFloat(build.get('number')) - number;
+    return number - fraction;
   }
 });

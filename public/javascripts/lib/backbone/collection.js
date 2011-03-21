@@ -74,6 +74,8 @@ Travis.Collections.Base = Backbone.Collection.extend({
         success: function(model) {
           var model = new this.model(model.attributes, { collection: this });
           this.add(model, { silent: true });
+          // model.collection = this;
+          // model.bind('all', this._onModelEvent);
           callback(model);
         }.bind(this),
         error: function() {
