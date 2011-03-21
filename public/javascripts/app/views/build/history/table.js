@@ -50,6 +50,6 @@ Travis.Views.Build.History.Table = Backbone.View.extend({
     }
   },
   updateTab: function() {
-    $('#tab_history h5 a').attr('href', '#!/' + this.repository.get('name') + '/builds');
+    $('#tab_history h5 a').attr('href', '#!/' + this.repository.get('slug') + '/builds');
   },
 });

@@ -2,6 +2,7 @@ GITHUB_PAYLOADS = {
   "gem-release" => %({
     "repository": {
       "url": "http://github.com/svenfuchs/gem-release",
+      "name": "gem-release",
       "owner": {
         "email": "svenfuchs@artweb-design.de",
         "name": "svenfuchs"
@@ -27,7 +28,7 @@ RESQUE_PAYLOADS = {
   'gem-release' => {
     'repository' => {
       'id' => 1,
-      'name' => 'svenfuchs/gem-release',
+      'slug' => 'svenfuchs/gem-release',
     },
     'build' => {
       'id' => 1,

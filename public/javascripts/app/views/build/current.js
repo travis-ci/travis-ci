@@ -1,6 +1,6 @@
 Travis.Views.Build.Current = Travis.Views.Build.Build.extend({
   updateTab: function() {
-    $('#tab_current h5 a').attr('href', '/#!/' + this.repository.get('name'));
+    $('#tab_current h5 a').attr('href', '/#!/' + this.repository.get('slug'));
   },
   // attachTo: function(repository) {
   //   Travis.Views.Build.Build.prototype.attachTo.apply(this, arguments);

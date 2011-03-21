@@ -37,6 +37,6 @@ Travis.Views.Repository.Show = Backbone.View.extend({
     this.el.find('.tabs').append(tab.render().el);
   },
   _setTitle: function() {
-    this.el.find('h3 a').attr('href', 'http://github.com/' + this.repository.get('name')).text(this.repository.get('name'));
+    this.el.find('h3 a').attr('href', 'http://github.com/' + this.repository.get('slug')).text(this.repository.get('slug'));
   }
 });

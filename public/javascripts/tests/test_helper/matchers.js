@@ -79,7 +79,7 @@ beforeEach(function() {
       var errors = [];
 
       var expectations = {
-        'a:nth-child(1)': repository.name,
+        'a:nth-child(1)': repository.slug,
         'a:nth-child(2)': '#' + repository.build,
         '.duration': repository.duration,
         '.finished_at': repository.finished_at

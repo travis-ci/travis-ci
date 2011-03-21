@@ -22,7 +22,7 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
       assert_equal ['build:queued', {
         'repository' => {
           'id' => build.repository.id,
-          'name' => 'svenfuchs/gem-release'
+          :slug => 'svenfuchs/gem-release'
         },
         'build' => {
           'id' => build.id,
@@ -43,7 +43,7 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     assert_equal ['build:started', {
       'repository' => {
         'id' => build.repository.id,
-        'name' => 'svenfuchs/minimal',
+        :slug => 'svenfuchs/minimal',
         'last_build_id' => build.id,
         'last_build_number' => '1',
         'last_build_status' => nil,
@@ -90,7 +90,7 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     assert_equal ['build:finished', {
       'repository' => {
         'id' => build.repository.id,
-        'name' => 'svenfuchs/minimal',
+        :slug => 'svenfuchs/minimal',
         'last_build_id' => build.id,
         'last_build_number' => '1',
         'last_build_status' => 1,

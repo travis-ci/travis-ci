@@ -1,7 +1,7 @@
 <dl class="summary left clearfix {{color}}">
   <div class="left">
     <dt>Build</dt>
-    <dd class="number"><a href="/#!/{{repository/name}}/builds/{{id}}">{{number}}</a></dd>
+    <dd class="number"><a href="/#!/{{repository/slug}}/builds/{{id}}">{{number}}</a></dd>
     <dt class="finished_at_label">Finished</dt>
     <dd class="finished_at timeago" title="{{finished_at}}">-</dd>
     <dt>Duration</dt>

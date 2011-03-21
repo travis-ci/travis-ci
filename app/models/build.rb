@@ -16,7 +16,7 @@ class Build < ActiveRecord::Base
 
   class << self
     def create_from_github_payload(data)
-      repository = Repository.find_or_create_by_url(data['repository']['url'])
+      repository = Repository.find_or_create_by_name(data['repository']['name'], :url => data['repository']['url'])
 
       repository.update_attributes!(
         :owner_name  => data['repository']['owner']['name'],

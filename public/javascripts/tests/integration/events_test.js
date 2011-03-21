@@ -1,7 +1,7 @@
 var EVENT_PAYLOADS = {
-  'build:queued':     { repository: { id: 1, name: 'svenfuchs/minimal'   }, build: { id: 10, number: 4,  } },
-  'build:started:1':  { repository: { id: 2, name: 'josevalim/enginex'   }, build: { id: 10, number: 2, started_at: '2010-11-12T17:00:00Z', commit: '1111111', committer_name: 'Jose Valim', message: 'enginex commit', log: 'the enginex build 2 log ... ' } },
-  'build:started:2':  { repository: { id: 3, name: 'travis-ci/travis-ci' }, build: { id: 11, number: 1, started_at: '2010-11-12T17:00:00Z', commit: '2222222', committer_name: 'Sven Fuchs', message: 'minimal commit', log: 'the travis-ci build 1 log ... ' } },
+  'build:queued':     { repository: { id: 1, slug: 'svenfuchs/minimal'   }, build: { id: 10, number: 4,  } },
+  'build:started:1':  { repository: { id: 2, slug: 'josevalim/enginex'   }, build: { id: 10, number: 2, started_at: '2010-11-12T17:00:00Z', commit: '1111111', committer_name: 'Jose Valim', message: 'enginex commit', log: 'the enginex build 2 log ... ' } },
+  'build:started:2':  { repository: { id: 3, slug: 'travis-ci/travis-ci' }, build: { id: 11, number: 1, started_at: '2010-11-12T17:00:00Z', commit: '2222222', committer_name: 'Sven Fuchs', message: 'minimal commit', log: 'the travis-ci build 1 log ... ' } },
   'build:log:1':      { repository: { id: 2 }, build: { id: 10, }, log: 'with appended chars' },
   'build:finished:1': { repository: { id: 2 }, build: { id: 10, status: 0, finished_at: '2010-11-12T17:00:10Z' } },
   'build:finished:2': { repository: { id: 1 }, build: { id: 3,  status: 0, finished_at: '2010-11-12T17:00:10Z' } },
@@ -50,7 +50,7 @@ describe('Events:', function() {
       });
 
       it('updates the repository list entry and moves it to the top of the list', function() {
-        expect('#repositories li:nth-child(1)').toListRepository({ name: 'josevalim/enginex', build: 2, selected: true, color: undefined, finished_at: 'a day ago', duration: '20 sec' }); // TODO why's that a day ago??
+        expect('#repositories li:nth-child(1)').toListRepository({ slug: 'josevalim/enginex', build: 2, selected: true, color: undefined, finished_at: 'a day ago', duration: '20 sec' }); // TODO why's that a day ago??
       });
 
       it('adds the build to the repository builds collection', function() {
@@ -72,13 +72,13 @@ describe('Events:', function() {
       });
 
       it('adds the new repository at the top of the list', function() {
-        expect('#repositories li:nth-child(1)').toListRepository({ name: 'travis-ci/travis-ci', build: 1, selected: true, color: undefined, finished_at: '-', duration: '30 sec' });
+        expect('#repositories li:nth-child(1)').toListRepository({ slug: 'travis-ci/travis-ci', build: 1, selected: true, color: undefined, finished_at: '-', duration: '30 sec' });
       });
 
       it('adds the repository to the repositories collection and adds build to its builds collection', function() {
         var repository = Travis.app.repositories.get(3);
         var build = repository.builds.get(11);
-        expect(repository.get('name')).toEqual('travis-ci/travis-ci')
+        expect(repository.get('slug')).toEqual('travis-ci/travis-ci')
         expect(build.get('number')).toEqual(1);
       });
 
@@ -122,7 +122,7 @@ describe('Events:', function() {
       });
 
       it('updates the repository list item', function() {
-        expect('#repositories li:nth-child(1)').toListRepository({ name: 'josevalim/enginex', build: 2, selected: true, color: 'green', finished_at: 'less than a minute ago', duration: '10 sec' });
+        expect('#repositories li:nth-child(1)').toListRepository({ slug: 'josevalim/enginex', build: 2, selected: true, color: 'green', finished_at: 'less than a minute ago', duration: '10 sec' });
       });
 
       it('updates the build summary', function() {
@@ -138,7 +138,7 @@ describe('Events:', function() {
       });
 
       it('updates the repository list item', function() {
-        expect('#repositories li:nth-child(1)').toListRepository({ name: 'svenfuchs/minimal', build: 3, selected: true, color: 'green', finished_at: 'less than a minute ago', duration: '4 hrs 10 sec' });
+        expect('#repositories li:nth-child(1)').toListRepository({ slug: 'svenfuchs/minimal', build: 3, selected: true, color: 'green', finished_at: 'less than a minute ago', duration: '4 hrs 10 sec' });
       });
 
       // it('updates the build summary', function() {
@@ -170,7 +170,7 @@ describe('Events:', function() {
       });
 
       it('updates the repository list item', function() {
-        expect('#repositories li:nth-child(1)').toListRepository({ name: 'josevalim/enginex', build: 2, selected: true, color: 'green', finished_at: 'less than a minute ago', duration: '10 sec' });
+        expect('#repositories li:nth-child(1)').toListRepository({ slug: 'josevalim/enginex', build: 2, selected: true, color: 'green', finished_at: 'less than a minute ago', duration: '10 sec' });
       });
 
       it('adds the build to the history', function() {
@@ -206,7 +206,7 @@ describe('Events:', function() {
       });
 
       it('updates the repository list item', function() {
-        expect('#repositories li:nth-child(1)').toListRepository({ name: 'josevalim/enginex', build: 2, color: 'green', finished_at: 'less than a minute ago', duration: '10 sec' });
+        expect('#repositories li:nth-child(1)').toListRepository({ slug: 'josevalim/enginex', build: 2, color: 'green', finished_at: 'less than a minute ago', duration: '10 sec' });
       });
 
       it('does not touch the build history table', function() {
@@ -252,7 +252,7 @@ describe('Events:', function() {
         });
 
         it('updates the repository list item', function() {
-          expect('#repositories li:nth-child(1)').toListRepository({ name: 'josevalim/enginex', build: 2, selected: true, color: 'green', finished_at: 'less than a minute ago', duration: '10 sec' });
+          expect('#repositories li:nth-child(1)').toListRepository({ slug: 'josevalim/enginex', build: 2, selected: true, color: 'green', finished_at: 'less than a minute ago', duration: '10 sec' });
         });
 
         it('updates the build summary', function() {
@@ -317,7 +317,7 @@ describe('Events:', function() {
         });
 
         it('updates the repository list item', function() {
-          expect('#repositories li:nth-child(1)').toListRepository({ name: 'josevalim/enginex', build: 2, selected: true, color: 'green', finished_at: 'less than a minute ago', duration: '10 sec' });
+          expect('#repositories li:nth-child(1)').toListRepository({ slug: 'josevalim/enginex', build: 2, selected: true, color: 'green', finished_at: 'less than a minute ago', duration: '10 sec' });
         });
 
         it('does not touch the build summary', function() {
@@ -351,7 +351,7 @@ describe('Events:', function() {
         });
 
         it('updates the repository list item', function() {
-          expect('#repositories li:nth-child(1)').toListRepository({ name: 'josevalim/enginex', build: 2, color: 'green', finished_at: 'less than a minute ago', duration: '10 sec' });
+          expect('#repositories li:nth-child(1)').toListRepository({ slug: 'josevalim/enginex', build: 2, color: 'green', finished_at: 'less than a minute ago', duration: '10 sec' });
         });
 
         it('does not touch the build summary', function() {

@@ -27,13 +27,13 @@ var expectRepositoryView = function(options) {
 
   runs(function() {
     repositories = Travis.app.repositories;
-    repository = repositories.getBy({ name: options.name });
+    repository = repositories.getBy({ slug: options.slug });
     position = repositories.length - repositories.models.indexOf(repository);
 
-    expect('#left #repositories li:nth-child(1)').toListRepository({ name: 'svenfuchs/minimal', build: 3, color: null,  selected: position == 1, finished_at: '-', duration: '4 hrs 30 sec' });
-    expect('#left #repositories li:nth-child(2)').toListRepository({ name: 'josevalim/enginex', build: 1, color: 'red', selected: position == 2, finished_at: 'a day ago', duration: '20 sec' });
+    expect('#left #repositories li:nth-child(1)').toListRepository({ slug: 'svenfuchs/minimal', build: 3, color: null,  selected: position == 1, finished_at: '-', duration: '4 hrs 30 sec' });
+    expect('#left #repositories li:nth-child(2)').toListRepository({ slug: 'josevalim/enginex', build: 1, color: 'red', selected: position == 2, finished_at: 'a day ago', duration: '20 sec' });
 
-    expect('#main .repository h3').toHaveText(repository.get('name'));
+    expect('#main .repository h3').toHaveText(repository.get('slug'));
     expect('#main .repository').toShowActiveTab(options.tab);
 
     if(options.tab == 'current' || options.tab == 'build') {
@@ -75,40 +75,40 @@ describe('Integration:', function() {
 
   it('visiting the homepage', function() {
     goTo('/');
-    expectRepositoryView({ name: 'svenfuchs/minimal', build: 3, tab: 'current', matrix: MATRIX });
+    expectRepositoryView({ slug: 'svenfuchs/minimal', build: 3, tab: 'current', matrix: MATRIX });
   });
 
   it('visiting the current build tab for repository with a matrix build', function() {
     goTo('svenfuchs/minimal');
-    expectRepositoryView({ name: 'svenfuchs/minimal', build: 3, tab: 'current', matrix: MATRIX });
+    expectRepositoryView({ slug: 'svenfuchs/minimal', build: 3, tab: 'current', matrix: MATRIX });
   });
 
   it('visiting the current build tab for repository with a normal build', function() {
     goTo('josevalim/enginex');
-    expectRepositoryView({ name: 'josevalim/enginex', build: 8, tab: 'current', log: 'enginex build 1 log ...' })
+    expectRepositoryView({ slug: 'josevalim/enginex', build: 8, tab: 'current', log: 'enginex build 1 log ...' })
   });
 
   it('visiting the build history tab', function() {
     goTo('svenfuchs/minimal/builds');
-    expectRepositoryView({ name: 'svenfuchs/minimal', tab: 'history',history: HISTORY['svenfuchs/minimal'] });
+    expectRepositoryView({ slug: 'svenfuchs/minimal', tab: 'history',history: HISTORY['svenfuchs/minimal'] });
   });
 
   it('visiting the build tab for repository with a matrix build', function() {
     goTo('svenfuchs/minimal/builds/3');
-    expectRepositoryView({ name: 'svenfuchs/minimal', build: 3, tab: 'build', matrix: MATRIX });
+    expectRepositoryView({ slug: 'svenfuchs/minimal', build: 3, tab: 'build', matrix: MATRIX });
   });
 
   it('visiting the build tab for repository with a normal build', function() {
     goTo('josevalim/enginex/builds/8');
-    expectRepositoryView({ name: 'josevalim/enginex', build: 8, tab: 'build', log: 'enginex build 1 log ...' });
+    expectRepositoryView({ slug: 'josevalim/enginex', build: 8, tab: 'build', log: 'enginex build 1 log ...' });
   });
 
   it('visiting the homepage and selecting another repository', function() {
     goTo('/');
-    expectRepositoryView({ name: 'svenfuchs/minimal', build: 3, tab: 'current', matrix: MATRIX });
+    expectRepositoryView({ slug: 'svenfuchs/minimal', build: 3, tab: 'current', matrix: MATRIX });
 
     follow('josevalim/enginex');
-    expectRepositoryView({ name: 'josevalim/enginex', build: 8, tab: 'current', log: 'enginex build 1 log ...' });
+    expectRepositoryView({ slug: 'josevalim/enginex', build: 8, tab: 'current', log: 'enginex build 1 log ...' });
   });
 
   it('visiting the homepage, selecting the build history tab and viewing a build, do the same for another repository and then for the first one again (this time w/ everything preloaded)', function() {
@@ -118,32 +118,32 @@ describe('Integration:', function() {
     _.times(1, function() {
       follow('svenfuchs/minimal');
       waits(100)
-      expectRepositoryView({ name: 'svenfuchs/minimal', build: 3, tab: 'current', matrix: MATRIX });
+      expectRepositoryView({ slug: 'svenfuchs/minimal', build: 3, tab: 'current', matrix: MATRIX });
       waits(100)
 
       follow('Build History');
       waits(100)
-      expectRepositoryView({ name: 'svenfuchs/minimal', tab: 'history', history: HISTORY['svenfuchs/minimal'] });
+      expectRepositoryView({ slug: 'svenfuchs/minimal', tab: 'history', history: HISTORY['svenfuchs/minimal'] });
       waits(100)
 
       follow('2', '#builds');
       waits(100)
-      expectRepositoryView({ name: 'svenfuchs/minimal', build: 2, tab: 'build', log: 'minimal build 2 log ...' });
+      expectRepositoryView({ slug: 'svenfuchs/minimal', build: 2, tab: 'build', log: 'minimal build 2 log ...' });
       waits(100)
 
       follow('josevalim/enginex');
       waits(100)
-      expectRepositoryView({ name: 'josevalim/enginex', build: 8, tab: 'current', log: 'enginex build 1 log ...' });
+      expectRepositoryView({ slug: 'josevalim/enginex', build: 8, tab: 'current', log: 'enginex build 1 log ...' });
       waits(100)
 
       follow('Build History');
       waits(100)
-      expectRepositoryView({ name: 'josevalim/enginex', tab: 'history', history: HISTORY['josevalim/enginex'] });
+      expectRepositoryView({ slug: 'josevalim/enginex', tab: 'history', history: HISTORY['josevalim/enginex'] });
       waits(100)
 
       follow('1', '#builds');
       waits(100)
-      expectRepositoryView({ name: 'josevalim/enginex', build: 8, tab: 'build', log: 'enginex build 1 log ...' });
+      expectRepositoryView({ slug: 'josevalim/enginex', build: 8, tab: 'build', log: 'enginex build 1 log ...' });
       waits(100)
     });
   });

@@ -1,9 +1,11 @@
-Given /^a repository named "([^"]*)"$/ do |name|
-  Factory(:repository, :name => name)
+Given /^a repository "([^"]*)"$/ do |name|
+  owner_name, name = name.split('/')
+  Factory(:repository, :owner_name => owner_name, :name => name)
 end
 
 Given /^"([^"]*)" has an? (un)?stable build$/ do |name, status|
-  repository = Repository.where(:name => name).first
+  owner_name, name = name.split('/')
+  repository = Repository.where(:owner_name => owner_name, :name => name).first
   Factory(
     :build,
     :started_at => Time.now,
@@ -14,10 +16,12 @@ Given /^"([^"]*)" has an? (un)?stable build$/ do |name, status|
 end
 
 Given /^"([^"]*)" has an unfinished build$/ do |name|
-  repository = Repository.where(:name => name).first
+  owner_name, name = name.split('/')
+  repository = Repository.where(:owner_name => owner_name, :name => name).first
   Factory(:build, :started_at => Time.now, :repository => repository)
 end
 
-Given /^a repository named "([^"]*)" does not exist$/ do |name|
-  Repository.delete_all(:name => name)
+Given /^a repository "([^"]*)" does not exist$/ do |name|
+  owner_name, name = name.split('/')
+  Repository.delete_all(:owner_name => owner_name, :name => name)
 end

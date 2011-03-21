@@ -11,7 +11,7 @@ class RepositoriesController < ApplicationController
         render :json => repository.as_json
       end
       format.png do
-        status = Repository.human_status_by_name("#{params[:user]}/#{params[:name]}")
+        status = Repository.human_status_by(params.slice(:owner_name, :name))
         send_file(Rails.public_path + "/images/status/#{status}.png", :type => 'image/png', :disposition => 'inline')
       end
     end

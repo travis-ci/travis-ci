@@ -17,8 +17,8 @@ class Repository < ActiveRecord::Base
       limit(20)
     end
 
-    def human_status_by_name(name)
-      repository = find_by_name(name)
+    def human_status_by(attributes)
+      repository = where(attributes).first
       return 'unknown' unless repository && repository.last_finished_build
       repository.last_finished_build.status == 0 ? 'stable' : 'unstable'
     end
@@ -26,7 +26,11 @@ class Repository < ActiveRecord::Base
 
   before_create :init_names
 
-  base_attrs       = [:id, :name]
+  def slug
+    @slug ||= [owner_name, name].join('/')
+  end
+
+  base_attrs       = [:id]
   last_build_attrs = [:last_build_id, :last_build_number, :last_build_status, :last_build_started_at, :last_build_finished_at]
   all_attrs        = base_attrs + last_build_attrs
 
@@ -34,20 +38,24 @@ class Repository < ActiveRecord::Base
     :default          => all_attrs,
     :job              => base_attrs,
     :'build:queued'   => base_attrs,
-    :'build:log'      => [:id],
-    :'build:started'  => all_attrs,
-    :'build:finished' => all_attrs
+    :'build:log'      => [:id]
+  }
+  JSON_METHODS = {
+    :default          => [:slug],
+    :'build:log'      => []
   }
 
   def as_json(options = nil)
     options ||= {} # ActiveSupport seems to pass nil here?
-    super(:only => JSON_ATTRS[options[:for] || :default]) #.compact
+    attrs   = JSON_ATTRS[options[:for]]   || JSON_ATTRS[:default]
+    methods = JSON_METHODS[options[:for]] || JSON_METHODS[:default]
+    super(:only => attrs, :methods => methods) #.compact
   end
 
 
   protected
 
     def init_names
-      self.name ||= URI.parse(url).path.split('/')[-2, 2].join('/')
+      # self.name ||= URI.parse(url).path.split('/')[-2, 2].join('/')
     end
 end

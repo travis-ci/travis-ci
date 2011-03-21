@@ -37,6 +37,6 @@ Travis.Views.Repositories.Item = Backbone.View.extend({
     this.el.find('.finished_at').attr('title', this.model.get('last_build_finished_at'));
   },
   _setNumber: function() {
-    this.el.find('.build').attr('href', '#!/' + this.model.get('name') + '/builds/' + this.model.get('last_build_id')).text('#' + this.model.get('last_build_number'))
+    this.el.find('.build').attr('href', '#!/' + this.model.get('slug') + '/builds/' + this.model.get('last_build_id')).text('#' + this.model.get('last_build_number'))
   },
 });

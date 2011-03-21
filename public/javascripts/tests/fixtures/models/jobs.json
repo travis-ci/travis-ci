@@ -4,7 +4,7 @@
     "number": 1,
     "enqueued_at": "2011-01-13T00:40:00.139861Z",
     "repository": {
-      "name": "svenfuchs/minimal"
+      "slug": "svenfuchs/minimal"
     }
   },
   {
@@ -12,7 +12,7 @@
     "number": 2,
     "enqueued_at": "2011-01-13T00:40:01.139861Z",
     "repository": {
-      "name": "svenfuchs/minimal"
+      "slug": "svenfuchs/minimal"
     }
   }
 ]

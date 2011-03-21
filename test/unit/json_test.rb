@@ -16,7 +16,7 @@ class JsonTest < ActiveSupport::TestCase
     expected = { 'id' => build.id, 'commit' => '62aae5f70ceee39123ef' }
     assert_equal_hashes expected, build.as_json(:for => :job)
 
-    expected = { 'id' => repository.id, 'name' => 'svenfuchs/minimal' }
+    expected = { 'id' => repository.id, :slug => 'svenfuchs/minimal' }
     assert_equal_hashes expected, repository.as_json(:for => :job)
   end
 
@@ -24,7 +24,7 @@ class JsonTest < ActiveSupport::TestCase
     expected = { 'id' => build.id, 'number' => build.number }
     assert_equal_hashes expected, build.as_json(:for => :'build:queued')
 
-    expected = { 'id' => repository.id, 'name' => repository.name }
+    expected = { 'id' => repository.id, :slug => repository.slug }
     assert_equal_hashes expected, repository.as_json(:for => :'build:queued')
   end
 
@@ -47,7 +47,7 @@ class JsonTest < ActiveSupport::TestCase
 
     expected = {
       'id' => repository.id,
-      'name' => 'svenfuchs/minimal',
+      :slug => 'svenfuchs/minimal',
       'last_build_id' => build.id,
       'last_build_number' => '1',
       'last_build_started_at' => now,
@@ -71,7 +71,7 @@ class JsonTest < ActiveSupport::TestCase
 
     expected = {
       'id' => repository.id,
-      'name' => 'svenfuchs/minimal',
+      :slug => 'svenfuchs/minimal',
       'last_build_id' => build.id,
       'last_build_number' => '1',
       'last_build_started_at' => now,
