@@ -4,7 +4,6 @@ require 'core_ext/hash/compact'
 class Build < ActiveRecord::Base
   belongs_to :repository
   belongs_to :parent, :class_name => 'Build', :foreign_key => :parent_id
-
   has_many :matrix, :class_name => 'Build', :foreign_key => :parent_id
 
   validates :repository_id, :presence => true
@@ -18,6 +17,12 @@ class Build < ActiveRecord::Base
   class << self
     def create_from_github_payload(data)
       repository = Repository.find_or_create_by_url(data['repository']['url'])
+
+      repository.update_attributes!(
+        :owner_name  => data['repository']['owner']['name'],
+        :owner_email => data['repository']['owner']['email']
+      ) if !repository.owner_name # TODO add a data migration that populates existing repositories from github
+
       commit     = data['commits'].last
       author     = commit['author'] || {}
       committer  = commit['committer'] || author || {}

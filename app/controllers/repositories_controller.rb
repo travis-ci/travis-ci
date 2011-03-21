@@ -19,7 +19,7 @@ class RepositoriesController < ApplicationController
 
   protected
     def repositories
-      params[:username] ? Repository.where(:username => params[:username]).timeline : Repository.timeline.recent
+      params[:owner_name] ? Repository.where(:owner_name => params[:owner_name]).timeline : Repository.timeline.recent
     end
 
     def repository

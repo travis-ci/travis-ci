@@ -20,11 +20,11 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
       build = Build.last
       assert_build_job
       assert_equal ['build:queued', {
-          'repository' => {
+        'repository' => {
           'id' => build.repository.id,
-          'name' =>
-          'svenfuchs/gem-release'
-        }, 'build' => {
+          'name' => 'svenfuchs/gem-release'
+        },
+        'build' => {
           'id' => build.id,
           'number' => 1
         }

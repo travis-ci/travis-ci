@@ -2,6 +2,8 @@ require 'test_helper_rails'
 
 class BuildTest < ActiveSupport::TestCase
   test 'building a Build from Github payload' do
+    Repository.delete_all
+
     build = Build.create_from_github_payload(JSON.parse(GITHUB_PAYLOADS['gem-release']))
 
     assert_equal '9854592', build.commit
@@ -14,5 +16,7 @@ class BuildTest < ActiveSupport::TestCase
 
     assert_equal 'svenfuchs/gem-release', build.repository.name
     assert_equal 'http://github.com/svenfuchs/gem-release', build.repository.url
+    assert_equal 'svenfuchs', build.repository.owner_name
+    assert_equal 'svenfuchs@artweb-design.de', build.repository.owner_email
   end
 end

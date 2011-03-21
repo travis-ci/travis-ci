@@ -1,7 +1,11 @@
 GITHUB_PAYLOADS = {
   "gem-release" => %({
     "repository": {
-      "url": "http://github.com/svenfuchs/gem-release"
+      "url": "http://github.com/svenfuchs/gem-release",
+      "owner": {
+        "email": "svenfuchs@artweb-design.de",
+        "name": "svenfuchs"
+      }
     },
     "commits": [{
       "id":        "9854592",
