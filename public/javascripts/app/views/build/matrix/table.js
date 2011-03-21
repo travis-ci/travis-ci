@@ -1,6 +1,6 @@
 Travis.Views.Build.Matrix.Table = Backbone.View.extend({
   initialize: function() {
-    _.bindAll(this, 'render', 'attachTo', 'collectionRefreshed', 'buildAdded', '_update', '_appendRow');
+    _.bindAll(this, 'render', 'attachTo', 'collectionRefreshed', 'buildAdded', '_update', '_prependRow');
     _.extend(this, this.options);
     this.template = Travis.templates['build/matrix/table'];
     if(this.builds) this.attachTo(this.builds);
@@ -26,15 +26,15 @@ Travis.Views.Build.Matrix.Table = Backbone.View.extend({
     this._update();
   },
   buildAdded: function(build) {
-    this._appendRow(build);
+    this._prependRow(build);
   },
   _update: function() {
     this.el.find('tbody').empty();
-    this.builds.each(this._appendRow);
+    this.builds.each(this._prependRow);
     this.builds.bind('add', this._buildAdded);
   },
-  _appendRow: function(build) {
+  _prependRow: function(build) {
     var view = new Travis.Views.Build.Matrix.Row({ model: build });
-    this.el.find('tbody').append(view.render().el);
+    this.el.find('tbody').prepend(view.render().el);
   },
 });
