@@ -6,7 +6,7 @@ if Rails.env != 'production'
 end
 
 minimal = Repository.create!({
-  :username => 'svenfuchs',
+  :owner_name => 'svenfuchs',
   :name => 'svenfuchs/minimal',
   :url => 'https://github.com/svenfuchs/minimal',
   :last_duration => 10
@@ -58,7 +58,7 @@ Build.create!(
 )
 
 enginex = Repository.create!({
-  :username => 'josevalim',
+  :owner_name => 'josevalim',
   :name => 'josevalim/enginex',
   :url => 'https://github.com/josevalim/enginex',
   :last_duration => 30

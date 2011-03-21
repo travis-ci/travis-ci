@@ -1,10 +1,10 @@
 Travis.Controllers.Application = Backbone.Controller.extend({
   routes: {
-    '':                             'recent',
-    // '!/:username':                  'byUser',
-    '!/:username/:name':            'repository',
-    '!/:username/:name/builds':     'repositoryHistory',
-    '!/:username/:name/builds/:id': 'repositoryBuild',
+    '':                          'recent',
+    // '!/:owner':               'byOwner',
+    '!/:owner/:name':            'repository',
+    '!/:owner/:name/builds':     'repositoryHistory',
+    '!/:owner/:name/builds/:id': 'repositoryBuild',
   },
   initialize: function() {
     _.bindAll(this, 'recent', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'repositorySelected',
@@ -45,25 +45,24 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.tab = 'current';
     this.repositories.whenFetched(this.repositories.selectLast);
     this.selectTab();
-    this.followBuilds = true;
   },
-  repository: function(username, name) {
+  repository: function(owner, name) {
     this.reset();
     this.tab = 'current';
-    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ name: username + '/' + name }) });
+    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ name: owner + '/' + name }) });
     this.selectTab();
   },
-  repositoryHistory: function(username, name) {
+  repositoryHistory: function(owner, name) {
     this.reset();
     this.tab = 'history';
-    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ name: username + '/' + name }) });
+    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ name: owner + '/' + name }) });
     this.selectTab();
   },
-  repositoryBuild: function(username, name, buildId) {
+  repositoryBuild: function(owner, name, buildId) {
     this.reset();
     this.tab = 'build';
     this.buildId = parseInt(buildId);
-    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ name: username + '/' + name }) });
+    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ name: owner + '/' + name }) });
     this.selectTab();
   },
 
@@ -72,7 +71,6 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   reset: function() {
     delete this.buildId;
     delete this.tab;
-    this.followBuilds = false;
   },
 
   // internal events
@@ -80,8 +78,10 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   repositorySelected: function(repository) {
     switch(this.tab) {
       case 'current':
+        repository.builds.select(repository.get('last_build_id'));
+        break;
       case 'build':
-        repository.builds.select(this.buildId || repository.get('last_build_id'));
+        repository.builds.select(this.buildId);
         break;
       case 'history':
         if(!repository.builds.fetched) repository.builds.fetch();
@@ -97,7 +97,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   buildStarted: function(data) {
     this.repositories.set(data);
     this.jobs.remove({ id: data.build.id });
-    if((this.followBuilds || this.repositories.selected().get('name') == data.name) && !this.buildId) {
+    if(this.tab == 'current' && this.repositories.selected().get('name') == data.name && !data.build.parent_id) {
       var repository = this.repositories.get(data.id);
       if(!repository.selected) repository.select();
       repository.builds.select(data.build.id);
