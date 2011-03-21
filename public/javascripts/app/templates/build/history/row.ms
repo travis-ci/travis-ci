@@ -1,5 +1,5 @@
 <tr id="builds_{{id}}" class="build {{color}}">
-  <td class="number"><a href="#!/{{repository/name}}/builds/{{id}}">{{number}}</a></td>
+  <td class="number"><a href="#!/{{repository/slug}}/builds/{{id}}">{{number}}</a></td>
   <td class="commit"><a href="{{repository/url}}/commit/{{commit}}">{{commit}}</a></td>
   <td class="message">{{message}}</td>
   <td class="duration" title="{{duration}}"></td>

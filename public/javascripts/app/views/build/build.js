@@ -34,10 +34,10 @@ Travis.Views.Build.Build = Backbone.View.extend({
   },
   updateTab: function() {
     if(this.build) {
-      $('#tab_build h5 a').attr('href', '#!/' + this.repository.get('name') + '/builds/' + this.build.id).html('Build ' + this.build.get('number'));
+      $('#tab_build h5 a').attr('href', '#!/' + this.repository.get('slug') + '/builds/' + this.build.id).html('Build ' + this.build.get('number'));
       $('#tab_parent').hide();
       this.build.parent(function(parent) {
-        $('#tab_parent').show().find('h5 a').attr('href', '#!/' + parent.repository.get('name') + '/builds/' + parent.id).html('Build ' + parent.get('number'));
+        $('#tab_parent').show().find('h5 a').attr('href', '#!/' + parent.repository.get('slug') + '/builds/' + parent.id).html('Build ' + parent.get('number'));
       });
     }
   },

@@ -43,26 +43,27 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   recent: function() {
     this.reset();
     this.tab = 'current';
+    this.followBuilds = true;
     this.repositories.whenFetched(this.repositories.selectLast);
     this.selectTab();
   },
   repository: function(owner, name) {
     this.reset();
     this.tab = 'current';
-    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ name: owner + '/' + name }) });
+    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ slug: owner + '/' + name }) });
     this.selectTab();
   },
   repositoryHistory: function(owner, name) {
     this.reset();
     this.tab = 'history';
-    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ name: owner + '/' + name }) });
+    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ slug: owner + '/' + name }) });
     this.selectTab();
   },
   repositoryBuild: function(owner, name, buildId) {
     this.reset();
     this.tab = 'build';
     this.buildId = parseInt(buildId);
-    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ name: owner + '/' + name }) });
+    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ slug: owner + '/' + name }) });
     this.selectTab();
   },
 
@@ -71,6 +72,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   reset: function() {
     delete this.buildId;
     delete this.tab;
+    this.followBuilds = false;
   },
 
   // internal events
@@ -92,12 +94,12 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   // external events
 
   buildQueued: function(data) {
-    this.jobs.add({ number: data.build.number, id: data.build.id, repository: { name: data.name } });
+    this.jobs.add({ number: data.build.number, id: data.build.id, repository: { slug: data.slug } });
   },
   buildStarted: function(data) {
     this.repositories.set(data);
     this.jobs.remove({ id: data.build.id });
-    if(this.tab == 'current' && this.repositories.selected().get('name') == data.name && !data.build.parent_id) {
+    if((this.followBuilds || this.tab == 'current' && this.repositories.selected().get('slug') == data.slug) && !this.buildId && !data.build.parent_id) {
       var repository = this.repositories.get(data.id);
       if(!repository.selected) repository.select();
       repository.builds.select(data.build.id);

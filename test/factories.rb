@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :repository do
     owner_name 'svenfuchs'
-    name { "#{owner_name}/minimal" }
+    name 'minimal'
     url  { "http://github.com/#{name}" }
     last_duration 60
     last_built_at { Time.utc(2011, 01, 30, 5, 30) }

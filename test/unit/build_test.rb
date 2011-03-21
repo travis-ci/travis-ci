@@ -14,9 +14,10 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal 'Christopher Floess', build.author_name
     assert_equal 'chris@flooose.de', build.author_email
 
-    assert_equal 'svenfuchs/gem-release', build.repository.name
-    assert_equal 'http://github.com/svenfuchs/gem-release', build.repository.url
+    assert_equal 'gem-release', build.repository.name
     assert_equal 'svenfuchs', build.repository.owner_name
     assert_equal 'svenfuchs@artweb-design.de', build.repository.owner_email
+    assert_equal 'svenfuchs', build.repository.owner_name
+    assert_equal 'http://github.com/svenfuchs/gem-release', build.repository.url
   end
 end
