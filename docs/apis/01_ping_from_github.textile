@@ -10,10 +10,12 @@ A ping from a Github service hook includes the following payload:
     "watchers": 5,
     "forks": 2,
     "private": 1,
-    "owner": {
-      "email": "chris@ozmm.org",
-      "name": "defunkt"
-    }
+    "owner": "defunkt"
+    # The docs say so, but the actual API just returns the plain owner name
+    # "owner": {
+    #   "email": "chris@ozmm.org",
+    #   "name": "defunkt"
+    # }
   },
   "commits": [
     {
