@@ -1,5 +1,7 @@
+require 'core_ext/active_record/base'
 require 'core_ext/array/flatten_once'
 require 'core_ext/hash/compact'
+require 'github'
 
 class Build < ActiveRecord::Base
   belongs_to :repository
@@ -16,27 +18,15 @@ class Build < ActiveRecord::Base
 
   class << self
     def create_from_github_payload(data)
-      repository = Repository.find_or_create_by_name(data['repository']['name'], :url => data['repository']['url'])
+      data       = Github::ServiceHook::Payload.new(data)
+      repository = Repository.find_or_create_by_github_repository(data.repository)
+      number     = repository.builds.next_number
+      attributes = data.builds.last.to_hash.merge(:number => number)
+      repository.builds.create(attributes)
+    end
 
-      repository.update_attributes!(
-        :owner_name  => data['repository']['owner']['name'],
-        :owner_email => data['repository']['owner']['email']
-      ) if !repository.owner_name # TODO add a data migration that populates existing repositories from github
-
-      commit     = data['commits'].last
-      author     = commit['author'] || {}
-      committer  = commit['committer'] || author || {}
-
-      repository.builds.create(
-        :commit          => commit['id'],
-        :message         => commit['message'],
-        :number          => repository.builds.count + 1,
-        :committed_at    => commit['timestamp'],
-        :committer_name  => committer['name'],
-        :committer_email => committer['email'],
-        :author_name     => author['name'],
-        :author_email    => author['email']
-      )
+    def next_number
+      maximum(floor('number')).to_i + 1
     end
 
     def started

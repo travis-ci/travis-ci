@@ -17,14 +17,18 @@ class Repository < ActiveRecord::Base
       limit(20)
     end
 
+    def find_or_create_by_github_repository(data)
+      find_or_create_by_name(data.name) do |r|
+        r.update_attributes!(data.to_hash)
+      end
+    end
+
     def human_status_by(attributes)
       repository = where(attributes).first
       return 'unknown' unless repository && repository.last_finished_build
       repository.last_finished_build.status == 0 ? 'stable' : 'unstable'
     end
   end
-
-  before_create :init_names
 
   def slug
     @slug ||= [owner_name, name].join('/')
@@ -51,11 +55,4 @@ class Repository < ActiveRecord::Base
     methods = JSON_METHODS[options[:for]] || JSON_METHODS[:default]
     super(:only => attrs, :methods => methods) #.compact
   end
-
-
-  protected
-
-    def init_names
-      # self.name ||= URI.parse(url).path.split('/')[-2, 2].join('/')
-    end
 end

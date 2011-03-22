@@ -36,6 +36,8 @@ group :test do
   gem 'mocha'
   gem 'database_cleaner'
   gem 'factory_girl_rails', :git => 'git://github.com/thoughtbot/factory_girl_rails.git'
+  # gem 'webmock'
+  gem 'fakeweb'
 
   gem 'web-socket-ruby'
 end

@@ -1,9 +1,12 @@
 require 'test_helper_rails'
 
 class BuildsControllerTest < ActionDispatch::IntegrationTest
+  include GithubApiTestHelper
+
   attr_reader :channel, :build
 
   def setup
+    super
     flush_redis
 
     @build = Factory(:build).reload
