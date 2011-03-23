@@ -1,9 +1,9 @@
 class ActiveRecord::Base
   SQL = {
     :floor => {
-      'postgres' => 'floor(%s::float)',
-      'mysql'    => 'floor(%s)',
-      'sqlite3'  => 'round(%s - 0.5)'
+      'postgresql' => 'floor(%s::float)',
+      'mysql'      => 'floor(%s)',
+      'sqlite3'    => 'round(%s - 0.5)'
     }
   }
   class << self
