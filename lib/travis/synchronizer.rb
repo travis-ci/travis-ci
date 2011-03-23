@@ -2,7 +2,7 @@ module Travis
   class Synchronizer < Array
     class << self
       def timeout
-        @@timeout ||= 2
+        @@timeout ||= 20
       end
 
       def timeout=(timeout)

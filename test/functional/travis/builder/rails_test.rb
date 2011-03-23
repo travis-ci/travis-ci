@@ -16,20 +16,15 @@ class TravisBuilderRailsTest < ActiveSupport::TestCase
 
     @builder = Builder.new('12345', 'build' => { 'id' => 1 }, 'repository' => { 'id' => 1 })
     builder.stubs(:buildable).returns(Mocks::Buildable.new)
-    builder.stubs(:post)
   end
 
   def work!
     EM.run { builder.work!; EM.stop }
   end
 
-  test 'updates the build record on start' do
-    builder.expects(:post).with('started_at' => Time.now)
-    work!
-  end
-
-  test 'updates the build record on finish' do
-    builder.expects(:post).with('status' => nil, 'finished_at' => Time.now) # 'log' => '', 
+  test 'updates the build record on start and on finish' do
+    builder.expects(:post).with('msg_id' => 1, 'started_at' => Time.now)
+    builder.expects(:post).with('msg_id' => 2, 'status' => nil, 'finished_at' => Time.now) # 'log' => '',
     work!
   end
 end
