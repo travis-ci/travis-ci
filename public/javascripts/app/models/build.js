@@ -61,7 +61,8 @@ Travis.Models.Build = Travis.Models.Base.extend({
       json['matrix'] = this.matrix.toJSON();
     }
     if(this.get('config')) {
-      json['config'] = _.map(this.get('config'), function(value, key) { return { key: key, value: value } } );
+      json['config_table'] = _.map(this.get('config'), function(value, key) { return { key: key, value: value } } );
+      json['config'] = _.map(this.get('config'), function(value, key) { return key + ': ' + value; } ).join(', ');
     }
     return json;
   }

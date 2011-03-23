@@ -19,4 +19,8 @@
 
   <dt>Message</dt>
   <dd class="commit-message">{{message}}</dd>
+  {{#if parent_id}}
+    <dt>Config</dt>
+    <dd class="config">{{config}}</dd>
+  {{/if}}
 </dl>
