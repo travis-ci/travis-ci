@@ -7,29 +7,29 @@ class RepositoriesAddOwnerNameAndOwnerEmail < ActiveRecord::Migration
     change_table :repositories do |t|
       t.string :owner_name
       t.string :owner_email
-    end
+    end rescue nil
 
     Repository.all.each do |r|
       r.update_attributes!(
-        :owner_name  => r.username,
-        :owner_email => fetch_owner_email(r.name)
+        :owner_name  => r.owner_name  || r.url.split('/')[-2],
+        :owner_email => r.owner_email || fetch_owner_email(r.url.split('/')[-2, 2].join('/'))
       )
     end
 
-    remove_column :repositories, :username
+    remove_column :repositories, :username rescue nil
   end
 
   def self.down
     change_table :repositories do |t|
       t.string :username
-    end
+    end rescue nil
 
     Repository.all.each do |r|
-      r.update_attributes!(:username => r.owner_name)
+      r.update_attributes!(:username => r.url.split('/')[-2]) unless r.owner_name.nil?
     end
 
-    remove_column :repositories, :owner_name
-    remove_column :repositories, :owner_email
+    remove_column :repositories, :owner_name  rescue nil
+    remove_column :repositories, :owner_email rescue nil
   end
 
   def self.fetch_owner_email(name)
@@ -45,11 +45,15 @@ class RepositoriesAddOwnerNameAndOwnerEmail < ActiveRecord::Migration
     organization = fetch("organizations/#{name}/public_members")
     emails = organization['users'].map { |member| member['email'] }
     emails.select(&:present?).join(',')
+  rescue
+    nil
   end
 
   def self.fetch_user_email(name)
     user = fetch("user/show/#{name}")
     user['user']['email']
+  rescue
+    nil
   end
 
   def self.fetch(path)
