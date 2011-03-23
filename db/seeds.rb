@@ -7,7 +7,7 @@ end
 
 minimal = Repository.create!({
   :owner_name => 'svenfuchs',
-  :name => 'svenfuchs/minimal',
+  :name => 'minimal',
   :url => 'https://github.com/svenfuchs/minimal',
   :last_duration => 10
 })
@@ -59,7 +59,7 @@ Build.create!(
 
 enginex = Repository.create!({
   :owner_name => 'josevalim',
-  :name => 'josevalim/enginex',
+  :name => 'enginex',
   :url => 'https://github.com/josevalim/enginex',
   :last_duration => 30
 })
