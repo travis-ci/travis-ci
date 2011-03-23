@@ -21,7 +21,7 @@ module Travis
           :script => 'rake',
           :commit => build['commit'],
           :config => build['config'],
-          :url    => repository['url'] || "https://github.com/#{repository['name']}"
+          :url    => repository['url'] || "https://github.com/#{repository['slug']}"
         )
       end
 
