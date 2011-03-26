@@ -32,7 +32,7 @@ Travis.Views.Build.Summary = Backbone.View.extend({
     this.el.updateTimes();
   },
   setFinishedAt: function() {
-    this.el.find('.finished_at').attr('title', this.model.get('finishedAt'));
+    this.el.find('.finished_at').attr('title', this.model.get('finished_at'));
     this.el.updateTimes();
   },
 });

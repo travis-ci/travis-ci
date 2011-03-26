@@ -117,6 +117,10 @@ describe('Events:', function() {
       beforeEach(function() {
         goTo('josevalim/enginex');
         waitsFor(repositoriesFetched());
+        runs(function() {
+          expect('#repositories li:nth-child(2)').toListRepository({ slug: 'josevalim/enginex', build: 1, selected: true, color: 'red', finished_at: 'a day ago', duration: '20 sec' });
+          expect($('#tab_build')).toShowBuildSummary({ build: 1, commit: '565294c', committer: 'Jose Valim', color: 'red', finished_at: 'a day ago', duration: '20 sec' });
+        });
         trigger('build:started', EVENT_PAYLOADS['build:started:1']);
         trigger('build:finished', EVENT_PAYLOADS['build:finished:1']);
       });
@@ -126,7 +130,7 @@ describe('Events:', function() {
       });
 
       it('updates the build summary', function() {
-        expect($('#tab_current')).toShowBuildSummary({ build: 2, commit: '1111111', committer: 'Jose Valim', color: 'green', finished_at: '-', duration: '30 sec' });
+        expect($('#tab_current')).toShowBuildSummary({ build: 2, commit: '1111111', committer: 'Jose Valim', color: 'green', finished_at: 'less than a minute ago', duration: '30 sec' });
       })
     });
 
@@ -134,6 +138,10 @@ describe('Events:', function() {
       beforeEach(function() {
         goTo('/');
         waitsFor(repositoriesFetched());
+        runs(function() {
+          expect('#repositories li:nth-child(1)').toListRepository({ slug: 'svenfuchs/minimal', build: 3, selected: true, color: null, finished_at: '-', duration: '4 hrs 30 sec' });
+          expect($('#tab_build')).toShowBuildSummary({ build: 3, commit: 'add057e', committer: 'Sven Fuchs', color: null, finished_at: '-', duration: '4 hrs 30 sec' });
+        });
         trigger('build:finished', EVENT_PAYLOADS['build:finished:2']);
       });
 
@@ -141,9 +149,9 @@ describe('Events:', function() {
         expect('#repositories li:nth-child(1)').toListRepository({ slug: 'svenfuchs/minimal', build: 3, selected: true, color: 'green', finished_at: 'less than a minute ago', duration: '4 hrs 10 sec' });
       });
 
-      // it('updates the build summary', function() {
-      //   expect($('#tab_build')).toShowBuildSummary({ build: 3, commit: 'add057e', committer: 'Sven Fuchs', color: 'green', finished_at: '-', duration: '4 hrs 30 sec' });
-      // })
+      it('updates the build summary', function() {
+        expect($('#tab_build')).toShowBuildSummary({ build: 3, commit: 'add057e', committer: 'Sven Fuchs', color: 'green', finished_at: 'less than a minute ago', duration: '4 hrs 30 sec' });
+      })
     });
   });
 
@@ -256,7 +264,7 @@ describe('Events:', function() {
         });
 
         it('updates the build summary', function() {
-          expect($('#tab_build')).toShowBuildSummary({ build: 2, commit: '1111111', committer: 'Jose Valim', color: 'green', finished_at: '-', duration: '30 sec' });
+          expect($('#tab_build')).toShowBuildSummary({ build: 2, commit: '1111111', committer: 'Jose Valim', color: 'green', finished_at: 'less than a minute ago', duration: '30 sec' });
         })
       });
     });
@@ -273,20 +281,22 @@ describe('Events:', function() {
         });
 
         it('updates the build summary', function() {
-          expect($('#tab_build')).toShowBuildSummary({ build: 3, commit: 'add057e', committer: 'Sven Fuchs', color: 'green', finished_at: '-', duration: '4 hrs 30 sec' });
+          expect($('#tab_build')).toShowBuildSummary({ build: 3, commit: 'add057e', committer: 'Sven Fuchs', color: 'green', finished_at: 'less than a minute ago', duration: '4 hrs 30 sec' });
         })
       });
 
       describe('build:finished for a matrix child build', function() {
         beforeEach(function() {
+          /* console.log(Travis.app.repositories.get(1).builds.pluck('commit')) */
           trigger('build:finished', EVENT_PAYLOADS['build:finished:3']);
         });
 
         // FIXME this fails because instead of updating the (nested) child build's status, it adds the child build to the builds collection
         xit('updates the matrix table row', function() {
+          /* console.log(Travis.app.repositories.get(1).builds.pluck('commit')) */
           expect('#tab_build #matrix').toMatchTable([
-            ['Build', 'Gemfile',                  'Rvm'   ],
-            ['3.1',   'test/Gemfile.rails-2.3.x', '1.8.7' ],
+            ['Build', 'Gemfile',                  'Rvm'  ],
+            ['3.1',   'test/Gemfile.rails-2.3.x', '1.8.7'],
           ]);
           expect($('#tab_build #matrix tbody tr:first-child').hasClass('green')).toBeTruthy();
         })
