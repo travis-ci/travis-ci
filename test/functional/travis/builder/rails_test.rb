@@ -23,8 +23,8 @@ class TravisBuilderRailsTest < ActiveSupport::TestCase
   end
 
   test 'updates the build record on start and on finish' do
-    builder.expects(:post).with('msg_id' => 1, 'started_at' => Time.now)
-    builder.expects(:post).with('msg_id' => 2, 'status' => nil, 'finished_at' => Time.now) # 'log' => '',
+    builder.expects(:post).with('started_at' => Time.now)
+    builder.expects(:post).with('msg_id' => 1, 'status' => nil, 'finished_at' => Time.now) # 'log' => '',
     work!
   end
 end

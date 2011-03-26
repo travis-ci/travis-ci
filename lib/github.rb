@@ -48,14 +48,14 @@ module Github
     end
 
     def owner_name
-      owner
+      owner.is_a?(Hash) ? owner['name'] : owner
     end
 
     def owner_email
       if organization
         Organization.fetch(:name => organization).member_emails
       else
-        User.fetch(:name => owner).email
+        User.fetch(:name => owner_name).email
       end
     end
 
