@@ -34,6 +34,10 @@ module EventMachine
       @callback = block
     end
 
+    def on_close(&block)
+      @on_close = block
+    end
+
     def receive_data(data)
       stdout.print(data) if self.class.output
       @callback.call(data) if @callback
@@ -41,6 +45,7 @@ module EventMachine
 
     def unbind
       STDOUT.reopen(stdout)
+      @on_close.call if @on_close
     end
   end
 end
