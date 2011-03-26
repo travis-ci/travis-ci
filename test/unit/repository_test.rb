@@ -1,15 +1,34 @@
 require 'test_helper_rails'
 
 class ModelsRepositoryTest < ActiveSupport::TestCase
+  include GithubApiTestHelper
+
   attr_reader :repository_1, :repository_2, :build_1, :build_2, :build_3
 
   def setup
     super
-    @repository_1 = Factory(:repository, :name => '1')
-    @repository_2 = Factory(:repository, :name => '2')
+    @repository_1 = Factory(:repository, :name => 'gem-release', :owner_name => 'svenfuchs')
+    @repository_2 = Factory(:repository, :name => 'gem-release', :owner_name => 'flooose')
     @build_1 = Factory(:build, :repository => repository_1, :number => '1', :status => 0, :started_at => '2010-11-11 12:00:00')
     @build_2 = Factory(:build, :repository => repository_2.reload, :number => '1', :status => 1, :started_at => '2010-11-11 12:00:10', :finished_at => '2010-11-11 12:00:10')
     @build_3 = Factory(:build, :repository => repository_2.reload, :number => '2', :status => nil, :started_at => '2010-11-11 12:00:20')
+  end
+
+  test 'find_or_create_by_github_repository: finds an existing repository' do
+    data = JSON.parse(GITHUB_PAYLOADS['gem-release'])
+    payload = Github::ServiceHook::Payload.new(data)
+    assert_equal repository_1, Repository.find_or_create_by_github_repository(payload.repository)
+  end
+
+  test 'find_or_create_by_github_repository: creates a new repository' do
+    repository_1.destroy
+    data     = JSON.parse(GITHUB_PAYLOADS['gem-release'])
+    payload  = Github::ServiceHook::Payload.new(data)
+
+    attribute_names = ['name', 'owner_name', 'owner_email', 'url']
+    expected = repository_1.attributes.slice(*attribute_names)
+    actual   = Repository.find_or_create_by_github_repository(payload.repository).attributes.slice(*attribute_names)
+    assert_equal expected, actual
   end
 
   test '.timeline sorts the most repository with the most recent build to the top' do
