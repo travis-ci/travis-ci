@@ -80,7 +80,7 @@ module Travis
           when 'gemfile'
             "BUNDLE_GEMFILE=#{value}"
           else
-            "#{name.upcase}=#{value}"
+            "#{key.upcase}=#{value}"
           end
         end
         result << command
