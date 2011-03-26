@@ -5,6 +5,7 @@ class BuildTest < ActiveSupport::TestCase
 
   test 'building a Build from Github payload' do
     Repository.delete_all
+    Build.delete_all
 
     build = Build.create_from_github_payload(JSON.parse(GITHUB_PAYLOADS['gem-release'])).reload
 
@@ -24,14 +25,18 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal 'http://github.com/svenfuchs/gem-release', build.repository.url
   end
 
-  test 'next_number' do
+  test 'next_number (1)' do
     repository = Factory(:repository)
     assert_equal 1, repository.builds.next_number
+  end
 
+  test 'next_number (2)' do
     repository = Factory(:repository)
     3.times { |number| Factory(:build, :repository => repository, :number => number + 1) }
     assert_equal 4, repository.builds.next_number
+  end
 
+  test 'next_number (3)' do
     repository = Factory(:repository)
     Factory(:build, :repository => repository, :number => '3.1')
     assert_equal 4, repository.builds.next_number

@@ -14,6 +14,12 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     @build_3 = Factory(:build, :repository => repository_2.reload, :number => '2', :status => nil, :started_at => '2010-11-11 12:00:20')
   end
 
+  test 'validates_uniqueness of :owner_name/:name' do
+    repository = Repository.new(:name => 'gem-release', :owner_name => 'svenfuchs')
+    assert !repository.valid?
+    assert_equal ['has already been taken'], repository.errors['name']
+  end
+
   test 'find_or_create_by_github_repository: finds an existing repository' do
     data = JSON.parse(GITHUB_PAYLOADS['gem-release'])
     payload = Github::ServiceHook::Payload.new(data)

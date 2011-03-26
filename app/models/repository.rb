@@ -8,6 +8,9 @@ class Repository < ActiveRecord::Base
   has_one :last_success,        :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS NULL AND status = 0'
   has_one :last_failure,        :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS NULL AND status = 1'
 
+  validates_presence_of :name, :owner_name
+  validates_uniqueness_of :name, :scope => :owner_name
+
   class << self
     def timeline
       where(arel_table[:last_build_started_at].not_eq(nil)).order(arel_table[:last_build_started_at].desc)
