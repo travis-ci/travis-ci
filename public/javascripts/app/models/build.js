@@ -91,6 +91,10 @@ Travis.Collections.Builds = Travis.Collections.Base.extend({
     _.bindAll(this, 'url', 'dimensions', 'update');
     _.extend(this, options);
   },
+  _add: function(model, options) {
+    Travis.Collections.Base.prototype._add.apply(this, arguments);
+    if(Travis.app) Travis.app.builds._add(model);
+  },
   update: function(attributes) {
     if(attributes) {
       var build = this.get(attributes.id);
@@ -110,3 +114,15 @@ Travis.Collections.Builds = Travis.Collections.Base.extend({
     return number - fraction;
   }
 });
+
+Travis.Collections.AllBuilds = Travis.Collections.Builds.extend({
+  _add: function(model, options) {
+    var cid = model.cid;
+    var collection = model.collection;
+    Travis.Collections.Base.prototype._add.apply(this, arguments);
+    model.collection = collection;
+    model.cid = cid;
+    return this;
+  },
+})
+
