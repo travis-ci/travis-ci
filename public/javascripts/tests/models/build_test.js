@@ -1,4 +1,22 @@
 describe('Builds', function() {
+  beforeEach(function() {
+    startApp();
+    goTo('/');
+    runsWhen(repositoriesFetched(), function() {
+      expect(Travis.app.repositories).not.toBeEmpty();
+    });
+  });
+
+  afterEach(function() {
+    stopApp();
+  });
+
+  it('adds a normal build to the global Travis.app.builds collection', function() {
+    var build = Travis.app.repositories.get('1').builds.first();
+    expect(Travis.app.builds).not.toBeEmpty();
+    expect(Travis.app.builds.get(build.id)).toEqual(build);
+  });
+
   it("update adds a new child", function() {
     var collection = new Travis.Collections.Builds();
     collection.update({ id: 1, status: 1 });
@@ -30,4 +48,3 @@ describe('Builds', function() {
     expect(collection.get(1).matrix.get(3).get('started_at')).toEqual('Sun Apr 03 2011 00:01:00 GMT+0200 (CEST)');
   });
 });
-

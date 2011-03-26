@@ -12,6 +12,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   },
   run: function() {
     this.repositories = new Travis.Collections.Repositories();
+    this.builds       = new Travis.Collections.AllBuilds();
     this.jobs         = new Travis.Collections.Jobs();
     this.workers      = new Travis.Collections.Workers();
 
