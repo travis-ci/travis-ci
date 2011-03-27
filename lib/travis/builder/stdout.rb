@@ -12,7 +12,7 @@ module Travis
         end
       end
 
-      BUFFER_TIME = 2
+      BUFFER_TIME = 0.5
 
       attr_reader :stdout, :buffer
 
