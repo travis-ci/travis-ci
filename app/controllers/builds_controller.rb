@@ -27,11 +27,11 @@ class BuildsController < ApplicationController
       build.update_attributes!(params[:build])
 
       if build.was_started?
-        trigger('build:started')
+        trigger('build:started', build, 'msg_id' => msg_id)
       elsif build.matrix_expanded?
         build.matrix.each { |child| enqueue!(child) } # TODO need to push the new matrix via Pusher, too, right?
       elsif build.was_finished?
-        trigger('build:finished')
+        trigger('build:finished', build, 'msg_id' => msg_id)
         deliver_finished_email
       end
     end
