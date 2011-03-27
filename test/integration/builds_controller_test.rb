@@ -15,6 +15,8 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
 
     Travis::Synchronizer.timeout = 0.5
     Travis::Synchronizer.synchronizers.clear
+
+    EventMachine.stubs(:add_timer)
   end
 
   test 'POST to /builds (ping from github) creates a build record and a build job and sends a build:queued event to Pusher' do
@@ -62,27 +64,25 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
         'committer_name' => 'Sven Fuchs',
         'committer_email' => 'svenfuchs@artweb-design.de',
         'started_at' => build.started_at,
-      }
+      },
+      'msg_id' => '1'
     }], channel.messages.first
   end
 
   test 'PUT to /builds/:id/log appends to the build log' do
-    EM.run do
-      build.update_attributes!(:log => 'some log')
-      log_from_worker!(1)
-      assert_equal 'some log ... appended', build.log
-      assert_equal ['build:log', {
-        'repository' => {
-          'id' => build.repository.id
-        },
-        'build' => {
-          'id' => build.id
-        },
-        'log' => ' ... appended',
-        'msg_id' => '1'
-      }], channel.messages.first
-      EM.stop
-    end
+    build.update_attributes!(:log => 'some log')
+    log_from_worker!(1)
+    assert_equal 'some log ... appended', build.log
+    assert_equal ['build:log', {
+      'repository' => {
+        'id' => build.repository.id
+      },
+      'build' => {
+        'id' => build.id
+      },
+      'log' => ' ... appended',
+      'msg_id' => '1'
+    }], channel.messages.first
   end
 
   test 'PUT to /builds/:id finishes the build' do
@@ -104,7 +104,8 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
         'id' => build.id,
         'status' => build.repository.id,
         'finished_at' => build.finished_at,
-      }
+      },
+      'msg_id' => '1'
     }], channel.messages.first
   end
 
@@ -113,20 +114,17 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'walkthrough from Github ping to finished build' do
-    EM.run do
-      ping_from_github!
-      assert_build_job
+    ping_from_github!
+    assert_build_job
 
-      start_from_worker!
-      assert_build_started
+    start_from_worker!(1)
+    assert_build_started
 
-      3.times { |ix| log_from_worker!(ix + 1) }
-      assert_equal ' ... appended ... appended ... appended', build.log
+    3.times { |ix| log_from_worker!(ix + 2) }
+    assert_equal ' ... appended ... appended ... appended', build.log
 
-      finish_from_worker!
-      assert_build_finished
-      EM.stop
-    end
+    finish_from_worker!(5)
+    assert_build_finished
   end
 
   protected
@@ -134,25 +132,24 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
       post '/builds', { :payload => GITHUB_PAYLOADS['gem-release'] }, 'HTTP_AUTHORIZATION' => credentials
     end
 
-    def configure_from_worker!
-      authenticated_put(build_path(build), WORKER_PAYLOADS[:configured])
+    def configure_from_worker!(msg_id = 1)
+      authenticated_put(build_path(build), WORKER_PAYLOADS[:configured].merge('msg_id' => msg_id))
       build.reload
     end
 
-    def start_from_worker!
-      authenticated_put(build_path(build), WORKER_PAYLOADS[:started])
+    def start_from_worker!(msg_id = 1)
+      authenticated_put(build_path(build), WORKER_PAYLOADS[:started].merge('msg_id' => msg_id))
       build.reload
     end
 
     def log_from_worker!(msg_id = 1)
-      payload = WORKER_PAYLOADS[:log]
-      payload['build'].merge!('msg_id' => msg_id)
+      payload = WORKER_PAYLOADS[:log].merge('msg_id' => msg_id)
       authenticated_put(log_build_path(build), payload)
       build.reload
     end
 
-    def finish_from_worker!
-      authenticated_put(build_path(build), WORKER_PAYLOADS[:finished])
+    def finish_from_worker!(msg_id = 1)
+      authenticated_put(build_path(build), WORKER_PAYLOADS[:finished].merge('msg_id' => msg_id))
       build.reload
     end
 
