@@ -4,15 +4,22 @@ module Travis
   class Builder
     module Stdout
       class Buffer < String
-        def read
+        def read_pos
           @read_pos ||= 0
-          string = self[@read_pos, length - @read_pos]
+        end
+
+        def read
+          string = self[read_pos, length - read_pos]
           @read_pos += string.length
           string
         end
+
+        def empty?
+          read_pos == length
+        end
       end
 
-      BUFFER_TIME = 0.5
+      BUFFER_TIME = 0.25
 
       attr_reader :stdout, :buffer
 
