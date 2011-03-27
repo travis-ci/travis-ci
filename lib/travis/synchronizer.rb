@@ -46,7 +46,7 @@ module Travis
     end
 
     def with_finalizer
-      EM.cancel_timer(finalizer)
+      EM.cancel_timer(finalizer) if finalizer
       yield
       @finalizer = EM.add_timer(self.class.timeout) { finalize }
     end

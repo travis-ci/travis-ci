@@ -21,7 +21,7 @@ class BuildsController < ApplicationController
   end
 
   def update
-    id, msg_id = params[:build][:id], params[:build].delete(:msg_id)
+    id, msg_id = params[:build][:id], params[:msg_id]
 
     Travis::Synchronizer.receive(id, msg_id) do
       build.update_attributes!(params[:build])
@@ -40,7 +40,8 @@ class BuildsController < ApplicationController
   end
 
   def log
-    id, msg_id, log = params[:build].values_at(*%w(id msg_id log))
+    msg_id  = params[:msg_id]
+    id, log = params[:build].values_at(*%w(id log))
 
     Travis::Synchronizer.receive(id, msg_id) do
       build.append_log!(log)
