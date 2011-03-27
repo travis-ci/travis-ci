@@ -32,5 +32,8 @@ $.fn.extend({
   },
   readableTime: function() {
     $(this).each(function() { $(this).text(Utils.readableTime(parseInt($(this).attr('title')))); })
+  },
+  updateGithubStats: function(repository) {
+    Utils.updateGithubStats(repository, $(this));
   }
 });

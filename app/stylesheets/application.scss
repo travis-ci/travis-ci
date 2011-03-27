@@ -268,6 +268,9 @@ caption {
 /* main */
 
 #main {
+  .repository {
+    position: relative;
+  }
   h3 {
     margin: 15px 0 0 0;
     font-size: 24px;
@@ -276,6 +279,32 @@ caption {
     color: #666;
     text-decoration: underline;
   }
+
+  .github-stats {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  .github-stats > * {
+    float: left;
+  }
+  .github-stats a {
+    color: #999;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 10px;
+    padding-left: 20px;
+    background: no-repeat 0px 0px;
+  }
+  .github-stats .watchers {
+    background-image: url(/images/icons/github-watchers.png);
+  }
+  .github-stats .forks {
+    background-image: url(/images/icons/github-forks.png);
+  }
+
   .tabs {
     margin-top: 35px;
   }

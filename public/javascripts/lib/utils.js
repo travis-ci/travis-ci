@@ -72,7 +72,7 @@ Utils = {
       Utils._updateTimesInterval = setInterval(function() { Utils.updateTimes() }, 3000);
     }
   },
-  readableTime: function(duration){
+  readableTime: function(duration) {
     var days    = Math.floor(duration / 86400)
     var hours   = Math.floor(duration % 86400 / 3600);
     var minutes = Math.floor(duration % 3600 / 60);
@@ -88,6 +88,13 @@ Utils = {
       return result.length > 0 ? result.join(' ') : '-';
     }
   },
+  updateGithubStats: function(repository, element) {
+    $.getJSON('http://github.com/api/v2/json/repos/show/' + repository.get('slug') + '?callback=?', function(data) {
+      var url = 'http://github.com/' + repository.get('slug');
+      element.find('.watchers').attr('href', url + '/watchers').text(data.repository.watchers);
+      element.find('.forks').attr('href', url + '/network').text(data.repository.forks);
+    });
+  }
 }
 
 function trace() {
