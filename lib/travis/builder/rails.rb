@@ -12,12 +12,12 @@ module Travis
 
       def on_start
         super
-        post('started_at' => started_at)
+        post('started_at' => started_at, 'msg_id' => msg_id)
       end
 
       def on_configure
         super
-        post('config' => result)
+        post('config' => result, 'msg_id' => msg_id)
       end
 
       def on_log(chars)
