@@ -34,4 +34,15 @@ class TravisBuilderStdoutTest < ActiveSupport::TestCase
     builder.expects(:on_log).with("some build output\n")
     work!
   end
+
+  test 'buffer' do
+    buffer = Travis::Builder::Stdout::Buffer.new
+    assert buffer.empty?, 'buffer should be empty'
+
+    buffer << 'foo'
+    assert !buffer.empty?, 'buffer should not be empty'
+
+    assert_equal 'foo', buffer.read
+    assert buffer.empty?, 'buffer should be empty'
+  end
 end
