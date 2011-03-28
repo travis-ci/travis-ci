@@ -30,15 +30,23 @@ module Travis
 
       def work!
         $_stdout = @stdout = EM.split_stdout do |c|
-          c.callback { |data| buffer << data }
-          c.on_close { flush }
+          if buffer?
+            c.callback { |data| buffer << data }
+            c.on_close { flush }
+          else
+            c.callback { |data| on_log(data) }
+          end
         end
-        EventMachine.add_periodic_timer(BUFFER_TIME) { flush }
+        EventMachine.add_periodic_timer(BUFFER_TIME) { flush } if buffer?
         super
       end
 
       def flush
         on_log(buffer.read) unless buffer.empty?
+      end
+
+      def buffer?
+        BUFFER_TIME.to_f > 0
       end
     end
   end
