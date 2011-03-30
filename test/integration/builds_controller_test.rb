@@ -13,9 +13,6 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     @channel = Mocks::Channel.new
     Pusher.stubs(:[]).returns(channel)
 
-    Travis::Synchronizer.timeout = 0.5
-    Travis::Synchronizer.synchronizers.clear
-
     EventMachine.stubs(:add_timer)
   end
 

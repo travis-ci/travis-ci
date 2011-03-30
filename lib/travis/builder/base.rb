@@ -43,16 +43,6 @@ module Travis
       def on_finish
         @finished_at = Time.now
       end
-
-      def connections
-        self.class.connections
-      end
-
-      def register_connection(connection)
-        connections << connection
-        connection.callback { connections.delete(connection) }
-        connection.errback  { connections.delete(connection) }
-      end
     end
   end
 end

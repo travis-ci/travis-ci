@@ -21,33 +21,23 @@ class BuildsController < ApplicationController
   end
 
   def update
-    id, msg_id = params[:build][:id], params[:msg_id]
+    build.update_attributes!(params[:build])
 
-    Travis::Synchronizer.receive(id, msg_id) do
-      build.update_attributes!(params[:build])
-
-      if build.was_started?
-        trigger('build:started', build, 'msg_id' => msg_id)
-      elsif build.matrix_expanded?
-        build.matrix.each { |child| enqueue!(child) } # TODO need to push the new matrix via Pusher, too, right?
-      elsif build.was_finished?
-        trigger('build:finished', build, 'msg_id' => msg_id)
-        deliver_finished_email
-      end
+    if build.was_started?
+      trigger('build:started', build, 'msg_id' => params[:msg_id])
+    elsif build.matrix_expanded?
+      build.matrix.each { |child| enqueue!(child) } # TODO need to push the new matrix via Pusher, too, right?
+    elsif build.was_finished?
+      trigger('build:finished', build, 'msg_id' => params[:msg_id])
+      deliver_finished_email
     end
 
     render :nothing => true
   end
 
   def log
-    msg_id  = params[:msg_id]
-    id, log = params[:build].values_at(*%w(id log))
-
-    Travis::Synchronizer.receive(id, msg_id) do
-      build.append_log!(log)
-      trigger('build:log', build, 'log' => log, 'msg_id' => msg_id)
-    end
-
+    build.append_log!(params[:build][:log])
+    trigger('build:log', build, 'log' => params[:build][:log], 'msg_id' => params[:msg_id])
     render :nothing => true
   end
 

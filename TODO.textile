@@ -23,4 +23,5 @@ h2. Stuff
 + Load indicator for builds history
 - Notify clients about new workers
 
+- make Workers more robust so that when (e.g.) a test suite segfaults the worker still sends that output
 - rename build#config to build#env
