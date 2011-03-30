@@ -1,12 +1,15 @@
-require 'em-http-request'
+require 'patron'
 require 'uri'
 
 module Travis
   class Builder
     module Rails
+      attr_reader :messages
+
       def work!
-        @done = []
+        @messages = []
         @msg_id = 0
+        send_messages!
         super
       end
 
@@ -36,14 +39,31 @@ module Travis
         end
 
         def post(data)
-          host = rails_config['url'] || 'http://127.0.0.1'
-          url  = "#{host}/builds/#{build['id']}#{'/log' if data.delete('append')}"
-          uri  = URI.parse(host)
-          data = { :body => { '_method' => 'put', 'build' => data, 'msg_id' => msg_id }, :head => { :authorization => [uri.user, uri.password] } }
-          # stdout.puts "-- post to #{url} : #{data.inspect}"
-          register_connection EventMachine::HttpRequest.new(url).post(data)
+          path = "/builds/#{build['id']}"
+          path += '/log' if data.delete('append')
+          data = { '_method' => 'put', 'build' => data, 'msg_id' => msg_id }
+          messages << [path, data]
         rescue Exception => e
-          stdout.puts e.inspect
+          # stdout.puts e.inspect
+        end
+
+        def send_messages!
+          EM.add_periodic_timer(0.1) do
+            if message = messages.shift
+              # stdout.puts "-- message to #{message[0]} : #{message[1].inspect}"
+              http.post(*message)
+            end
+          end
+        end
+
+        def http
+          @http ||= Patron::Session.new.tap do |http|
+            host = rails_config['url'] || 'http://127.0.0.1'
+            uri  = URI.parse(host)
+            http.base_url = host
+            http.username = uri.user
+            http.password = uri.password
+          end
         end
 
         def rails_config

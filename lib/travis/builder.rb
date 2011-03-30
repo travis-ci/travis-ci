@@ -24,17 +24,14 @@ module Travis
         Resque.redis = ENV['REDIS_URL'] || Travis.config['redis']['url']
       end
 
-      def connections
-        @@connections ||= []
-      end
-
       def perform(meta_id, payload)
         EM.run do
           sleep(0.01) until EM.reactor_running?
           EM.defer do
             begin
-              new(meta_id, payload).work!
-              sleep(0.1) until connections.empty?
+              builder = new(meta_id, payload)
+              builder.work!
+              sleep(0.1) until builder.messages.empty?
               EM.stop
             rescue Exception => e
               $_stdout.puts e.inspect

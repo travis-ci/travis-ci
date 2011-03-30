@@ -15,6 +15,7 @@ gem 'em-websocket',       '~> 0.2.0'
 gem 'travis-ci-em-pusher',  '~> 0.1.1'
 gem 'compass',            '~> 0.10.6'
 gem 'jammit'
+gem 'patron'
 
 group :development do
   gem 'sqlite3-ruby', :require => 'sqlite3'

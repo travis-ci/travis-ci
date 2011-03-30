@@ -20,6 +20,17 @@ module Mocks
     end
   end
 
+  class Patron
+    attr_accessor :requests
+    def initialize
+      @requests = []
+    end
+
+    def post(*args)
+      requests << [:post, *args]
+    end
+  end
+
   class Pusher
     attr_accessor :messages
     def initialize
