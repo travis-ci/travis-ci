@@ -1,4 +1,4 @@
-require 'patron'
+require 'em-http-request'
 require 'uri'
 
 module Travis
@@ -48,26 +48,34 @@ module Travis
         end
 
         def send_messages!
-          EM.add_periodic_timer(0.1) do
+          EM.add_timer(0.1) do
             if message = messages.shift
-              # stdout.puts "-- message to #{message[0]} : #{message[1].inspect}"
-              http.post(*message)
+              path, body = *message
+              # stdout.puts "-- message to #{path} : #{body.inspect}"
+              request = http(path).post(:body => message[1], :head => { 'authorization' => auth })
+              request.callback { send_messages! }
             end
           end
         end
 
-        def http
-          @http ||= Patron::Session.new.tap do |http|
-            host = rails_config['url'] || 'http://127.0.0.1'
-            uri  = URI.parse(host)
-            http.base_url = host
-            http.username = uri.user
-            http.password = uri.password
-          end
+        def http(path)
+          EventMachine::HttpRequest.new([host, path].join('/'))
+        end
+
+        def host
+          @host ||= rails_config['url'] || 'http://127.0.0.1'
+        end
+
+        def uri
+          @uri ||= URI.parse(host)
+        end
+
+        def auth
+          @auth ||= [uri.user, uri.password]
         end
 
         def rails_config
-          @rails_config ||= Travis.config['rails']
+          @rails_config ||= Travis.config['rails'] || {}
         end
     end
   end

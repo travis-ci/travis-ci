@@ -11,6 +11,7 @@ module Mocks
 
   class Channel
     attr_accessor :messages
+
     def initialize
       @messages = []
     end
@@ -22,6 +23,7 @@ module Mocks
 
   class Patron
     attr_accessor :requests
+
     def initialize
       @requests = []
     end
@@ -31,8 +33,27 @@ module Mocks
     end
   end
 
+  class EmHttpRequest
+    attr_accessor :requests
+
+    def initialize(*args)
+      @requests = []
+    end
+
+    def post(*args)
+      requests << [:post, *args]
+      EM.next_tick { @callback.call(self) if @callback }
+      return self
+    end
+
+    def callback(&block)
+      @callback = block
+    end
+  end
+
   class Pusher
     attr_accessor :messages
+
     def initialize
       @messages = []
     end
