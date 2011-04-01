@@ -16,7 +16,7 @@ class TravisBuilderRailsTest < ActiveSupport::TestCase
 
     @builder = Builder.new('12345', 'build' => { 'id' => 1 }, 'repository' => { 'id' => 1 })
     builder.stubs(:buildable).returns(Mocks::Buildable.new)
-    builder.stubs(:http).returns(Mocks::Patron.new)
+    builder.stubs(:http).returns(Mocks::EmHttpRequest.new)
   end
 
   def work!
@@ -33,7 +33,8 @@ class TravisBuilderRailsTest < ActiveSupport::TestCase
     # builder.expects(:post).with('started_at' => Time.now)
     # builder.expects(:post).with('finished_at' => Time.now, 'status' => nil, 'log' => '')
     work!
-    assert_equal [:post, '/builds/1', { '_method' => 'put', 'msg_id' => 1, 'build' => { 'started_at'  => Time.now } }], builder.http.requests[0]
-    assert_equal [:post, '/builds/1', { '_method' => 'put', 'msg_id' => 2, 'build' => { 'finished_at' => Time.now, 'log' => '', 'status' => nil } }], builder.http.requests[1]
+    assert_equal [:post, { :body => { '_method' => 'put', 'msg_id' => 1, 'build' => { 'started_at'  => Time.now } }, :head => { 'authorization' => [nil, nil] } }], builder.http.requests[0]
+    assert_equal [:post, { :body => { '_method' => 'put', 'msg_id' => 2, 'build' => { 'finished_at' => Time.now, 'log' => '', 'status' => nil } }, :head => { 'authorization' => [nil, nil] } }], builder.http.requests[1]
   end
 end
+
