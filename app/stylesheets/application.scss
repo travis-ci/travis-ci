@@ -245,7 +245,6 @@ caption {
   padding-left: 20px;
   background-repeat: no-repeat;
 }
-#left #repositories li.red,
 #left #repositories li.green,
 #main .summary.green .number a,
 #main #matrix .green td:first-child a,
@@ -257,6 +256,7 @@ caption {
 }
 #left #repositories li.red,
 #main .summary.red .number a,
+#main #matrix .red td:first-child a,
 #main #builds .build.red td:first-child a {
   background-image: url(/images/icons/status.red.png);
   color: #c00;
