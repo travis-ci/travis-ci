@@ -55,6 +55,26 @@ class JsonTest < ActiveSupport::TestCase
     assert_equal_hashes expected, repository.as_json(:for => :'build:started')
   end
 
+  test 'as_json(:for => :"build:expanded") includes everything required for the build:expanded event (4)' do
+    build.update_attributes!(:config => { 'rvm' => ['1.8.7', '1.9.2'] })
+
+    expected = {
+      'id'     => build.id,
+      'number' => build.number,
+      'config' => { 'rvm' => ['1.8.7', '1.9.2'] },
+      :matrix => [
+        { 'id' => build.matrix[0].id, 'number' => "#{build.number}.1", 'config' => { 'rvm' => '1.8.7' } },
+        { 'id' => build.matrix[1].id, 'number' => "#{build.number}.2", 'config' => { 'rvm' => '1.9.2' } }
+      ]
+    }
+    assert_equal_hashes expected, build.as_json(:for => :'build:expanded')
+
+    expected = {
+      'id' => repository.id,
+    }
+    assert_equal_hashes expected, repository.as_json(:for => :'build:expanded')
+  end
+
   test 'as_json(:for => :"build:log") includes everything required for the build:log event (4)' do
     expected = { 'id' => build.id }
     assert_equal_hashes expected, build.as_json(:for => :'build:log')
