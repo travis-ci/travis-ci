@@ -53,7 +53,7 @@ class BuildableTest < ActiveSupport::TestCase
 
   test "prepend_command: prepends an rvm command if configured" do
     buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis', :config => { 'rvm' => '1.9.2' })
-    assert_equal 'rvm use 1.9.2; rake ci', buildable.prepend_env('rake ci')
+    assert_equal 'rvm use 1.9.2 && rake ci', buildable.prepend_env('rake ci')
   end
 
   test "prepend_command: prepends an env var if configured" do
@@ -63,7 +63,7 @@ class BuildableTest < ActiveSupport::TestCase
 
   test "prepend_command: prepends both rvm command and env var if configured" do
     buildable = Buildable.new(:script => 'rake', :url => 'file://~/Development/projects/travis', :config => { 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-2.3.x' })
-    assert_equal 'rvm use 1.9.2; BUNDLE_GEMFILE=gemfiles/rails-2.3.x rake ci', buildable.prepend_env('rake ci')
+    assert_equal 'rvm use 1.9.2 && BUNDLE_GEMFILE=gemfiles/rails-2.3.x rake ci', buildable.prepend_env('rake ci')
   end
 
   test 'build_dir: given a local filesystem url it returns a valid path' do
