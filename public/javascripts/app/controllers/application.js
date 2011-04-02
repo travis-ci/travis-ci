@@ -31,6 +31,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
 
     this.bind('build:started',  this.buildStarted);
     this.bind('build:finished', this.buildFinished);
+    this.bind('build:expanded', this.buildExpanded);
     this.bind('build:log',      this.buildLogged);
     this.bind('build:queued',   this.buildQueued);
 
@@ -104,6 +105,9 @@ Travis.Controllers.Application = Backbone.Controller.extend({
       if(!repository.selected) repository.select();
       repository.builds.select(data.build.id);
     }
+  },
+  buildExpanded: function(data) {
+    this.repositories.set(data);
   },
   buildFinished: function(data) {
     this.repositories.set(data);
