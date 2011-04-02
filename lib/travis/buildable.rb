@@ -76,7 +76,7 @@ module Travis
           next unless value = config[key]
           case key
           when 'rvm'
-            "rvm use #{value};"
+            "rvm use #{value} &&"
           when 'gemfile'
             "BUNDLE_GEMFILE=#{value}"
           else
