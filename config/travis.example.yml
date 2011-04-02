@@ -7,7 +7,7 @@ production:
     secret: YOUR_PUSHER_SECRET
   rails:
     # You get a Travis token on the Travis profile page by signing in to your application via Github OAuth2.
-    url: "YOUR_GITHUB_USERNAME:YOUR_TRAVIS_TOKEN@travis.heroku.com"
+    url: "YOUR_GITHUB_USERNAME:YOUR_TRAVIS_TOKEN@travis-ci.org"
   oauth2:
     client_id: YOUR_GITHUB_CLIENT_ID
     client_secret: YOUR_GITHUB_CLIENT_SECRET
