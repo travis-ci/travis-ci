@@ -64,7 +64,7 @@ var expectRepositoryView = function(options) {
   });
 }
 
-describe('Integration:', function() {
+describe('Pages:', function() {
   beforeEach(function() {
     startApp();
   });

@@ -1,7 +1,7 @@
 Travis.Models.Build = Travis.Models.Base.extend({
   initialize: function(attributes, options) {
     Travis.Models.Base.prototype.initialize.apply(this, arguments);
-    _.bindAll(this, 'set', 'url', 'commit', 'color', 'duration', 'eta', 'toJSON');
+    _.bindAll(this, 'set', 'setMatrix', 'url', 'commit', 'color', 'duration', 'eta', 'toJSON');
     _.extend(this, options);
 
     this.repository = this.repository;
@@ -9,14 +9,26 @@ Travis.Models.Build = Travis.Models.Base.extend({
     if(!this.repository && Travis.app) this.repository = Travis.app.repositories.get(this.get('repository_id'));
 
     if(this.attributes.matrix) {
-      this.matrix = new Travis.Collections.Builds(this.attributes.matrix, { repository: this.repository });
-      this.matrix.each(function(build) { build.repository = this.repository }.bind(this)); // wtf
-      delete this.attributes.matrix;
+      this.setMatrix(this.attributes);
+      this.trigger('expanded', this);
     }
-
     if(this.collection) {
       this.bind('change', function(build) { this.collection.trigger('change', this); });
+      this.bind('expanded', function(build) { this.collection.trigger('expanded', build); });
     }
+  },
+  update: function(attributes) {
+    this.set(attributes);
+    if(attributes.matrix) {
+      this.setMatrix(attributes);
+      this.trigger('expanded', this);
+    }
+    return this;
+  },
+  setMatrix: function(attributes) {
+    this.matrix = new Travis.Collections.Builds(attributes.matrix, { repository: this.repository });
+    this.matrix.each(function(build) { build.repository = this.repository }.bind(this)); // wtf
+    delete attributes.matrix;
   },
   parent: function(callback) {
     if(this.get('parent_id')) this.collection.getOrFetch(this.get('parent_id'), callback);
@@ -78,7 +90,7 @@ Travis.Collections.Builds = Travis.Collections.Base.extend({
   set: function(attributes) {
     if(attributes) {
       var build = this.get(attributes.id);
-      build ? build.set(attributes) : this.add(new Travis.Models.Build(attributes, { repository: this.repository }));
+      build ? build.update(attributes) : this.add(new Travis.Models.Build(attributes, { repository: this.repository }));
     }
   },
   url: function() {
@@ -86,6 +98,7 @@ Travis.Collections.Builds = Travis.Collections.Base.extend({
   },
   dimensions: function() {
     return this.models[0] ? _(this.models[0].get('config')).keys().map(function(key) { return _.capitalize(key) }) : [];
+    // return this.models[0] && this.models[0].get('config') ? _(this.models[0].get('config')).keys().map(function(key) { return _.capitalize(key) }) : [];
   },
   comparator: function(build) {
     // this sorts matrix child builds below their child builds, i.e. the actual order will be like: 4, 3, 3.1, 3.2, 3.3., 2, 1
