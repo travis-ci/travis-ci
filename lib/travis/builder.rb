@@ -31,7 +31,7 @@ module Travis
             begin
               builder = new(meta_id, payload)
               builder.work!
-              sleep(0.1) until builder.messages.empty?
+              sleep(0.1) until builder.messages.empty? && builder.connections.empty?
               EM.stop
             rescue Exception => e
               $_stdout.puts e.inspect

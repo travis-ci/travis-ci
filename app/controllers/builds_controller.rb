@@ -36,8 +36,10 @@ class BuildsController < ApplicationController
   end
 
   def log
-    build.append_log!(params[:build][:log])
-    trigger('build:log', build, 'log' => params[:build][:log], 'msg_id' => params[:msg_id])
+    unless build.finished?
+      build.append_log!(params[:build][:log])
+      trigger('build:log', build, 'log' => params[:build][:log], 'msg_id' => params[:msg_id])
+    end
     render :nothing => true
   end
 
