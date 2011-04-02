@@ -89,11 +89,13 @@ Utils = {
     }
   },
   updateGithubStats: function(repository, element) {
-    $.getJSON('http://github.com/api/v2/json/repos/show/' + repository.get('slug') + '?callback=?', function(data) {
-      var url = 'http://github.com/' + repository.get('slug');
-      element.find('.watchers').attr('href', url + '/watchers').text(data.repository.watchers);
-      element.find('.forks').attr('href', url + '/network').text(data.repository.forks);
-    });
+    if(!window.__TESTING__) {
+      $.getJSON('http://github.com/api/v2/json/repos/show/' + repository.get('slug') + '?callback=?', function(data) {
+        var url = 'http://github.com/' + repository.get('slug');
+        element.find('.watchers').attr('href', url + '/watchers').text(data.repository.watchers);
+        element.find('.forks').attr('href', url + '/network').text(data.repository.forks);
+      });
+    }
   }
 }
 
