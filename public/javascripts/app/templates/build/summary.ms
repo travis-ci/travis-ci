@@ -10,7 +10,7 @@
 
   <div class="right">
     <dt>Commit</dt>
-    <dd class="commit-hash"><a href="{{repository/url}}/commit/{{commit}}">{{commit}}</a></dd>
+    <dd class="commit-hash"><a href="http://github.com/{{repository/slug}}/commit/{{commit}}">{{commit}}</a></dd>
     <dt>Committer</dt>
     <dd class="committer"><a href="mailto://{{committer_email}}">{{committer_name}}</a></dd>
     <dt>Author</dt>
