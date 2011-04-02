@@ -4,10 +4,18 @@ require 'uri'
 module Travis
   class Builder
     module Rails
+      class Queue < Array
+        def shift
+          sort! { |lft, rgt| lft[0] <=> rgt[0] }
+          yield(first) unless empty?
+          super
+        end
+      end
+
       attr_reader :messages
 
       def work!
-        @messages = []
+        @messages = Queue.new
         @msg_id = 0
         send_messages!
         super
@@ -30,6 +38,7 @@ module Travis
 
       def on_finish
         super
+        sleep(Stdout::BUFFER_TIME) # ugh ... make sure this is the last message
         post('finished_at' => Time.now, 'status' => result, 'log' => log)
      end
 
@@ -42,19 +51,21 @@ module Travis
           path = "/builds/#{build['id']}"
           path += '/log' if data.delete('append')
           data = { '_method' => 'put', 'build' => data, 'msg_id' => msg_id }
-          messages << [path, data]
+          stdout.puts "\n----> message ##{data['msg_id']} to #{path}: #{data.inspect[0..80]}"
+          messages << [data['msg_id'], path, data]
         rescue Exception => e
           # stdout.puts e.inspect
         end
 
         def send_messages!
           EM.add_timer(0.1) do
-            if message = messages.shift
-              path, body = *message
-              # stdout.puts "-- message to #{path} : #{body.inspect}"
-              request = http(path).post(:body => message[1], :head => { 'authorization' => auth })
-              request.callback { send_messages! }
+            messages.shift do |message|
+              msg_id, path, body = *message
+              stdout.puts "\n<----    post ##{msg_id} to #{path}: #{body.inspect[0..80]}"
+              request = http(path).post(:body => body, :head => { 'authorization' => auth })
+              register_connection(request)
             end
+            send_messages!
           end
         end
 
