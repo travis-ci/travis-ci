@@ -97,6 +97,7 @@ class Build < ActiveRecord::Base
     :job              => [:id, :commit, :config],
     :'build:queued'   => [:id, :number],
     :'build:started'  => all_attrs - [:status, :log, :finished_at],
+    :'build:expanded' => [:id, :number, :config],
     :'build:log'      => [:id],
     :'build:finished' => [:id, :status, :finished_at],
   }
