@@ -1,7 +1,9 @@
 var EVENT_PAYLOADS = {
-  'build:queued':     { repository: { id: 1, slug: 'svenfuchs/minimal'   }, build: { id: 10, number: 4,  } },
+  'build:queued:1':   { repository: { id: 1, slug: 'svenfuchs/minimal'   }, build: { id: 10, number: 4,  } },
+  'build:queued:2':   { repository: { id: 1, slug: 'svenfuchs/minimal'   }, build: { id: 4, number: '4.1' } },
   'build:started:1':  { repository: { id: 2, slug: 'josevalim/enginex'   }, build: { id: 10, number: 2, started_at: '2010-11-12T17:00:00Z', commit: '1111111', committer_name: 'Jose Valim', message: 'enginex commit', log: 'the enginex build 2 log ... ' } },
   'build:started:2':  { repository: { id: 3, slug: 'travis-ci/travis-ci' }, build: { id: 11, number: 1, started_at: '2010-11-12T17:00:00Z', commit: '2222222', committer_name: 'Sven Fuchs', message: 'minimal commit', log: 'the travis-ci build 1 log ... ' } },
+  'build:started:3':  { repository: { id: 1 }, build: { id: 4, parent_id: 3 } },
   'build:expanded':   { repository: { id: 3 }, build: { id: 11, config: { rvm: ['1.8.7', '1.9.2'] }, matrix: [ { id: 12, number: '4.1', config: { rvm: '1.8.7' } }, { id: 13, number: '4.2', config: { rvm: '1.9.2' } } ] } },
   'build:log:1':      { repository: { id: 2 }, build: { id: 10, }, log: 'with appended chars' },
   'build:log:3':      { repository: { id: 1 }, build: { id: 4,  parent_id: 3 }, log: 'something' },
@@ -28,7 +30,7 @@ describe('Events:', function() {
     beforeEach(function() {
       goTo('/');
       waitsFor(repositoriesListPopulated());
-      trigger('build:queued', EVENT_PAYLOADS['build:queued']);
+      trigger('build:queued', EVENT_PAYLOADS['build:queued:1']);
     });
 
     it('prepends to the jobs list view', function() {
@@ -43,12 +45,12 @@ describe('Events:', function() {
         waitsFor(repositoriesFetched());
         runs(function() { Travis.app.repositories.get(2).builds.fetch(); }); // required so we can assert the new build was added, because the fixtures don't contain it
 
-        trigger('build:queued', EVENT_PAYLOADS['build:queued']);
+        trigger('build:queued', EVENT_PAYLOADS['build:queued:1']);
         trigger('build:started', EVENT_PAYLOADS['build:started:1']);
       });
 
       it('removes the job from the jobs list view', function() {
-        expect($('#jobs li.job_10').length).toBe(0);
+        expect($('#jobs #job_10').length).toBe(0);
       });
 
       it('updates the repository list entry and moves it to the top of the list', function() {
@@ -86,6 +88,20 @@ describe('Events:', function() {
 
       it('updates the build summary of the "current" build tab', function() {
         expect($('#tab_current')).toShowBuildSummary({ build: 1, commit: '2222222', committer: 'Sven Fuchs', finished_at: '-', duration: '30 sec' });
+      });
+    });
+
+     describe('build:started for a matrix child build', function() {
+      beforeEach(function() {
+        goTo('/');
+        waitsFor(repositoriesListPopulated());
+        trigger('build:queued', EVENT_PAYLOADS['build:queued:2']);
+        runs(function() { expect($('#jobs #job_4').length).toEqual(1) })
+        trigger('build:started', EVENT_PAYLOADS['build:started:3']);
+      });
+
+      it('removes the job from the jobs list view', function() {
+        expect($('#jobs #job_4').length).toEqual(0);
       });
     });
 
