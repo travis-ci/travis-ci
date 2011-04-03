@@ -62,9 +62,9 @@ class JsonTest < ActiveSupport::TestCase
       'id'     => build.id,
       'number' => build.number,
       'config' => { 'rvm' => ['1.8.7', '1.9.2'] },
-      :matrix => [
-        { 'id' => build.matrix[0].id, 'number' => "#{build.number}.1", 'config' => { 'rvm' => '1.8.7' } },
-        { 'id' => build.matrix[1].id, 'number' => "#{build.number}.2", 'config' => { 'rvm' => '1.9.2' } }
+      'matrix' => [
+        { 'id' => build.matrix[0].id, 'parent_id' => build.id, 'number' => "#{build.number}.1", 'config' => { 'rvm' => '1.8.7' } },
+        { 'id' => build.matrix[1].id, 'parent_id' => build.id, 'number' => "#{build.number}.2", 'config' => { 'rvm' => '1.9.2' } }
       ]
     }
     assert_equal_hashes expected, build.as_json(:for => :'build:expanded')

@@ -7,6 +7,10 @@ var Travis = {
     Travis.app.run();
   },
   trigger: function(event, data) {
+    data = _.clone(data)
+    if(data.build.parent_id) {
+      data.build = { id: data.build.parent_id, matrix: [_.clone(data.build)] };
+    }
     var repository = _.extend(data.repository, { build: _.clone(data.build) });
     _.each(['id', 'number', 'status', 'started_at', 'finished_at'], function(key) {
       if(_.key(data.build, key)) repository['last_build_' + key] = data.build[key];

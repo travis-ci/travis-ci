@@ -151,7 +151,7 @@ class BuildTest < ActiveSupport::TestCase
       'message' => 'the commit message',
     }
     expected = build_attributes.merge(
-      :matrix => [
+      'matrix' => [
         matrix_attributes.merge('id' => build.id + 1, 'number' => '2.1', 'config' => { 'gemfile' => 'gemfiles/rails-2.3.x', 'rvm' => '1.8.7' }),
         matrix_attributes.merge('id' => build.id + 2, 'number' => '2.2', 'config' => { 'gemfile' => 'gemfiles/rails-3.0.x', 'rvm' => '1.8.7' }),
         matrix_attributes.merge('id' => build.id + 3, 'number' => '2.3', 'config' => { 'gemfile' => 'gemfiles/rails-2.3.x', 'rvm' => '1.9.2' }),

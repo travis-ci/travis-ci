@@ -4,9 +4,10 @@ var EVENT_PAYLOADS = {
   'build:started:2':  { repository: { id: 3, slug: 'travis-ci/travis-ci' }, build: { id: 11, number: 1, started_at: '2010-11-12T17:00:00Z', commit: '2222222', committer_name: 'Sven Fuchs', message: 'minimal commit', log: 'the travis-ci build 1 log ... ' } },
   'build:expanded':   { repository: { id: 3 }, build: { id: 11, config: { rvm: ['1.8.7', '1.9.2'] }, matrix: [ { id: 12, number: '4.1', config: { rvm: '1.8.7' } }, { id: 13, number: '4.2', config: { rvm: '1.9.2' } } ] } },
   'build:log:1':      { repository: { id: 2 }, build: { id: 10, }, log: 'with appended chars' },
+  'build:log:3':      { repository: { id: 1 }, build: { id: 4,  parent_id: 3 }, log: 'something' },
   'build:finished:1': { repository: { id: 2 }, build: { id: 10, status: 0, finished_at: '2010-11-12T17:00:10Z' } },
   'build:finished:2': { repository: { id: 1 }, build: { id: 3,  status: 0, finished_at: '2010-11-12T17:00:10Z' } },
-  'build:finished:3': { repository: { id: 1 }, build: { id: 4,  status: 0, finished_at: '2010-11-12T17:00:00Z' } },
+  'build:finished:3': { repository: { id: 1 }, build: { id: 4,  status: 0, finished_at: '2010-11-12T17:00:00Z',  parent_id: 3 } },
 }
 
 describe('Events:', function() {
@@ -64,8 +65,6 @@ describe('Events:', function() {
         expect($('#tab_current')).toShowBuildSummary({ build: 2, commit: '1111111', committer: 'Jose Valim', finished_at: '-', duration: '30 sec' });
       });
     });
-
-    // TODO build:started for a matrix build
 
     describe('build:started for a new repository', function() {
       beforeEach(function() {
@@ -139,7 +138,7 @@ describe('Events:', function() {
         waitsFor(repositoriesFetched());
         runs(function() {
           expect('#repositories li:nth-child(2)').toListRepository({ slug: 'josevalim/enginex', build: 1, selected: true, color: 'red', finished_at: 'a day ago', duration: '20 sec' });
-          // expect($('#tab_build')).toShowBuildSummary({ build: 1, commit: '565294c', committer: 'Jose Valim', color: 'red', finished_at: 'a day ago', duration: '20 sec' });
+          expect($('#tab_build')).toShowBuildSummary({ build: 1, commit: '565294c', committer: 'Jose Valim', color: 'red', finished_at: 'a day ago', duration: '20 sec' });
         });
         trigger('build:started', EVENT_PAYLOADS['build:started:1']);
         trigger('build:finished', EVENT_PAYLOADS['build:finished:1']);
@@ -160,7 +159,7 @@ describe('Events:', function() {
         waitsFor(repositoriesFetched());
         runs(function() {
           expect('#repositories li:nth-child(1)').toListRepository({ slug: 'svenfuchs/minimal', build: 3, selected: true, color: null, finished_at: '-', duration: '4 hrs 30 sec' });
-          // expect($('#tab_build')).toShowBuildSummary({ build: 3, commit: 'add057e', committer: 'Sven Fuchs', color: null, finished_at: '-', duration: '4 hrs 30 sec' });
+          expect($('#tab_build')).toShowBuildSummary({ build: 3, commit: 'add057e', committer: 'Sven Fuchs', color: null, finished_at: '-', duration: '4 hrs 30 sec' });
         });
         trigger('build:finished', EVENT_PAYLOADS['build:finished:2']);
       });
@@ -169,8 +168,7 @@ describe('Events:', function() {
         expect('#repositories li:nth-child(1)').toListRepository({ slug: 'svenfuchs/minimal', build: 3, selected: true, color: 'green', finished_at: 'less than a minute ago', duration: '4 hrs 10 sec' });
       });
 
-      // TODO doesn't work because this isn't actually a matrix build??
-      xit('updates the build summary', function() {
+      it('updates the build summary', function() {
         expect($('#tab_build')).toShowBuildSummary({ build: 3, commit: 'add057e', committer: 'Sven Fuchs', color: 'green', finished_at: 'less than a minute ago', duration: '4 hrs 30 sec' });
       })
     });
@@ -290,13 +288,24 @@ describe('Events:', function() {
       });
     });
 
-    describe('for the same repository and (matrix) build', function() {
+    describe('for the same repository and (matrix) parent build', function() {
       beforeEach(function() {
         goTo('/svenfuchs/minimal/builds/3');
         waitsFor(repositoriesFetched());
       });
 
-      describe('build:finished for the matrix build', function() {
+      describe('build:log for the child build', function() {
+        beforeEach(function() {
+          trigger('build:started', EVENT_PAYLOADS['build:log:3']);
+        });
+
+        it('does not remove the sibling builds from the matrix table', function() {
+          expect(Travis.app.repositories.get(1).builds.get(3).matrix.length).toEqual(4)
+          expect($('#tab_build #matrix tbody tr').length).toEqual(4);
+        });
+      });
+
+      describe('build:finished for the matrix parent build', function() {
         beforeEach(function() {
           trigger('build:finished', EVENT_PAYLOADS['build:finished:2']);
         });
@@ -308,18 +317,19 @@ describe('Events:', function() {
 
       describe('build:finished for a matrix child build', function() {
         beforeEach(function() {
-          /* console.log(Travis.app.repositories.get(1).builds.pluck('commit')) */
           trigger('build:finished', EVENT_PAYLOADS['build:finished:3']);
         });
 
-        // FIXME this fails because instead of updating the (nested) child build's status, it adds the child build to the builds collection
-        xit('updates the matrix table row', function() {
-          /* console.log(Travis.app.repositories.get(1).builds.pluck('commit')) */
+        it('updates the matrix table row', function() {
           expect('#tab_build #matrix').toMatchTable([
             ['Build', 'Gemfile',                  'Rvm'  ],
             ['3.1',   'test/Gemfile.rails-2.3.x', '1.8.7'],
+            ['3.2',   'test/Gemfile.rails-3.0.x', '1.8.7'],
+            ['3.3',   'test/Gemfile.rails-2.3.x', '1.9.2'],
+            ['3.4',   'test/Gemfile.rails-3.0.x', '1.9.2'],
           ]);
-          expect($('#tab_build #matrix tbody tr:first-child').hasClass('green')).toBeTruthy();
+          expect($('#tab_build #matrix tbody tr:nth-child(1)').hasClass('green')).toBeTruthy();
+          expect($('#tab_build #matrix tbody tr:nth-child(2)').hasClass('green')).toBeFalsy();
         })
       });
     });

@@ -7,9 +7,9 @@ Travis.Models.Repository = Travis.Models.Base.extend({
   url: function() {
     return '/repositories/' + this.id;
   },
-  set: function(attributes) {
+  set: function(attributes) { // TODO rename to update, add unit tests
     this.builds = this.builds || new Travis.Collections.Builds([], { repository: this });
-    if(attributes.build) this.builds.set(attributes.build);
+    if(attributes.build) this.builds.update(attributes.build);
     delete attributes.build;
     Backbone.Model.prototype.set.apply(this, [attributes]);
   },
@@ -37,7 +37,7 @@ Travis.Collections.Repositories = Travis.Collections.Base.extend({
   url: function() {
     return '/repositories' + Utils.queryString(this.options);
   },
-  set: function(attributes) {
+  update: function(attributes) {
     attributes = _.extend(_.clone(attributes), { build: _.clone(attributes.build) });
     var repository = this.get(attributes.id);
     repository ? repository.set(attributes) : this.add(new Travis.Models.Repository(attributes));

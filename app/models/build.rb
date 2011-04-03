@@ -97,15 +97,15 @@ class Build < ActiveRecord::Base
     :job              => [:id, :commit, :config],
     :'build:queued'   => [:id, :number],
     :'build:started'  => all_attrs - [:status, :log, :finished_at],
-    :'build:expanded' => [:id, :number, :config],
-    :'build:log'      => [:id],
-    :'build:finished' => [:id, :status, :finished_at],
+    :'build:expanded' => [:id, :parent_id, :number, :config],
+    :'build:log'      => [:id, :parent_id],
+    :'build:finished' => [:id, :parent_id, :status, :finished_at],
   }
 
   def as_json(options = nil)
     options ||= {}
     json = super(:only => JSON_ATTRS[options[:for] || :default])
-    json.merge!(:matrix => matrix.as_json(:for => options[:for])) if matrix?
+    json.merge!('matrix' => matrix.as_json(:for => options[:for])) if matrix?
     json.compact
   end
 
