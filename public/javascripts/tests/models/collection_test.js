@@ -8,7 +8,6 @@ describe('Collection:', function() {
       url: '/builds'
     })
 
-
     this.json = jasmine.getFixture('models/repositories/1/builds.json');
     this.fixtures = eval(this.json);
     this.server = sinon.fakeServer.create();
