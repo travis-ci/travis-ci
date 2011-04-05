@@ -8,6 +8,7 @@ class BuildTest < ActiveSupport::TestCase
   def setup
     super
     @config = YAML.load <<-yaml
+      script: rake ci
       rvm:
         - 1.8.7
         - 1.9.2
@@ -78,10 +79,10 @@ class BuildTest < ActiveSupport::TestCase
   test 'expanding a matrix build sets the config to the children' do
     build = Factory(:build, :config => config)
     expected = [
-      { 'rvm' => '1.8.7', 'gemfile' => 'gemfiles/rails-2.3.x' },
-      { 'rvm' => '1.8.7', 'gemfile' => 'gemfiles/rails-3.0.x' },
-      { 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-2.3.x' },
-      { 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-3.0.x' }
+      { 'script' => 'rake ci', 'rvm' => '1.8.7', 'gemfile' => 'gemfiles/rails-2.3.x' },
+      { 'script' => 'rake ci', 'rvm' => '1.8.7', 'gemfile' => 'gemfiles/rails-3.0.x' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-2.3.x' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-3.0.x' }
     ]
     assert_equal expected, build.matrix.map(&:config)
   end
@@ -140,7 +141,7 @@ class BuildTest < ActiveSupport::TestCase
       'message' => 'the commit message',
       'committer_name' => 'Sven Fuchs',
       'committer_email' => 'svenfuchs@artweb-design.de',
-      'config' => { 'gemfile' => ['gemfiles/rails-2.3.x', 'gemfiles/rails-3.0.x'], 'rvm' => ['1.8.7', '1.9.2']},
+      'config' => { 'script' => 'rake ci', 'gemfile' => ['gemfiles/rails-2.3.x', 'gemfiles/rails-3.0.x'], 'rvm' => ['1.8.7', '1.9.2']},
     }
     matrix_attributes = {
       'repository_id' => build.repository.id,
@@ -152,10 +153,10 @@ class BuildTest < ActiveSupport::TestCase
     }
     expected = build_attributes.merge(
       'matrix' => [
-        matrix_attributes.merge('id' => build.id + 1, 'number' => '2.1', 'config' => { 'gemfile' => 'gemfiles/rails-2.3.x', 'rvm' => '1.8.7' }),
-        matrix_attributes.merge('id' => build.id + 2, 'number' => '2.2', 'config' => { 'gemfile' => 'gemfiles/rails-3.0.x', 'rvm' => '1.8.7' }),
-        matrix_attributes.merge('id' => build.id + 3, 'number' => '2.3', 'config' => { 'gemfile' => 'gemfiles/rails-2.3.x', 'rvm' => '1.9.2' }),
-        matrix_attributes.merge('id' => build.id + 4, 'number' => '2.4', 'config' => { 'gemfile' => 'gemfiles/rails-3.0.x', 'rvm' => '1.9.2' }),
+        matrix_attributes.merge('id' => build.id + 1, 'number' => '2.1', 'config' => { 'script' => 'rake ci', 'gemfile' => 'gemfiles/rails-2.3.x', 'rvm' => '1.8.7' }),
+        matrix_attributes.merge('id' => build.id + 2, 'number' => '2.2', 'config' => { 'script' => 'rake ci', 'gemfile' => 'gemfiles/rails-3.0.x', 'rvm' => '1.8.7' }),
+        matrix_attributes.merge('id' => build.id + 3, 'number' => '2.3', 'config' => { 'script' => 'rake ci', 'gemfile' => 'gemfiles/rails-2.3.x', 'rvm' => '1.9.2' }),
+        matrix_attributes.merge('id' => build.id + 4, 'number' => '2.4', 'config' => { 'script' => 'rake ci', 'gemfile' => 'gemfiles/rails-3.0.x', 'rvm' => '1.9.2' }),
       ]
     )
     assert_equal_hashes expected, build.as_json(:for => :'build:started')
