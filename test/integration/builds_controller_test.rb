@@ -164,10 +164,10 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
 
     def assert_build_matrix_configured
       expected_configs = [
-        { 'rvm' => '1.8.7', 'gemfile' => 'gemfiles/rails-2.3.x' },
-        { 'rvm' => '1.8.7', 'gemfile' => 'gemfiles/rails-3.0.x' },
-        { 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-2.3.x' },
-        { 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-3.0.x' }
+        { 'script' => 'rake', 'rvm' => '1.8.7', 'gemfile' => 'gemfiles/rails-2.3.x' },
+        { 'script' => 'rake', 'rvm' => '1.8.7', 'gemfile' => 'gemfiles/rails-3.0.x' },
+        { 'script' => 'rake', 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-2.3.x' },
+        { 'script' => 'rake', 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-3.0.x' }
       ]
       assert_equal expected_configs, build.matrix.map(&:config)
       assert_equal 'rake', build.config['script']
