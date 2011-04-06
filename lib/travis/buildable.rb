@@ -18,8 +18,8 @@ module Travis
 
     attr_reader :url, :path, :commit
 
-    def initialize(options)
-      @url    = options[:url] || raise(ArgumentError.new('no url given'))
+    def initialize(options = {})
+      @url    = options[:url] || ''
       @commit = options[:commit]
       @script = options[:script]
       @config = Config.new(options[:config]) unless options[:config].blank?
@@ -43,48 +43,51 @@ module Travis
 
       def build!
         install
-        execute_command
-      end
-
-      def checkout
-        exists? ? fetch : clone
-        execute "git checkout -qf #{commit}" if commit
-      end
-
-      def clone
-        execute "cd ..; git clone #{git_url}; cd -"
-      end
-
-      def fetch
-        execute 'git clean -fdx'
-        execute 'git fetch'
-      end
-
-      def install
-        execute(prepend_env('bundle install'))
-      end
-
-      def execute_command
-        command = prepend_env(script)
-        execute(command).tap do |status|
+        execute.tap do |status|
           puts "\nDone. Build script exited with: #{status}"
         end
       end
 
+      def checkout
+        exists? ? fetch : clone
+        system "git checkout -qf #{commit}" if commit
+      end
+
+      def clone
+        system "cd ..; git clone #{git_url}; cd -"
+      end
+
+      def fetch
+        system 'git clean -fdx'
+        system 'git fetch'
+      end
+
+      def install
+        system prepend_env('bundle install')
+      end
+
+      def execute
+        system prepend_env(script)
+      end
+
       def prepend_env(command)
-        result = Config::ENV_KEYS.map do |key|
+        if config['rvm']
+          "rvm #{config['rvm']} exec '#{(env + [command]).join(' ')}'"
+        else
+          (env + [command]).join(' ')
+        end
+      end
+
+      def env
+        @env ||= (Config::ENV_KEYS - ['rvm']).map do |key|
           next unless value = config[key]
           case key
-          when 'rvm'
-            "rvm use #{value} &&"
           when 'gemfile'
             "BUNDLE_GEMFILE=#{value}"
-          else
-            "#{key.upcase}=#{value}"
+          when 'env'
+            value
           end
-        end
-        result << command
-        result.compact.join(' ')
+        end.compact
       end
 
       def script
@@ -126,13 +129,13 @@ module Travis
         elsif url =~ %r(file://)
           File.expand_path(url.gsub('file://', ''))
         else
-          raise "unsupported url #{url}"
+          ''
         end
       end
 
-      def execute(command)
+      def system(command)
         puts "$ #{command}"
-        system("#{command} 2>&1") ? 0 : 1
+        super("#{command} 2>&1") ? 0 : 1
       end
   end
 end
