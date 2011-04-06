@@ -34,7 +34,8 @@ module Travis
               sleep(0.1) until builder.messages.empty? && builder.connections.empty?
               EM.stop
             rescue Exception => e
-              $_stdout.puts e.inspect
+              $_stdout.puts(e.message)
+              e.backgtrace.each { |line| $_stdout.puts(line) }
             end
           end
         end
