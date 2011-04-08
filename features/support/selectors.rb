@@ -16,7 +16,7 @@ module HtmlSelectorsHelpers
     #
     #  when /the (notice|error|info) flash/
     #    ".flash.#{$1}"
-    
+
     # You can also return an array to use a different selector
     # type, like:
     #
