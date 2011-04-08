@@ -12,6 +12,7 @@ class RepositoriesController < ApplicationController
       end
       format.png do
         status = Repository.human_status_by(params.slice(:owner_name, :name))
+        response.headers["Expires"] = CGI.rfc1123_date(Time.now)
         send_file(Rails.public_path + "/images/status/#{status}.png", :type => 'image/png', :disposition => 'inline')
       end
     end
