@@ -37,6 +37,7 @@ _.extend(Travis.Synchronizer.prototype, {
 });
 
 Travis.receive = function(event, data) {
-  Travis.Synchronizer.receive(event, data, Travis.trigger);
+  // Travis.Synchronizer.receive(event, data, Travis.trigger);
+  Travis.trigger(event, data);
 };
 
