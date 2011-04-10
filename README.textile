@@ -5,7 +5,7 @@ Travis is an attempt to create an open-source, distributed build system for the 
 1. allows open-source projects to register their repository and have their test-suites run on demand
 2. allows users to contribute build capacities by connecting a VM that runs a build agent somewhere on their underused servers
 
-If you are interested in Travis please subscribe to the "Google group":http://groups.google.com/group/travis-app and check out my introductional blog post over here: "Travis - a distributed build server tool for the Ruby community":http://svenfuchs.com/2011/2/5/travis-a-distributed-build-server-tool-for-the-ruby-community
+If you are interested in Travis please subscribe to the "Google group":http://groups.google.com/group/travis-ci and check out my introductional blog post over here: "Travis - a distributed build server tool for the Ruby community":http://svenfuchs.com/2011/2/5/travis-a-distributed-build-server-tool-for-the-ruby-community
 
 
 h2. Overview
