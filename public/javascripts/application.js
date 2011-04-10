@@ -51,7 +51,7 @@ $(document).ready(function() {
     });
   }
 
-  $('#search input').keydown(function(e) {
+  $('#search input').keyup(function(e) {
     var searchString = $(this).val();
 
     $.ajax({
