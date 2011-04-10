@@ -41,7 +41,7 @@ GEM
       activemodel (= 3.0.6)
       activesupport (= 3.0.6)
     activesupport (3.0.6)
-    addressable (2.2.4)
+    addressable (2.2.5)
     archive-tar-minitar (0.5.2)
     arel (2.0.9)
     bcrypt-ruby (2.1.4)
