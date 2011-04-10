@@ -76,6 +76,8 @@ bc. [![Build Status](http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_N
 
 Travis' own status button looks like this: "!http://travis-ci.org/svenfuchs/travis.png!":http://travis-ci.org/svenfuchs/travis
 
+**Please note :** GitHub proxies these images so they are delivered over HTTPS via its CDN. Due to this issue there may be a delay until the updated build status is shown on your project page. We are looking into this issue and will update the docs if we find a solution.
+
 h2. Installation
 
 To install your own instance of Travis you need to supply various configuration settings:
