@@ -26,9 +26,9 @@ Travis.Views.Repository.Show = Backbone.View.extend({
     this._setTitle();
     _.each(this.tabs, function(tab) { tab.attachTo(repository); }.bind(this));
   },
-  activateTab: function(name, buildId) {
+  activateTab: function(name) {
     _.each(this.tabs, function(tab) { if(tab.name != name) tab.deactivate(); })
-    this.tabs[name].activate(buildId);
+    this.tabs[name].activate();
   },
   _createTab: function(name) {
     this.tabs[name] = new Travis.Views.Repository.Tab({ name: name });
