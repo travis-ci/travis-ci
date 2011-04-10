@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails',               '~> 3.0.6'
 
-gem 'SystemTimer',         '~> 1.2.2', :platforms => ['ruby_18']
+gem 'SystemTimer',         '~> 1.2.3', :platforms => ['ruby_18']
 gem 'compass',             '~> 0.10.6'
 gem 'devise',              '~> 1.2.1'
 gem 'em-http-request',     '~> 0.3.0'
