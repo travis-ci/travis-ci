@@ -58,7 +58,7 @@ GEM
     celerity (0.8.9)
     childprocess (0.1.8)
       ffi (~> 1.0.6)
-    closure-compiler (1.0.0)
+    closure-compiler (1.1.1)
     columnize (0.3.2)
     compass (0.10.6)
       haml (>= 3.0.4)
