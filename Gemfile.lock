@@ -166,7 +166,7 @@ GEM
       rake (>= 0.8.7)
       thor (~> 0.14.4)
     rake (0.8.7)
-    redis (2.1.1)
+    redis (2.2.0)
     redis-namespace (0.10.0)
       redis (< 3.0.0)
     refraction (0.2.0)
