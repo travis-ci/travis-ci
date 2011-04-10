@@ -16,7 +16,7 @@ gem 'resque',              '~> 1.13.0'
 gem 'resque-meta',         '~> 1.0.3'
 gem 'travis-ci-em-pusher', '~> 0.1.1'
 gem 'unobtrusive_flash',   '~> 0.0.2'
-gem 'yajl-ruby',           '~> 0.8.1'
+gem 'yajl-ruby',           '~> 0.8.2'
 
 group :development do
   gem 'sqlite3'
