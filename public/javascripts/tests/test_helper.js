@@ -105,11 +105,12 @@ var follow = function(text, context) {
   });
 };
 
-var goTo = function(hash) {
+var goTo = function(hash, expectations) {
   runs(function() {
     window.location.hash = normalizeHash(hash);
     Backbone.history.loadUrl();
   });
+  if(expectations) runs(expectations);
 };
 
 var normalizeHash = function(hash) {

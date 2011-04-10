@@ -50,7 +50,7 @@ describe('Events:', function() {
       });
 
       it('removes the job from the jobs list view', function() {
-        expect($('#jobs #job_10').length).toBe(0);
+        expect($('#jobs').html()).not.toHaveText(/svenfuchs\/minimal #4/);
       });
 
       it('updates the repository list entry and moves it to the top of the list', function() {
