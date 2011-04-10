@@ -96,7 +96,7 @@ GEM
     faraday (0.6.0)
       addressable (~> 2.2.4)
       multipart-post (~> 1.1.0)
-      rack (< 2, >= 1.1.0)
+      rack (>= 1.1.0, < 2)
     ffi (1.0.7)
       rake (>= 0.8.7)
     gherkin (2.3.5)
@@ -141,6 +141,7 @@ GEM
       multi_json (~> 0.0.4)
     open4 (1.0.1)
     orm_adapter (0.0.4)
+    pg (0.10.1)
     polyglot (0.3.1)
     pusher (0.8.0)
       crack (~> 0.1.0)
@@ -203,10 +204,10 @@ GEM
       ruby-hmac
     sinatra (1.2.2)
       rack (~> 1.1)
-      tilt (< 2.0, >= 1.2.2)
-    sqlite3 (1.3.3)
+      tilt (>= 1.2.2, < 2.0)
     term-ansicolor (1.0.5)
     test_declarative (0.0.5)
+    texticle (1.0.4.20101004123327)
     thor (0.14.6)
     tilt (1.2.2)
     travis-ci-em-pusher (0.1.1)
@@ -248,6 +249,7 @@ DEPENDENCIES
   minitest_tu_shim (~> 1.3.2)
   mocha
   oa-oauth (~> 0.2.1)
+  pg
   pusher (~> 0.8.0)
   rails (~> 3.0.6)
   refraction (~> 0.2.0)
@@ -255,8 +257,8 @@ DEPENDENCIES
   resque-meta (~> 1.0.3)
   ruby-debug
   ruby-debug19
-  sqlite3
   test_declarative
+  texticle
   travis-ci-em-pusher (~> 0.1.1)
   unobtrusive_flash (~> 0.0.2)
   web-socket-ruby
