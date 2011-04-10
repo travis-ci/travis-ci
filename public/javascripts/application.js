@@ -50,6 +50,19 @@ $(document).ready(function() {
       });
     });
   }
+
+  $('#search input').keydown(function(e) {
+    var searchString = $(this).val();
+
+    $.ajax({
+      type: "GET",
+      url: "/repositories",
+      data: "search=" + searchString,
+      success: function(repositories) {
+        Travis.app.repositories.refresh(repositories);
+      }
+    });
+  });
 });
 
 if (window.console) {

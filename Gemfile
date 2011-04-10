@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails',               '~> 3.0.6'
-
+gem 'pg'
 gem 'SystemTimer',         '~> 1.2.3', :platforms => ['ruby_18']
 gem 'compass',             '~> 0.10.6'
 gem 'devise',              '~> 1.2.1'
@@ -14,13 +14,10 @@ gem 'pusher',              '~> 0.8.0'
 gem 'refraction',          '~> 0.2.0'
 gem 'resque',              '~> 1.15.0'
 gem 'resque-meta',         '~> 1.0.3'
+gem 'texticle'
 gem 'travis-ci-em-pusher', '~> 0.1.1'
 gem 'unobtrusive_flash',   '~> 0.0.2'
 gem 'yajl-ruby',           '~> 0.8.2'
-
-group :development do
-  gem 'sqlite3'
-end
 
 group :test do
   # gem 'steam', :path => '~/Development/projects/steam'
