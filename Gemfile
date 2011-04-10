@@ -27,7 +27,7 @@ group :test do
   # gem 'locator', :path => '~/Development/projects/locator'
   # gem 'webmock'
   gem 'capybara'
-  gem 'cucumber-rails', :git => 'git://github.com/aslakhellesoy/cucumber-rails.git'
+  gem 'cucumber-rails'
   gem 'database_cleaner'
   gem 'factory_girl_rails', :git => 'git://github.com/thoughtbot/factory_girl_rails.git'
   gem 'fakeweb'
