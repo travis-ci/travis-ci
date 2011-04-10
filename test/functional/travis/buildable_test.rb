@@ -3,7 +3,7 @@ require 'test_helper'
 class BuildableTest < ActiveSupport::TestCase
   include Travis
 
-  Buildable.send :public, :checkout, :install, :execute, :build_dir, :git_url, :config_url, :build!, :prepend_env
+  Buildable.send :public, *Buildable.protected_instance_methods(false)
   Buildable.base_dir = '/tmp/travis/test'
 
   def setup
@@ -94,8 +94,20 @@ class BuildableTest < ActiveSupport::TestCase
     assert_equal "#{File.expand_path('.')}/.travis.yml", buildable.config_url
   end
 
-  test 'install: runs bundle install' do
+  test 'install?: returns true if a Gemfile is present' do
+    File.expects(:exists?).with('Gemfile').returns(true)
     buildable = Buildable.new
+    assert buildable.install?
+  end
+
+  test 'install?: returns false if no Gemfile is present' do
+    File.expects(:exists?).with('Gemfile').returns(true)
+    buildable = Buildable.new
+    assert buildable.install?
+  end
+
+  test 'install: runs bundle install' do
+    buildable = Buildable.new(:config => { :not => :blank })
     buildable.expects(:system).with('bundle install')
     buildable.install
   end
