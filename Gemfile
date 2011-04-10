@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails',               '~> 3.0.5'
+gem 'rails',               '~> 3.0.6'
 
 gem 'SystemTimer',         '~> 1.2.2', :platforms => ['ruby_18']
 gem 'compass',             '~> 0.10.6'
