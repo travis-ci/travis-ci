@@ -1,18 +1,19 @@
 class FullTextSearch1302445002 < ActiveRecord::Migration
   def self.up
-    execute(<<-'eosql'.strip)
+    execute <<-EOSQL.strip
       DROP index IF EXISTS repositories_fts_idx
-    eosql
-    execute(<<-'eosql'.strip)
+    EOSQL
+
+    execute <<-EOSQL.strip
       CREATE index repositories_fts_idx
       ON repositories
       USING gin((to_tsvector('english', coalesce("repositories"."name", '') || ' ' || coalesce("repositories"."owner_name", ''))))
-    eosql
+    EOSQL
   end
 
   def self.down
-    execute(<<-'eosql'.strip)
+    execute <<-EOSQL.strip
       DROP index IF EXISTS repositories_fts_idx
-    eosql
+    EOSQL
   end
 end
