@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails',               '~> 3.0.6'
-gem 'pg'
+gem 'pg',                  '~> 0.10.1'
 gem 'SystemTimer',         '~> 1.2.3', :platforms => ['ruby_18']
 gem 'compass',             '~> 0.10.6'
 gem 'devise',              '~> 1.2.1'
