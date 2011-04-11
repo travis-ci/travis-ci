@@ -21,7 +21,7 @@ class RepositoriesController < ApplicationController
   protected
     def repositories
       repos = params[:owner_name] ? Repository.where(:owner_name => params[:owner_name]).timeline : Repository.timeline.recent
-      params[:search].present? ? repos.search_generic("*#{params[:search]}*") : repos
+      params[:search].present? ? repos.search_generic("#{params[:search]}*") : repos
     end
 
     def repository
