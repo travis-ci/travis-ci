@@ -1,0 +1,55 @@
+
+fr:
+  home:
+    name: "home"
+  admin:
+    dashboard:
+      pagename: "Administration du site"
+      name: "Tableau de bord"
+      model_name: "Nom du modèle"
+      last_used: "Utilisé"
+      records: "Archives"
+      modify: "Modifier"
+      add_new: "Nouv"
+      show: "Voir"
+      ago: "ago"
+    history:
+      name: "Histoire"
+      page_name: "Histoire de %{name}"
+    credentials:
+      log_out: "Déconnectez-vous"
+    list:
+      edit_action: "Éditer"
+      delete_action: "Effacer"
+      add_new: "Nouv"
+      search: "RECHERCHE"
+      select: "Sélectionner %{name} pour modifier"
+      show_all: "Afficher tous"
+    new:
+      basic_info: "INFO DE BASE"
+      required: "Obligatoire"
+      optional: "Facultatif"
+      one_char: "caractère."
+      many_chars: "caractères ou moins."
+      chosen: "%{name} choisi"
+      select_choice: "Sélectionnez votre choix"
+      chose_all: "Choisissez toutes"
+      clear_all: "Effacer tout"
+      save: "Enregistrer"
+      save_and_add_another: "Enregistrer et ajouter une autre"
+      save_and_edit: "Enregistrer et modifier"
+      cancel: "Annuler"
+    delete:
+      flash_confirmation: "%{name} a été détruit avec succès"
+      confirmation: "Oui, je suis sûr"
+    flash:
+      successful: "%{name} a été  %{action} avec succès"
+      error: "%{name} n'a pas pu être %{action}"
+      noaction: "Aucune mesure où prendre!"
+    actions:
+      create: "create"
+      created: "created"
+      update: "update"
+      updated: "updated"
+      delete: "delete"
+      deleted: "deleted"

@@ -32,4 +32,5 @@ class ApplicationController < ActionController::Base
     def set_gitsha_header
       headers['X-GIT_SHA'] = TravisCi::Application::GIT_SHA
     end
+
 end

@@ -1,0 +1,39 @@
+fi:
+  errors:
+    messages:
+      not_found: "ei löytynyt"
+      already_confirmed: "oli jo vahvistettu"
+      not_locked: "ei ollut lukittu"
+
+  devise:
+    failure:
+      unauthenticated: 'Sinun täytyy kirjautua tai rekisteröityä ennen jatkamista.'
+      unconfirmed: 'Sinun täytyy vahvistaa tilisi ennen jatkamista.'
+      locked: 'Tilisi on lukittu.'
+      invalid: 'Virheellinen sähköpostiosoite tai salasana.'
+      invalid_token: 'Virheellinen valtuutusavain.'
+      timeout: 'Istuntosi on vanhentunut, ole hyvä ja kirjaudu uudelleen jatkaaksesi.'
+      inactive: 'Tiliäsi ei ole vielä aktivoitu.'
+    sessions:
+      signed_in: 'Sisäänkirjautuminen onnistui.'
+      signed_out: 'Uloskirjautuminen onnistui.'
+    passwords:
+      send_instructions: 'Saat hetken kuluttua sähköpostin joka sisältää salasanan nollausohjeet.'
+      updated: 'Salasanan vaihto onnistui. Olet nyt kirjautunut sisään.'
+    confirmations:
+      send_instructions: 'Saat hetken kuluttua sähköpostin joka sisältää tilin vahvistusohjeet.'
+      confirmed: 'Tilin vahvistus onnistui. Olet nyt kirjautunut sisään.'
+    registrations:
+      signed_up: 'Rekisteröityminen onnistui. Vahvistussähköposti on lähetetty sinulle, mikäli kyseinen toiminto on päällä.'
+      updated: 'Tilin päivitys onnistui.'
+      destroyed: 'Tilin peruutus onnistui. Toivomme kuitenkin näkevämme sinut vielä uudestaan.'
+    unlocks:
+      send_instructions: 'Saat hetken kuluttua sähköpostin joka sisältää tilisi avausohjeet.'
+      unlocked: 'Tilin avaus onnistui. Olet nyt kirjautunut sisään.'
+    mailer:
+      confirmation_instructions:
+        subject: 'Vahvistusohjeet'
+      reset_password_instructions:
+        subject: 'Salasanan nollausohjeet'
+      unlock_instructions:
+        subject: 'Avausohjeet'

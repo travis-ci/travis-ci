@@ -1,0 +1,39 @@
+lt:
+  errors:
+    messages:
+      not_found: "Nerastas"
+      already_confirmed: "patvirtintas"
+      not_locked: "ne užblokuotas"
+
+  devise:
+    failure:
+      unauthenticated: 'Reikalinga registracija.'
+      unconfirmed: 'Reikalingas registracijos patvirtinimas.'
+      locked: 'Jūsų paskyra yra užblokuota.'
+      invalid: 'KLAIDA: neteisingas naudotojo vardas arba slaptažodis.'
+      invalid_token: 'Neteisingas atpažinimo žetonas.'
+      timeout: 'Jus buvote automatiškai atjungti. Prašome vėl prisijungti.'
+      inactive: 'Jūsų sąskaita nėra aktyvuota.'
+    sessions:
+      signed_in: 'Sėkmingai prisijungėte.'
+      signed_out: 'Sėkmingai atsijungėte.'
+    passwords:
+      send_instructions: 'Nurodymus kaip pasikeisti jūsų slaptažodį netrukus gausite el. paštu..'
+      updated: 'Jūsų slaptažodis buvo sėkmingai pakeistas. Galite prisijungti. '
+    confirmations:
+      send_instructions: 'Nurodymus kaip patvirtinti jūsų sukurtą sąskaitą netrukus gausite el. paštu.'
+      confirmed: 'Jūsų sąskaita yra sėkmingai patvirtinta. Galite prisijungti.'
+    registrations:
+      signed_up: 'Jus sėkmingai užsiregistravote.Patvirtintinimo laišką netrukus gausite el. paštu .'
+      updated: 'Jūsų sąskaita yra sėkmingai atnaujinta.'
+      destroyed: 'Jūsų sąskata yra panakinta. Sėkmės.'
+    unlocks:
+      send_instructions: 'Nurodymus kaip atblokuoti jūsų sąskaitą netrukus gausite el. paštu.'
+      unlocked: 'Jųsū paskyra sėkmingai atblokuota. .'
+    mailer:
+      confirmation_instructions:
+        subject: 'Sąskaitos patvirtinimo nurodymai'
+      reset_password_instructions:
+        subject: 'Slaptažodio pakeitimas'
+      unlock_instructions:
+        subject: 'Sąskaitos atblokavimo nurodymai'

@@ -1,0 +1,55 @@
+uk:
+  home:
+    name: "Домівка"
+  admin:
+    dashboard:
+      pagename: "Адміністрація"
+      name: "Панель керування"
+      model_name: "Ім'я моделі"
+      last_used: "Останній раз використовувалось"
+      records: "Записи"
+      modify: "Змінити"
+      add_new: "Створити"
+      show: "Детально"
+      ago: "тому"
+    history:
+      name: "Історія"
+      page_name: "Історія для %{name}"
+      no_activity: "Пусто"
+    credentials:
+      log_out: "Вийти"
+    list:
+      edit_action: "Редагувати"
+      delete_action: "Видалити"
+      add_new: "Створити"
+      search: "ПОШУК"
+      select: "Оберіть %{name} для редагування"
+      show_all: "Показати все"
+    new:
+      basic_info: "Основна інформація"
+      required: "Необхідно"
+      optional: "Необов'язково"
+      one_char: "літера."
+      many_chars: "літер або менше."
+      chosen: "Обрано %{name}"
+      select_choice: "Оберіть один чи декілька і натисніть"
+      chose_all: "Обрати все"
+      clear_all: "Очистити все"
+      save: "Зберегти"
+      save_and_add_another: "Зберегти і добавити ще"
+      save_and_edit: "Зберегти і поредагувати"
+      cancel: "Скасувати"
+    delete:
+      flash_confirmation: "%{name} успішно видалено"
+      confirmation: "Так, я впевнений"
+    flash:
+      successful: "%{name} успішно %{action}"
+      error: "неможливо %{action} %{name}"
+      noaction: "Нічого не відбувалось"
+    actions:
+      create: "створити"
+      created: "створено"
+      update: "оновити"
+      updated: "оновлено"
+      delete: "видалити"
+      deleted: "видалено"

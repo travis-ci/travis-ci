@@ -1,0 +1,39 @@
+de:
+  errors:
+    messages:
+      not_found: "nicht gefunden"
+      already_confirmed: "wurde bereits bestätigt"
+      not_locked: "war nicht gesperrt"
+
+  devise:
+    failure:
+      unauthenticated: 'Sie müssen sich anmelden oder registrieren, bevor Sie fortfahren können.'
+      unconfirmed: 'Sie müssen ihr Konto bestätigen bevor sie fortfahren können.'
+      locked: 'Ihr Konto wurde gesperrt.'
+      invalid: 'Ungültige E-Mail oder ungültiges Passwort.'
+      invalid_token: 'Ungültige Authentifizierungs-Token.'
+      timeout: 'Ihre Sitzung ist abgelaufen, bitte melden Sie sich erneut, um fortzufahren.'
+      inactive: 'Ihr Konto wurde noch nicht aktiviert.'
+    sessions:
+      signed_in: 'Erfolgreich angemeldet.'
+      signed_out: 'Erfolgreich abgemeldet.'
+    passwords:
+      send_instructions: 'Sie erhalten eine E-Mail mit Anweisungen, wie Sie Ihr Passwort in Kürze zurücksetzen können.'
+      updated: 'Ihr Passwort wurde erfolgreich geändert. Sie sind jetzt angemeldet.'
+    confirmations:
+      send_instructions: 'Sie erhalten eine E-Mail mit Anweisungen, wie sie ihr Konto bestätigen können.'
+      confirmed: 'Ihr Konto wurde erfolgreich bestätigt. Sie sind jetzt angemeldet.'
+    registrations:
+      signed_up: 'Sie haben sich erfolgreich angemeldet. Wenn aktiviert wurde eine Betätigung per E-Mail geschickt.'
+      updated: 'Ihr Konto wurde erfolgreich aktiviert.'
+      destroyed: 'Tschüss! Ihr Konto wurde erfolgreich gelöscht. Wir hoffen sie bald wieder zu sehen.'
+    unlocks:
+      send_instructions: 'Sie erhalten eine E-Mail mit Anweisungen, wie sie ihr Konto entsperren können.'
+      unlocked: 'Ihr Konto wurde erfolgreich entsperrt. Sie sind jetzt angemeldet.'
+    mailer:
+      confirmation_instructions:
+        subject: 'Bestätigungs-Anweisungen'
+      reset_password_instructions:
+        subject: 'Passwortrücksetz-Anweisungen'
+      unlock_instructions:
+        subject: 'Entsper-Anweisungen'

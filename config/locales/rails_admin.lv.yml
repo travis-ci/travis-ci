@@ -1,0 +1,55 @@
+lv:
+  home:
+    name: "sākums"
+  admin:
+    dashboard:
+      pagename: "Saita administrēšana"
+      name: "Vadības panelis"
+      model_name: "Modeļa nosaukums"
+      last_used: "Pēdējo reizi izmantots"
+      records: "Ieraksti"
+      modify: "Mainīt"
+      add_new: "Pievienot jaunu"
+      show: "Parādīt"
+      ago: "pirms"
+    history:
+      name: "Vēsture"
+      page_name: "%{name} vēsture"
+      no_activity: "Nav Aktivitātes"
+    credentials:
+      log_out: "Iziet"
+    list:
+      edit_action: "Labot"
+      delete_action: "Dzēst"
+      add_new: "Pievienot jaunu"
+      search: "MEKLĒT"
+      select: "Izvēlieties %{name}, lai labotu"
+      show_all: "Parādīt visu"
+    new:
+      basic_info: "Pamatinformācija"
+      required: "Nepieciešams"
+      optional: "Pēc izvēles"
+      one_char: "simbols."
+      many_chars: "simboli vai mazāk."
+      chosen: "Izvēlēts %{name}"
+      select_choice: "Izvēlieties nepieciešamo un spiediet"
+      chose_all: "Izvēlēties visus"
+      clear_all: "Notīrīt"
+      save: "Saglabāt"
+      save_and_add_another: "Saglabāt un pievienot jaunu"
+      save_and_edit: "Saglabāt un labot"
+      cancel: "Atcelt"
+    delete:
+      flash_confirmation: "%{name} veiksmīgi izdzēsts"
+      confirmation: "Jā, esmu pārliecināts"
+    flash:
+      successful: "%{name} veiksmīgi %{action}"
+      error: "%{name} netika %{action}"
+      noaction: "Netika veiktas darbības"
+    actions:
+      create: "izveidot"
+      created: "izveidots"
+      update: "atjaunot"
+      updated: "atjaunots"
+      delete: "dzēst"
+      deleted: "dzēsts"

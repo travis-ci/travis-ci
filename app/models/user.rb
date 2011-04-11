@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
 
   has_many :tokens
 
+  attr_accessible :name, :login, :email
+
   after_create :create_a_token
 
   def self.find_for_github_oauth(user_hash)
@@ -19,9 +21,8 @@ class User < ActiveRecord::Base
   end
 
   private
-    def create_a_token
-      self.tokens.create!
-    end
+
+  def create_a_token
+    self.tokens.create!
+  end
 end
-
-
