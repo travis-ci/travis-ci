@@ -18,7 +18,7 @@ Travis::Application.routes.draw do
   resources :jobs
   resources :workers
 
-  match ":user/:name.png", :to => 'repositories#show', :format => 'png'
+  match ":owner_name/:name.png", :to => 'repositories#show', :format => 'png'
 
   # need to include the jammit route here so it preceeds the user route below
   match "/#{Jammit.package_path}/:package.:extension", :to => 'jammit#package', :as => :jammit, :constraints => { :extension => /.+/ }
