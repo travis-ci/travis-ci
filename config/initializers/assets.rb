@@ -6,7 +6,7 @@ require 'fileutils'
 end
 
 # Serve both compass css and jammit javascript from the tmp directory
-Travis::Application.config.middleware.insert_before(
+TravisCi::Application.config.middleware.insert_before(
   'Rack::Sendfile',
   'ActionDispatch::Static',
   "#{Rails.root}/tmp/assets"
