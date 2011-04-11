@@ -42,10 +42,9 @@ module Travis
       end
 
       def build!
-        install
-        execute.tap do |status|
-          puts "\nDone. Build script exited with: #{status}"
-        end
+        status = (install? ? install && execute : execute) ? 0 : 1
+        puts "\nDone. Build script exited with: #{status}"
+        status
       end
 
       def checkout
@@ -60,6 +59,10 @@ module Travis
       def fetch
         system 'git clean -fdx'
         system 'git fetch'
+      end
+
+      def install?
+        File.exists?('Gemfile')
       end
 
       def install
@@ -135,7 +138,7 @@ module Travis
 
       def system(command)
         puts "$ #{command}"
-        super("#{command} 2>&1") ? 0 : 1
+        super("#{command} 2>&1")
       end
   end
 end

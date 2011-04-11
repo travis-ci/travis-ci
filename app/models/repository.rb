@@ -31,6 +31,10 @@ class Repository < ActiveRecord::Base
       return 'unknown' unless repository && repository.last_finished_build
       repository.last_finished_build.status == 0 ? 'stable' : 'unstable'
     end
+
+    def search(query)
+      where("repositories.name LIKE ? OR repositories.owner_name LIKE ?", "%#{query}%", "%#{query}%")
+    end
   end
 
   def slug

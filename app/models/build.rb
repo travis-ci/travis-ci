@@ -6,7 +6,7 @@ require 'github'
 class Build < ActiveRecord::Base
   belongs_to :repository
   belongs_to :parent, :class_name => 'Build', :foreign_key => :parent_id
-  has_many :matrix, :class_name => 'Build', :foreign_key => :parent_id
+  has_many :matrix, :class_name => 'Build', :foreign_key => :parent_id, :order => :id
 
   validates :repository_id, :presence => true
 

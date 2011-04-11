@@ -3,7 +3,7 @@ require File.expand_path('../boot', __FILE__)
 require 'rails/all'
 Bundler.require(:default, Rails.env) if defined?(Bundler)
 
-module Travis
+module TravisCi
   class Application < Rails::Application
     GIT_SHA = `git rev-parse HEAD`.chomp
 
