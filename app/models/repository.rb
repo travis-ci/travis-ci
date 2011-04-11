@@ -11,7 +11,7 @@ class Repository < ActiveRecord::Base
   validates_presence_of :name, :owner_name
   validates_uniqueness_of :name, :scope => :owner_name
 
-  index do
+  index("generic", "simple") do
     name
     owner_name
   end
