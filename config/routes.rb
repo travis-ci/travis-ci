@@ -1,3 +1,5 @@
+require 'patches/rails_route_set'
+
 TravisCi::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
@@ -22,7 +24,10 @@ TravisCi::Application.routes.draw do
 
   # need to include the jammit route here so it preceeds the user route below
   match "/#{Jammit.package_path}/:package.:extension", :to => 'jammit#package', :as => :jammit, :constraints => { :extension => /.+/ }
+end
 
+# we want these AFTER rails admin is loaded
+TravisCi::Application.routes.append do
   match ":user", :to => redirect("/#!/%{user}")
   match ":user/:repository", :to => redirect("/#!/%{user}/%{repository}")
   match ":user/:repository/builds", :to => redirect("/#!/%{user}/%{repository}/builds")

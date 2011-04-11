@@ -1,0 +1,39 @@
+pt-PT:
+  errors:
+    messages:
+      not_found: "não encontrado"
+      already_confirmed: "já foi confirmado"
+      not_locked: "não foi bloqueado"
+
+  devise:
+    failure:
+      unauthenticated: 'Antes de continuar por favor inicie a sua sessão ou registe-se.'
+      unconfirmed: 'Antes de continuar terá que confirmar a sua conta.'
+      locked: 'A sua conta está bloqueada.'
+      invalid: 'E-mail ou palavra-passe inválido.'
+      invalid_token: 'Chave de autenticação inválida.'
+      timeout: 'A sua sessão expirou, por favor volte a identificar-se para continuar.'
+      inactive: 'A sua conta ainda não foi activada.'
+    sessions:
+      signed_in: 'Sessão iniciada com sucesso.'
+      signed_out: 'Sessão terminada com sucesso.'
+    passwords:
+      send_instructions: 'Dentro de alguns minutos irá receber um e-mail com instruções sobre como redefinir a sua palavra-passe.'
+      updated: 'Palavra-passe alterada com sucesso. A sua sessão foi iniciada.'
+    confirmations:
+      send_instructions: 'Dentro de alguns minutos irá receber um e-mail com instruções sobre como confirmar a sua conta.'
+      confirmed: 'Conta confirmada com sucesso. A sua sessão foi iniciada.'
+    registrations:
+      signed_up: 'Conta criada com sucesso. A confirmação de registo foi enviada para o seu e-mail, caso tenha seleccionado essa opção.'
+      updated: 'A sua conta foi actualizada com sucesso.'
+      destroyed: 'Adeus! A sua conta foi cancelada com sucesso. Esperamos vê-lo em breve.'
+    unlocks:
+      send_instructions: 'Dentro de alguns minutos irá receber um e-mail com instruções sobre como desbloquear a sua conta.'
+      unlocked: 'Conta desbloqueada com sucesso. A sua sessão foi iniciada.'
+    mailer:
+      confirmation_instructions:
+        subject: 'Instruções de confirmação.'
+      reset_password_instructions:
+        subject: 'Instruções de redefinição da palavra-passe.'
+      unlock_instructions:
+        subject: 'Instruções de desbloqueamento.'

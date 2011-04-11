@@ -1,0 +1,13 @@
+<% if current_user = _current_user %>
+<div class="user_info">
+  <%= image_tag "#{request.ssl? ? "https://secure" : "http://www"}.gravatar.com/avatar/#{Digest::MD5.hexdigest current_user.email}?s=30", :alt => "" %>
+  <ul>
+    <li>
+      <strong><a href="#"><%= current_user.email %></a></strong>
+    </li>
+    <li class="desc">
+      <a href="<%= destroy_session_path %>"><%= t("admin.credentials.log_out")%></a>
+    </li>
+  </ul>
+</div>
+<% end %>

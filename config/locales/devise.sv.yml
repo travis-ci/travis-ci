@@ -1,0 +1,39 @@
+sv:
+  errors:
+    messages:
+      not_found: "kunde inte hittas"
+      already_confirmed: "har redan blivit bekräftat"
+      not_locked: "var inte låst"
+
+  devise:
+    failure:
+      unauthenticated: 'Du måste logga in eller registrera dig innan du kan fortsätta.'
+      unconfirmed: 'Du måste bekräfta ditt konto innan du kan fortsätta.'
+      locked: 'Ditt konto är låst.'
+      invalid: 'Ogiltig e-postadress eller lösenord.'
+      invalid_token: 'Ogiltig autentiseringstecken.'
+      timeout: 'Din session har utgått, vänligen logga in igen för att fortsätta.'
+      inactive: 'Ditt konto har inte blivit aktiverat än.'
+    sessions:
+      signed_in: 'Inloggning lyckades.'
+      signed_out: 'Utloggning lyckades.'
+    passwords:
+      send_instructions: 'Du kommer att få ett e-post med instruktioner om hur du återställer ditt lösenord inom några minuter.'
+      updated: 'Ditt lösenord har ändrats. Du är nu inloggad.'
+    confirmations:
+      send_instructions: 'Du kommer att få ett e-post med instruktioner om hur du bekräftar ditt konto inom några minuter.'
+      confirmed: 'Ditt konto har bekräftats. Du är nu inloggad.'
+    registrations:
+      signed_up: 'Du har registrerat dig. Om aktiverat, så har en bekräftelse skickats till din e-post.'
+      updated: 'Ditt konto har blivit uppdaterat.'
+      destroyed: 'Hejdå! Ditt konto var borttaget. Vi hoppas att få se dig snart igen.'
+    unlocks:
+      send_instructions: 'Du kommer att få ett e-post med instruktioner om hur du låser upp ditt konto inom några minuter.'
+      unlocked: 'Ditt konto har blivit upplåst. Du är nu inloggad.'
+    mailer:
+      confirmation_instructions:
+        subject: 'Instruktioner för bekräftelse'
+      reset_password_instructions:
+        subject: 'Instruktioner för återställning av lösenord'
+      unlock_instructions:
+        subject: 'Instruktioner för upplåsning'

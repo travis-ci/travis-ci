@@ -1,0 +1,59 @@
+# Lithuanian
+
+lt:
+  home:
+    name: "Pradžia"
+  admin:
+    dashboard:
+      pagename: "Nustatymai"
+      name: "Nustatymų pasirinkimai"
+      model_name: "Modelio pavadinimas"
+      last_used: "Paskutinį kartą naudotas"
+      records: "Įrašai"
+      modify: "Keisti"
+      add_new: "Pridėti"
+      show: "Rodyti"
+      ago: "prieš"
+    history:
+      name: "Archyvai"
+      page_name: "%{name} pakeitimų istorija"
+      no_activity: "Be pasikeitimų"
+    credentials:
+      log_out: "Atsijungti"
+    list:
+      edit_action: "Tvarkyti"
+      delete_action: "Pašalinti"
+      select_action: "Pasirinkti"
+      delete_selected: "Pašalinti pasirinktus"
+      add_new: "Pridėti"
+      search: "IEŠKOTI"
+      select: "Pasirinkti %{name} redagavimui"
+      show_all: "Rodyti visus įrašus"
+    new:
+      basic_info: "Pagrindinė informacija"
+      required: "Privalomas laukas"
+      optional: "Nebūtinas"
+      one_char: "simbolis."
+      many_chars: "simbolių arba mažiau."
+      chosen: "Pasirinktas %{name}"
+      select_choice: "Pasirinkti reikalingus ir patvirtinti"
+      chose_all: "Pasirinkti visus"
+      clear_all: "Išvalyti"
+      save: "Išsaugoti"
+      save_and_add_another: "Išsaugoti ir pridėti naują"
+      save_and_edit: "Išsaugoti ir tęsti redagavimą"
+      cancel: "Atšaukti"
+    delete:
+      flash_confirmation: "%{name} ištrintas"
+      confirmation: "Taip, aš sutinku"
+    flash:
+      successful: "%{name} buvo sėkmingai %{action}"
+      error: "Nepavyko %{action} %{name}"
+      noaction: "Pakeitimai nebuvo įvykdyti"
+    actions:
+      create: "sukurti"
+      created: "sukurtas"
+      update: "pakeisti"
+      updated: "pakeistas"
+      delete: "pašalinti"
+      deleted: "pašalintas"

@@ -1,0 +1,58 @@
+
+fi:
+  home:
+    name: "koti"
+  admin:
+    dashboard:
+      pagename: "Ylläpito"
+      name: "Hallintapaneeli"
+      model_name: "Tietuetyyppi"
+      last_used: "Muokattu viimeksi"
+      records: "Tietueet"
+      modify: "Muokkaa"
+      add_new: "Lisää uusi"
+      show: "Näytä"
+      ago: "sitten"
+    history:
+      name: "Historia"
+      page_name: "Historia kohteelle %{name}"
+      no_activity: "Ei tapahtumia"
+    credentials:
+      log_out: "Kirjaudu ulos"
+    list:
+      edit_action: "Muokkaa"
+      delete_action: "Poista"
+      select_action: "Valitse"
+      delete_selected: "Poista valitut"
+      add_new: "Lisää uusi"
+      search: "HAKU"
+      select: "Valitse muokattava %{name}"
+      show_all: "Näytä kaikki"
+    new:
+      basic_info: "Perustiedot"
+      required: "Vaadittu"
+      optional: "Vapaaehtoinen"
+      one_char: "merkki."
+      many_chars: "merkkiä tai vähemmän."
+      chosen: "Valittu %{name}"
+      select_choice: "Tee valinnat ja klikkaa"
+      chose_all: "Valitse kaikki"
+      clear_all: "Tyhjennä"
+      save: "Tallenna"
+      save_and_add_another: "Tallenna ja lisää uusi"
+      save_and_edit: "Tallenna ja muokkaa"
+      cancel: "Peruuta"
+    delete:
+      flash_confirmation: "%{name} poistettiin onnistuneesti"
+      confirmation: "Kyllä, olen varma"
+    flash:
+      successful: "%{name} %{action} onnistuneesti"
+      error: "Toimenpide epäonnistui eikä %{name} tyyppistä tietuetta %{action}"
+      noaction: "Mitään ei tehty"
+    actions:
+      create: "luo"
+      created: "luotu"
+      update: "päivitä"
+      updated: "päivitetty"
+      delete: "poista"
+      deleted: "poistettu"

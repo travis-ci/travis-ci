@@ -1,0 +1,59 @@
+# Russian
+
+ru:
+  home:
+    name: "Главная"
+  admin:
+    dashboard:
+      pagename: "Управление сайтом"
+      name: "Контрольная панель"
+      model_name: "Название модели"
+      last_used: "Последнее раз использовалось"
+      records: "Записи"
+      modify: "Изменить"
+      add_new: "Добавить"
+      show: "Показать"
+      ago: "назад"
+    history:
+      name: "История"
+      page_name: "История для %{name}"
+      no_activity: "Без изменений"
+    credentials:
+      log_out: "Выйти"
+    list:
+      edit_action: "Редактировать"
+      delete_action: "Удалить"
+      select_action: "Выбрать"
+      delete_selected: "Удалить выбранные"
+      add_new: "Добавить"
+      search: "ПОИСК"
+      select: "Выберите %{name} для редактирования"
+      show_all: "Показать все"
+    new:
+      basic_info: "Основное"
+      required: "Требуемое"
+      optional: "Необязательное"
+      one_char: "символ."
+      many_chars: "символов или меньше."
+      chosen: "Выбрано %{name}"
+      select_choice: "Выберите нужное и кликните"
+      chose_all: "Выбрать все"
+      clear_all: "Очистить"
+      save: "Сохранить"
+      save_and_add_another: "Сохранить и добавить новый"
+      save_and_edit: "Сохранить и продолжить редактирование"
+      cancel: "Отмена"
+    delete:
+      flash_confirmation: "%{name} удалено"
+      confirmation: "Да, я уверен"
+    flash:
+      successful: "%{name} был %{action}"
+      error: "Не получилось %{action} %{name}"
+      noaction: "Никаких изменений не выполнено"
+    actions:
+      create: "создать"
+      created: "создан"
+      update: "обновить"
+      updated: "обновлен"
+      delete: "удалить"
+      deleted: "удален"
