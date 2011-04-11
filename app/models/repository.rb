@@ -11,11 +11,6 @@ class Repository < ActiveRecord::Base
   validates_presence_of :name, :owner_name
   validates_uniqueness_of :name, :scope => :owner_name
 
-  index("generic", "simple") do
-    name
-    owner_name
-  end
-
   class << self
     def timeline
       where(arel_table[:last_build_started_at].not_eq(nil)).order(arel_table[:last_build_started_at].desc)
@@ -35,6 +30,10 @@ class Repository < ActiveRecord::Base
       repository = where(attributes).first
       return 'unknown' unless repository && repository.last_finished_build
       repository.last_finished_build.status == 0 ? 'stable' : 'unstable'
+    end
+
+    def search(query)
+      where("repositories.name LIKE ? OR repositories.owner_name LIKE ?", "%#{query}%", "%#{query}%")
     end
   end
 
