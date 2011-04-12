@@ -70,13 +70,18 @@ Travis.Collections.Base = Backbone.Collection.extend({
     if(element) {
       callback(element);
     } else {
-      new this.model({ id: id, collection: this }).fetch({
+      var model = new this.model({ id: id, collection: this });
+      model.fetch({
         success: function(model) {
           var model = new this.model(model.attributes, { collection: this });
-          this.add(model, { silent: true });
-          // model.collection = this;
-          // model.bind('all', this._onModelEvent);
-          callback(model);
+          if(model.get('parent_id')) {
+            this.getOrFetch(model.get('parent_id'), function(parent) {
+              callback(parent.matrix.get(id));
+            });
+          } else {
+            this.add(model, { silent: true });
+            callback(model);
+          }
         }.bind(this),
         error: function() {
           // console.log('could not retrieve model:')

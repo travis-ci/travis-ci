@@ -11,6 +11,20 @@ describe('Builds', function() {
     stopApp();
   });
 
+  describe('getOrFetch given a child build id', function() {
+    it('works', function() {
+      var builds = Travis.app.repositories.get(1).builds;
+      builds.remove(3);
+      expect(builds.pluck('id')).toEqual([]);
+
+      builds.getOrFetch(7);
+      runsAfter(50, function() {
+        expect(builds.pluck('id')).toEqual([3]);
+        expect(builds.get(3).matrix.pluck('id')).toContain(7);
+      })
+    });
+  });
+
   it('adds a normal build to the global Travis.app.builds collection', function() {
     var build = Travis.app.repositories.get('1').builds.first();
     expect(Travis.app.builds).not.toBeEmpty();
