@@ -45,13 +45,47 @@ describe('Running a build matrix', function() {
       ]);
     });
 
+    goTo('svenfuchs/minimal');
+    runsAfter(10, function() {
+      // expect the build tab to be active and show the parent build #3
+      expect($('#tab_current.active h5')).toHaveText('Current');
+      // expect the build child tab to show the build details
+      expect($('#tab_current.active .summary')).not.toBeEmpty();
+      console.log($('#tab_build').html())
+    });
+
+    trigger('build:log', PAYLOADS['build:log:1'], function() {
+      // expect the build child tab to be active
+      expect($('#tab_current.active h5')).toHaveText('Current');
+      // expect the build child tab to show the details
+      expect($('#tab_current.active .summary')).not.toBeEmpty();
+      // expect the build child tab to show the updated log
+    });
+
+    goTo('svenfuchs/minimal/builds/3');
+    runsAfter(10, function() {
+      // expect the build tab to be active and show the parent build #3
+      expect($('#tab_build.active h5')).toHaveText('Build 3');
+      // expect the build child tab to show the build details
+      expect($('#tab_build.active .summary')).not.toBeEmpty();
+      console.log($('#tab_build').html())
+    });
+
+    trigger('build:log', PAYLOADS['build:log:1'], function() {
+      // expect the build child tab to be active
+      expect($('#tab_build.active h5')).toHaveText('Build 3');
+      // expect the build child tab to show the details
+      expect($('#tab_build.active .summary')).not.toBeEmpty();
+      // expect the build child tab to show the updated log
+    });
+
     goTo('svenfuchs/minimal/builds/4');
     runsAfter(10, function() {
       // expect the build child tab to be active and show the child build #3.1
       expect($('#tab_build.active h5')).toHaveText('Build 3.1');
       // expect the build child tab to show the build details
       expect($('#tab_build.active .summary')).not.toBeEmpty();
-    })
+    });
 
     trigger('build:log', PAYLOADS['build:log:1'], function() {
       // expect the build child tab to be active

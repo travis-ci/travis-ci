@@ -20,6 +20,7 @@ Travis.Views.Repository.Tab = Backbone.View.extend({
     this.content.detach();
   },
   attachTo: function(repository) {
+    this.detach();
     this.content.attachTo(repository);
   },
   activate: function() {
