@@ -24,12 +24,21 @@ Travis.Views.Build.Build = Backbone.View.extend({
     this.detach();
     this.repository = repository;
     this.repository.builds.bind('select', this.buildSelected);
-    this.repository.builds.bind('expanded', this.buildExpanded);
     this._update();
     this.updateTab();
   },
-  buildSelected: function(build) {
+  detachFromBuild: function() {
+    if(this.build) {
+      this.build.unbind('expanded', this.buildExpanded);
+    }
+  },
+  attachToBuild: function(build) {
     this.build = build;
+    this.detachFromBuild();
+    this.build.bind('expanded', this.buildExpanded);
+  },
+  buildSelected: function(build) {
+    this.attachToBuild(build);
     this._update();
     this.updateTab();
   },
