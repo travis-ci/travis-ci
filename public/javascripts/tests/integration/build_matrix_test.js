@@ -3,7 +3,7 @@ describe('Running a build matrix', function() {
     'build:queued:1':   { repository: { id: 1, slug: 'svenfuchs/minimal' }, build: { id: 3, number: 3,  } },
     'build:started:1':  { repository: { id: 1, slug: 'svenfuchs/minimal' }, build: { id: 3, number: 3, started_at: '2010-11-12T17:00:00Z', commit: '1111111', committer_name: 'Sven Fuchs', message: 'gem-minimal commit' } },
     'build:expanded:1': { repository: { id: 1 }, build: { id: 3, config: { rvm: ['1.8.7', '1.9.2'] }, matrix: [ { id: 4, parent_id: 3, number: '3.1', config: { gemfile: 'test/Gemfile.rails-2.3.x', rvm: '1.8.7' } }, { id: 5, parent_id: 3, number: '3.2', config: { gemfile: 'test/Gemfile.rails-3.0.x', rvm: '1.8.7' } }, { id: 6, parent_id: 3, number: '3.3', config: { gemfile: 'test/Gemfile.rails-2.3.x', rvm: '1.9.2' } }, { id: 7, parent_id: 3, number: '3.4', config: { gemfile: 'test/Gemfile.rails-3.0.x', rvm: '1.9.2' } } ] } },
-    'build:log:1':      { repository: { id: 1 }, build: { id: 4, }, log: ' with appended chars' },
+    'build:log:1':      { repository: { id: 1 }, build: { id: 4, _log: ' with appended chars' } },
     'build:finished:1': { repository: { id: 1 }, build: { id: 4, status: 0, finished_at: '2010-11-12T17:00:10Z' } },
   };
   var trigger = function(event, payload, expectations) {
@@ -45,13 +45,45 @@ describe('Running a build matrix', function() {
       ]);
     });
 
+    // goTo('svenfuchs/minimal');
+    // runsAfter(10, function() {
+    //   // expect the build tab to be active and show the parent build #3
+    //   expect($('#tab_current.active h5')).toHaveText('Current');
+    //   // expect the build child tab to show the build details
+    //   expect($('#tab_current.active .summary')).not.toBeEmpty();
+    // });
+
+    // trigger('build:log', PAYLOADS['build:log:1'], function() {
+    //   // expect the build child tab to be active
+    //   expect($('#tab_current.active h5')).toHaveText('Current');
+    //   // expect the build child tab to show the details
+    //   expect($('#tab_current.active .summary')).not.toBeEmpty();
+    //   // expect the build child tab to show the updated log
+    // });
+
+    // goTo('svenfuchs/minimal/builds/3');
+    // runsAfter(10, function() {
+    //   // expect the build tab to be active and show the parent build #3
+    //   expect($('#tab_build.active h5')).toHaveText('Build 3');
+    //   // expect the build child tab to show the build details
+    //   expect($('#tab_build.active .summary')).not.toBeEmpty();
+    // });
+
+    // trigger('build:log', PAYLOADS['build:log:1'], function() {
+    //   // expect the build child tab to be active
+    //   expect($('#tab_build.active h5')).toHaveText('Build 3');
+    //   // expect the build child tab to show the details
+    //   expect($('#tab_build.active .summary')).not.toBeEmpty();
+    //   // expect the build child tab to show the updated log
+    // });
+
     goTo('svenfuchs/minimal/builds/4');
     runsAfter(10, function() {
       // expect the build child tab to be active and show the child build #3.1
       expect($('#tab_build.active h5')).toHaveText('Build 3.1');
       // expect the build child tab to show the build details
       expect($('#tab_build.active .summary')).not.toBeEmpty();
-    })
+    });
 
     trigger('build:log', PAYLOADS['build:log:1'], function() {
       // expect the build child tab to be active

@@ -3,10 +3,10 @@ require 'core_ext/hash/compact'
 
 class Repository < ActiveRecord::Base
   has_many :builds, :dependent => :delete_all, :conditions => 'parent_id IS null'
-  has_one :last_build,          :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS NULL AND started_at IS NOT NULL'
-  has_one :last_finished_build, :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS NULL AND finished_at IS NOT NULL'
-  has_one :last_success,        :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS NULL AND status = 0'
-  has_one :last_failure,        :class_name => 'Build', :order => 'started_at DESC', :conditions => 'parent_id IS NULL AND status = 1'
+  has_one :last_build,          :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND started_at IS NOT NULL'
+  has_one :last_finished_build, :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND finished_at IS NOT NULL'
+  has_one :last_success,        :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND status = 0'
+  has_one :last_failure,        :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND status = 1'
 
   validates_presence_of :name, :owner_name
   validates_uniqueness_of :name, :scope => :owner_name

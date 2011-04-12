@@ -8,9 +8,12 @@ Travis.Models.Build = Travis.Models.Base.extend({
     if(!this.repository && this.collection) this.repository = this.collection.repository;
     if(!this.repository && Travis.app) this.repository = Travis.app.repositories.get(this.get('repository_id'));
 
+    if(this.attributes._log) {
+      this.appendLog(this.attributes._log);
+      delete this.attributes._log;
+    }
     if(this.attributes.matrix) {
       this.updateMatrix(this.attributes);
-      this.trigger('expanded', this);
     }
     if(this.collection) {
       this.bind('change', function(build) { this.collection.trigger('change', this); });
@@ -19,18 +22,23 @@ Travis.Models.Build = Travis.Models.Base.extend({
   },
   update: function(attributes) {
     this.set(attributes);
+    if(this.attributes._log) {
+      this.appendLog(this.attributes._log);
+      delete this.attributes._log;
+    }
     if(attributes.matrix) {
       this.updateMatrix(attributes);
-      this.trigger('expanded', this);
     }
     return this;
   },
   updateMatrix: function(attributes) {
     if(this.matrix) {
+      // console.log(_.clone(attributes))
       _.each(attributes.matrix, function(attributes) { this.matrix.update(attributes) }.bind(this));
     } else {
       this.matrix = new Travis.Collections.Builds(attributes.matrix, { repository: this.repository });
       this.matrix.each(function(build) { build.repository = this.repository }.bind(this)); // wtf
+      this.trigger('expanded', this);
     }
     delete attributes.matrix;
   },
@@ -38,6 +46,7 @@ Travis.Models.Build = Travis.Models.Base.extend({
     if(this.get('parent_id')) this.collection.getOrFetch(this.get('parent_id'), callback);
   },
   appendLog: function(chars) {
+    console.log("---> " + this.id + " _log: " + chars)
     this.attributes.log = this.attributes.log + chars;
     this.trigger('append:log', chars);
   },
@@ -97,7 +106,11 @@ Travis.Collections.Builds = Travis.Collections.Base.extend({
   },
   update: function(attributes) {
     if(attributes) {
+      console.log(_.clone(attributes))
       var build = this.get(attributes.id);
+      if(!build) {
+        console.log('creating new build for: ' + attributes.id)
+      }
       build ? build.update(attributes) : this.add(new Travis.Models.Build(attributes, { repository: this.repository }));
     }
   },

@@ -75,9 +75,9 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
         'id' => build.repository.id
       },
       'build' => {
-        'id' => build.id
+        'id'   => build.id,
+        '_log' => ' ... appended',
       },
-      'log' => ' ... appended',
       'msg_id' => '1'
     }], channel.messages.first
   end
