@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
 
   private
 
-  def create_a_token
-    self.tokens.create!
-  end
+    def create_a_token
+      self.tokens.create!
+    end
 end
