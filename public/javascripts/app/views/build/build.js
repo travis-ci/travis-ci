@@ -66,6 +66,7 @@ Travis.Views.Build.Build = Backbone.View.extend({
     this.el.append(new Travis.Views.Build.Summary({ model: this.build }).render().el);
   },
   _renderLog: function() {
+    console.log("rendering log with build " + this.build.id)
     this.el.append(new Travis.Views.Build.Log({ model: this.build }).render().el);
   },
   _renderMatrix: function() {
