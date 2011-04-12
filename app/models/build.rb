@@ -151,7 +151,7 @@ class Build < ActiveRecord::Base
     end
 
     def denormalize_to_repository?
-      repository.last_build == self && changed & %w(number status started_at finished_at)
+      repository.reload.last_build == self && changed & %w(number status started_at finished_at)
     end
 
     def denormalize_to_repository
