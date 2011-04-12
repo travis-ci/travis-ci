@@ -47,4 +47,23 @@ describe('Builds', function() {
     expect(collection.get(1).matrix.get(2).get('status')).toEqual(1);
     expect(collection.get(1).matrix.get(3).get('started_at')).toEqual('Sun Apr 03 2011 00:01:00 GMT+0200 (CEST)');
   });
+
+  it('does not trigger :expanded if the build already has a matrix', function() {
+    var triggered = false;
+    var collection = new Travis.Collections.Builds([{ id: 1, status: 2, matrix: [
+      { id: 2, started_at: 'Sun Apr 03 2011 00:00:00 GMT+0200 (CEST)' },
+      { id: 3, started_at: 'Sun Apr 03 2011 00:01:00 GMT+0200 (CEST)' }
+    ]}]);
+    collection.bind('expanded', function() { triggered = true; });
+    collection.update({ id: 1, matrix: [{ id: 2, status: 1 }] });
+    expect(triggered).toBeFalsy();
+  });
+
+  it('triggers :expanded if the build has not had a matrix before and now has one', function() {
+    var triggered = false;
+    var collection = new Travis.Collections.Builds([{ id: 1, status: 2}]);
+    collection.bind('expanded', function() { triggered = true; });
+    collection.update({ id: 1, matrix: [{ id: 2, status: 1 }] });
+    expect(triggered).toBeTruthy();
+  });
 });

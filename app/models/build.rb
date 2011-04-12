@@ -117,7 +117,7 @@ class Build < ActiveRecord::Base
 
     def expand_matrix!
       expand_matrix_config(matrix_config.to_a).each_with_index do |row, ix|
-        matrix.build(attributes.merge(:number => "#{number}.#{ix + 1}", :config => config.merge(Hash[*row.flatten])))
+        matrix.build(attributes.merge(:number => "#{number}.#{ix + 1}", :config => config.merge(Hash[*row.flatten]), :log => ''))
       end
     end
 
@@ -151,7 +151,7 @@ class Build < ActiveRecord::Base
     end
 
     def denormalize_to_repository?
-      repository.last_build == self && changed & %w(number status started_at finished_at)
+      changed & %w(number status started_at finished_at)
     end
 
     def denormalize_to_repository

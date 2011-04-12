@@ -38,7 +38,7 @@ class BuildsController < ApplicationController
 
   def log
     build.append_log!(params[:build][:log]) unless build.finished?
-    trigger('build:log', build, 'log' => params[:build][:log], 'msg_id' => params[:msg_id])
+    trigger('build:log', build, 'build' => { '_log' => params[:build][:log] }, 'msg_id' => params[:msg_id])
     render :nothing => true
   end
 
@@ -66,7 +66,7 @@ class BuildsController < ApplicationController
     end
 
     def trigger(event, build = self.build, data = {})
-      push(event, json_for(event, build).merge(data))
+      push(event, json_for(event, build).deep_merge(data))
       trigger(event, build.parent) if event == 'build:finished' && build.parent.try(:finished?)
     end
 
