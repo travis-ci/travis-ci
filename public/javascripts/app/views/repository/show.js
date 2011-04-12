@@ -18,6 +18,7 @@ Travis.Views.Repository.Show = Backbone.View.extend({
     }
   },
   attachTo: function(collection) {
+    this.detach();
     this.collection = collection;
     this.collection.bind('select', this.repositorySelected);
   },
