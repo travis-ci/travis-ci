@@ -15,8 +15,7 @@ var Travis = {
     _.each(['id', 'number', 'status', 'started_at', 'finished_at'], function(key) {
       if(_.key(data.build, key)) repository['last_build_' + key] = data.build[key];
     });
-    if(data.log) repository.log = data.log;
-    console.log(event, _.clone(repository));
+    // console.log(event, _.clone(repository));
     Travis.app.trigger(event, repository);
   }
 };
@@ -41,7 +40,7 @@ $(document).ready(function() {
     var events = {
       'build:queued':   { 'repository': { 'id': 3, 'slug': 'travis-ci/travis-ci' }, 'build': { 'id': 4, 'number': 46 } },
       'build:started':  { 'repository': { 'id': 1, 'slug': 'svenfuchs/minimal' }, 'build': { 'id': 9, 'number': 4, 'commit': '4df463d5082448b58ea7367df6c4a9b5e059c9ca', 'author_name': 'Sven Fuchs', 'author_email': 'svenfuchs@artweb-design.de', 'committer_name': 'Sven Fuchs', 'committer_email': 'svenfuchs@artweb-design.de', 'message': 'fix unit tests', 'started_at': '2011-03-10T19: 07: 24+01: 00' } },
-      'build:log':      { 'repository': { 'id': 1 }, 'build': { 'id': 9 }, 'log': '$ git clean -fdx' },
+      'build:log':      { 'repository': { 'id': 1 }, 'build': { 'id': 9, 'log': '$ git clean -fdx' } },
       'build:finished': { 'repository': { 'id': 1, 'slug': 'svenfuchs/minimal', 'last_duration': null, 'id': 1 }, 'build': { 'id': 9, 'finished_at': '2011-03-10T19:07:47+01:00', 'status': 0 } },
     };
     _.each(events, function(data, event) {

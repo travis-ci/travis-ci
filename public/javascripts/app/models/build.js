@@ -8,6 +8,10 @@ Travis.Models.Build = Travis.Models.Base.extend({
     if(!this.repository && this.collection) this.repository = this.collection.repository;
     if(!this.repository && Travis.app) this.repository = Travis.app.repositories.get(this.get('repository_id'));
 
+    if(this.attributes._log) {
+      this.appendLog(this.attributes._log);
+      delete this.attributes._log;
+    }
     if(this.attributes.matrix) {
       this.updateMatrix(this.attributes);
     }
@@ -18,6 +22,10 @@ Travis.Models.Build = Travis.Models.Base.extend({
   },
   update: function(attributes) {
     this.set(attributes);
+    if(this.attributes._log) {
+      this.appendLog(this.attributes._log);
+      delete this.attributes._log;
+    }
     if(attributes.matrix) {
       this.updateMatrix(attributes);
     }
