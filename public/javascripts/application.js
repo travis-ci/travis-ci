@@ -16,6 +16,7 @@ var Travis = {
       if(_.key(data.build, key)) repository['last_build_' + key] = data.build[key];
     });
     if(data.log) repository.log = data.log;
+    console.log(event, _.clone(repository));
     Travis.app.trigger(event, repository);
   }
 };
