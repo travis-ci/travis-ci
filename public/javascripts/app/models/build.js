@@ -36,6 +36,7 @@ Travis.Models.Build = Travis.Models.Base.extend({
       _.each(attributes.matrix, function(attributes) { this.matrix.update(attributes) }.bind(this));
     } else {
       this.matrix = new Travis.Collections.Builds(attributes.matrix, { repository: this.repository });
+      this.matrix.parent = this;
       this.matrix.each(function(build) { build.repository = this.repository }.bind(this)); // wtf
       this.matrix.bind('select', function(build) { this.trigger('select', build); }.bind(this))
       this.trigger('expanded', this);
@@ -43,7 +44,9 @@ Travis.Models.Build = Travis.Models.Base.extend({
     delete attributes.matrix;
   },
   parent: function(callback) {
-    if(this.get('parent_id')) this.collection.getOrFetch(this.get('parent_id'), callback);
+    if(this.get('parent_id')) {
+      this.collection.parent.collection.getOrFetch(this.get('parent_id'), callback);
+    }
   },
   appendLog: function(chars) {
     this.attributes.log = this.attributes.log + chars;
