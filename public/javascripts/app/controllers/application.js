@@ -114,12 +114,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.repositories.update(data);
   },
   buildLogged: function(data) {
-    var repository = this.repositories.get(data.id);
-    if(!repository) return;
-    try {
-      var build = data.build.parent_id ? repository.builds.get(data.build.parent_id).matrix.get(data.build.id) : repository.builds.get(data.build.id);
-      build.appendLog(data.log);
-    } catch(e) {};
+    this.repositories.update(data);
   },
   selectTab: function() {
     this.repositoryShow.activateTab(this.tab);
