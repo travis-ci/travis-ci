@@ -3,7 +3,8 @@ Travis.Views.Build.Matrix.Row = Backbone.View.extend({
     _.bindAll(this, 'render', 'setStatus', 'setDuration', 'setFinishedAt', 'setLastBuild', 'setSelected');
 
     this.model.bind('change:status', this.setStatus);
-    this.model.bind('change:duration', this.setDuration);
+    this.model.bind('change:started_at', this.setDuration);
+    this.model.bind('change:finished_at', this.setDuration);
     this.model.bind('change:finished_at', this.setFinishedAt);
 
     this.template = Travis.templates['build/matrix/row'];
@@ -21,7 +22,7 @@ Travis.Views.Build.Matrix.Row = Backbone.View.extend({
     this.el.updateTimes();
   },
   setFinishedAt: function() {
-    this.el.find('.finished_at').attr('title', this.model.get('finishedAt'));
+    this.el.find('.finished_at').attr('title', this.model.get('finished_at'));
     this.el.updateTimes();
   },
 });

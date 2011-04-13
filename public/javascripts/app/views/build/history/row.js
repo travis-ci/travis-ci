@@ -9,7 +9,8 @@ Travis.Views.Build.History.Row = Backbone.View.extend({
   detach: function() {
     if(this.model) {
       this.model.unbind('change:status', this.setStatus);
-      this.model.unbind('change:duration', this.setDuration);
+      this.model.unbind('change:started_at', this.setDuration);
+      this.model.unbind('change:finished_at', this.setDuration);
       this.model.unbind('change:finished_at', this.setFinishedAt);
       delete this.model;
     }
@@ -19,7 +20,8 @@ Travis.Views.Build.History.Row = Backbone.View.extend({
 
     this.model = model;
     this.model.bind('change:status', this.setStatus);
-    this.model.bind('change:duration', this.setDuration);
+    this.model.bind('change:finished_at', this.setDuration);
+    this.model.bind('change:finished_at', this.setDuration);
     this.model.bind('change:finished_at', this.setFinishedAt);
   },
   render: function() {
@@ -35,7 +37,7 @@ Travis.Views.Build.History.Row = Backbone.View.extend({
     this.el.updateTimes();
   },
   setFinishedAt: function() {
-    this.el.find('.finished_at').attr('title', this.model.get('finishedAt'));
+    this.el.find('.finished_at').attr('title', this.model.get('finished_at'));
     this.el.updateTimes();
   },
 });
