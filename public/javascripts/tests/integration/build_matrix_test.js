@@ -42,7 +42,7 @@ describe('Running a build matrix', function() {
       // expect repository list to contain the repo
       expect('#repositories li:nth-child(1)').toListRepository({ slug: 'svenfuchs/minimal', build: 3, selected: true, color: undefined, finished_at: '-', duration: '4 hrs 30 sec' });
       // expect the current tab to show the build
-      expect($('#tab_current')).toShowBuildSummary({ build: 3, commit: '1111111', committer: 'Sven Fuchs', finished_at: '-', duration: '30 sec' });
+      expect($('#tab_current')).toShowBuildSummary({ build: 3, commit: '1111111 (master)', committer: 'Sven Fuchs', finished_at: '-', duration: '30 sec' });
     });
 
     trigger('build:expanded', PAYLOADS['build:expanded:1'], function() {

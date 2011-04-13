@@ -11,7 +11,7 @@ describe('Views: the build summary view', function() {
   it('renders the build summary', function() {
     expect(this.summary.el).toHaveTexts({
       '.number': 1,
-      '.commit-hash': '1a738d9',
+      '.commit-hash': '1a738d9 (master)',
       '.commit-message': 'add Gemfile',
       '.committer': 'Sven Fuchs',
       // FIXME
