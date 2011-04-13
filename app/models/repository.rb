@@ -8,8 +8,8 @@ class Repository < ActiveRecord::Base
   has_one :last_success,        :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND status = 0'
   has_one :last_failure,        :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND status = 1'
 
-  validates_presence_of :name, :owner_name
-  validates_uniqueness_of :name, :scope => :owner_name
+  validates :name,       :presence => true, :uniqueness => { :scope => :owner_name }
+  validates :owner_name, :presence => true
 
   class << self
     def timeline
