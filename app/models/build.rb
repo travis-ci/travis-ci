@@ -94,7 +94,7 @@ class Build < ActiveRecord::Base
 
   JSON_ATTRS = {
     :default          => all_attrs,
-    :job              => [:id, :commit, :config],
+    :job              => [:id, :number, :commit, :config],
     :'build:queued'   => [:id, :number],
     :'build:started'  => all_attrs - [:status, :log, :finished_at],
     :'build:expanded' => [:id, :parent_id, :number, :config],

@@ -20,11 +20,13 @@ class ApplicationController < ActionController::Base
 
     def jobs
       @jobs ||= Resque.peek(:builds, 0, 50).map do |job|
-        build = job['args'].last
-        meta  = Travis::Builder.get_meta(job['args'].first)
-        data  = build.slice('id', 'number', 'commit')
-        data.update('repository' => (build['repository'] || {}).slice('id', 'name', 'url'))
-        data.update(meta.data.slice('meta_id', 'enqueued_at'))
+        job['args'].last.tap do |data|
+          data['repository'].slice!('id', 'slug')
+          data.update(data['build'].slice('id', 'number', 'commit'))
+          data.delete('build')
+        end
+        # meta  = Travis::Builder.get_meta(job['args'].first)
+        # data.update(meta.data.slice('meta_id', 'enqueued_at'))
       end
     end
     helper_method :jobs

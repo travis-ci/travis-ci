@@ -7,6 +7,7 @@ var Travis = {
     Travis.app.run();
   },
   trigger: function(event, data) {
+    // console.log(data);
     data = _.clone(data)
     if(data.build.parent_id) {
       data.build = { id: data.build.parent_id, matrix: [_.clone(data.build)] };
