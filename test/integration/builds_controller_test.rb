@@ -57,6 +57,7 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
         'repository_id' => build.repository.id,
         'number' => '1',
         'commit' => '62aae5f70ceee39123ef',
+        'branch' => 'master',
         'message' => 'the commit message',
         'committer_name' => 'Sven Fuchs',
         'committer_email' => 'svenfuchs@artweb-design.de',

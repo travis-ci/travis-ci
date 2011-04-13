@@ -32,6 +32,7 @@ class JsonTest < ActiveSupport::TestCase
     expected = {
       'id' => build.id,
       'commit' => '62aae5f70ceee39123ef',
+      'branch' => 'master',
       'repository_id' => build.repository.id,
       'number' => '1',
       'started_at' => now,

@@ -89,8 +89,8 @@ class Build < ActiveRecord::Base
     update_attributes!(:status => matrix.map(&:status).include?(1) ? 1 : 0, :finished_at => Time.now) if matrix.all?(&:finished?)
   end
 
-  all_attrs = [:id, :repository_id, :parent_id, :number, :commit, :message, :status, :log, :started_at, :finished_at, :committed_at,
-    :committer_name, :committer_email, :author_name, :author_email, :config]
+  all_attrs = [:id, :repository_id, :parent_id, :number, :commit, :branch, :message, :status, :log, :started_at, :finished_at,
+    :committed_at, :committer_name, :committer_email, :author_name, :author_email, :config]
 
   JSON_ATTRS = {
     :default          => all_attrs,
