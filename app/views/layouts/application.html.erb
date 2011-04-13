@@ -33,13 +33,13 @@
         <li><a href="/" class="tool-tip" title="Coming soon ...">Blog</a></li>
       </ul>
 
-      <div id="profile">
+      <div class="profile">
         <% if user_signed_in? %>
           <a href="#">
             <%= gravatar(current_user, :size => 24) %>
             <span class="name"><%= current_user.name || current_user.login %></span>
           </a>
-          <ul id="profile_menu">
+          <ul>
             <li><%= link_to "Profile", profile_path %></li>
             <% if current_user.is_admin? %>
               <li><%= link_to "Admin", rails_admin_dashboard_path %></li>
