@@ -1,3 +1,7 @@
+String.prototype.repeat = function(num) {
+  return new Array(num + 1).join(this);
+}
+
 describe('Utils', function() {
   var fold = function(string) {
     return Utils.foldLog(Utils.foldLog(string));
@@ -22,43 +26,6 @@ describe('Utils', function() {
 
     it('folds the "$ rake db:migrate" portion of the log', function() {
       var tests = [
-        // [ '$ rake db:migrate && rake test\\n',
-        //   '<div class="fold">$ rake db:migrate && rake test</div>'],
-
-        // [ '$ rake db:migrate && rake test\\n'                                                    +
-        //   '(in /tmp/travis/builds/travis_ci/travis-ci)\\n',
-        //   '<div class="fold">$ rake db:migrate && rake test\\n'                                  +
-        //   '(in /tmp/travis/builds/travis_ci/travis-ci)</div>'],
-
-        // [ '$ rake db:migrate && rake test\\n'                                                    +
-        //   '(in /tmp/travis/builds/travis_ci/travis-ci)\\n'                                       +
-        //   '==  CreateRepositories: migrating =============================================\\n',
-        //   '<div class="fold">$ rake db:migrate && rake test\\n'                                  +
-        //   '(in /tmp/travis/builds/travis_ci/travis-ci)\\n'                                       +
-        //   '==  CreateRepositories: migrating =============================================</div>' ],
-
-        // [ '$ rake db:migrate && rake test\\n'                                                    +
-        //   '(in /tmp/travis/builds/travis_ci/travis-ci)\\n'                                       +
-        //   '==  CreateRepositories: migrating =============================================\\n'   +
-        //   '-- create_table(:repositories)\\n' ,
-
-        //   '<div class="fold">$ rake db:migrate && rake test\\n'                                  +
-        //   '(in /tmp/travis/builds/travis_ci/travis-ci)\\n'                                       +
-        //   '==  CreateRepositories: migrating =============================================\\n'   +
-        //   '-- create_table(:repositories)</div>' ],
-
-        // [ '$ rake db:migrate && rake test\\n'                                                    +
-        //   '(in /tmp/travis/builds/travis_ci/travis-ci)\\n'                                       +
-        //   '==  CreateRepositories: migrating =============================================\\n'   +
-        //   '-- create_table(:repositories)\\n'                                                    +
-        //   '   -> 0.0009s\\n',
-
-        //   '<div class="fold">$ rake db:migrate && rake test\\n'                                  +
-        //   '(in /tmp/travis/builds/travis_ci/travis-ci)\\n'                                       +
-        //   '==  CreateRepositories: migrating =============================================\\n'   +
-        //   '-- create_table(:repositories)\\n'                                                    +
-        //   '   -> 0.0009s</div>'],
-
         [ '$ rake db:migrate && rake test\n'                                                    +
           '(in /tmp/travis/builds/travis_ci/travis-ci)\n'                                       +
           '==  CreateRepositories: migrating =============================================\n'   +
@@ -156,6 +123,16 @@ describe('Utils', function() {
       var log = jasmine.getFixture('log/unfolded.html');
       var expected = jasmine.getFixture('log/folded.html');
       expect(fold(log)).toEqual(expected);
+    });
+
+    it('wraps lines without inserting duplicate linebreaks on multiple runs', function() {
+      var log = '.'.repeat(380);
+      var folded = '.'.repeat(120) + "\n" + '.'.repeat(120) + "\n" + '.'.repeat(120) + "\n" + '.'.repeat(20)
+      log = Utils.foldLog(log)
+      log = Utils.foldLog(log)
+      log = Utils.foldLog(log)
+      log = Utils.foldLog(log)
+      expect(log).toEqual(folded);
     });
   });
 

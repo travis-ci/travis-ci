@@ -58,7 +58,7 @@ Utils = {
     _.each(folds, function(fold) {
       string = string.replace(fold, function() { return arguments[1] + '<div class="fold">' + arguments[2].trim() + '</div>'; });
     });
-    string = string.replace(/([\.-_*SEF]{120})/g, '$1\n')
+    string = string.replace(/([\.-_*SEF]{120})\n?/g, '$1\n')
     return string;
   },
   unfoldLog: function(string) {
