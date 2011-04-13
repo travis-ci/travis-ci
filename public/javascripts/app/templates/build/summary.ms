@@ -11,10 +11,12 @@
   <div class="right">
     <dt>Commit</dt>
     <dd class="commit-hash"><a href="http://github.com/{{repository/slug}}/commit/{{commit}}">{{commit}}{{#if branch}} ({{branch}}){{/if}}</a></dd>
-    <dt>Committer</dt>
-    <dd class="committer"><a href="mailto://{{committer_email}}">{{committer_name}}</a></dd>
     <dt>Author</dt>
     <dd class="author"><a href="mailto://{{author_email}}">{{author_name}}</a></dd>
+    {{#if committer_name}}
+      <dt>Committer</dt>
+      <dd class="committer"><a href="mailto://{{committer_email}}">{{committer_name}}</a></dd>
+    {{/if}}
   </div>
 
   <dt>Message</dt>
