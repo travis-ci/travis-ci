@@ -14,6 +14,7 @@ FactoryGirl.define do
     repository { Repository.first || Factory(:repository) }
     number '1'
     commit '62aae5f70ceee39123ef'
+    branch 'master'
     message 'the commit message'
     committer_name 'Sven Fuchs'
     committer_email 'svenfuchs@artweb-design.de'
