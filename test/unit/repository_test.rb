@@ -10,8 +10,11 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     @repository_1 = Factory(:repository, :name => 'gem-release', :owner_name => 'svenfuchs')
     @repository_2 = Factory(:repository, :name => 'gem-release', :owner_name => 'flooose')
     @build_1 = Factory(:build, :repository => repository_1, :number => '1', :status => 0, :started_at => '2010-11-11 12:00:00')
-    @build_2 = Factory(:build, :repository => repository_2.reload, :number => '1', :status => 1, :started_at => '2010-11-11 12:00:10', :finished_at => '2010-11-11 12:00:10')
-    @build_3 = Factory(:build, :repository => repository_2.reload, :number => '2', :status => nil, :started_at => '2010-11-11 12:00:20')
+    @build_2 = Factory(:build, :repository => repository_2.reload, :number => '2', :status => 1, :started_at => '2010-11-11 12:00:10', :finished_at => '2010-11-11 12:00:10')
+    @build_3 = Factory(:build, :repository => repository_2.reload, :number => '3', :status => nil, :started_at => '2010-11-11 12:00:20')
+
+    repository_1.reload
+    repository_2.reload
   end
 
   test 'validates_uniqueness of :owner_name/:name' do
@@ -57,6 +60,11 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     assert_equal [build_1.id.to_s, '1', '0', '2010-11-11 12:00:00 UTC', ''], attributes.map(&:to_s)
 
     attributes = repository_2.attributes.values_at(*attribute_names)
-    assert_equal [build_3.id.to_s, '2', '', '2010-11-11 12:00:20 UTC', ''], attributes.map(&:to_s)
+    assert_equal [build_3.id.to_s, '3', '', '2010-11-11 12:00:20 UTC', ''], attributes.map(&:to_s)
+  end
+
+  test 'does not denormalize matrix child builds' do
+    child = Factory(:build, :repository => repository_1, :parent => build_1, :number => '1.1')
+    assert_equal '1', repository_1.reload.last_build_number
   end
 end

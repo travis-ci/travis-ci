@@ -151,7 +151,7 @@ class Build < ActiveRecord::Base
     end
 
     def denormalize_to_repository?
-      changed & %w(number status started_at finished_at)
+      parent_id.blank? && changed & %w(number status started_at finished_at)
     end
 
     def denormalize_to_repository
