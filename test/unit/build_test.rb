@@ -3,7 +3,7 @@ require 'test_helper_rails'
 class BuildTest < ActiveSupport::TestCase
   include GithubApiTestHelper
 
-  test 'building a Build from Github payload' do
+  test 'creating a Build from Github payload' do
     Repository.delete_all
     Build.delete_all
 
@@ -12,7 +12,9 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal '1', build.number
     assert_equal '9854592', build.commit
     assert_equal 'Bump to 0.0.15', build.message
+    assert_equal 'master', build.branch
     assert_equal '2010-10-27 04:32:37 UTC', build.committed_at.to_formatted_s
+
     assert_equal 'Sven Fuchs', build.committer_name
     assert_equal 'svenfuchs@artweb-design.de', build.committer_email
     assert_equal 'Christopher Floess', build.author_name
