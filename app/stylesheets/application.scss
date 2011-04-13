@@ -554,13 +554,8 @@ caption {
     float: left;
     position: relative;
     margin: 0 10px 0 0;
-    padding: 0 10px;
-    height: 29px;
-    line-height: 30px;
-    font-size: 13px;
-    font-weight: normal;
-    background-color: #f6f6f6;
     border: 1px solid #ccc;
+    background-color: #f6f6f6;
     -webkit-border-top-left-radius: 4px 4px;
     -webkit-border-top-right-radius: 4px 4px;
     -moz-border-top-left-radius: 4px 4px;
@@ -575,6 +570,14 @@ caption {
     background-color: #fff;
     border-bottom-color: #fff;
     z-index: 2;
+  }
+  h5 a {
+    padding: 0 10px;
+    display: block;
+    height: 29px;
+    line-height: 30px;
+    font-size: 13px;
+    font-weight: normal;
   }
   .tab {
     position: absolute;
