@@ -31,7 +31,9 @@ $(document).ready(function() {
     Travis.templates = Utils.loadTemplates();
   }
 
-  $('#profile').click(function() { $('#profile_menu').toggle(); });
+  $('#top .profile').mouseover(function() { $('#top .profile ul').show(); });
+  $('#top .profile').mouseout(function() { $('#top .profile ul').hide(); });
+
   $('.tool-tip').tipsy({ gravity: 'n', fade: true });
   $('.fold').live('click', function() { $(this).hasClass('open') ? $(this).removeClass('open') : $(this).addClass('open'); })
 
