@@ -10,6 +10,6 @@ Travis.Collections.Jobs = Backbone.Collection.extend({
     Backbone.Collection.prototype.remove.apply(this, [this.get(element.id)]);
   },
   comparator: function(job) {
-    return job.get('enqueued_at');
+    return job.get('id');
   }
 });
