@@ -8,10 +8,10 @@ var MATRIX = [
 
 var HISTORY = {
   'svenfuchs/minimal': [
-    ['Build', 'Commit',  'Message',              'Duration',        'Finished'          ],
-    ['3',     'add057e', 'unignore Gemfile.lock', '4 hrs 30 sec',   '-'                 ],
-    ['2',     '91d1b7b', 'Bump to 0.0.22',        '8 sec',          'about 5 hours ago' ],
-    ['1',     '1a738d9', 'add Gemfile',           '8 sec',          'about 5 hours ago' ]
+    ['Build', 'Commit',           'Message',              'Duration',        'Finished'          ],
+    ['3',     'add057e (master)', 'unignore Gemfile.lock', '4 hrs 30 sec',   '-'                 ],
+    ['2',     '91d1b7b (master)', 'Bump to 0.0.22',        '8 sec',          'about 5 hours ago' ],
+    ['1',     '1a738d9 (master)', 'add Gemfile',           '8 sec',          'about 5 hours ago' ]
   ],
   'josevalim/enginex': [
     ['Build', 'Commit',  'Message',         'Duration', 'Finished' ],
@@ -43,7 +43,7 @@ var expectRepositoryView = function(options) {
       runs(function() {
         expect('#tab_' + options.tab).toShowBuildSummary({
           build: build.get('number'),
-          commit: build.commit(),
+          commit: build.commit() + (build.get('branch') ? ' (' + build.get('branch') + ')' : ''),
           committer: build.get('committer_name'),
           finished_at: build.get('finished_at') ? $.timeago.distanceInWords(new Date(build.get('finished_at'))) : '-',
           duration: Utils.readableTime(build.duration())

@@ -175,7 +175,7 @@ describe('Events:', function() {
         waitsFor(repositoriesFetched());
         runs(function() {
           expect('#repositories li:nth-child(1)').toListRepository({ slug: 'svenfuchs/minimal', build: 3, selected: true, color: null, finished_at: '-', duration: '4 hrs 30 sec' });
-          expect($('#tab_build')).toShowBuildSummary({ build: 3, commit: 'add057e', committer: 'Sven Fuchs', color: null, finished_at: '-', duration: '4 hrs 30 sec' });
+          expect($('#tab_build')).toShowBuildSummary({ build: 3, commit: 'add057e (master)', committer: 'Sven Fuchs', color: null, finished_at: '-', duration: '4 hrs 30 sec' });
         });
         trigger('build:finished', EVENT_PAYLOADS['build:finished:2']);
       });
@@ -185,7 +185,7 @@ describe('Events:', function() {
       });
 
       it('updates the build summary', function() {
-        expect($('#tab_build')).toShowBuildSummary({ build: 3, commit: 'add057e', committer: 'Sven Fuchs', color: 'green', finished_at: 'less than a minute ago', duration: '4 hrs 30 sec' });
+        expect($('#tab_build')).toShowBuildSummary({ build: 3, commit: 'add057e (master)', committer: 'Sven Fuchs', color: 'green', finished_at: 'less than a minute ago', duration: '4 hrs 30 sec' });
       })
     });
   });
@@ -236,8 +236,8 @@ describe('Events:', function() {
     describe('build:started', function() {
       it('does not add the build to the history', function() {
         expect('#tab_history #builds').toMatchTable([
-          ['Build', 'Commit',  'Message'               ],
-          ['3',     'add057e', 'unignore Gemfile.lock' ],
+          ['Build', 'Commit',           'Message'               ],
+          ['3',     'add057e (master)', 'unignore Gemfile.lock' ],
         ]);
       });
     });
@@ -327,7 +327,7 @@ describe('Events:', function() {
         });
 
         it('updates the build summary', function() {
-          expect($('#tab_build')).toShowBuildSummary({ build: 3, commit: 'add057e', committer: 'Sven Fuchs', color: 'green', finished_at: 'less than a minute ago', duration: '4 hrs 30 sec' });
+          expect($('#tab_build')).toShowBuildSummary({ build: 3, commit: 'add057e (master)', committer: 'Sven Fuchs', color: 'green', finished_at: 'less than a minute ago', duration: '4 hrs 30 sec' });
         })
       });
 
@@ -413,7 +413,7 @@ describe('Events:', function() {
 
         it('does not touch the build summary', function() {
           expect($('#tab_build .summary').html()).toEqual(this.wasHtml);
-          expect($('#tab_build')).toShowBuildSummary({ build: 2, commit: '91d1b7b', committer: 'Sven Fuchs', finished_at: 'about 5 hours ago', duration: '8 sec' });
+          expect($('#tab_build')).toShowBuildSummary({ build: 2, commit: '91d1b7b (master)', committer: 'Sven Fuchs', finished_at: 'about 5 hours ago', duration: '8 sec' });
         })
       });
     });

@@ -11,9 +11,9 @@ describe('Views: the build history table view', function() {
   it('renders the build history', function() {
     expect(this.history.el).toMatchTable([
       ['Build', 'Commit',  'Message',              ],
-      ['3',     'add057e', 'unignore Gemfile.lock' ],
-      ['2',     '91d1b7b', 'Bump to 0.0.22'        ],
-      ['1',     '1a738d9', 'add Gemfile'           ]
+      ['3',     'add057e (master)', 'unignore Gemfile.lock' ],
+      ['2',     '91d1b7b (master)', 'Bump to 0.0.22'        ],
+      ['1',     '1a738d9 (master)', 'add Gemfile'           ]
     ]);
     expect(this.history.el.find('tbody .green').length).toEqual(1);
   });

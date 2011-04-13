@@ -80,4 +80,5 @@ describe('Builds', function() {
     collection.update({ id: 1, matrix: [{ id: 2, status: 1 }] });
     expect(triggered).toBeTruthy();
   });
+
 });
