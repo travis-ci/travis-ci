@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110411172518) do
+ActiveRecord::Schema.define(:version => 20110413101057) do
 
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(:version => 20110411172518) do
     t.datetime "updated_at"
     t.integer  "parent_id"
     t.text     "config"
+    t.string   "ref"
+    t.string   "branch"
   end
 
   add_index "builds", ["parent_id"], :name => "index_builds_on_parent_id"

@@ -20,7 +20,8 @@ GITHUB_PAYLOADS = {
         "name":  "Christopher Floess",
         "email": "chris@flooose.de"
       }
-    }]
+    }],
+    "ref": "refs/heads/master"
   })
 }
 

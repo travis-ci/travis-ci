@@ -33,7 +33,7 @@ module Github
       end
 
       def builds
-        @builds ||= commits.map { |commit| Build.new(commit, repository) }
+        @builds ||= commits.map { |commit| Build.new(commit.merge(:ref => ref), repository) }
       end
     end
   end
@@ -65,7 +65,7 @@ module Github
   end
 
   class Build < OpenStruct
-    ATTR_NAMES = [:commit, :message, :committed_at, :committer_name, :committer_email, :author_name, :author_email]
+    ATTR_NAMES = [:commit, :message, :branch, :committed_at, :committer_name, :committer_email, :author_name, :author_email]
 
     def initialize(data, repository)
       data['author'] ||= {}
@@ -79,6 +79,10 @@ module Github
 
     def commit
       self['id']
+    end
+
+    def branch
+      (self['ref'] || '').split('/').last
     end
 
     def committed_at

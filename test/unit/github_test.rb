@@ -51,9 +51,10 @@ class GithubTest < ActiveSupport::TestCase
   test 'Github build' do
     data = JSON.parse(GITHUB_PAYLOADS['gem-release'])
     repository = Github::Repository.new(data['repository'])
-    build = Github::Build.new(data['commits'].first, repository)
+    build = Github::Build.new(data['commits'].first.merge(:ref => 'refs/heads/master'), repository)
 
     assert_equal '9854592', build.commit
+    assert_equal 'master', build.branch
     assert_equal 'Bump to 0.0.15', build.message
     assert_equal '2010-10-27 04:32:37', build.committed_at
     assert_equal 'Sven Fuchs', build.committer_name
@@ -65,10 +66,11 @@ class GithubTest < ActiveSupport::TestCase
   test 'Github build to_hash' do
     data = JSON.parse(GITHUB_PAYLOADS['gem-release'])
     repository = Github::Repository.new(data['repository'])
-    build = Github::Build.new(data['commits'].first, repository)
+    build = Github::Build.new(data['commits'].first.merge(:ref => 'refs/heads/master'), repository)
 
     expected = {
       :commit => '9854592',
+      :branch => 'master',
       :message => 'Bump to 0.0.15',
       :committed_at => '2010-10-27 04:32:37',
       :committer_name => 'Sven Fuchs',
