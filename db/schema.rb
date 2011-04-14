@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110413101057) do
+ActiveRecord::Schema.define(:version => 20110414131100) do
 
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20110413101057) do
     t.text     "config"
     t.string   "ref"
     t.string   "branch"
+    t.text     "github_payload"
   end
 
   add_index "builds", ["parent_id"], :name => "index_builds_on_parent_id"
