@@ -7,7 +7,7 @@ class BuildTest < ActiveSupport::TestCase
     Repository.delete_all
     Build.delete_all
 
-    build = Build.create_from_github_payload(JSON.parse(GITHUB_PAYLOADS['gem-release'])).reload
+    build = Build.create_from_github_payload(GITHUB_PAYLOADS['gem-release']).reload
 
     assert_equal '1', build.number
     assert_equal '9854592', build.commit
@@ -25,6 +25,8 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal 'svenfuchs@artweb-design.de', build.repository.owner_email
     assert_equal 'svenfuchs', build.repository.owner_name
     assert_equal 'http://github.com/svenfuchs/gem-release', build.repository.url
+
+    assert_equal GITHUB_PAYLOADS['gem-release'], build.github_payload
   end
 
   test 'next_number (1)' do

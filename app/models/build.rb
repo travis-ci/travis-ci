@@ -17,11 +17,11 @@ class Build < ActiveRecord::Base
   after_save :propagate_status_to_parent, :if => :was_finished?
 
   class << self
-    def create_from_github_payload(data)
-      data       = Github::ServiceHook::Payload.new(data)
+    def create_from_github_payload(payload)
+      data       = Github::ServiceHook::Payload.new(JSON.parse(payload))
       repository = Repository.find_or_create_by_github_repository(data.repository)
       number     = repository.builds.next_number
-      attributes = data.builds.last.to_hash.merge(:number => number)
+      attributes = data.builds.last.to_hash.merge(:number => number, :github_payload => payload)
       repository.builds.create(attributes)
     end
 

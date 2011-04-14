@@ -48,11 +48,7 @@ class BuildsController < ApplicationController
     end
 
     def build
-      @build ||= params[:id] ? Build.find(params[:id]) : Build.create_from_github_payload(payload)
-    end
-
-    def payload
-      @payload ||= JSON.parse(params[:payload])
+      @build ||= params[:id] ? Build.find(params[:id]) : Build.create_from_github_payload(params[:payload])
     end
 
     def enqueue!(build)
