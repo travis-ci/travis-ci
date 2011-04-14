@@ -2,46 +2,69 @@ require 'resque'
 
 module Resque
   def self.prune_dead_workers
-    Worker.all.each do |worker|
-      worker.unregister_worker if worker.last_heartbeat_before?(5)
+    begin
+      Worker.all.each { |worker| worker.prune_if_dead }
+    rescue Exception => e
+      p e
     end
   end
 
   class Worker
     def startup_with_heartbeat
       startup_without_heartbeat
-      Thread.new do
-        loop do
-          sleep(2)
-          heartbeat!
-        end
-      end
+      heart.run
     end
     alias startup_without_heartbeat startup
     alias startup startup_with_heartbeat
 
-    # apparently the Redis connection is not thread-safe, so we connect another instance
-    # see https://github.com/ezmobius/redis-rb/issues#issue/75
-    def heartbeat_redis
-      @heartbeat_redis ||= begin
-        redis = Redis.connect(:url => Travis.config['redis']['url'])
+    def heart
+      @heart ||= Heart.new(self)
+    end
+
+    def prune_if_dead
+      unregister_worker if heart.last_beat_before?(5)
+    end
+
+    class Heart
+      attr_reader :worker
+
+      def initialize(worker)
+        @worker = worker
+      end
+
+      def run
+        Thread.new { loop { sleep(2) && beat! } }
+      end
+
+      def redis
+        @redis && connected? ? @redis : @redis = connect
+      end
+
+      def connect
+        # apparently the Redis connection is not thread-safe, so we connect another instance
+        # see https://github.com/ezmobius/redis-rb/issues#issue/75
+        redis = Redis.connect(:url => Travis.config['redis']['url']).tap { |redis| redis.client.connect }
         Redis::Namespace.new(:resque, :redis => redis)
       end
-    end
 
-    def heartbeat!
-      heartbeat_redis.sadd(:workers, self)
-      heartbeat_redis.set("worker:#{self}:heartbeat", Time.now.to_s)
-    rescue Exception => e
-      p e
-    end
+      def connected?
+        @redis.client.connected?
+      end
 
-    def last_heartbeat_before?(seconds)
-      Time.parse(last_heartbeat).utc < (Time.now.utc - seconds)
-    end
+      def beat!
+        redis.sadd(:workers, worker)
+        redis.set("worker:#{worker}:heartbeat", Time.now.to_s)
+      rescue Exception => e
+        p e
+      end
 
-    def last_heartbeat
-      redis.get("worker:#{self}:heartbeat") || started
+      def last_beat_before?(seconds)
+        Time.parse(last_beat).utc < (Time.now.utc - seconds) rescue true
+      end
+
+      def last_beat
+        Resque.redis.get("worker:#{worker}:heartbeat") || worker.started
+      end
     end
   end
 end
