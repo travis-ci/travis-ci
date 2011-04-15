@@ -1,3 +1,4 @@
+require 'shellwords'
 require 'fileutils'
 require 'uri'
 require 'travis/buildable/config'
@@ -42,23 +43,23 @@ module Travis
       end
 
       def build!
-        status = (install? ? install && execute : execute) ? 0 : 1
+        status = (install? ? install && run_script : run_script) ? 0 : 1
         puts "\nDone. Build script exited with: #{status}"
         status
       end
 
       def checkout
         exists? ? fetch : clone
-        system "git checkout -qf #{commit}" if commit
+        execute "git checkout -qf #{commit}" if commit
       end
 
       def clone
-        system "cd ..; git clone #{git_url}; cd -"
+        execute "cd ..; git clone #{git_url}; cd -"
       end
 
       def fetch
-        system 'git clean -fdx'
-        system 'git fetch'
+        execute 'git clean -fdx'
+        execute 'git fetch'
       end
 
       def install?
@@ -66,19 +67,17 @@ module Travis
       end
 
       def install
-        system prepend_env('bundle install')
+        execute prepend_env('bundle install')
       end
 
-      def execute
-        system prepend_env(script)
+      def run_script
+        execute prepend_env(script)
       end
 
       def prepend_env(command)
-        if config['rvm']
-          "rvm #{config['rvm']} exec '#{(env + [command]).join(' ')}'"
-        else
-          (env + [command]).join(' ')
-        end
+        command = [(env + [command]).join(' ')]
+        command.unshift("rvm use #{config['rvm']}") if config['rvm']
+        command
       end
 
       def env
@@ -136,9 +135,13 @@ module Travis
         end
       end
 
-      def system(command)
-        puts "$ #{command}"
-        super("#{command} 2>&1")
+      def execute(cmd)
+        system "bash -c 'source ~/.rvm/scripts/rvm\n#{echoize(cmd)}' 2>&1"
+      end
+
+      def echoize(cmd)
+        cmd = [cmd].flatten.join("\n").split("\n")
+        cmd.map { |cmd| "echo #{Shellwords.escape("$ #{cmd}")}\n#{cmd}" }.join("\n")
       end
   end
 end
