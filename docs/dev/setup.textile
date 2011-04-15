@@ -68,5 +68,20 @@ Please let us know if anything is missing or wrong with these instructions.
 
 h1. Setup a Travis worker
 
-... to be continued ...
+Basically, in order to setup a worker that runs Travis build jobs all you need to do is update the @config/travis.yml@ file and start the worker daeomon.
 
+First, get the code:
+
+$ git clone git@github.com:travis-ci/travis-ci.git
+$ cd travis-ci
+$ cp config/travis.example.yml travis.yml
+
+To get the Travis key go to your Travis app, log in via Github and go to your profile page on http://travis-ci.org/profile. Copy the key and update the @rails@ URL in your config/travis.yml. **Also** update the @redis@ URL with your RedisToGo URL from above.
+
+Now you can try starting the worker with:
+
+$ script/worker
+
+That won't daeomnize the worker of course, and it will stay unmonitored. Instead we're using @god@ to monitor and restart the worker:
+
+$ god -c config/resque.god
