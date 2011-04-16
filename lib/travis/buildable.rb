@@ -136,7 +136,9 @@ module Travis
       end
 
       def execute(cmd)
-        system "bash -c 'source ~/.rvm/scripts/rvm\n#{echoize(cmd)}' 2>&1"
+        cmd = "source ~/.rvm/scripts/rvm\n#{echoize(cmd)}"
+        cmd = "bash -c #{Shellwords.escape(cmd)}" # use shell escaping so we're agnostic about quotes that users might use in their scripts
+        system(cmd)
       end
 
       def echoize(cmd)
