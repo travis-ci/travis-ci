@@ -100,7 +100,7 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
       },
       'build' => {
         'id' => build.id,
-        'status' => build.repository.id,
+        'status' => build.status,
         'finished_at' => build.finished_at,
       },
       'msg_id' => '1'
