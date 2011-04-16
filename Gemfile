@@ -36,4 +36,5 @@ group :test do
   gem 'ruby-debug19',     :platforms => ['ruby_19']
   gem 'test_declarative'
   gem 'web-socket-ruby'
+  gem 'fakeredis'
 end
