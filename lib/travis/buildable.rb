@@ -135,9 +135,17 @@ module Travis
         end
       end
 
+      # This wraps the user's build script so that
+      #
+      # 1. every command line (e.g. `rake test`) is preceeded by a line that echos that line (e.g. `echo rake\ test`)
+      # 2. the rvm script is sourced before running anything else
+      # 3. the whole thing is wrapped into bash -c to ensure we're using bash
+      #
+      # Instead of quoting the user's build script once for echo'ing and another time for passing it to bash -c
+      # we're shell-escaping it. This way the command is agnostic about quotes the user script might contain.
       def execute(cmd)
         cmd = "source ~/.rvm/scripts/rvm\n#{echoize(cmd)}"
-        cmd = "bash -c #{Shellwords.escape(cmd)}" # use shell escaping so we're agnostic about quotes that users might use in their scripts
+        cmd = "bash -c #{Shellwords.escape(cmd)}"
         system(cmd)
       end
 
