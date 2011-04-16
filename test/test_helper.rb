@@ -6,6 +6,7 @@ require 'test/unit'
 require 'test_declarative'
 require 'ruby-debug'
 require 'mocha'
+require 'fakeredis'
 
 require 'travis'
 
@@ -18,6 +19,7 @@ class Test::Unit::TestCase
 
   def setup
     Mocha::Mockery.instance.verify
+    Resque.redis = FakeRedis::Redis.new
   end
 end
 

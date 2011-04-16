@@ -8,6 +8,7 @@ class ActiveSupport::TestCase
 
   def setup
     Travis.pusher = Mocks::Pusher.new
+    Resque.redis = FakeRedis::Redis.new
     DatabaseCleaner.start
     super
   end
