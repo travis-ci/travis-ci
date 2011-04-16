@@ -49,7 +49,7 @@ Travis.Models.Build = Travis.Models.Base.extend({
     }
   },
   appendLog: function(chars) {
-    this.attributes.log = this.attributes.log + chars;
+    this.attributes.log = (this.attributes.log || '') + chars;
     this.trigger('append:log', chars);
   },
   url: function() {
