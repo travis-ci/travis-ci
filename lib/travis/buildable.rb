@@ -145,7 +145,7 @@ module Travis
       # we're shell-escaping it. This way the command is agnostic about quotes the user script might contain.
       def execute(cmd)
         cmd = "source ~/.rvm/scripts/rvm\n#{echoize(cmd)}"
-        cmd = "bash -c #{Shellwords.escape(cmd)}"
+        cmd = "bash -c #{Shellwords.escape("#{cmd} 2>&1")}"
         system(cmd)
       end
 
