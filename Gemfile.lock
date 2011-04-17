@@ -124,7 +124,7 @@ GEM
     linecache (0.43)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
-    mail (2.2.15)
+    mail (2.2.16)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
