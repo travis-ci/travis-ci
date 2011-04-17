@@ -632,6 +632,28 @@ caption {
   width: 168px;
 }
 
+/* scrollbars */
+
+pre::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+pre::-webkit-scrollbar-button:start:decrement, pre::-webkit-scrollbar-button:end:increment {
+  display: none;
+}
+pre::-webkit-scrollbar-track-piece {
+  /* background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .3)), to(rgba(0, 0, 0, .1))); */
+  background: #444;
+  -webkit-border-radius: 4px;
+}
+pre::-webkit-scrollbar-thumb:horizontal {
+  background: -webkit-gradient(linear, left top, left bottom, from(#85888E), to(#55585E));
+  -webkit-border-radius: 4px;
+  /* -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .66) inset; */
+  width: 25px;
+}
+
+
 /* stuff */
 
 .eta, .eta_label {
@@ -665,4 +687,5 @@ caption {
   visibility: hidden;
   font-size: 0;
 }
+
 
