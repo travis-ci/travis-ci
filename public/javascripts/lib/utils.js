@@ -51,7 +51,7 @@ Utils = {
     var folds = [
       /(^|<\/div>)(\$ git clean.*\n(?:Removing .*\n)+\n*)/m,
       /(^|<\/div>)(\$ git fetch.*\nFrom .*\n.*)\n/m,
-      /(^|<\/div>)(\$ bundle install.*\n(?:(Fetching|Using|Installing).*?\n)*)/m,
+      /(^|<\/div>)(\$ bundle install.*\n(?:(Fetching|Updating|Using|Installing).*?\n)*)/m,
       /(^|<\/div>)(\$ rake db:migrate[\s\S]*(?:^== +\w+: migrated \(.*\) =+\n))\n?/m,
       /(^|<\/div>)(\/home\/travis\/.rvm\/rubies\/.{140}.*)\n/m
     ];
