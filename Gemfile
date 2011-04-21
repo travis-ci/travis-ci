@@ -4,7 +4,7 @@ gem 'rails',               '~> 3.0.7'
 gem 'pg',                  '~> 0.11.0'
 gem 'SystemTimer',         '~> 1.2.3', :platforms => ['ruby_18']
 gem 'compass',             '~> 0.10.6'
-gem 'devise',              '~> 1.3.1'
+gem 'devise',              '~> 1.3.2'
 gem 'em-http-request',     '~> 0.3.0'
 gem 'em-websocket',        '~> 0.2.0'
 gem 'hoptoad_notifier',    '~> 2.4.9'
