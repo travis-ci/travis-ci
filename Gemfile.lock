@@ -84,7 +84,7 @@ GEM
       rack-test (>= 0.5.7)
     culerity (0.2.15)
     database_cleaner (0.6.6)
-    devise (1.3.2)
+    devise (1.3.3)
       bcrypt-ruby (~> 2.1.2)
       orm_adapter (~> 0.0.3)
       warden (~> 1.0.3)
@@ -247,7 +247,7 @@ DEPENDENCIES
   compass (~> 0.10.6)
   cucumber-rails
   database_cleaner
-  devise (~> 1.3.1)
+  devise (~> 1.3.3)
   em-http-request (~> 0.3.0)
   em-websocket (~> 0.2.0)
   factory_girl_rails!
