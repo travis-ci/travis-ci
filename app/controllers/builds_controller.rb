@@ -14,9 +14,11 @@ class BuildsController < ApplicationController
   end
 
   def create
-    build.save!
-    enqueue!(build)
-    build.repository.update_attributes!(:last_built_at => Time.now) # TODO the build isn't actually started now
+    if build
+      build.save!
+      enqueue!(build)
+      build.repository.update_attributes!(:last_built_at => Time.now) # TODO the build isn't actually started now
+    end
     render :nothing => true
   end
 
