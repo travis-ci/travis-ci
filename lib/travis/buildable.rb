@@ -63,7 +63,7 @@ module Travis
       end
 
       def install?
-        File.exists?('Gemfile')
+        File.exists?(config['gemfile'] || 'Gemfile')
       end
 
       def install
