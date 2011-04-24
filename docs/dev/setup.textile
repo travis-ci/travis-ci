@@ -68,7 +68,7 @@ Please let us know if anything is missing or wrong with these instructions.
 
 h1. Setup a Travis worker
 
-Basically, in order to setup a worker that runs Travis build jobs all you need to do is update the @config/travis.yml@ file and start the worker daeomon.
+Basically, in order to setup a worker that runs Travis build jobs all you need to do is update the @config/travis.yml@ file and start the worker daemon.
 
 First, get the code:
 
