@@ -76,6 +76,39 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal expected, build.expand_matrix_config(build.matrix_config.to_a)
   end
 
+  test 'expanding the build matrix configuration (rspec-rails)' do
+    config = YAML.load <<-yaml
+      script: "rake ci --trace 2>&1"
+      rvm:
+        - 1.8.7
+        - 1.9.1
+        - 1.9.2
+      gemfile:
+        - Gemfiles-rails-3.0.6
+        - Gemfiles-rails-3.0.7
+        - Gemfiles-rails-3-0-stable
+        - Gemfiles-rails-master
+      env:
+        - USE_GIT_REPOS=true
+    yaml
+    build = Factory(:build, :config => config)
+    expected = [
+      [['rvm', '1.8.7'], ['gemfile', 'Gemfiles-rails-3.0.6'],      ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.8.7'], ['gemfile', 'Gemfiles-rails-3.0.7'],      ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.8.7'], ['gemfile', 'Gemfiles-rails-3-0-stable'], ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.8.7'], ['gemfile', 'Gemfiles-rails-master'],     ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.1'], ['gemfile', 'Gemfiles-rails-3.0.6'],      ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.1'], ['gemfile', 'Gemfiles-rails-3.0.7'],      ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.1'], ['gemfile', 'Gemfiles-rails-3-0-stable'], ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.1'], ['gemfile', 'Gemfiles-rails-master'],     ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.2'], ['gemfile', 'Gemfiles-rails-3.0.6'],      ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.2'], ['gemfile', 'Gemfiles-rails-3.0.7'],      ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.2'], ['gemfile', 'Gemfiles-rails-3-0-stable'], ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.2'], ['gemfile', 'Gemfiles-rails-master'],     ['env', 'USE_GIT_REPOS=true']]
+    ]
+    assert_equal expected, build.expand_matrix_config(build.matrix_config.to_a)
+  end
+
   test 'expanding a matrix build sets the config to the children' do
     build = Factory(:build, :config => config)
     expected = [
@@ -83,6 +116,39 @@ class BuildTest < ActiveSupport::TestCase
       { 'script' => 'rake ci', 'rvm' => '1.8.7', 'gemfile' => 'gemfiles/rails-3.0.x' },
       { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-2.3.x' },
       { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-3.0.x' }
+    ]
+    assert_equal expected, build.matrix.map(&:config)
+  end
+
+  test 'expanding a matrix build sets the config to the children (rspec-rails)' do
+    config = YAML.load <<-yaml
+      script: "rake ci"
+      rvm:
+        - 1.8.7
+        - 1.9.1
+        - 1.9.2
+      gemfile:
+        - Gemfiles-rails-3.0.6
+        - Gemfiles-rails-3.0.7
+        - Gemfiles-rails-3-0-stable
+        - Gemfiles-rails-master
+      env:
+        - USE_GIT_REPOS=true
+    yaml
+    build = Factory(:build, :config => config)
+    expected = [
+      { 'script' => 'rake ci', 'rvm' => '1.8.7', 'gemfile' => 'Gemfiles-rails-3.0.6',      'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.8.7', 'gemfile' => 'Gemfiles-rails-3.0.7',      'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.8.7', 'gemfile' => 'Gemfiles-rails-3-0-stable', 'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.8.7', 'gemfile' => 'Gemfiles-rails-master',     'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.1', 'gemfile' => 'Gemfiles-rails-3.0.6',      'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.1', 'gemfile' => 'Gemfiles-rails-3.0.7',      'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.1', 'gemfile' => 'Gemfiles-rails-3-0-stable', 'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.1', 'gemfile' => 'Gemfiles-rails-master',     'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'Gemfiles-rails-3.0.6',      'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'Gemfiles-rails-3.0.7',      'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'Gemfiles-rails-3-0-stable', 'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'Gemfiles-rails-master',     'env' => 'USE_GIT_REPOS=true' },
     ]
     assert_equal expected, build.matrix.map(&:config)
   end

@@ -147,7 +147,7 @@ class Build < ActiveRecord::Base
         base = base.dup
         base.empty? ? [result] : base.shift.map { |value| matrix.call(base, result + [value]) }.flatten_once
       end
-      matrix.call(config)
+      matrix.call(config).uniq
     end
 
     def denormalize_to_repository?
