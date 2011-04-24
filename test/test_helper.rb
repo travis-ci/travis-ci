@@ -7,6 +7,7 @@ require 'test_declarative'
 require 'ruby-debug'
 require 'mocha'
 require 'fakeredis'
+require 'resque'
 
 require 'travis'
 
