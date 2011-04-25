@@ -63,7 +63,7 @@ module Travis
       end
 
       def install?
-        File.exists?(config['gemfile'] || 'Gemfile')
+        File.exists?(config.gemfile)
       end
 
       def install
@@ -85,7 +85,7 @@ module Travis
           next unless value = config[key]
           case key
           when 'gemfile'
-            "BUNDLE_GEMFILE=#{value}"
+            "BUNDLE_GEMFILE=#{File.expand_path(value.to_s)}"
           when 'env'
             value
           end
