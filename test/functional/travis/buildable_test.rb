@@ -61,12 +61,12 @@ class BuildableTest < ActiveSupport::TestCase
 
   test "prepend_env: prepends an env var if configured" do
     buildable = Buildable.new(:config => { 'gemfile' => 'gemfiles/rails-2.3.x' })
-    assert_equal ['BUNDLE_GEMFILE=gemfiles/rails-2.3.x rake ci'], buildable.prepend_env('rake ci')
+    assert_equal ["BUNDLE_GEMFILE=#{File.expand_path('gemfiles/rails-2.3.x')} rake ci"], buildable.prepend_env('rake ci')
   end
 
   test "prepend_env: prepends both rvm command and env var if configured" do
     buildable = Buildable.new(:config => { 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-2.3.x' })
-    assert_equal ['rvm use 1.9.2', 'BUNDLE_GEMFILE=gemfiles/rails-2.3.x rake ci'], buildable.prepend_env('rake ci')
+    assert_equal ['rvm use 1.9.2', "BUNDLE_GEMFILE=#{File.expand_path('gemfiles/rails-2.3.x')} rake ci"], buildable.prepend_env('rake ci')
   end
 
   test 'build_dir: given a local filesystem url it returns a valid path' do
@@ -95,19 +95,19 @@ class BuildableTest < ActiveSupport::TestCase
   end
 
   test 'install?: returns true if a default Gemfile is present' do
-    File.expects(:exists?).with('Gemfile').returns(true)
+    File.expects(:exists?).with(File.expand_path('Gemfile')).returns(true)
     buildable = Buildable.new
     assert buildable.install?
   end
 
   test 'install?: returns true if a custom Gemfile is present' do
-    File.expects(:exists?).with('gemfiles/rails-2.3.x').returns(true)
-    buildable = Buildable.new(:config => { 'gemfile' => 'gemfiles/rails-2.3.x' })
+    File.expects(:exists?).with(File.expand_path('gemfiles/rails-2.3.x')).returns(true)
+    buildable = Buildable.new(:config => { 'gemfile' => File.expand_path('gemfiles/rails-2.3.x') })
     assert buildable.install?
   end
 
   test 'install?: returns false if no Gemfile is present' do
-    File.expects(:exists?).with('Gemfile').returns(true)
+    File.expects(:exists?).with(File.expand_path('Gemfile')).returns(true)
     buildable = Buildable.new
     assert buildable.install?
   end
@@ -120,7 +120,7 @@ class BuildableTest < ActiveSupport::TestCase
 
   test 'install: runs bundle install w/ a gemfile prepended' do
     buildable = Buildable.new(:config => { 'gemfile' => 'gemfiles/rails-2.3.x' })
-    buildable.expects(:execute).with(['BUNDLE_GEMFILE=gemfiles/rails-2.3.x bundle install'])
+    buildable.expects(:execute).with(["BUNDLE_GEMFILE=#{File.expand_path('gemfiles/rails-2.3.x')} bundle install"])
     buildable.install
   end
 
@@ -150,7 +150,7 @@ class BuildableTest < ActiveSupport::TestCase
 
   test 'run_script: executes the build script w/ a gemfile prepended' do
     buildable = Buildable.new(:config => { 'script' => 'rake ci', 'gemfile' => 'gemfiles/rails-2.3.x' })
-    buildable.expects(:execute).with(['BUNDLE_GEMFILE=gemfiles/rails-2.3.x rake ci'])
+    buildable.expects(:execute).with(["BUNDLE_GEMFILE=#{File.expand_path('gemfiles/rails-2.3.x')} rake ci"])
     buildable.run_script
   end
 
