@@ -84,27 +84,27 @@ class BuildTest < ActiveSupport::TestCase
         - 1.9.1
         - 1.9.2
       gemfile:
-        - Gemfiles-rails-3.0.6
-        - Gemfiles-rails-3.0.7
-        - Gemfiles-rails-3-0-stable
-        - Gemfiles-rails-master
+        - gemfiles/rails-3.0.6
+        - gemfiles/rails-3.0.7
+        - gemfiles/rails-3-0-stable
+        - gemfiles/rails-master
       env:
         - USE_GIT_REPOS=true
     yaml
     build = Factory(:build, :config => config)
     expected = [
-      [['rvm', '1.8.7'], ['gemfile', 'Gemfiles-rails-3.0.6'],      ['env', 'USE_GIT_REPOS=true']],
-      [['rvm', '1.8.7'], ['gemfile', 'Gemfiles-rails-3.0.7'],      ['env', 'USE_GIT_REPOS=true']],
-      [['rvm', '1.8.7'], ['gemfile', 'Gemfiles-rails-3-0-stable'], ['env', 'USE_GIT_REPOS=true']],
-      [['rvm', '1.8.7'], ['gemfile', 'Gemfiles-rails-master'],     ['env', 'USE_GIT_REPOS=true']],
-      [['rvm', '1.9.1'], ['gemfile', 'Gemfiles-rails-3.0.6'],      ['env', 'USE_GIT_REPOS=true']],
-      [['rvm', '1.9.1'], ['gemfile', 'Gemfiles-rails-3.0.7'],      ['env', 'USE_GIT_REPOS=true']],
-      [['rvm', '1.9.1'], ['gemfile', 'Gemfiles-rails-3-0-stable'], ['env', 'USE_GIT_REPOS=true']],
-      [['rvm', '1.9.1'], ['gemfile', 'Gemfiles-rails-master'],     ['env', 'USE_GIT_REPOS=true']],
-      [['rvm', '1.9.2'], ['gemfile', 'Gemfiles-rails-3.0.6'],      ['env', 'USE_GIT_REPOS=true']],
-      [['rvm', '1.9.2'], ['gemfile', 'Gemfiles-rails-3.0.7'],      ['env', 'USE_GIT_REPOS=true']],
-      [['rvm', '1.9.2'], ['gemfile', 'Gemfiles-rails-3-0-stable'], ['env', 'USE_GIT_REPOS=true']],
-      [['rvm', '1.9.2'], ['gemfile', 'Gemfiles-rails-master'],     ['env', 'USE_GIT_REPOS=true']]
+      [['rvm', '1.8.7'], ['gemfile', 'gemfiles/rails-3.0.6'],      ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.8.7'], ['gemfile', 'gemfiles/rails-3.0.7'],      ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.8.7'], ['gemfile', 'gemfiles/rails-3-0-stable'], ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.8.7'], ['gemfile', 'gemfiles/rails-master'],     ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.1'], ['gemfile', 'gemfiles/rails-3.0.6'],      ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.1'], ['gemfile', 'gemfiles/rails-3.0.7'],      ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.1'], ['gemfile', 'gemfiles/rails-3-0-stable'], ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.1'], ['gemfile', 'gemfiles/rails-master'],     ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.2'], ['gemfile', 'gemfiles/rails-3.0.6'],      ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.2'], ['gemfile', 'gemfiles/rails-3.0.7'],      ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.2'], ['gemfile', 'gemfiles/rails-3-0-stable'], ['env', 'USE_GIT_REPOS=true']],
+      [['rvm', '1.9.2'], ['gemfile', 'gemfiles/rails-master'],     ['env', 'USE_GIT_REPOS=true']]
     ]
     assert_equal expected, build.expand_matrix_config(build.matrix_config.to_a)
   end
@@ -128,29 +128,44 @@ class BuildTest < ActiveSupport::TestCase
         - 1.9.1
         - 1.9.2
       gemfile:
-        - Gemfiles-rails-3.0.6
-        - Gemfiles-rails-3.0.7
-        - Gemfiles-rails-3-0-stable
-        - Gemfiles-rails-master
+        - gemfiles/rails-3.0.6
+        - gemfiles/rails-3.0.7
+        - gemfiles/rails-3-0-stable
+        - gemfiles/rails-master
       env:
         - USE_GIT_REPOS=true
     yaml
     build = Factory(:build, :config => config)
     expected = [
-      { 'script' => 'rake ci', 'rvm' => '1.8.7', 'gemfile' => 'Gemfiles-rails-3.0.6',      'env' => 'USE_GIT_REPOS=true' },
-      { 'script' => 'rake ci', 'rvm' => '1.8.7', 'gemfile' => 'Gemfiles-rails-3.0.7',      'env' => 'USE_GIT_REPOS=true' },
-      { 'script' => 'rake ci', 'rvm' => '1.8.7', 'gemfile' => 'Gemfiles-rails-3-0-stable', 'env' => 'USE_GIT_REPOS=true' },
-      { 'script' => 'rake ci', 'rvm' => '1.8.7', 'gemfile' => 'Gemfiles-rails-master',     'env' => 'USE_GIT_REPOS=true' },
-      { 'script' => 'rake ci', 'rvm' => '1.9.1', 'gemfile' => 'Gemfiles-rails-3.0.6',      'env' => 'USE_GIT_REPOS=true' },
-      { 'script' => 'rake ci', 'rvm' => '1.9.1', 'gemfile' => 'Gemfiles-rails-3.0.7',      'env' => 'USE_GIT_REPOS=true' },
-      { 'script' => 'rake ci', 'rvm' => '1.9.1', 'gemfile' => 'Gemfiles-rails-3-0-stable', 'env' => 'USE_GIT_REPOS=true' },
-      { 'script' => 'rake ci', 'rvm' => '1.9.1', 'gemfile' => 'Gemfiles-rails-master',     'env' => 'USE_GIT_REPOS=true' },
-      { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'Gemfiles-rails-3.0.6',      'env' => 'USE_GIT_REPOS=true' },
-      { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'Gemfiles-rails-3.0.7',      'env' => 'USE_GIT_REPOS=true' },
-      { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'Gemfiles-rails-3-0-stable', 'env' => 'USE_GIT_REPOS=true' },
-      { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'Gemfiles-rails-master',     'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.8.7', 'gemfile' => 'gemfiles/rails-3.0.6',      'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.8.7', 'gemfile' => 'gemfiles/rails-3.0.7',      'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.8.7', 'gemfile' => 'gemfiles/rails-3-0-stable', 'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.8.7', 'gemfile' => 'gemfiles/rails-master',     'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.1', 'gemfile' => 'gemfiles/rails-3.0.6',      'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.1', 'gemfile' => 'gemfiles/rails-3.0.7',      'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.1', 'gemfile' => 'gemfiles/rails-3-0-stable', 'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.1', 'gemfile' => 'gemfiles/rails-master',     'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-3.0.6',      'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-3.0.7',      'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-3-0-stable', 'env' => 'USE_GIT_REPOS=true' },
+      { 'script' => 'rake ci', 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-master',     'env' => 'USE_GIT_REPOS=true' },
     ]
     assert_equal expected, build.matrix.map(&:config)
+  end
+
+  test 'using a configuration with single values (no matrix)' do
+    config = YAML.load <<-yaml
+      script: "rake ci"
+      rvm:
+        - 1.9.2
+      gemfile:
+        - gemfiles/rails-2.3.x
+      env:
+        - USE_GIT_REPOS=true
+    yaml
+    build = Factory(:build, :config => config)
+    expected = { 'script' => 'rake ci', 'rvm' => ['1.9.2'], 'gemfile' => ['gemfiles/rails-2.3.x'], 'env' => ['USE_GIT_REPOS=true'] }
+    assert_equal expected, build.config
   end
 
   test 'expanding a matrix build copies the build attributes' do
