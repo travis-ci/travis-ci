@@ -111,7 +111,7 @@ GEM
       rake (>= 0.8.7)
     gherkin (2.3.6)
       json (>= 1.4.6)
-    haml (3.0.25)
+    haml (3.1.0)
     hoptoad_notifier (2.4.9)
       activesupport
       builder
