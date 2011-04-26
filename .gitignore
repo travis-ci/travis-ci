@@ -2,6 +2,7 @@
 .DS_Store
 .bundle
 .rvmrc
+Gemfile.lock
 config/resque.god
 config/travis.yml
 db/*.sqlite3
