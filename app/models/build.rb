@@ -22,7 +22,8 @@ class Build < ActiveRecord::Base
       repository = Repository.find_or_create_by_github_repository(data.repository)
       number     = repository.builds.next_number
       attributes = data.builds.last.to_hash.merge(:number => number, :github_payload => payload)
-      repository.builds.create(attributes)
+
+      attributes[:branch].match(/gh_pages/i) ? nil : repository.builds.create(attributes)
     end
 
     def next_number

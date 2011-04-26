@@ -29,6 +29,13 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal GITHUB_PAYLOADS['gem-release'], build.github_payload
   end
 
+  test 'creating a Build from Github payload from a gh_pages branch' do
+    Repository.delete_all
+    Build.delete_all
+
+    assert_nil Build.create_from_github_payload(GITHUB_PAYLOADS['gh-pages-update'])
+  end
+
   test 'next_number (1)' do
     repository = Factory(:repository)
     assert_equal 1, repository.builds.next_number
