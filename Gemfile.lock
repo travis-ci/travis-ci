@@ -229,7 +229,7 @@ GEM
       ruby-hmac (~> 0.4.0)
     treetop (1.4.9)
       polyglot (>= 0.3.1)
-    tzinfo (0.3.26)
+    tzinfo (0.3.27)
     unobtrusive_flash (0.0.2)
     vegas (0.1.8)
       rack (>= 1.0.0)
