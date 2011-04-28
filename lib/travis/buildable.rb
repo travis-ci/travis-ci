@@ -67,7 +67,7 @@ module Travis
       end
 
       def install
-        execute prepend_env('bundle install')
+        execute prepend_env("bundle install #{config['bundler_args'] if config.has_key?('bundler_args')}")
       end
 
       def run_script
