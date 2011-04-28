@@ -114,31 +114,37 @@ class BuildableTest < ActiveSupport::TestCase
 
   test 'install: runs bundle install' do
     buildable = Buildable.new(:config => { :not => :blank })
-    buildable.expects(:execute).with(['bundle install'])
+    buildable.expects(:execute).with(['bundle install '])
     buildable.install
   end
 
   test 'install: runs bundle install w/ a gemfile prepended' do
     buildable = Buildable.new(:config => { 'gemfile' => 'gemfiles/rails-2.3.x' })
-    buildable.expects(:execute).with(["BUNDLE_GEMFILE=#{File.expand_path('gemfiles/rails-2.3.x')} bundle install"])
+    buildable.expects(:execute).with(["BUNDLE_GEMFILE=#{File.expand_path('gemfiles/rails-2.3.x')} bundle install "])
     buildable.install
   end
 
   test 'install: runs bundle install w/ env vars prepended' do
     buildable = Buildable.new(:config => { 'env' => 'FOO=bar' })
-    buildable.expects(:execute).with(['FOO=bar bundle install'])
+    buildable.expects(:execute).with(['FOO=bar bundle install '])
     buildable.install
   end
 
   test 'install: runs bundle install w/ rvm command prepended' do
     buildable = Buildable.new(:config => { 'rvm' => '1.8.7' })
-    buildable.expects(:execute).with(['rvm use 1.8.7', 'bundle install'])
+    buildable.expects(:execute).with(['rvm use 1.8.7', 'bundle install '])
     buildable.install
   end
 
   test 'install: runs bundle install w/ rvm command and env vars prepended' do
     buildable = Buildable.new(:config => { 'script' => 'rake ci', 'rvm' => '1.8.7', 'env' => 'FOO=bar' })
-    buildable.expects(:execute).with(['rvm use 1.8.7', 'FOO=bar bundle install'])
+    buildable.expects(:execute).with(['rvm use 1.8.7', 'FOO=bar bundle install '])
+    buildable.install
+  end
+
+  test 'install: runs bundle install w/ bundler_args appended' do
+    buildable = Buildable.new(:config => {:bundler_args => '--binstubs'})
+    buildable.expects(:execute).with(['bundle install --binstubs'])
     buildable.install
   end
 
