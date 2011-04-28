@@ -41,12 +41,14 @@ class BuildTest < ActiveSupport::TestCase
     Build.delete_all
 
     Build.create_from_github_payload(GITHUB_PAYLOADS['gem-release']).save
-    build = Build.create_from_github_payload(GITHUB_PAYLOADS['gem-release2']).reload
+    build = Build.create_from_github_payload(GITHUB_PAYLOADS['gem-release2'])
+    build.last.reload
 
-    assert_equal '1', build.number
-    assert_equal '9854593', build.commit
-    assert_equal 'Bump to 0.0.16', build.message
-    assert_equal '2010-10-27 04:32:47 UTC', build.committed_at.to_formatted_s
+    assert_equal '9854592', build.first
+    assert_equal '1', build.last.number
+    assert_equal '9854593', build.last.commit
+    assert_equal 'Bump to 0.0.16', build.last.message
+    assert_equal '2010-10-27 04:32:47 UTC', build.last.committed_at.to_formatted_s
   end
 
   test 'next_number (1)' do

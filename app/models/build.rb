@@ -30,7 +30,7 @@ class Build < ActiveRecord::Base
       else
         attributes[:number] = repository.last_build_number.to_i
         build = Build.find repository.last_build_id
-        Build.update(build, attributes)
+        [build.commit, Build.update(build, attributes)]
       end
     end
 
