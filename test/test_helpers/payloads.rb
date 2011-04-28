@@ -24,6 +24,31 @@ GITHUB_PAYLOADS = {
     "ref": "refs/heads/master"
   }),
 
+  "gem-release2" => %({
+    "repository": {
+      "url": "http://github.com/svenfuchs/gem-release",
+      "name": "gem-release",
+      "owner": {
+        "email": "svenfuchs@artweb-design.de",
+        "name": "svenfuchs"
+      }
+    },
+    "commits": [{
+      "id":        "9854593",
+      "message":   "Bump to 0.0.16",
+      "timestamp": "2010-10-27 04:32:47",
+      "committer": {
+        "name":  "Sven Fuchs",
+        "email": "svenfuchs@artweb-design.de"
+      },
+      "author": {
+        "name":  "Christopher Floess",
+        "email": "chris@flooose.de"
+      }
+    }],
+    "ref": "refs/heads/master"
+  }),
+
   "gh-pages-update" => %({
     "repository": {
       "url": "http://github.com/svenfuchs/gem-release",

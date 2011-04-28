@@ -36,6 +36,19 @@ class BuildTest < ActiveSupport::TestCase
     assert_nil Build.create_from_github_payload(GITHUB_PAYLOADS['gh-pages-update'])
   end
 
+  test 'creating a second Build from a GitHub payload before the first finished' do
+    Repository.delete_all
+    Build.delete_all
+
+    Build.create_from_github_payload(GITHUB_PAYLOADS['gem-release']).save
+    build = Build.create_from_github_payload(GITHUB_PAYLOADS['gem-release2']).reload
+
+    assert_equal '1', build.number
+    assert_equal '9854593', build.commit
+    assert_equal 'Bump to 0.0.16', build.message
+    assert_equal '2010-10-27 04:32:47 UTC', build.committed_at.to_formatted_s
+  end
+
   test 'next_number (1)' do
     repository = Factory(:repository)
     assert_equal 1, repository.builds.next_number
