@@ -15,6 +15,13 @@ class BuildsController < ApplicationController
 
   def create
     if build
+      if build.is_a? Array
+        old_commit = build.first
+        @build = build.last
+        args = json_for(:job, build)
+        args['build']['commit'] = old_commit
+        Resque.dequeue(Travis::Builder, build.job_id, args)
+      end
       build.save!
       enqueue!(build)
       build.repository.update_attributes!(:last_built_at => Time.now) # TODO the build isn't actually started now
