@@ -28,7 +28,7 @@ class Build < ActiveRecord::Base
         attributes[:number] = repository.builds.next_number
         repository.builds.create(attributes)
       else
-        attributes[:number] = repository.last_build_number
+        attributes[:number] = repository.last_build_number.to_i
         build = Build.find repository.last_build_id
         Build.update(build, attributes)
       end
