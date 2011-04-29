@@ -11,8 +11,6 @@ module Travis
     extend Resque::Plugins::Meta
     include Base
 
-    @queue = :builds # the resque queue
-
     class << self
       def init
         require 'resque/heartbeat'
