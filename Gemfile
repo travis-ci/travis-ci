@@ -32,8 +32,8 @@ group :test do
   gem 'minitest',         '~> 2.0.2', :platforms => ['ruby_18']
   gem 'minitest_tu_shim', '~> 1.3.2', :platforms => ['ruby_18']
   gem 'mocha'
-  gem 'ruby-debug',       :platforms => ['ruby_18']
-  gem 'ruby-debug19',     :platforms => ['ruby_19']
+  gem 'ruby-debug',       :platforms => ['mri_18']
+  gem 'ruby-debug19',     :platforms => ['mri_19']
   gem 'test_declarative'
   gem 'web-socket-ruby'
   gem 'fakeredis'
