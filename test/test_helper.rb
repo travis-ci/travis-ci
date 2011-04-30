@@ -1,4 +1,8 @@
-require 'rubygems'
+begin
+  require 'ruby-debug'
+rescue LoadError => e
+  puts e.message
+end
 require 'bundler/setup'
 
 require 'active_record'
