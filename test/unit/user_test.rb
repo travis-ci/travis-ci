@@ -16,8 +16,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'user_data_from_github_data returns required data' do
-    github_data = {'name' => 'j_user', 'login' => 'j_user' , 'email' => 'j_user@email.com' , 'company' => 'ACME'}
-    returned_data = {'name' => 'j_user', 'login' => 'j_user' , 'email' => 'j_user@email.com' }
+    github_data = {'name' => 'j_user', 'login' => 'j_user' , 'email' => 'j_user@email.com' , 'company' => 'ACME', 'id' => '234423'}
+    returned_data = {'name' => 'j_user', 'login' => 'j_user' , 'email' => 'j_user@email.com', 'github_id' => '234423' }
 
     assert_equal returned_data , User::user_data_from_github_data(github_data)
 
