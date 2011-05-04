@@ -139,7 +139,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
-    minitest (2.0.2)
+    minitest (2.1.0)
     minitest_tu_shim (1.3.2)
       minitest (>= 1.6.0)
     mocha (0.9.12)
@@ -269,8 +269,8 @@ DEPENDENCIES
   fakeweb
   hoptoad_notifier (~> 2.4.9)
   jammit (~> 0.6.0)
-  minitest (~> 2.0.2)
-  minitest_tu_shim (~> 1.3.2)
+  minitest
+  minitest_tu_shim
   mocha
   oa-oauth (= 0.2.0)
   pg (~> 0.11.0)
