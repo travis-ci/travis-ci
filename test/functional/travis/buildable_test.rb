@@ -148,6 +148,18 @@ class BuildableTest < ActiveSupport::TestCase
     buildable.install
   end
 
+  test 'run_script: executes before callbacks' do
+    buildable = Buildable.new(:config => { 'script' => 'rake ci' })
+    buildable.expects(:run_before_script)
+    buildable.run_script
+  end
+
+  test 'run_script: executes after callbacks' do
+    buildable = Buildable.new(:config => { 'script' => 'rake ci' })
+    buildable.expects(:run_after_script)
+    buildable.run_script
+  end
+
   test 'run_script: executes the build script' do
     buildable = Buildable.new(:config => { 'script' => 'rake ci' })
     buildable.expects(:execute).with(['rake ci'])
@@ -178,6 +190,30 @@ class BuildableTest < ActiveSupport::TestCase
     buildable.run_script
   end
 
+  test 'run_before_script: executes commands' do
+    buildable = Buildable.new(:config => { 'script' => 'rake ci', 'before_script' => ['cmd1' , 'cmd2'] })
+    buildable.expects(:execute).with('cmd1')
+    buildable.expects(:execute).with('cmd2')
+    buildable.run_before_script
+  end
+
+  test 'run_before_script: returns if there are no commands' do
+    buildable = Buildable.new(:config => { 'script' => 'rake ci'})
+    assert_equal true, buildable.run_before_script
+  end
+  
+  test 'run_after_script: executes commands' do
+    buildable = Buildable.new(:config => { 'script' => 'rake ci', 'after_script' => ['cmd1' , 'cmd2'] })
+    buildable.expects(:execute).with('cmd1')
+    buildable.expects(:execute).with('cmd2')
+    buildable.run_after_script
+  end
+
+  test 'run_after_script: returns if there are no commands' do
+    buildable = Buildable.new(:config => { 'script' => 'rake ci' })
+    assert_equal true, buildable.run_after_script
+  end
+  
   test 'echoize: echo the command before executing it (1)' do
     assert_equal "echo \\$\\ rake\nrake", Buildable.new.echoize('rake')
   end
