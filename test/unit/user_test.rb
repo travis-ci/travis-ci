@@ -14,4 +14,13 @@ class UserTest < ActiveSupport::TestCase
 
     assert_equal '0' * 32, user.profile_image_hash
   end
+
+  test 'user_data_from_github_data returns required data' do
+    github_data = {'name' => 'j_user', 'login' => 'j_user' , 'email' => 'j_user@email.com' , 'company' => 'ACME', 'id' => '234423'}
+    returned_data = {'name' => 'j_user', 'login' => 'j_user' , 'email' => 'j_user@email.com', 'github_id' => '234423' }
+
+    assert_equal returned_data , User::user_data_from_github_data(github_data)
+
+  end
+
 end
