@@ -71,7 +71,9 @@ module Travis
       end
 
       def run_script
+        run_before_script
         execute prepend_env(script)
+        run_after_script
       end
 
       def prepend_env(command)
@@ -92,8 +94,22 @@ module Travis
         end.compact
       end
 
+      def run_before_script
+        return true unless config.has_key?('before_script')
+        config['before_script'].each do |arg|
+          execute arg 
+        end
+      end
+
       def script
         config['script'] || @script
+      end
+
+      def run_after_script
+        return true unless config.has_key?('after_script')
+        config['after_script'].each do |arg|
+          execute arg 
+        end
       end
 
       def config
