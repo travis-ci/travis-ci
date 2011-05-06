@@ -191,9 +191,9 @@ class BuildableTest < ActiveSupport::TestCase
   end
 
   test 'run_before_script: executes commands' do
-    buildable = Buildable.new(:config => { 'script' => 'rake ci', 'before_script' => ['cmd1' , 'cmd2'] })
-    buildable.expects(:execute).with('cmd1')
-    buildable.expects(:execute).with('cmd2')
+    buildable = Buildable.new(:config => { 'script' => 'rake ci','before_script' => ['cmd1' , 'cmd2'] })
+    buildable.expects(:execute).with(['cmd1'])
+    buildable.expects(:execute).with(['cmd2'])
     buildable.run_before_script
   end
 
@@ -201,11 +201,17 @@ class BuildableTest < ActiveSupport::TestCase
     buildable = Buildable.new(:config => { 'script' => 'rake ci'})
     assert_equal true, buildable.run_before_script
   end
+
+  test 'run_before_script: prepends the env if appropriate' do
+    buildable = Buildable.new(:config => { 'script' => 'rake ci', 'rvm' => '1.8.7', 'before_script' => ['cmd1'],  'env' => 'FOO=bar' })
+    buildable.expects(:execute).with(['rvm use 1.8.7' , 'FOO=bar cmd1'])
+    buildable.run_before_script
+  end
   
   test 'run_after_script: executes commands' do
     buildable = Buildable.new(:config => { 'script' => 'rake ci', 'after_script' => ['cmd1' , 'cmd2'] })
-    buildable.expects(:execute).with('cmd1')
-    buildable.expects(:execute).with('cmd2')
+    buildable.expects(:execute).with(['cmd1'])
+    buildable.expects(:execute).with(['cmd2'])
     buildable.run_after_script
   end
 
@@ -213,7 +219,13 @@ class BuildableTest < ActiveSupport::TestCase
     buildable = Buildable.new(:config => { 'script' => 'rake ci' })
     assert_equal true, buildable.run_after_script
   end
-  
+
+  test 'run_after_script: prepends the env if appropriate' do
+    buildable = Buildable.new(:config => { 'script' => 'rake ci', 'rvm' => '1.8.7' , 'after_script' => ['cmd1'],  'env' => 'FOO=bar' })
+    buildable.expects(:execute).with(['rvm use 1.8.7','FOO=bar cmd1'])
+    buildable.run_after_script
+  end
+
   test 'echoize: echo the command before executing it (1)' do
     assert_equal "echo \\$\\ rake\nrake", Buildable.new.echoize('rake')
   end

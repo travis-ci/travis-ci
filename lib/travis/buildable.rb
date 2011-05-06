@@ -97,7 +97,7 @@ module Travis
       def run_before_script
         return true unless config.has_key?('before_script')
         config['before_script'].each do |arg|
-          execute arg 
+          execute prepend_env(arg) 
         end
       end
 
@@ -108,7 +108,7 @@ module Travis
       def run_after_script
         return true unless config.has_key?('after_script')
         config['after_script'].each do |arg|
-          execute arg 
+          execute prepend_env(arg) 
         end
       end
 
