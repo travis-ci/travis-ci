@@ -111,7 +111,7 @@ h2. Running the tests
 Integration tests are implemented using "Jasmine":http://pivotal.github.com/jasmine and can be run in the browser:
 
 <pre>
-$ RAILS_ENV=jasmine rake db:migrate db:fixtures:load
+$ RAILS_ENV=jasmine rake db:migrate db:seed
 $ rails s thin -e jasmine
 $ open http://localhost:3000
 </pre>
