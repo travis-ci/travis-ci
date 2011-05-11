@@ -37,7 +37,7 @@ Nonetheless we currently have a working demo application running on "http://trav
 
 * "RedisToGo":http://redistogo.com as a Redis store
 * "Pusher":http://pusherapp.com as a Websocket server
-* A virtual server lent by "Avarteq":http://avarteq.de for running a "Resque":http://github.com/defunkt/resque worker.
+* A virtual server lent by "Avarteq":http://avarteq.de for running a "Resque":https://github.com/defunkt/resque worker.
 
 Each of these components could be replaced with something else, e.g. one could easily use a different Redis server.
 
@@ -111,7 +111,7 @@ h2. Running the tests
 Integration tests are implemented using "Jasmine":http://pivotal.github.com/jasmine and can be run in the browser:
 
 <pre>
-$ RAILS_ENV=jasmine rake db:migrate db:fixtures:load
+$ RAILS_ENV=jasmine rake db:migrate db:seed
 $ rails s thin -e jasmine
 $ open http://localhost:3000
 </pre>
