@@ -43,7 +43,7 @@ module Travis
       end
 
       def build!
-        status = (install? ? install && run_script : run_script) ? 0 : 1
+        status = (install? ? install && run_scripts : run_scripts) ? 0 : 1
         puts "\nDone. Build script exited with: #{status}"
         status
       end
@@ -69,11 +69,13 @@ module Travis
       def install
         execute prepend_env("bundle install #{config['bundler_args'] if config.has_key?('bundler_args')}")
       end
-
-      def run_script
-        run_before_script
-        execute prepend_env(script)
-        run_after_script
+  
+      def run_scripts
+        [:before_script, :script, :after_script].each do |script_type|
+          if config.has_key?(script_type.to_s)
+            break false unless send("run_#{script_type}")
+          end
+        end
       end
 
       def prepend_env(command)
@@ -94,21 +96,23 @@ module Travis
         end.compact
       end
 
-      def run_before_script
-        return true unless config.has_key?('before_script')
-        config['before_script'].each do |arg|
-          execute prepend_env(arg) 
-        end
-      end
-
       def script
         config['script'] || @script
       end
 
+      def run_before_script
+        config['before_script'].each do |arg|
+          break false unless execute prepend_env(arg) 
+        end
+      end
+
+      def run_script 
+        execute prepend_env(script)
+      end
+
       def run_after_script
-        return true unless config.has_key?('after_script')
         config['after_script'].each do |arg|
-          execute prepend_env(arg) 
+          break false unless execute prepend_env(arg) 
         end
       end
 
