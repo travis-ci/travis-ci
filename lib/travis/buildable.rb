@@ -71,10 +71,8 @@ module Travis
       end
   
       def run_scripts
-        [:before_script, :script, :after_script].each do |script_type|
-          if config.has_key?(script_type.to_s)
-            break false unless send("run_#{script_type}")
-          end
+        %w{before_script script after_script}.each do |script_type|
+          break false unless run_script(script_type)
         end
       end
 
@@ -96,22 +94,15 @@ module Travis
         end.compact
       end
 
-      def script
-        config['script'] || @script
+      def script(type)
+        config[type] || instance_variable_get(:"@#{type}")
       end
 
-      def run_before_script
-        config['before_script'].each do |arg|
-          break false unless execute prepend_env(arg) 
-        end
-      end
-
-      def run_script 
-        execute prepend_env(script)
-      end
-
-      def run_after_script
-        config['after_script'].each do |arg|
+      def run_script(type)
+        script = self.script(type)
+        return true if script.nil?
+         
+        Array(script).each do |arg|
           break false unless execute prepend_env(arg) 
         end
       end
