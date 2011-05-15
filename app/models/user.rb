@@ -18,10 +18,10 @@ class User < ActiveRecord::Base
   end
 
   def self.user_data_from_github_data(data)
-      data.slice!(*%w{id name login email})
-      data['github_id'] = data['id']
-      data.delete 'id'
-      data
+    data.slice!(*%w{id name login email})
+    data['github_id'] = data['id']
+    data.delete 'id'
+    data
   end
 
   def profile_image_hash
@@ -30,9 +30,7 @@ class User < ActiveRecord::Base
 
   private
 
-    def create_a_token
-      self.tokens.create!
-    end
-
-
+  def create_a_token
+    self.tokens.create!
+  end
 end
