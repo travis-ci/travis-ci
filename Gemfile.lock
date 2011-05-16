@@ -111,7 +111,7 @@ GEM
     faraday (0.5.7)
       addressable (~> 2.2.4)
       multipart-post (~> 1.1.0)
-      rack (>= 1.1.0, < 2)
+      rack (< 2, >= 1.1.0)
     ffi (1.0.8)
     ffi (1.0.8-java)
     fssm (0.2.7)
@@ -191,9 +191,9 @@ GEM
     redis-namespace (1.0.2)
       redis (< 3.0.0)
     refraction (0.2.0)
-    resque (1.15.0)
-      json (~> 1.4.6)
-      redis-namespace (>= 0.10.0)
+    resque (1.16.0)
+      json (>= 1.4.6, < 1.6)
+      redis-namespace (~> 1.0.2)
       sinatra (>= 0.9.2)
       vegas (~> 0.1.2)
     resque-meta (1.0.3)
@@ -277,7 +277,7 @@ DEPENDENCIES
   rails (~> 3.0.7)
   rails_admin!
   refraction (~> 0.2.0)
-  resque (~> 1.15.0)
+  resque (~> 1.16.0)
   resque-meta (~> 1.0.3)
   ruby-debug
   ruby-debug19
