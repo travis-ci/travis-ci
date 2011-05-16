@@ -8,7 +8,7 @@ Refraction.configure do |req|
       Rails.logger.add(1, "\n\nREDIRECT : redirect issued for old heroku address\n\n")
       req.permanent! :host => "travis-ci.org"
     end
-    # Rails.logger.flush
+    Rails.logger.flush
   elsif req.host =~ /([-\w]+\.)+travis-ci\.org/
     # we don't want to use www for now
     req.permanent! :host => "travis-ci.org"
