@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110503150504) do
+ActiveRecord::Schema.define(:version => 20110523012243) do
 
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(:version => 20110503150504) do
     t.datetime "last_build_started_at"
     t.datetime "last_build_finished_at"
     t.string   "owner_name"
-    t.string   "owner_email"
+    t.text     "owner_email"
   end
 
   create_table "tokens", :force => true do |t|
