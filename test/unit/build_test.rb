@@ -52,4 +52,32 @@ class BuildTest < ActiveSupport::TestCase
     Factory(:build, :repository => repository, :number => '3.1')
     assert_equal 4, repository.builds.next_number
   end
+
+  test 'send_notifications? for !parent should return true' do
+    build = Factory(:build)
+    build.stubs(:parent).returns(false)
+    assert build.send_notifications?, 'should return true if !parent'
+  end
+
+  test 'send_notifications? for build.patent.finished? should return true' do
+    build = Factory(:build)
+    build.parent.stubs(:finished).returns(true)
+    assert build.send_notifications?, 'should return true if parent.finished?'
+  end
+
+  test 'send_notifications? for parent and !parent.finished? should return true' do
+    parent_object = Object.new
+    parent_object.stubs('finished?').returns(false)
+    build = Factory(:build)
+    build.stubs(:parent).returns(parent_object)
+
+    assert !build.send_notifications?, 'should return false if parent'
+  end
+
+  test 'send_notifications? for config["notifications"]["disable"]' do
+    build = Factory(:build)
+    build.config = {'notifications' => {'disabled' => true}}
+
+    assert !build.send_notifications?, 'should return false if disabled'
+  end
 end
