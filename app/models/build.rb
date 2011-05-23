@@ -111,11 +111,14 @@ class Build < ActiveRecord::Base
   end
 
   def send_notifications?
-    disabled = config['notifications']['disabled'] if self.config && self.config['notifications']
-    disabled ? false : parent_finished?
+    notifications_enabled? && parent_finished?
   end
 
   protected
+
+    def notifications_enabled?
+      !(self.config && self.config['notifications'] && config['notifications']['disabled'])
+    end
 
     def parent_finished?
       !self.parent || self.parent.finished?
