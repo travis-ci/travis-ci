@@ -11,6 +11,7 @@ class BuildMailer < ActionMailer::Base
   protected
 
     def unique_recipients(build)
+      return build.config['email_recipients'] if build.config.present? and build.config['email_recipients'].present?
       recipients = [build.committer_email, build.author_email, build.repository.owner_email]
       recipients.select(&:present?).join(',').split(',').map(&:strip).uniq.join(',')
     end
