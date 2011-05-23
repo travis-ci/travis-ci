@@ -111,11 +111,15 @@ class Build < ActiveRecord::Base
   end
 
   def send_notifications?
-    disabled = self.try(:config).try(:[], 'notifications').try(:[], 'disabled')
-    return disabled ? false : (!self.parent || self.parent.finished?)
+    disabled = config['notifications']['disabled'] if self.config && self.config['notifications']
+    disabled ? false : parent_finished?
   end
 
   protected
+
+    def parent_finished?
+      !self.parent || self.parent.finished?
+    end
 
     def expand_matrix?
       matrix? && matrix.empty?
