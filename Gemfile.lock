@@ -72,7 +72,6 @@ GEM
       chunky_png (~> 1.1)
       fssm (>= 0.2.7)
       sass (~> 3.1)
-    configuration (1.2.0)
     crack (0.1.8)
     cucumber (0.10.2)
       builder (>= 2.1.2)
@@ -103,7 +102,7 @@ GEM
     escape_utils (0.2.3)
     eventmachine (0.12.10)
     eventmachine (0.12.10-java)
-    factory_girl (2.0.0.beta1)
+    factory_girl (2.0.0.beta2)
     fakeredis (0.1.2)
     fakeweb (1.3.0)
     faraday (0.5.7)
@@ -117,10 +116,6 @@ GEM
       json (>= 1.4.6)
     gherkin (2.3.8-java)
       json (>= 1.4.6)
-    heroku (2.1.4)
-      launchy (>= 0.3.2)
-      rest-client (~> 1.6.1)
-      term-ansicolor (~> 1.0.5)
     hoptoad_notifier (2.4.9)
       activesupport
       builder
@@ -131,9 +126,6 @@ GEM
     json (1.4.6)
     json (1.4.6-java)
     json_pure (1.5.1)
-    launchy (0.4.0)
-      configuration (>= 0.0.5)
-      rake (>= 0.8.1)
     linecache (0.43)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
@@ -203,8 +195,6 @@ GEM
       vegas (~> 0.1.2)
     resque-meta (1.0.3)
       resque (~> 1.8)
-    rest-client (1.6.1)
-      mime-types (>= 1.16)
     ruby-debug (0.10.4)
       columnize (>= 0.1)
       ruby-debug-base (~> 0.10.4.0)
@@ -273,7 +263,6 @@ DEPENDENCIES
   factory_girl_rails!
   fakeredis
   fakeweb
-  heroku (~> 2.1.0)
   hoptoad_notifier (~> 2.4.9)
   jammit (~> 0.6.0)
   minitest
