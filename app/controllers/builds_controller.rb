@@ -61,7 +61,7 @@ class BuildsController < ApplicationController
     end
 
     def deliver_finished_email
-      BuildMailer.finished_email(build.parent || build).deliver if !build.parent || build.parent.finished?
+      BuildMailer.finished_email(build.parent || build).deliver if build.send_notifications?
     end
 
     def trigger(event, build = self.build, data = {})

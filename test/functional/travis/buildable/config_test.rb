@@ -16,6 +16,10 @@ class ConfigTest < ActiveSupport::TestCase
     assert !config.configure?
   end
 
+  test "configure? returns false when ['notifications']['recipients'] has an Array value" do
+    assert !config({'notifications' => {'recipients' => ['user1@example.de', 'user2@example.de']}}).configure?
+  end
+
   test 'configure? returns true when rvm has an Array value' do
     assert config('rvm' => ['1.8.7', '1.9.2']).configure?
   end

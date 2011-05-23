@@ -110,7 +110,19 @@ class Build < ActiveRecord::Base
     json.compact
   end
 
+  def send_notifications?
+    notifications_enabled? && parent_finished?
+  end
+
   protected
+
+    def notifications_enabled?
+      !(self.config && self.config['notifications'] && config['notifications']['disabled'])
+    end
+
+    def parent_finished?
+      !self.parent || self.parent.finished?
+    end
 
     def expand_matrix?
       matrix? && matrix.empty?
