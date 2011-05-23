@@ -17,7 +17,6 @@ gem 'resque-meta',         '~> 1.0.3'
 gem 'travis-ci-em-pusher', '~> 0.1.1'
 gem 'unobtrusive_flash',   '~> 0.0.2'
 gem 'yajl-ruby',           '~> 0.8.2'
-
 gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git', :ref => 'b9c50a44a1e21840b265'
 
 group :test do
@@ -27,6 +26,7 @@ group :test do
   gem 'factory_girl_rails', :git => 'git://github.com/thoughtbot/factory_girl_rails.git'
   gem 'fakeweb'
   gem 'mocha'
+  gem 'rake', '~> 0.8.7'
   gem 'test_declarative'
   gem 'web-socket-ruby'
   gem 'fakeredis'
