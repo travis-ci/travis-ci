@@ -164,7 +164,7 @@ GEM
       json (~> 1.4.0)
       ruby-hmac (~> 0.4.0)
       signature (~> 0.1.2)
-    rack (1.2.2)
+    rack (1.2.3)
     rack-mount (0.6.14)
       rack (>= 1.0.0)
     rack-test (0.5.7)
