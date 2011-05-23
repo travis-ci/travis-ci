@@ -110,6 +110,11 @@ class Build < ActiveRecord::Base
     json.compact
   end
 
+  def send_notifications?
+    disabled = self.try(:config).try(:[], 'notifications').try(:[], 'disabled')
+    return disabled ? false : (!self.parent || self.parent.finished?)
+  end
+
   protected
 
     def expand_matrix?
