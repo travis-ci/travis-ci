@@ -19,7 +19,7 @@ class BuildMailerTest < ActionMailer::TestCase
 
   def test_finished_email_with_configured_email_addresses
     repository = Factory(:repository, :owner_email => 'foo@example.com')
-    config = {'email_recipients' => ['user1@example.de', 'user2@example.de', 'user3@example.de']}
+    config = {'notifications' => {'recipients' => ['user1@example.de', 'user2@example.de', 'user3@example.de']}}
     build = Factory(:build, {
       :committer_email => 'bar@example.com',
       :author_email => 'baz@example.com',
