@@ -1,14 +1,13 @@
 GIT
   remote: git://github.com/sferik/rails_admin.git
-  revision: b9c50a44a1e21840b265ab58a8edd10ac69b338c
-  ref: b9c50a44a1e21840b265
+  revision: ceb7384b01ed7a40bf0dca46e8a1dca19c9eda07
   specs:
     rails_admin (0.0.1)
       builder (~> 2.1.0)
-      rails (~> 3.0.6)
+      rails (~> 3.0.7)
 
 GIT
-  remote: git://github.com/thoughtbot/factory_girl_rails.git
+  remote: https://github.com/thoughtbot/factory_girl_rails.git
   revision: 8a421148bf70577b1c944f8494bf37295c44b06e
   specs:
     factory_girl_rails (1.1.beta1)
@@ -260,6 +259,7 @@ DEPENDENCIES
   devise (~> 1.3.3)
   em-http-request (~> 0.3.0)
   em-websocket (~> 0.3.0)
+  factory_girl (~> 2.0.0.beta2)
   factory_girl_rails!
   fakeredis
   fakeweb
