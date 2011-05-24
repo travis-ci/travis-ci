@@ -139,7 +139,7 @@ GEM
       minitest (>= 1.6.0)
     mocha (0.9.12)
     multi_json (0.0.5)
-    multipart-post (1.1.1)
+    multipart-post (1.1.2)
     nokogiri (1.4.4)
     nokogiri (1.4.4-java)
       weakling (>= 0.0.3)
