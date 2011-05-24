@@ -18,6 +18,7 @@ gem 'travis-ci-em-pusher', '~> 0.1.1'
 gem 'unobtrusive_flash',   '~> 0.0.2'
 gem 'yajl-ruby',           '~> 0.8.2'
 gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
+gem 'rake',		   '~> 0.9.0'
 
 group :test do
   gem 'capybara'
@@ -27,7 +28,6 @@ group :test do
   gem 'factory_girl_rails', :git => 'https://github.com/thoughtbot/factory_girl_rails.git'
   gem 'fakeweb'
   gem 'mocha'
-  gem 'rake', '~> 0.8.7'
   gem 'test_declarative'
   gem 'web-socket-ruby'
   gem 'fakeredis'
