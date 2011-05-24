@@ -182,7 +182,7 @@ GEM
       activesupport (= 3.0.7)
       rake (>= 0.8.7)
       thor (~> 0.14.4)
-    rake (0.8.7)
+    rake (0.9.0)
     redis (2.2.0)
     redis-namespace (1.0.3)
       redis (< 3.0.0)
@@ -273,7 +273,7 @@ DEPENDENCIES
   pusher (~> 0.8.0)
   rails (~> 3.0.7)
   rails_admin!
-  rake (~> 0.8.7)
+  rake (~> 0.9.0)
   refraction (~> 0.2.0)
   resque (~> 1.16.0)
   resque-meta (~> 1.0.3)
