@@ -65,7 +65,6 @@ GEM
     childprocess (0.1.9)
       ffi (~> 1.0.6)
     chunky_png (1.2.0)
-    closure-compiler (1.1.1)
     columnize (0.3.2)
     compass (0.11.1)
       chunky_png (~> 1.1)
@@ -119,9 +118,8 @@ GEM
       activesupport
       builder
     i18n (0.5.0)
-    jammit (0.6.0)
-      closure-compiler (>= 0.1.0)
-      yui-compressor (>= 0.9.1)
+    jammit (0.6.1)
+      yui-compressor (>= 0.9.3)
     json (1.4.6)
     json (1.4.6-java)
     json_pure (1.5.1)
