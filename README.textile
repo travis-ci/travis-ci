@@ -54,6 +54,18 @@ By default Travis will try to run @bundle install@ and then @rake@ to run yours 
 
 See "this file":https://github.com/svenfuchs/routing-filter/blob/master/.travis.yml used by svenfuchs/routing-filter as an example.
 
+By default Travis will send notification emails to everyone involved in the project on GitHub. You can specify who receives emails in `.travis.yml`:
+
+    notifications:
+      recipients:
+        - sferik@gmail.com
+        - drnicwilliams@gmail.com
+
+You can disable email notifications:
+
+    notifications:
+      disable: true
+
 If you have any issues, problems, or questions in getting Travis running for your project, you can find us on irc in #travis on freenode.
 
 Please note that this is an experimental installation.
