@@ -56,15 +56,19 @@ See "this file":https://github.com/svenfuchs/routing-filter/blob/master/.travis.
 
 By default Travis will send notification emails to everyone involved in the project on GitHub. You can specify who receives emails in `.travis.yml`:
 
+<pre>
     notifications:
       recipients:
         - sferik@gmail.com
         - drnicwilliams@gmail.com
+</pre>
 
 You can disable email notifications:
 
+<pre>
     notifications:
       disable: true
+</pre>
 
 If you have any issues, problems, or questions in getting Travis running for your project, you can find us on irc in #travis on freenode.
 
