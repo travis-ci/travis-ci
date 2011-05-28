@@ -185,7 +185,7 @@ GEM
     redis-namespace (1.0.3)
       redis (< 3.0.0)
     refraction (0.2.0)
-    resque (1.17.0)
+    resque (1.17.1)
       json (>= 1.4.6, < 1.6)
       redis-namespace (~> 1.0.2)
       sinatra (>= 0.9.2)
