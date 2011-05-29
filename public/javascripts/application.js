@@ -54,7 +54,7 @@ $(document).ready(function() {
     });
   }
 
-  $('#search input').keyup(function(e) {
+  $('#search input').keyup(_.debounce(function(e) {
     var searchString = $(this).val();
 
     $.ajax({
@@ -65,7 +65,7 @@ $(document).ready(function() {
         Travis.app.repositories.refresh(repositories);
       }
     });
-  });
+  }, 100));
 });
 
 if (window.console) {
@@ -103,3 +103,5 @@ $.ajaxSetup({ cache: false });
 //   });
 // });
 //
+
+
