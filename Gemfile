@@ -21,16 +21,15 @@ gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
 gem 'rake',		   '~> 0.9.0'
 
 group :test do
-  gem 'capybara'
-  gem 'cucumber-rails'
   gem 'database_cleaner'
   gem 'factory_girl', '~> 2.0.0.beta2'
   gem 'factory_girl_rails', :git => 'https://github.com/thoughtbot/factory_girl_rails.git'
-  gem 'fakeweb'
   gem 'mocha'
   gem 'test_declarative'
   gem 'web-socket-ruby'
   gem 'fakeredis'
+  gem 'cucumber-rails'
+  gem 'fakeweb'
   platforms :ruby_18 do
     gem 'minitest'
     gem 'minitest_tu_shim'
@@ -41,4 +40,10 @@ group :test do
   platforms :mri_19 do
     gem 'ruby-debug19'
   end
+  gem 'capybara', '~> 0.4.1.2'
+end
+
+group :development, :test do
+  gem 'steak', '~> 1.1.0'
+  gem 'rspec-rails', '~> 2.6.1'
 end

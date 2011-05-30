@@ -20,6 +20,21 @@ FactoryGirl.define do
     committer_email 'svenfuchs@artweb-design.de'
   end
 
+  factory :running_build, :parent => :build do
+    started_at { Time.now }
+  end
+
+  factory :successfull_build, :parent => :build do
+    status 0
+    finished_at { Time.now }
+  end
+
+  factory :broken_build, :parent => :build do
+    status 1
+    started_at { Time.now }
+    finished_at { Time.now }
+  end
+
   factory :user do
     name  'Sven Fuchs'
     login 'svenfuchs'
