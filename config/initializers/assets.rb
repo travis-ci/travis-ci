@@ -12,11 +12,6 @@ TravisCi::Application.config.middleware.insert_before(
   "#{Rails.root}/tmp/assets"
 )
 
-# Initialize compass
-require 'compass'
-require 'compass/app_integration/rails'
-Compass::AppIntegration::Rails.initialize!
-
 # Jammit doesn't seem to support custom envs by itself ...
 if Rails.env.jasmine?
   ActionController::Base.class_eval do

@@ -22,7 +22,8 @@ class Build < ActiveRecord::Base
       repository = Repository.find_or_create_by_github_repository(data.repository)
       number     = repository.builds.next_number
       attributes = data.builds.last.to_hash.merge(:number => number, :github_payload => payload)
-      repository.builds.create(attributes)
+
+      attributes[:branch].match(/gh_pages/i) ? nil : repository.builds.create(attributes)
     end
 
     def next_number
@@ -109,7 +110,19 @@ class Build < ActiveRecord::Base
     json.compact
   end
 
+  def send_notifications?
+    notifications_enabled? && parent_finished?
+  end
+
   protected
+
+    def notifications_enabled?
+      !(self.config && self.config['notifications'] && config['notifications']['disabled'])
+    end
+
+    def parent_finished?
+      !self.parent || self.parent.finished?
+    end
 
     def expand_matrix?
       matrix? && matrix.empty?

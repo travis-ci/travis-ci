@@ -1,10 +1,13 @@
-require 'rubygems'
+begin
+  require 'ruby-debug'
+rescue LoadError => e
+  puts e.message
+end
 require 'bundler/setup'
 
 require 'active_record'
 require 'test/unit'
 require 'test_declarative'
-require 'ruby-debug'
 require 'mocha'
 require 'fakeredis'
 require 'resque'
