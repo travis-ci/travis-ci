@@ -40,6 +40,29 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'POST to /builds (ping from github) while another build waits updates the build record and the build job and sends a build:queued event to Pusher' do
+    assert_difference('Build.count', 1) do
+      ping_from_github!
+      post '/builds', { :payload => GITHUB_PAYLOADS['gem-release2'] }, 'HTTP_AUTHORIZATION' => credentials
+      build = Build.last
+      args = Resque.reserve(:builds).args.last
+
+      assert_equal '9854593', build.commit
+      assert_equal build.attributes.slice('id', 'commit'), args['build'].slice('id', 'commit')
+      assert_equal build.repository.attributes.slice('id'), args['repository'].slice('id')
+      assert_equal ['build:queued', {
+        'repository' => {
+          'id' => build.repository.id,
+          :slug => 'svenfuchs/gem-release'
+        },
+        'build' => {
+          'id' => build.id,
+          'number' => 1
+        }
+      }], channel.messages.last
+    end
+  end
+
   test 'PUT to /builds/:id configures the build and expands a given build matrix' do
     configure_from_worker!
     assert_build_matrix_configured

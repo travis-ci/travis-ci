@@ -20,10 +20,18 @@ class Build < ActiveRecord::Base
     def create_from_github_payload(payload)
       data       = Github::ServiceHook::Payload.new(JSON.parse(payload))
       repository = Repository.find_or_create_by_github_repository(data.repository)
-      number     = repository.builds.next_number
-      attributes = data.builds.last.to_hash.merge(:number => number, :github_payload => payload)
+      attributes = data.builds.last.to_hash.merge(:github_payload => payload)
 
-      attributes[:branch].match(/gh_pages/i) ? nil : repository.builds.create(attributes)
+      if attributes[:branch].match(/gh_pages/i)
+        nil
+      elsif repository.builds.empty? || repository.builds.last.started?
+        attributes[:number] = repository.builds.next_number
+        repository.builds.create(attributes)
+      else
+        attributes[:number] = repository.last_build_number.to_i
+        build = Build.find repository.last_build_id
+        [build.commit, Build.update(build, attributes)]
+      end
     end
 
     def next_number
