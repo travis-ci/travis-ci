@@ -28,7 +28,8 @@ group :test do
   gem 'test_declarative'
   gem 'web-socket-ruby'
   gem 'fakeredis'
-  gem 'webmock'
+  gem 'cucumber-rails'
+  gem 'fakeweb'
   platforms :ruby_18 do
     gem 'minitest'
     gem 'minitest_tu_shim'
