@@ -111,8 +111,11 @@ GEM
       multipart-post (~> 1.1.0)
       rack (< 2, >= 1.1.0)
     ffi (1.0.9)
+    ffi (1.0.9-java)
     fssm (0.2.7)
-    gherkin (2.3.9)
+    gherkin (2.3.10)
+      json (>= 1.4.6)
+    gherkin (2.3.10-java)
       json (>= 1.4.6)
     hoptoad_notifier (2.4.10)
       activesupport
