@@ -14,9 +14,11 @@ class BuildsController < ApplicationController
   end
 
   def create
-    build.save!
-    enqueue!(build)
-    build.repository.update_attributes!(:last_built_at => Time.now) # TODO the build isn't actually started now
+    if build
+      build.save!
+      enqueue!(build)
+      build.repository.update_attributes!(:last_built_at => Time.now) # TODO the build isn't actually started now
+    end
     render :nothing => true
   end
 
@@ -52,13 +54,14 @@ class BuildsController < ApplicationController
     end
 
     def enqueue!(build)
+      Travis::Builder.class_eval { @queue = build.repository.name == 'rails' ? 'rails' : 'builds' } # FIXME OH SHI~
       job  = Travis::Builder.enqueue(json_for(:job, build))
       build.update_attributes!(:job_id => job.meta_id)
       trigger('build:queued', build)
     end
 
     def deliver_finished_email
-      BuildMailer.finished_email(build.parent || build).deliver if !build.parent || build.parent.finished?
+      BuildMailer.finished_email(build.parent || build).deliver if build.send_notifications?
     end
 
     def trigger(event, build = self.build, data = {})

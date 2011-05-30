@@ -29,6 +29,13 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal GITHUB_PAYLOADS['gem-release'], build.github_payload
   end
 
+  test 'creating a Build from Github payload from a gh_pages branch' do
+    Repository.delete_all
+    Build.delete_all
+
+    assert_nil Build.create_from_github_payload(GITHUB_PAYLOADS['gh-pages-update'])
+  end
+
   test 'next_number (1)' do
     repository = Factory(:repository)
     assert_equal 1, repository.builds.next_number
@@ -44,5 +51,33 @@ class BuildTest < ActiveSupport::TestCase
     repository = Factory(:repository)
     Factory(:build, :repository => repository, :number => '3.1')
     assert_equal 4, repository.builds.next_number
+  end
+
+  test 'send_notifications? for !parent should return true' do
+    build = Factory(:build)
+    build.stubs(:parent).returns(false)
+    assert build.send_notifications?, 'should return true if !parent'
+  end
+
+  test 'send_notifications? for build.patent.finished? should return true' do
+    build = Factory(:build)
+    build.parent.stubs(:finished).returns(true)
+    assert build.send_notifications?, 'should return true if parent.finished?'
+  end
+
+  test 'send_notifications? for parent and !parent.finished? should return true' do
+    parent_object = Object.new
+    parent_object.stubs('finished?').returns(false)
+    build = Factory(:build)
+    build.stubs(:parent).returns(parent_object)
+
+    assert !build.send_notifications?, 'should return false if parent'
+  end
+
+  test 'send_notifications? for config["notifications"]["disable"]' do
+    build = Factory(:build)
+    build.config = {'notifications' => {'disabled' => true}}
+
+    assert !build.send_notifications?, 'should return false if disabled'
   end
 end
