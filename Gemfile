@@ -40,7 +40,10 @@ group :test do
   platforms :mri_19 do
     gem 'ruby-debug19'
   end
+  gem 'capybara', '~> 0.4.1.2'
+end
+
+group :development, :test do
   gem 'steak', '~> 1.1.0'
   gem 'rspec-rails', '~> 2.6.1'
-  gem 'capybara', '~> 0.4.1.2'
 end
