@@ -117,7 +117,7 @@ GEM
       json (>= 1.4.6)
     gherkin (2.3.10-java)
       json (>= 1.4.6)
-    hoptoad_notifier (2.4.10)
+    hoptoad_notifier (2.4.11)
       activesupport
       builder
     i18n (0.5.0)
