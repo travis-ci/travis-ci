@@ -1,12 +1,4 @@
 GIT
-  remote: git://github.com/sferik/rails_admin.git
-  revision: ceb7384b01ed7a40bf0dca46e8a1dca19c9eda07
-  specs:
-    rails_admin (0.0.1)
-      builder (~> 2.1.0)
-      rails (~> 3.0.7)
-
-GIT
   remote: https://github.com/thoughtbot/factory_girl_rails.git
   revision: 8a421148bf70577b1c944f8494bf37295c44b06e
   specs:
@@ -288,7 +280,6 @@ DEPENDENCIES
   pg (~> 0.11.0)
   pusher (~> 0.8.0)
   rails (~> 3.0.7)
-  rails_admin!
   rake (~> 0.9.0)
   refraction (~> 0.2.0)
   resque (~> 1.17.0)
