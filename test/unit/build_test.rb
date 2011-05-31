@@ -29,11 +29,16 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal GITHUB_PAYLOADS['gem-release'], build.github_payload
   end
 
-  test 'creating a Build from Github payload from a gh_pages branch' do
-    Repository.delete_all
-    Build.delete_all
+  test 'a Github payload for a gh_pages branch does not create a build' do
+    assert_difference('Build.count', 0) do
+      Build.create_from_github_payload(GITHUB_PAYLOADS['gh-pages-update'])
+    end
+  end
 
-    assert_nil Build.create_from_github_payload(GITHUB_PAYLOADS['gh-pages-update'])
+  test 'a Github payload containing no commit information does not create a build' do
+    assert_difference('Build.count', 0) do
+      Build.create_from_github_payload(GITHUB_PAYLOADS['force-no-commit'])
+    end
   end
 
   test 'next_number (1)' do

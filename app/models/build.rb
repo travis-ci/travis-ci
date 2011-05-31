@@ -21,9 +21,12 @@ class Build < ActiveRecord::Base
       data       = Github::ServiceHook::Payload.new(JSON.parse(payload))
       repository = Repository.find_or_create_by_github_repository(data.repository)
       number     = repository.builds.next_number
-      attributes = data.builds.last.to_hash.merge(:number => number, :github_payload => payload)
+      build      = data.builds.last
 
-      attributes[:branch].match(/gh_pages/i) ? nil : repository.builds.create(attributes)
+      if build
+        attributes = build.to_hash.merge(:number => number, :github_payload => payload)
+        repository.builds.create(attributes) unless exclude?(attributes)
+      end
     end
 
     def next_number
@@ -32,6 +35,10 @@ class Build < ActiveRecord::Base
 
     def started
       where(arel_table[:started_at].not_eq(nil))
+    end
+
+    def exclude?(attributes)
+      attributes.key?(:branch) && attributes[:branch].match(/gh_pages/i)
     end
   end
 
