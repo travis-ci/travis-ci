@@ -1,5 +1,5 @@
 require File.expand_path('../boot', __FILE__)
-
+YAML::ENGINE.yamler = 'syck'
 require 'rails/all'
 Bundler.require(:default, Rails.env) if defined?(Bundler)
 
