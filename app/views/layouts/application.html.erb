@@ -42,7 +42,7 @@
           <ul>
             <li><%= link_to "Profile", profile_path %></li>
             <% if current_user.is_admin? %>
-              <li><%= link_to "Admin", rails_admin_dashboard_path %></li>
+              <li><%= link_to "Admin", '#' %></li>
             <% end %>
             <li><%= link_to "Sign out", destroy_session_path %></li>
           </ul>
