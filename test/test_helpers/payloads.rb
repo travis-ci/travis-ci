@@ -47,6 +47,41 @@ GITHUB_PAYLOADS = {
       }
     }],
     "ref": "refs/heads/gh_pages"
+  }),
+
+  # it is unclear why this payload was send but it happened quite often. the force option
+  # seems to indicate something like $ git push --force
+  'force-no-commit' => %({
+    "pusher": { "name": "LTe", "email":"lite.88@gmail.com" },
+    "repository":{
+      "name":"acts-as-messageable",
+      "created_at":"2010/08/02 07:41:30 -0700",
+      "has_wiki":true,
+      "size":200,
+      "private":false,
+      "watchers":13,
+      "fork":false,
+      "url":"https://github.com/LTe/acts-as-messageable",
+      "language":"Ruby",
+      "pushed_at":"2011/05/31 04:16:01 -0700",
+      "open_issues":0,
+      "has_downloads":true,
+      "homepage":"http://github.com/LTe/acts-as-messageable",
+      "has_issues":true,
+      "forks":5,
+      "description":"ActsAsMessageable",
+      "owner": { "name":"LTe", "email":"lite.88@gmail.com" }
+    },
+    "ref_name":"v0.3.0",
+    "forced":true,
+    "after":"b842078c2f0084bb36cea76da3dad09129b3c26b",
+    "deleted":false,
+    "ref":"refs/tags/v0.3.0",
+    "commits":[],
+    "base_ref":"refs/heads/master",
+    "before":"0000000000000000000000000000000000000000",
+    "compare":"https://github.com/LTe/acts-as-messageable/compare/v0.3.0",
+    "created":true
   })
 }
 
