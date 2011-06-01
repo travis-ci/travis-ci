@@ -1,24 +1,30 @@
-base: &base
+development:
+  database: travis_development
   adapter: postgresql
   encoding: unicode
   pool: 5
 
-development:
-  <<: *base
-  database: travis_development
-
 production:
-  <<: *base
   database: travis_production
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
 
 jasmine:
-  <<: *base
   database: travis_jasmine
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
 
-test: &test
-  <<: *base
+test:
   database: travis_test
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
 
 cucumber:
-  <<: *base
   database: travis_test
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
