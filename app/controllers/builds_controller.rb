@@ -62,6 +62,8 @@ class BuildsController < ApplicationController
 
     def deliver_finished_email
       BuildMailer.finished_email(build.parent || build).deliver if build.send_notifications?
+    rescue Net::SMTPError => e
+      # TODO might want to log this event. e.g. happens when people specify bad email addresses like "foo[at]bar[dot]com"
     end
 
     def trigger(event, build = self.build, data = {})
