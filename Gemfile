@@ -18,7 +18,7 @@ gem 'travis-ci-em-pusher', '~> 0.1.1'
 gem 'unobtrusive_flash',   '~> 0.0.2'
 gem 'yajl-ruby',           '~> 0.8.2'
 # gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
-gem 'rake',		   '~> 0.9.0'
+gem 'rake',		   '~> 0.9.1'
 
 group :test do
   gem 'database_cleaner'
