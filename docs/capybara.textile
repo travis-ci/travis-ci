@@ -12,3 +12,11 @@ In order to get it to work:
   b. download Chrome Driver from "http://code.google.com/p/selenium/downloads/list":"http://code.google.com/p/selenium/downloads/list"
   c. unzip your stuff anywhere and add that dir to your PATH
 
+h2. Mac OS X warning
+
+There is a bug in this initial version of the chromedriver where it explicitly checks for Chromium instead of Google Chrome.  To use it with Google Chrome:
+  ln -s "/Applications/Google Chrome.app"/ \
+      "/Applications/Chromium.app"
+  ln -s "/Applications/Chromium.app/Contents/MacOS/Google Chrome" \
+      "/Applications/Chromium.app/Contents/MacOS/Chromium"
+
