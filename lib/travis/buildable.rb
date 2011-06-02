@@ -43,13 +43,13 @@ module Travis
       end
 
       def build!
-        status = (bundler? ? install && run_scripts : run_scripts) ? 0 : 1
+        status = (install ? install && run_scripts : run_scripts) ? 0 : 1
         puts "\nDone. Build script exited with: #{status}"
         status
       end
 
       def bundler?
-        File.exists?(config.gemfile)
+        File.exists?(File.join(build_dir, config.gemfile))
       end
 
       def checkout
@@ -67,7 +67,7 @@ module Travis
       end
 
       def install?
-        bundler?
+        File.exists?(config.gemfile)
       end
 
       def install
