@@ -58,31 +58,61 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal 4, repository.builds.next_number
   end
 
-  test 'send_notifications? for !parent should return true' do
-    build = Factory(:build)
-    build.stubs(:parent).returns(false)
-    assert build.send_notifications?, 'should return true if !parent'
+  test 'given the build is a finished non-matrix build w/ recipients: send_notifications? should be true' do
+    build = Factory(:build, :finished_at => Time.now)
+    assert build.send_notifications?, 'send_notifications? should be true'
   end
 
-  test 'send_notifications? for build.patent.finished? should return true' do
-    build = Factory(:build)
-    build.parent.stubs(:finished).returns(true)
-    assert build.send_notifications?, 'should return true if parent.finished?'
+  test 'given the build is a finished matrix child build w/ recipients: send_notifications? should be true' do
+    build = Factory(:build, :finished_at => Time.now)
+    child = Factory(:build, :parent => build)
+    assert build.send_notifications?, 'send_notifications? should be true'
   end
 
-  test 'send_notifications? for parent and !parent.finished? should return true' do
-    parent_object = Object.new
-    parent_object.stubs('finished?').returns(false)
-    build = Factory(:build)
-    build.stubs(:parent).returns(parent_object)
-
-    assert !build.send_notifications?, 'should return false if parent'
+  test 'given the build is not finished matrix child build: send_notifications? should be false' do
+    build = Factory(:build, :finished_at => nil)
+    child = Factory(:build, :parent => build)
+    assert !build.send_notifications?, 'send_notifications? should be false'
   end
 
-  test 'send_notifications? for config["notifications"]["disable"]' do
-    build = Factory(:build)
-    build.config = {'notifications' => {'disabled' => true}}
-
-    assert !build.send_notifications?, 'should return false if disabled'
+  test 'given the build does not have recipients: send_notifications? should be false' do
+    build = Factory(:build, :finished_at => Time.now)
+    build.stubs(:unique_recipients).returns('')
+    assert !build.send_notifications?, 'send_notifications? should be false'
   end
+
+  test 'given the build has notifications disabled: send_notifications? should be false' do
+    build = Factory(:build, :finished_at => Time.now, :config => { 'notifications' => { 'disabled' => true } })
+    assert !build.send_notifications?, 'send_notifications? should be false'
+  end
+
+  test 'given the build has an author_email: unique_recipients contains these emails' do
+    build = Factory(:build, :author_email => 'author-1@email.com,author-2@email.com')
+    assert_contains_recipients(build.unique_recipients, build.author_email)
+  end
+
+  test 'given the build has an committer_email: unique_recipients contains these emails' do
+    build = Factory(:build, :committer_email => 'committer-1@email.com,committer-2@email.com')
+    assert_contains_recipients(build.unique_recipients, build.committer_email)
+  end
+
+  test "given the build's repository has an owner_email: unique_recipients contains these emails" do
+    build = Factory(:build)
+    build.repository.stubs(:owner_email).returns('owner-1@email.com,owner-2@email.com')
+    assert_contains_recipients(build.unique_recipients, build.repository.owner_email)
+  end
+
+  test "given the build's configuration has recipients specified: unique_recipients contains these emails" do
+    recipients = %w(recipient-1@email.com recipient-2@email.com)
+    build = Factory(:build, :config => { 'notifications' => { 'recipients' => recipients } })
+    assert_contains_recipients(build.unique_recipients, recipients)
+  end
+
+  protected
+
+    def assert_contains_recipients(actual, expected)
+      actual = actual.split(',')
+      expected = expected.split(',')
+      assert_equal (actual & expected).size, expected.size, "#{actual.join(',')} to contain #{expected.join(',')}"
+    end
 end
