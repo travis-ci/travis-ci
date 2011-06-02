@@ -95,7 +95,7 @@ module Travis
       end
 
       def script(type)
-        config[type] || instance_variable_get(:"@#{type}")
+        config.send type
       end
 
       def run_script(type)

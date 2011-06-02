@@ -94,18 +94,6 @@ class BuildableTest < ActiveSupport::TestCase
     assert_equal "#{File.expand_path('.')}/.travis.yml", buildable.config_url
   end
 
-  test 'bundler?: returns true if a default Gemfile is present' do
-    File.expects(:exists?).with(File.expand_path('Gemfile')).returns(true)
-    buildable = Buildable.new
-    assert buildable.bundler?
-  end
-
-  test 'bundler?: returns false if no Gemfile is present' do
-    File.expects(:exists?).with(File.expand_path('Gemfile')).returns(false)
-    buildable = Buildable.new
-    assert !buildable.bundler?
-  end
-
   test 'install?: returns true if a default Gemfile is present' do
     File.expects(:exists?).with(File.expand_path('Gemfile')).returns(true)
     buildable = Buildable.new
@@ -185,21 +173,6 @@ class BuildableTest < ActiveSupport::TestCase
     buildable = Buildable.new(:config => { 'script' => 'rake ci' })
     buildable.expects(:execute).with(['rake ci'])
     buildable.run_script('script')
-  end
-
-  test 'script uses bundle exec by default when Gemfile is present ' do
-    File.expects(:exists?).with(File.expand_path('Gemfile')).returns(true)
-    buildable = Buildable.new
-    assert buildable.bundler?
-    assert buildable.script('script') =~ %r{^bundle\ exec\ rake}
-  end
-
-  test 'script does not use bundle exec by default when Gemfile is missing ' do
-    File.expects(:exists?).with(File.expand_path('Gemfile')).returns(false)
-    buildable = Buildable.new
-    assert !buildable.bundler?
-
-    assert buildable.script('script') =~ %r{^rake}
   end
 
   test 'run_script: executes the build script w/ a gemfile prepended' do
