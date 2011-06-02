@@ -22,21 +22,24 @@ gem 'silent-postgres',     '~> 0.0.8'
 
 group :test do
   gem 'database_cleaner'
-  gem 'factory_girl', '~> 2.0.0.beta2'
-  gem 'factory_girl_rails', :git => 'https://github.com/thoughtbot/factory_girl_rails.git'
+  gem 'factory_girl', '~> 1.3'
+  gem 'factory_girl_rails'
   gem 'mocha'
   gem 'test_declarative'
   gem 'web-socket-ruby'
   gem 'fakeredis'
   gem 'cucumber-rails'
   gem 'fakeweb'
+
   platforms :ruby_18 do
     gem 'minitest'
     gem 'minitest_tu_shim'
   end
+
   platforms :mri_18 do
     gem 'ruby-debug'
   end
+
   platforms :mri_19 do
     gem 'ruby-debug19'
   end
