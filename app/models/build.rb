@@ -118,7 +118,17 @@ class Build < ActiveRecord::Base
   end
 
   def send_notifications?
-    notifications_enabled? && parent_finished?
+    notifications_enabled? && matrix_finished? && unique_recipients.present?
+  end
+
+  # at some point we might want to move this to a Notifications manager that abstracts email and other types of notifications
+  def unique_recipients
+    @unique_recipients ||= if config && notifications = config['notifications']
+      notifications['recipients']
+    else
+      recipients = [committer_email, author_email, repository.owner_email]
+      recipients.select(&:present?).join(',').split(',').map(&:strip).uniq.join(',')
+    end
   end
 
   protected
@@ -127,8 +137,8 @@ class Build < ActiveRecord::Base
       !(self.config && self.config['notifications'] && config['notifications']['disabled'])
     end
 
-    def parent_finished?
-      !self.parent || self.parent.finished?
+    def matrix_finished?
+      parent ? parent.finished? : finished?
     end
 
     def expand_matrix?
