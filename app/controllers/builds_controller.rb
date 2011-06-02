@@ -6,15 +6,18 @@ class BuildsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def index
-    render :json => repository.builds.started.order('id DESC').limit(10).as_json
+    if repository = Repository.find(params[:repository_id])
+      render :json => repository.builds.started.order('id DESC').limit(10).as_json
+    end
   end
 
   def show
+    build = Build.find(params[:id])
     render :json => build.as_json
   end
 
   def create
-    if build
+    if build = Build.create_from_github_payload(params[:payload])
       build.save!
       enqueue!(build)
       build.repository.update_attributes!(:last_built_at => Time.now) # TODO the build isn't actually started now
@@ -23,6 +26,7 @@ class BuildsController < ApplicationController
   end
 
   def update
+    build = Build.find(params[:id])
     build.update_attributes!(params[:build])
 
     if build.was_started?
@@ -32,26 +36,20 @@ class BuildsController < ApplicationController
       trigger('build:expanded', build, 'msg_id' => params[:msg_id])
     elsif build.was_finished?
       trigger('build:finished', build, 'msg_id' => params[:msg_id])
-      deliver_finished_email
+      deliver_finished_email(build)
     end
 
     render :nothing => true
   end
 
   def log
+    build = Build.find(params[:id])
     build.append_log!(params[:build][:log]) unless build.finished?
     trigger('build:log', build, 'build' => { '_log' => params[:build][:log] }, 'msg_id' => params[:msg_id])
     render :nothing => true
   end
 
   protected
-    def repository
-      @repository ||= params[:repository_id] ? Repository.find(params[:repository_id]) : build.repository
-    end
-
-    def build
-      @build ||= params[:id] ? Build.find(params[:id]) : Build.create_from_github_payload(params[:payload])
-    end
 
     def enqueue!(build)
       Travis::Builder.class_eval { @queue = build.repository.name == 'rails' ? 'rails' : 'builds' } # FIXME OH SHI~
@@ -60,18 +58,18 @@ class BuildsController < ApplicationController
       trigger('build:queued', build)
     end
 
-    def deliver_finished_email
+    def deliver_finished_email(build)
       BuildMailer.finished_email(build.parent || build).deliver if build.send_notifications?
     rescue Net::SMTPError => e
       # TODO might want to log this event. e.g. happens when people specify bad email addresses like "foo[at]bar[dot]com"
     end
 
-    def trigger(event, build = self.build, data = {})
+    def trigger(event, build, data = {})
       push(event, json_for(event, build).deep_merge(data))
       trigger(event, build.parent) if event == 'build:finished' && build.parent.try(:finished?)
     end
 
-    def json_for(event, build = self.build)
+    def json_for(event, build)
       { 'build' => build.as_json(:for => event.to_sym), 'repository' => build.repository.as_json(:for => event.to_sym) }
     end
 
