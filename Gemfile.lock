@@ -225,6 +225,7 @@ GEM
       rubyzip
     signature (0.1.2)
       ruby-hmac
+    silent-postgres (0.0.8)
     sinatra (1.2.6)
       rack (~> 1.1)
       tilt (< 2.0, >= 1.2.2)
@@ -234,10 +235,6 @@ GEM
     test_declarative (0.0.5)
     thor (0.14.6)
     tilt (1.3.2)
-    travis-ci-em-pusher (0.1.1)
-      em-http-request (~> 0.3.0)
-      multi_json (~> 0.0.5)
-      ruby-hmac (~> 0.4.0)
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.27)
@@ -287,9 +284,9 @@ DEPENDENCIES
   rspec-rails (~> 2.6.1)
   ruby-debug
   ruby-debug19
+  silent-postgres (~> 0.0.8)
   steak (~> 1.1.0)
   test_declarative
-  travis-ci-em-pusher (~> 0.1.1)
   unobtrusive_flash (~> 0.0.2)
   web-socket-ruby
   yajl-ruby (~> 0.8.2)
