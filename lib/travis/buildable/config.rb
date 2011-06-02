@@ -5,7 +5,7 @@ require 'active_support/core_ext/hash/keys'
 module Travis
   class Buildable
     class Config < Hash
-      ENV_KEYS = ['rvm', 'gemfile', 'env', 'before_script', 'script', 'after_script']
+      ENV_KEYS = ['rvm', 'gemfile', 'env']
 
       class << self
         def matrix?(config)
@@ -27,7 +27,7 @@ module Travis
       def gemfile
         File.expand_path((self['gemfile'] || 'Gemfile').to_s)
       end
-      
+
       def before_script
         self['before_script']
       end
@@ -39,7 +39,7 @@ module Travis
           'rake'
         end
       end
-      
+
       def after_script
         self['after_script']
       end
