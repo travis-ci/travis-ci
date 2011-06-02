@@ -43,9 +43,13 @@ module Travis
       end
 
       def build!
-        status = (install? ? install && run_scripts : run_scripts) ? 0 : 1
+        status = (bundler? ? install && run_scripts : run_scripts) ? 0 : 1
         puts "\nDone. Build script exited with: #{status}"
         status
+      end
+
+      def bundler?
+        File.exists?(config.gemfile)
       end
 
       def checkout
@@ -63,21 +67,28 @@ module Travis
       end
 
       def install?
-        File.exists?(config.gemfile)
+        bundler?
       end
 
       def install
         execute prepend_env("bundle install #{config['bundler_args'] if config.has_key?('bundler_args')}")
       end
-  
+
       def run_scripts
         %w{before_script script after_script}.each do |script_type|
           break false unless run_script(script_type)
         end
       end
 
+      def prepend_bundle_exec(command)
+        if bundler? && command !~ %r{bundle\ exec}
+          command = ['bundle exec', command].join(' ')
+        end
+        command
+      end
+
       def prepend_env(command)
-        command = [(env + [command]).join(' ')]
+        command = [(env + [prepend_bundle_exec(command)]).join(' ')]
         command.unshift("rvm use #{config['rvm']}") if config['rvm']
         command
       end
@@ -101,9 +112,9 @@ module Travis
       def run_script(type)
         script = self.script(type)
         return true if script.nil?
-         
+
         Array(script).each do |arg|
-          break false unless execute prepend_env(arg) 
+          break false unless execute prepend_env(arg)
         end
       end
 
