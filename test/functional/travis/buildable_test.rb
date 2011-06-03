@@ -35,10 +35,11 @@ class BuildableTest < ActiveSupport::TestCase
   end
 
   test 'with_clean_env: runs the given block within a clean env' do
-    env = Buildable.new.with_clean_env do
+    actual = Buildable.new.with_clean_env do
       `env`.split("\n").sort.map { |line| line.split('=').first }
     end
-    assert (env & %w(rvm_ruby_string BUNDLE_GEMFILE RAILS_ENV)).empty?
+    rejected = %w(BUNDLE_GEMFILE RAILS_ENV)
+    assert (actual & rejected).empty?, "expected #{actual.inspect} to not include any of #{rejected.inspect}"
   end
 
   test 'checkout: clones a repository if the build dir is not a git repository' do
