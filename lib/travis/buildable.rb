@@ -22,7 +22,7 @@ module Travis
     def initialize(options = {})
       @url    = options[:url] || ''
       @commit = options[:commit]
-      @script = options[:script]
+      @script = options[:script] || script_command
       @config = Config.new(options[:config]) unless options[:config].blank?
       @path   = extract_path(url)
     end
@@ -80,6 +80,10 @@ module Travis
         command = [(env + [command]).join(' ')]
         command.unshift("rvm use #{config['rvm']}") if config['rvm']
         command
+      end
+
+      def script_command
+         File.exists?(config.gemfile) ? 'bundle exec rake' : 'rake'
       end
 
       def env
