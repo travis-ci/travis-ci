@@ -34,6 +34,13 @@ class BuildableTest < ActiveSupport::TestCase
     assert_equal config, buildable.run!
   end
 
+  test 'with_clean_env: runs the given block within a clean env' do
+    env = Buildable.new.with_clean_env do
+      `env`.split("\n").sort.map { |line| line.split('=').first }
+    end
+    assert (env & %w(rvm_ruby_string BUNDLE_GEMFILE RAILS_ENV)).empty?
+  end
+
   test 'checkout: clones a repository if the build dir is not a git repository' do
     buildable = Buildable.new
     buildable.stubs(:exists?).returns(false)

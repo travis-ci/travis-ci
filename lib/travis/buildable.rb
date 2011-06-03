@@ -28,8 +28,7 @@ module Travis
     end
 
     def run!
-      Bundler.with_clean_env do
-        ENV['BUNDLE_GEMFILE'] = nil
+      with_clean_env do
         chdir do
           checkout
           config.configure? ? configure! : build!
@@ -38,6 +37,16 @@ module Travis
     end
 
     protected
+
+      def with_clean_env(&block)
+        original_env = ENV.to_hash
+        ENV.keys.each { |key| ENV.delete(key) if key =~ /^(rvm_|BUNDLE_|RAILS_ENV)/ }
+        result = yield
+      ensure
+        ENV.replace(original_env.to_hash)
+        result
+      end
+
       def configure!
         config
       end
