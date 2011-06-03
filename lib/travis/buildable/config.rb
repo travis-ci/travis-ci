@@ -13,7 +13,7 @@ module Travis
         end
       end
 
-      def initialize(config)
+      def initialize(config = {})
         config = read(config) if config.is_a?(String)
         replace(config.stringify_keys)
       end
