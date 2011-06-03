@@ -29,7 +29,7 @@ module Travis
       end
 
       def gemfile
-        File.expand_path((self['gemfile'] || 'Gemfile').to_s)
+        @gemfile ||= File.expand_path((self['gemfile'] || 'Gemfile').to_s)
       end
 
       def before_script
@@ -37,7 +37,7 @@ module Travis
       end
 
       def script
-        self['script'] || if File.exists?(gemfile)
+        self['script'] ||= if File.exists?(gemfile)
           'bundle exec rake'
         else
           'rake'
