@@ -4,12 +4,17 @@ class ConfigTest < ActiveSupport::TestCase
   include Travis
 
   test 'when passed a non-existent file it should return an empty hash' do
-    config = Buildable::Config.new("file:///lksjlfkjaslslkfjlkf.yml")
-    assert_equal Hash.new, config
+    assert_equal Hash.new, Buildable::Config.new("file:///does_not_exist.yml")
   end
 
-  test 'when passed a valid file it should load the config correctly' do
-    assert_equal 'rake ci', config['script']
+  test 'when passed a valid but empty file it should return an empty hash' do
+    File.stubs(:read).returns('')
+    assert_equal Hash.new, Buildable::Config.new("file:///exists.yml")
+  end
+
+  test 'when passed a valid file it should contain the given configuration' do
+    File.stubs(:read).returns("---\n  script: rake ci")
+    assert_equal 'rake ci', Buildable::Config.new("file:///exists.yml")['script']
   end
 
   test 'configure? returns false when expandable key has an Array value' do
