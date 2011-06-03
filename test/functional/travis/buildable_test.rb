@@ -23,6 +23,7 @@ class BuildableTest < ActiveSupport::TestCase
 
   test 'run!: builds the repository unless it needs to be configured' do
     buildable = Buildable.new
+    buildable.stubs(:config => stub(:configure? => false))
     buildable.expects(:build!)
     buildable.run!
   end
@@ -95,19 +96,20 @@ class BuildableTest < ActiveSupport::TestCase
   end
 
   test 'install?: returns true if a default Gemfile is present' do
-    File.expects(:exists?).with(File.expand_path('Gemfile')).returns(true)
+    File.expects(:exists?).with(File.expand_path('Gemfile')).returns(true).at_least_once
     buildable = Buildable.new
     assert buildable.install?
   end
 
   test 'install?: returns true if a custom Gemfile is present' do
     File.expects(:exists?).with(File.expand_path('gemfiles/rails-2.3.x')).returns(true)
+    File.expects(:exists?).returns(true)
     buildable = Buildable.new(:config => { 'gemfile' => File.expand_path('gemfiles/rails-2.3.x') })
     assert buildable.install?
   end
 
   test 'install?: returns false if no Gemfile is present' do
-    File.expects(:exists?).with(File.expand_path('Gemfile')).returns(true)
+    File.expects(:exists?).with(File.expand_path('Gemfile')).returns(true).at_least_once
     buildable = Buildable.new
     assert buildable.install?
   end
@@ -210,7 +212,19 @@ class BuildableTest < ActiveSupport::TestCase
     buildable.expects(:execute).with(['cmd1'])
     buildable.run_script('after_script')
   end
-
+  
+  test 'script_command: is "rake" when there is no Gemfile' do
+    buildable = Buildable.new
+    File.expects(:exists?).returns(false).at_least_once
+    assert_equal 'rake', buildable.script_command
+  end
+  
+  test 'script_command: is "bundle exec rake" when there is a Gemfile' do
+    buildable = Buildable.new
+    File.expects(:exists?).returns(true).at_least_once
+    assert_equal 'bundle exec rake', buildable.script_command
+  end  
+  
   test 'echoize: echo the command before executing it (1)' do
     assert_equal "echo \\$\\ rake\nrake", Buildable.new.echoize('rake')
   end
