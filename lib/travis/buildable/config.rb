@@ -14,8 +14,12 @@ module Travis
       end
 
       def initialize(config)
-        config = YAML.load(File.read(config)) rescue {} if config.is_a?(String)
+        config = read(config) if config.is_a?(String)
         replace(config.stringify_keys)
+      end
+
+      def read(filename)
+        YAML.load(File.read(filename)) || {}
       rescue Errno::ENOENT => e
         {}
       end
