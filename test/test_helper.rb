@@ -1,3 +1,5 @@
+ENV['RAILS_ENV'] ||= 'test'
+
 begin
   require 'ruby-debug'
 rescue LoadError => e
