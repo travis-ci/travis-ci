@@ -50,9 +50,9 @@ In order to register a project for builds on Travis just supply a Github service
 
 You can get a Travis token on the Travis profile page after signing up.
 
-By default Travis will try to run @bundle install@ and then @rake@ to run yours tests, but if you require a different command to be run to start your tests you can check in a @.travis.yml@ file to specify a custom build script.
+By default Travis will try to run @bundle install@ and then either @bundle exec rake@ (if you have a Gemfile) or just @rake@ (if you do not have a Gemfile) to run yours tests, but if you require a different command to be run to start your tests you can check in a @.travis.yml@ file to specify a custom build script.
 
-See "this file":https://github.com/svenfuchs/routing-filter/blob/master/.travis.yml used by svenfuchs/routing-filter as an example.
+See "here":https://github.com/travis-ci/travis-ci/wiki/.travis.yml-options for more information on configuration options in the @.travis.yml@ file and "this file":https://github.com/travis-ci/travis-ci/blob/master/.travis.yml as an example.
 
 By default Travis will send notification emails to everyone involved in the project on GitHub. You can specify who receives emails in `.travis.yml`:
 
