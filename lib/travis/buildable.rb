@@ -39,12 +39,14 @@ module Travis
     protected
 
       def with_clean_env(&block)
-        original_env = ENV.to_hash
-        ENV.keys.each { |key| ENV.delete(key) if key =~ /^(rvm_|BUNDLE_|RAILS_ENV)/ }
-        result = yield
-      ensure
-        ENV.replace(original_env.to_hash)
-        result
+        Bundler.with_clean_env do
+          unset_env(%w(BUNDLE_GEMFILE RAILS_ENV))
+          result = yield
+        end
+      end
+
+      def unset_env(keys)
+        ENV.keys.each { |key| ENV.delete(key) if keys.include?(key) }
       end
 
       def configure!
