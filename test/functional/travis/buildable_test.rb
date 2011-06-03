@@ -107,9 +107,9 @@ class BuildableTest < ActiveSupport::TestCase
   end
 
   test 'install?: returns false if no Gemfile is present' do
-    File.expects(:exists?).with(File.expand_path('Gemfile')).returns(true)
+    File.expects(:exists?).with(File.expand_path('Gemfile')).returns(false)
     buildable = Buildable.new
-    assert buildable.install?
+    assert !buildable.install?
   end
 
   test 'install: runs bundle install' do
@@ -147,10 +147,10 @@ class BuildableTest < ActiveSupport::TestCase
     buildable.expects(:execute).with(['bundle install --binstubs'])
     buildable.install
   end
- 
+
   test 'script: returns the correct information ' do
     buildable = Buildable.new(:config => { 'script' => 'rake ci','before_script' => ['cmd1' ], 'after_script' => ['cmd2']})
-    assert_equal ['cmd1'] , buildable.script('before_script')    
+    assert_equal ['cmd1'] , buildable.script('before_script')
   end
 
   test 'run_scripts: iterates over keys and executes appropriate script' do
@@ -158,15 +158,15 @@ class BuildableTest < ActiveSupport::TestCase
     buildable.expects(:run_script).with('before_script').returns(true)
     buildable.expects(:run_script).with('script').returns(true)
     buildable.expects(:run_script).with('after_script').returns(true)
-    buildable.run_scripts 
+    buildable.run_scripts
   end
 
-  test 'run_scripts: returns as soon as a script fails' do 
+  test 'run_scripts: returns as soon as a script fails' do
     buildable = Buildable.new(:config => { 'script' => 'rake ci','before_script' => ['cmd1' ], 'after_script' => ['cmd2']})
     buildable.expects(:run_script).with('before_script').returns(false)
     buildable.expects(:execute).with(['cmd1']).never
     buildable.expects(:run_script).with('cmd2').never
-    assert_equal false , buildable.run_scripts 
+    assert_equal false , buildable.run_scripts
   end
 
   test 'run_script: executes the build script' do
@@ -199,13 +199,13 @@ class BuildableTest < ActiveSupport::TestCase
     buildable.run_script('script')
   end
 
-  test 'run_script: executes the before_script ' do 
+  test 'run_script: executes the before_script ' do
     buildable = Buildable.new(:config => { 'script' => 'rake ci','before_script' => 'cmd1'})
     buildable.expects(:execute).with(['cmd1'])
     buildable.run_script('before_script')
   end
 
-  test 'run_script: executes the after_script ' do 
+  test 'run_script: executes the after_script ' do
     buildable = Buildable.new(:config => { 'script' => 'rake ci','after_script' => 'cmd1'})
     buildable.expects(:execute).with(['cmd1'])
     buildable.run_script('after_script')

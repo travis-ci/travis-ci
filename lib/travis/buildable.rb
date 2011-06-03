@@ -69,7 +69,7 @@ module Travis
       def install
         execute prepend_env("bundle install #{config['bundler_args'] if config.has_key?('bundler_args')}")
       end
-  
+
       def run_scripts
         %w{before_script script after_script}.each do |script_type|
           break false unless run_script(script_type)
@@ -95,15 +95,15 @@ module Travis
       end
 
       def script(type)
-        config[type] || instance_variable_get(:"@#{type}")
+        config.send type
       end
 
       def run_script(type)
         script = self.script(type)
         return true if script.nil?
-         
+
         Array(script).each do |arg|
-          break false unless execute prepend_env(arg) 
+          break false unless execute prepend_env(arg)
         end
       end
 

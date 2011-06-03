@@ -27,6 +27,22 @@ module Travis
       def gemfile
         File.expand_path((self['gemfile'] || 'Gemfile').to_s)
       end
+
+      def before_script
+        self['before_script']
+      end
+
+      def script
+        self['script'] || if File.exists?(gemfile)
+          'bundle exec rake'
+        else
+          'rake'
+        end
+      end
+
+      def after_script
+        self['after_script']
+      end
     end
   end
 end
