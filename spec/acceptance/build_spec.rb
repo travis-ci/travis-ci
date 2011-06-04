@@ -6,9 +6,22 @@ feature "Feature name", %(
   I should see current build processes
 ) do
 
+  let(:build_queued_event_info) { {
+      :repository => {
+        :id => 2,
+        :slug => 'rails/rails'
+      },
+      :build => {
+        :id => 10,
+        :number => 4
+      }
+    }
+  }
+
   scenario "build gets queued" do
     visit "/"
-    Pusher['jobs'].trigger('build:queued', {"build" => {"id"=>9, "number"=>1}, "repository"=>{"id"=>3, :slug=>"rails/rails`" }})
+    page.evaluate_script("trigger('jobs', 'build:queued', '#{build_queued_event_info.to_json}' )")
+
     wait_until do
       find :xpath, "//*[contains(text(), 'rails/rails')]"
     end
