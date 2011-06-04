@@ -1,43 +1,41 @@
-FactoryGirl.define do
-  factory :repository do
-    name 'minimal'
-    owner_name 'svenfuchs'
-    owner_email 'svenfuchs@artweb-design.de'
-    url  { "http://github.com/#{owner_name}/#{name}" }
-    last_duration 60
-    last_built_at { Time.utc(2011, 01, 30, 5, 30) }
-    created_at    { last_built_at - 5.minutes }
-    updated_at    { last_built_at }
+  Factory.define :repository do |f|
+    f.name 'minimal'
+    f.owner_name 'svenfuchs'
+    f.owner_email 'svenfuchs@artweb-design.de'
+    f.url  { |r| "http://github.com/#{r.owner_name}/#{r.name}" }
+    f.last_duration 60
+    f.last_built_at { |r| Time.utc(2011, 01, 30, 5, 30) }
+    f.created_at    { |r| r.last_built_at - 5.minutes }
+    f.updated_at    { |r| r.last_built_at }
   end
 
-  factory :build do
-    repository { Repository.first || Factory(:repository) }
-    number '1'
-    commit '62aae5f70ceee39123ef'
-    branch 'master'
-    message 'the commit message'
-    committer_name 'Sven Fuchs'
-    committer_email 'svenfuchs@artweb-design.de'
+  Factory.define :build do |f|
+    f.repository { Repository.first || Factory(:repository) }
+    f.number '1'
+    f.commit '62aae5f70ceee39123ef'
+    f.branch 'master'
+    f.message 'the commit message'
+    f.committer_name 'Sven Fuchs'
+    f.committer_email 'svenfuchs@artweb-design.de'
   end
 
-  factory :running_build, :parent => :build do
-    started_at { Time.now }
+  Factory.define :running_build, :parent => :build do |f|
+    f.started_at { Time.now }
   end
 
-  factory :successfull_build, :parent => :build do
-    status 0
-    finished_at { Time.now }
+  Factory.define :successfull_build, :parent => :build do |f|
+    f.status 0
+    f.finished_at { Time.now }
   end
 
-  factory :broken_build, :parent => :build do
-    status 1
-    started_at { Time.now }
-    finished_at { Time.now }
+  Factory.define :broken_build, :parent => :build do |f|
+    f.status 1
+    f.started_at { Time.now }
+    f.finished_at { Time.now }
   end
 
-  factory :user do
-    name  'Sven Fuchs'
-    login 'svenfuchs'
-    email 'sven@fuchs.com'
+  Factory.define :user do |f|
+    f.name  'Sven Fuchs'
+    f.login 'svenfuchs'
+    f.email 'sven@fuchs.com'
   end
-end

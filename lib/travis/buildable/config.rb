@@ -13,9 +13,13 @@ module Travis
         end
       end
 
-      def initialize(config)
-        config = YAML.load(File.read(config)) rescue {} if config.is_a?(String)
+      def initialize(config = {})
+        config = read(config) if config.is_a?(String)
         replace(config.stringify_keys)
+      end
+
+      def read(filename)
+        YAML.load(File.read(filename)) || {}
       rescue Errno::ENOENT => e
         {}
       end
@@ -25,7 +29,23 @@ module Travis
       end
 
       def gemfile
-        File.expand_path((self['gemfile'] || 'Gemfile').to_s)
+        @gemfile ||= File.expand_path((self['gemfile'] || 'Gemfile').to_s)
+      end
+
+      def before_script
+        self['before_script']
+      end
+
+      def script
+        self['script'] ||= if File.exists?(gemfile)
+          'bundle exec rake'
+        else
+          'rake'
+        end
+      end
+
+      def after_script
+        self['after_script']
       end
     end
   end
