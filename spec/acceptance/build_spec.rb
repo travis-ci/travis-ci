@@ -1,10 +1,10 @@
 require File.dirname(__FILE__) + '/acceptance_helper'
 
 
-feature "Feature name", %q{
+feature "Feature name", %(
   As a non-registered user
   I should see current build processes
-} do
+) do
 
   let(:build_queued_event_info) { {
       :repository => {
