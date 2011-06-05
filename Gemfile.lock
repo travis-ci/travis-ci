@@ -100,9 +100,9 @@ GEM
     ffi (1.0.9)
     ffi (1.0.9-java)
     fssm (0.2.7)
-    gherkin (2.3.10)
+    gherkin (2.4.0)
       json (>= 1.4.6)
-    gherkin (2.3.10-java)
+    gherkin (2.4.0-java)
       json (>= 1.4.6)
     hoptoad_notifier (2.4.11)
       activesupport
