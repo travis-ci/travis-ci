@@ -1,6 +1,7 @@
 Travis.Controllers.Application = Backbone.Controller.extend({
   routes: {
     '':                          'recent',
+    '!/welcome':                 'welcome',
     // '!/:owner':               'byOwner',
     // FIXME: I would suggest to use !/repositories/:owner/:name, to make it more rest-like.
     // Because, for instance, now we should put myRepositories on top so that it could get matched. Unambigous routes rule!
@@ -9,7 +10,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     '!/:owner/:name/builds/:id': 'repositoryBuild',
   },
   initialize: function() {
-    _.bindAll(this, 'recent', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'repositorySelected',
+    _.bindAll(this, 'recent', 'welcome', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'repositorySelected',
               'buildQueued', 'buildStarted', 'buildLogged', 'buildFinished');
   },
   run: function() {
@@ -51,6 +52,10 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.repositories.whenFetched(this.repositories.selectLast);
     this.selectTab();
   },
+  welcome: function(){
+    this.recent();
+    $("#main").prepend(Travis.templates['tools/welcome']());
+  },
   repository: function(owner, name) {
     this.reset();
     this.tab = 'current';
@@ -78,6 +83,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   reset: function() {
     delete this.buildId;
     delete this.tab;
+    $("#welcome").remove();
     this.followBuilds = false;
   },
 
