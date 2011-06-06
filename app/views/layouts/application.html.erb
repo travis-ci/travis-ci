@@ -15,6 +15,9 @@
     <% end %>
     <%= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
     <%= include_javascripts :travis %>
+    <% if Rails.env.test? %>
+      <%= include_javascripts :capybara %>
+    <% end %>
     <%= javascript_tag "var env = '#{Rails.env}';" %>
   </head>
 

@@ -16,4 +16,5 @@ javascripts:
     - public/javascripts/tests/vendor/**/*.js
     - public/javascripts/tests/test_helper/**/*.js
     - public/javascripts/tests/**/*.js
-
+  capybara:
+    - public/javascripts/tests/vendor/pusher_mock.js
