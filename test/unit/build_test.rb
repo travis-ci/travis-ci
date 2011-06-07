@@ -35,6 +35,16 @@ class BuildTest < ActiveSupport::TestCase
     end
   end
 
+  test 'a Github payload for a private repo does not create a build' do
+    assert_difference('Build.count', 0) do
+      Build.create_from_github_payload(GITHUB_PAYLOADS['private-repo'])
+    end
+  end
+
+  test 'a Github payload for a private repo returns falsea' do
+    assert_equal Build.create_from_github_payload(GITHUB_PAYLOADS['private-repo']) , false
+  end
+
   test 'a Github payload containing no commit information does not create a build' do
     assert_difference('Build.count', 0) do
       Build.create_from_github_payload(GITHUB_PAYLOADS['force-no-commit'])
