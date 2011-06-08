@@ -16,9 +16,11 @@ gem 'resque',              '~> 1.17.0'
 gem 'resque-meta',         '~> 1.0.3'
 gem 'unobtrusive_flash',   '~> 0.0.2'
 gem 'yajl-ruby',           '~> 0.8.2'
-gem 'rake',		             '~> 0.9.1'
+gem 'rake',                '~> 0.9.1'
 gem 'silent-postgres',     '~> 0.0.8'
 # gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
+
+gem 'unicorn',             '~> 3.6.2'
 
 group :test do
   gem 'database_cleaner'

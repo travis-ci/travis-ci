@@ -113,6 +113,7 @@ GEM
     json (1.4.6)
     json (1.4.6-java)
     json_pure (1.5.1)
+    kgio (2.4.1)
     linecache (0.43)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
@@ -233,6 +234,9 @@ GEM
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.27)
+    unicorn (3.6.2)
+      kgio (~> 2.3)
+      rack
     unobtrusive_flash (0.0.2)
     vegas (0.1.8)
       rack (>= 1.0.0)
@@ -282,6 +286,7 @@ DEPENDENCIES
   silent-postgres (~> 0.0.8)
   steak (~> 1.1.0)
   test_declarative
+  unicorn (~> 3.6.2)
   unobtrusive_flash (~> 0.0.2)
   web-socket-ruby
   yajl-ruby (~> 0.8.2)
