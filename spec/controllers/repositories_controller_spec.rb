@@ -1,6 +1,33 @@
 require 'spec_helper'
 
 describe RepositoriesController do
+
+  describe "GET 'index'" do
+    before(:each) do
+      @repositories = [
+        Factory.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today),
+        Factory.create(:repository, :owner_name => "josh", :name => "globalize", :last_build_started_at => Date.yesterday)]
+    end
+
+    it "should return list of repositories in json format, ordered by last build started date" do
+      get :index
+
+      response.should be_success
+      json = JSON.parse response.body
+      json.count.should eql 2
+      json.first["slug"].should eql "sven/travis-ci"
+      json.second["slug"].should eql "josh/globalize"
+    end
+
+    it "should return list of repositories in json format, filtered by owner name" do
+      get :index, :owner_name => "sven"
+      response.should be_success
+      json = JSON.parse response.body
+      json.count.should eql 1
+      json.first["slug"].should eql "sven/travis-ci"
+    end
+  end
+
   describe "GET 'show'" do
     before(:each) do
       controller.stub!(:render)
