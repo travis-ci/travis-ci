@@ -37,6 +37,7 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
   test 'POST to /builds (ping from github) does not create a build record when the branch is gh_pages' do
     assert_no_difference('Build.count') do
       post '/builds', { :payload => GITHUB_PAYLOADS['gh-pages-update'] }, 'HTTP_AUTHORIZATION' => credentials
+      post '/builds', { :payload => GITHUB_PAYLOADS['gh_pages-update'] }, 'HTTP_AUTHORIZATION' => credentials
     end
   end
 
