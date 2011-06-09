@@ -30,11 +30,12 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_girl'
   gem 'factory_girl_rails'
-  gem 'fakeredis'
-  gem 'fakeweb'
   gem 'mocha'
   gem 'test_declarative'
   gem 'web-socket-ruby'
+  gem 'fakeredis'
+  gem 'fakeweb'
+  gem 'webmock'
 
   platforms :ruby_18 do
     gem 'minitest'
