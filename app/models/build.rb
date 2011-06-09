@@ -39,7 +39,7 @@ class Build < ActiveRecord::Base
     end
 
     def exclude?(attributes)
-      attributes.key?(:branch) && attributes[:branch].match(/gh_pages/i)
+      attributes.key?(:branch) && attributes[:branch].match(/gh[-_]pages/i)
     end
   end
 
