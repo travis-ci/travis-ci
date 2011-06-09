@@ -10,6 +10,9 @@ TravisCi::Application.routes.draw do
   resource :profile
 
   resources :repositories do
+    collection do
+      get :my
+    end
     resources :builds
   end
 
