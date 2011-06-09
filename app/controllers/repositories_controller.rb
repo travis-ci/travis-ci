@@ -1,4 +1,6 @@
 class RepositoriesController < ApplicationController
+  before_filter :authenticate_user!, :only => [ :my ]
+
   respond_to :json
 
   def index
@@ -15,6 +17,15 @@ class RepositoriesController < ApplicationController
 
         response.headers["Expires"] = CGI.rfc1123_date(Time.now)
         send_file("#{Rails.public_path}/images/status/#{status}.png", :type => 'image/png', :disposition => 'inline')
+      end
+    end
+  end
+
+  def my
+    @repositories = Octokit.repositories(current_user.login)
+    respond_to do |format|
+      format.html do
+        render "my"
       end
     end
   end
