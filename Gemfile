@@ -30,6 +30,7 @@ group :test do
   gem 'web-socket-ruby'
   gem 'fakeredis'
   gem 'fakeweb'
+  gem 'webmock'
 
   platforms :ruby_18 do
     gem 'minitest'
