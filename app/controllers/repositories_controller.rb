@@ -1,20 +1,38 @@
 class RepositoriesController < ApplicationController
+  before_filter :authenticate_user!, :only => [ :my ]
+
   respond_to :json
 
   def index
-    render :json => repositories.as_json
+    render :json => repositories
   end
 
   def show
     respond_to do |format|
       format.json do
-        render :json => repository.as_json
+        render :json => repository
       end
       format.png do
         status = Repository.human_status_by(params.slice(:owner_name, :name))
 
         response.headers["Expires"] = CGI.rfc1123_date(Time.now)
         send_file("#{Rails.public_path}/images/status/#{status}.png", :type => 'image/png', :disposition => 'inline')
+      end
+    end
+  end
+
+  def my
+    @repositories = Octokit.repositories(current_user.login)
+    @repositories.each do |repository|
+      repository.travis_enabled = true if  Repository.exists?({ :name => repository.name, :owner_name => repository.owner })
+    end
+    respond_to do |format|
+      format.json do
+        render :json => @repositories
+      end
+
+      format.html do
+        render "my"
       end
     end
   end
