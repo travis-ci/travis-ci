@@ -20,5 +20,5 @@ Devise.setup do |config|
 
   config.http_authenticatable = true
 
-  config.omniauth :github, OAUTH2_CONFIG['client_id'], OAUTH2_CONFIG['client_secret'], :scope => ''
+  config.omniauth :github, OAUTH2_CONFIG['client_id'], OAUTH2_CONFIG['client_secret'], :scope => 'public_repo'
 end
