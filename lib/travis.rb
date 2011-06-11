@@ -1,3 +1,5 @@
+require 'resque/plugins/meta'
+
 module Travis
   autoload :Buildable,    'travis/buildable'
   autoload :Builder,      'travis/builder'
@@ -10,5 +12,9 @@ module Travis
     def config
       @config ||= Config.new
     end
+  end
+
+  class Worker
+    extend Resque::Plugins::Meta
   end
 end

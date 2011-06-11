@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(:version => 20110611203537) do
     t.integer  "status"
     t.datetime "started_at"
     t.datetime "finished_at"
-    t.text     "log",              :default => ""
+    t.text     "log",             :default => ""
     t.string   "commit"
     t.text     "message"
     t.datetime "committed_at"
