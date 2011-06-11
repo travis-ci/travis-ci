@@ -3,6 +3,10 @@ namespace :heroku do
     remote = ENV['REMOTE']
     remote_path = (remote ? " --remote #{remote}" : nil)
 
+    if YAML.const_defined?("ENGINE")
+      YAML::ENGINE.yamler = 'syck'
+    end
+
     Bundler.with_clean_env do
       ENV['RUBYOPT'] = nil
       puts "Reading config/travis.yml and sending config vars to Heroku#{remote} ..."
