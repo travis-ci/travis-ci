@@ -13,7 +13,7 @@ Refraction.configure do |req|
     end
     Rails.logger.flush if Rails.logger.respond_to?(:flush)
 
-  elsif req.host =~ /([-\w]+\.)+\.#{Regexp.escape(Travis.config["domain"])}/
+  elsif req.host =~ /([-\w]+\.)+#{Regexp.escape(Travis.config["domain"])}/
     # we don't want to use www for now
     req.permanent! :host => Travis.config["domain"]
 
