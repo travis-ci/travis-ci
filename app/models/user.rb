@@ -3,25 +3,32 @@ class User < ActiveRecord::Base
 
   has_many :tokens
 
-  attr_accessible :name, :login, :email, :github_id
+  attr_accessible :name, :login, :email, :github_id, :github_oauth_token
 
   after_create :create_a_token
 
-  def self.find_for_github_oauth(user_hash)
-    data = user_hash['extra']['user_hash']
-    if user = User.find_by_github_id(data["id"])
-      user.update_attributes( User::user_data_from_github_data(data) )
-      user
-    else
-      create!(User::user_data_from_github_data(data))
-    end
-  end
+  class << self
+    def find_for_github_oauth(user_hash)
+      user_details = user_data_from_github_data(user_hash)
 
-  def self.user_data_from_github_data(data)
-    data.slice!(*%w{id name login email})
-    data['github_id'] = data['id']
-    data.delete 'id'
-    data
+      if user = User.find_by_github_id(user_details['github_uid'])
+        user.update_attributes(user_details)
+        user
+      else
+        create!(user_details)
+      end
+    end
+
+    def user_data_from_github_data(user_hash)
+      user_info = user_hash['user_info']
+      {
+        'name'  => user_info['name'],
+        'email' => user_info['email'],
+        'login' => user_info['nickname'],
+        'github_id' => user_hash['uid'],
+        'github_oauth_token' => user_hash['credentials']['token']
+      }
+    end
   end
 
   def profile_image_hash
