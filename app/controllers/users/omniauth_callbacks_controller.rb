@@ -1,4 +1,5 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+
   def github
     @user = User.find_for_github_oauth(env["omniauth.auth"])
 
@@ -12,7 +13,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   protected
+
     def after_omniauth_failure_path_for(scope)
       '/'
     end
+
 end

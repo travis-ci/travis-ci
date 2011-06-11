@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110523012243) do
+ActiveRecord::Schema.define(:version => 20110611203537) do
 
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(:version => 20110523012243) do
     t.integer  "status"
     t.datetime "started_at"
     t.datetime "finished_at"
-    t.text     "log",             :default => ""
+    t.text     "log",              :default => ""
     t.string   "commit"
     t.text     "message"
     t.datetime "committed_at"
@@ -82,11 +82,13 @@ ActiveRecord::Schema.define(:version => 20110523012243) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_admin",   :default => false
+    t.boolean  "is_admin",           :default => false
     t.integer  "github_id"
+    t.string   "github_oauth_token"
   end
 
   add_index "users", ["github_id"], :name => "index_users_on_github_id"
+  add_index "users", ["github_oauth_token"], :name => "index_users_on_github_oauth_token"
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
 
 end
