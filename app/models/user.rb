@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
     def find_for_github_oauth(user_hash)
       user_details = user_data_from_github_data(user_hash)
 
-      if user = User.find_by_github_id(user_details['github_uid'])
+      if user = User.find_by_github_id(user_details['uid'])
         user.update_attributes(user_details)
         user
       else
