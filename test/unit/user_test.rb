@@ -1,6 +1,7 @@
 require 'test_helper_rails'
 
 class UserTest < ActiveSupport::TestCase
+
   test 'profile_image_hash returns a MD5 hash of the email if an email is set' do
     user         = Factory.build(:user)
     hashed_email = Digest::MD5.hexdigest(user.email)
@@ -16,11 +17,28 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'user_data_from_github_data returns required data' do
-    github_data = {'name' => 'j_user', 'login' => 'j_user' , 'email' => 'j_user@email.com' , 'company' => 'ACME', 'id' => '234423'}
-    returned_data = {'name' => 'j_user', 'login' => 'j_user' , 'email' => 'j_user@email.com', 'github_id' => '234423' }
+    github_data = {
+      'uid' => '234423',
+      'user_info' => {
+        'name' => 'J User',
+        'nickname' => 'j_user' ,
+        'email' => 'j_user@email.com'
+      },
+      'credentials' => {
+        'token' => '1234567890abcdefg'
+      },
+      'company' => 'ACME'
+    }
+
+    returned_data = {
+      'name'  => 'J User',
+      'email' => 'j_user@email.com',
+      'login' => 'j_user',
+      'github_id' => '234423',
+      'github_oauth_token' => '1234567890abcdefg'
+    }
 
     assert_equal returned_data , User::user_data_from_github_data(github_data)
-
   end
 
 end
