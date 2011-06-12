@@ -46,3 +46,14 @@ Travis.Collections.Repositories = Travis.Collections.Base.extend({
     return repository.get('last_build_started_at');
   }
 });
+
+Travis.Collections.MyRepositories = Travis.Collections.Base.extend({
+  model: Travis.Models.Repository,
+  initialize: function(models) {
+    Travis.Collections.Base.prototype.initialize.apply(this, arguments);
+    _.bindAll(this, 'url');
+  },
+  url: function() {
+    return '/repositories/my' + Utils.queryString(this.options);
+  }
+});
