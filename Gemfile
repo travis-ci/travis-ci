@@ -29,7 +29,6 @@ group :test do
   gem 'test_declarative'
   gem 'web-socket-ruby'
   gem 'fakeredis'
-  gem 'fakeweb'
   gem 'webmock'
 
   platforms :ruby_18 do
