@@ -24,7 +24,7 @@ class RepositoriesController < ApplicationController
   def my
     @repositories = Octokit.repositories(current_user.login)
     @repositories.each do |repository|
-      repository.travis_enabled = true if  Repository.exists?({ :name => repository.name, :owner_name => repository.owner })
+      repository.travis_enabled = Repository.exists?({ :name => repository.name, :owner_name => repository.owner })
     end
     respond_to do |format|
       format.json do

@@ -40,3 +40,15 @@ Travis.Views.Repositories.Item = Backbone.View.extend({
     this.el.find('.build').attr('href', '#!/' + this.model.get('slug') + '/builds/' + this.model.get('last_build_id')).text('#' + this.model.get('last_build_number'))
   },
 });
+
+Travis.Views.Repositories.MyItem = Backbone.View.extend({
+  initialize: function() {
+    _.bindAll(this, 'render');
+    this.template = Travis.templates['repositories/my_item'];
+  },
+  render: function() {
+    console.log(this.model.toJSON())
+    this.el = $(this.template(this.model.toJSON()));
+    return this;
+  }
+});
