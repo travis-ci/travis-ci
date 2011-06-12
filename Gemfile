@@ -1,28 +1,22 @@
-source 'http://rubygems.org'
+source :rubygems
 
-gem 'rails',             '~> 3.0.9'
-gem 'SystemTimer',       '~> 1.2.3', :platforms => :ruby_18
-gem 'compass',           '~> 0.11.0'
-gem 'devise',            '~> 1.3.3'
-gem 'em-http-request',   '~> 0.3.0'
-gem 'em-websocket',      '~> 0.3.0'
-gem 'hoptoad_notifier',  '~> 2.4.9'
-gem 'jammit',            '~> 0.6.0'
-gem 'linecache19',       '~> 0.5.12', :platforms => :mri_19
-gem 'linecache',         '0.43', :platforms => :mri_18
-gem 'oa-oauth',          '0.2.0', :require => 'omniauth/oauth'
-gem 'pg',                '~> 0.11.0'
-gem 'pusher',            '~> 0.8.0'
-gem 'refraction',        '~> 0.2.0'
-gem 'resque',            '~> 1.17.0'
-gem 'resque-meta',       '~> 1.0.3'
-gem 'silent-postgres',   '~> 0.0.8'
-gem 'unobtrusive_flash', '~> 0.0.2'
-gem 'yajl-ruby',         '~> 0.8.2'
-
-# gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
+gem 'rails',               '~> 3.0.7'
+gem 'pg',                  '~> 0.11.0'
+gem 'SystemTimer',         '~> 1.2.3', :platforms => ['ruby_18']
+gem 'compass',             '~> 0.11.0'
+gem 'devise',              '~> 1.3.3'
+gem 'hoptoad_notifier',    '~> 2.4.9'
+gem 'jammit',              '~> 0.6.0'
+gem 'oa-oauth',             '= 0.2.0', :require => 'omniauth/oauth'
+gem 'pusher',              '~> 0.8.0'
+gem 'refraction',          '~> 0.2.0'
+gem 'unobtrusive_flash',   '~> 0.0.2'
+gem 'yajl-ruby',           '~> 0.8.2'
+gem 'rake',                '~> 0.9.1'
+gem 'silent-postgres',     '~> 0.0.8'
 
 gem 'unicorn',             '~> 3.6.2'
+gem 'resque-meta',         '~> 1.0.3'
 
 group :test do
   gem 'capybara'
@@ -52,7 +46,6 @@ group :test do
 end
 
 group :development, :test do
-  gem 'rake'
   gem 'rspec-rails'
   gem 'steak'
 end
