@@ -1,1 +1,1 @@
-# TravisCi::Application.config.secret_token = Travis.config['session_key']
+TravisCi::Application.config.secret_token = Travis.config['session_key']
