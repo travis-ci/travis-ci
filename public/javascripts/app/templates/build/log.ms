@@ -1,1 +1,1 @@
-<pre class="log">{{log}}</pre>
+<pre class="log">{{{log}}}</pre>
