@@ -30,7 +30,7 @@ Travis.Collections.Base = Backbone.Collection.extend({
     }
   },
   selected: function() {
-    return this.detect(function(element) { return element.selected; });
+    return this.detect(function(element) { return element.selected; }) || this.first();
   },
   select: function(id) {
     this.getOrFetch(id, function(element) { if(element) element.select(); });

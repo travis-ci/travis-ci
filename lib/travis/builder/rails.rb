@@ -48,7 +48,7 @@ module Travis
         end
 
         def post(data)
-          path = "/builds/#{build['id']}"
+          path = "builds/#{build['id']}"
           path += '/log' if data.delete('append')
           data = { '_method' => 'put', 'build' => data, 'msg_id' => msg_id }
           stdout.puts "\n----> message ##{data['msg_id']} to #{path}: #{data.inspect[0..80]}"

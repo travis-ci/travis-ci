@@ -2,13 +2,16 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   routes: {
     '':                          'recent',
     // '!/:owner':               'byOwner',
+    '!/repositories/my':         'myRepositories',
+    // FIXME: I would suggest to use !/repositories/:owner/:name, to make it more rest-like.
+    // Because, for instance, now we should put myRepositories on top so that it could get matched. Unambigous routes rule!
     '!/:owner/:name':            'repository',
     '!/:owner/:name/builds':     'repositoryHistory',
     '!/:owner/:name/builds/:id': 'repositoryBuild',
   },
   initialize: function() {
     _.bindAll(this, 'recent', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'repositorySelected',
-      'buildQueued', 'buildStarted', 'buildLogged', 'buildFinished');
+              'buildQueued', 'buildStarted', 'buildLogged', 'buildFinished', 'myRepositories' );
   },
   run: function() {
     this.repositories = new Travis.Collections.Repositories();
@@ -60,6 +63,11 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.tab = 'history';
     this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ slug: owner + '/' + name }) });
     this.selectTab();
+  },
+  myRepositories: function() {
+    this.reset();
+    var collection = new Travis.Collections.MyRepositories()
+    var view = new Travis.Views.Repositories.MyList($('#main'), collection)
   },
   repositoryBuild: function(owner, name, buildId) {
     this.reset();
