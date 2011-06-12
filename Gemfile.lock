@@ -52,7 +52,7 @@ GEM
     childprocess (0.1.9)
       ffi (~> 1.0.6)
     chunky_png (1.2.0)
-    columnize (0.3.2)
+    columnize (0.3.3)
     compass (0.11.3)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
