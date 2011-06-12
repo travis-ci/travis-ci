@@ -1,1 +1,5 @@
-script: "bundle exec rake db:drop db:create db:migrate test"
+script: "bundle exec rake db:drop db:create db:test:load test"
+rvm:
+  - 1.8.7
+  - rbx-2.0
+  - ree
