@@ -12,8 +12,6 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     @build = Factory(:build).reload
     @channel = Mocks::Channel.new
     Pusher.stubs(:[]).returns(channel)
-
-    EventMachine.stubs(:add_timer)
   end
 
   test 'POST to /builds (ping from github) creates a build record and a build job and sends a build:queued event to Pusher' do

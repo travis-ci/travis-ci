@@ -4,6 +4,8 @@ require 'core_ext/hash/compact'
 require 'github'
 
 class Build < ActiveRecord::Base
+  ENV_KEYS = ['rvm', 'gemfile', 'env']
+
   belongs_to :repository
   belongs_to :parent, :class_name => 'Build', :foreign_key => :parent_id
   has_many :matrix, :class_name => 'Build', :foreign_key => :parent_id, :order => :id
@@ -19,7 +21,7 @@ class Build < ActiveRecord::Base
   class << self
     def create_from_github_payload(payload)
       data       = Github::ServiceHook::Payload.new(JSON.parse(payload))
-      return false if data.repository.private 
+      return false if data.repository.private
       repository = Repository.find_or_create_by_github_repository(data.repository)
       number     = repository.builds.next_number
       build      = data.builds.last
@@ -40,6 +42,10 @@ class Build < ActiveRecord::Base
 
     def exclude?(attributes)
       attributes.key?(:branch) && attributes[:branch].match(/gh[-_]pages/i)
+    end
+
+    def matrix?(config)
+      config.values_at(*ENV_KEYS).compact.any? { |value| value.is_a?(Array) && value.size > 1 }
     end
   end
 
@@ -64,6 +70,14 @@ class Build < ActiveRecord::Base
 
   def was_started?
     started? && (started_at_changed? || @previously_changed.keys.include?('started_at'))
+  end
+
+  def configured?
+    config.present?
+  end
+
+  def was_configured?
+    configured? && (config_changed? || @previously_changed.keys.include?('config'))
   end
 
   def finished?
@@ -91,7 +105,7 @@ class Build < ActiveRecord::Base
   end
 
   def matrix_expanded?
-    Travis::Buildable::Config.matrix?(@previously_changed['config'][1]) rescue false # TODO how to use some public AR API?
+    self.class.matrix?(@previously_changed['config'][1]) rescue false # TODO how to use some public AR API?
   end
 
   def update_matrix_status!
@@ -159,7 +173,7 @@ class Build < ActiveRecord::Base
     def matrix_config
       @matrix_config ||= begin
         config = self.config || {}
-        keys   = Travis::Buildable::Config::ENV_KEYS & config.keys
+        keys   = ENV_KEYS & config.keys
         size   = config.slice(*keys).values.select { |value| value.is_a?(Array) }.max { |lft, rgt| lft.size <=> rgt.size }.try(:size) || 1
 
         keys.inject([]) do |result, key|
@@ -200,7 +214,7 @@ class Build < ActiveRecord::Base
     end
 
     def normalize_config(config)
-      Travis::Buildable::Config::ENV_KEYS.inject(config) do |config, key|
+      ENV_KEYS.inject(config) do |config, key|
         config[key] = config[key].values if config[key].is_a?(Hash)
         config
       end

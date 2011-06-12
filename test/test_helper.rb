@@ -12,7 +12,6 @@ require 'test/unit'
 require 'test_declarative'
 require 'mocha'
 require 'fakeredis'
-require 'resque'
 
 require 'travis'
 
@@ -21,7 +20,7 @@ Dir["#{File.expand_path('../test_helpers/**/*.rb', __FILE__)}"].each do |helper|
 end
 
 class Test::Unit::TestCase
-  include Assertions, TestHelper::Buildable, TestHelper::Redis
+  include Assertions, TestHelper::Redis
 
   def setup
     Mocha::Mockery.instance.verify

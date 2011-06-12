@@ -1,8 +1,6 @@
-require 'travis/builder'
-
 class BuildsController < ApplicationController
   respond_to :json
-  before_filter :authenticate_user!, :except => [:index, :show]
+  # before_filter :authenticate_user!, :except => [:index, :show]
   skip_before_filter :verify_authenticity_token
 
   def index
@@ -34,6 +32,8 @@ class BuildsController < ApplicationController
     elsif build.matrix_expanded?
       build.matrix.each { |child| enqueue!(child) }
       trigger('build:expanded', build, 'msg_id' => params[:msg_id])
+    elsif build.was_configured?
+      enqueue!(build)
     elsif build.was_finished?
       trigger('build:finished', build, 'msg_id' => params[:msg_id])
       deliver_finished_email(build)
