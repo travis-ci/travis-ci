@@ -32,7 +32,7 @@
         <% end %>
 
         <% if user_signed_in? %>
-          <li><%= link_to "My repositories", '/repositories/my' %></li>
+          <li><%= link_to "My repositories", '#!/repositories/my' %></li>
         <% end %>
 
         <% if user_signed_in? && current_user.is_admin? %>
@@ -124,7 +124,7 @@
     <%= javascript_tag "var pusher = new Pusher('#{Pusher.key}');" unless Rails.env.jasmine? %>
     <%
       dir = Rails.root.join('public/javascripts/app/templates/')
-      Dir["#{dir}**/*.*"].each do |path|
+      Dir["#{dir}**/*.ms"].each do |path|
     %>
       <%
         template = File.read(path)
