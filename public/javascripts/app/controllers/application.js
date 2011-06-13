@@ -33,11 +33,11 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.jobsView.attachTo(this.jobs)
     this.repositories.bind('select', this.repositorySelected);
 
-    this.bind('build:started',  this.buildStarted);
-    this.bind('build:finished', this.buildFinished);
-    this.bind('build:expanded', this.buildExpanded);
-    this.bind('build:log',      this.buildLogged);
-    this.bind('build:queued',   this.buildQueued);
+    this.bind('build:started',    this.buildStarted);
+    this.bind('build:finished',   this.buildFinished);
+    this.bind('build:configured', this.buildConfigured);
+    this.bind('build:log',        this.buildLogged);
+    this.bind('build:queued',     this.buildQueued);
 
     this.workers.fetch();
     this.jobs.fetch();
@@ -115,7 +115,8 @@ Travis.Controllers.Application = Backbone.Controller.extend({
       repository.builds.select(data.build.id);
     }
   },
-  buildExpanded: function(data) {
+  buildConfigured: function(data) {
+    this.jobs.remove({ id: data.build.id });
     this.repositories.update(data);
   },
   buildFinished: function(data) {
