@@ -67,7 +67,7 @@ Utils = {
   foldLog: function(string) {
     string = Utils.unfoldLog(string);
     var folds = [
-      /(^|<\/div>)(\$ git clone.*\r?\n(?:(Initialized|remote:|Receiving|Resolving).*?\r?\n)*)/m,
+      // /(^|<\/div>)(\$ git clone.*\r?\n(?:(Initialized|remote:|Receiving|Resolving).*?\r?\n)*)/m,
       /(^|<\/div>)(\$ git clean.*\r?\n(?:Removing .*\r?\n)+\r?\n*)/m,
       /(^|<\/div>)(\$ git fetch.*\r?\nFrom .*\n.*)\r?\n/m,
       /(^|<\/div>)(\$ bundle install.*\r?\n(?:(Fetching|Updating|Using|Installing|remote:|Receiving|Resolving).*?\r?\n)*)/m,
