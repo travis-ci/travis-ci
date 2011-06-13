@@ -116,13 +116,13 @@ class Build < ActiveRecord::Base
     :committed_at, :committer_name, :committer_email, :author_name, :author_email, :config]
 
   JSON_ATTRS = {
-    :default          => all_attrs,
-    :job              => [:id, :number, :commit, :config],
-    :'build:queued'   => [:id, :number],
-    :'build:started'  => all_attrs - [:status, :log, :finished_at],
-    :'build:expanded' => [:id, :parent_id, :number, :config],
-    :'build:log'      => [:id, :parent_id],
-    :'build:finished' => [:id, :parent_id, :status, :finished_at],
+    :default            => all_attrs,
+    :job                => [:id, :number, :commit, :config],
+    :'build:queued'     => [:id, :number],
+    :'build:started'    => all_attrs - [:status, :log, :finished_at],
+    :'build:configured' => [:id, :parent_id, :number, :config],
+    :'build:log'        => [:id, :parent_id],
+    :'build:finished'   => [:id, :parent_id, :status, :finished_at],
   }
 
   def as_json(options = nil)
