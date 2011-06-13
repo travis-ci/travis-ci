@@ -1,6 +1,6 @@
 Travis.Views.Build.Build = Backbone.View.extend({
   initialize: function() {
-    _.bindAll(this, 'attachTo', 'buildSelected', 'buildExpanded', 'updateTab');
+    _.bindAll(this, 'attachTo', 'buildSelected', 'buildConfigured', 'updateTab');
     _.extend(this, this.options);
 
     this.el = $('<div></div>');
@@ -29,20 +29,20 @@ Travis.Views.Build.Build = Backbone.View.extend({
   },
   detachFromBuild: function() {
     if(this.build) {
-      this.build.unbind('expanded', this.buildExpanded);
+      this.build.unbind('configured', this.buildConfigured);
     }
   },
   attachToBuild: function(build) {
     this.build = build;
     this.detachFromBuild();
-    this.build.bind('expanded', this.buildExpanded);
+    this.build.bind('configured', this.buildConfigured);
   },
   buildSelected: function(build) {
     this.attachToBuild(build);
     this._update();
     this.updateTab();
   },
-  buildExpanded: function(build) {
+  buildConfigured: function(build) {
     this.build = build;
     this._update();
   },
