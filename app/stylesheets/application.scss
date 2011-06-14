@@ -686,4 +686,18 @@ pre::-webkit-scrollbar-thumb:horizontal {
   font-size: 0;
 }
 
+#my_repositories {
+  .repository {
+    padding: 5px;
+    border-bottom: 1px solid #CCC;
+    .description {
+        margin-left: 20px;
+        font-size: 80%;
+    }
+    .github-stats {
+      top: 5px;
+      right: 5px;
+    }
 
+  }
+}
