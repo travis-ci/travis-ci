@@ -5,7 +5,7 @@
     <li><a href="{{url}}/forks" target="_blank" rel="nofollow" class='forks'>{{forks}}</a></li>
     <li><a href="{{url}}/forks" target="_blank" rel="nofollow" class='watchers'>{{forks}}</a></li>
   </ul>
-  {{^travis_enabled}}
-    <a class='enable_travis'>Add to Travis-CI!</a>
-  {{/travis_enabled}}
+  {{#unless travis_enabled}}
+    <div class='enable_travis'>Add to Travis-CI!</div>
+  {{/unless}}
 </li>
