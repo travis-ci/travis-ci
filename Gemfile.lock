@@ -221,8 +221,9 @@ GEM
     sinatra (1.2.6)
       rack (~> 1.1)
       tilt (< 2.0, >= 1.2.2)
-    steak (1.1.0)
-      rspec (>= 1.3)
+    steak (2.0.0)
+      capybara (>= 1.0.0)
+      rspec-rails (>= 2.5.0)
     term-ansicolor (1.0.5)
     test_declarative (0.0.5)
     thor (0.14.6)
@@ -277,7 +278,7 @@ DEPENDENCIES
   ruby-debug
   ruby-debug19
   silent-postgres (~> 0.0.8)
-  steak (~> 1.1.0)
+  steak (~> 2.0.0)
   test_declarative
   unobtrusive_flash (~> 0.0.2)
   web-socket-ruby
