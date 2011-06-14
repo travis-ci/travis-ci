@@ -110,7 +110,7 @@ GEM
     json (1.4.6)
     json (1.4.6-java)
     json_pure (1.5.1)
-    linecache (0.43)
+    linecache (0.45)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
     mail (2.2.19)
