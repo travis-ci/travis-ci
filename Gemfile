@@ -47,6 +47,6 @@ group :test do
 end
 
 group :development, :test do
-  gem 'steak', '~> 1.1.0'
+  gem 'steak', '~> 2.0.0'
   gem 'rspec-rails', '~> 2.6.1'
 end
