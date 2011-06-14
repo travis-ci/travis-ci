@@ -51,7 +51,6 @@ Travis.Views.Repositories.MyItem = Backbone.View.extend({
   },
   render: function() {
     this.el = $(this.template(this.model.toJSON()));
-    console.log(this.model.get('travis_enabled'))
     this.delegateEvents()
     return this;
   },
