@@ -2,6 +2,7 @@ require 'json'
 require 'ostruct'
 require 'core_ext/ostruct/hash_access'
 
+# TODO: we need to start using octokit everywhere by now. Or stick to that implementation, depending on team reaction.
 module Github
   module Api
     class << self
