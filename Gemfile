@@ -14,7 +14,7 @@ gem 'unobtrusive_flash',   '~> 0.0.2'
 gem 'yajl-ruby',           '~> 0.8.2'
 gem 'rake',                '~> 0.9.1'
 gem 'silent-postgres',     '~> 0.0.8'
-gem 'octokit', '~> 0.6.3'
+gem 'octokit', :git => 'https://github.com/joshk/octokit.git'
 gem 'unicorn',             '~> 3.6.2'
 gem 'resque-meta',         '~> 1.0.3'
 
