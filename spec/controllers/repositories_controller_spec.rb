@@ -1,6 +1,20 @@
 require 'spec_helper'
 require 'webmock/rspec'
 describe RepositoriesController do
+  include Devise::SignInHelpers
+
+  describe "POST 'create'" do
+    before(:each) do
+      sign_in_user Factory.create(:user, :github_oauth_token => "myfaketoken")
+    end
+
+    it "should be success and return success code 'true'" do
+      stub_request(:post, "https://api.github.com/hub?access_token=myfaketoken").to_return(:status => 200, :body => "")
+      post :create, :name => "sven", :name => "travis-ci"
+      response.should be_success
+      JSON.parse(response.body)['success'].should eql true
+    end
+  end
 
   describe "GET 'index'" do
     before(:each) do
@@ -30,9 +44,7 @@ describe RepositoriesController do
 
   describe "GET 'my'" do
     before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:user]
-      @user = Factory.create(:user)
-      sign_in @user
+      sign_in_new_user
     end
 
     it "should return repositories of current user" do
@@ -41,7 +53,6 @@ describe RepositoriesController do
 
       response.should be_success
       result = JSON.parse response.body
-      ## FIXME: probably it makes sense to verify these things agains a complete json, even though we care most about these fields
       result.first["name"].should eql "safemode"
       result.first["owner"].should eql "svenfuchs"
       result.second["name"].should eql "scriptaculous-sortabletree"
