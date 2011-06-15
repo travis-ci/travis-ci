@@ -70,6 +70,6 @@ Travis.Views.Repositories.MyItem = Backbone.View.extend({
     });
   },
   onTravisEnabled: function() {
-    this.el.find('enable_travis').hide('fade')
+    this.el.find('.enable_travis').hide('fade')
   }
 });
