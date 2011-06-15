@@ -78,7 +78,7 @@ class RepositoriesController < ApplicationController
     #
     def pub_sub_hub_bub_callback
       pubsub_arguments = {
-        :token => current_user.github_oauth_token,
+        :token => current_user.tokens.first,
         :user => current_user.login,
         :domain => Travis.config['rails']['host']
       }
