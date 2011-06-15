@@ -7,6 +7,50 @@ describe('Utils', function() {
     return Utils.foldLog(Utils.foldLog(string));
   }
 
+  describe('deansi', function() {
+    it('replaces ansii sequence for red with a span', function() {
+      source   = '\e[31mUsing /home/vagrant/.rvm/gems/ruby-1.9.2-p180\e[m\e(B';
+      expected = '<span class="red">Using /home/vagrant/.rvm/gems/ruby-1.9.2-p180</span>';
+      expect(Utils.deansi(source)).toEqual(expected);
+    });
+
+    it('replaces ansii sequence for green with a span', function() {
+      source   = '\e[32mUsing /home/vagrant/.rvm/gems/ruby-1.9.2-p180\e[m\e(B';
+      expected = '<span class="green">Using /home/vagrant/.rvm/gems/ruby-1.9.2-p180</span>';
+      expect(Utils.deansi(source)).toEqual(expected);
+    });
+
+    it('replaces ansii sequence for yellow with a span', function() {
+      source   = '\e[33mUsing /home/vagrant/.rvm/gems/ruby-1.9.2-p180\e[m\e(B';
+      expected = '<span class="yellow">Using /home/vagrant/.rvm/gems/ruby-1.9.2-p180</span>';
+      expect(Utils.deansi(source)).toEqual(expected);
+    });
+
+    it('replaces a line followed by a carriage return', function() {
+      source   = 'remote: Compressing objects: 100% (21/21)   \rremote: Compressing objects: 100% (21/21), done.';
+      expected = 'remote: Compressing objects: 100% (21/21), done.';
+      expect(Utils.deansi(source)).toEqual(expected);
+    });
+
+    it('replaces a line followed by an ansii clear line escape sequence and a carriage return', function() {
+      source   = 'remote: Compressing objects: 100% (21/21)   \e[K\rremote: Compressing objects: 100% (21/21), done.';
+      expected = 'remote: Compressing objects: 100% (21/21), done.';
+      expect(Utils.deansi(source)).toEqual(expected);
+    });
+
+    it('does not replaces a line followed by a carriage return when this is the last character in the string', function() {
+      source   = 'remote: Compressing objects: 100% (21/21)   \r';
+      expected = 'remote: Compressing objects: 100% (21/21)   \r';
+      expect(Utils.deansi(source)).toEqual(expected);
+    });
+
+    it('does not replace a line followed by a carriage return and a newline', function() {
+      source   = 'remote: Counting objects: 31, done.\r\nremote: Compressing objects: 100% (21/21), done.';
+      expected = 'remote: Counting objects: 31, done.\r\nremote: Compressing objects: 100% (21/21), done.';
+      expect(Utils.deansi(source)).toEqual(expected);
+    });
+  });
+
   describe('foldLog', function() {
     it('folds the "$ bundle install" portion of the log', function() {
       var tests = [

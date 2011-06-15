@@ -31,9 +31,10 @@ class BuildsController < ApplicationController
       trigger('build:started', build, 'msg_id' => params[:msg_id])
     elsif build.matrix_expanded?
       build.matrix.each { |child| enqueue!(child) }
-      trigger('build:expanded', build, 'msg_id' => params[:msg_id])
+      trigger('build:configured', build, 'msg_id' => params[:msg_id])
     elsif build.was_configured?
       enqueue!(build)
+      trigger('build:configured', build, 'msg_id' => params[:msg_id])
     elsif build.was_finished?
       trigger('build:finished', build, 'msg_id' => params[:msg_id])
       deliver_finished_email(build)

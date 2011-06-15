@@ -41,19 +41,38 @@ Utils = {
       element.stop().css({ 'background-color': '', 'background-image': '' });
     }
   },
+  filterLog: function(string) {
+    // string = Handlebars.Utils.escapeExpression(string);
+    string = Utils.deansi(string);
+    string = Utils.foldLog(string);
+    return string;
+  },
   deansi: function(string) {
     string = string || '';
-    string = string.replace(/\[31m/g, '<span class="red">').replace(/\[32m/g, '<span class="green">').replace(/\[0m/g, '</span>');
+    string = string.replace(new RegExp(String.fromCharCode(27), 'g'), '');
+    string = string.replace(/^.*(?:\[K)?\r(?!$)/gm, '');
+
+    // http://asciiAjaxterm-table.com/ansi-escape-sequences.php
+    // could also contain 1 for bold
+    string = string.replace(/\[31m/g, '<span class="red">')
+                   .replace(/\[32m/g, '<span class="green">')
+                   .replace(/\[33m/g, '<span class="yellow">')
+                   .replace(/\[34m/g, '<span class="blue">')
+                   .replace(/\[35m/g, '<span class="magenta">')
+                   .replace(/\[36m/g, '<span class="cyan">')
+                   .replace(/\[0?m(?:\(B)?/gm, '</span>');
+
     return string;
   },
   foldLog: function(string) {
     string = Utils.unfoldLog(string);
     var folds = [
-      /(^|<\/div>)(\$ git clean.*\n(?:Removing .*\n)+\n*)/m,
-      /(^|<\/div>)(\$ git fetch.*\nFrom .*\n.*)\n/m,
-      /(^|<\/div>)(\$ bundle install.*\n(?:(Fetching|Updating|Using|Installing).*?\n)*)/m,
-      /(^|<\/div>)(\$ rake db:migrate[\s\S]*(?:^== +\w+: migrated \(.*\) =+\n))\n?/m,
-      /(^|<\/div>)(\/home\/travis\/.rvm\/rubies\/.{140}.*)\n/m
+      // /(^|<\/div>)(\$ git clone.*\r?\n(?:(Initialized|remote:|Receiving|Resolving).*?\r?\n)*)/m,
+      /(^|<\/div>)(\$ git clean.*\r?\n(?:Removing .*\r?\n)+\r?\n*)/m,
+      /(^|<\/div>)(\$ git fetch.*\r?\nFrom .*\n.*)\r?\n/m,
+      /(^|<\/div>)(\$ bundle install.*\r?\n(?:(Fetching|Updating|Using|Installing|remote:|Receiving|Resolving).*?\r?\n)*)/m,
+      /(^|<\/div>)(\$ rake db:migrate[\s\S]*(?:^== +\w+: migrated \(.*\) =+\r?\n))\r?\n?/m,
+      /(^|<\/div>)(\/home\/travis\/.rvm\/rubies\/.{140}.*)\r?\n/m
     ];
     _.each(folds, function(fold) {
       string = string.replace(fold, function() { return arguments[1] + '<div class="fold">' + arguments[2].trim() + '</div>'; });

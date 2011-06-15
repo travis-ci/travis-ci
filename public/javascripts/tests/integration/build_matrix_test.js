@@ -1,10 +1,10 @@
 describe('Running a build matrix', function() {
   var PAYLOADS = {
-    'build:queued:1':   { repository: { id: 1, slug: 'svenfuchs/minimal' }, build: { id: 3, number: 3,  } },
-    'build:started:1':  { repository: { id: 1, slug: 'svenfuchs/minimal' }, build: { id: 3, number: 3, started_at: '2010-11-12T17:00:00Z', commit: '1111111', committer_name: 'Sven Fuchs', message: 'gem-minimal commit' } },
-    'build:expanded:1': { repository: { id: 1 }, build: { id: 3, config: { rvm: ['1.8.7', '1.9.2'] }, matrix: [ { id: 4, parent_id: 3, number: '3.1', config: { gemfile: 'test/Gemfile.rails-2.3.x', rvm: '1.8.7' } }, { id: 5, parent_id: 3, number: '3.2', config: { gemfile: 'test/Gemfile.rails-3.0.x', rvm: '1.8.7' } }, { id: 6, parent_id: 3, number: '3.3', config: { gemfile: 'test/Gemfile.rails-2.3.x', rvm: '1.9.2' } }, { id: 7, parent_id: 3, number: '3.4', config: { gemfile: 'test/Gemfile.rails-3.0.x', rvm: '1.9.2' } } ] } },
-    'build:log:1':      { repository: { id: 1 }, build: { id: 4, parent_id: 3, _log: 'log chars ... ' } },
-    'build:finished:1': { repository: { id: 1 }, build: { id: 4, parent_id: 3, status: 0, finished_at: '2010-11-12T17:00:10Z' } },
+    'build:queued:1':     { repository: { id: 1, slug: 'svenfuchs/minimal' }, build: { id: 3, number: 3,  } },
+    'build:started:1':    { repository: { id: 1, slug: 'svenfuchs/minimal' }, build: { id: 3, number: 3, started_at: '2010-11-12T17:00:00Z', commit: '1111111', committer_name: 'Sven Fuchs', message: 'gem-minimal commit' } },
+    'build:configured:1': { repository: { id: 1 }, build: { id: 3, config: { rvm: ['1.8.7', '1.9.2'] }, matrix: [ { id: 4, parent_id: 3, number: '3.1', config: { gemfile: 'test/Gemfile.rails-2.3.x', rvm: '1.8.7' } }, { id: 5, parent_id: 3, number: '3.2', config: { gemfile: 'test/Gemfile.rails-3.0.x', rvm: '1.8.7' } }, { id: 6, parent_id: 3, number: '3.3', config: { gemfile: 'test/Gemfile.rails-2.3.x', rvm: '1.9.2' } }, { id: 7, parent_id: 3, number: '3.4', config: { gemfile: 'test/Gemfile.rails-3.0.x', rvm: '1.9.2' } } ] } },
+    'build:log:1':        { repository: { id: 1 }, build: { id: 4, parent_id: 3, _log: 'log chars ... ' } },
+    'build:finished:1':   { repository: { id: 1 }, build: { id: 4, parent_id: 3, status: 0, finished_at: '2010-11-12T17:00:10Z' } },
   };
   var trigger = function(event, payload, expectations) {
    runs(function() { Travis.trigger(event, payload); });
@@ -45,7 +45,7 @@ describe('Running a build matrix', function() {
       expect($('#tab_current')).toShowBuildSummary({ build: 3, commit: '1111111 (master)', committer: 'Sven Fuchs', finished_at: '-', duration: '30 sec' });
     });
 
-    trigger('build:expanded', PAYLOADS['build:expanded:1'], function() {
+    trigger('build:configured', PAYLOADS['build:configured:1'], function() {
       // expect the current tab to show the build matrix
       expect_matrix_table_on('#tab_current');
     });
@@ -119,7 +119,7 @@ describe('Running a build matrix', function() {
 
   it('does not add the matrix parent build to the matrix collection', function() {
     trigger('build:started', PAYLOADS['build:started:1']);
-    trigger('build:expanded', PAYLOADS['build:expanded:1']);
+    trigger('build:configured', PAYLOADS['build:configured:1']);
 
     goTo('svenfuchs/minimal/builds/4');
     waits(10)

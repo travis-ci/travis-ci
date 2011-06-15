@@ -12,11 +12,7 @@ $.fn.extend({
     Utils.unflash(this);
   },
   filterLog: function() {
-    this.deansi();
-    this.foldLog();
-  },
-  deansi: function() {
-    this.html(Utils.deansi(this.html()));
+    this.html(Utils.filterLog(this.html()));
   },
   foldLog: function() {
     this.html(Utils.foldLog(this.html()));
