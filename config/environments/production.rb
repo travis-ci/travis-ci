@@ -41,10 +41,11 @@ TravisCi::Application.configure do
   config.action_mailer.smtp_settings = {
     :address        => Travis.config['smtp']['address'],
     :port           => "25",
-    :authentication => :plain,
+    :authentication => :cram_md5,
     :user_name      => Travis.config['smtp']['user_name'],
     :password       => Travis.config['smtp']['password'],
-    :domain         => Travis.config['smtp']['domain']
+    :domain         => Travis.config['smtp']['domain'],
+    :enable_starttls_auto => true
   }
 
   # Enable threaded mode
