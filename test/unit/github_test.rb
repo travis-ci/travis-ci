@@ -51,7 +51,7 @@ class GithubTest < ActiveSupport::TestCase
   test 'Github build' do
     data = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
     repository = Github::Repository.new(data['repository'])
-    build = Github::Build.new(data['commits'].first.merge(:ref => 'refs/heads/master'), repository)
+    build = Github::Build.new(data['commits'].first.merge(:ref => 'refs/heads/master'), repository, data['compare'])
 
     assert_equal '9854592', build.commit
     assert_equal 'master', build.branch
@@ -66,7 +66,7 @@ class GithubTest < ActiveSupport::TestCase
   test 'Github build to_hash' do
     data = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
     repository = Github::Repository.new(data['repository'])
-    build = Github::Build.new(data['commits'].first.merge(:ref => 'refs/heads/master'), repository)
+    build = Github::Build.new(data['commits'].first.merge(:ref => 'refs/heads/master'), repository, data['compare'])
 
     expected = {
       :commit => '9854592',
@@ -76,8 +76,10 @@ class GithubTest < ActiveSupport::TestCase
       :committer_name => 'Sven Fuchs',
       :committer_email => 'svenfuchs@artweb-design.de',
       :author_name => 'Christopher Floess',
-      :author_email => 'chris@flooose.de'
+      :author_email => 'chris@flooose.de',
+      :compare_url => 'https://github.com/svenfuchs/gem-release/compare/af674bd...9854592'
     }
+
     assert_equal expected, build.to_hash
   end
 end
