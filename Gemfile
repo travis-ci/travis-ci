@@ -12,7 +12,7 @@ gem 'oa-oauth',             '~> 0.2.6', :require => 'omniauth/oauth'
 gem 'refraction',           '~> 0.2.0'
 gem 'unobtrusive_flash',    '~> 0.0.2'
 gem 'pusher',               '~> 0.8.0'
-gem 'octokit',              '~> 0.6.3'
+gem 'octokit',              :git => 'https://github.com/pengwynn/octokit.git'
 gem 'resque-meta',          '~> 1.0.3'
 
 gem 'silent-postgres',      '~> 0.0.8'

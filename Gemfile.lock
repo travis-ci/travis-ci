@@ -1,3 +1,15 @@
+GIT
+  remote: https://github.com/pengwynn/octokit.git
+  revision: 59f183413668d28b60f9a939892ad91ed172aa74
+  specs:
+    octokit (0.6.3)
+      addressable (~> 2.2.6)
+      faraday (~> 0.6.0)
+      faraday_middleware (~> 0.6.0)
+      hashie (~> 1.0.0)
+      multi_json (~> 1.0.2)
+      rash (~> 0.3.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -88,10 +100,10 @@ GEM
     i18n (0.5.0)
     jammit (0.6.3)
       yui-compressor (>= 0.9.3)
-    json (1.5.1)
-    json (1.5.1-java)
-    json_pure (1.5.1)
-    kgio (2.4.1)
+    json (1.5.2)
+    json (1.5.2-java)
+    json_pure (1.5.2)
+    kgio (2.4.2)
     linecache (0.45)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
@@ -123,13 +135,6 @@ GEM
     oauth2 (0.4.1)
       faraday (~> 0.6.1)
       multi_json (>= 0.0.5)
-    octokit (0.6.3)
-      addressable (~> 2.2.4)
-      faraday (~> 0.6.0)
-      faraday_middleware (~> 0.6.0)
-      hashie (~> 1.0.0)
-      multi_json (~> 1.0.0)
-      rash (~> 0.3.0)
     open4 (1.0.1)
     orm_adapter (0.0.5)
     pg (0.11.0)
@@ -259,7 +264,7 @@ DEPENDENCIES
   minitest_tu_shim
   mocha
   oa-oauth (~> 0.2.6)
-  octokit (~> 0.6.3)
+  octokit!
   pg (~> 0.11.0)
   pusher (~> 0.8.0)
   rails (~> 3.0.7)
