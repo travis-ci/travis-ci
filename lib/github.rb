@@ -61,6 +61,10 @@ module Github
     def path
       "repos/show/#{owner}/#{name}"
     end
+
+    def private?
+      self['private']
+    end
   end
 
   class Build < OpenStruct
