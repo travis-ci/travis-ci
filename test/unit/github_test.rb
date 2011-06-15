@@ -5,14 +5,14 @@ class GithubTest < ActiveSupport::TestCase
   include GithubApiTestHelper
 
   test 'Github payload repository' do
-    data = JSON.parse(GITHUB_PAYLOADS['gem-release'])
+    data = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
     payload = Github::ServiceHook::Payload.new(data)
 
     assert_equal 'gem-release', payload.repository.name
   end
 
   test 'Github payload builds' do
-    data = JSON.parse(GITHUB_PAYLOADS['gem-release'])
+    data = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
     payload = Github::ServiceHook::Payload.new(data)
     build = payload.builds.first
 
@@ -36,7 +36,7 @@ class GithubTest < ActiveSupport::TestCase
   end
 
   test 'Github repository to_hash' do
-    data = JSON.parse(GITHUB_PAYLOADS['gem-release'])
+    data = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
     repository = Github::Repository.new(data['repository'])
 
     expected = {
@@ -49,7 +49,7 @@ class GithubTest < ActiveSupport::TestCase
   end
 
   test 'Github build' do
-    data = JSON.parse(GITHUB_PAYLOADS['gem-release'])
+    data = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
     repository = Github::Repository.new(data['repository'])
     build = Github::Build.new(data['commits'].first.merge(:ref => 'refs/heads/master'), repository)
 
@@ -64,7 +64,7 @@ class GithubTest < ActiveSupport::TestCase
   end
 
   test 'Github build to_hash' do
-    data = JSON.parse(GITHUB_PAYLOADS['gem-release'])
+    data = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
     repository = Github::Repository.new(data['repository'])
     build = Github::Build.new(data['commits'].first.merge(:ref => 'refs/heads/master'), repository)
 
