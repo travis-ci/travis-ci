@@ -20,7 +20,7 @@ class Build < ActiveRecord::Base
 
   class << self
     def create_from_github_payload(payload)
-      data       = Github::ServiceHook::Payload.new(JSON.parse(payload))
+      data = Github::ServiceHook::Payload.new(payload)
 
       return false if data.repository.private?
 
