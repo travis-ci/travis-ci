@@ -1,15 +1,3 @@
-GIT
-  remote: https://github.com/joshk/octokit.git
-  revision: b033f0a462984a72b4cfc210fd12e795b636a377
-  specs:
-    octokit (0.6.3)
-      addressable (~> 2.2.6)
-      faraday (~> 0.6.0)
-      faraday_middleware (~> 0.6.0)
-      hashie (~> 1.0.0)
-      multi_json (~> 1.0.2)
-      rash (~> 0.3.0)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -51,13 +39,16 @@ GEM
     bcrypt-ruby (2.1.4)
     bcrypt-ruby (2.1.4-java)
     builder (2.1.2)
-    capybara (1.0.0)
+    capybara (0.4.1.2)
+      celerity (>= 0.7.9)
+      culerity (>= 0.2.4)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
-      selenium-webdriver (~> 0.2.0)
-      xpath (~> 0.1.4)
+      selenium-webdriver (>= 0.0.27)
+      xpath (~> 0.1.3)
+    celerity (0.8.9)
     childprocess (0.1.9)
       ffi (~> 1.0.6)
     chunky_png (1.2.0)
@@ -73,11 +64,11 @@ GEM
       gherkin (~> 2.4.1)
       json (>= 1.4.6)
       term-ansicolor (>= 1.0.5)
-    cucumber-rails (1.0.0)
-      capybara (>= 1.0.0)
-      cucumber (~> 1.0.0)
+    cucumber-rails (0.4.1)
+      cucumber (>= 0.10.1)
       nokogiri (>= 1.4.4)
       rack-test (>= 0.5.7)
+    culerity (0.2.15)
     database_cleaner (0.6.7)
     devise (1.3.4)
       bcrypt-ruby (~> 2.1.2)
@@ -147,6 +138,13 @@ GEM
     oauth2 (0.4.1)
       faraday (~> 0.6.1)
       multi_json (>= 0.0.5)
+    octokit (0.6.3)
+      addressable (~> 2.2.4)
+      faraday (~> 0.6.0)
+      faraday_middleware (~> 0.6.0)
+      hashie (~> 1.0.0)
+      multi_json (~> 1.0.0)
+      rash (~> 0.3.0)
     open4 (1.0.1)
     orm_adapter (0.0.5)
     pg (0.11.0)
@@ -233,9 +231,8 @@ GEM
     sinatra (1.2.6)
       rack (~> 1.1)
       tilt (>= 1.2.2, < 2.0)
-    steak (2.0.0)
-      capybara (>= 1.0.0)
-      rspec-rails (>= 2.5.0)
+    steak (1.1.0)
+      rspec (>= 1.3)
     term-ansicolor (1.0.5)
     test_declarative (0.0.5)
     thor (0.14.6)
@@ -268,12 +265,12 @@ PLATFORMS
 
 DEPENDENCIES
   SystemTimer (~> 1.2.3)
-  capybara
+  capybara (~> 0.4.1.2)
   compass (~> 0.11.0)
   cucumber-rails
   database_cleaner
   devise (~> 1.3.3)
-  factory_girl
+  factory_girl (~> 1.3)
   factory_girl_rails
   fakeredis
   hoptoad_notifier (~> 2.4.9)
@@ -282,18 +279,18 @@ DEPENDENCIES
   minitest_tu_shim
   mocha
   oa-oauth (~> 0.2.6)
-  octokit!
+  octokit (~> 0.6.3)
   pg (~> 0.11.0)
   pusher (~> 0.8.0)
   rails (~> 3.0.7)
   rake (~> 0.9.1)
   refraction (~> 0.2.0)
   resque-meta (~> 1.0.3)
-  rspec-rails
+  rspec-rails (~> 2.6.1)
   ruby-debug
   ruby-debug19
   silent-postgres (~> 0.0.8)
-  steak
+  steak (~> 1.1.0)
   test_declarative
   unicorn (~> 3.6.2)
   unobtrusive_flash (~> 0.0.2)
