@@ -24,14 +24,14 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
   end
 
   test 'find_or_create_by_github_repository: finds an existing repository' do
-    data = JSON.parse(GITHUB_PAYLOADS['gem-release'])
+    data = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
     payload = Github::ServiceHook::Payload.new(data)
     assert_equal repository_1, Repository.find_or_create_by_github_repository(payload.repository)
   end
 
   test 'find_or_create_by_github_repository: creates a new repository' do
     repository_1.destroy
-    data     = JSON.parse(GITHUB_PAYLOADS['gem-release'])
+    data     = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
     payload  = Github::ServiceHook::Payload.new(data)
 
     attribute_names = ['name', 'owner_name', 'owner_email', 'url']

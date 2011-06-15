@@ -12,7 +12,7 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
 
   test 'jobs' do
     get 'jobs'
-    jobs = JSON.parse(response.body)
+    jobs = ActiveSupport::JSON.decode(response.body)
     expected = [
       { 'id' => 1, 'number' => '3',   'commit' => 'b0a1b69','repository' => { 'id' => 8, 'slug' => 'svenfuchs/gem-release' } },
       { 'id' => 2, 'number' => '3.1', 'commit' => 'b0a1b69','repository' => { 'id' => 8, 'slug' => 'svenfuchs/gem-release' } },

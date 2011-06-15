@@ -1,4 +1,3 @@
-require 'json'
 require 'ostruct'
 require 'core_ext/ostruct/hash_access'
 
@@ -20,7 +19,7 @@ module Github
     def fetch
       uri = URI.parse("http://github.com/api/v2/json/#{path}")
       response = Net::HTTP.get_response(uri)
-      data = JSON.parse(response.body)
+      data = ActiveSupport::JSON.decode(response.body)
       key  = self.class.name.demodulize.underscore
       data.replace(data[key]) if data.key?(key)
       self.class.new(data)
