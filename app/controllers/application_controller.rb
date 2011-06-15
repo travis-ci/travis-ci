@@ -25,8 +25,6 @@ class ApplicationController < ActionController::Base
           data.update(data['build'].slice('id', 'number', 'commit'))
           data.delete('build')
         end
-        # meta  = Travis::Builder.get_meta(job['args'].first)
-        # data.update(meta.data.slice('meta_id', 'enqueued_at'))
       end
     end
     helper_method :jobs

@@ -1,7 +1,5 @@
-require 'resque/plugins/meta'
-
 module Travis
-  autoload :Config,       'travis/config'
+  autoload :Config, 'travis/config'
 
   class << self
     attr_accessor :pusher
@@ -12,6 +10,5 @@ module Travis
   end
 
   class Worker
-    extend Resque::Plugins::Meta
   end
 end
