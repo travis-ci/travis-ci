@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'webmock/rspec'
+
 describe RepositoriesController do
 
   describe "GET 'index'" do
@@ -13,7 +14,7 @@ describe RepositoriesController do
       get :index
 
       response.should be_success
-      result = JSON.parse response.body
+      result = ActiveSupport::JSON.decode response.body
       result.count.should eql 2
       result.first["slug"].should eql "sven/travis-ci"
       result.second["slug"].should eql "josh/globalize"
@@ -22,7 +23,7 @@ describe RepositoriesController do
     it "should return list of repositories in json format, filtered by owner name" do
       get :index, :owner_name => "sven"
       response.should be_success
-      result = JSON.parse response.body
+      result = ActiveSupport::JSON.decode response.body
       result.count.should eql 1
       result.first["slug"].should eql "sven/travis-ci"
     end
@@ -40,7 +41,7 @@ describe RepositoriesController do
       get :my, :format => "json"
 
       response.should be_success
-      result = JSON.parse response.body
+      result = ActiveSupport::JSON.decode response.body
       ## FIXME: probably it makes sense to verify these things agains a complete json, even though we care most about these fields
       result.first["name"].should eql "safemode"
       result.first["owner"].should eql "svenfuchs"
