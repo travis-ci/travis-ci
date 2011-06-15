@@ -28,6 +28,11 @@ module Github
 
   module ServiceHook
     class Payload < OpenStruct
+      def initialize(payload)
+        payload = ActiveSupport::JSON.decode(payload) if payload.is_a?(String)
+        super(payload)
+      end
+
       def repository
         @repository ||= Repository.new(super)
       end
