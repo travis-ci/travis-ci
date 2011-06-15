@@ -24,6 +24,7 @@ GITHUB_PAYLOADS = {
     }],
     "ref": "refs/heads/master"
   }),
+
   "gem-release" => %({
     "repository": {
       "url": "http://github.com/svenfuchs/gem-release",
@@ -46,7 +47,8 @@ GITHUB_PAYLOADS = {
         "email": "chris@flooose.de"
       }
     }],
-    "ref": "refs/heads/master"
+    "ref": "refs/heads/master",
+    "compare": "https://github.com/svenfuchs/gem-release/compare/af674bd...9854592"
   }),
 
   "gh-pages-update" => %({
