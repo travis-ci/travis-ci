@@ -6,6 +6,6 @@
     <li><a href="{{url}}/forks" target="_blank" rel="nofollow" class='watchers'>{{forks}}</a></li>
   </ul>
   {{#unless travis_enabled}}
-    <div class='enable_travis'>Add to Travis-CI!</div>
+    <a class='enable_travis'>Add to Travis-CI!</a>
   {{/unless}}
 </li>

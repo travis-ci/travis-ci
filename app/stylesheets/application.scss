@@ -687,12 +687,28 @@ pre::-webkit-scrollbar-thumb:horizontal {
 }
 
 #my_repositories {
+  margin-top: 10px;
   .repository {
     padding: 5px;
     border-bottom: 1px solid #CCC;
+    position: relative;
+    &:hover {
+      background: rgba(0,0,0,.05);
+    }
+    .enable_travis {
+      background: url('/images/icons/add.png') no-repeat;
+      line-height: 16px;
+      padding-left: 20px;
+      cursor: pointer;
+      font-size: 80%;
+      position: absolute;
+      bottom: 10px;
+      right: 10px
+    }
     .description {
-        margin-left: 20px;
-        font-size: 80%;
+      width: 600px;
+      margin-left: 20px;
+      font-size: 80%;
     }
     .github-stats {
       top: 5px;
