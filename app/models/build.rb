@@ -29,7 +29,7 @@ class Build < ActiveRecord::Base
       build      = data.builds.last
 
       if build
-        attributes = build.to_hash.merge(:number => number, :github_payload => payload)
+        attributes = build.to_hash.merge(:number => number, :github_payload => payload, :compare_url => data.compare)
         repository.builds.create(attributes) unless exclude?(attributes)
       end
     end

@@ -37,7 +37,11 @@ module Github
       end
 
       def builds
-        @builds ||= commits.map { |commit| Build.new(commit.merge(:ref => ref), repository) }
+        @builds ||= commits.map { |commit| Build.new(commit.merge(:ref => ref), repository, compare_url) }
+      end
+
+      def compare_url
+        self['compare']
       end
     end
   end
@@ -73,11 +77,12 @@ module Github
   end
 
   class Build < OpenStruct
-    ATTR_NAMES = [:commit, :message, :branch, :committed_at, :committer_name, :committer_email, :author_name, :author_email]
+    ATTR_NAMES = [:commit, :message, :branch, :committed_at, :committer_name, :committer_email, :author_name, :author_email, :compare_url]
 
-    def initialize(data, repository)
+    def initialize(data, repository, compare_url)
       data['author'] ||= {}
-      data['repository'] = repository
+      data['repository']  = repository
+      data['compare_url'] = compare_url
       super(data)
     end
 
