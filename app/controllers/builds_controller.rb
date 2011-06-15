@@ -54,8 +54,7 @@ class BuildsController < ApplicationController
 
     def enqueue!(build)
       Travis::Worker.class_eval { @queue = build.repository.name == 'rails' ? 'rails' : 'builds' } # FIXME OH SHI~
-      job  = Travis::Worker.enqueue(json_for(:job, build))
-      build.update_attributes!(:job_id => job.meta_id)
+      Resque.enqueue(Travis::Worker, json_for(:job, build))
       trigger('build:queued', build)
     end
 

@@ -16,7 +16,7 @@ gem 'rake',                '~> 0.9.1'
 gem 'silent-postgres',     '~> 0.0.8'
 gem 'octokit', :git => 'https://github.com/joshk/octokit.git'
 gem 'unicorn',             '~> 3.6.2'
-gem 'resque-meta',         '~> 1.0.3'
+gem 'resque',              '~> 1.17.1'
 
 group :test do
   gem 'database_cleaner'
