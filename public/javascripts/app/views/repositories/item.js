@@ -43,7 +43,7 @@ Travis.Views.Repositories.Item = Backbone.View.extend({
 
 Travis.Views.Repositories.MyItem = Backbone.View.extend({
   events: {
-    'click .enable_travis': 'enableTravis'
+    'click a.enable_travis': 'enableTravis'
   },
   initialize: function() {
     _.bindAll(this, 'render', 'enableTravis', 'onTravisEnabled');
@@ -56,16 +56,7 @@ Travis.Views.Repositories.MyItem = Backbone.View.extend({
   },
   enableTravis: function(e) {
     e.preventDefault()
-    $.ajax({
-      type: "POST",
-      url: "/repositories",
-      contentType: "application/json",
-      dataType: "json",
-      data: JSON.stringify({
-        name: this.model.get('name'),
-        owner_name: this.model.get('owner'),
-        authenticity_token: this.model.get('authenticity_token')
-      }),
+    this.model.save({},{
       success: this.onTravisEnabled
     });
   },
