@@ -98,6 +98,10 @@ class Build < ActiveRecord::Base
     status == 0
   end
 
+  def status_message
+    passed? ? 'Passed' : 'Failed'
+  end
+
   def color
     pending? ? '' : passed? ? 'green' : 'red'
   end
