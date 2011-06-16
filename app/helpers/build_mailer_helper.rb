@@ -18,9 +18,9 @@ module BuildMailerHelper
     # difference in seconds
     diff = (finished_at - started_at).to_i
 
-    hours   = hours(diff)
-    minutes = minutes(diff, hours)
-    seconds = seconds(diff, hours, minutes)
+    hours   = hours_part(diff)
+    minutes = minutes_part(diff)
+    seconds = seconds_part(diff)
 
     time_pieces = []
 
@@ -32,35 +32,21 @@ module BuildMailerHelper
   end
 
 
-  def hours(diff)
-    (diff / ONE_HOUR).to_i
-  end
-
-  def minutes(diff, hours)
-    hours_diff = hours_expanded(hours, true)
-
-    if hours_diff < diff
-      ((diff - hours_diff) / ONE_MINUTE).to_i
-    else
-      0
-    end
-  end
-
-  def seconds(diff, hours, minutes)
-    hours_diff   = hours_expanded(hours)
-    minutes_diff = (minutes * ONE_MINUTE)
-
-    hours_mins = hours_diff + minutes_diff
-
-    ((diff - hours_mins) / ONE_MINUTE).to_i
-  end
-
-  def hours_expanded(hours, min_one_hour = false)
-    hours = 1 if hours == 0
-    hours * ONE_HOUR
-  end
+  # duration helpers
 
   ONE_HOUR = 3600
   ONE_MINUTE = 60
+
+  def hours_part(diff)
+    diff / ONE_HOUR
+  end
+
+  def minutes_part(diff)
+    (diff % ONE_HOUR) / ONE_MINUTE
+  end
+
+  def seconds_part(diff)
+    diff % ONE_MINUTE
+  end
 
 end
