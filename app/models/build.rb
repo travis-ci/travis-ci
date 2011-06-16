@@ -74,6 +74,7 @@ class Build < ActiveRecord::Base
     Rails.logger.info('-' * 80)
     Rails.logger.info(self.inspect)
     Rails.logger.info("was_started?: started? => #{started?.inspect}, started_at_changed? => #{started_at_changed?.inspect}, @previously_changed.keys => #{@previously_changed.keys.inspect}")
+    Rails.logger.info("was_started?: #{(started? && (started_at_changed? || @previously_changed.keys.include?('started_at'))).inspect}")
     Rails.logger.info('-' * 80)
     started? && (started_at_changed? || @previously_changed.keys.include?('started_at'))
   end
