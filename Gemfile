@@ -5,12 +5,6 @@ gem 'rake',                 '~> 0.9.1'
 gem 'pg',                   '~> 0.11.0'
 gem 'yajl-ruby',            '~> 0.8.2'
 
-gem 'unicorn',              '~> 3.6.2'
-
-gem 'SystemTimer',          '~> 1.2.3', :platforms => :ruby_18
-
-gem 'resque',               '~> 1.17.1'
-
 gem 'compass',              '~> 0.11.0'
 gem 'devise',               '~> 1.3.3'
 gem 'oa-oauth',             '~> 0.2.6', :require => 'omniauth/oauth'
@@ -23,6 +17,12 @@ gem 'octokit',              :git => 'https://github.com/pengwynn/octokit.git'
 gem 'silent-postgres',      '~> 0.0.8'
 gem 'hoptoad_notifier',     '~> 2.4.9'
 gem 'jammit',               '~> 0.6.0'
+
+gem 'unicorn',              '~> 3.6.2'
+gem 'SystemTimer',          '~> 1.2.3', :platforms => :ruby_18
+
+gem 'resque',               '~> 1.17.0'
+gem 'resque-heartbeat',     '~> 0.0.2'
 
 group :test do
   gem 'database_cleaner'
