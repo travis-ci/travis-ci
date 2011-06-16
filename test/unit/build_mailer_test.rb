@@ -50,7 +50,7 @@ class BuildMailerTest < ActionMailer::TestCase
     assert_equal ["user1@example.de", "user2@example.de", "user3@example.de"], email.to
     assert_equal 'svenfuchs/minimal#1 (62aae5f): the build has failed', email.subject
 
-    assert_match /Duration : 17 minutes, and 7 seconds/, email.encoded
+    assert_match /Duration : 17 minutes and 7 seconds/, email.encoded
     assert_match /Message : the commit message/,         email.encoded
     assert_match /Status : Failed/,                      email.encoded
     assert_match /View the changeset here : https:\/\/github.com\/foo\/bar-baz\/compare\/master\.\.\.develop/, email.encoded
