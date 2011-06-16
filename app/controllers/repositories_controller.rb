@@ -42,16 +42,20 @@ class RepositoriesController < ApplicationController
   end
 
   def create
-    repository = Repository.find_or_create_by_name_and_owner_name(params[:name], params[:owner_name])
+    @repository = Repository.find_or_create_by_name_and_owner_name(params[:name], params[:owner_name])
     client = Octokit::Client.new(:oauth_token => current_user.github_oauth_token)
 
     # Octokit doesn't have internal error processing. Subscribe will throw an exception when fails. Further investigation + some use-cases will give a hint about what kind
     # of error handling might be useful here.
     begin
-      client.subscribe(pub_sub_hub_bub_topic, pub_sub_hub_bub_callback)
-      render :json => { :success => true }
+      client.subscribe_service_hook(@repository.owner_name, @repository.name, "Travis", {
+        :token => current_user.tokens.first.token,
+        :user => current_user.login,
+        :domain => Travis.config['rails']['host']
+      })
+      render :json => @repository
     rescue
-      render :json => { :success => false }
+      render :json => { :success => false }, :status => :not_acceptable
     end
   end
 
@@ -65,23 +69,4 @@ class RepositoriesController < ApplicationController
       @repository ||= params[:id] ? Repository.find(params[:id]) : nil
     end
     helper_method :repository
-
-    #
-    # Returns pub sub hub bub topic in order to subscribe repository. Currently not implemented in Octokit.
-    #
-    def pub_sub_hub_bub_topic
-      "https://github.com/#{params[:owner_name]}/#{params[:name]}/events/push"
-    end
-
-    #
-    # Returns pub sub hub bub callback in order to subscribe repository. Currently not implemented in Octokit.
-    #
-    def pub_sub_hub_bub_callback
-      pubsub_arguments = {
-        :token => current_user.tokens.first.token,
-        :user => current_user.login,
-        :domain => Travis.config['rails']['host']
-      }
-      "github://Travis?#{pubsub_arguments.collect{ |k,v| [ k,v ].join("=") }.join("&") }"
-  end
 end
