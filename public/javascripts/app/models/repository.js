@@ -5,13 +5,18 @@ Travis.Models.Repository = Travis.Models.Base.extend({
     this.builds = this.builds || new Travis.Collections.Builds([], { repository: this });
   },
   url: function() {
-    return '/repositories/' + this.id;
+    if (this.id) {
+      return '/repositories/' + this.id;
+    } else {
+      return '/repositories'
+    }
   },
   set: function(attributes) { // TODO rename to update, add unit tests
     this.builds = this.builds || new Travis.Collections.Builds([], { repository: this });
     if(attributes.build) this.builds.update(attributes.build);
     delete attributes.build;
     Backbone.Model.prototype.set.apply(this, [attributes]);
+    return this;
   },
   color: function() {
     var status = this.get('last_build_status');
