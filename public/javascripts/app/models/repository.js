@@ -56,9 +56,19 @@ Travis.Collections.MyRepositories = Travis.Collections.Base.extend({
   model: Travis.Models.Repository,
   initialize: function(models) {
     Travis.Collections.Base.prototype.initialize.apply(this, arguments);
-    _.bindAll(this, 'url');
+    _.bindAll(this, 'url', 'travis_enabled', 'need_travis');
   },
   url: function() {
     return '/repositories/my' + Utils.queryString(this.options);
+  },
+  travis_enabled: function() {
+    return this.filter(function(repository) {
+      return repository.get('travis_enabled') || false
+    })
+  },
+  need_travis: function() {
+    return this.filter(function(repository) {
+      return !repository.get('travis_enabled') || true
+    })
   }
 });
