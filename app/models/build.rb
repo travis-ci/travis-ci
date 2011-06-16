@@ -220,7 +220,7 @@ class Build < ActiveRecord::Base
     end
 
     def normalize_config(config)
-      ENV_KEYS.inject(config) do |config, key|
+      ENV_KEYS.inject(config.to_hash) do |config, key|
         config[key] = config[key].values if config[key].is_a?(Hash)
         config
       end
