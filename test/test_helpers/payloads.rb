@@ -151,8 +151,8 @@ RESQUE_PAYLOADS = {
 
 # TODO use these in builder/rails_test
 WORKER_PAYLOADS = {
-  :started    => { 'build' => { 'started_at' => 'Mon Mar 07 01:42:00 +0100 2011' } },
+  :started    => { 'build' => { 'started_at' => '2011-06-16 22:59:41 +0200' } },
   :configured => { 'build' => { 'config' => { 'script' => 'rake', 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['gemfiles/rails-2.3.x', 'gemfiles/rails-3.0.x'] } } },
   :log        => { 'build' => { 'log' => ' ... appended' } },
-  :finished   => { 'build' => { 'finished_at' => 'Mon Mar 07 01:43:00 +0100 2011', 'status' => 1, 'log' => 'final build log' } }
+  :finished   => { 'build' => { 'finished_at' => '2011-06-16 22:59:41 +0200', 'status' => 1, 'log' => 'final build log' } }
 }
