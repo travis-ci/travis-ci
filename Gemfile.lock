@@ -101,6 +101,7 @@ GEM
     jammit (0.6.3)
       yui-compressor (>= 0.9.3)
     json (1.5.2)
+    json (1.5.2-java)
     json_pure (1.5.2)
     kgio (2.4.2)
     linecache (0.45)
