@@ -18,7 +18,7 @@ class BuildsController < ApplicationController
     if build = Build.create_from_github_payload(params[:payload])
       build.save!
       enqueue!(build)
-      build.repository.update_attributes!(:last_built_at => Time.now) # TODO the build isn't actually started now
+      build.repository.update_attributes!(:last_build_started_at => Time.now) # TODO the build isn't actually started now
     end
     render :nothing => true
   end
