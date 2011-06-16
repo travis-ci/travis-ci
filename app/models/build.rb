@@ -71,6 +71,10 @@ class Build < ActiveRecord::Base
   end
 
   def was_started?
+    Rails.logger.info('-' * 80)
+    Rails.logger.info(self.inspect)
+    Rails.logger.info("was_started?: started? => #{started?.inspect}, started_at_changed? => #{started_at_changed?.inspect}, @previously_changed.keys => #{@previously_changed.keys.inspect}")
+    Rails.logger.info('-' * 80)
     started? && (started_at_changed? || @previously_changed.keys.include?('started_at'))
   end
 
@@ -206,6 +210,9 @@ class Build < ActiveRecord::Base
     end
 
     def denormalize_to_repository
+      Rails.logger.info('-' * 80)
+      Rails.logger.info('DENORMALIZE TO REPOSITORY')
+      Rails.logger.info('-' * 80)
       repository.update_attributes!(
         :last_build_id => id,
         :last_build_number => number,
