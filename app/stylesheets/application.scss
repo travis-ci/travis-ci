@@ -689,6 +689,7 @@ pre::-webkit-scrollbar-thumb:horizontal {
 #my_repositories {
   margin-top: 10px;
   .repository {
+    min-height: 60px;
     padding: 5px;
     border-bottom: 1px solid #CCC;
     position: relative;
