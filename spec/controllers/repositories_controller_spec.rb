@@ -11,9 +11,13 @@ describe RepositoriesController do
 
     it "should be success and return success code 'true'" do
       stub_request(:post, "https://api.github.com/hub?access_token=myfaketoken").to_return(:status => 200, :body => "")
-      post :create, :name => "sven", :name => "travis-ci"
+      post :create, :name => "travis-ci", :owner_name => "sven"
+
       response.should be_success
-      JSON.parse(response.body)['success'].should eql true
+      Repository.all.count.should eql 1
+      repository = Repository.all.first
+      repository.owner_name.should eql "sven"
+      repository.name.should eql "travis-ci"
     end
   end
 
@@ -56,7 +60,7 @@ describe RepositoriesController do
 
       ## FIXME: probably it makes sense to verify these things agains a complete json, even though we care most about these fields
       result = ActiveSupport::JSON.decode response.body
-      
+
       result.first["name"].should eql "safemode"
       result.first["owner"].should eql "svenfuchs"
       result.second["name"].should eql "scriptaculous-sortabletree"
