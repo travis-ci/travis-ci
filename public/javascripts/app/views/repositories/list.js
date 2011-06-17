@@ -46,10 +46,9 @@ Travis.Views.Repositories.MyList = Backbone.View.extend({
   },
   render: function() {
     this.el.html(this.template({}))
-    _.each(this.collection.travis_enabled(), _.bind(function(item) {
-      this.el.find("#my_repositories").append(this.renderItem(item))
-    }, this))
-    _.each(this.collection.need_travis(), _.bind(function(item) {
+    _.each(this.collection.sortBy( function(a,b) {
+      return a.get('travis_enabled');
+    }), _.bind(function(item) {
       this.el.find("#my_repositories").append(this.renderItem(item))
     }, this))
     return this;
