@@ -1,3 +1,5 @@
+@import "mixins.scss";
+
 html {
   margin: 0;
   padding: 0;
@@ -537,6 +539,7 @@ caption {
   background: url(/images/spinner.gif) no-repeat 4px right;
   padding-right: 15px;
 }
+
 .list ul {
   min-height: 1em;
 }
@@ -686,16 +689,16 @@ pre::-webkit-scrollbar-thumb:horizontal {
   font-size: 0;
 }
 
+ul#tokens {
+  @include list-base;
+}
+
 #my_repositories {
+  @include list-base;
   margin-top: 10px;
-  .repository {
+  > li {
     min-height: 60px;
-    padding: 5px;
-    border-bottom: 1px solid #CCC;
     position: relative;
-    &:hover {
-      background: rgba(0,0,0,.05);
-    }
     .enable_travis {
       background: url('/images/icons/add.png') no-repeat;
       line-height: 16px;

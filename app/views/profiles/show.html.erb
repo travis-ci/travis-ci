@@ -11,7 +11,16 @@
 <h4>Your tokens</h4>
 <ul id="tokens">
   <% current_user.tokens.each do |token| %>
-    <li><%= token.token %> <%= link_to 'remove', '#' %></li>
+    <li>
+      <%= token.token %>
+      <%= link_to 'remove', '#' %>
+    </li>
   <% end %>
 </ul>
 <%= link_to 'create', '#' %>
+
+<h4>Your Repositories</h4>
+<div id="my_repositories">
+  <div class="spinner"></div>
+</div>
+<%= include_javascripts :user_profile %>

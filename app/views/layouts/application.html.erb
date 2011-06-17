@@ -31,10 +31,6 @@
           <li class="<%= 'current' if active_page?("profiles#show") %>"><%= link_to "Profile", profile_path %></li>
         <% end %>
 
-        <% if user_signed_in? %>
-          <li><%= link_to "My repositories", '/#!/repositories/my' %></li>
-        <% end %>
-
         <% if user_signed_in? && current_user.is_admin? %>
           <li><%= link_to "Admin", '#' %></li>
         <% end %>
