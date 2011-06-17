@@ -1,6 +1,6 @@
 <%- title = "Build Update for #{@build.repository.slug}" -%>
 <%= title %>
-<%= '-' * title.size %>
+<%= '-' * (title.size + 20) %>
 
 Build : #<%= @build.number %>
 
@@ -11,10 +11,6 @@ Message : <%= @build.message %>
 
 Status : <%= @build.status_message %>
 
-View the changeset here : <%= @build.compare_url %>
+View the changeset : <%= @build.compare_url %>
 
-<% if @build.matrix? %>
-Build Matrix
-
-<%= print_build_matrix_summary(@build.matrix) %>
-<% end%>
+View the full build log and details : <%= user_repo_build_redirect_url(:user => @build.repository.owner_name, :repository => @build.repository.name, :id => @build.id )%>

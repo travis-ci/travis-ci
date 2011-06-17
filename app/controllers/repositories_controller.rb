@@ -69,4 +69,5 @@ class RepositoriesController < ApplicationController
       @repository ||= params[:id] ? Repository.find(params[:id]) : nil
     end
     helper_method :repository
+
 end
