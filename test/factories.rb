@@ -4,9 +4,8 @@
     f.owner_email 'svenfuchs@artweb-design.de'
     f.url  { |r| "http://github.com/#{r.owner_name}/#{r.name}" }
     f.last_duration 60
-    f.last_built_at { |r| Time.utc(2011, 01, 30, 5, 30) }
-    f.created_at    { |r| r.last_built_at - 5.minutes }
-    f.updated_at    { |r| r.last_built_at }
+    f.created_at { |r| Time.utc(2011, 01, 30, 5, 25) }
+    f.updated_at { |r| r.created_at + 5.minutes }
   end
 
   Factory.define :build do |f|

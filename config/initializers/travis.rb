@@ -1,7 +1,7 @@
 require 'travis'
 
 if Travis.config['redis']
-  Resque.redis  = Travis.config['redis']['url']
+  Resque.redis = ENV['REDIS_URL'] = Travis.config['redis']['url']
 end
 
 if Travis.config['pusher']

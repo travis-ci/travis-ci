@@ -3,6 +3,8 @@ require 'test_helper_rails'
 class BuildTest < ActiveSupport::TestCase
   include GithubApiTestHelper
 
+  Build.send(:public, :denormalize_to_repository?, :denormalize_to_repository)
+
   test 'creating a Build from Github payload' do
     Repository.delete_all
     Build.delete_all
@@ -116,6 +118,31 @@ class BuildTest < ActiveSupport::TestCase
     recipients = %w(recipient-1@email.com recipient-2@email.com)
     build = Factory(:build, :config => { 'notifications' => { 'recipients' => recipients } })
     assert_contains_recipients(build.unique_recipients, recipients)
+  end
+
+  test "denormalize_to_repository? is false for a newly created build" do
+    build = Factory(:build)
+    assert !build.denormalize_to_repository?
+  end
+
+  test "denormalize_to_repository? is true when started_at was just set" do
+    build = Factory(:build)
+    build.update_attributes!(:started_at => Time.now)
+    assert build.denormalize_to_repository?
+  end
+
+  test "denormalize_to_repository? is true when finished_at was just set" do
+    build = Factory(:build)
+    build.update_attributes!(:finished_at => Time.now)
+    assert build.denormalize_to_repository?
+  end
+
+  test "denormalize_to_repository denormalizes the build id, number, started_at, finished_at and status attributes to the build's repository" do
+    build = Factory(:build)
+    now = Time.now
+    build.update_attributes!(:number => 1, :started_at => now, :finished_at => now, :status => 2)
+    actual = build.repository.reload.attributes.slice(*%w(last_build_id last_build_number last_build_started_at last_build_finished_at last_build_status)).values
+    assert_equal [build.id, '1', now, now, 2], actual
   end
 
   protected

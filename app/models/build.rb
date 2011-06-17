@@ -98,6 +98,10 @@ class Build < ActiveRecord::Base
     status == 0
   end
 
+  def status_message
+    passed? ? 'Passed' : 'Failed'
+  end
+
   def color
     pending? ? '' : passed? ? 'green' : 'red'
   end
@@ -198,7 +202,7 @@ class Build < ActiveRecord::Base
     end
 
     def denormalize_to_repository?
-      parent_id.blank? && changed & %w(number status started_at finished_at)
+      parent_id.blank? && (was_started? || was_finished?)
     end
 
     def denormalize_to_repository
@@ -216,7 +220,7 @@ class Build < ActiveRecord::Base
     end
 
     def normalize_config(config)
-      ENV_KEYS.inject(config) do |config, key|
+      ENV_KEYS.inject(config.to_hash) do |config, key|
         config[key] = config[key].values if config[key].is_a?(Hash)
         config
       end
