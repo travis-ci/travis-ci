@@ -9,4 +9,3 @@ handler do |job|
 end
 
 every 5.seconds, 'travis.purge_dead_workers'
-
