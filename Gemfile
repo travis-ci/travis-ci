@@ -8,8 +8,8 @@ gem 'em-http-request',   '~> 0.3.0'
 gem 'em-websocket',      '~> 0.3.0'
 gem 'hoptoad_notifier',  '~> 2.4.9'
 gem 'jammit',            '~> 0.6.0'
-gem 'linecache19',       '~> 0.5.12', :platforms => :ruby_19
-gem 'linecache',         '0.43', :platforms => :ruby_18
+gem 'linecache19',       '~> 0.5.12', :platforms => :mri_19
+gem 'linecache',         '0.43', :platforms => :mri_18
 gem 'oa-oauth',          '0.2.0', :require => 'omniauth/oauth'
 gem 'pg',                '~> 0.11.0'
 gem 'pusher',            '~> 0.8.0'
