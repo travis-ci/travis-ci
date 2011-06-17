@@ -107,7 +107,6 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.jobs.add({ number: data.build.number, id: data.build.id, repository: { slug: data.slug } });
   },
   buildStarted: function(data) {
-    console.log(data)
     this.repositories.update(data);
     this.jobs.remove({ id: data.build.matrix ? data.build.matrix[0].id : data.build.id });
     if((this.followBuilds || this.tab == 'current' && this.repositories.selected().get('slug') == data.slug) && !this.buildId && !data.build.parent_id) {
@@ -117,6 +116,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }
   },
   buildConfigured: function(data) {
+    console.log(data)
     this.jobs.remove({ id: data.build.id });
     this.repositories.update(data);
   },
