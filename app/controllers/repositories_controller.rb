@@ -42,7 +42,7 @@ class RepositoriesController < ApplicationController
   end
 
   def create
-    @repository = Repository.find_or_create_by_name_and_owner_name(params[:name], params[:owner_name])
+    @repository = Repository.find_or_create_by_name_and_owner_name(params[:name], params[:owner])
     client = Octokit::Client.new(:oauth_token => current_user.github_oauth_token)
 
     # Octokit doesn't have internal error processing. Subscribe will throw an exception when fails. Further investigation + some use-cases will give a hint about what kind

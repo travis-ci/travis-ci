@@ -1,0 +1,34 @@
+@mixin centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin spinner {
+  background: url('/images/spinner.gif') no-repeat;
+  width: 16px;
+  height: 8px;
+  @include centered;
+}
+
+@mixin list-base {
+  .spinner {
+    @include centered;
+  }
+  > li {
+    padding: 5px;
+    border-bottom: 1px solid #CCC;
+    &:nth-child(even) {
+      background: rgba(0,0,0,.03);
+    }
+    &:hover {
+      background: rgba(0,0,0,.05);
+    }
+  }
+}
+
+.spinner {
+  background: url('/images/spinner.gif') no-repeat;
+  @include spinner;
+  width: 20px;
+  height: 20px;
+}
