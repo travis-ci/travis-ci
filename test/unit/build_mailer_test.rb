@@ -29,7 +29,8 @@ class BuildMailerTest < ActionMailer::TestCase
     assert_match /Duration : 1 hour, 17 minutes, and 7 seconds/,  email.encoded
     assert_match /Message : the commit message/,                  email.encoded
     assert_match /Status : Failed/,                               email.encoded
-    assert_match /View the changeset here : https:\/\/github.com\/foo\/bar-baz\/compare\/master\.\.\.develop/, email.encoded
+    assert_match /View the changeset : https:\/\/github.com\/foo\/bar-baz\/compare\/master\.\.\.develop/, email.encoded
+    assert_match /View the full build log and details : http:\/\/localhost:3000\/svenfuchs\/minimal\/builds\/1/, email.encoded
   end
 
   def test_finished_email_with_configured_email_addresses_as_array
@@ -53,7 +54,8 @@ class BuildMailerTest < ActionMailer::TestCase
     assert_match /Duration : 17 minutes and 7 seconds/, email.encoded
     assert_match /Message : the commit message/,         email.encoded
     assert_match /Status : Failed/,                      email.encoded
-    assert_match /View the changeset here : https:\/\/github.com\/foo\/bar-baz\/compare\/master\.\.\.develop/, email.encoded
+    assert_match /View the changeset : https:\/\/github.com\/foo\/bar-baz\/compare\/master\.\.\.develop/, email.encoded
+    assert_match /View the full build log and details : http:\/\/localhost:3000\/svenfuchs\/minimal\/builds\/1/, email.encoded
   end
 
   def test_finished_email_with_configured_email_address_as_string
@@ -77,6 +79,7 @@ class BuildMailerTest < ActionMailer::TestCase
     assert_match /Duration : 7 seconds/,         email.encoded
     assert_match /Message : the commit message/, email.encoded
     assert_match /Status : Failed/,              email.encoded
-    assert_match /View the changeset here : https:\/\/github.com\/foo\/bar-baz\/compare\/master\.\.\.develop/, email.encoded
+    assert_match /View the changeset : https:\/\/github.com\/foo\/bar-baz\/compare\/master\.\.\.develop/, email.encoded
+    assert_match /View the full build log and details : http:\/\/localhost:3000\/svenfuchs\/minimal\/builds\/1/, email.encoded
   end
 end
