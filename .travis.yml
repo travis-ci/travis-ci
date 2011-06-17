@@ -1,5 +1,6 @@
 script: "bundle exec rake db:drop db:create db:test:load test"
 rvm:
   - 1.8.7
-  - rbx-2.0
   - ree
+  - 1.9.2
+  - ruby-head
