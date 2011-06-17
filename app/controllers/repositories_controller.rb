@@ -51,7 +51,7 @@ class RepositoriesController < ApplicationController
       client.subscribe_service_hook(@repository.owner_name, @repository.name, "Travis", {
         :token => current_user.tokens.first.token,
         :user => current_user.login,
-        :domain => Travis.config['rails']['host']
+        :domain => Travis.config['domain']
       })
       render :json => @repository
     rescue
