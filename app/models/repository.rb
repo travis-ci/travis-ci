@@ -41,7 +41,7 @@ class Repository < ActiveRecord::Base
     @slug ||= [owner_name, name].join('/')
   end
 
-  base_attrs       = [:id, :slug]
+  base_attrs       = [:id]
   last_build_attrs = [:last_build_id, :last_build_number, :last_build_status, :last_build_started_at, :last_build_finished_at]
   all_attrs        = base_attrs + last_build_attrs
 
@@ -49,12 +49,11 @@ class Repository < ActiveRecord::Base
     :default            => all_attrs,
     :job                => base_attrs,
     :'build:queued'     => base_attrs,
-    :'build:configured' => [:id],
+    :'build:configured' => base_attrs,
     :'build:log'        => [:id]
   }
   JSON_METHODS = {
     :default            => [:slug],
-    :'build:configured' => [],
     :'build:log'        => []
   }
 
