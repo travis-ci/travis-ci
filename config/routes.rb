@@ -1,6 +1,8 @@
 require 'patches/rails_route_set'
 
 TravisCi::Application.routes.draw do
+  root :to => 'application#index'
+
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   as :user do
@@ -31,10 +33,8 @@ end
 
 # we want these AFTER rails admin is loaded
 TravisCi::Application.routes.append do
-  match ":user", :to => redirect("/#!/%{user}")
-  match ":user/:repository", :to => redirect("/#!/%{user}/%{repository}")
-  match ":user/:repository/builds", :to => redirect("/#!/%{user}/%{repository}/builds")
-  match ":user/:repository/builds/:id", :to => redirect("/#!/%{user}/%{repository}/builds/%{id}")
-
-  root :to => 'application#index'
+  match ":user", :to => redirect("/#!/%{user}"), :as => :user_redirect
+  match ":user/:repository", :to => redirect("/#!/%{user}/%{repository}"), :as => :user_repo_redirect
+  match ":user/:repository/builds", :to => redirect("/#!/%{user}/%{repository}/builds"), :as => :user_repo_builds_redirect
+  match ":user/:repository/builds/:id", :to => redirect("/#!/%{user}/%{repository}/builds/%{id}"), :as => :user_repo_build_redirect
 end
