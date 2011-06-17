@@ -699,7 +699,7 @@ ul#tokens {
   > li {
     min-height: 60px;
     position: relative;
-    .enable_travis {
+    .toggle_enabled {
       background: url('/images/icons/add.png') no-repeat;
       line-height: 16px;
       padding-left: 20px;
@@ -707,7 +707,10 @@ ul#tokens {
       font-size: 80%;
       position: absolute;
       bottom: 10px;
-      right: 10px
+      right: 10px;
+      &.on {
+        background-color: green;
+      }
     }
     .description {
       margin-right: 140px;
