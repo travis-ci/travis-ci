@@ -71,7 +71,8 @@ class JsonTest < ActiveSupport::TestCase
     assert_equal_hashes expected, build.as_json(:for => :'build:configured')
 
     expected = {
-      'id' => repository.id,
+      'id'  => repository.id,
+      :slug => 'svenfuchs/minimal'
     }
     assert_equal_hashes expected, repository.as_json(:for => :'build:configured')
   end
