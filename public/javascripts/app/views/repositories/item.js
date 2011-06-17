@@ -43,10 +43,10 @@ Travis.Views.Repositories.Item = Backbone.View.extend({
 
 Travis.Views.Repositories.MyItem = Backbone.View.extend({
   events: {
-    'click a.enable_travis': 'enableTravis'
+    'click a.toggle_enabled': 'toggleEnabled'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'enableTravis', 'onTravisEnabled');
+    _.bindAll(this, 'render', 'toggleEnabled', 'onToggle');
     this.template = Travis.templates['repositories/my_item'];
   },
   render: function() {
@@ -54,13 +54,19 @@ Travis.Views.Repositories.MyItem = Backbone.View.extend({
     this.delegateEvents()
     return this;
   },
-  enableTravis: function(e) {
+  toggleEnabled: function(e) {
     e.preventDefault()
-    this.model.save({},{
-      success: this.onTravisEnabled
+    console.log(this.model.get('travis_enabled'))
+    this.model.set
+    this.model.save({ travis_enabled: !this.model.get('travis_enabled') }, {
+      success: this.onToggle
     });
   },
-  onTravisEnabled: function() {
-    this.el.find('.enable_travis').hide('fade')
+  onToggle: function() {
+    console.log(this.model.get('travis_enabled'))
+    if (this.model.get('travis_enabled'))
+      this.el.find('.toggle_enabled').addClass('on')
+    else
+      this.el.find('.toggle_enabled').removeClass('on')
   }
 });
