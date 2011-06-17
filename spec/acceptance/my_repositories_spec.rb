@@ -12,12 +12,11 @@ feature "Feature name", %(
     stub_request(:get, "https://github.com/api/v2/json/repos/show/nickname").to_return(:status => 200, :body => File.open("./spec/fixtures/github_user_repos.json").read)
     mock_omniauth
 
-    visit "/"
+    visit homepage
     click_link 'Sign in with Github'
     should_see_text 'name'
 
-    click_link 'My repositories'
-
+    visit profile_page
     should_see_text 'safemode'
     should_see_text 'scriptaculous-sortabletree'
   end
