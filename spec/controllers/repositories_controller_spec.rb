@@ -6,18 +6,36 @@ describe RepositoriesController do
 
   describe "POST 'create'" do
     before(:each) do
-      sign_in_user Factory.create(:user, :github_oauth_token => "myfaketoken")
+      @user = Factory.create(:user, :github_oauth_token => "myfaketoken")
+      sign_in_user @user
+      stub_request(:post, "https://api.github.com/hub?access_token=myfaketoken").to_return(:status => 200, :body => "")
     end
 
-    it "should be success and return success code 'true'" do
-      stub_request(:post, "https://api.github.com/hub?access_token=myfaketoken").to_return(:status => 200, :body => "")
+    it "should be success" do
+      post :create, :name => "travis-ci", :owner_name => "sven"
+      response.should be_success
+    end
+
+    it "should create a repository record in database" do
       post :create, :name => "travis-ci", :owner_name => "sven"
 
-      response.should be_success
       Repository.all.count.should eql 1
       repository = Repository.all.first
       repository.owner_name.should eql "sven"
       repository.name.should eql "travis-ci"
+    end
+
+    it "should redirect when used is not signed in" do
+      sign_out @user
+      post :create, :name => "travis-ci", :owner_name => "sven"
+
+      response.should be_redirect
+    end
+
+    it "should send request to Github pubsub" do
+      post :create, :name => "travis-ci", :owner_name => "sven"
+
+      assert_requested :post, "https://api.github.com/hub?access_token=myfaketoken", :times => 1
     end
   end
 
