@@ -41,7 +41,7 @@ class Repository < ActiveRecord::Base
     @slug ||= [owner_name, name].join('/')
   end
 
-  base_attrs       = [:id]
+  base_attrs       = [:id, :slug]
   last_build_attrs = [:last_build_id, :last_build_number, :last_build_status, :last_build_started_at, :last_build_finished_at]
   all_attrs        = base_attrs + last_build_attrs
 
