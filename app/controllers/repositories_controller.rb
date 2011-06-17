@@ -55,7 +55,7 @@ class RepositoriesController < ApplicationController
       })
       render :json => @repository
     rescue
-      render :json => { :success => false }, :status => :not_acceptable
+      render :json => @repository, :status => :not_acceptable
     end
   end
 
