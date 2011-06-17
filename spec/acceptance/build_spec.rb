@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/acceptance_helper'
 
-
-feature "Feature name", %(
+feature "Builds", %(
   As a non-registered user
   I should see current build processes
 ) do
@@ -20,10 +19,7 @@ feature "Feature name", %(
 
   scenario "build gets queued" do
     visit "/"
-    page.evaluate_script("trigger('jobs', 'build:queued', '#{build_queued_event_info.to_json}' )")
-
-    wait_until do
-      find :xpath, "//*[contains(text(), 'rails/rails')]"
-    end
+    dispatch_pusher_command 'jobs', 'build:queued', build_queued_event_info
+    should_see_text 'rails/rails'
   end
 end
