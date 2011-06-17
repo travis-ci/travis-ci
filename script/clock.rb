@@ -1,3 +1,5 @@
+$: << 'lib'
+
 require 'travis'
 require 'resque/heartbeat'
 
