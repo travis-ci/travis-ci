@@ -15,8 +15,8 @@ class Build < ActiveRecord::Base
   serialize :config
 
   before_save :expand_matrix!, :if => :expand_matrix?
-  after_save :denormalize_to_repository, :if => :denormalize_to_repository?
-  after_save :propagate_status_to_parent, :if => :was_finished?
+  after_save :was_started,     :if => :was_started?
+  after_save :was_finished,    :if => :was_finished?
 
   class << self
     def create_from_github_payload(payload)
@@ -70,20 +70,20 @@ class Build < ActiveRecord::Base
     started_at.present?
   end
 
-  def was_started?
-    started? && (started_at_changed? || @previously_changed.keys.include?('started_at'))
-  end
-
   def configured?
     config.present?
   end
 
-  def was_configured?
-    configured? && (config_changed? || @previously_changed.keys.include?('config'))
-  end
-
   def finished?
     finished_at.present?
+  end
+
+  def was_started?
+    started? && (started_at_changed? || @previously_changed.keys.include?('started_at'))
+  end
+
+  def was_configured?
+    configured? && (config_changed? || @previously_changed.keys.include?('config'))
   end
 
   def was_finished?
@@ -114,8 +114,8 @@ class Build < ActiveRecord::Base
     self.class.matrix?(@previously_changed['config'][1]) rescue false # TODO how to use some public AR API?
   end
 
-  def update_matrix_status!
-    update_attributes!(:status => matrix.map(&:status).include?(1) ? 1 : 0, :finished_at => Time.now) if matrix.all?(&:finished?)
+  def matrix_status
+    matrix.map(&:status).include?(1) ? 1 : 0 if matrix? && matrix.all?(&:finished?)
   end
 
   all_attrs = [:id, :repository_id, :parent_id, :number, :commit, :branch, :message, :status, :log, :started_at, :finished_at,
@@ -201,23 +201,32 @@ class Build < ActiveRecord::Base
       matrix.call(config).uniq
     end
 
-    def denormalize_to_repository?
-      # parent_id.blank? && (was_started? || was_finished?)
-      was_started? || was_finished?
+    def was_started
+      if parent
+        parent.update_attributes!(:started_at => started_at)
+        denormalize_to_repository(parent)
+      else
+        denormalize_to_repository(self)
+      end
     end
 
-    def denormalize_to_repository
+    def was_finished
+      if parent
+        parent.update_attributes!(:status => parent.matrix_status, :finished_at => Time.now) if parent
+        denormalize_to_repository(parent)
+      else
+        denormalize_to_repository(self)
+      end
+    end
+
+    def denormalize_to_repository(build)
       repository.update_attributes!(
-        :last_build_id => id,
-        :last_build_number => number,
-        :last_build_status => status,
-        :last_build_started_at => started_at,
-        :last_build_finished_at => finished_at
+        :last_build_id => build.id,
+        :last_build_number => build.number,
+        :last_build_status => build.status,
+        :last_build_started_at => build.started_at,
+        :last_build_finished_at => build.finished_at
       )
-    end
-
-    def propagate_status_to_parent
-      parent.update_matrix_status! if was_finished? && parent
     end
 
     def normalize_config(config)
