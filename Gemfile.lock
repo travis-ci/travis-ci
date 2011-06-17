@@ -116,7 +116,6 @@ GEM
       yui-compressor (>= 0.9.3)
     json (1.5.1)
     json (1.5.1-java)
-    json (1.5.2-java)
     json_pure (1.5.2)
     kgio (2.5.0)
     linecache (0.45)
@@ -135,8 +134,9 @@ GEM
     multi_json (1.0.3)
     multi_xml (0.2.2)
     multipart-post (1.1.2)
-    nokogiri (1.4.6)
-    nokogiri (1.4.6-java)
+    newrelic_rpm (3.1.0)
+    nokogiri (1.4.4)
+    nokogiri (1.4.4-java)
       weakling (>= 0.0.3)
     oa-core (0.2.6)
     oa-oauth (0.2.6)
@@ -281,6 +281,7 @@ DEPENDENCIES
   minitest
   minitest_tu_shim
   mocha
+  newrelic_rpm (~> 3.1.0)
   oa-oauth (~> 0.2.6)
   octokit!
   pg (~> 0.11.0)
