@@ -12,7 +12,8 @@ GIT
 
 GIT
   remote: https://github.com/svenfuchs/resque-heartbeat.git
-  revision: e159e71f9a2d8202e3a87c23113c2cf2bcee6a95
+  revision: ba7a89f504906182635ec2cecbed5bd52a557aa6
+  ref: ba7a89f
   specs:
     resque-heartbeat (0.0.2)
       resque (~> 1.17.0)
