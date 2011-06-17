@@ -5,7 +5,7 @@ class BuildsController < ApplicationController
 
   def index
     if repository = Repository.find(params[:repository_id])
-      render :json => repository.builds.started.order('id DESC').limit(10).as_json
+      render :json => repository.builds.recent_build_list
     end
   end
 
