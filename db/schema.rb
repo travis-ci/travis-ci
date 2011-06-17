@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110616211744) do
+ActiveRecord::Schema.define(:version => 20110617114728) do
 
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20110616211744) do
   end
 
   add_index "builds", ["parent_id"], :name => "index_builds_on_parent_id"
+  add_index "builds", ["repository_id", "parent_id", "started_at"], :name => "index_builds_on_repository_id_and_parent_id_and_started_at"
   add_index "builds", ["repository_id"], :name => "index_builds_on_repository_id"
 
   create_table "rails_admin_histories", :force => true do |t|
@@ -67,6 +68,9 @@ ActiveRecord::Schema.define(:version => 20110616211744) do
     t.string   "owner_name"
     t.text     "owner_email"
   end
+
+  add_index "repositories", ["last_build_started_at"], :name => "index_repositories_on_last_build_started_at"
+  add_index "repositories", ["owner_name", "name"], :name => "index_repositories_on_owner_name_and_name"
 
   create_table "tokens", :force => true do |t|
     t.integer  "user_id"
