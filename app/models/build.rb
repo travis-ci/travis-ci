@@ -217,7 +217,7 @@ class Build < ActiveRecord::Base
 
     def was_finished
       if parent
-        parent.update_attributes!(:status => parent.matrix_status, :finished_at => Time.now) if parent
+        parent.update_attributes!(:status => parent.matrix_status, :finished_at => Time.now)
         denormalize_to_repository(parent)
       else
         denormalize_to_repository(self)
@@ -225,13 +225,17 @@ class Build < ActiveRecord::Base
     end
 
     def denormalize_to_repository(build)
-      repository.update_attributes!(
+      attributes = {
         :last_build_id => build.id,
         :last_build_number => build.number,
-        :last_build_status => build.status,
         :last_build_started_at => build.started_at,
+      }
+      attributes.merge!(
+        :last_build_status => build.status,
         :last_build_finished_at => build.finished_at
-      )
+      ) if !build.matrix? || build.matrix.all?(&:finished?)
+
+      repository.update_attributes!(attributes)
     end
 
     def normalize_config(config)

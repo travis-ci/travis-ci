@@ -120,30 +120,34 @@ class BuildTest < ActiveSupport::TestCase
     assert_contains_recipients(build.unique_recipients, recipients)
   end
 
-  # test "denormalize_to_repository? is false for a newly created build" do
-  #   build = Factory(:build)
-  #   assert !build.denormalize_to_repository?
-  # end
+  test "denormalize_to_repository denormalizes the build id, number and started_at attributes to the build's repository" do
+    build = Factory(:build)
+    now = Time.now.utc
+    build.update_attributes!(:number => 1, :started_at => now)
 
-  # test "denormalize_to_repository? is true when started_at was just set" do
-  #   build = Factory(:build)
-  #   build.update_attributes!(:started_at => Time.now)
-  #   assert build.denormalize_to_repository?
-  # end
+    actual = build.repository.reload.attributes.slice(*%w(last_build_id last_build_number last_build_started_at)).values
+    assert_equal [build.id, '1', now.utc], actual
+  end
 
-  # test "denormalize_to_repository? is true when finished_at was just set" do
-  #   build = Factory(:build)
-  #   build.update_attributes!(:finished_at => Time.now)
-  #   assert build.denormalize_to_repository?
-  # end
+  test "denormalize_to_repository denormalizes the build status and finished_at attributes to the build's repository if this is not a matrix build" do
+    build = Factory(:build)
+    now = Time.now.utc
+    build.update_attributes!(:finished_at => now, :status => 0)
 
-  # test "denormalize_to_repository denormalizes the build id, number, started_at, finished_at and status attributes to the build's repository" do
-  #   build = Factory(:build)
-  #   now = Time.now
-  #   build.update_attributes!(:number => 1, :started_at => now, :finished_at => now, :status => 2)
-  #   actual = build.repository.reload.attributes.slice(*%w(last_build_id last_build_number last_build_started_at last_build_finished_at last_build_status)).values
-  #   assert_equal [build.id, '1', now, now, 2], actual
-  # end
+    actual = build.repository.reload.attributes.slice(*%w(last_build_status last_build_finished_at)).values
+    assert_equal [0, now], actual
+  end
+
+  test "denormalize_to_repository denormalizes the build status and finished_at attributes to the build's repository if this is a matrix build and all children have finished" do
+    build = Factory(:build, :matrix => [Factory(:build), Factory(:build)], :config => { 'rvm' => ['1.8.7', '1.9.2'] })
+    now = Time.now.utc
+    build.matrix.first.update_attributes!(:finished_at => now, :status => 0)
+    build.matrix.last.update_attributes!(:finished_at => now, :status => 0)
+
+    actual = build.repository.reload.attributes.slice(*%w(last_build_status last_build_finished_at)).values
+    actual[1] = actual[1].utc.to_s # hrmmm
+    assert_equal [0, now.to_s], actual
+  end
 
   protected
 
