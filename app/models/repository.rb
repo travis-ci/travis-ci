@@ -45,9 +45,9 @@ class Repository < ActiveRecord::Base
         Travis::GitHubApi.add_service_hook(repo, user) if repo.valid?
         repo.save!
         repo
+      else
+        raise ActiveRecord::RecordInvalid, repo
       end
-    ensure
-      repo
     end
   end
 
