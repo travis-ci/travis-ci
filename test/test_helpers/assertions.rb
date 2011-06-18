@@ -1,53 +1,55 @@
-module Assertions
-  def assert_flunks(message)
-    _wrap_assertion do
-      exception = nil
+module TestHelpers
+  module Assertions
+    def assert_flunks(message)
+      _wrap_assertion do
+        exception = nil
 
-      begin
-        yield
-      rescue Exception => e
-        exception = e
-      end
+        begin
+          yield
+        rescue Exception => e
+          exception = e
+        end
 
-      if exception.nil?
-        flunk("expected <Test::Unit::AssertionFailedError #{message}> to be raised but nothing was raised.")
-      elsif !exception.is_a?(Test::Unit::AssertionFailedError) || (message != exception.message)
-        flunk("expected #<Test::Unit::AssertionFailedError: #{message.inspect}> to be raised but raised #<#{exception.class}: #{exception.message.inspect}>.")
+        if exception.nil?
+          flunk("expected <Test::Unit::AssertionFailedError #{message}> to be raised but nothing was raised.")
+        elsif !exception.is_a?(Test::Unit::AssertionFailedError) || (message != exception.message)
+          flunk("expected #<Test::Unit::AssertionFailedError: #{message.inspect}> to be raised but raised #<#{exception.class}: #{exception.message.inspect}>.")
+        end
       end
     end
-  end
 
-  def assert_equal_hashes(expected, actual)
-    diff = lambda do |lft_hash, rgt_hash, stack|
-      result = lft_hash.inject([]) do |result, (key, lft)|
-        stack << key
-        rgt = rgt_hash[key] rescue nil
-        if lft.is_a?(Hash) && rgt.is_a?(Hash)
-          result += diff.call(lft, rgt, stack)
-        elsif lft != rgt
-          result << [lft, rgt, stack.dup]
+    def assert_equal_hashes(expected, actual)
+      diff = lambda do |lft_hash, rgt_hash, stack|
+        result = lft_hash.inject([]) do |result, (key, lft)|
+          stack << key
+          rgt = rgt_hash[key] rescue nil
+          if lft.is_a?(Hash) && rgt.is_a?(Hash)
+            result += diff.call(lft, rgt, stack)
+          elsif lft != rgt
+            result << [lft, rgt, stack.dup]
+          end
+          stack.pop
+          result
         end
-        stack.pop
         result
       end
-      result
-    end
 
-    format = lambda do |data|
-      lft, rgt, stack = *data
-      "Expected #{stack.inject(['actual']) { |result, key| result << "[#{key.inspect}]" }} to be: #{lft.inspect} but was: #{rgt.inspect}" if stack
-    end
-    revert = lambda do |data|
-      lft, rgt, stack = *data
-      [rgt, lft, stack]
-    end
+      format = lambda do |data|
+        lft, rgt, stack = *data
+        "Expected #{stack.inject(['actual']) { |result, key| result << "[#{key.inspect}]" }} to be: #{lft.inspect} but was: #{rgt.inspect}" if stack
+      end
+      revert = lambda do |data|
+        lft, rgt, stack = *data
+        [rgt, lft, stack]
+      end
 
-    messages  = diff.call(expected, actual, []).map(&format)
-    messages += diff.call(actual, expected, []).map(&revert).map(&format)
-    messages  = messages.uniq.compact
+      messages  = diff.call(expected, actual, []).map(&format)
+      messages += diff.call(actual, expected, []).map(&revert).map(&format)
+      messages  = messages.uniq.compact
 
-    defined?(MiniTest) ? self._assertions += 1 : add_assertion
-    flunk(messages.join("\n")) unless messages.empty?
+      defined?(MiniTest) ? self._assertions += 1 : add_assertion
+      flunk(messages.join("\n")) unless messages.empty?
+    end
   end
 end
 
@@ -56,7 +58,7 @@ if __FILE__ == $0
   require 'assertions/assert_flunks'
 
   class AssertEqualHashTest < Test::Unit::TestCase
-    include Assertions
+    include TestHelpers::Assertions
 
     def test_identical_hashes
       expected = { 1 => 2 }

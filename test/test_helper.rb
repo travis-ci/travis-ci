@@ -1,36 +1,41 @@
 ENV['RAILS_ENV'] ||= 'test'
+require File.expand_path('../../config/environment', __FILE__)
+require 'rails/test_help'
 
-begin
-  require 'ruby-debug'
-rescue LoadError => e
-  puts e.message
-end
-require 'bundler/setup'
-
-require 'active_record'
-require 'test/unit'
 require 'test_declarative'
 require 'mocha'
 require 'fakeredis'
 
 require 'travis'
 
+# load all the test helpers
 Dir["#{File.expand_path('../test_helpers/**/*.rb', __FILE__)}"].each do |helper|
   require helper
 end
 
-class Test::Unit::TestCase
-  include Assertions, TestHelper::Redis
+
+class ActiveSupport::TestCase
+  include TestHelpers::Assertions
+  include TestHelpers::Redis
+
+  DatabaseCleaner.strategy = :truncation
 
   def setup
     Mocha::Mockery.instance.verify
-    Resque.redis = FakeRedis::Redis.new
+
+    Travis.pusher = TestHelpers::Mocks::Pusher.new
+    Resque.redis  = FakeRedis::Redis.new
+
+    DatabaseCleaner.start
+
+    super
+  end
+
+  def teardown
+    Travis.pusher = nil
+
+    DatabaseCleaner.clean
+
+    super
   end
 end
-
-# class TestMochaTest < ActiveSupport::TestCase
-#   def test_mocha_expectation
-#     object = Object.new
-#     object.expects(:foo)
-#   end
-# end

@@ -1,16 +1,18 @@
-require 'test_helper_rails'
+require 'test_helper'
 
 class BuildsControllerTest < ActionDispatch::IntegrationTest
-  include GithubApiTestHelper
+  include TestHelpers::GithubApiTestHelper
 
   attr_reader :channel, :build
 
   def setup
     super
+
     flush_redis
 
-    @build = Factory(:build).reload
-    @channel = Mocks::Channel.new
+    @build   = Factory(:build).reload
+    @channel = TestHelpers::Mocks::Channel.new
+
     Pusher.stubs(:[]).returns(channel)
   end
 

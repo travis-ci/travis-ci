@@ -2,7 +2,7 @@ require 'test_helper'
 require 'github'
 
 class GithubTest < ActiveSupport::TestCase
-  include GithubApiTestHelper
+  include TestHelpers::GithubApiTestHelper
 
   test 'Github payload repository' do
     data = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
