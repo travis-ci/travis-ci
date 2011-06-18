@@ -1,3 +1,4 @@
+bundler_args: "--without development"
 script: "bundle exec rake db:drop db:create db:test:load test"
 rvm:
   - 1.8.7
