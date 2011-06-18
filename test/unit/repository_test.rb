@@ -79,6 +79,14 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     end
   end
 
+  test "find_or_create_and_add_service_hook: raises an error if the record is invalid" do
+    user = Factory.create(:user)
+
+    assert_raise(ActiveRecord::RecordInvalid) do
+      Repository.find_or_create_and_add_service_hook('svenfuchs', nil, user)
+    end
+  end
+
   test '.timeline sorts the most repository with the most recent build to the top' do
     repositories = Repository.timeline.all
     assert_equal repository_2, repositories.first

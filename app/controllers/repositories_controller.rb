@@ -47,8 +47,7 @@ class RepositoriesController < ApplicationController
     repository = Repository.find_or_create_and_add_service_hook(*args)
 
     render :json => repository
-
-  rescue ActiveRecord::InvalidRecord, Travis::GitHubApi::ServiceHookError => e
+  rescue ActiveRecord::RecordInvalid, Travis::GitHubApi::ServiceHookError => e
     render :json => repository, :status => :not_acceptable
   end
 
