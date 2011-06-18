@@ -72,7 +72,11 @@ class JsonTest < ActiveSupport::TestCase
 
     expected = {
       'id'  => repository.id,
-      :slug => 'svenfuchs/minimal'
+      :slug => 'svenfuchs/minimal',
+      'last_build_id' => build.id,
+      'last_build_number' => '1',
+      'last_build_started_at' => now,
+      'last_build_finished_at' => nil
     }
     assert_equal_hashes expected, repository.as_json(:for => :'build:configured')
   end
