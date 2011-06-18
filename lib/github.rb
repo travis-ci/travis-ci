@@ -61,6 +61,10 @@ module Github
     end
 
     def owner_email
+      if owner.is_a?(Hash) && email = owner['email']
+        return email if email
+      end
+
       if organization
         Organization.fetch(:name => organization).member_emails
       else
