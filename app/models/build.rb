@@ -148,7 +148,7 @@ class Build < ActiveRecord::Base
   end
 
   def send_notifications?
-    notifications_enabled? && (matrix? ? matrix_finished? : finished?) && unique_recipients.present?
+    (matrix? || parent.matrix? ? parent.matrix_finished? : finished?) && notifications_enabled? && unique_recipients.present?
   end
 
   # at some point we might want to move this to a Notifications manager that abstracts email and other types of notifications
