@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BuildTest < ActiveSupport::TestCase
+class BuildMatrixTest < ActiveSupport::TestCase
   Build.send(:public, :expand_matrix!, :matrix_config, :expand_matrix_config)
 
   attr_reader :config
@@ -198,18 +198,18 @@ class BuildTest < ActiveSupport::TestCase
   #   assert_equal nil, build.reload.status
   # end
 
-  test 'update_matrix_status! sets the status to 1 if any child has the status 1' do
+  test 'matrix_status returns 1 if any child has the status 1' do
     build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'] })
     build.matrix[0].update_attributes(:status => 1, :finished_at => Time.now)
     build.matrix[1].update_attributes(:status => 0, :finished_at => Time.now)
-    assert_equal 1, build.reload.status
+    assert_equal 1, build.matrix_status
   end
 
-  test 'update_matrix_status! sets the status to 0 if all children have the status 0' do
+  test 'matrix_status returns 0 if all children have the status 0' do
     build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'] })
     build.matrix[0].update_attributes(:status => 0, :finished_at => Time.now)
     build.matrix[1].update_attributes(:status => 0, :finished_at => Time.now)
-    assert_equal 0, build.reload.status
+    assert_equal 0, build.matrix_status
   end
 
   test 'matrix build as_json' do
