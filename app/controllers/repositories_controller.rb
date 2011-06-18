@@ -42,26 +42,24 @@ class RepositoriesController < ApplicationController
   end
 
   def create
-    @repository = Repository.find_or_create_by_name_and_owner_name(params[:name], params[:owner])
-    client = Octokit::Client.new(:oauth_token => current_user.github_oauth_token)
+    args = [params[:name], params[:owner], current_user]
 
-    # Octokit doesn't have internal error processing. Subscribe will throw an exception when fails. Further investigation + some use-cases will give a hint about what kind
-    # of error handling might be useful here.
-    begin
-      client.subscribe_service_hook(@repository.owner_name, @repository.name, "Travis", {
-        :token => current_user.tokens.first.token,
-        :user => current_user.login,
-        :domain => Travis.config['domain']
-      })
-      render :json => @repository
-    rescue
-      render :json => @repository, :status => :not_acceptable
-    end
+    repository = Repository.find_or_create_and_add_service_hook(*args)
+
+    render :json => repository
+
+  rescue ActiveRecord::InvalidRecord, Travis::GitHubApi::ServiceHookError => e
+    render :json => repository, :status => :not_acceptable
   end
 
   protected
     def repositories
-      repos = params[:owner_name] ? Repository.where(:owner_name => params[:owner_name]).timeline : Repository.timeline.recent
+      repos = if params[:owner_name]
+          Repository.where(:owner_name => params[:owner_name]).timeline
+        else
+          Repository.timeline.recent
+        end
+
       params[:search].present? ? repos.search(params[:search]) : repos
     end
 

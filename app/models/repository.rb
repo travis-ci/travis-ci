@@ -1,5 +1,6 @@
 require 'uri'
 require 'core_ext/hash/compact'
+require 'travis/git_hub_api'
 
 class Repository < ActiveRecord::Base
 
@@ -36,6 +37,17 @@ class Repository < ActiveRecord::Base
 
     def search(query)
       where("repositories.name LIKE ? OR repositories.owner_name LIKE ?", "%#{query}%", "%#{query}%")
+    end
+
+    def find_or_create_and_add_service_hook(owner_name, name, user)
+      repo = find_or_initialize_by_name_and_owner_name(name, owner_name)
+      if repo.valid?
+        Travis::GitHubApi.add_service_hook(repo, user) if repo.valid?
+        repo.save!
+        repo
+      end
+    ensure
+      repo
     end
   end
 
