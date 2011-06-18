@@ -35,7 +35,6 @@ group :test do
   gem 'factory_girl_rails'
   gem 'mocha'
   gem 'test_declarative'
-  gem 'web-socket-ruby'
   gem 'fakeredis'
   gem 'webmock'
 
@@ -43,17 +42,24 @@ group :test do
     gem 'minitest'
     gem 'minitest_tu_shim'
   end
+end
 
+group :development, :test do
+  gem 'steak',        '~> 1.1.0'
+  gem 'rspec-rails',  '~> 2.6.1'
+end
+
+group :development do
   platforms :mri_18 do
     # required as linecache uses it but does not have it as a dep
     gem "require_relative", "~> 1.0.1"
     gem 'ruby-debug'
   end
 
-  gem 'ruby-debug19', :platforms => :mri_19 unless RUBY_VERSION == 'ruby-head'
-end
-
-group :development, :test do
-  gem 'steak',        '~> 1.1.0'
-  gem 'rspec-rails',  '~> 2.6.1'
+  # sadly ruby-debug19 (linecache19) doesn't
+  # work with ruby-head, but we don't use this in
+  # development so this should cover us just in case
+  unless RUBY_VERSION == '1.9.3'
+    gem 'ruby-debug19', :platforms => :mri_19
+  end
 end
