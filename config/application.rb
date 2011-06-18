@@ -15,6 +15,8 @@ module TravisCi
     config.serve_static_assets = true
     config.action_controller.page_cache_directory = root.join('tmp/assets')
 
+    config.active_record.default_timezone = :utc
+
     ActiveRecord::Base.include_root_in_json = false
   end
 end
