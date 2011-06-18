@@ -22,8 +22,9 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
   end
 
   test 'find_or_create_by_github_repository: finds an existing repository' do
-    data = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
+    data    = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
     payload = Github::ServiceHook::Payload.new(data)
+
     assert_equal repository_1, Repository.find_or_create_by_github_repository(payload.repository)
   end
 
@@ -35,7 +36,47 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     attribute_names = ['name', 'owner_name', 'owner_email', 'url']
     expected = repository_1.attributes.slice(*attribute_names)
     actual   = Repository.find_or_create_by_github_repository(payload.repository).attributes.slice(*attribute_names)
+
     assert_equal expected, actual
+  end
+
+  test "find_or_create_and_add_service_hook: finds an existing repo and adds a service hook" do
+    stub_request(:post, "https://api.github.com/hub").
+      to_return(:status => 200, :body => "", :headers => {})
+
+    minimal = Factory.create(:repository)
+    user    = Factory.create(:user)
+
+    assert_no_difference('Repository.count') do
+      with_hook = Repository.find_or_create_and_add_service_hook('svenfuchs', 'minimal', user)
+
+      assert with_hook.persisted?
+      assert_equal minimal, with_hook
+    end
+  end
+
+  test "find_or_create_and_add_service_hook: creates a new repo and adds a service hook" do
+    stub_request(:post, "https://api.github.com/hub").
+      to_return(:status => 200, :body => "", :headers => {})
+
+    user = Factory.create(:user)
+
+    assert_difference('Repository.count', 1) do
+      new_repo = Repository.find_or_create_and_add_service_hook('svenfuchs', 'not-so-minimal', user)
+
+      assert new_repo.persisted?
+    end
+  end
+
+  test "find_or_create_and_add_service_hook: raises an error if the service hook can't be added" do
+    stub_request(:post, "https://api.github.com/hub").
+      to_return(:status => 422, :body => '{ "message":"test message" }', :headers => {})
+
+    user = Factory.create(:user)
+
+    assert_raise(Travis::GitHubApi::ServiceHookError) do
+      Repository.find_or_create_and_add_service_hook('svenfuchs', 'not-so-minimal', user)
+    end
   end
 
   test '.timeline sorts the most repository with the most recent build to the top' do
