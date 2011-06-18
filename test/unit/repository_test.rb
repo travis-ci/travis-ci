@@ -74,7 +74,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
 
     user = Factory.create(:user)
 
-    assert_raise(Travis::GitHubApi::ServiceHookError) do
+    assert_raises(Travis::GitHubApi::ServiceHookError) do
       Repository.find_or_create_and_add_service_hook('svenfuchs', 'not-so-minimal', user)
     end
   end
@@ -82,7 +82,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
   test "find_or_create_and_add_service_hook: raises an error if the record is invalid" do
     user = Factory.create(:user)
 
-    assert_raise(ActiveRecord::RecordInvalid) do
+    assert_raises(ActiveRecord::RecordInvalid) do
       Repository.find_or_create_and_add_service_hook('svenfuchs', nil, user)
     end
   end
