@@ -178,6 +178,22 @@ class BuildMatrixTest < ActiveSupport::TestCase
     assert_equal ['2.1', '2.2', '2.3', '2.4'], build.matrix.map(&:number)
   end
 
+  test 'matrix_finished? returns false if at least one child build has not finished' do
+    build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'] })
+    build.matrix[0].update_attributes(:finished_at => Time.now)
+    build.matrix[1].update_attributes(:finished_at => nil)
+
+    assert !build.matrix_finished?
+  end
+
+  test 'matrix_finished? returns true if all child builds have finished' do
+    build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'] })
+    build.matrix[0].update_attributes(:finished_at => Time.now)
+    build.matrix[1].update_attributes(:finished_at => Time.now)
+
+    assert build.matrix_finished?
+  end
+
   test 'matrix_expanded? returns true if the matrix has just been expanded' do
     assert Factory(:build, :config => config).matrix_expanded?
   end
