@@ -148,6 +148,13 @@ class Build < ActiveRecord::Base
   end
 
   def send_notifications?
+    Rails.logger.info('-' * 80)
+    Rails.logger.info("self: #{self.inspect}")
+    Rails.logger.info("parent: #{parent.inspect}") if parent
+    Rails.logger.info("parent.matrix_finished?: #{parent.matrix_finished?}") if parent
+    Rails.logger.info("finished?: #{finished?}") unless parent
+    Rails.logger.info("notifications_enabled?: #{notifications_enabled?}")
+    Rails.logger.info("unique_recipients.present?: #{unique_recipients.present?}")
     (parent ? parent.matrix_finished? : finished?) && notifications_enabled? && unique_recipients.present?
   end
 
