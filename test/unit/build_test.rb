@@ -122,11 +122,11 @@ class BuildTest < ActiveSupport::TestCase
 
   test "denormalize_to_repository denormalizes the build id, number and started_at attributes to the build's repository" do
     build = Factory(:build)
-    now = Time.now.utc
+    now = Time.current
     build.update_attributes!(:number => 1, :started_at => now)
 
     actual = build.repository.reload.attributes.slice(*%w(last_build_id last_build_number last_build_started_at)).values
-    assert_equal [build.id, '1', now.utc], actual
+    assert_equal [build.id, '1', now], actual
   end
 
   test "denormalize_to_repository denormalizes the build status and finished_at attributes to the build's repository if this is not a matrix build" do
