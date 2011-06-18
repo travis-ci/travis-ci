@@ -1,4 +1,4 @@
-require 'test_helper_rails'
+require 'test_helper'
 
 class BuildTest < ActiveSupport::TestCase
   Build.send(:public, :expand_matrix!, :matrix_config, :expand_matrix_config)

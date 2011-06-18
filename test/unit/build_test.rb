@@ -1,7 +1,7 @@
-require 'test_helper_rails'
+require 'test_helper'
 
 class BuildTest < ActiveSupport::TestCase
-  include GithubApiTestHelper
+  include TestHelpers::GithubApiTestHelper
 
   # Build.send(:public, :denormalize_to_repository?, :denormalize_to_repository)
 

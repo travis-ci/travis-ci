@@ -1,4 +1,4 @@
-require 'test_helper_rails'
+require 'test_helper'
 
 class JsonTest < ActiveSupport::TestCase
   attr_reader :now, :build, :repository

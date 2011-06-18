@@ -1,4 +1,4 @@
-require 'test_helper_rails'
+require 'test_helper'
 
 class ApplicationHelperTest < ActionView::TestCase
   test '#active_page? returns true when the given route matches the current page' do
