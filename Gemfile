@@ -50,7 +50,7 @@ group :test do
     gem 'ruby-debug'
   end
 
-  gem 'ruby-debug19', :platforms => :mri_19
+  gem 'ruby-debug19', :platforms => :mri_19 unless RUBY_VERSION == 'ruby-head'
 end
 
 group :development, :test do
