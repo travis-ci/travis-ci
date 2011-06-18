@@ -58,6 +58,7 @@ GEM
     arel (2.0.10)
     bcrypt-ruby (2.1.4)
     bcrypt-ruby (2.1.4-java)
+    bouncy-castle-java (1.5.0146.1)
     builder (2.1.2)
     capybara (0.4.1.2)
       celerity (>= 0.7.9)
@@ -123,8 +124,10 @@ GEM
     i18n (0.5.0)
     jammit (0.6.3)
       yui-compressor (>= 0.9.3)
-    json (1.5.1)
-    json (1.5.1-java)
+    jruby-openssl (0.7.4)
+      bouncy-castle-java
+    json (1.5.2)
+    json (1.5.2-java)
     json_pure (1.5.2)
     kgio (2.5.0)
     linecache (0.45)
@@ -287,6 +290,7 @@ DEPENDENCIES
   fakeredis
   hoptoad_notifier (~> 2.4.9)
   jammit (~> 0.6.0)
+  jruby-openssl
   minitest
   minitest_tu_shim
   mocha
