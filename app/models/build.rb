@@ -120,7 +120,7 @@ class Build < ActiveRecord::Base
   end
 
   def matrix_finished?
-    matrix.all(&:finished?)
+    matrix.all?(&:finished?)
   end
 
   def matrix_status
