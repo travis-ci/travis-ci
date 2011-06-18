@@ -34,7 +34,7 @@
         <% if user_signed_in? && current_user.is_admin? %>
           <li><%= link_to "Admin", '#' %></li>
         <% end %>
-        <li><a href="/" class="tool-tip" title="Coming soon ...">Blog</a></li>
+        <li><%= link_to "Blog", "http://blog.travis-ci.org" %></li>
       </ul>
 
       <div class="profile">
