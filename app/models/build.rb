@@ -119,6 +119,10 @@ class Build < ActiveRecord::Base
     self.class.matrix?(@previously_changed['config'][1]) rescue false # TODO how to use some public AR API?
   end
 
+  def matrix_finished?
+    matrix.all(&:finished?)
+  end
+
   def matrix_status
     matrix.map(&:status).include?(1) ? 1 : 0 if matrix? && matrix.all?(&:finished?)
   end
@@ -144,7 +148,7 @@ class Build < ActiveRecord::Base
   end
 
   def send_notifications?
-    notifications_enabled? && matrix_finished? && unique_recipients.present?
+    notifications_enabled? && (matrix? ? matrix_finished? : finished?) && unique_recipients.present?
   end
 
   # at some point we might want to move this to a Notifications manager that abstracts email and other types of notifications
@@ -161,10 +165,6 @@ class Build < ActiveRecord::Base
 
     def notifications_enabled?
       !(self.config && self.config['notifications'] && config['notifications']['disabled'])
-    end
-
-    def matrix_finished?
-      parent ? parent.finished? : finished?
     end
 
     def expand_matrix?
@@ -225,7 +225,7 @@ class Build < ActiveRecord::Base
 
     def was_finished
       if parent
-        parent.update_attributes!(:status => parent.matrix_status, :finished_at => Time.now)
+        parent.update_attributes!(:status => parent.matrix_status, :finished_at => !matrix? || matrix_finished? ? Time.now : nil)
         denormalize_to_repository(parent)
       else
         denormalize_to_repository(self)
@@ -238,7 +238,7 @@ class Build < ActiveRecord::Base
         :last_build_number      => build.number,
         :last_build_started_at  => build.started_at,
         :last_build_status      => build.matrix? ? build.matrix_status : build.status,
-        :last_build_finished_at => (!build.matrix? || build.matrix.all?(&:finished?)) ? build.finished_at : nil
+        :last_build_finished_at => (!build.matrix? || build.matrix_finished?) ? build.finished_at : nil
       }
 
       repository.update_attributes!(attributes)
