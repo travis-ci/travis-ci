@@ -90,7 +90,7 @@ Or if you're using markdown:
 
 bc. [![Build Status](http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png)](http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME])
 
-Travis' own status button looks like this: "!http://travis-ci.org/svenfuchs/travis.png!":http://travis-ci.org/svenfuchs/travis
+Travis' own status button looks like this: "!http://travis-ci.org/travis-ci/travis-ci.png!":http://travis-ci.org/travis-ci/travis-ci
 
 **Please note :** GitHub proxies these images so they are delivered over HTTPS via its CDN. Due to this issue there may be a delay until the updated build status is shown on your project page. We are looking into this issue and will update the docs if we find a solution.
 
