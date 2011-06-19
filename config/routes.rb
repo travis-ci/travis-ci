@@ -1,7 +1,7 @@
 require 'patches/rails_route_set'
 
 TravisCi::Application.routes.draw do
-  root :to => 'application#index'
+  root :to => 'home#index'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
