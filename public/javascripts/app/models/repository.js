@@ -59,6 +59,6 @@ Travis.Collections.MyRepositories = Travis.Collections.Base.extend({
     _.bindAll(this, 'url', 'travis_enabled', 'need_travis');
   },
   url: function() {
-    return '/repositories/my' + Utils.queryString(this.options);
+    return '/profile/repositories' + Utils.queryString(this.options);
   }
 });

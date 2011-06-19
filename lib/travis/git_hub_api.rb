@@ -18,6 +18,10 @@ module Travis
         # we might want to improve this for logging purposes
         raise ServiceHookError, 'error subscribing to the GitHub push event'
       end
+
+      def repository_list_for_user(login)
+        Octokit.repositories(login)
+      end
     end
 
   end

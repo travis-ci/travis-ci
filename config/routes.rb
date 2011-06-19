@@ -9,12 +9,13 @@ TravisCi::Application.routes.draw do
     get 'users/sign_out', :to => 'devise/sessions#destroy', :as => :destroy_session
   end
 
-  resource :profile
+  resource :profile, :only => :show do
+    get    :repositories
+    post   :repositories, :to => 'profiles#add_service_hook'
+    delete :repositories, :to => 'profiles#remove_service_hook'
+  end
 
   resources :repositories do
-    collection do
-      get :my
-    end
     resources :builds
   end
 
