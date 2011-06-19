@@ -27,7 +27,8 @@ class RepositoriesController < ApplicationController
       # Please refer to https://github.com/intridea/omniauth/issues/203 for details.
       # Without authenticity token our POST request will cause session unset.
       repository.authenticity_token = form_authenticity_token
-      repository.travis_enabled = Repository.exists?({ :name => repository.name, :owner_name => repository.owner })
+      existing_repository = Repository.find_by_name_and_owner_name(repository.name, repository.owner)
+      repository.is_active = existing_repository.nil? || existing_repository.is_active
     end
 
     respond_to do |format|
@@ -41,14 +42,35 @@ class RepositoriesController < ApplicationController
     end
   end
 
+
+  def update
+    @repository = Repository.find(params[:id])
+    begin
+      if params[:is_active]
+        subscribe_service_hook
+      else
+        unsubscribe_service_hook
+      end
+      @repository.save
+      render :json => @repository
+    rescue Exception => e
+      puts e.message
+      render :json => @repository, :status => :not_acceptable
+    end
+  end
+
   def create
-    args = [params[:name], params[:owner], current_user]
+    @repository = Repository.find_or_create_by_name_and_owner_name(params[:name], params[:owner])
 
-    repository = Repository.find_or_create_and_add_service_hook(*args)
-
-    render :json => repository
-  rescue ActiveRecord::RecordInvalid, Travis::GitHubApi::ServiceHookError => e
-    render :json => repository, :status => :not_acceptable
+    # Octokit doesn't have internal error processing. Subscribe will throw an exception when fails. Further investigation + some use-cases will give a hint about what kind
+    # of error handling might be useful here.
+    begin
+      subscribe_service_hook
+      @repository.save
+      render :json => @repository
+    rescue
+      render :json => @repository, :status => :not_acceptable
+    end
   end
 
   protected
@@ -67,4 +89,21 @@ class RepositoriesController < ApplicationController
     end
     helper_method :repository
 
+    def octokit_client
+      Octokit::Client.new(:oauth_token => current_user.github_oauth_token)
+    end
+
+    def unsubscribe_service_hook
+      octokit_client.unsubscribe_service_hook(@repository.owner_name, @repository.name, "Travis")
+      @repository.is_active = false
+    end
+
+    def subscribe_service_hook
+      octokit_client.subscribe_service_hook(@repository.owner_name, @repository.name, "Travis", {
+        :token => current_user.tokens.first.token,
+        :user => current_user.login,
+        :domain => Travis.config['rails']['host']
+      })
+      @repository.is_active = true
+    end
 end
