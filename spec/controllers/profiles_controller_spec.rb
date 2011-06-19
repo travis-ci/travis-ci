@@ -89,7 +89,7 @@ describe ProfilesController do
 
     it "should return repositories of current user" do
       stub_request(:get, "https://github.com/api/v2/json/repos/show/svenfuchs").to_return(:status => 200, :body => File.open("./spec/fixtures/github_user_repos.json").read)
-      get :repositories, :format => "json"
+      get :service_hooks, :format => "json"
 
       response.should be_success
 

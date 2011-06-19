@@ -40,31 +40,3 @@ Travis.Views.Repositories.Item = Backbone.View.extend({
     this.el.find('.build').attr('href', '#!/' + this.model.get('slug') + '/builds/' + this.model.get('last_build_id')).text('#' + this.model.get('last_build_number'))
   },
 });
-
-Travis.Views.Repositories.MyItem = Backbone.View.extend({
-  events: {
-    'click a.toggle_enabled': 'toggleEnabled'
-  },
-  initialize: function() {
-    _.bindAll(this, 'render', 'toggleEnabled', 'onToggle');
-    this.template = Travis.templates['repositories/my_item'];
-  },
-  render: function() {
-    this.el = $(this.template(this.model.toJSON()));
-    this.delegateEvents()
-    return this;
-  },
-  toggleEnabled: function(e) {
-    e.preventDefault()
-    this.model.set({ is_active: !this.model.get('is_active') })
-    this.model.save({ }, {
-      success: this.onToggle
-    });
-  },
-  onToggle: function(model, resp) {
-    if (this.model.get('is_active'))
-      this.el.find('.toggle_enabled').addClass('on')
-    else
-      this.el.find('.toggle_enabled').removeClass('on')
-  }
-});

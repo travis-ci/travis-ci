@@ -1,5 +1,6 @@
 var Travis = {
-  Controllers: {}, Collections: {}, Helpers: {}, Models: {}, Views: { Base: {}, Build: { History: {}, Matrix: {} }, Jobs: {}, Repositories: {}, Repository: {}, Workers: {} },
+  // Namespace initialization
+  Controllers: {}, Collections: {}, Helpers: {}, Models: {}, Views: { Base: {}, ServiceHooks: {}, Build: { History: {}, Matrix: {} }, Jobs: {}, Repositories: {}, Repository: {}, Workers: {} },
   start: function() {
     Travis.templates = Utils.loadTemplates();
     Backbone.history = new Backbone.History;
@@ -104,4 +105,12 @@ $.ajaxSetup({ cache: false });
 // });
 //
 
-
+// Overriden Backbone.methods for overriden fetch/sync methods
+(function(){
+  Backbone.methodMap = {
+    'create': 'POST',
+    'update': 'PUT',
+    'delete': 'DELETE',
+    'read'  : 'GET'
+  };
+})();
