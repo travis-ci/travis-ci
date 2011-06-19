@@ -40,6 +40,23 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     assert_equal expected, actual
   end
 
+  test "find_and_remove_service_hook: finds an existing repo and removes a service hook" do
+    stub_request(:post, "https://api.github.com/hub").
+      to_return(:status => 200, :body => "", :headers => {})
+
+    minimal = Factory.create(:repository)
+    user    = Factory.create(:user)
+
+    assert_no_difference('Repository.count') do
+      with_hook = Repository.find_and_remove_service_hook('svenfuchs', 'minimal', user)
+
+      assert with_hook.persisted?
+      assert_equal with_hook.is_active, false
+      assert_equal minimal, with_hook
+    end
+  end
+
+
   test "find_or_create_and_add_service_hook: finds an existing repo and adds a service hook" do
     stub_request(:post, "https://api.github.com/hub").
       to_return(:status => 200, :body => "", :headers => {})

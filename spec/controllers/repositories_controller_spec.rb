@@ -19,10 +19,16 @@ describe RepositoriesController do
     end
 
     it "should subscribe repository to travis-ci service" do
+      puts ({
+        'hub.mode' => "subscribe",
+        'hub.topic' => CGI.escape("https://github.com/sven/travis-ci/events/push"),
+        'hub.callback' => CGI.escape("github://Travis?token=#{@user.tokens.first.token}&user=svenfuchs&domain=")
+      }.collect { |k,v| [ k,v ].join("=") }.join("&"))
+
       stub_request(:post, "https://api.github.com/hub?access_token=myfaketoken").with(:body => {
         'hub.mode' => "subscribe",
         'hub.topic' => CGI.escape("https://github.com/sven/travis-ci/events/push"),
-        'hub.callback' => CGI.escape("github://Travis?token=#{@user.tokens.first.token}&user=svenfuchs&domain=localhost:3000")
+        'hub.callback' => CGI.escape("github://Travis?token=#{@user.tokens.first.token}&user=svenfuchs&domain=")
       }.collect { |k,v| [ k,v ].join("=") }.join("&")).to_return(:status => 200, :body => "")
 
       put :update, :name => "travis-ci", :owner => "sven", :id => repository.id, :is_active => true
