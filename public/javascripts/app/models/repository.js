@@ -52,13 +52,3 @@ Travis.Collections.Repositories = Travis.Collections.Base.extend({
   }
 });
 
-Travis.Collections.MyRepositories = Travis.Collections.Base.extend({
-  model: Travis.Models.Repository,
-  initialize: function(models) {
-    Travis.Collections.Base.prototype.initialize.apply(this, arguments);
-    _.bindAll(this, 'url', 'travis_enabled', 'need_travis');
-  },
-  url: function() {
-    return '/profile/repositories' + Utils.queryString(this.options);
-  }
-});
