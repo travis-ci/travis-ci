@@ -1,7 +1,7 @@
 class ProfilesController < ApplicationController
   before_filter :authenticate_user!
 
-  def repositories
+  def service_hooks
     repositories = Repository.github_repos_for_user(current_user)
 
     respond_to do |format|

@@ -10,9 +10,9 @@ TravisCi::Application.routes.draw do
   end
 
   resource :profile, :only => :show do
-    get    :repositories
-    post   :repositories, :to => 'profiles#add_service_hook'
-    delete :repositories, :to => 'profiles#remove_service_hook'
+    get    :service_hooks
+    post   :service_hooks, :to => 'profiles#add_service_hook'
+    delete :service_hooks, :to => 'profiles#remove_service_hook'
   end
 
   resources :repositories do
