@@ -64,6 +64,22 @@ class Repository < ActiveRecord::Base
         raise ActiveRecord::RecordInvalid, repo
       end
     end
+
+    def github_repos_for_user(user)
+      github_repos = Travis::GitHubApi.repository_list_for_user(user.login)
+
+      repo_name_id_array = where(:owner_name => user.login).select([:id, :name]).map{ |repo| [repo.name, repo.id] }
+      names_and_ids = Hash[repo_name_id_array]
+
+      github_repos.each do |repo|
+        if names_and_ids[repo.name]
+          repo.is_active = true
+          repo.id = names_and_ids[repo.name]
+        else
+          repo.is_active = false
+        end
+      end
+    end
   end
 
   def slug
