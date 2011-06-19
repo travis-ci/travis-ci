@@ -30,7 +30,7 @@ gem 'newrelic_rpm',         '~> 3.1.0'
 gem 'jruby-openssl',        :platforms => :jruby
 
 group :test do
-  gem 'capybara', '~> 0.4.1.2'
+  gem 'capybara', '~> 1.0.0'
   gem 'cucumber-rails'
   gem 'database_cleaner'
   gem 'factory_girl',       '~> 1.3'
@@ -47,7 +47,6 @@ group :test do
 end
 
 group :development, :test do
-  gem 'steak',        '~> 1.1.0'
   gem 'rspec-rails',  '~> 2.6.1'
 end
 

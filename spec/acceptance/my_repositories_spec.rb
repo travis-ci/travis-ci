@@ -7,9 +7,18 @@ feature "Feature name", %(
 ) do
 
   self.extend WebMock::API
-
-  scenario "my repositories" do
+  before(:each) do
     stub_request(:get, "https://github.com/api/v2/json/repos/show/nickname").to_return(:status => 200, :body => File.open("./spec/fixtures/github_user_repos.json").read)
+  end
+
+  before(:all) do
+    # It's not clear what exactly capybara have changed so that Rspec includes do not function. But that's not a good approach.
+  end
+  scenario "my repositories" do
+    self.extend HelperMethods
+    self.extend OmniauthHelperMethods
+    self.extend NavigationHelpers
+
     mock_omniauth
 
     visit homepage
