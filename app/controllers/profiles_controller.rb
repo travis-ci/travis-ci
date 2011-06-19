@@ -10,7 +10,7 @@ class ProfilesController < ApplicationController
   end
 
   def add_service_hook
-    args = [params[:name], params[:owner], current_user]
+    args = [params[:owner], params[:name], current_user]
 
     repository = Repository.find_or_create_and_add_service_hook(*args)
 
