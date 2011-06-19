@@ -6,18 +6,9 @@
   <dd><%= link_to "#{current_user.login}", "http://github.com/#{current_user.login}" %></dd>
   <dt>E-Mail:</dt>
   <dd><%= current_user.email %></dd>
+  <dt>Token:</dt>
+  <dd><%= current_user.tokens.first.token %></dd>
 </dl>
-
-<h4>Your tokens</h4>
-<ul id="tokens">
-  <% current_user.tokens.each do |token| %>
-    <li>
-      <%= token.token %>
-      <%= link_to 'remove', '#' %>
-    </li>
-  <% end %>
-</ul>
-<%= link_to 'create', '#' %>
 
 <h4>Your Repositories</h4>
 <div id="my_repositories">
