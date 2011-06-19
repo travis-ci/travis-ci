@@ -700,16 +700,17 @@ ul#tokens {
     min-height: 60px;
     position: relative;
     .toggle_enabled {
-      background: url('/images/icons/add.png') no-repeat;
-      line-height: 16px;
-      padding-left: 20px;
+      background: url('/images/off.png') no-repeat;
+      display: block;
+      width: 70px;
+      height: 20px;
       cursor: pointer;
       font-size: 80%;
       position: absolute;
       bottom: 10px;
       right: 10px;
       &.on {
-        background-color: green;
+        background: url('/images/on.png') no-repeat;
       }
     }
     .description {
@@ -719,7 +720,7 @@ ul#tokens {
     }
     .github-stats {
       top: 5px;
-      right: 5px;
+      right: 10px;
     }
 
   }

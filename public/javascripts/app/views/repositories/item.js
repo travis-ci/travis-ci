@@ -56,15 +56,14 @@ Travis.Views.Repositories.MyItem = Backbone.View.extend({
   },
   toggleEnabled: function(e) {
     e.preventDefault()
-    console.log(this.model.get('travis_enabled'))
+    console.log(this.model.get('is_active'))
     this.model.set
-    this.model.save({ travis_enabled: !this.model.get('travis_enabled') }, {
+    this.model.save({ is_active: !this.model.get('is_active') }, {
       success: this.onToggle
     });
   },
   onToggle: function() {
-    console.log(this.model.get('travis_enabled'))
-    if (this.model.get('travis_enabled'))
+    if (this.model.get('is_active'))
       this.el.find('.toggle_enabled').addClass('on')
     else
       this.el.find('.toggle_enabled').removeClass('on')
