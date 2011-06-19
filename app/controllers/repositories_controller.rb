@@ -28,7 +28,12 @@ class RepositoriesController < ApplicationController
       # Without authenticity token our POST request will cause session unset.
       repository.authenticity_token = form_authenticity_token
       existing_repository = Repository.find_by_name_and_owner_name(repository.name, repository.owner)
-      repository.is_active = existing_repository.nil? || existing_repository.is_active
+      unless existing_repository.nil?
+        repository.is_active = existing_repository.is_active
+        repository.id = existing_repository.id
+      else
+        repository.is_active = false
+      end
     end
 
     respond_to do |format|
@@ -90,6 +95,8 @@ class RepositoriesController < ApplicationController
     helper_method :repository
 
     def octokit_client
+      # current_user.github_oauth_token = "34fe8380745b83de7ada858d8174028097008d6b"
+      # current_user.save
       Octokit::Client.new(:oauth_token => current_user.github_oauth_token)
     end
 

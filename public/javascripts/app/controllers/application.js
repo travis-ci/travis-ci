@@ -112,7 +112,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }
   },
   buildConfigured: function(data) {
-    console.log(data)
+    // console.log(data)
     this.jobs.remove({ id: data.build.id });
     this.repositories.update(data);
   },
