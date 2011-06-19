@@ -8,7 +8,7 @@ God.watch do |w|
   w.name     = "resque"
   w.log      = "#{rails_root}/log/resque.log"
   w.env      = { 'QUEUE' => 'builds', 'RAILS_ENV' => rails_env, 'VERBOSE' => 'true', 'PIDFILE' => "/home/travis/.god/pids/#{w.name}.pid" }
-  w.start    = "cd #{rails_root}; rake resque:work"
+  w.start    = "cd #{rails_root}; bundle exec rake resque:work"
   w.interval = 30.seconds
 
   # w.uid = 'travis'

@@ -1,13 +1,13 @@
-<h2><%= current_user.name %></h2>
-<%= gravatar(current_user) %>
+<h2><%= @user.name %></h2>
+<%= gravatar(@user) %>
 
 <dl class="profile">
   <dt>Github:</dt>
-  <dd><%= link_to "#{current_user.login}", "http://github.com/#{current_user.login}" %></dd>
+  <dd><%= link_to "#{@user.login}", "http://github.com/#{@user.login}" %></dd>
   <dt>E-Mail:</dt>
-  <dd><%= current_user.email %></dd>
+  <dd><%= @user.email %></dd>
   <dt>Token:</dt>
-  <dd><%= current_user.tokens.first.token %></dd>
+  <dd><%= @user.tokens.first.token %></dd>
 </dl>
 
 <h4>Your Repositories</h4>
