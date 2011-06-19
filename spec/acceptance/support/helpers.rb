@@ -31,5 +31,3 @@ module OmniauthHelperMethods
   end
 end
 
-RSpec.configuration.include HelperMethods, :type => :acceptance
-RSpec.configuration.include OmniauthHelperMethods, :type => :acceptance

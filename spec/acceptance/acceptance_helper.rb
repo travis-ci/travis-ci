@@ -1,5 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
-require "steak"
+require 'rspec'
+require 'capybara/rspec'
 require 'webmock'
 
 # Put your acceptance spec helpers inside /spec/acceptance/support
@@ -15,7 +16,7 @@ end
 Capybara.default_selector = :css
 
 Capybara.register_driver :selenium do |app|
-  Capybara::Driver::Selenium.new(app, { :browser => :chrome })
+  Capybara::Selenium::Driver.new(app, { :browser => :chrome })
 end
 
 WebMock.disable_net_connect!(:allow_localhost => true)
