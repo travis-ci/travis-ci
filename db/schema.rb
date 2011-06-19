@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110617114728) do
+ActiveRecord::Schema.define(:version => 20110619100906) do
 
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20110617114728) do
     t.datetime "last_build_finished_at"
     t.string   "owner_name"
     t.text     "owner_email"
+    t.boolean  "is_active"
   end
 
   add_index "repositories", ["last_build_started_at"], :name => "index_repositories_on_last_build_started_at"
