@@ -19,6 +19,6 @@ Travis.Views.ServiceHooks.List = Backbone.View.extend({
     return this;
   },
   renderItem: function(item) {
-    return new Travis.Views.ServiceHooks.Item({ model: item }).render(this.collection.csrfToken).el
+    return new Travis.Views.ServiceHooks.Item({ model: item }).render().el
   }
 });

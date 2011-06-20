@@ -4,80 +4,53 @@ require 'webmock/rspec'
 describe ProfilesController do
   include Devise::SignInHelpers
 
-  describe "DELETE 'remove_service_hook'" do
+  describe "PUT 'update_service_hook'" do
     before(:each) do
       @user = Factory.create(:user, :github_oauth_token => "myfaketoken")
       sign_in_user @user
-
+    end
+    let(:create_repository) { Factory.create(:repository, :name => "travis-ci", :owner_name => "sven")}
+    let(:stub_unsubscribe) {
       stub_request(:post, "https://api.github.com/hub?access_token=myfaketoken").with(:body => {
         'hub.mode' => "unsubscribe",
         'hub.topic' => CGI.escape("https://github.com/sven/travis-ci/events/push"),
         'hub.callback' => CGI.escape("github://Travis")
       }.collect { |k,v| [ k,v ].join("=") }.join("&")).to_return(:status => 200, :body => "")
-    end
+    }
 
-    let(:repository) { Factory.create(:repository, :name => "travis-ci", :owner_name => "sven")}
+    let(:stub_subscribe) {
+      stub_request(:post, "https://api.github.com/hub?access_token=myfaketoken").with(:body => {
+        'hub.mode' => "subscribe",
+        'hub.topic' => CGI.escape("https://github.com/sven/travis-ci/events/push"),
+        'hub.callback' => CGI.escape("github://Travis?token=#{@user.tokens.first.token}&user=svenfuchs&domain=")
+      }.collect { |k,v| [ k,v ].join("=") }.join("&")).to_return(:status => 200, :body => "")
+    }
 
-    it "should be success" do
-      delete :remove_service_hook, :name => "travis-ci", :owner => "sven", :id => repository.id, :is_active => true
-      response.should be_success
-    end
+    it "should create repository if it does not exist" do
+      stub_subscribe
+      put :update_service_hook, :name => "travis-ci", :owner => "sven", :is_active => true
 
-    it "should be success" do
-      delete :remove_service_hook, :name => "travis-ci", :owner => "sven", :id => repository.id, :is_active => true
-      response.should be_success
-    end
-
-    it "should unsubscribe repository to travis-ci service" do
-      delete :remove_service_hook, :name => "travis-ci", :owner => "sven", :id => repository.id, :is_active => false
-      Repository.find(:first).is_active.should eql false
+      Repository.count.should eql 1
+      Repository.find(:first).is_active.should eql true
       assert_requested :post, "https://api.github.com/hub?access_token=myfaketoken", :times => 1
     end
-  end
 
-  describe "POST 'add_service_hook'" do
-    before(:each) do
-      @user = Factory.create(:user, :github_oauth_token => "myfaketoken")
-      sign_in_user @user
-      stub_request(:post, "https://api.github.com/hub?access_token=myfaketoken").to_return(:status => 200, :body => "")
+    it "should update existing repository if it exists" do
+      stub_subscribe
+      create_repository
+      put :update_service_hook, :name => "travis-ci", :owner => "sven", :is_active => true
+
+      Repository.count.should eql 1
+      Repository.find(:first).is_active.should eql true
+      assert_requested :post, "https://api.github.com/hub?access_token=myfaketoken", :times => 1
     end
 
-    it "should be success" do
-      post :add_service_hook, :name => "travis-ci", :owner => "sven"
-      response.should be_success
-    end
+    it "should unsubscribe repository from travis-ci service" do
+      stub_unsubscribe
+      create_repository
 
-    it "should mark repository as active in casse of existing record" do
-      Factory.create(:repository, :name => "travis-ci", :owner_name => "sven")
-      post :add_service_hook, :name => "travis-ci", :owner => "sven"
-
-      Repository.all.count.should eql 1
-      repository = Repository.all.first
-      repository.owner_name.should eql "sven"
-      repository.name.should eql "travis-ci"
-      repository.is_active.should be_true
-    end
-
-    it "should create a repository record in database" do
-      post :add_service_hook, :name => "travis-ci", :owner => "sven"
-
-      Repository.all.count.should eql 1
-      repository = Repository.all.first
-      repository.owner_name.should eql "sven"
-      repository.name.should eql "travis-ci"
-      repository.is_active.should be_true
-    end
-
-    it "should redirect when used is not signed in" do
-      sign_out @user
-      post :add_service_hook, :name => "travis-ci", :owner => "sven"
-
-      response.should be_redirect
-    end
-
-    it "should send request to Github pubsub" do
-      post :add_service_hook, :name => "travis-ci", :owner => "sven"
-
+      put :update_service_hook, :name => "travis-ci", :owner => "sven", :is_active => false
+      Repository.find(:first).is_active.should eql false
       assert_requested :post, "https://api.github.com/hub?access_token=myfaketoken", :times => 1
     end
   end

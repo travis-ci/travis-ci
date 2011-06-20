@@ -6,24 +6,19 @@ Travis.Views.ServiceHooks.Item = Backbone.View.extend({
     _.bindAll(this, 'render', 'toggleEnabled', 'onToggle');
     this.template = Travis.templates['repositories/my_item'];
   },
-  render: function(csrfToken) {
-    this.model.set({ authenticity_token: csrfToken });
+  render: function() {
     this.el = $(this.template(this.model.toJSON()));
     this.delegateEvents()
     return this;
   },
   toggleEnabled: function(e) {
     e.preventDefault()
-    if (this.model.get('is_active'))
-      this.model.destroy({
-        success: this.onToggle
-      })
-    else
-      this.model.save({}, {
-        success: this.onToggle
-      })
+    this.model.save( { is_active: !this.model.get('is_active'), id: -1 }, {
+      success: this.onToggle
+    })
   },
   onToggle: function(model, resp) {
+    console.log(this.model.get('is_active'))
     if (this.model.get('is_active'))
       this.el.find('.toggle_enabled').addClass('on')
     else
