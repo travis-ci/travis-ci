@@ -109,7 +109,7 @@ GEM
       yui-compressor (>= 0.9.3)
     json (1.4.6)
     json (1.4.6-java)
-    json_pure (1.5.2)
+    json_pure (1.5.3)
     linecache (0.43)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
