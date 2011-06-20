@@ -343,7 +343,7 @@ caption {
     float: left;
   }
   .profile {
-    margin: 20px 0 30px 60px;
+    margin: 20px 0 50px 60px;
   }
   .profile dt {
     display: block;
@@ -697,7 +697,7 @@ ul#tokens {
   @include list-base;
   margin-top: 10px;
   > li {
-    min-height: 60px;
+    min-height: 50px;
     position: relative;
     .toggle_enabled {
       background: url('/images/off.png') no-repeat;
@@ -708,15 +708,16 @@ ul#tokens {
       font-size: 80%;
       position: absolute;
       bottom: 10px;
-      right: 10px;
+      right: 5px;
       &.on {
         background: url('/images/on.png') no-repeat;
       }
     }
     .description {
-      margin-right: 140px;
-      margin-left: 20px;
-      font-size: 80%;
+      margin-right: 95px;
+      margin-left: 5px;
+      margin-bottom: 5px;
+      font-size: 75%;
     }
     .github-stats {
       top: 5px;
