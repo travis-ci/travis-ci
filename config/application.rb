@@ -5,8 +5,6 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 
 module TravisCi
   class Application < Rails::Application
-    config.autoload_paths << config.paths.app.views.to_a.first
-
     config.encoding = "utf-8"
 
     config.filter_parameters += [:password]
