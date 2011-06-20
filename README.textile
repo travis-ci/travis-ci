@@ -1,4 +1,4 @@
-h1. Travis - a distributed build system "!http://travis-ci.org/svenfuchs/travis.png!":http://travis-ci.org/svenfuchs/travis
+h1. Travis - a distributed build system "!http://travis-ci.org/travis-ci/travis-ci.png!":http://travis-ci.org/travis-ci/travis-ci
 
 Travis is an attempt to create an open-source, distributed build system for the Ruby community that:
 
