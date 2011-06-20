@@ -12,21 +12,5 @@ Travis.Collections.ServiceHooks = Backbone.Collection.extend({
   },
   url: function() {
     return '/profile/service_hooks' + Utils.queryString(this.options);
-  },
-  sync: function(method, model, success, error) {
-    var params = {
-      url:          this.url(),
-      type:         Backbone.methodMap[method],
-      contentType:  'application/json',
-      dataType:     'json',
-      processData:  false,
-      success:      _.bind(function(resp) {
-        this.csrfToken = ajax.getResponseHeader('Csrf-Token')
-        success(resp)
-      }, this),
-      error:        error
-    };
-
-    ajax = $.ajax(params);
   }
 });

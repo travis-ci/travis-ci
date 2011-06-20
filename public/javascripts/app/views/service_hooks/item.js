@@ -15,17 +15,13 @@ Travis.Views.ServiceHooks.Item = Backbone.View.extend({
   toggleEnabled: function(e) {
     e.preventDefault()
     if (this.model.get('is_active'))
-      this.model.save({}, {
+      this.model.destroy({
         success: this.onToggle
       })
     else
-      this.model.delete({
+      this.model.save({}, {
         success: this.onToggle
       })
-    this.model.set({ is_active: !this.model.get('is_active') })
-    this.model.save({ }, {
-      success: this.onToggle
-    });
   },
   onToggle: function(model, resp) {
     if (this.model.get('is_active'))

@@ -113,4 +113,15 @@ $.ajaxSetup({ cache: false });
     'delete': 'DELETE',
     'read'  : 'GET'
   };
+
+  function CSRFProtection (xhr) {
+    var token = $('meta[name="csrf-token"]').attr('content');
+    if (token) xhr.setRequestHeader('X-CSRF-Token', token);
+  }
+
+  if ('ajaxPrefilter' in $) {
+    $.ajaxPrefilter(function(options, originalOptions, xhr){ if ( !options.crossDomain ) { CSRFProtection(xhr); }});
+  } else {
+    $(document).ajaxSend(function(e, xhr, options){ if ( !options.crossDomain ) { CSRFProtection(xhr); }});
+  }
 })();
