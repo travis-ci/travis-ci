@@ -1,5 +1,1 @@
 script: "bundle exec rake db:drop db:create db:migrate test"
-rvm:
-  - 1.8.7
-  - rbx-2.0
-  - ree
