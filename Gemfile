@@ -25,8 +25,6 @@ gem 'clockwork'
 gem 'resque',               '~> 1.17.1'
 gem 'resque-heartbeat',     :git => 'https://github.com/svenfuchs/resque-heartbeat.git', :ref => 'ba7a89f'
 
-gem 'newrelic_rpm',         '~> 3.1.0'
-
 gem 'jruby-openssl',        :platforms => :jruby
 
 group :test do
@@ -48,6 +46,10 @@ end
 
 group :development, :test do
   gem 'rspec-rails',  '~> 2.6.1'
+end
+
+group :development, :production do
+  gem 'newrelic_rpm', '~> 3.1.0'
 end
 
 group :development do
