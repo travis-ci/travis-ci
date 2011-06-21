@@ -16,13 +16,13 @@
   }
   > li {
     padding: 5px;
-    border-bottom: 1px solid #CCC;
-    &:nth-child(even) {
-      background: rgba(0,0,0,.03);
+    border-bottom: 1px solid #ddd;
+    &:nth-child(odd) {
+      background: #fafbfc;
     }
-    &:hover {
-      background: rgba(0,0,0,.05);
-    }
+  }
+  > li:first-child {
+    border-top: 1px solid #ddd;
   }
 }
 
