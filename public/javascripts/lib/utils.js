@@ -52,15 +52,47 @@ Utils = {
     string = string.replace(new RegExp(String.fromCharCode(27), 'g'), '');
     string = string.replace(/^.*(?:\[K)?\r(?!$)/gm, '');
 
+    var single_char_color_regexps = [
+      { re: /\[30;30;0m(.)/g, style: 'nostyle' },   //escape sequence turning off any formatting
+      { re: /\[30;30;1m(.)/g, style: 'black' },   // Colorize: black // Current and following colorizaitons work for one and only character that follows given seqence
+      { re: /\[30;31;1m(.)/g, style: 'red' },   // Colorize: red
+      { re: /\[30;32;1m(.)/g, style: 'green' },   // Colorize: green
+      { re: /\[30;34;1m(.)/g, style: 'blue' },   // Colorize: blue
+      { re: /\[30;33;1m(.)/g, style: 'yellow' },   // Colorize: yellow
+      { re: /\[30;35;1m(.)/g, style: 'magenta' },   // Colorize: magenta
+      { re: /\[30;36;1m(.)/g, style: 'cyan' },   // Colorize: cyan
+      { re: /\[30;37;1m(.)/g, style: 'gray' },   // Colorize: gray
+      { re: /\[41;33;1m(.)/g, style: 'error' },   // Colorize: error
+      { re: /\[42;37;1m(.)/g, style: 'success' },   // Colorize: success
+      { re: /\[41;33;7;1m(.)/g, style: 'warning' }];// Colorize: warning
+
+    for (index in single_char_color_regexps) {
+      pattern = single_char_color_regexps[index]
+      string = string.replace(pattern.re, '<span class="' + pattern.style + '">$1</span>');
+    }
+    var color_regexps = [
+      { re: /\[31m/g, style: 'red' },
+      { re: /\[32m/g, style: 'green' },
+      { re: /\[33m/g, style: 'yellow' },
+      { re: /\[34m/g, style: 'blue' },
+      { re: /\[35m/g, style: 'magenta' },
+      { re: /\[36m/g, style: 'cyan' }];
+
+    for (index in color_regexps) {
+      pattern = color_regexps[index]
+      string = string.replace(pattern.re, '<span class="' + pattern.style + '">');
+    }
+
     // http://asciiAjaxterm-table.com/ansi-escape-sequences.php
     // could also contain 1 for bold
-    string = string.replace(/\[31m/g, '<span class="red">')
-                   .replace(/\[32m/g, '<span class="green">')
-                   .replace(/\[33m/g, '<span class="yellow">')
-                   .replace(/\[34m/g, '<span class="blue">')
-                   .replace(/\[35m/g, '<span class="magenta">')
-                   .replace(/\[36m/g, '<span class="cyan">')
-                   .replace(/\[0?m(?:\(B)?/gm, '</span>');
+    string = string.replace(/\[0?m(?:\(B)?/gm, '</span>');
+      // .replace(/\[31m/g, '<span class="red">')
+      //              .replace(/\[32m/g, '<span class="green">')
+      //              .replace(/\[33m/g, '<span class="yellow">')
+      //              .replace(/\[34m/g, '<span class="blue">')
+      //              .replace(/\[35m/g, '<span class="magenta">')
+                   // .replace(/\[36m/g, '<span class="cyan">')
+
 
     return string;
   },
