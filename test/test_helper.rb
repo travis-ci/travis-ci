@@ -21,6 +21,8 @@ class ActiveSupport::TestCase
   DatabaseCleaner.strategy = :truncation
 
   def setup
+    Time.zone = 'UTC'
+
     Mocha::Mockery.instance.verify
 
     Travis.pusher = TestHelpers::Mocks::Pusher.new
