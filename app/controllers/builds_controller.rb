@@ -1,17 +1,16 @@
 class BuildsController < ApplicationController
   respond_to :json
-  # before_filter :authenticate_user!, :except => [:index, :show]
-  skip_before_filter :verify_authenticity_token
 
   def index
-    if repository = Repository.find(params[:repository_id])
-      render :json => repository.builds.recent_build_list
-    end
+    repository = Repository.find(params[:repository_id])
+
+    respond_with(repository.builds.recent_build_list)
   end
 
   def show
     build = Build.find(params[:id])
-    render :json => build.as_json
+
+    respond_with(build)
   end
 
   def create
@@ -20,6 +19,7 @@ class BuildsController < ApplicationController
       enqueue!(build)
       build.repository.update_attributes!(:last_build_started_at => Time.now) # TODO the build isn't actually started now
     end
+
     render :nothing => true
   end
 
