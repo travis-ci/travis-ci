@@ -1,6 +1,11 @@
 class BuildsController < ApplicationController
   respond_to :json
 
+  # github does not currently post the payload with the correct
+  # accept or content-type headers, we need to change the
+  # the github-service code for this to work correctly
+  skip_before_filter :verify_authenticity_token, :only => :create
+
   def index
     repository = Repository.find(params[:repository_id])
 
