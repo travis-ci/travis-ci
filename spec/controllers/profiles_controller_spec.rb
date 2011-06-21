@@ -15,14 +15,7 @@ describe ProfilesController do
   describe "PUT 'update_service_hook'" do
     context "subscribes to Travis-CI service hook" do
       before(:each) do
-        hub_body = [
-          "hub.topic=#{CGI.escape("https://github.com/svenfuchs/minimal/events/push")}",
-          "hub.callback=#{CGI.escape("github://Travis?user=svenfuchs&token=afaketoken&domain=")}",
-          "hub.mode=subscribe"
-        ].join("&")
-
         stub_request(:post, "https://api.github.com/hub?access_token=myfaketoken").
-          with(:body => hub_body).
           to_return(:status => 200, :body => "")
       end
 
@@ -49,14 +42,7 @@ describe ProfilesController do
 
     context "unsubscribes from the Travis-CI service hook" do
       before(:each) do
-        hub_body = {
-          'hub.mode' => "unsubscribe",
-          'hub.topic' => CGI.escape("https://github.com/svenfuchs/minimal/events/push"),
-          'hub.callback' => CGI.escape("github://Travis")
-        }.collect { |k,v| [ k,v ].join("=") }.join("&")
-
         stub_request(:post, "https://api.github.com/hub?access_token=myfaketoken").
-          with(:body => hub_body).
           to_return(:status => 200, :body => "")
       end
 
