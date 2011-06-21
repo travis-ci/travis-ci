@@ -10,7 +10,7 @@ module ::TravisCi
       include Rake::DSL
   end
 end
-        
+
 module ::RakeFileUtils
   extend Rake::FileUtilsExt
 end
