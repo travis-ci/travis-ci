@@ -1,7 +1,9 @@
 class WorkersController < ApplicationController
-  respond_to :json
 
   def index
-    render :json => workers
+    respond_to do |format|
+      format.json { render :json => workers }
+    end
   end
+
 end
