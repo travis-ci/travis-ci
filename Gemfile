@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'rails',                '~> 3.0.7'
+gem 'rails',                '~> 3.0.9'
 gem 'rake',                 '~> 0.9.1'
 gem 'pg',                   '~> 0.11.0'
 gem 'yajl-ruby',            '~> 0.8.2'
