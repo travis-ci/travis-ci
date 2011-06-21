@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ApplicationControllerTest < ActionDispatch::IntegrationTest
+class JobsControllerTest < ActionDispatch::IntegrationTest
   def setup
     super
     jobs = [
@@ -10,13 +10,16 @@ class ApplicationControllerTest < ActionDispatch::IntegrationTest
     Resque.stubs(:peek).returns(jobs)
   end
 
-  test 'jobs' do
-    get 'jobs'
+  test '.index list all jobs on the queue' do
+    get('jobs', :format => :json)
+
     jobs = ActiveSupport::JSON.decode(response.body)
+
     expected = [
       { 'id' => 1, 'number' => '3',   'commit' => 'b0a1b69','repository' => { 'id' => 8, 'slug' => 'svenfuchs/gem-release' } },
       { 'id' => 2, 'number' => '3.1', 'commit' => 'b0a1b69','repository' => { 'id' => 8, 'slug' => 'svenfuchs/gem-release' } },
     ]
+
     assert_equal expected, jobs
   end
 end
