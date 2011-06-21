@@ -8,6 +8,27 @@ describe('Utils', function() {
   }
 
   describe('deansi', function() {
+    it("colorizes ANSI escape seqnences", function() {
+    _.each([ { pattern: "[30;30;0m.", color: 'nostyle' },
+             { pattern: "[30;30;1m.", color: 'black' },
+             { pattern: "[30;31;1m.", color: 'red' },
+             { pattern: "[30;32;1m.", color: 'green' },
+             { pattern: "[30;34;1m.", color: 'blue' },
+             { pattern: "[30;33;1m.", color: 'yellow' },
+             { pattern: "[30;35;1m.", color: 'magenta' },
+             { pattern: "[30;36;1m.", color: 'cyan' },
+             { pattern: "[30;37;1m.", color: 'gray' },
+             { pattern: "[41;33;1m.", color: 'error' },
+             { pattern: "[42;37;1m.", color: 'success' },
+             { pattern: "[41;33;7;1m.", color: 'warning' } ],
+           function(test_set) {
+             source = test_set.pattern + test_set.pattern + test_set.pattern
+             expected = '<span class="' + test_set.color +'">.</span><span class="' + test_set.color +'">.</span><span class="' + test_set.color +'">.</span>'
+             expect(Utils.deansi(source)).toEqual(expected);
+           });
+      });
+
+
     it('replaces ansii sequence for red with a span', function() {
       source   = '\e[31mUsing /home/vagrant/.rvm/gems/ruby-1.9.2-p180\e[m\e(B';
       expected = '<span class="red">Using /home/vagrant/.rvm/gems/ruby-1.9.2-p180</span>';
