@@ -391,27 +391,28 @@ caption {
     background-color: #333;
     border-radius: 4px 4px;
     overflow-x: auto;
-  }
-  .log .yellow {
-    color: yellow;
-  }
-  .log .red {
-    color: red;
-  }
-  .log .green {
-    color: lime;
-  }
-  .log .fold {
-    height: 16px;
-    overflow: hidden;
-    margin: 0 -15px;
-    padding: 0 15px;
-    background: #444 url(/images/icons/log.fold.closed.2.png) no-repeat 99.5% 2px;
-    cursor: pointer;
-  }
-  .log .fold.open {
-    height: auto;
-    background-image: url(/images/icons/log.fold.open.2.png);
+
+    .success, .green {
+      color: lime;
+    }
+    .warning, .yellow {
+      color: yellow;
+    }
+    .error, .red {
+      color: red;
+    }
+    .fold {
+      height: 16px;
+      overflow: hidden;
+      margin: 0 -15px;
+      padding: 0 15px;
+      background: #444 url(/images/icons/log.fold.closed.2.png) no-repeat 99.5% 2px;
+      cursor: pointer;
+    }
+    .fold.open {
+      height: auto;
+      background-image: url(/images/icons/log.fold.open.2.png);
+    }
   }
   #matrix {
     margin: 20px 0 0 -12px;
