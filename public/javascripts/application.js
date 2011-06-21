@@ -23,7 +23,8 @@ var Travis = {
 };
 
 $(document).ready(function() {
-  if(!window.__TESTING__ && $('#application').length == 1) {
+  if(!window.__TESTING__ && $('#home').length == 1) {
+
     Travis.start();
     Backbone.history.start();
 
