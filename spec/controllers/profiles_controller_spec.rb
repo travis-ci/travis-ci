@@ -8,41 +8,41 @@ describe ProfilesController do
     Token.any_instance.stub(:token).and_return('afaketoken')
     sign_in_user user
   end
-  
+
   let(:user)       { Factory(:user, :github_oauth_token => "myfaketoken") }
   let(:repository) { Factory(:repository, :name => "minimal", :owner_name => "svenfuchs") }
-  
+
   describe "PUT 'update_service_hook'" do
     context "subscribes to Travis-CI service hook" do
       before(:each) do
-        hub_body = {
-          'hub.mode' => "subscribe",
-          'hub.topic' => CGI.escape("https://github.com/svenfuchs/minimal/events/push"),
-          'hub.callback' => CGI.escape("github://Travis?token=afaketoken&user=svenfuchs&domain=")
-        }.collect { |k,v| [k,v].join("=") }.join("&")
-        
+        hub_body = [
+          "hub.topic=#{CGI.escape("https://github.com/svenfuchs/minimal/events/push")}",
+          "hub.callback=#{CGI.escape("github://Travis?user=svenfuchs&token=afaketoken&domain=")}",
+          "hub.mode=subscribe"
+        ].join("&")
+
         stub_request(:post, "https://api.github.com/hub?access_token=myfaketoken").
           with(:body => hub_body).
           to_return(:status => 200, :body => "")
       end
-      
+
       it "creates repository if it does not exist" do
         put(:update_service_hook, :name => "minimal", :owner => "svenfuchs", :is_active => true)
 
         Repository.count.should eql(1)
         Repository.first.is_active?.should eql(true)
-        
+
         assert_requested(:post, "https://api.github.com/hub?access_token=myfaketoken", :times => 1)
       end
 
       it "updates existing repository if it exists" do
         repository # make sure the repo has been created
-        
+
         put(:update_service_hook, :name => "minimal", :owner => "svenfuchs", :is_active => true)
 
         Repository.count.should eql(1)
         Repository.first.is_active?.should eql(true)
-        
+
         assert_requested(:post, "https://api.github.com/hub?access_token=myfaketoken", :times => 1)
       end
     end
@@ -54,7 +54,7 @@ describe ProfilesController do
           'hub.topic' => CGI.escape("https://github.com/svenfuchs/minimal/events/push"),
           'hub.callback' => CGI.escape("github://Travis")
         }.collect { |k,v| [ k,v ].join("=") }.join("&")
-        
+
         stub_request(:post, "https://api.github.com/hub?access_token=myfaketoken").
           with(:body => hub_body).
           to_return(:status => 200, :body => "")
@@ -64,9 +64,9 @@ describe ProfilesController do
         repository # make sure the repo has been created
 
         put(:update_service_hook, :name => "minimal", :owner => "svenfuchs", :is_active => false)
-        
+
         Repository.first.is_active?.should eql(false)
-        
+
         assert_requested(:post, "https://api.github.com/hub?access_token=myfaketoken", :times => 1)
       end
     end
