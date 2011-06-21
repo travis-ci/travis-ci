@@ -35,7 +35,7 @@
         <% if user_signed_in? && current_user.is_admin? %>
           <li><%= link_to "Admin", '#' %></li>
         <% end %>
-        <li><%= link_to "Blog", "http://blog.travis-ci.org" %></li>
+        <li><%= link_to 'About', '#', :class => "tool-tip", :title => "Coming Soon!" %></li>
       </ul>
 
       <div class="profile">
