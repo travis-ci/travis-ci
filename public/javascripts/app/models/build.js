@@ -88,8 +88,14 @@ Travis.Models.Build = Travis.Models.Base.extend({
       json['matrix'] = this.matrix.toJSON();
     }
     if(this.get('config')) {
-      json['config_table'] = _.map(this.get('config'), function(value, key) { return { key: key, value: value } } );
-      json['config'] = _.map(this.get('config'), function(value, key) { return key + ': ' + value; } ).join(', ');
+      var humanReadableConfig = {}
+      _.map(this.get('config'), function(v, k) {
+        if (_.include(Travis.DISPLAYED_KEYS, k)) {
+          humanReadableConfig[k] = v
+        }
+      })
+      json['config_table'] = _.map(humanReadableConfig, function(value, key) { return { key: key, value: value } } );
+      json['config'] = _.map(humanReadableConfig, function(value, key) { return key + ': ' + value; } ).join(', ');
     }
     return json;
   }
@@ -116,7 +122,12 @@ Travis.Collections.Builds = Travis.Collections.Base.extend({
     return '/repositories/' + this.repository.id + '/builds' + Utils.queryString(this.args);
   },
   dimensions: function() {
-    return this.models[0] ? _(this.models[0].get('config')).keys().map(function(key) { return _.capitalize(key) }) : [];
+    return this.models[0] ?
+      _.select(_(this.models[0].get('config')).keys(), function(key) {
+        return _.include(Travis.DISPLAYED_KEYS, key)
+      }).map(function(key) {
+        return _.capitalize(key)
+      }) : [];
   },
   comparator: function(build) {
     // this sorts matrix child builds below their child builds, i.e. the actual order will be like: 4, 3, 3.1, 3.2, 3.3., 2, 1
