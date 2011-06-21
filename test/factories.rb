@@ -9,7 +9,7 @@ Factory.define :repository do |f|
 end
 
 Factory.define :build do |f|
-  f.repository { Repository.first || Factory(:repository) }
+  f.association :repository
   f.number '1'
   f.commit '62aae5f70ceee39123ef'
   f.branch 'master'
@@ -38,3 +38,4 @@ Factory.define :user do |f|
   f.login 'svenfuchs'
   f.email 'sven@fuchs.com'
 end
+

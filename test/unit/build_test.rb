@@ -3,12 +3,12 @@ require 'test_helper'
 class BuildTest < ActiveSupport::TestCase
   include TestHelpers::GithubApiTestHelper
 
+  def setup
+    @repository = Factory(:repository)
+  end
   # Build.send(:public, :denormalize_to_repository?, :denormalize_to_repository)
 
   test 'creating a Build from Github payload' do
-    Repository.delete_all
-    Build.delete_all
-
     build = Build.create_from_github_payload(GITHUB_PAYLOADS['gem-release']).reload
 
     assert_equal '1', build.number
@@ -54,74 +54,71 @@ class BuildTest < ActiveSupport::TestCase
   end
 
   test 'next_number (1)' do
-    repository = Factory(:repository)
-    assert_equal 1, repository.builds.next_number
+    assert_equal 1, @repository.builds.next_number
   end
 
   test 'next_number (2)' do
-    repository = Factory(:repository)
-    3.times { |number| Factory(:build, :repository => repository, :number => number + 1) }
-    assert_equal 4, repository.builds.next_number
+    3.times { |number| Factory(:build, :repository => @repository, :number => number + 1) }
+    assert_equal 4, @repository.builds.next_number
   end
 
   test 'next_number (3)' do
-    repository = Factory(:repository)
-    Factory(:build, :repository => repository, :number => '3.1')
-    assert_equal 4, repository.builds.next_number
+    Factory(:build, :repository => @repository, :number => '3.1')
+    assert_equal 4, @repository.builds.next_number
   end
 
   test 'given the build is a finished non-matrix build w/ recipients: send_notifications? should be true' do
-    build = Factory(:build, :finished_at => Time.now)
+    build = Factory(:build, :repository => @repository, :finished_at => Time.now)
     assert build.send_notifications?, 'send_notifications? should be true'
   end
 
   test 'given the build is a finished matrix child build w/ recipients: send_notifications? should be true' do
-    build = Factory(:build, :finished_at => Time.now)
-    child = Factory(:build, :parent => build)
+    build = Factory(:build, :repository => @repository, :finished_at => Time.now)
+    child = Factory(:build, :repository => @repository, :parent => build)
     assert build.send_notifications?, 'send_notifications? should be true'
   end
 
   test 'given the build is not finished matrix child build: send_notifications? should be false' do
-    build = Factory(:build, :finished_at => nil)
-    child = Factory(:build, :parent => build)
+    build = Factory(:build, :repository => @repository, :finished_at => nil)
+    child = Factory(:build, :repository => @repository, :parent => build)
     assert !build.send_notifications?, 'send_notifications? should be false'
   end
 
   test 'given the build does not have recipients: send_notifications? should be false' do
-    build = Factory(:build, :finished_at => Time.now)
+    build = Factory(:build, :repository => @repository, :finished_at => Time.now)
     build.stubs(:unique_recipients).returns('')
     assert !build.send_notifications?, 'send_notifications? should be false'
   end
 
   test 'given the build has notifications disabled: send_notifications? should be false' do
-    build = Factory(:build, :finished_at => Time.now, :config => { 'notifications' => { 'disabled' => true } })
+    build = Factory(:build, :repository => @repository, :finished_at => Time.now, :config => { 'notifications' => { 'disabled' => true } })
     assert !build.send_notifications?, 'send_notifications? should be false'
   end
 
   test 'given the build has an author_email: unique_recipients contains these emails' do
-    build = Factory(:build, :author_email => 'author-1@email.com,author-2@email.com')
+    build = Factory(:build, :repository => @repository, :author_email => 'author-1@email.com,author-2@email.com')
     assert_contains_recipients(build.unique_recipients, build.author_email)
   end
 
   test 'given the build has an committer_email: unique_recipients contains these emails' do
-    build = Factory(:build, :committer_email => 'committer-1@email.com,committer-2@email.com')
+    build = Factory(:build, :repository => @repository, :committer_email => 'committer-1@email.com,committer-2@email.com')
     assert_contains_recipients(build.unique_recipients, build.committer_email)
   end
 
   test "given the build's repository has an owner_email: unique_recipients contains these emails" do
-    build = Factory(:build)
+    build = Factory(:build, :repository => @repository)
     build.repository.stubs(:owner_email).returns('owner-1@email.com,owner-2@email.com')
     assert_contains_recipients(build.unique_recipients, build.repository.owner_email)
   end
 
   test "given the build's configuration has recipients specified: unique_recipients contains these emails" do
     recipients = %w(recipient-1@email.com recipient-2@email.com)
-    build = Factory(:build, :config => { 'notifications' => { 'recipients' => recipients } })
+    build = Factory(:build, :repository => @repository, :config => { 'notifications' => { 'recipients' => recipients } })
     assert_contains_recipients(build.unique_recipients, recipients)
   end
 
   test "denormalize_to_repository denormalizes the build id, number and started_at attributes to the build's repository" do
-    build = Factory(:build)
+    build = Factory(:build, :repository => @repository)
     now = Time.current
     build.update_attributes!(:number => 1, :started_at => now)
     repository = build.repository.reload
@@ -132,7 +129,7 @@ class BuildTest < ActiveSupport::TestCase
   end
 
   test "denormalize_to_repository denormalizes the build status and finished_at attributes to the build's repository if this is not a matrix build" do
-    build = Factory(:build)
+    build = Factory(:build, :repository => @repository)
     now = Time.current
     build.update_attributes!(:finished_at => now, :status => 0)
     repository = build.repository.reload
@@ -142,7 +139,7 @@ class BuildTest < ActiveSupport::TestCase
   end
 
   test "denormalize_to_repository denormalizes the build status and finished_at attributes to the build's repository if this is a matrix build and all children have finished" do
-    build = Factory(:build, :matrix => [Factory(:build), Factory(:build)], :config => { 'rvm' => ['1.8.7', '1.9.2'] })
+    build = Factory(:build, :repository => @repository, :matrix => [Factory(:build, :repository => @repository), Factory(:build, :repository => @repository)], :config => { 'rvm' => ['1.8.7', '1.9.2'] })
     now = Time.current
     build.matrix.first.update_attributes!(:finished_at => now, :status => 0)
     build.matrix.last.update_attributes!(:finished_at => now, :status => 0)
