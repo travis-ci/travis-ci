@@ -2,13 +2,13 @@ require 'test_helper'
 
 class BuildMailerTest < ActionMailer::TestCase
 
-  def before
-    Time.zone = 'Amsterdam'
+  def setup
+    @repository = Factory(:repository, :owner_email => 'foo@example.com')
   end
 
   def test_finished_email
-    repository = Factory(:repository, :owner_email => 'foo@example.com')
     build = Factory(:build, {
+      :repository => @repository,
       :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
       :finished_at => Time.zone.local(2011, 6, 23, 16, 47, 52),
       :committer_email => 'bar@example.com',
@@ -34,9 +34,9 @@ class BuildMailerTest < ActionMailer::TestCase
   end
 
   def test_finished_email_with_configured_email_addresses_as_array
-    repository = Factory(:repository, :owner_email => 'foo@example.com')
-    config = {'notifications' => {'recipients' => ['user1@example.de', 'user2@example.de', 'user3@example.de']}}
+    config = { 'notifications' => { 'recipients' => ['user1@example.de', 'user2@example.de', 'user3@example.de'] } }
     build = Factory(:build, {
+      :repository => @repository,
       :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
       :finished_at => Time.zone.local(2011, 6, 23, 15, 47, 52),
       :committer_email => 'bar@example.com',
@@ -59,9 +59,9 @@ class BuildMailerTest < ActionMailer::TestCase
   end
 
   def test_finished_email_with_configured_email_address_as_string
-    repository = Factory(:repository, :owner_email => 'foo@example.com')
-    config = {'notifications' => {'recipients' => 'user1@example.de'}}
+    config = { 'notifications' => { 'recipients' => 'user1@example.de' } }
     build = Factory(:build, {
+      :repository  => @repository,
       :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
       :finished_at => Time.zone.local(2011, 6, 23, 15, 30, 52),
       :committer_email => 'bar@example.com',
