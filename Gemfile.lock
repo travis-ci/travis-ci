@@ -94,7 +94,7 @@ GEM
       addressable (~> 2.2.4)
       multipart-post (~> 1.1.0)
       rack (< 2, >= 1.1.0)
-    faraday_middleware (0.6.3)
+    faraday_middleware (0.6.5)
       faraday (~> 0.6.0)
     ffi (1.0.9)
     ffi (1.0.9-java)
@@ -129,7 +129,7 @@ GEM
     multi_json (1.0.3)
     multi_xml (0.2.2)
     multipart-post (1.1.2)
-    newrelic_rpm (3.0.1)
+    newrelic_rpm (3.1.0)
     nokogiri (1.4.6)
     nokogiri (1.4.6-java)
       weakling (>= 0.0.3)
@@ -274,7 +274,7 @@ DEPENDENCIES
   minitest
   minitest_tu_shim
   mocha
-  newrelic_rpm (~> 3.0.1)
+  newrelic_rpm (~> 3.1.0)
   oa-oauth (~> 0.2.6)
   octokit!
   pg (~> 0.11.0)
