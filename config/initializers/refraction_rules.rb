@@ -11,22 +11,21 @@ Refraction.configure do |req|
     Rails.logger.flush if Rails.logger.respond_to?(:flush)
 
 
-  # all requests to https://secure.travis-ci.org should be allowed
-  elsif req.host == "secure.#{Regexp.escape(Travis.config["domain"])}" && req.scheme == 'https'
-
+  # secure.travis-ci.org should be allowed
+  elsif req.host == "secure.#{Travis.config["domain"]}"
+    # but must be https
+    if req.scheme != 'https'
+      req.permanent! :scheme => 'https'
+    else
       # passthrough
-
-
-  # all requests to secure.travis-ci.org should be https
-  elsif req.host == "secure.#{Regexp.escape(Travis.config["domain"])}" && req.scheme != 'https'
-
-    req.permanent! :scheme => 'https'
+    end
 
 
   # we don't want to use www.* for now (or other random names)
   elsif req.host =~ /([-\w]+\.)+#{Regexp.escape(Travis.config["domain"])}/
 
     req.permanent! :host => Travis.config["domain"]
+
 
   else
     # passthrough with no change
