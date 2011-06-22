@@ -18,7 +18,6 @@ Travis.Views.ServiceHooks.Item = Backbone.View.extend({
     })
   },
   onToggle: function(model, resp) {
-    console.log(this.model.get('is_active'))
     if (this.model.get('is_active'))
       this.el.find('.toggle_enabled').addClass('on')
     else

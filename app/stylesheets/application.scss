@@ -742,7 +742,7 @@ ul#tokens {
         height: 20px;
         margin-left: 10px;
         cursor: pointer;
-        .on {
+        &.on {
           background: url('/images/on.png') no-repeat;
         }
       }
