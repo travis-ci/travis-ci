@@ -96,6 +96,17 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     end
   end
 
+  test "find_or_create_and_add_service_hook: raises an error when can't authorize with GitHub" do
+    stub_request(:post, "https://api.github.com/hub").
+      to_return(:status => 401, :body => '{ "message":"test message" }', :headers => {})
+
+    user = Factory.create(:user)
+
+    assert_raises(Travis::GitHubApi::ServiceHookError) do
+      Repository.find_or_create_and_add_service_hook('svenfuchs', 'not-so-minimal', user)
+    end
+  end
+
   test "find_or_create_and_add_service_hook: raises an error if the record is invalid" do
     user = Factory.create(:user)
 
