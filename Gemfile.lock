@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/pengwynn/octokit.git
-  revision: 18bb97497b9bae7ec38786eb77aef0f5d6903855
+  revision: 4cd4666518daa2e34ba79dad1e71cda2dc9d6cd2
   specs:
     octokit (0.6.3)
       addressable (~> 2.2.6)
@@ -129,7 +129,7 @@ GEM
     multi_json (1.0.3)
     multi_xml (0.2.2)
     multipart-post (1.1.2)
-    newrelic_rpm (3.1.0)
+    newrelic_rpm (3.0.1)
     nokogiri (1.4.6)
     nokogiri (1.4.6-java)
       weakling (>= 0.0.3)
@@ -274,7 +274,7 @@ DEPENDENCIES
   minitest
   minitest_tu_shim
   mocha
-  newrelic_rpm (~> 3.1.0)
+  newrelic_rpm (~> 3.0.1)
   oa-oauth (~> 0.2.6)
   octokit!
   pg (~> 0.11.0)
