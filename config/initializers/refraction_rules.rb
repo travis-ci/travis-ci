@@ -10,8 +10,14 @@ Refraction.configure do |req|
 
     Rails.logger.flush if Rails.logger.respond_to?(:flush)
 
+  # all requests to secure.travis-ci.org should be https
+  elsif req.host == "secure.#{Regexp.escape(Travis.config["domain"])}" && req.scheme != 'https'
+
+    req.permanent! :scheme => 'https'
+
+  # we don't want to use www.* for now (or other random names)
   elsif req.host =~ /([-\w]+\.)+#{Regexp.escape(Travis.config["domain"])}/
-    # we don't want to use www for now
+
     req.permanent! :host => Travis.config["domain"]
 
   else
