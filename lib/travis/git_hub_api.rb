@@ -17,6 +17,8 @@ module Travis
       rescue Octokit::UnprocessableEntity => e
         # we might want to improve this for logging purposes
         raise ServiceHookError, 'error subscribing to the GitHub push event'
+      rescue Octokit::Unauthorized => e
+        raise ServiceHookError, 'error authorizing with given GitHub OAuth token'
       end
 
       # an error is thrown if there was a probem subscribing

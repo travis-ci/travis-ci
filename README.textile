@@ -1,4 +1,4 @@
-h1. Travis - a distributed build system "!http://travis-ci.org/travis-ci/travis-ci.png!":http://travis-ci.org/travis-ci/travis-ci
+h1. Travis - a distributed build system "!https://secure.travis-ci.org/travis-ci/travis-ci.png!":http://travis-ci.org/travis-ci/travis-ci
 
 Travis is an attempt to create an open-source, distributed build system for the Ruby community that:
 
@@ -90,9 +90,11 @@ Or if you're using markdown:
 
 bc. [![Build Status](http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png)](http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME])
 
-Travis' own status button looks like this: "!http://travis-ci.org/travis-ci/travis-ci.png!":http://travis-ci.org/travis-ci/travis-ci
+Travis' own status button looks like this: "!https://secure.travis-ci.org/travis-ci/travis-ci.png!":http://travis-ci.org/travis-ci/travis-ci
 
-**Please note :** GitHub proxies these images so they are delivered over HTTPS via its CDN. Due to this issue there may be a delay until the updated build status is shown on your project page. We are looking into this issue and will update the docs if we find a solution.
+**Please note :** If you are placing this image on a GitHub project status page we recommend you use the SSL enabled url so that GitHub does not proxy and cache the image. The SSL url is:
+
+bc. [![Build Status](https://secure.travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png)](http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME])
 
 h2. Installation
 

@@ -24,8 +24,3 @@ jasmine:
 test:
   <<: *defaults
   database: travis_test
-
-cucumber:
-  <<: *defaults
-  database: travis_test
-
