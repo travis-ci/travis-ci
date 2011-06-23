@@ -18,7 +18,7 @@ gem 'silent-postgres',      '~> 0.0.8'
 gem 'hoptoad_notifier',     '~> 2.4.11'
 gem 'jammit',               '~> 0.6.0'
 
-gem 'unicorn',              '~> 3.7.0'
+gem 'unicorn',              '~> 3.7.0', :platform => :ruby
 gem 'SystemTimer',          '~> 1.2.3', :platforms => :ruby_18
 gem 'clockwork'
 
@@ -29,7 +29,6 @@ gem 'jruby-openssl',        :platforms => :jruby
 
 group :test do
   gem 'capybara', '~> 1.0.0'
-  gem 'cucumber-rails'
   gem 'database_cleaner'
   gem 'factory_girl',       '~> 1.3'
   gem 'factory_girl_rails'
