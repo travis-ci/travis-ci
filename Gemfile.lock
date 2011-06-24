@@ -145,7 +145,7 @@ GEM
     oauth2 (0.4.1)
       faraday (~> 0.6.1)
       multi_json (>= 0.0.5)
-    open4 (1.0.1)
+    open4 (1.1.0)
     orm_adapter (0.0.5)
     pg (0.11.0)
     polyglot (0.3.1)
