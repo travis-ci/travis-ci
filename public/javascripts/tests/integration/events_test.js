@@ -316,8 +316,8 @@ describe('Events:', function() {
         });
 
         it('does not remove the sibling builds from the matrix table', function() {
-          expect(Travis.app.repositories.get(1).builds.get(3).matrix.length).toEqual(4)
-          expect($('#tab_build #matrix tbody tr').length).toEqual(4);
+          expect(Travis.app.repositories.get(1).builds.get(3).matrix.length).toEqual(10)
+          expect($('#tab_build #matrix tbody tr').length).toEqual(10);
         });
       });
 
@@ -343,6 +343,12 @@ describe('Events:', function() {
             ['3.2',   'test/Gemfile.rails-3.0.x', '1.8.7'],
             ['3.3',   'test/Gemfile.rails-2.3.x', '1.9.2'],
             ['3.4',   'test/Gemfile.rails-3.0.x', '1.9.2'],
+            ['3.5',   'test/Gemfile.rails-2.3.x', 'jruby'],
+            ['3.6',   'test/Gemfile.rails-3.0.x', 'jruby'],
+            ['3.7',   'test/Gemfile.rails-2.3.x', 'rbx'],
+            ['3.8',   'test/Gemfile.rails-3.0.x', 'rbx'],
+            ['3.9',   'test/Gemfile.rails-2.3.x', 'ree'],
+            ['3.10',  'test/Gemfile.rails-3.0.x', 'ree']
           ]);
           expect($('#tab_build #matrix tbody tr:nth-child(1)').hasClass('green')).toBeTruthy();
           expect($('#tab_build #matrix tbody tr:nth-child(2)').hasClass('green')).toBeFalsy();
