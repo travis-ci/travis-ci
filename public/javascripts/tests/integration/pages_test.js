@@ -4,6 +4,12 @@ var MATRIX = [
   ['3.2',   'test/Gemfile.rails-3.0.x', '1.8.7', '-',        '4 hrs 30 sec' ],
   ['3.3',   'test/Gemfile.rails-2.3.x', '1.9.2', '-',        '4 hrs 30 sec' ],
   ['3.4',   'test/Gemfile.rails-3.0.x', '1.9.2', '-',        '4 hrs 30 sec' ],
+  ['3.5',   'test/Gemfile.rails-2.3.x', 'jruby', '-',        '4 hrs 30 sec' ],
+  ['3.6',   'test/Gemfile.rails-3.0.x', 'jruby', '-',        '4 hrs 30 sec' ],
+  ['3.7',   'test/Gemfile.rails-2.3.x', 'rbx',   '-',        '4 hrs 30 sec' ],
+  ['3.8',   'test/Gemfile.rails-3.0.x', 'rbx',   '-',        '4 hrs 30 sec' ],
+  ['3.9',   'test/Gemfile.rails-2.3.x', 'ree',   '-',        '4 hrs 30 sec' ],
+  ['3.10',  'test/Gemfile.rails-3.0.x', 'ree',   '-',        '4 hrs 30 sec' ]
 ];
 
 var HISTORY = {
