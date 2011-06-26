@@ -141,7 +141,7 @@ GEM
       oa-core (= 0.2.6)
       oauth (~> 0.4.0)
       oauth2 (~> 0.4.1)
-    oauth (0.4.4)
+    oauth (0.4.5)
     oauth2 (0.4.1)
       faraday (~> 0.6.1)
       multi_json (>= 0.0.5)
