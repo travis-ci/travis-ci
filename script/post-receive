@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'git'
+
+g = Git.open(File.expand_path('..'), :log => '/tmp/lala')
+g.log.each do |l|
+  puts l
+end
