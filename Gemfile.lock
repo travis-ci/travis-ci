@@ -177,7 +177,7 @@ GEM
     rash (0.3.0)
       hashie (~> 1.0.0)
     rbx-require-relative (0.0.5)
-    rdoc (3.6.1)
+    rdoc (3.7)
     redis (2.2.1)
     redis-namespace (1.0.3)
       redis (< 3.0.0)
