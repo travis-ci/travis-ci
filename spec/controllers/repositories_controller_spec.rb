@@ -87,5 +87,12 @@ describe RepositoriesController do
         with("#{Rails.public_path}/images/status/#{status}.png", { :type=>"image/png", :disposition=>"inline" }).
         once
     end
+
+    it "responds with XML" do
+      Factory(:successfull_build, :repository => repository)
+      post(:show, :format => "xml", :owner_name => "sven", :name => "fuchs")
+      response.headers['Content-Type'].should match('application/xml')
+    end
+
   end
 end

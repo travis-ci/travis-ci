@@ -35,6 +35,10 @@ class Repository < ActiveRecord::Base
       repository.last_finished_build.status == 0 ? 'stable' : 'unstable'
     end
 
+    def xml_status_by(attributes)
+      "<status>#{human_status_by(attributes)}</status>"
+    end
+
     def search(query)
       where("repositories.name LIKE ? OR repositories.owner_name LIKE ?", "%#{query}%", "%#{query}%")
     end
