@@ -20,38 +20,17 @@ class Build < ActiveRecord::Base
   after_save  :was_finished,   :if => :was_finished?
 
   class << self
-    def create_from_payload(payload, source = nil)
-      if source
-        create_from_local_payload(payload)
-      else
-        create_from_github_payload(payload)
-      end
-    end
-
     def create_from_github_payload(payload)
       data = Github::ServiceHook::Payload.new(payload)
 
       return false if data.repository.private?
 
-      repository = Repository.find_or_create_by_repository(data.repository)
+      repository = Repository.find_or_create_by_github_repository(data.repository)
       number     = repository.builds.next_number
       build      = data.builds.last
 
       if build
         attributes = build.to_hash.merge(:number => number, :github_payload => payload, :compare_url => data.compare)
-        repository.builds.create(attributes) unless exclude?(attributes)
-      end
-    end
-
-    def create_from_local_payload(payload)
-      data = Github::ServiceHook::Payload.new(payload)
-
-      repository = Repository.find_or_create_by_repository(data.repository)
-      number     = repository.builds.next_number
-      build      = data.builds.last
-
-      if build
-        attributes = build.to_hash.merge(:number => number)
         repository.builds.create(attributes) unless exclude?(attributes)
       end
     end
