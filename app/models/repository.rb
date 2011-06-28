@@ -23,7 +23,7 @@ class Repository < ActiveRecord::Base
       limit(20)
     end
 
-    def find_or_create_by_github_repository(data)
+    def find_or_create_by_repository(data)
       find_or_create_by_name_and_owner_name(data.name, data.owner_name) do |r|
         r.update_attributes!(data.to_hash)
       end
