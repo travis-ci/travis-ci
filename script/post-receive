@@ -1,9 +1,72 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'git'
+require 'grit'
+require 'logger'
+require 'net/http'
+require 'uri'
+require 'json'
 
-g = Git.open(File.expand_path('..'), :log => '/tmp/lala')
-g.log.each do |l|
-  puts l
+# basic logging
+logger = Logger.new( '/tmp/post-receive.log' )
+
+# this arguments come from git hook
+before, after, ref = STDIN.read.split(" ")
+branch = ref.split('/').last
+
+# replace with your git repository's configuration 
+@travis_repository_url = "git@192.168.0.4:test.git"
+@repository_owner      = 'travis'
+@repository_email      = 'travis@travis.com'
+@travis_url            = "http://192.168.0.20:3000/"
+
+# git repository directory
+# this script is in the hooks directory
+# already on the repository
+working_dir = File.expand_path('../..', __FILE__)
+
+travis_url  = URI.parse( @travis_url + '/builds' )
+
+def create_travis_hash(before, after, branch, repo)
+  {
+    :before => before,
+    :after  => after,
+    :repository => {
+      :name  => repo.path.split('/').last.split('.').first,
+      :owner => { :name => @repository_owner, :email => 'luiz.felipe.gp@gmail.com' },
+      :url   => @travis_repository_url
+    },
+    :commits => repo.commits_between(before, after).collect { |c| create_commit_hash(c) },
+    :ref     => "refs/heads/#{branch}"
+  }
 end
+
+def create_commit_hash(commit)
+  {
+    :id => commit.id,
+    :message => commit.message,
+    :timestamp => commit.committed_date.strftime('%Y-%m-%d %H:%M:%S'),
+    :author   => { :name => commit.author.name,     :email => commit.author.email },
+    :commiter => { :name => commit.committer.name,  :email => commit.committer.email },
+  }
+end
+
+repo = Grit::Repo.new( working_dir )
+
+req = Net::HTTP::Post.new( travis_url.path )
+req.set_form_data( :payload => create_travis_hash( before, after, branch, repo ).to_json, :source => 'local' )
+
+begin
+  result = Net::HTTP.new( travis_url.host, travis_url.port ).start {|http| http.request( req ) }
+
+  case result
+  when Net::HTTPSuccess
+    # OK
+  else
+    logger.fatal 'POST request failed'
+    #result.error!
+  end
+rescue => e
+  e
+end
+
