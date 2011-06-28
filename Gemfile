@@ -6,7 +6,7 @@ gem 'pg',                   '~> 0.11.0'
 gem 'yajl-ruby',            '~> 0.8.2'
 
 gem 'compass',              '~> 0.11.3'
-gem 'devise',               '~> 1.3.4'
+gem 'devise',               '~> 1.4.0'
 gem 'oa-oauth',             '~> 0.2.6', :require => 'omniauth/oauth'
 
 gem 'refraction',           '~> 0.2.0'
