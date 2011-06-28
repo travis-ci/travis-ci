@@ -15,7 +15,7 @@ common: &default_settings
   # You must specify the license key associated with your New Relic
   # account.  This key binds your Agent's data to your account in the
   # New Relic service.
-  license_key: <%= ENV["NEW_RELIC_LICENSE_KEY"] %>
+  license_key: 1bbad8e06d16ee2d2fa2e0ad0827091fa936d6e1
 
   # Agent Enabled (Rails Only)
   # Use this setting to force the agent to run or not run.
@@ -42,7 +42,7 @@ common: &default_settings
   #       - Ajax Service
   #       - All Services
   #
-  app_name: <%= ENV["NEW_RELIC_APPNAME"] %>
+  app_name: travis-production
 
   # When "true", the agent collects performance data about your
   # application and reports this data to the New Relic service at
