@@ -110,18 +110,7 @@ In order to push these settings to Heroku you can use:
 $ rake heroku:config
 </pre>
 
-Starting a local worker:
-
-<pre>
-$ script/worker
-</pre>
-
-Or using God:
-
-<pre>
-$ cp config/resque.god.example config/resque.god
-$ god -c config/resque.god
-</pre>
+To start a local worker, please refer to "travis-worker":https://github.com/travis-ci/travis-worker
 
 
 h2. Running the tests
