@@ -7,8 +7,20 @@
   <dt>E-Mail:</dt>
   <dd><%= @user.email %></dd>
   <dt>Token:</dt>
-  <dd><%= @user.tokens.first.token %></dd>
+  <dd <%= %Q{class=highlight} if params[:welcome] %>><%= @user.tokens.first.token %></dd>
 </dl>
+
+<% if params[:welcome] %>
+  <div id="welcome">
+    <h4>Welcome to Travis!</h4>
+    <p>
+      To add a project to Travis, create a <code>.travis.yml</code> file in the project's root. <a href="https://github.com/travis-ci/travis-ci/wiki/.travis.yml-options">There are lots of different options</a>.
+    </p>
+    <p>
+      Then using the token highlighted above and the spanner links below, add the Travis post-recieve hook to your project on Github.
+    </p>
+  </div>
+<% end %>
 
 <h4>Your Repositories</h4>
 <div id="my_repositories">
