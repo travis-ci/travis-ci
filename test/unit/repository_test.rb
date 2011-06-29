@@ -21,21 +21,21 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     assert_equal ['has already been taken'], repository.errors['name']
   end
 
-  test 'find_or_create_by_github_repository: finds an existing repository' do
+  test 'find_or_create_by_repository: finds an existing repository' do
     data    = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
     payload = Github::ServiceHook::Payload.new(data)
 
-    assert_equal repository_1, Repository.find_or_create_by_github_repository(payload.repository)
+    assert_equal repository_1, Repository.find_or_create_by_repository(payload.repository)
   end
 
-  test 'find_or_create_by_github_repository: creates a new repository' do
+  test 'find_or_create_by_repository: creates a new repository' do
     repository_1.destroy
     data     = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
     payload  = Github::ServiceHook::Payload.new(data)
 
     attribute_names = ['name', 'owner_name', 'owner_email', 'url']
     expected = repository_1.attributes.slice(*attribute_names)
-    actual   = Repository.find_or_create_by_github_repository(payload.repository).attributes.slice(*attribute_names)
+    actual   = Repository.find_or_create_by_repository(payload.repository).attributes.slice(*attribute_names)
 
     assert_equal expected, actual
   end

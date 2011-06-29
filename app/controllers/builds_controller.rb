@@ -19,7 +19,9 @@ class BuildsController < ApplicationController
   end
 
   def create
-    if build = Build.create_from_payload(params[:payload], params[:source])
+    source = _normalize_payload_source(params[:payload], params[:source])
+
+    if build = Build.create_from_payload(params[:payload], source)
       build.save!
       enqueue!(build)
       build.repository.update_attributes!(:last_build_started_at => Time.now) # TODO the build isn't actually started now
@@ -81,4 +83,15 @@ class BuildsController < ApplicationController
     def push(event, data)
       Pusher[event == 'build:queued' ? 'jobs' : 'repositories'].trigger(event, data)
     end
+
+    protected
+
+      def _normalize_payload_source(payload, source)
+        case source
+        when 'local'
+          :local
+        else
+          :github
+        end
+      end
 end
