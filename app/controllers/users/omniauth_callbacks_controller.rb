@@ -11,7 +11,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @user.recently_signed_up?
       # for some reason, if i use root_url(:anchor => "!/welcome") rails
       # feels the need to escape the '/' thus breaking backbone.
-      redirect_to "/#!/welcome"
+      redirect_to profile_url(:welcome => true)
     else
       redirect_to root_url
     end

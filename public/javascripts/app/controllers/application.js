@@ -10,7 +10,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     '!/:owner/:name/builds/:id': 'repositoryBuild',
   },
   initialize: function() {
-    _.bindAll(this, 'recent', 'welcome', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'repositorySelected',
+    _.bindAll(this, 'recent', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'repositorySelected',
               'buildQueued', 'buildStarted', 'buildLogged', 'buildFinished');
   },
   run: function() {
@@ -51,10 +51,6 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.followBuilds = true;
     this.repositories.whenFetched(this.repositories.selectLast);
     this.selectTab();
-  },
-  welcome: function(){
-    this.recent();
-    $("#main").prepend(Travis.templates['tools/welcome']());
   },
   repository: function(owner, name) {
     this.reset();

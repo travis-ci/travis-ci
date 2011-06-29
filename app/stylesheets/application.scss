@@ -352,6 +352,10 @@ caption {
   .profile dd {
     clear: right;
   }
+  .profile dd.highlight {
+    color: #C7371A;
+    font-weight: bold;
+  }
   .summary {
     margin: 20px 0 0 0;
   }
@@ -665,6 +669,15 @@ pre::-webkit-scrollbar-thumb:horizontal {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+}
+
+#welcome {
+  margin-top: -35px;
+  margin-bottom: 35px;
+  font-size: 13px;
+  h4, p {
+    margin-bottom: 4px;
+  }
 }
 
 #github_ribbon {
