@@ -456,7 +456,7 @@ caption {
 
 /* main overrides */
 
-#stats {
+#stats,#profile {
   #main {
     padding: 0;
     padding-top: 60px;
@@ -669,6 +669,13 @@ pre::-webkit-scrollbar-thumb:horizontal {
   width: 25px;
 }
 
+
+/* graph containers */
+
+#repo_count_container {
+  width: 100%;
+  height: 400px;
+}
 
 /* stuff */
 

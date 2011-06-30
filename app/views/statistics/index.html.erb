@@ -2,14 +2,14 @@
 
 <h2>Some fun graphs!</h2>
 
-<div id="container" style="width: 100%; height: 400px"></div>
+<div id="repo_count_container"></div>
 
 <%= javascript_tag do %>
   var chart; // globally available
   $(document).ready(function() {
     chart = new Highcharts.Chart({
           chart: {
-             renderTo: 'container',
+             renderTo: 'repo_count_container',
              type: 'spline'
           },
           title: {
