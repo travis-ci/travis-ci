@@ -27,6 +27,8 @@ TravisCi::Application.routes.draw do
   resources :jobs,    :only => :index
   resources :workers, :only => :index
 
+  match "/stats" => "statistics#index"
+
   # need to include the jammit route here so it preceeds the user route below
   match "/#{Jammit.package_path}/:package.:extension", :to => 'jammit#package', :as => :jammit, :constraints => { :extension => /.+/ }
 end

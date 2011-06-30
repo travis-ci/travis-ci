@@ -40,7 +40,7 @@ $(document).ready(function() {
   $('.tool-tip').tipsy({ gravity: 'n', fade: true });
   $('.fold').live('click', function() { $(this).hasClass('open') ? $(this).removeClass('open') : $(this).addClass('open'); })
 
-  if(env == 'development') {
+  if(env == 'development' && $("body").id == 'home') {
     $('#jobs').after(Travis.templates['tools/events']());
     var events = {
       'build:queued':   { 'repository': { 'id': 3, 'slug': 'travis-ci/travis-ci' }, 'build': { 'id': 4, 'number': 46 } },
