@@ -1,24 +1,12 @@
 GIT
-  remote: https://github.com/intridea/omniauth.git
-  revision: abc65ba1c69787bc94c6bfd857d73a570879ae30
-  specs:
-    oa-core (0.3.0.rc1)
-    oa-oauth (0.3.0.rc1)
-      faraday (~> 0.7.3)
-      multi_json (~> 1.0.0)
-      multi_xml (~> 0.2.2)
-      oa-core (= 0.3.0.rc1)
-      oauth (~> 0.4.0)
-      oauth2 (~> 0.5.0.rc1)
-
-GIT
   remote: https://github.com/pengwynn/octokit.git
-  revision: 2ded131d202c024ce9dd0758f5d647fe4f490020
+  revision: 463e08caa4f940045f7f9e2003bd9dcd427b13c0
+  ref: 463e08caa4f940045f7f
   specs:
     octokit (0.6.3)
       addressable (~> 2.2.6)
-      faraday (~> 0.7.3)
-      faraday_middleware (~> 0.7.0.rc1)
+      faraday (~> 0.6.0)
+      faraday_middleware (~> 0.6.0)
       hashie (~> 1.0.0)
       multi_json (~> 1.0.2)
 
@@ -102,12 +90,12 @@ GEM
       factory_girl (~> 1.3)
       railties (>= 3.0.0)
     fakeredis (0.1.4)
-    faraday (0.7.3)
-      addressable (~> 2.2.6)
+    faraday (0.6.1)
+      addressable (~> 2.2.4)
       multipart-post (~> 1.1.0)
-      rack (>= 1.1.0, < 2)
-    faraday_middleware (0.7.0.rc1)
-      faraday (~> 0.7.3)
+      rack (< 2, >= 1.1.0)
+    faraday_middleware (0.6.5)
+      faraday (~> 0.6.0)
     ffi (1.0.9)
     ffi (1.0.9-java)
     fssm (0.2.7)
@@ -145,10 +133,18 @@ GEM
     nokogiri (1.4.6)
     nokogiri (1.4.6-java)
       weakling (>= 0.0.3)
-    oauth (0.4.5)
-    oauth2 (0.5.0.rc1)
-      faraday (>= 0.6.1, < 0.8)
+    oa-core (0.2.6)
+    oa-oauth (0.2.6)
+      faraday (~> 0.6.1)
       multi_json (~> 1.0.0)
+      multi_xml (~> 0.2.2)
+      oa-core (= 0.2.6)
+      oauth (~> 0.4.0)
+      oauth2 (~> 0.4.1)
+    oauth (0.4.5)
+    oauth2 (0.4.1)
+      faraday (~> 0.6.1)
+      multi_json (>= 0.0.5)
     open4 (1.1.0)
     orm_adapter (0.0.5)
     pg (0.11.0)
@@ -279,7 +275,7 @@ DEPENDENCIES
   minitest_tu_shim
   mocha
   newrelic_rpm (~> 3.1.0)
-  oa-oauth (~> 0.3.0.rc1)!
+  oa-oauth (~> 0.2.6)
   octokit!
   pg (~> 0.11.0)
   pusher (~> 0.8.1)

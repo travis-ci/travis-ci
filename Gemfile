@@ -7,12 +7,12 @@ gem 'yajl-ruby',         '~> 0.8.2'
 
 gem 'compass',           '~> 0.11.3'
 gem 'devise',            '~> 1.4.2'
-gem 'oa-oauth',          '~> 0.3.0.rc1', :require => 'omniauth/oauth', :git => 'https://github.com/intridea/omniauth.git'
+gem 'oa-oauth',          '~> 0.2.6'
 
 gem 'refraction',        '~> 0.2.0'
 gem 'unobtrusive_flash', '~> 0.0.2'
 gem 'pusher',            '~> 0.8.1'
-gem 'octokit',           :git => 'https://github.com/pengwynn/octokit.git'
+gem 'octokit',           :git => 'https://github.com/pengwynn/octokit.git', :ref => '463e08caa4f940045f7f'
 
 gem 'silent-postgres',   '~> 0.0.8'
 gem 'hoptoad_notifier',  '~> 2.4.11'
