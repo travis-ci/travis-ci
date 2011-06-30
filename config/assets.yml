@@ -2,6 +2,8 @@ package_path: javascripts
 compress_assets: off
 embed_assets: off
 gzip_assets: off
+template_function: Handlebars.compile
+template_extension: ms
 
 javascripts:
   travis:
@@ -13,6 +15,8 @@ javascripts:
     - public/javascripts/app/**/*.js
   user_profile:
     - public/javascripts/user_profile_page.js
+  templates:
+    - public/javascripts/app/templates/**/*.ms
   jasmine:
     - public/javascripts/tests/vendor/jasmine.js
     - public/javascripts/tests/vendor/**/*.js

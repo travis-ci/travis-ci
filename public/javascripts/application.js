@@ -2,7 +2,7 @@ var Travis = {
   // Namespace initialization
   Controllers: {}, Collections: {}, Helpers: {}, Models: {}, Views: { Base: {}, ServiceHooks: {}, Build: { History: {}, Matrix: {} }, Jobs: {}, Repositories: {}, Repository: {}, Workers: {} },
   start: function() {
-    Travis.templates = Utils.loadTemplates();
+    Travis.templates = JST;
     Backbone.history = new Backbone.History;
     Travis.app = new Travis.Controllers.Application();
     Travis.app.run();
@@ -31,7 +31,7 @@ $(document).ready(function() {
     var channels = ['repositories', 'jobs'];
     _.each(channels, function(channel) { pusher.subscribe(channel).bind_all(Travis.receive); })
   } else {
-    Travis.templates = Utils.loadTemplates();
+    Travis.templates = JST;
   }
 
   $('#top .profile').mouseover(function() { $('#top .profile ul').show(); });
