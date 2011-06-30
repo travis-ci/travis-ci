@@ -90,7 +90,7 @@ GEM
       sass (~> 3.1)
     crack (0.1.8)
     database_cleaner (0.6.7)
-    devise (1.4.0)
+    devise (1.4.1)
       bcrypt-ruby (~> 2.1.2)
       orm_adapter (~> 0.0.3)
       warden (~> 1.0.3)
