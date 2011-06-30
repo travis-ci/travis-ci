@@ -6,14 +6,8 @@ class RepositoriesController < ApplicationController
   end
 
   def show
-    respond_to do |format|
-      format.json do
-        render :json => repository
-      end
-      format.png do
-        response.headers["Expires"] = CGI.rfc1123_date(Time.now)
-        send_file(status_image_path, :type => 'image/png', :disposition => 'inline')
-      end
+    respond_with(repository) do |format|
+      format.png { send_status_image_file }
     end
   end
 
@@ -33,9 +27,13 @@ class RepositoriesController < ApplicationController
       params[:search].present? ? repos.search(params[:search]) : repos
     end
 
-    def status_image_path
+    def send_status_image_file
       status = Repository.human_status_by(params.slice(:owner_name, :name))
-      "#{Rails.public_path}/images/status/#{status}.png"
+      path   = "#{Rails.public_path}/images/status/#{status}.png"
+
+      response.headers["Expires"] = CGI.rfc1123_date(Time.now)
+
+      send_file(path, :type => 'image/png', :disposition => 'inline')
     end
 
 end
