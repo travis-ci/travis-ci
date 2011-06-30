@@ -66,17 +66,20 @@ Utils = {
       { re: /\[42;37;1m(.)/g, style: 'success' },   // Colorize: success
       { re: /\[41;33;7;1m(.)/g, style: 'warning' }];// Colorize: warning
 
+    // TODO: integrate these:
+    // "[30;30;1mCasdasd asdasd[30;30;1mDaaa[0m".replace(/\[30;30;1m(.*?)(?=\[)|(\[0m$)/g, "<span>$1</span>")
+
     for (index in single_char_color_regexps) {
       pattern = single_char_color_regexps[index]
       string = string.replace(pattern.re, '<span class="' + pattern.style + '">$1</span>');
     }
     var color_regexps = [
-      { re: /\[31m/g, style: 'red' },
-      { re: /\[32m/g, style: 'green' },
-      { re: /\[33m/g, style: 'yellow' },
-      { re: /\[34m/g, style: 'blue' },
-      { re: /\[35m/g, style: 'magenta' },
-      { re: /\[36m/g, style: 'cyan' }];
+      { re: /(\e?)\[31m/g, style: 'red' },
+      { re: /(\e?)\[32m/g, style: 'green' },
+      { re: /(\e?)\[33m/g, style: 'yellow' },
+      { re: /(\e?)\[34m/g, style: 'blue' },
+      { re: /(\e?)\[35m/g, style: 'magenta' },
+      { re: /(\e?)\[36m/g, style: 'cyan' }];
 
     for (index in color_regexps) {
       pattern = color_regexps[index]
@@ -85,13 +88,7 @@ Utils = {
 
     // http://asciiAjaxterm-table.com/ansi-escape-sequences.php
     // could also contain 1 for bold
-    string = string.replace(/\[0?m(?:\(B)?/gm, '</span>');
-      // .replace(/\[31m/g, '<span class="red">')
-      //              .replace(/\[32m/g, '<span class="green">')
-      //              .replace(/\[33m/g, '<span class="yellow">')
-      //              .replace(/\[34m/g, '<span class="blue">')
-      //              .replace(/\[35m/g, '<span class="magenta">')
-                   // .replace(/\[36m/g, '<span class="cyan">')
+    string = string.replace(/(\e?)(\[m)(.*)(\(B)$/gm, '</span>');
 
 
     return string;
