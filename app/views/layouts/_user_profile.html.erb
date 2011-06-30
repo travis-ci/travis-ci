@@ -1,0 +1,17 @@
+<div class="profile">
+  <% if user_signed_in? %>
+    <a href="#">
+      <%= gravatar(current_user, :size => 24) %>
+      <span class="name"><%= current_user.name || current_user.login %></span>
+    </a>
+    <ul>
+      <li><%= link_to "Profile", profile_path %></li>
+      <% if current_user.is_admin? %>
+        <li><%= link_to "Admin", '#' %></li>
+      <% end %>
+      <li><%= link_to "Sign out", destroy_session_path %></li>
+    </ul>
+  <% else %>
+    <%= link_to "Sign in with Github", user_omniauth_authorize_path(:github), :class => "profile-signup" %>
+  <% end %>
+</div>

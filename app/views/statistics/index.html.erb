@@ -1,0 +1,47 @@
+<%- content_for(:body_id, 'stats') -%>
+
+<h2>Some fun graphs!</h2>
+
+<div id="container" style="width: 100%; height: 400px"></div>
+
+<%= javascript_tag do %>
+  var chart; // globally available
+  $(document).ready(function() {
+    chart = new Highcharts.Chart({
+          chart: {
+             renderTo: 'container',
+             type: 'spline'
+          },
+          title: {
+             text: 'Repo Count'
+          },
+          xAxis: {
+             type: 'datetime',
+             dateTimeLabelFormats: { // don't display the dummy year
+                month: '%e. %b',
+                year: '%b'
+             }
+          },
+          yAxis: {
+             title: {
+                text: 'Count'
+             },
+             min: 0
+          },
+          tooltip: {
+             formatter: function() {
+                       return '<b>'+ this.series.name +'</b><br/>'+
+                   Highcharts.dateFormat('%e. %b', this.x) +': '+ this.y +' repos';
+             }
+          },
+          series: [{
+             name: 'Total Repos',
+             // Define the data points. All series have a dummy year
+             // of 1970/71 in order to be compared on the same x axis. Note
+             // that in JavaScript, months start at 0 for January, 1 for February etc.
+             data: <%= @repo_graph_stats.map { |stats| [DateTime.parse(stats[:date]).to_i * 1000, stats[:total_growth]] }.to_json %>
+          }]
+       });
+
+  });
+<% end %>
