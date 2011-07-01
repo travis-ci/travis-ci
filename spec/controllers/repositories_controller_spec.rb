@@ -46,7 +46,7 @@ describe RepositoriesController do
     it 'shows an "unknown" button when the repository does not exist' do
       should_receive_file_with_status("unknown")
 
-      post(:show, :format => "png", :owner_name => "sven", :name => "fuchs")
+      get(:show, :format => "png", :owner_name => "sven", :name => "fuchs")
     end
 
     it 'shows an "unknown" button when it only has a build thats not finished' do
@@ -54,7 +54,7 @@ describe RepositoriesController do
 
       should_receive_file_with_status("unknown")
 
-      post(:show, :format => "png", :owner_name => "sven", :name => "fuchs")
+      get(:show, :format => "png", :owner_name => "sven", :name => "fuchs")
     end
 
     it 'shows an "unstable" button when the repository has broken build' do
@@ -62,7 +62,7 @@ describe RepositoriesController do
 
       should_receive_file_with_status("unstable")
 
-      post(:show, :format => "png", :owner_name => "sven", :name => "fuchs")
+      get(:show, :format => "png", :owner_name => "sven", :name => "fuchs")
     end
 
     it 'shows a "stable" button when the repository\'s last build passed' do
@@ -70,7 +70,7 @@ describe RepositoriesController do
 
       should_receive_file_with_status("stable")
 
-      post(:show, :format => "png", :owner_name => "sven", :name => "fuchs")
+      get(:show, :format => "png", :owner_name => "sven", :name => "fuchs")
     end
 
     it 'shows a "stable" button when the previous build passed and there\'s one still running' do
@@ -79,7 +79,7 @@ describe RepositoriesController do
 
       should_receive_file_with_status("stable")
 
-      post(:show, :format => "png", :owner_name => "sven", :name => "fuchs")
+      get(:show, :format => "png", :owner_name => "sven", :name => "fuchs")
     end
     
     def should_receive_file_with_status(status)
