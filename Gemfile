@@ -24,6 +24,7 @@ gem 'clockwork'
 
 gem 'resque',            '~> 1.17.1'
 gem 'resque-heartbeat',  :git => 'https://github.com/svenfuchs/resque-heartbeat.git', :ref => 'ba7a89f'
+gem 'rabl'
 
 gem 'jruby-openssl',     :platforms => :jruby
 
@@ -65,3 +66,4 @@ group :development do
     gem 'ruby-debug19', :platforms => :mri_19
   end
 end
+
