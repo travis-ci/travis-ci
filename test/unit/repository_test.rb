@@ -7,12 +7,24 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     super
     @repository_1 = Factory(:repository, :name => 'gem-release', :owner_name => 'svenfuchs')
     @repository_2 = Factory(:repository, :name => 'gem-release', :owner_name => 'flooose')
-    @build_1 = Factory(:build, :repository => repository_1, :number => '1', :status => 0, :started_at => '2010-11-11 12:00:00')
+    @build_1 = Factory(:build, :repository => repository_1, :number => '1', :status => 0, :started_at => '2010-11-11 12:00:00', :finished_at => '2010-11-11 12:00:10')
     @build_2 = Factory(:build, :repository => repository_2.reload, :number => '2', :status => 1, :started_at => '2010-11-11 12:00:10', :finished_at => '2010-11-11 12:00:10')
     @build_3 = Factory(:build, :repository => repository_2.reload, :number => '3', :status => nil, :started_at => '2010-11-11 12:00:20')
 
     repository_1.reload
     repository_2.reload
+  end
+
+  test 'returns stable human readable status for stable build' do
+    assert_equal 'stable', repository_1.human_status
+  end
+
+  test 'returns unstable human readable status for unstable build' do
+    assert_equal 'unstable', repository_2.human_status
+  end
+
+  test 'returns unknown human readable status for unfinished build' do
+    assert_equal Factory(:repository).human_status, 'unknown'
   end
 
   test 'validates_uniqueness of :owner_name/:name' do
@@ -132,7 +144,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
   test 'denormalizes last_build_id, last_build_number, last_build_status, last_build_started_at and last_build_finished_at' do
     attribute_names = %w(last_build_id last_build_number last_build_status last_build_started_at last_build_finished_at)
     attributes = repository_1.attributes.values_at(*attribute_names)
-    assert_equal [build_1.id.to_s, '1', '0', '2010-11-11 12:00:00 UTC', ''], attributes.map(&:to_s)
+    assert_equal [build_1.id.to_s, '1', '0', '2010-11-11 12:00:00 UTC', '2010-11-11 12:00:10 UTC'], attributes.map(&:to_s)
 
     attributes = repository_2.attributes.values_at(*attribute_names)
     assert_equal [build_3.id.to_s, '3', '', '2010-11-11 12:00:20 UTC', ''], attributes.map(&:to_s)
