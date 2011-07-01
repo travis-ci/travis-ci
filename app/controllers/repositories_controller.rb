@@ -14,6 +14,10 @@ class RepositoriesController < ApplicationController
         response.headers["Expires"] = CGI.rfc1123_date(Time.now)
         send_file(status_image_path, :type => 'image/png', :disposition => 'inline')
       end
+      format.xml do
+        response.headers["Expires"] = CGI.rfc1123_date(Time.now)
+        render :xml => Repository.xml_status_by(params.slice(:owner_name, :name))
+      end
     end
   end
 

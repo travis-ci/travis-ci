@@ -4,6 +4,7 @@ TravisCi::Application.routes.draw do
   root :to => 'home#index'
 
   match ":owner_name/:name.png", :to => 'repositories#show', :format => 'png'
+  match ":owner_name/:name.xml", :to => 'repositories#show', :format => 'xml'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
