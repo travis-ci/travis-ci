@@ -1,9 +1,9 @@
 <div class="profile">
   <% if user_signed_in? %>
-    <a href="#">
+    <%= link_to profile_path do %>
       <%= gravatar(current_user, :size => 24) %>
       <span class="name"><%= current_user.name || current_user.login %></span>
-    </a>
+    <% end %>
     <ul>
       <li><%= link_to "Profile", profile_path %></li>
       <% if current_user.is_admin? %>

@@ -31,8 +31,6 @@
 
       <ul id="navigation">
         <%= top_bar_menu_item('Home', root_path) %>
-        <%= top_bar_menu_item('Profile', profile_path) if user_signed_in? %>
-        <%= top_bar_menu_item('Admin', '#') if user_signed_in? && current_user.is_admin? %>
         <%= top_bar_menu_item('Stats', stats_path) %>
         <%= top_bar_menu_item('About', '#', :class => "tool-tip", :title => "Coming Soon!") %>
       </ul>
