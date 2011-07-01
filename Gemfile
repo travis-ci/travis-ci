@@ -24,7 +24,7 @@ gem 'clockwork'
 
 gem 'resque',            '~> 1.17.1'
 gem 'resque-heartbeat',  :git => 'https://github.com/svenfuchs/resque-heartbeat.git', :ref => 'ba7a89f'
-gem 'rabl'
+gem 'rabl',              '~> 0.3.0'
 
 gem 'jruby-openssl',     :platforms => :jruby
 
