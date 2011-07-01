@@ -15,7 +15,10 @@
       <%= include_javascripts :jasmine %>
     <% end %>
     <%= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
+
     <%= include_javascripts :travis %>
+    <%= include_javascripts :templates %>
+
     <% if Rails.env.test? %>
       <%= include_javascripts :capybara %>
     <% end %>
@@ -42,7 +45,5 @@
     <div id="main">
       <%= yield %>
     </div>
-
-    <%= include_javascripts :templates %>
   </body>
 </html>
