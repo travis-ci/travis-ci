@@ -1,11 +1,15 @@
 class RepositoriesController < ApplicationController
-  respond_to :json
+  respond_to :json, :xml
 
   def index
+    @repositories = repositories
+
     respond_with(repositories)
   end
 
   def show
+    @repository = repository
+
     respond_with(repository) do |format|
       format.png { send_status_image_file }
     end
