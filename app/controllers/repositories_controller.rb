@@ -14,7 +14,7 @@ class RepositoriesController < ApplicationController
   protected
 
     def repository
-      Repository.find(params[:id])
+      Repository.where(:name => params[:name], :owner_name => params[:owner_name]).first
     end
 
     def repositories
