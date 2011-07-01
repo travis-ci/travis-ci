@@ -30,9 +30,7 @@ class Repository < ActiveRecord::Base
     end
 
     def human_status_by(attributes)
-      repository = where(attributes).first
-      return 'unknown' unless repository && repository.last_finished_build
-      repository.last_finished_build.status == 0 ? 'stable' : 'unstable'
+      where(attributes).first.human_status
     end
 
     def search(query)
@@ -80,6 +78,12 @@ class Repository < ActiveRecord::Base
       end
     end
   end
+
+  def human_status
+    return 'unknown' unless last_finished_build
+    last_finished_build.status == 0 ? 'stable' : 'unstable'
+  end
+
 
   def slug
     @slug ||= [owner_name, name].join('/')
