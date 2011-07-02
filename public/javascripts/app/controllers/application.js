@@ -45,31 +45,43 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   // actions
 
   recent: function() {
-    this.reset();
+    this.startLoading();
     this.tab = 'current';
     this.followBuilds = true;
-    this.repositories.whenFetched(this.repositories.selectLast);
+    this.repositories.whenFetched(_.bind(function () {
+      this.repositories.selectLast();
+      this.stopLoading();
+    }, this));
     this.selectTab();
   },
   repository: function(owner, name) {
-    this.reset();
+    this.startLoading();
     this.tab = 'current';
-    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ slug: owner + '/' + name }) });
+    this.repositories.whenFetched(_.bind(function(repositories) {
+      repositories.selectLastBy({ slug: owner + '/' + name });
+      this.stopLoading();
+    }, this));
     this.selectTab();
   },
   repositoryHistory: function(owner, name) {
-    this.reset();
+    this.startLoading();
     this.tab = 'history';
-    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ slug: owner + '/' + name }) });
+    this.repositories.whenFetched(_.bind(function(repositories) {
+      repositories.selectLastBy({ slug: owner + '/' + name })
+      this.stopLoading()
+    }, this));
     this.selectTab();
   },
   myRepositories: function() {
   },
   repositoryBuild: function(owner, name, buildId) {
-    this.reset();
+    this.startLoading();
     this.tab = 'build';
     this.buildId = parseInt(buildId);
-    this.repositories.whenFetched(function(repositories) { repositories.selectLastBy({ slug: owner + '/' + name }) });
+    this.repositories.whenFetched(_.bind(function(repositories) {
+      repositories.selectLastBy({ slug: owner + '/' + name })
+      this.stopLoading()
+    }, this));
     this.selectTab();
   },
 
@@ -80,6 +92,14 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     delete this.tab;
     this.followBuilds = false;
   },
+  startLoading: function() {
+    $('#main').addClass('loading')
+    this.reset();
+  },
+  stopLoading: function() {
+    $('#main').removeClass('loading')
+  },
+
 
   // internal events
 
