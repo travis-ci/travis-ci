@@ -1,4 +1,4 @@
-h1. Chrome
+# Chrome #
 
 Since Firefox comes with Websockets "disabled:"https://developer.mozilla.org/en/WebSockets", even though there's a way to enable it through:
   a. go to about:config
@@ -12,15 +12,18 @@ In order to get it to work:
   b. download Chrome Driver from "http://code.google.com/p/selenium/downloads/list":"http://code.google.com/p/selenium/downloads/list"
   c. unzip your stuff anywhere and add that dir to your PATH
 
-h2. Mac OS X warning
+## Mac OS X warning ##
 
 There is a bug in this initial version of the chromedriver where it explicitly checks for Chromium instead of Google Chrome.  To use it with Google Chrome:
-  ln -s "/Applications/Google Chrome.app"/ \
-      "/Applications/Chromium.app"
-  ln -s "/Applications/Chromium.app/Contents/MacOS/Google Chrome" \
-      "/Applications/Chromium.app/Contents/MacOS/Chromium"
 
-h2. Running features on CI
+
+    ln -s "/Applications/Google Chrome.app"/ \
+        "/Applications/Chromium.app"
+    ln -s "/Applications/Chromium.app/Contents/MacOS/Google Chrome" \
+        "/Applications/Chromium.app/Contents/MacOS/Chromium"
+
+## Running features on CI ##
+
 In order to run features on the headless server, Xvfb fake display driver should be installed. On debian-based system it's Xvfb.
 Here's a very basic runner script (for /etc/init.d/xvfb). Please install package and create appropriate user beforehand.
 
