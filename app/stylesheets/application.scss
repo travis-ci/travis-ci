@@ -56,6 +56,9 @@ caption {
 }
 #main {
   padding: 60px 360px 30px 460px;
+  &.loading {
+    opacity: .3;
+  }
 }
 #right {
   position: absolute;

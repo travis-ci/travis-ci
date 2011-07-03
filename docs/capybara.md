@@ -1,6 +1,6 @@
 # Chrome #
 
-Since Firefox comes with Websockets [disabled](https://developer.mozilla.org/en/WebSockets), even though there's a way to enable it through:
+Since Firefox comes with Websockets "disabled:"https://developer.mozilla.org/en/WebSockets", even though there's a way to enable it through:
   a. go to about:config
   b. set network.websocket.enabled to true
   c. set network.websocket.override-security-block to true.
@@ -8,8 +8,8 @@ Since Firefox comes with Websockets [disabled](https://developer.mozilla.org/en/
 
 But it's still easier to support Chrome by default.
 In order to get it to work:
-  a. download Chrome itself from http://www.google.com/landing/chrome/beta/ (yes, it's Beta, but Selenium Webdriver only supports that version for now)
-  b. download Chrome Driver from http://code.google.com/p/selenium/downloads/list
+  a. download Chrome itself from "http://www.google.com/landing/chrome/beta/":"http://www.google.com/landing/chrome/beta/" (yes, it's Beta, but Selenium Webdriver only supports that version for now)
+  b. download Chrome Driver from "http://code.google.com/p/selenium/downloads/list":"http://code.google.com/p/selenium/downloads/list"
   c. unzip your stuff anywhere and add that dir to your PATH
 
 ## Mac OS X warning ##
