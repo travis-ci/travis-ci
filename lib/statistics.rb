@@ -17,6 +17,22 @@ class Statistics
         }
       end
     end
+
+    def daily_build_counts
+      builds = Build.
+                select(['date(created_at) AS created_at_date', 'count(created_at) AS build_count']).
+                group('created_at_date').
+                order('created_at_date').
+                where(['created_at > ?', 28.days.ago]).
+                where('parent_id IS NOT NULL')
+
+      builds.map do |b|
+        {
+          :date => b.created_at_date,
+          :built_on_date => b.build_count.to_i,
+        }
+      end
+    end
   end
 
 end
