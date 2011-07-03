@@ -672,9 +672,10 @@ pre::-webkit-scrollbar-thumb:horizontal {
 
 /* graph containers */
 
-#repo_count_container {
+#repo_count_container, #build_count_container {
   width: 100%;
-  height: 400px;
+  height: 300px;
+  margin-bottom: 50px;
 }
 
 /* stuff */
