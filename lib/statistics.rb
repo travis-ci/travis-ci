@@ -4,6 +4,7 @@ class Statistics
     def daily_repository_counts
       repos = Repository.
                 select(['date(created_at) AS created_at_date', 'count(created_at) AS repository_count']).
+                where('last_build_id IS NOT NULL').
                 group('created_at_date').
                 order('created_at_date')
 
