@@ -28,6 +28,10 @@ gem 'rabl',              '~> 0.3.0'
 
 gem 'jruby-openssl',     :platforms => :jruby
 
+
+gem 'newrelic_rpm',         '~> 3.1.0'
+
+
 group :test do
   gem 'capybara', '~> 1.0.0'
   gem 'database_cleaner'
@@ -46,10 +50,6 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.6.1'
-end
-
-group :development, :production do
-  gem 'newrelic_rpm', '~> 3.1.0'
 end
 
 group :development do
