@@ -3,10 +3,6 @@ String.prototype.repeat = function(num) {
 }
 
 describe('Utils', function() {
-  var fold = function(string) {
-    return Utils.foldLog(Utils.foldLog(string));
-  }
-
   describe('stripPaths', function() {
     it('removes the path to the build directory in /tmp', function() {
       var source = 'foo\n/tmp/travis/builds/svenfuchs/rails/activesupport/lib/active_support/core_ext/hash/slice.rb:15';
@@ -14,6 +10,18 @@ describe('Utils', function() {
       expect(Utils.stripPaths(source)).toEqual(result);
     });
   });
+
+  describe('escapeRuby', function() {
+    it('escapes ruby style object output', function() {
+      var source = '#<Object:0x00000005fb3628>';
+      var result = '#&lt;Object:0x00000005fb3628&gt;';
+      expect(Utils.escapeRuby(source)).toEqual(result);
+    });
+  });
+
+    var fold = function(string) {
+      return Utils.foldLog(Utils.foldLog(string));
+    }
 
   describe('foldLog', function() {
     it('folds the "$ bundle install" portion of the log', function() {
@@ -110,7 +118,7 @@ describe('Utils', function() {
         [ '$ foo\n<div class="fold bundle">$ bundle install\nUsing a\nUsing b</div>Your bundle is complete! Use `bundle show [gemname]`.',
           '$ foo\n$ bundle install\nUsing a\nUsing b\nYour bundle is complete! Use `bundle show [gemname]`.' ],
 
-        [ '$ foo\n<div class="fold bundle">$ bundle install</div>Your bundle is complete!<div class="fold">$ bundle install</div>Your bundle is complete!',
+        [ '$ foo\n<div class="fold bundle">$ bundle install</div>Your bundle is complete!<div class="fold bundle">$ bundle install</div>Your bundle is complete!',
           '$ foo\n$ bundle install\nYour bundle is complete!$ bundle install\nYour bundle is complete!' ],
       ]
       _.each(tests, function(test) {
