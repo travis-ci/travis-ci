@@ -28,16 +28,17 @@ var Deansi = {
     return string;
   },
   replace_escapes: function(string) {
+    string = string.replace(String.fromCharCode(27) + '(B', '');
     return string.replace(String.fromCharCode(27), '');
   },
   replace_styles: function(string) {
-    var pattern = /\[(?:0;)?((?:1|4|30|31|32|33|34|35|36|37|40|41|42|43|44|45|46|47|;)+)m(.*?)(?=(\[(?:[\d;]?m\(B)?)|$)/gm;
+    var pattern = /\[(?:0;)?((?:1|4|30|31|32|33|34|35|36|37|40|41|42|43|44|45|46|47|;)+)m(.*?)(?=\[[\d;]*m|$)/gm;
     return string.replace(pattern, function(match, styles, string) {
       return '<span class="' + Deansi.to_styles(styles) + '">' + string + '</span>';
     });
   },
   remove_closings: function(string) {
-    return string.replace(/\[0?m(?:\(B)?/gm, '');
+    return string.replace(/\[0?m/gm, '');
   },
   parse_linefeeds: function(string) {
     string = string.replace(/\[K\r/, "\r");

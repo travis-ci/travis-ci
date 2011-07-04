@@ -28,6 +28,14 @@ describe('Deansi', function() {
       { ansi: "[42;37;1m", class: 'bg-green white bold' },
     ];
 
+    it('removes all occurances of \e(B', function() {
+      expect(deansi(String.fromCharCode(27) + '(Bfoo')).toEqual('foo');
+    });
+
+    it('removes all occurances of \e', function() {
+      expect(deansi(String.fromCharCode(27) + 'foo')).toEqual('foo');
+    });
+
     it('replaces ANSI escape sequences having no closing sequence with a span having the respective css classes', function() {
       for(ix in sets) {
         var set = sets[ix];
@@ -55,16 +63,6 @@ describe('Deansi', function() {
       }
     });
 
-    // not sure where this comes from. can't find it in http://ascii-table.com/ansi-escape-sequences.php
-    it('replaces ANSI escape sequences having a closing sequence [m(B with a span having the respective css classes', function() {
-      for(ix in sets) {
-        var set = sets[ix];
-        source = (set.ansi + 'FOO[m(B').repeat(3);
-        expected = ('<span class="' + set.class +'">FOO</span>').repeat(3);
-        expect(deansi(source)).toEqual(expected);
-      }
-    });
-
     it('replaces ANSI escape sequence (real examples)', function() {
       var examples = [
         { source: '[42;37;1mPassed[0m', result: '<span class="bg-green white bold">Passed</span>' },
@@ -72,7 +70,9 @@ describe('Deansi', function() {
         { source: '[0;37;40mSuccess',   result: '<span class="white bg-black">Success</span>'     },
         { source: '[32m.[0m[31mF[0m',   result: '<span class="green">.</span><span class="red">F</span>' },
         { source: '[31m2 failed[0m, [33m2 undefined[0m, [32m35 passed[0m', result: '<span class="red">2 failed</span>, <span class="yellow">2 undefined</span>, <span class="green">35 passed</span>' },
-        { source: '[31m2 failed[0m, [36m1 skipped[0m, [33m7 undefined[0m, [32m212 passed[0m', result: '<span class="red">2 failed</span>, <span class="cyan">1 skipped</span>, <span class="yellow">7 undefined</span>, <span class="green">212 passed</span>' }
+        { source: '[31m2 failed[0m, [36m1 skipped[0m, [33m7 undefined[0m, [32m212 passed[0m', result: '<span class="red">2 failed</span>, <span class="cyan">1 skipped</span>, <span class="yellow">7 undefined</span>, <span class="green">212 passed</span>' },
+        { source: '[32mUsing /home/vagrant/.rvm/gems/ruby-1.8.7-p334[m' + String.fromCharCode(27) + '(B\r\n', result: '<span class="green">Using /home/vagrant/.rvm/gems/ruby-1.8.7-p334</span>\r\n' },
+        { source: '[32mYour bundle is complete! Use `bundle show [gemname]` to see ...[0m\r\n', result: '<span class="green">Your bundle is complete! Use `bundle show [gemname]` to see ...</span>\r\n' },
       ]
       for(ix in examples) {
         var example = examples[ix];
