@@ -49,14 +49,14 @@ Utils = {
     return string;
   },
   stripPaths: function(string) {
-    return string.replace(/\/tmp\/travis\/builds(\/[^\/]+){2}\//gm, '');
+    return string.replace(/\/tmp\/travis\/builds(\/[^\/\n]+){2}\//g, '');
   },
   foldLog: function(string) {
     string = Utils.unfoldLog(string);
     var folds = {
       // 'clone': /(^|<\/div>)(\$ git clone.*\r?\n(?:(Initialized|remote:|Receiving|Resolving).*?\r?\n)*)/m,
-      'clean':   /(^|<\/div>)(\$ git clean.*\r?\n(?:Removing .*\r?\n)+\r?\n*)/gm,
-      'fetch':   /(^|<\/div>)(\$ git fetch.*\r?\nFrom .*\n.*)\r?\n/gm,
+      // 'clean':   /(^|<\\/div>)(\\$ git clean.*\\r?\\n(?:Removing .*\\r?\\n)+\\r?\\n*)/gm,
+      // 'fetch':   /(^|<\\/div>)(\\$ git fetch.*\\r?\\nFrom .*\\n.*)\\r?\\n/gm,
       'bundle':  /(^|<\/div>)(\$ bundle install.*\r?\n*(?:(Fetching|Updating|Using|Installing|remote:|Receiving|Resolving).+\r?\n*)*)/gm,
       'migrate': /(^|<\/div>)(\$ rake db:migrate[\s\S]*(?:^== +\w+: migrated \(.*\) =+\r?\n))\r?\n?/gm,
       'exec':    /(^|<\/div>)(\/home\/([^\/]+)\/.rvm\/rubies\/\S*?(ruby|rbx|jruby).*?)\r?\n/gm
