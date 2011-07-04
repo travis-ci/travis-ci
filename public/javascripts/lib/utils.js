@@ -51,11 +51,11 @@ Utils = {
     string = Utils.unfoldLog(string);
     var folds = [
       // /(^|<\/div>)(\$ git clone.*\r?\n(?:(Initialized|remote:|Receiving|Resolving).*?\r?\n)*)/m,
-      /(^|<\/div>)(\$ git clean.*\r?\n(?:Removing .*\r?\n)+\r?\n*)/m,
-      /(^|<\/div>)(\$ git fetch.*\r?\nFrom .*\n.*)\r?\n/m,
-      /(^|<\/div>)(\$ bundle install.*\r?\n*(?:(Fetching|Updating|Using|Installing|remote:|Receiving|Resolving).+\r?\n*)*)/m,
-      /(^|<\/div>)(\$ rake db:migrate[\s\S]*(?:^== +\w+: migrated \(.*\) =+\r?\n))\r?\n?/m,
-      /(^|<\/div>)(\/home\/([^\/]+)\/.rvm\/rubies\/\S*?(ruby|rbx|jruby).*?)\r?\n/m
+      /(^|<\/div>)(\$ git clean.*\r?\n(?:Removing .*\r?\n)+\r?\n*)/gm,
+      /(^|<\/div>)(\$ git fetch.*\r?\nFrom .*\n.*)\r?\n/gm,
+      /(^|<\/div>)(\$ bundle install.*\r?\n*(?:(Fetching|Updating|Using|Installing|remote:|Receiving|Resolving).+\r?\n*)*)/gm,
+      /(^|<\/div>)(\$ rake db:migrate[\s\S]*(?:^== +\w+: migrated \(.*\) =+\r?\n))\r?\n?/gm,
+      /(^|<\/div>)(\/home\/([^\/]+)\/.rvm\/rubies\/\S*?(ruby|rbx|jruby).*?)\r?\n/gm
     ];
     _.each(folds, function(fold) {
       string = string.replace(fold, function() { return arguments[1] + '<div class="fold">' + arguments[2].trim() + '</div>'; });
