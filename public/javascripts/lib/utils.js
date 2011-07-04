@@ -43,9 +43,13 @@ Utils = {
   },
   filterLog: function(string) {
     // string = Handlebars.Utils.escapeExpression(string);
+    string = Utils.stripPaths(string);
     string = Utils.foldLog(string);
     string = Deansi.parse(string);
     return string;
+  },
+  stripPaths: function(string) {
+    return string.replace(/^\/tmp\/travis\/builds(\/[^\/]+){2}\//gm, '');
   },
   foldLog: function(string) {
     string = Utils.unfoldLog(string);
