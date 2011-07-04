@@ -1,24 +1,12 @@
 GIT
-  remote: https://github.com/intridea/omniauth.git
-  revision: abc65ba1c69787bc94c6bfd857d73a570879ae30
-  specs:
-    oa-core (0.3.0.rc1)
-    oa-oauth (0.3.0.rc1)
-      faraday (~> 0.7.3)
-      multi_json (~> 1.0.0)
-      multi_xml (~> 0.2.2)
-      oa-core (= 0.3.0.rc1)
-      oauth (~> 0.4.0)
-      oauth2 (~> 0.5.0.rc1)
-
-GIT
   remote: https://github.com/pengwynn/octokit.git
-  revision: 2ded131d202c024ce9dd0758f5d647fe4f490020
+  revision: 463e08caa4f940045f7f9e2003bd9dcd427b13c0
+  ref: 463e08caa4f940045f7f
   specs:
     octokit (0.6.3)
       addressable (~> 2.2.6)
-      faraday (~> 0.7.3)
-      faraday_middleware (~> 0.7.0.rc1)
+      faraday (~> 0.6.0)
+      faraday_middleware (~> 0.6.0)
       hashie (~> 1.0.0)
       multi_json (~> 1.0.2)
 
@@ -84,13 +72,13 @@ GEM
     chunky_png (1.2.0)
     clockwork (0.2.3)
     columnize (0.3.3)
-    compass (0.11.3)
+    compass (0.11.4)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
       sass (~> 3.1)
     crack (0.1.8)
     database_cleaner (0.6.7)
-    devise (1.4.0)
+    devise (1.4.2)
       bcrypt-ruby (~> 2.1.2)
       orm_adapter (~> 0.0.3)
       warden (~> 1.0.3)
@@ -102,12 +90,12 @@ GEM
       factory_girl (~> 1.3)
       railties (>= 3.0.0)
     fakeredis (0.1.4)
-    faraday (0.7.3)
-      addressable (~> 2.2.6)
+    faraday (0.6.1)
+      addressable (~> 2.2.4)
       multipart-post (~> 1.1.0)
-      rack (>= 1.1.0, < 2)
-    faraday_middleware (0.7.0.rc1)
-      faraday (~> 0.7.3)
+      rack (< 2, >= 1.1.0)
+    faraday_middleware (0.6.5)
+      faraday (~> 0.6.0)
     ffi (1.0.9)
     ffi (1.0.9-java)
     fssm (0.2.7)
@@ -142,13 +130,20 @@ GEM
     multi_xml (0.2.2)
     multipart-post (1.1.2)
     newrelic_rpm (3.1.0)
-    nokogiri (1.4.6)
-    nokogiri (1.4.6-java)
-      weakling (>= 0.0.3)
-    oauth (0.4.5)
-    oauth2 (0.5.0.rc1)
-      faraday (>= 0.6.1, < 0.8)
+    nokogiri (1.5.0)
+    nokogiri (1.5.0-java)
+    oa-core (0.2.6)
+    oa-oauth (0.2.6)
+      faraday (~> 0.6.1)
       multi_json (~> 1.0.0)
+      multi_xml (~> 0.2.2)
+      oa-core (= 0.2.6)
+      oauth (~> 0.4.0)
+      oauth2 (~> 0.4.1)
+    oauth (0.4.5)
+    oauth2 (0.4.1)
+      faraday (~> 0.6.1)
+      multi_json (>= 0.0.5)
     open4 (1.1.0)
     orm_adapter (0.0.5)
     pg (0.11.0)
@@ -158,6 +153,8 @@ GEM
       multi_json (~> 1.0)
       ruby-hmac (~> 0.4.0)
       signature (~> 0.1.2)
+    rabl (0.3.0)
+      multi_json (~> 1.0.3)
     rack (1.2.3)
     rack-mount (0.6.14)
       rack (>= 1.0.0)
@@ -221,7 +218,7 @@ GEM
     ruby_core_source (0.1.5)
       archive-tar-minitar (>= 0.5.2)
     rubyzip (0.9.4)
-    sass (3.1.3)
+    sass (3.1.4)
     selenium-webdriver (0.2.2)
       childprocess (>= 0.1.9)
       ffi (>= 1.0.7)
@@ -248,7 +245,6 @@ GEM
       rack (>= 1.0.0)
     warden (1.0.4)
       rack (>= 1.0)
-    weakling (0.0.4-java)
     webmock (1.6.4)
       addressable (> 2.2.5, ~> 2.2)
       crack (>= 0.1.7)
@@ -268,7 +264,7 @@ DEPENDENCIES
   clockwork
   compass (~> 0.11.3)
   database_cleaner
-  devise (~> 1.4.0)
+  devise (~> 1.4.2)
   factory_girl (~> 1.3)
   factory_girl_rails
   fakeredis
@@ -279,10 +275,11 @@ DEPENDENCIES
   minitest_tu_shim
   mocha
   newrelic_rpm (~> 3.1.0)
-  oa-oauth (~> 0.3.0.rc1)!
+  oa-oauth (~> 0.2.6)
   octokit!
   pg (~> 0.11.0)
   pusher (~> 0.8.1)
+  rabl (~> 0.3.0)
   rails (~> 3.0.9)
   rake (~> 0.9.2)
   refraction (~> 0.2.0)
