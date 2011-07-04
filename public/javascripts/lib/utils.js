@@ -44,12 +44,16 @@ Utils = {
   filterLog: function(string) {
     // string = Handlebars.Utils.escapeExpression(string);
     string = Utils.stripPaths(string);
+    string = Utils.escapeRuby(string);
     string = Utils.foldLog(string);
     string = Deansi.parse(string);
     return string;
   },
   stripPaths: function(string) {
     return string.replace(/\/tmp\/travis\/builds(\/[^\/\n]+){2}\//g, '');
+  },
+  escapeRuby: function(string) {
+    return string.replace(/#<(\w+.*?)>/, '#&lt;$1&gt;');
   },
   foldLog: function(string) {
     string = Utils.unfoldLog(string);
@@ -68,7 +72,7 @@ Utils = {
     return string;
   },
   unfoldLog: function(string) {
-    return string.replace(/<div class="fold">([\s\S]*?)<\/div>/mg, '$1\n');
+    return string.replace(/<div class="fold \w+">([\s\S]*?)<\/div>/mg, '$1\n');
   },
   updateTimes: function(element) {
     $('.timeago', element).timeago();
