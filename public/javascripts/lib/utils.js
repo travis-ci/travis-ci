@@ -43,54 +43,8 @@ Utils = {
   },
   filterLog: function(string) {
     // string = Handlebars.Utils.escapeExpression(string);
-    string = Utils.deansi(string);
     string = Utils.foldLog(string);
-    return string;
-  },
-  deansi: function(string) {
-    string = string || '';
-    string = string.replace(new RegExp(String.fromCharCode(27), 'g'), '');
-    string = string.replace(/^.*(?:\[K)?\r(?!$)/gm, '');
-
-    var single_char_color_regexps = [
-      { re: /\[30;30;0m(.)/g, style: 'nostyle' },   //escape sequence turning off any formatting
-      { re: /\[30;30;1m(.)/g, style: 'black' },   // Colorize: black // Current and following colorizaitons work for one and only character that follows given seqence
-      { re: /\[30;31;1m(.)/g, style: 'red' },   // Colorize: red
-      { re: /\[30;32;1m(.)/g, style: 'green' },   // Colorize: green
-      { re: /\[30;34;1m(.)/g, style: 'blue' },   // Colorize: blue
-      { re: /\[30;33;1m(.)/g, style: 'yellow' },   // Colorize: yellow
-      { re: /\[30;35;1m(.)/g, style: 'magenta' },   // Colorize: magenta
-      { re: /\[30;36;1m(.)/g, style: 'cyan' },   // Colorize: cyan
-      { re: /\[30;37;1m(.)/g, style: 'gray' },   // Colorize: gray
-      { re: /\[41;33;1m(.)/g, style: 'error' },   // Colorize: error
-      { re: /\[42;37;1m(.)/g, style: 'success' },   // Colorize: success
-      { re: /\[41;33;7;1m(.)/g, style: 'warning' }];// Colorize: warning
-
-    // TODO: integrate these:
-    // "[30;30;1mCasdasd asdasd[30;30;1mDaaa[0m".replace(/\[30;30;1m(.*?)(?=\[)|(\[0m$)/g, "<span>$1</span>")
-
-    for (index in single_char_color_regexps) {
-      pattern = single_char_color_regexps[index]
-      string = string.replace(pattern.re, '<span class="' + pattern.style + '">$1</span>');
-    }
-    var color_regexps = [
-      { re: /(\e?)\[31m/g, style: 'red' },
-      { re: /(\e?)\[32m/g, style: 'green' },
-      { re: /(\e?)\[33m/g, style: 'yellow' },
-      { re: /(\e?)\[34m/g, style: 'blue' },
-      { re: /(\e?)\[35m/g, style: 'magenta' },
-      { re: /(\e?)\[36m/g, style: 'cyan' }];
-
-    for (index in color_regexps) {
-      pattern = color_regexps[index]
-      string = string.replace(pattern.re, '<span class="' + pattern.style + '">');
-    }
-
-    // http://asciiAjaxterm-table.com/ansi-escape-sequences.php
-    // could also contain 1 for bold
-    string = string.replace(/(\e?)(\[m)(.*)(\(B)$/gm, '</span>');
-
-
+    string = Deansi.parse(string);
     return string;
   },
   foldLog: function(string) {
@@ -99,9 +53,9 @@ Utils = {
       // /(^|<\/div>)(\$ git clone.*\r?\n(?:(Initialized|remote:|Receiving|Resolving).*?\r?\n)*)/m,
       /(^|<\/div>)(\$ git clean.*\r?\n(?:Removing .*\r?\n)+\r?\n*)/m,
       /(^|<\/div>)(\$ git fetch.*\r?\nFrom .*\n.*)\r?\n/m,
-      /(^|<\/div>)(\$ bundle install.*\r?\n*(?:(Fetching|Updating|Using|Installing|remote:|Receiving|Resolving).*?\r?\n*)*)/m,
+      /(^|<\/div>)(\$ bundle install.*\r?\n*(?:(Fetching|Updating|Using|Installing|remote:|Receiving|Resolving).+\r?\n*)*)/m,
       /(^|<\/div>)(\$ rake db:migrate[\s\S]*(?:^== +\w+: migrated \(.*\) =+\r?\n))\r?\n?/m,
-      /(^|<\/div>)(\/home\/travis\/.rvm\/rubies\/.{140}.*)\r?\n/m
+      /(^|<\/div>)(\/home\/([^\/]+)\/.rvm\/rubies\/\S*?(ruby|rbx|jruby).*?)\r?\n/m
     ];
     _.each(folds, function(fold) {
       string = string.replace(fold, function() { return arguments[1] + '<div class="fold">' + arguments[2].trim() + '</div>'; });
