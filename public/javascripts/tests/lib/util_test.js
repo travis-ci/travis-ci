@@ -7,6 +7,14 @@ describe('Utils', function() {
     return Utils.foldLog(Utils.foldLog(string));
   }
 
+  describe('stripPaths', function() {
+    it('removes the path to the build directory in /tmp', function() {
+      var source = 'foo\n/tmp/travis/builds/svenfuchs/rails/activesupport/lib/active_support/core_ext/hash/slice.rb:15';
+      var result = 'foo\nactivesupport/lib/active_support/core_ext/hash/slice.rb:15'
+      expect(Utils.stripPaths(source)).toEqual(result);
+    });
+  });
+
   describe('foldLog', function() {
     it('folds the "$ bundle install" portion of the log', function() {
       var examples = [
