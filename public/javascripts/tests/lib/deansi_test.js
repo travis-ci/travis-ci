@@ -16,7 +16,8 @@ describe('Deansi', function() {
       { ansi: "[34m",      class: 'blue'                },
       { ansi: "[35m",      class: 'magenta'             },
       { ansi: "[36m",      class: 'cyan'                },
-      { ansi: "[37m",      class: 'white'              },
+      { ansi: "[37m",      class: 'white'               },
+      { ansi: "[90m",      class: 'grey'                },
       { ansi: "[30;1m",    class: 'black bold'          },
       { ansi: "[31;1m",    class: 'red bold'            },
       { ansi: "[32;1m",    class: 'green bold'          },
@@ -73,6 +74,7 @@ describe('Deansi', function() {
         { source: '[31m2 failed[0m, [36m1 skipped[0m, [33m7 undefined[0m, [32m212 passed[0m', result: '<span class="red">2 failed</span>, <span class="cyan">1 skipped</span>, <span class="yellow">7 undefined</span>, <span class="green">212 passed</span>' },
         { source: '[32mUsing /home/vagrant/.rvm/gems/ruby-1.8.7-p334[m' + String.fromCharCode(27) + '(B\r\n', result: '<span class="green">Using /home/vagrant/.rvm/gems/ruby-1.8.7-p334</span>\r\n' },
         { source: '[32mYour bundle is complete! Use `bundle show [gemname]` to see ...[0m\r\n', result: '<span class="green">Your bundle is complete! Use `bundle show [gemname]` to see ...</span>\r\n' },
+        { source: '[31mcucumber features/command_line.feature:176[0m[90m # Scenario: Recompiling a project[0m\r\n', result: '<span class="red">cucumber features/command_line.feature:176</span><span class="grey"> # Scenario: Recompiling a project</span>\r\n' },
       ]
       for(ix in examples) {
         var example = examples[ix];
