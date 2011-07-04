@@ -342,7 +342,7 @@ caption {
     float: left;
   }
   .profile {
-    margin: 20px 0 50px 60px;
+    margin: 20px 0 30px 60px;
   }
   .profile dt {
     display: block;
@@ -351,10 +351,6 @@ caption {
   }
   .profile dd {
     clear: right;
-  }
-  .profile dd.highlight {
-    color: #C7371A;
-    font-weight: bold;
   }
   .summary {
     margin: 20px 0 0 0;
@@ -671,12 +667,21 @@ pre::-webkit-scrollbar-thumb:horizontal {
   border-radius: 4px;
 }
 
-#welcome {
-  margin-top: -35px;
-  margin-bottom: 35px;
-  font-size: 13px;
-  h4, p {
-    margin-bottom: 4px;
+#profile {
+  #welcome {
+    margin-top: -35px;
+    margin-bottom: 35px;
+    font-size: 13px;
+    h4, p {
+      margin-bottom: 4px;
+    }
+  }
+  p.tip {
+    font-size: 13px;
+    margin-top: -10px;
+  }
+  .highlight {
+    color: #C7371A;
   }
 }
 
