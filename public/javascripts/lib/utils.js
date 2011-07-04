@@ -49,7 +49,7 @@ Utils = {
     return string;
   },
   stripPaths: function(string) {
-    return string.replace(/^\/tmp\/travis\/builds(\/[^\/]+){2}\//gm, '');
+    return string.replace(/\/tmp\/travis\/builds(\/[^\/]+){2}\//gm, '');
   },
   foldLog: function(string) {
     string = Utils.unfoldLog(string);
