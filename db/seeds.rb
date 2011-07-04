@@ -3,7 +3,7 @@
 
 # TODO: This is the wrong place for seed data, for now
 #       it has been commented out, but this needs a new home
-if Rails.env.development?
+if Rails.env.development? || Rails.env.jasmine?
 
   minimal = Repository.create!({
     :owner_name => 'svenfuchs',
