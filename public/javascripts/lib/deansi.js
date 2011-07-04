@@ -1,4 +1,6 @@
 var Deansi = {
+  // http://ascii-table.com/ansi-escape-sequences.php
+  // http://cukes.info/gherkin/api/ruby/latest/Gherkin/Formatter/AnsiEscapes.html
   styles: {
     '0':  null,
     '1':  'bold',
@@ -11,6 +13,7 @@ var Deansi = {
     '35': 'magenta',
     '36': 'cyan',
     '37': 'white',
+    '90': 'grey',
     '40': 'bg-black',
     '41': 'bg-red',
     '42': 'bg-green',
@@ -32,7 +35,7 @@ var Deansi = {
     return string.replace(String.fromCharCode(27), '');
   },
   replace_styles: function(string) {
-    var pattern = /\[(?:0;)?((?:1|4|30|31|32|33|34|35|36|37|40|41|42|43|44|45|46|47|;)+)m(.*?)(?=\[[\d;]*m|$)/gm;
+    var pattern = /\[(?:0;)?((?:1|4|30|31|32|33|34|35|36|37|90|40|41|42|43|44|45|46|47|;)+)m(.*?)(?=\[[\d;]*m|$)/gm;
     return string.replace(pattern, function(match, styles, string) {
       return '<span class="' + Deansi.to_styles(styles) + '">' + string + '</span>';
     });
