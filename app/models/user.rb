@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
 
   attr_accessor :recently_signed_up
   def recently_signed_up?
-    @recently_signed_up
+    !!@recently_signed_up
   end
 
   private
