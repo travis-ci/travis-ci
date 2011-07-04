@@ -46,6 +46,12 @@ describe('Utils', function() {
       expect(fold(source)).toEqual(result);
     });
 
+    it('does not fold other lines starting with a path to the rvm ruby dir', function() {
+      var source = "/home/vagrant/.rvm/rubies/ruby-1.8.7-p334/lib/ruby/site_ruby/1.8/rubygems/spec_fetcher.rb:133:in `load': marshal data too short (ArgumentError)\r\n";
+      var result = "/home/vagrant/.rvm/rubies/ruby-1.8.7-p334/lib/ruby/site_ruby/1.8/rubygems/spec_fetcher.rb:133:in `load': marshal data too short (ArgumentError)\r\n";
+      expect(fold(source)).toEqual(result);
+    });
+
     it('folds the "$ rake db:migrate" portion of the log', function() {
       var tests = [
         [ '$ rake db:migrate && rake test\n'                                                    +
