@@ -396,15 +396,66 @@ caption {
     border-radius: 4px 4px;
     overflow-x: auto;
 
-    .success, .green {
-      color: lime;
+    /* deansi styles, see javascripts/lib/deansi.js */
+
+    .bold {
+      font-weight: bold;
     }
-    .warning, .yellow {
-      color: yellow;
+    .underscore {
+      /* monochrome displays only according to http://ascii-table.com/ansi-escape-sequences.php */
     }
-    .error, .red {
+    .black {
+      color: black;
+    }
+    .red {
       color: red;
     }
+    .green {
+      color: lime;
+    }
+    .yellow {
+      color: yellow;
+    }
+    .blue {
+      color: blue;
+    }
+    .magenta {
+      color: magenta;
+    }
+    .cyan {
+      color: cyan;
+    }
+    .white {
+      color: white;
+    }
+    .grey {
+      color: #999;
+    }
+    .bg-black {
+      background-color: black;
+    }
+    .bg-red {
+      background-color: red;
+    }
+    .bg-green {
+      background-color: lime;
+    }
+    .bg-yellow {
+      background-color: yellow;
+    }
+    .bg-blue {
+      background-color: blue;
+    }
+    .bg-magenta {
+      background-color: magenta;
+    }
+    .bg-cyan {
+      background-color: cyan;
+    }
+    .bg-white {
+      background-color: white;
+    }
+
     .fold {
       height: 16px;
       overflow: hidden;
