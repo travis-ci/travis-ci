@@ -19,13 +19,13 @@ describe('Utils', function() {
     it('folds the "$ bundle install" portion of the log', function() {
       var examples = [
         [ '$ foo\n$ bundle install\n',
-          '$ foo\n<div class="fold">$ bundle install</div>' ],
+          '$ foo\n<div class="fold bundle">$ bundle install</div>' ],
 
         [ '$ foo\n$ bundle install\nUsing a\nFetching b\n',
-          '$ foo\n<div class="fold">$ bundle install\nUsing a\nFetching b</div>' ],
+          '$ foo\n<div class="fold bundle">$ bundle install\nUsing a\nFetching b</div>' ],
 
         [ '$ foo\n$ bundle install\nUsing a\nUsing b\nYour bundle is complete! Use `bundle show [gemname]`.',
-          '$ foo\n<div class="fold">$ bundle install\nUsing a\nUsing b</div>Your bundle is complete! Use `bundle show [gemname]`.' ],
+          '$ foo\n<div class="fold bundle">$ bundle install\nUsing a\nUsing b</div>Your bundle is complete! Use `bundle show [gemname]`.' ],
       ];
       _.each(examples, function(example) {
         expect(fold(example[0])).toEqual(example[1]);
@@ -34,7 +34,7 @@ describe('Utils', function() {
 
     it('folds the executing ruby line output by rake', function() {
       var source = '/home/vagrant/.rvm/rubies/ruby-1.8.7-p334/bin/ruby -I"lib:lib:test" "/home/vagrant/.rvm/gems/rbx-head/gems/rake-0.8.7/lib/rake/rake_test_loader.rb" "test/a.rb" "test/b.rb" \nLoaded suite ...';
-      var result = '<div class="fold">/home/vagrant/.rvm/rubies/ruby-1.8.7-p334/bin/ruby -I"lib:lib:test" "/home/vagrant/.rvm/gems/rbx-head/gems/rake-0.8.7/lib/rake/rake_test_loader.rb" "test/a.rb" "test/b.rb"</div>Loaded suite ...';
+      var result = '<div class="fold exec">/home/vagrant/.rvm/rubies/ruby-1.8.7-p334/bin/ruby -I"lib:lib:test" "/home/vagrant/.rvm/gems/rbx-head/gems/rake-0.8.7/lib/rake/rake_test_loader.rb" "test/a.rb" "test/b.rb"</div>Loaded suite ...';
       expect(fold(source)).toEqual(result);
     });
 
@@ -47,7 +47,7 @@ describe('Utils', function() {
           '   -> 0.0009s\n'                                                                     +
           '==  CreateRepositories: migrated (0.0009s) ====================================\n\n',
 
-          '<div class="fold">$ rake db:migrate && rake test\n'                                  +
+          '<div class="fold migrate">$ rake db:migrate && rake test\n'                          +
           '(in /tmp/travis/builds/travis_ci/travis-ci)\n'                                       +
           '==  CreateRepositories: migrating =============================================\n'   +
           '-- create_table(:repositories)\n'                                                    +
@@ -65,7 +65,7 @@ describe('Utils', function() {
           '   -> 0.0019s\n'                                                                     +
           '==  CreateBuilds: migrated (0.0019s) ==========================================\n\n',
 
-          '<div class="fold">$ rake db:migrate && rake test\n'                                  +
+          '<div class="fold migrate">$ rake db:migrate && rake test\n'                          +
           '(in /tmp/travis/builds/travis_ci/travis-ci)\n'                                       +
           '==  CreateRepositories: migrating =============================================\n'   +
           '-- create_table(:repositories)\n'                                                    +
@@ -101,16 +101,16 @@ describe('Utils', function() {
   describe('unfoldLog', function() {
     it('unfolds the log', function() {
       var tests = [
-        [ '$ foo\n<div class="fold">$ bundle install</div>',
+        [ '$ foo\n<div class="fold bundle">$ bundle install</div>',
           '$ foo\n$ bundle install\n' ],
 
-        [ '$ foo\n<div class="fold">$ bundle install\nUsing a\nUsing b</div>',
+        [ '$ foo\n<div class="fold bundle">$ bundle install\nUsing a\nUsing b</div>',
           '$ foo\n$ bundle install\nUsing a\nUsing b\n' ],
 
-        [ '$ foo\n<div class="fold">$ bundle install\nUsing a\nUsing b</div>Your bundle is complete! Use `bundle show [gemname]`.',
+        [ '$ foo\n<div class="fold bundle">$ bundle install\nUsing a\nUsing b</div>Your bundle is complete! Use `bundle show [gemname]`.',
           '$ foo\n$ bundle install\nUsing a\nUsing b\nYour bundle is complete! Use `bundle show [gemname]`.' ],
 
-        [ '$ foo\n<div class="fold">$ bundle install</div>Your bundle is complete!<div class="fold">$ bundle install</div>Your bundle is complete!',
+        [ '$ foo\n<div class="fold bundle">$ bundle install</div>Your bundle is complete!<div class="fold">$ bundle install</div>Your bundle is complete!',
           '$ foo\n$ bundle install\nYour bundle is complete!$ bundle install\nYour bundle is complete!' ],
       ]
       _.each(tests, function(test) {
