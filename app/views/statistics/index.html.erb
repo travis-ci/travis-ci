@@ -1,0 +1,82 @@
+<%- content_for(:body_id, 'stats') -%>
+
+<div id="repo_count_container"></div>
+
+<div id="build_count_container"></div>
+
+<%= javascript_tag do %>
+  var repo_count_chart;
+  var build_count_chart;
+
+  $(document).ready(function() {
+    repo_count_chart = new Highcharts.Chart({
+          chart: {
+             renderTo: 'repo_count_container',
+             type: 'spline'
+          },
+          title: {
+             text: 'Total Projects/Repositories'
+          },
+          xAxis: {
+             type: 'datetime',
+             dateTimeLabelFormats: { // don't display the dummy year
+                month: '%e. %b',
+                year: '%b'
+             }
+          },
+          yAxis: {
+             title: {
+                text: 'Count'
+             },
+             min: 0
+          },
+          tooltip: {
+             formatter: function() {
+                       return '<b>'+ this.series.name +'</b><br/>'+
+                   Highcharts.dateFormat('%e. %b', this.x) +': '+ this.y +' repos';
+             }
+          },
+          series: [{
+             name: 'Repository Growth',
+             data: <%= @repo_graph_stats.map { |stats| [DateTime.parse(stats[:date]).to_i * 1000, stats[:total_growth]] }.to_json %>
+          }]
+       });
+
+  repo_count_chart = new Highcharts.Chart({
+       chart: {
+          renderTo: 'build_count_container',
+          type: 'column'
+       },
+       title: {
+          text: 'Build Count'
+       },
+       subtitle: {
+          text: 'last month'
+       },
+       xAxis: {
+          type: 'datetime',
+          dateTimeLabelFormats: { // don't display the dummy year
+             month: '%e. %b',
+             year: '%b'
+          }
+       },
+       yAxis: {
+          title: {
+             text: 'Count'
+          },
+          min: 0
+       },
+       tooltip: {
+          formatter: function() {
+                    return '<b>'+ this.series.name +'</b><br/>'+
+                Highcharts.dateFormat('%e. %b', this.x) +': '+ this.y +' builds';
+          }
+       },
+       series: [{
+          name: 'Total Builds',
+          data: <%= @build_graph_stats.map { |stats| [DateTime.parse(stats[:date]).to_i * 1000, stats[:built_on_date]] }.to_json %>
+       }]
+    });
+
+  });
+<% end %>

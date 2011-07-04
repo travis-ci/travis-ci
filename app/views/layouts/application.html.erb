@@ -15,46 +15,27 @@
       <%= include_javascripts :jasmine %>
     <% end %>
     <%= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
+
     <%= include_javascripts :travis %>
+    <%= include_javascripts :templates %>
+
     <% if Rails.env.test? %>
       <%= include_javascripts :capybara %>
     <% end %>
     <%= javascript_tag "var env = '#{Rails.env}';" %>
   </head>
 
-  <body id="<%= params[:controller].singularize %>">
+  <body id="<%= body_id %>">
     <div id="top">
       <h1>Travis</h1>
 
       <ul id="navigation">
-        <li class="<%= 'current' if active_page?("application#index") %>"><%= link_to "Home", root_path %></li>
-        <% if user_signed_in? %>
-          <li class="<%= 'current' if active_page?("profiles#show") %>"><%= link_to "Profile", profile_path %></li>
-        <% end %>
-
-        <% if user_signed_in? && current_user.is_admin? %>
-          <li><%= link_to "Admin", '#' %></li>
-        <% end %>
-        <li><%= link_to 'About', '#', :class => "tool-tip", :title => "Coming Soon!" %></li>
+        <%= top_bar_menu_item('Home', root_path) %>
+        <%= top_bar_menu_item('Stats', stats_path) %>
+        <%= top_bar_menu_item('About', '#', :class => "tool-tip", :title => "Coming Soon!") %>
       </ul>
 
-      <div class="profile">
-        <% if user_signed_in? %>
-          <a href="#">
-            <%= gravatar(current_user, :size => 24) %>
-            <span class="name"><%= current_user.name || current_user.login %></span>
-          </a>
-          <ul>
-            <li><%= link_to "Profile", profile_path %></li>
-            <% if current_user.is_admin? %>
-              <li><%= link_to "Admin", '#' %></li>
-            <% end %>
-            <li><%= link_to "Sign out", destroy_session_path %></li>
-          </ul>
-        <% else %>
-          <%= link_to "Sign in with Github", user_omniauth_authorize_path(:github), :class => "profile-signup" %>
-        <% end %>
-      </div>
+      <%= render 'layouts/user_profile' %>
 
       <a id="github_ribbon" class="ribbon" href="http://github.com/travis-ci/travis-ci" title="Fork me on GitHub">Fork me on Github</a>
     </div>
@@ -121,16 +102,5 @@
     </div>
 
     <%= javascript_tag "var pusher = new Pusher('#{Pusher.key}');" unless Rails.env.jasmine? %>
-    <%
-      dir = Rails.root.join('public/javascripts/app/templates/')
-      Dir["#{dir}**/*.ms"].each do |path|
-    %>
-      <%
-        template = File.read(path)
-        name = path.gsub(dir.to_s, '').sub(File.extname(path), '')
-      %>
-      <script name="<%= name %>" type="text/x-js-template"><%= template.html_safe %></script>
-    <% end %>
-
   </body>
 </html>

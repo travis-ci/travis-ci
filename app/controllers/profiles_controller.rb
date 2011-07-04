@@ -1,4 +1,6 @@
 class ProfilesController < ApplicationController
+  layout 'simple'
+
   before_filter :authenticate_user!
 
   respond_to :json

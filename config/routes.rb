@@ -4,6 +4,8 @@ TravisCi::Application.routes.draw do
   root :to => 'home#index'
 
   match ":owner_name/:name.png", :to => 'repositories#show', :format => 'png'
+  match ":owner_name/:name.xml", :to => 'repositories#show', :format => 'xml'
+  match ":owner_name/:name.json", :to => 'repositories#show', :format => 'json'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
@@ -26,6 +28,8 @@ TravisCi::Application.routes.draw do
 
   resources :jobs,    :only => :index
   resources :workers, :only => :index
+
+  match "/stats" => "statistics#index"
 
   # need to include the jammit route here so it preceeds the user route below
   match "/#{Jammit.package_path}/:package.:extension", :to => 'jammit#package', :as => :jammit, :constraints => { :extension => /.+/ }

@@ -2,7 +2,7 @@ var Travis = {
   // Namespace initialization
   Controllers: {}, Collections: {}, Helpers: {}, Models: {}, Views: { Base: {}, ServiceHooks: {}, Build: { History: {}, Matrix: {} }, Jobs: {}, Repositories: {}, Repository: {}, Workers: {} },
   start: function() {
-    Travis.templates = Utils.loadTemplates();
+    Travis.templates = JST;
     Backbone.history = new Backbone.History;
     Travis.app = new Travis.Controllers.Application();
     Travis.app.run();
@@ -31,7 +31,7 @@ $(document).ready(function() {
     var channels = ['repositories', 'jobs'];
     _.each(channels, function(channel) { pusher.subscribe(channel).bind_all(Travis.receive); })
   } else {
-    Travis.templates = Utils.loadTemplates();
+    Travis.templates = JST;
   }
 
   $('#top .profile').mouseover(function() { $('#top .profile ul').show(); });
@@ -40,7 +40,7 @@ $(document).ready(function() {
   $('.tool-tip').tipsy({ gravity: 'n', fade: true });
   $('.fold').live('click', function() { $(this).hasClass('open') ? $(this).removeClass('open') : $(this).addClass('open'); })
 
-  if(env == 'development') {
+  if(env == 'development' && $("body").id == 'home') {
     $('#jobs').after(Travis.templates['tools/events']());
     var events = {
       'build:queued':   { 'repository': { 'id': 3, 'slug': 'travis-ci/travis-ci' }, 'build': { 'id': 4, 'number': 46 } },
