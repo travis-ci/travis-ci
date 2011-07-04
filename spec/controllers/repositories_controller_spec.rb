@@ -70,7 +70,7 @@ describe RepositoriesController do
       repository
       should_receive_file_with_status("unknown")
 
-      get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
+      get(:show, :format => "png", :owner_name => "sven", :name => "shmavis-ci")
     end
 
     it 'shows an "unknown" button when it only has a build thats not finished' do
