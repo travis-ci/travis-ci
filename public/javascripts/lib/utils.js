@@ -63,7 +63,7 @@ Utils = {
       // 'fetch':   /(^|<\\/div>)(\\$ git fetch.*\\r?\\nFrom .*\\n.*)\\r?\\n/gm,
       'bundle':  /(^|<\/div>)(\$ bundle install.*\r?\n*(?:(Fetching|Updating|Using|Installing|remote:|Receiving|Resolving|Unpacking).+\r?\n*)*)/gm,
       'migrate': /(^|<\/div>)(\$ rake db:migrate[\s\S]*(?:^== +\w+: migrated \(.*\) =+\r?\n))\r?\n?/gm,
-      'exec':    /(^|<\/div>)(\/home\/([^\/]+)\/.rvm\/rubies\/\S*?(ruby|rbx|jruby).*?)\r?\n/gm
+      'exec':    /(^|<\/div>)(\/home\/([^\/]+)\/.rvm\/rubies\/\S*?\/(ruby|rbx|jruby) .*?)\r?\n/gm
     };
     _.each(folds, function(fold, type) {
       string = string.replace(fold, function() { return arguments[1] + '<div class="fold ' + type + '">' + arguments[2].trim() + '</div>'; });
