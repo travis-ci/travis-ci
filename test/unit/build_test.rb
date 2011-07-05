@@ -9,7 +9,7 @@ class BuildTest < ActiveSupport::TestCase
   # Build.send(:public, :denormalize_to_repository?, :denormalize_to_repository)
 
   test 'creating a Build from Github payload' do
-    build = Build.create_from_github_payload(GITHUB_PAYLOADS['gem-release']).reload
+    build = Build.create_from_payload(GITHUB_PAYLOADS['gem-release'], :github).reload
 
     assert_equal '1', build.number
     assert_equal '9854592', build.commit
@@ -25,32 +25,53 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal 'gem-release', build.repository.name
     assert_equal 'svenfuchs', build.repository.owner_name
     assert_equal 'svenfuchs@artweb-design.de', build.repository.owner_email
-    assert_equal 'svenfuchs', build.repository.owner_name
     assert_equal 'http://github.com/svenfuchs/gem-release', build.repository.url
 
-    assert_equal GITHUB_PAYLOADS['gem-release'], build.github_payload
+    assert_equal GITHUB_PAYLOADS['gem-release'], build.payload
   end
 
   test 'a Github payload for a gh_pages branch does not create a build' do
     assert_difference('Build.count', 0) do
-      Build.create_from_github_payload(GITHUB_PAYLOADS['gh-pages-update'])
+      Build.create_from_payload(GITHUB_PAYLOADS['gh-pages-update'], :github)
     end
   end
 
   test 'a Github payload for a private repo does not create a build' do
     assert_difference('Build.count', 0) do
-      Build.create_from_github_payload(GITHUB_PAYLOADS['private-repo'])
+      Build.create_from_payload(GITHUB_PAYLOADS['private-repo'], :github)
     end
   end
 
   test 'a Github payload for a private repo returns falsea' do
-    assert_equal Build.create_from_github_payload(GITHUB_PAYLOADS['private-repo']) , false
+    assert_equal Build.create_from_payload(GITHUB_PAYLOADS['private-repo'], :github) , false
   end
 
   test 'a Github payload containing no commit information does not create a build' do
     assert_difference('Build.count', 0) do
-      Build.create_from_github_payload(GITHUB_PAYLOADS['force-no-commit'])
+      Build.create_from_payload(GITHUB_PAYLOADS['force-no-commit'], :github)
     end
+  end
+
+  test 'creating a build from a local Git payload' do
+    build = Build.create_from_payload(LOCAL_GIT_PAYLOADS['normal-commit'], :local)
+
+    assert_equal 1, build.number
+    assert_equal '65cbbc08b054b8e9626b20d81fdaab70a2ad2926', build.commit
+    assert_equal 'A test commit', build.message
+    assert_equal 'master', build.branch
+    assert_equal '2011-06-28 10:22:08 UTC', build.committed_at.to_formatted_s
+
+    assert_equal 'Luiz Felipe', build.committer_name
+    assert_equal 'luiz.felipe.gp@gmail.com', build.committer_email
+    assert_equal 'Luiz Felipe', build.author_name
+    assert_equal 'luiz.felipe.gp@gmail.com', build.author_email
+  
+    assert_equal 'test', build.repository.name
+    assert_equal 'draiken', build.repository.owner_name
+    assert_equal 'luiz.felipe.gp@gmail.com', build.repository.owner_email
+    assert_equal 'git@192.168.0.4:test.git', build.repository.url
+    assert_equal LOCAL_GIT_PAYLOADS['normal-commit'], build.payload
+
   end
 
   test 'next_number (1)' do

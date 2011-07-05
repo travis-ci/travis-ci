@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110619100906) do
+ActiveRecord::Schema.define(:version => 20110629123507) do
 
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(:version => 20110619100906) do
     t.text     "config"
     t.string   "ref"
     t.string   "branch"
-    t.text     "github_payload"
+    t.text     "payload"
     t.string   "compare_url"
   end
 

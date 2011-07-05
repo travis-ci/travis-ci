@@ -16,7 +16,7 @@ class JsonTest < ActiveSupport::TestCase
     expected = { 'id' => build.id, 'number' => '1', 'commit' => '62aae5f70ceee39123ef', 'branch' => 'master' }
     assert_equal_hashes expected, build.as_json(:for => :job)
 
-    expected = { 'id' => repository.id, :slug => 'svenfuchs/minimal' }
+    expected = { 'id' => repository.id, :slug => 'svenfuchs/minimal', :clone_url => 'git://github.com/svenfuchs/minimal.git' }
     assert_equal_hashes expected, repository.as_json(:for => :job)
   end
 

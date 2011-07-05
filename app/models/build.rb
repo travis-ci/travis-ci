@@ -20,17 +20,17 @@ class Build < ActiveRecord::Base
   after_save  :was_finished,   :if => :was_finished?
 
   class << self
-    def create_from_github_payload(payload)
-      data = Github::ServiceHook::Payload.new(payload)
+    def create_from_payload(payload, source)
+      data = Travis::Strategy.create_from_payload(payload, source)
 
-      return false if data.repository.private?
+      return false unless data
 
-      repository = Repository.find_or_create_by_github_repository(data.repository)
+      repository = Repository.find_or_create_by_repository(data.repository)
       number     = repository.builds.next_number
       build      = data.builds.last
 
       if build
-        attributes = build.to_hash.merge(:number => number, :github_payload => payload, :compare_url => data.compare)
+        attributes = build.to_hash.merge(:number => number, :payload => payload)
         repository.builds.create(attributes) unless exclude?(attributes)
       end
     end

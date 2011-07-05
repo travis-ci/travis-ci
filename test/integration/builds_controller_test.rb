@@ -34,6 +34,24 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'POST to /builds (from local git repo) creates a build record and a build job and sends a build:queued event to Pusher' do
+    assert_difference('Build.count', 1) do
+      ping_from_local!
+      build = Build.last
+      assert_local_build_job
+      assert_equal ['build:queued', {
+        'repository' => {
+          'id' => build.repository.id,
+          :slug => 'draiken/test'
+        },
+        'build' => {
+          'id' => build.id,
+          'number' => 1
+        }
+      }], channel.messages.first
+    end
+  end
+
   test 'POST to /builds (ping from github) does not create a build record when the branch is gh_pages' do
     assert_no_difference('Build.count') do
       post '/builds', { :payload => GITHUB_PAYLOADS['gh-pages-update'] }, 'HTTP_AUTHORIZATION' => credentials
@@ -137,6 +155,10 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
       post '/builds', { :payload => GITHUB_PAYLOADS['gem-release'] }, 'HTTP_AUTHORIZATION' => credentials
     end
 
+    def ping_from_local!
+      post '/builds', { :payload => LOCAL_GIT_PAYLOADS['normal-commit'] }
+    end
+
     def configure_from_worker!(msg_id = 1)
       authenticated_put(build_path(build), WORKER_PAYLOADS[:configured].merge('msg_id' => msg_id))
       build.reload
@@ -162,6 +184,14 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
       args = Resque.reserve(:builds).args.last
       build = Build.last
       assert_equal '9854592', build.commit
+      assert_equal build.attributes.slice('id', 'commit'), args['build'].slice('id', 'commit')
+      assert_equal build.repository.attributes.slice('id'), args['repository'].slice('id')
+    end
+
+    def assert_local_build_job
+      args = Resque.reserve(:builds).args.last
+      build = Build.last
+      assert_equal '65cbbc08b054b8e9626b20d81fdaab70a2ad2926', build.commit
       assert_equal build.attributes.slice('id', 'commit'), args['build'].slice('id', 'commit')
       assert_equal build.repository.attributes.slice('id'), args['repository'].slice('id')
     end

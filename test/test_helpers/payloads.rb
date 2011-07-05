@@ -135,6 +135,29 @@ GITHUB_PAYLOADS = {
     "created":true
   })
 }
+LOCAL_GIT_PAYLOADS = {
+  'normal-commit' => %({
+    "before" : "9e46da9a352aefeeefc4344de5ab2b513fc33716",
+    "after"  : "65cbbc08b054b8e9626b20d81fdaab70a2ad2926",
+    "repository" : {
+      "name"   : "test",
+      "owner"  : { "name":"draiken", "email":"luiz.felipe.gp@gmail.com" },
+      "url"    : "git@192.168.0.4:test.git"
+    },
+    "ref"   : "refs/heads/master",
+    "commits" : [
+      {
+        "id"        : "65cbbc08b054b8e9626b20d81fdaab70a2ad2926",
+        "message"   : "A test commit",
+        "timestamp" : "2011-06-28 10:22:08 UTC",
+        "committer" : { "name" : "Luiz Felipe", "email" : "luiz.felipe.gp@gmail.com"},
+        "author"    : { "name" : "Luiz Felipe", "email" : "luiz.felipe.gp@gmail.com"}
+      }
+    ]
+  }
+  )
+
+}
 
 RESQUE_PAYLOADS = {
   'gem-release' => {

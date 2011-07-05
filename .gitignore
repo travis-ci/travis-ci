@@ -11,3 +11,4 @@ tmp/
 vendor/htmlunit
 *~
 \#*
+*.swp
