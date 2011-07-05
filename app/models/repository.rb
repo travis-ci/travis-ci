@@ -31,7 +31,7 @@ class Repository < ActiveRecord::Base
 
     def human_status_by(attributes)
       repository = where(attributes).first
-      repository ? "unknown" : repository.human_status
+      repository ? repository.human_status : "unknown"
     end
 
     def search(query)
