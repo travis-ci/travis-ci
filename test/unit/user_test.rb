@@ -41,4 +41,14 @@ class UserTest < ActiveSupport::TestCase
     assert_equal returned_data , User::user_data_from_github_data(github_data)
   end
 
+  test 'new users are marked as such' do
+    github_data = {'name' => 'j_user', 'login' => 'j_user' , 'email' => 'j_user@email.com' , 'company' => 'ACME', 'id' => '234423'}
+
+    @new_user = User.find_for_github_oauth("extra" => {"user_hash" => github_data.dup})
+    assert @new_user.recently_signed_up?, "new_user should have just signed up"
+
+    @old_user = User.find_for_github_oauth("extra" => {"user_hash" => github_data.dup})
+    assert_equal @old_user.recently_signed_up?, false, "old_user should already exist"
+  end
+
 end

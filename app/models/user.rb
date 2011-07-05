@@ -13,9 +13,12 @@ class User < ActiveRecord::Base
 
       if user = User.find_by_github_id(user_details['github_id'])
         user.update_attributes(user_details)
+        user.recently_signed_up = false
         user
       else
-        create!(user_details)
+        create!(user_details).tap do |user|
+          user.recently_signed_up = true
+        end
       end
     end
 
@@ -33,6 +36,11 @@ class User < ActiveRecord::Base
 
   def profile_image_hash
     self.email? ? Digest::MD5.hexdigest(self.email) : '00000000000000000000000000000000'
+  end
+
+  attr_accessor :recently_signed_up
+  def recently_signed_up?
+    @recently_signed_up
   end
 
   private
