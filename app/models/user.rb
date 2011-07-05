@@ -8,8 +8,8 @@ class User < ActiveRecord::Base
   after_create :create_a_token
 
   class << self
-    def find_for_github_oauth(user_hash)
-      user_details = user_data_from_github_data(user_hash)
+    def find_or_create_for_oauth(payload)
+      user_details = user_data_from_oauth(payload)
 
       if user = User.find_by_github_id(user_details['github_id'])
         user.update_attributes(user_details)
@@ -22,14 +22,14 @@ class User < ActiveRecord::Base
       end
     end
 
-    def user_data_from_github_data(user_hash)
-      user_info = user_hash['user_info']
+    def user_data_from_oauth(payload)
+      user = payload['user_info']
       {
-        'name'  => user_info['name'],
-        'email' => user_info['email'],
-        'login' => user_info['nickname'],
-        'github_id' => user_hash['uid'],
-        'github_oauth_token' => user_hash['credentials']['token']
+        'name'  => user['name'],
+        'email' => user['email'],
+        'login' => user['nickname'],
+        'github_id' => payload['uid'],
+        'github_oauth_token' => payload['credentials']['token']
       }
     end
   end
