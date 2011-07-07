@@ -15,13 +15,15 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   run: function() {
     this.repositories = new Travis.Collections.Repositories();
     this.builds       = new Travis.Collections.AllBuilds();
-    this.jobs         = new Travis.Collections.Jobs();
+    this.jobs         = new Travis.Collections.Jobs([], { queue: 'builds' });
+    this.jobsRails    = new Travis.Collections.Jobs([], { queue: 'rails' });
     this.workers      = new Travis.Collections.Workers();
 
     this.repositoriesList = new Travis.Views.Repositories.List();
     this.repositoryShow   = new Travis.Views.Repository.Show();
     this.workersView      = new Travis.Views.Workers.List();
-    this.jobsView         = new Travis.Views.Jobs.List();
+    this.jobsView         = new Travis.Views.Jobs.List({ queue: 'builds' });
+    this.jobsRailsView    = new Travis.Views.Jobs.List({ queue: 'rails' });
 
     $('#left #tab_recent .tab').append(this.repositoriesList.render().el);
     $('#main').append(this.repositoryShow.render().el);
@@ -30,6 +32,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.repositoryShow.attachTo(this.repositories)
     this.workersView.attachTo(this.workers)
     this.jobsView.attachTo(this.jobs)
+    this.jobsRailsView.attachTo(this.jobsRails)
     this.repositories.bind('select', this.repositorySelected);
 
     this.bind('build:started',    this.buildStarted);
@@ -40,6 +43,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
 
     this.workers.fetch();
     this.jobs.fetch();
+    this.jobsRails.fetch();
   },
 
   // actions
@@ -120,11 +124,14 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   // external events
 
   buildQueued: function(data) {
-    this.jobs.add({ number: data.build.number, id: data.build.id, repository: { slug: data.slug } });
+    var collection = data.slug.match(/rails/) ? this.jobsRails : this.jobs;
+    collection.add({ number: data.build.number, id: data.build.id, repository: { slug: data.slug } });
   },
   buildStarted: function(data) {
+    var collection = data.slug.match(/rails/) ? this.jobsRails : this.jobs;
+    collection.remove({ id: data.build.matrix ? data.build.matrix[0].id : data.build.id });
+
     this.repositories.update(data);
-    this.jobs.remove({ id: data.build.matrix ? data.build.matrix[0].id : data.build.id });
     if((this.followBuilds || this.tab == 'current' && this.repositories.selected().get('slug') == data.slug) && !this.buildId && !data.build.parent_id) {
       var repository = this.repositories.get(data.id);
       if(!repository.selected) repository.select();
@@ -132,8 +139,8 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }
   },
   buildConfigured: function(data) {
-    // console.log(data)
-    this.jobs.remove({ id: data.build.id });
+    var collection = data.slug.match(/rails/) ? this.jobsRails : this.jobs;
+    collection.remove({ id: data.build.id });
     this.repositories.update(data);
   },
   buildFinished: function(data) {
