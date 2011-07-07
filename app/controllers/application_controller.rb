@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     helper_method :workers
 
     def jobs
-      @jobs ||= ResqueHelpers.queued_jobs
+      @jobs ||= ResqueHelpers.queued_jobs(params[:queue])
     end
     helper_method :jobs
 
