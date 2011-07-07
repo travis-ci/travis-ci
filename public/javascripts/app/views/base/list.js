@@ -6,8 +6,8 @@ Travis.Views.Base.List = Backbone.View.extend({
 
     this.selectors = _.extend({
       element: '#' + this.name,
-      list: '#' + this.name + ' ul',
-      item: '#' + this.name + ' #' +this.name.replace(/s$/, '') + '_'
+      list:    '#' + this.name + ' ul',
+      item:    '#' + this.name + ' #' +this.name.replace(/s$/, '') + '_'
     }, this.selectors || {});
 
     this.templates = _.extend({
