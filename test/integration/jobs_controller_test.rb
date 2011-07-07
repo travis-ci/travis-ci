@@ -16,8 +16,8 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
     jobs = ActiveSupport::JSON.decode(response.body)
 
     expected = [
-      { 'id' => 1, 'number' => '3',   'commit' => 'b0a1b69','repository' => { 'id' => 8, 'slug' => 'svenfuchs/gem-release' } },
-      { 'id' => 2, 'number' => '3.1', 'commit' => 'b0a1b69','repository' => { 'id' => 8, 'slug' => 'svenfuchs/gem-release' } },
+      { 'id' => 1, 'number' => '3',   'commit' => 'b0a1b69', 'repository' => { 'id' => 8, 'slug' => 'svenfuchs/gem-release' } },
+      { 'id' => 2, 'number' => '3.1', 'commit' => 'b0a1b69', 'repository' => { 'id' => 8, 'slug' => 'svenfuchs/gem-release' } },
     ]
 
     assert_equal expected, jobs
