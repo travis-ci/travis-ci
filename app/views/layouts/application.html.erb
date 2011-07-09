@@ -14,10 +14,26 @@
       <%= stylesheet_link_tag 'jasmine' %>
       <%= include_javascripts :jasmine %>
     <% end %>
-    <%= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
 
-    <%= include_javascripts :travis %>
-    <%= include_javascripts :templates %>
+    <% if Rails.env.production? %>
+
+      <!-- Load CSS & JS from the Cloudfront CDN using Assets.io -->
+      <script src="http://api.assets.io/b7/"></script>
+      <script>
+        assets.account('d2unh9nmgfc0z6');
+        assets.force();
+        assets.version(1);
+        assets.css('/stylesheets/application.css /stylesheets/jquery.tipsy.css', { debug: true });
+        assets.js('/javascripts/travis.js /javascripts/templates.js', { debug: true });
+      </script>
+
+    <% else %>
+
+      <%= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
+      <%= include_javascripts :travis %>
+      <%= include_javascripts :templates %>
+
+    <% end %>
 
     <% if Rails.env.test? %>
       <%= include_javascripts :capybara %>
