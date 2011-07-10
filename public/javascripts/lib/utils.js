@@ -47,6 +47,7 @@ Utils = {
     string = Utils.escapeRuby(string);
     string = Utils.foldLog(string);
     string = Deansi.parse(string);
+    string = Utils.breakLines(string);
     return string;
   },
   stripPaths: function(string) {
@@ -54,6 +55,15 @@ Utils = {
   },
   escapeRuby: function(string) {
     return string.replace(/#<(\w+.*?)>/, '#&lt;$1&gt;');
+  },
+  breakLines: function(string) {
+    var newstring = "";
+    var counter = 0;
+    _.each(string.split('\n'), function (line) {
+      counter++;
+      newstring += "<p class='line' name='line" + counter + "'><a class='linum'>" + counter+ "</a>" + line + "</p>"
+    })
+    return newstring;
   },
   foldLog: function(string) {
     string = Utils.unfoldLog(string);
@@ -66,7 +76,7 @@ Utils = {
       'exec':    /(^|<\/div>)(\/home\/([^\/]+)\/.rvm\/rubies\/\S*?\/(ruby|rbx|jruby) .*?)\r?\n/gm
     };
     _.each(folds, function(fold, type) {
-      string = string.replace(fold, function() { return arguments[1] + '<div class="fold ' + type + '">' + arguments[2].trim() + '</div>'; });
+      string = string.replace(fold, function() { return arguments[1] + '<div class="fold ' + type + '">\n' + arguments[2].trim() + '</div>\n'; });
     });
     string = string.replace(/([\.-_*SEF]{120})\n?/g, '$1\n')
     return string;
@@ -119,4 +129,3 @@ function trace() {
     _.each(stack, function(line) { console.log(line); });
   }
 }
-
