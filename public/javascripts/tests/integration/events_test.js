@@ -14,10 +14,12 @@ var EVENT_PAYLOADS = {
 
 describe('Events:', function() {
   beforeEach(function() {
+    mockFilterLog();
     startApp();
   });
 
   afterEach(function() {
+    unmockFilterLog();
     stopApp();
   });
 
