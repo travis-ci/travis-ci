@@ -4,6 +4,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     // '!/:owner':               'byOwner',
     // FIXME: I would suggest to use !/repositories/:owner/:name, to make it more rest-like.
     // Because, for instance, now we should put myRepositories on top so that it could get matched. Unambigous routes rule!
+    '!/:owner/:name/L:line_number':            'repository',
     '!/:owner/:name':            'repository',
     '!/:owner/:name/builds':     'repositoryHistory',
     '!/:owner/:name/builds/:id': 'repositoryBuild',
@@ -12,14 +13,17 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     _.bindAll(this, 'recent', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'repositorySelected',
               'buildQueued', 'buildStarted', 'buildLogged', 'buildFinished');
   },
+
   run: function() {
+    this.path_elements = {};
+
     this.repositories = new Travis.Collections.Repositories();
     this.builds       = new Travis.Collections.AllBuilds();
     this.jobs         = new Travis.Collections.Jobs();
     this.workers      = new Travis.Collections.Workers();
 
     this.repositoriesList = new Travis.Views.Repositories.List();
-    this.repositoryShow   = new Travis.Views.Repository.Show();
+    this.repositoryShow   = new Travis.Views.Repository.Show({ parent: this });
     this.workersView      = new Travis.Views.Workers.List();
     this.jobsView         = new Travis.Views.Jobs.List();
 
@@ -37,7 +41,6 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.bind('build:configured', this.buildConfigured);
     this.bind('build:log',        this.buildLogged);
     this.bind('build:queued',     this.buildQueued);
-
     this.workers.fetch();
     this.jobs.fetch();
   },
@@ -46,43 +49,38 @@ Travis.Controllers.Application = Backbone.Controller.extend({
 
   recent: function() {
     this.startLoading();
-    this.tab = 'current';
     this.followBuilds = true;
+    this.selectTab('current');
     this.repositories.whenFetched(_.bind(function () {
       this.repositories.selectLast();
       this.stopLoading();
     }, this));
-    this.selectTab();
   },
-  repository: function(owner, name) {
+  repository: function(owner, name, line_number) {
+    this.path_elements = { owner: owner, name: name, line_number: line_number }
     this.startLoading();
-    this.tab = 'current';
+    this.selectTab('current');
     this.repositories.whenFetched(_.bind(function(repositories) {
       repositories.selectLastBy({ slug: owner + '/' + name });
       this.stopLoading();
     }, this));
-    this.selectTab();
   },
   repositoryHistory: function(owner, name) {
     this.startLoading();
-    this.tab = 'history';
+    this.selectTab('history');
     this.repositories.whenFetched(_.bind(function(repositories) {
       repositories.selectLastBy({ slug: owner + '/' + name })
       this.stopLoading()
     }, this));
-    this.selectTab();
-  },
-  myRepositories: function() {
   },
   repositoryBuild: function(owner, name, buildId) {
     this.startLoading();
-    this.tab = 'build';
     this.buildId = parseInt(buildId);
+    this.selectTab('build');
     this.repositories.whenFetched(_.bind(function(repositories) {
       repositories.selectLastBy({ slug: owner + '/' + name })
       this.stopLoading()
     }, this));
-    this.selectTab();
   },
 
   // helpers
@@ -102,7 +100,6 @@ Travis.Controllers.Application = Backbone.Controller.extend({
 
 
   // internal events
-
   repositorySelected: function(repository) {
     switch(this.tab) {
       case 'current':
@@ -142,7 +139,8 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   buildLogged: function(data) {
     this.repositories.update(data);
   },
-  selectTab: function() {
+  selectTab: function(tab) {
+    this.tab = tab
     this.repositoryShow.activateTab(this.tab);
   },
 });
