@@ -25,7 +25,7 @@ jasmine.cachedFixture = function(fixtureName) {
 
 jasmine.retrieveFixture = function(fixtureName) {
   // construct a path to the fixture, including a cache-busting timestamp
-  var path = '/javascripts/tests/fixtures/' + fixtureName + "?" + new Date().getTime();
+  var path = '/javascripts/tests/fixtures/' + fixtureName + "?" + Math.random().toString().substring(2)
   var xhr;
 
   // retrieve the fixture markup via xhr request to jasmine server
