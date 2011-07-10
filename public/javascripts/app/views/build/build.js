@@ -80,6 +80,9 @@ Travis.Views.Build.Build = Backbone.View.extend({
       $(el).click(function(){
         var e = self.parent.parent.parent.path_elements;
         // TODO: CREATE PATH HELPERS??
+        // Why haven't I done it through anchor + tag? B/c i hate element like that:
+        //     <a href="/#!/josevalim/enginex/L31" name="#!/josevalim/enginex/L31">LINE CONTENTS</a>.
+        // I think it's easier to create event once here than do it through native anchors.
         window.location.href = [ "#!/", e.owner, "/", e.name, "/L", $(el).attr('name').replace('line', '') ].join('')
       })
     })
