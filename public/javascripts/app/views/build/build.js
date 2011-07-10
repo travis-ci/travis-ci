@@ -59,14 +59,43 @@ Travis.Views.Build.Build = Backbone.View.extend({
     if(this.build) {
       this.el.empty();
       this._renderSummary();
-      this.build.matrix ? this._renderMatrix() : this._renderLog();
+      if (this.build.matrix) {
+          this._renderMatrix();
+      } else {
+        this._renderLog();
+        this._initializeEvents();
+        this._activateCurrentLine();
+      }
     }
   },
   _renderSummary: function() {
-    this.el.append(new Travis.Views.Build.Summary({ model: this.build }).render().el);
+    this.el.append(new Travis.Views.Build.Summary({ model: this.build, parent: this }).render().el);
   },
   _renderLog: function() {
-    this.el.append(new Travis.Views.Build.Log({ model: this.build }).render().el);
+    this.el.append(new Travis.Views.Build.Log({ model: this.build, parent: this }).render().el);
+  },
+  _initializeEvents: function() {
+    var self = this
+    _.each(this.el.find('p.line'), function(el) {
+      $(el).click(function(){
+        var e = self.parent.parent.parent.path_elements;
+        // TODO: CREATE PATH HELPERS??
+        window.location.href = [ "#!/", e.owner, "/", e.name, "/L", $(el).attr('name').replace('line', '') ].join('')
+      })
+    })
+  },
+  _activateCurrentLine: function() {
+    if(this.getLogLineNumber()) {
+      var line_element = this.el.find("p[name='line" + this.getLogLineNumber()  + "']")
+      $(window).scrollTop(line_element.offset().top)
+      line_element.addClass("highlight")
+    }
+  },
+  getLogLineNumber: function () {
+    if(this.parent && this.parent.parent)
+      return this.parent.parent.parent.path_elements.line_number;
+    else
+      return null;
   },
   _renderMatrix: function() {
     this.el.append(new Travis.Views.Build.Matrix.Table({ builds: this.build.matrix }).render().el);
