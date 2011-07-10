@@ -24,7 +24,9 @@
         assets.force();
         assets.version(1);
         assets.css('/stylesheets/application.css /stylesheets/jquery.tipsy.css', { debug: true });
-        assets.js('/javascripts/travis.js /javascripts/templates.js', { debug: true });
+        assets.js('/javascripts/travis.js /javascripts/templates.js', { debug: true }, function () {
+          window.pusher = new Pusher('<%= Pusher.key -%>');
+        });
       </script>
 
     <% else %>
@@ -118,6 +120,6 @@
       <%= yield %>
     </div>
 
-    <%= javascript_tag "var pusher = new Pusher('#{Pusher.key}');" unless Rails.env.jasmine? %>
+    <%= javascript_tag "var pusher = new Pusher('#{Pusher.key}');" unless Rails.env.production? || Rails.env.jasmine? %>
   </body>
 </html>
