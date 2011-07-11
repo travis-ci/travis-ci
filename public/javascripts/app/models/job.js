@@ -5,7 +5,7 @@ Travis.Models.Job = Backbone.Model.extend({
 
 Travis.Collections.Jobs = Backbone.Collection.extend({
   initialize: function(elements, args) {
-    this.queue = args.queue
+    this.queue = args.queue || 'builds'
   },
   url: function() {
     return this.queue ? '/jobs?queue=' + this.queue : '/jobs';
