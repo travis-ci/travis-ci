@@ -36,7 +36,7 @@ describe('Events:', function() {
     });
 
     it('prepends to the jobs list view', function() {
-      expectText('#jobs li:nth-child(3)', 'svenfuchs/minimal #4');
+      expectText('.queue-builds#jobs li:nth-child(1)', 'svenfuchs/minimal #4');
     });
   });
 
