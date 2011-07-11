@@ -15,7 +15,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   },
 
   run: function() {
-    this.path_elements = {};
+    window.params = {};
 
     this.repositories = new Travis.Collections.Repositories();
     this.builds       = new Travis.Collections.AllBuilds();
@@ -57,7 +57,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }, this));
   },
   repository: function(owner, name, line_number) {
-    this.path_elements = { owner: owner, name: name, line_number: line_number }
+    window.params = { owner: owner, name: name, line_number: line_number }
     this.startLoading();
     this.selectTab('current');
     this.repositories.whenFetched(_.bind(function(repositories) {
