@@ -19,7 +19,8 @@ Travis.Views.Build.Log = Backbone.View.extend({
     this.model.bind('append:log', this.appendLog)
   },
   render: function() {
-    this.el = $(this.template({ log: Utils.filterLog(this.model.get('log') || '') }));
+    this.appendedChars = this.model.get('log') || ''
+    this.el = $(this.template({ log: Utils.filterLog(this.appendedChars) }));
     return this;
   },
   initializeEvents: function() {
@@ -43,11 +44,16 @@ Travis.Views.Build.Log = Backbone.View.extend({
     }
   },
   setLog: function() {
-    this.el.html(Utils.filterLog(this.model.get('log') || ''));
+    this.appendedChars = this.model.get('log') || ''
+    this.el.html(Utils.filterLog(this.appendedChars));
   },
   appendLog: function(chars) {
     if(chars) {
-      this.el.html(Utils.filterLog(this.el.html() + chars));
+      if(this.appendedChars === undefined) {
+        this.appendedChars = ""
+      }
+      this.appendedChars += chars
+      this.el.html(Utils.filterLog(this.appendedChars));
     }
   }
 });
