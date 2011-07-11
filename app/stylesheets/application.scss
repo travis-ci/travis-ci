@@ -397,6 +397,20 @@ caption {
     border-radius: 4px 4px;
     overflow-x: auto;
 
+    p {
+      margin: 0 -15px;
+      padding: 0 15px;
+      &:hover {
+        background-color: rgba(255,255,255,.05);
+      }
+      &.highlight {
+        background-color: rgba(255,255,255,.5);
+      }
+    }
+    a.linum {
+        width: 40px;
+        padding-right: 20px;
+    }
     /* deansi styles, see javascripts/lib/deansi.js */
 
     .bold {
@@ -792,7 +806,7 @@ ul#tokens {
   @include list-base;
 }
 
-#my_repositories {
+#service_hooks {
   @include list-base;
   margin-top: 10px;
   li {
