@@ -121,11 +121,11 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   // external events
 
   buildQueued: function(data) {
-    var collection = data.slug.match(/rails/) ? this.jobsRails : this.jobs;
+    var collection = this.buildingRails(data) ? this.jobsRails : this.jobs;
     collection.add({ number: data.build.number, id: data.build.id, repository: { slug: data.slug } });
   },
   buildStarted: function(data) {
-    var collection = data.slug.match(/rails/) ? this.jobsRails : this.jobs;
+    var collection = this.buildingRails(data) ? this.jobsRails : this.jobs;
     collection.remove({ id: data.build.matrix ? data.build.matrix[0].id : data.build.id });
 
     this.repositories.update(data);
@@ -136,9 +136,12 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }
   },
   buildConfigured: function(data) {
-    var collection = data.slug.match(/rails/) ? this.jobsRails : this.jobs;
+    var collection = this.buildingRails(data) ? this.jobsRails : this.jobs;
     collection.remove({ id: data.build.id });
     this.repositories.update(data);
+  },
+  buildingRails: function (data) {
+    data.slug && data.slug.match(/rails/)
   },
   buildFinished: function(data) {
     this.repositories.update(data);
