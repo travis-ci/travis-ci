@@ -22,12 +22,14 @@ describe('Running a build matrix', function() {
 
 
   beforeEach(function() {
+    mockFilterLog();
     startApp();
     goTo('/');
     waitsFor(repositoriesListPopulated());
   });
 
   afterEach(function() {
+    unmockFilterLog();
     stopApp();
   });
 

@@ -942,29 +942,29 @@ ul#tokens > li:first-child {
 }
 
 /* line 776, ../../../app/stylesheets/application.scss */
-#my_repositories {
+#service_hooks {
   margin-top: 10px;
 }
 /* line 14, ../../../app/stylesheets/_mixins.scss */
-#my_repositories .spinner {
+#service_hooks .spinner {
   margin-left: auto;
   margin-right: auto;
 }
 /* line 17, ../../../app/stylesheets/_mixins.scss */
-#my_repositories > li {
+#service_hooks > li {
   padding: 5px;
   border-bottom: 1px solid #ddd;
 }
 /* line 20, ../../../app/stylesheets/_mixins.scss */
-#my_repositories > li:nth-child(odd) {
+#service_hooks > li:nth-child(odd) {
   background: #fafbfc;
 }
 /* line 24, ../../../app/stylesheets/_mixins.scss */
-#my_repositories > li:first-child {
+#service_hooks > li:first-child {
   border-top: 1px solid #ddd;
 }
 /* line 779, ../../../app/stylesheets/application.scss */
-#my_repositories li {
+#service_hooks li {
   position: relative;
   height: 19px;
   padding: 10px;
@@ -972,14 +972,14 @@ ul#tokens > li:first-child {
   overflow: hidden;
 }
 /* line 785, ../../../app/stylesheets/application.scss */
-#my_repositories li > a {
+#service_hooks li > a {
   float: left;
   font-size: 16px;
   color: #666;
   text-decoration: none;
 }
 /* line 791, ../../../app/stylesheets/application.scss */
-#my_repositories li .description {
+#service_hooks li .description {
   display: none;
   margin-left: 10px;
   font-size: 12px;
@@ -989,7 +989,7 @@ ul#tokens > li:first-child {
   color: #999;
 }
 /* line 800, ../../../app/stylesheets/application.scss */
-#my_repositories li .controls {
+#service_hooks li .controls {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -997,7 +997,7 @@ ul#tokens > li:first-child {
   background-color: white;
 }
 /* line 806, ../../../app/stylesheets/application.scss */
-#my_repositories li .controls .github-admin {
+#service_hooks li .controls .github-admin {
   float: left;
   display: block;
   width: 20px;
@@ -1009,7 +1009,7 @@ ul#tokens > li:first-child {
   overflow: hidden;
 }
 /* line 817, ../../../app/stylesheets/application.scss */
-#my_repositories li .controls .toggle_enabled {
+#service_hooks li .controls .toggle_enabled {
   float: left;
   background: url("/images/off.png") no-repeat;
   display: block;
@@ -1019,19 +1019,19 @@ ul#tokens > li:first-child {
   cursor: pointer;
 }
 /* line 825, ../../../app/stylesheets/application.scss */
-#my_repositories li .controls .toggle_enabled.on {
+#service_hooks li .controls .toggle_enabled.on {
   background: url("/images/on.png") no-repeat;
 }
 /* line 830, ../../../app/stylesheets/application.scss */
-#my_repositories li:nth-child(odd) .controls {
+#service_hooks li:nth-child(odd) .controls {
   background: #fafbfc;
 }
 /* line 834, ../../../app/stylesheets/application.scss */
-#my_repositories li:hover > a {
+#service_hooks li:hover > a {
   color: #c7371a;
 }
 /* line 837, ../../../app/stylesheets/application.scss */
-#my_repositories li:hover .description {
+#service_hooks li:hover .description {
   display: inline;
 }
 

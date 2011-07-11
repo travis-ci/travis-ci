@@ -66,10 +66,12 @@ var expectRepositoryView = function(options) {
 
 describe('Pages:', function() {
   beforeEach(function() {
+    mockFilterLog();
     startApp();
   });
 
   afterEach(function() {
+    unmockFilterLog();
     stopApp();
   });
 
