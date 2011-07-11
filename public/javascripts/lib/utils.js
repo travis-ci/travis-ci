@@ -61,7 +61,7 @@ Utils = {
     var counter = 0;
     _.each(string.split('\n'), function (line) {
       counter++;
-      newstring += "<p class='line' name='line" + counter + "'><a class='linum'>" + counter+ "</a>" + line + "</p>"
+      newstring += "<p class='line'><a class='linum' name='line" + counter + "'>" + counter+ "</a>" + line + "</p>"
     })
     return newstring;
   },

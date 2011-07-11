@@ -24,7 +24,7 @@ Travis.Views.Build.Log = Backbone.View.extend({
   },
   initializeEvents: function() {
     var self = this
-    _.each(this.el.find('p.line'), function(el) {
+    _.each(this.el.find('a.linum'), function(el) {
       $(el).click(function(){
         var e = window.params;
         // TODO: CREATE PATH HELPERS??
@@ -37,9 +37,9 @@ Travis.Views.Build.Log = Backbone.View.extend({
   },
   activateCurrentLine: function() {
     if(window.params.line_number) {
-      var line_element = this.el.find("p[name='line" + window.params.line_number  + "']")
+      var line_element = this.el.find("a[name='line" + window.params.line_number  + "']")
       $(window).scrollTop(line_element.offset().top)
-      line_element.addClass("highlight")
+      line_element.parent().addClass("highlight")
     }
   },
   setLog: function() {
