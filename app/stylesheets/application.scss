@@ -408,8 +408,9 @@ caption {
       }
     }
     a.linum {
-        width: 40px;
-        padding-right: 20px;
+      cursor: pointer;
+      width: 40px;
+      padding-right: 20px;
     }
     /* deansi styles, see javascripts/lib/deansi.js */
 
