@@ -78,7 +78,7 @@ Utils = {
     _.each(folds, function(fold, type) {
       string = string.replace(fold, function() { return arguments[1] + '<div class="fold ' + type + '">\n' + arguments[2].trim() + '</div>\n'; });
     });
-    // string = string.replace(/([\.-_*SEF]{120})\n?/g, '$1\n')
+    string = string.replace(/([\.-_*SEF]{120})\n?/g, '$1\n')
     return string;
   },
   unfoldLog: function(string) {
@@ -126,7 +126,7 @@ Utils.PathHelpers = {
       return "#!/" + owner + "/" + name + "/L" + line_number
     } else {
       // #!/:owner/:name
-      var path = "#!/" + owner + "/" + name
+      return path = "#!/" + owner + "/" + name
     }
   },
   repositoryBuildPath: function(owner, name, build_id, line_number) {
