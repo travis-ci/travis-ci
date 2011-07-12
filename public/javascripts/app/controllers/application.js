@@ -1,13 +1,14 @@
 Travis.Controllers.Application = Backbone.Controller.extend({
   routes: {
-    '':                          'recent',
+    '':                                          'recent',
     // '!/:owner':               'byOwner',
     // FIXME: I would suggest to use !/repositories/:owner/:name, to make it more rest-like.
     // Because, for instance, now we should put myRepositories on top so that it could get matched. Unambigous routes rule!
-    '!/:owner/:name/L:line_number':            'repository',
-    '!/:owner/:name':            'repository',
-    '!/:owner/:name/builds':     'repositoryHistory',
-    '!/:owner/:name/builds/:id': 'repositoryBuild',
+    '!/:owner/:name/L:line_number':              'repository',
+    '!/:owner/:name':                            'repository',
+    '!/:owner/:name/builds':                     'repositoryHistory',
+    '!/:owner/:name/builds/:id/L:line_number':   'repositoryBuild',
+    '!/:owner/:name/builds/:id':                 'repositoryBuild',
   },
   initialize: function() {
     _.bindAll(this, 'recent', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'repositorySelected',
@@ -15,8 +16,6 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   },
 
   run: function() {
-    window.params = {};
-
     this.repositories = new Travis.Collections.Repositories();
     this.builds       = new Travis.Collections.AllBuilds();
     this.jobs         = new Travis.Collections.Jobs([], { queue: 'builds' });
@@ -61,8 +60,8 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }, this));
   },
   repository: function(owner, name, line_number) {
-    window.params = { owner: owner, name: name, line_number: line_number }
     this.startLoading();
+    window.params = { owner: owner, name: name, line_number: line_number, action: 'repository' }
     this.selectTab('current');
     this.repositories.whenFetched(_.bind(function(repositories) {
       repositories.selectLastBy({ slug: owner + '/' + name });
@@ -77,8 +76,9 @@ Travis.Controllers.Application = Backbone.Controller.extend({
       this.stopLoading()
     }, this));
   },
-  repositoryBuild: function(owner, name, buildId) {
+  repositoryBuild: function(owner, name, buildId, line_number) {
     this.startLoading();
+    window.params = { owner: owner, name: name, build_id: buildId, line_number: line_number, action: 'repositoryBuild' }
     this.buildId = parseInt(buildId);
     this.selectTab('build');
     this.repositories.whenFetched(_.bind(function(repositories) {
@@ -93,6 +93,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     delete this.buildId;
     delete this.tab;
     this.followBuilds = false;
+    window.params = {};
   },
   startLoading: function() {
     $('#main').addClass('loading')

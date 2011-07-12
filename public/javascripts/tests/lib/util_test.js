@@ -3,6 +3,25 @@ String.prototype.repeat = function(num) {
 }
 
 describe('Utils', function() {
+  describe('PathHelpers', function {
+    it('should return repository path with line number', function() {
+      expect(Utils.PathHelpers.repositoryPath('owner', 'name', 'line_number'))
+        .toEqual("/owner/name/Lline_number")
+    })
+    it('should return repository path without line number', function() {
+      expect(Utils.PathHelpers.repositoryPath('owner', 'name'))
+        .toEqual("/owner/name")
+    })
+    it('should return repository build path with line number', function() {
+      expect(Utils.PathHelpers.repositoryBuildPath('owner', 'name', 'build_id', 'line_number'))
+        .toEqual("/owner/name/builds/build_id/Lline_number")
+    })
+    it('should return repository build path without line number', function() {
+      expect(Utils.PathHelpers.repositoryBuildPath('owner', 'name', 'build_id', 'line_number'))
+        .toEqual("/owner/name/builds/build_id")
+    })
+  })
+
   describe('stripPaths', function() {
     it('removes the path to the build directory in /tmp', function() {
       var source = 'foo\n/tmp/travis/builds/svenfuchs/rails/activesupport/lib/active_support/core_ext/hash/slice.rb:15';

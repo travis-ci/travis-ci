@@ -119,6 +119,28 @@ Utils = {
   }
 }
 
+Utils.PathHelpers = {
+  repositoryPath: function(owner, name, line_number) {
+    if (line_number) {
+      // #!/:owner/:name/L:line_number
+      return "#!/" + owner + "/" + name + "/L" + line_number
+    } else {
+      // #!/:owner/:name
+      var path = "#!/" + owner + "/" + name
+    }
+  },
+  repositoryBuildPath: function(owner, name, build_id, line_number) {
+    if (line_number) {
+      //#!/:owner/:name/builds/:id/L:line_number
+      var path = "#!/" + owner + "/" + name + "/builds/" + build_id +"/L" + line_number
+    } else {
+      //#!/:owner/:name/builds
+      var path = "#!/" + owner + "/" + name + "/builds/" + build_id
+    }
+  }
+}
+
+console.log(Utils.PathHelpers)
 function trace() {
   try {
     i.dont.exist; // force an exception
