@@ -32,7 +32,13 @@ Travis.Views.Build.Log = Backbone.View.extend({
         // Why haven't I done it through anchor + tag? B/c i hate element like that:
         //     <a href="/#!/josevalim/enginex/L31" name="#!/josevalim/enginex/L31">LINE CONTENTS</a>.
         // I think it's easier to create event once here than do it through native anchors.
-        window.location.href = [ "#!/", e.owner, "/", e.name, "/L", $(el).attr('name').replace('line', '') ].join('')
+        if (window.params.action == 'repository') {
+          window.location.href = Utils.PathHelpers
+            .repositoryPath (e.owner, e.name, $(el).attr('name').replace('line', ''))
+        } else if (window.params.action == 'repositoryBuild') {
+          window.location.href = Utils.PathHelpers
+            .repositoryBuildPath (e.owner, e.name, e.build_id, $(el).attr('name').replace('line', ''))
+        }
       })
     })
   },
