@@ -75,7 +75,7 @@ $(document).ready(function() {
     $('.slider').toggleClass('toggled');
   }
 
-  if($.cookie('slider_hidden') !== 'true') {
+  if($.cookie('slider_hidden') === 'false') {
     toggle_slider();
   }
   $(".slider").click(function() {
