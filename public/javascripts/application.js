@@ -68,13 +68,6 @@ $(document).ready(function() {
       }
     });
   }, 100));
-
-  setInterval(function() { $(".slider").css('height',$("#right").outerHeight()) }, 100);
-  $(".slider").click(function() {
-    $("#right").toggle('fast');
-    $('#main').toggleClass('large');
-    return false;
-  });
 });
 
 if (window.console) {
