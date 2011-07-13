@@ -1,6 +1,6 @@
 Travis.Views.Jobs.List = Travis.Views.Base.List.extend({
   initialize: function(args) {
-    this.queue = args.queue;
+    this.queue = args.queue || 'build';
     this.selectors = {
       element: '#jobs.queue-' + this.queue,
       list:    '#jobs.queue-' + this.queue + ' ul',

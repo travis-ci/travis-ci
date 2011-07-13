@@ -34,7 +34,7 @@ describe('Deansi', function() {
     });
 
     it('removes all occurrences of \e', function() {
-      expect(deansi(String.fromCharCode(27) + 'foo' + String.fromCharCode(27) + 'bar')).toEqual('bar');
+      expect(deansi(String.fromCharCode(27) + 'foo' + String.fromCharCode(27) + 'bar')).toEqual('foobar');
     });
 
     it('replaces ANSI escape sequences having no closing sequence with a span having the respective css classes', function() {

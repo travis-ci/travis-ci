@@ -1,15 +1,15 @@
 describe('Views: the job list view', function() {
   beforeEach(function() {
     jasmine.loadFixture('views/jobs_list.html');
-    this.jobs = new Travis.Collections.Jobs();
-    this.jobs_list = new Travis.Views.Jobs.List();
+    this.jobs = new Travis.Collections.Jobs([], { queue: 'builds' });
+    this.jobs_list = new Travis.Views.Jobs.List({ queue: 'builds' });
     this.jobs_list.attachTo(this.jobs);
     this.selector = '#jasmine_content #jobs';
 
     this.json = jasmine.getFixture('models/jobs.json');
     this.fixtures = eval(this.json);
     this.server = sinon.fakeServer.create();
-    this.server.respondWith('GET', /^\/jobs\?_=\d+$/, [200, { 'Content-Type': 'application/json' }, this.json]);
+    this.server.respondWith('GET', /^\/jobs\?queue=builds&_=\d+$/, [200, { 'Content-Type': 'application/json' }, this.json]);
   });
 
   afterEach(function() {
@@ -23,6 +23,8 @@ describe('Views: the job list view', function() {
   it('shows the contents of the jobs collection', function() {
     this.jobs.fetch();
     this.server.respond()
+
+    console.log (this.jobs)
     expect($('li.job', this.selector)[0]).toHaveText('svenfuchs/minimal #1');
     expect($('li.job', this.selector)[1]).toHaveText('svenfuchs/minimal #2');
   });
