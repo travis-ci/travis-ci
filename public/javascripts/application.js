@@ -69,11 +69,18 @@ $(document).ready(function() {
     });
   }, 100));
 
-  $(".slider").click(function() {
+  function toggle_slider() {
     $("#right").toggleClass('minimized');
     $('#main').toggleClass('large');
     $('.slider').toggleClass('toggled');
-    return false;
+  }
+
+  if($.cookie('slider_hidden') !== 'true') {
+    toggle_slider();
+  }
+  $(".slider").click(function() {
+    $.cookie('slider_hidden', !($.cookie('slider_hidden') === 'true'));
+    toggle_slider();
   });
 });
 
