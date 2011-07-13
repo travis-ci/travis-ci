@@ -69,10 +69,10 @@ $(document).ready(function() {
     });
   }, 100));
 
-  setInterval(function() { $(".slider").css('height',$("#right").outerHeight()) }, 100);
   $(".slider").click(function() {
-    $("#right").toggle('fast');
+    $("#right").toggleClass('minimized');
     $('#main').toggleClass('large');
+    $('.slider').toggleClass('toggled');
     return false;
   });
 });
