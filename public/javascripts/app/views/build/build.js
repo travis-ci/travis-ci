@@ -59,14 +59,21 @@ Travis.Views.Build.Build = Backbone.View.extend({
     if(this.build) {
       this.el.empty();
       this._renderSummary();
-      this.build.matrix ? this._renderMatrix() : this._renderLog();
+      if (this.build.matrix) {
+          this._renderMatrix();
+      } else {
+        this._renderLog();
+      }
     }
   },
   _renderSummary: function() {
-    this.el.append(new Travis.Views.Build.Summary({ model: this.build }).render().el);
+    this.el.append(new Travis.Views.Build.Summary({ model: this.build, parent: this }).render().el);
   },
   _renderLog: function() {
-    this.el.append(new Travis.Views.Build.Log({ model: this.build }).render().el);
+    this.log = new Travis.Views.Build.Log({ model: this.build, parent: this })
+    this.el.append(this.log.render().el);
+    this.log.initializeEvents();
+    this.log.activateCurrentLine();
   },
   _renderMatrix: function() {
     this.el.append(new Travis.Views.Build.Matrix.Table({ builds: this.build.matrix }).render().el);

@@ -4,7 +4,7 @@ Travis.Views.ServiceHooks.Item = Backbone.View.extend({
   },
   initialize: function() {
     _.bindAll(this, 'render', 'toggleEnabled', 'onToggle', 'toggleModelBack');
-    this.template = Travis.templates['repositories/my_item'];
+    this.template = Travis.templates['repositories/service_hook'];
   },
   render: function() {
     this.el = $(this.template(this.model.toJSON()));

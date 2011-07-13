@@ -3,6 +3,25 @@ String.prototype.repeat = function(num) {
 }
 
 describe('Utils', function() {
+  describe('PathHelpers', function(){
+    it('should return repository path with line number', function() {
+      expect(Utils.PathHelpers.repositoryPath('owner', 'name', 'line_number'))
+        .toEqual("#!/owner/name/Lline_number")
+    })
+    it('should return repository path without line number', function() {
+      expect(Utils.PathHelpers.repositoryPath('owner', 'name'))
+        .toEqual("#!/owner/name")
+    })
+    it('should return repository build path with line number', function() {
+      expect(Utils.PathHelpers.repositoryBuildPath('owner', 'name', 'build_id', 'line_number'))
+        .toEqual("#!/owner/name/builds/build_id/Lline_number")
+    })
+    it('should return repository build path without line number', function() {
+      expect(Utils.PathHelpers.repositoryBuildPath('owner', 'name', 'build_id'))
+        .toEqual("#!/owner/name/builds/build_id")
+    })
+  })
+
   describe('stripPaths', function() {
     it('removes the path to the build directory in /tmp', function() {
       var source = 'foo\n/tmp/travis/builds/svenfuchs/rails/activesupport/lib/active_support/core_ext/hash/slice.rb:15';
@@ -27,13 +46,13 @@ describe('Utils', function() {
     it('folds the "$ bundle install" portion of the log', function() {
       var examples = [
         [ '$ foo\n$ bundle install\n',
-          '$ foo\n<div class="fold bundle">$ bundle install</div>' ],
+          '$ foo\n\n<div class="fold bundle">\n$ bundle install</div>\n' ],
 
         [ '$ foo\n$ bundle install\nUsing a\nFetching b\n',
-          '$ foo\n<div class="fold bundle">$ bundle install\nUsing a\nFetching b</div>' ],
+          '$ foo\n\n<div class="fold bundle">\n$ bundle install\nUsing a\nFetching b</div>\n' ],
 
         [ '$ foo\n$ bundle install\nUsing a\nUsing b\nYour bundle is complete! Use `bundle show [gemname]`.',
-          '$ foo\n<div class="fold bundle">$ bundle install\nUsing a\nUsing b</div>Your bundle is complete! Use `bundle show [gemname]`.' ],
+          '$ foo\n\n<div class="fold bundle">\n$ bundle install\nUsing a\nUsing b</div>\nYour bundle is complete! Use `bundle show [gemname]`.' ],
       ];
       _.each(examples, function(example) {
         expect(fold(example[0])).toEqual(example[1]);
@@ -42,7 +61,7 @@ describe('Utils', function() {
 
     it('folds the executing ruby line output by rake', function() {
       var source = '/home/vagrant/.rvm/rubies/ruby-1.8.7-p334/bin/ruby -I"lib:lib:test" "/home/vagrant/.rvm/gems/rbx-head/gems/rake-0.8.7/lib/rake/rake_test_loader.rb" "test/a.rb" "test/b.rb" \nLoaded suite ...';
-      var result = '<div class="fold exec">/home/vagrant/.rvm/rubies/ruby-1.8.7-p334/bin/ruby -I"lib:lib:test" "/home/vagrant/.rvm/gems/rbx-head/gems/rake-0.8.7/lib/rake/rake_test_loader.rb" "test/a.rb" "test/b.rb"</div>Loaded suite ...';
+      var result = '\n<div class="fold exec">\n/home/vagrant/.rvm/rubies/ruby-1.8.7-p334/bin/ruby -I"lib:lib:test" "/home/vagrant/.rvm/gems/rbx-head/gems/rake-0.8.7/lib/rake/rake_test_loader.rb" "test/a.rb" "test/b.rb"</div>\n\nLoaded suite ...';
       expect(fold(source)).toEqual(result);
     });
 
@@ -61,12 +80,12 @@ describe('Utils', function() {
           '   -> 0.0009s\n'                                                                     +
           '==  CreateRepositories: migrated (0.0009s) ====================================\n\n',
 
-          '<div class="fold migrate">$ rake db:migrate && rake test\n'                          +
+          '\n<div class="fold migrate">\n$ rake db:migrate && rake test\n'                          +
           '(in /tmp/travis/builds/travis_ci/travis-ci)\n'                                       +
           '==  CreateRepositories: migrating =============================================\n'   +
           '-- create_table(:repositories)\n'                                                    +
           '   -> 0.0009s\n'                                                                     +
-          '==  CreateRepositories: migrated (0.0009s) ====================================</div>'],
+          '==  CreateRepositories: migrated (0.0009s) ====================================</div>\n'],
 
         [ '$ rake db:migrate && rake test\n'                                                    +
           '(in /tmp/travis/builds/travis_ci/travis-ci)\n'                                       +
@@ -79,7 +98,7 @@ describe('Utils', function() {
           '   -> 0.0019s\n'                                                                     +
           '==  CreateBuilds: migrated (0.0019s) ==========================================\n\n',
 
-          '<div class="fold migrate">$ rake db:migrate && rake test\n'                          +
+          '\n<div class="fold migrate">\n$ rake db:migrate && rake test\n'                          +
           '(in /tmp/travis/builds/travis_ci/travis-ci)\n'                                       +
           '==  CreateRepositories: migrating =============================================\n'   +
           '-- create_table(:repositories)\n'                                                    +
@@ -88,7 +107,7 @@ describe('Utils', function() {
           '==  CreateBuilds: migrating ===================================================\n'   +
           '-- create_table(:builds)\n'                                                          +
           '   -> 0.0019s\n'                                                                     +
-          '==  CreateBuilds: migrated (0.0019s) ==========================================</div>' ],
+          '==  CreateBuilds: migrated (0.0019s) ==========================================</div>\n' ],
       ]
       _.each(tests, function(test) {
         expect(fold(test[0])).toEqual(test[1]);

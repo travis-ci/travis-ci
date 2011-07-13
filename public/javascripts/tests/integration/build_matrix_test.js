@@ -22,19 +22,21 @@ describe('Running a build matrix', function() {
 
 
   beforeEach(function() {
+    mockFilterLog();
     startApp();
     goTo('/');
     waitsFor(repositoriesListPopulated());
   });
 
   afterEach(function() {
+    unmockFilterLog();
     stopApp();
   });
 
   it('schedules the build job, expands the matrix and runs each build', function() {
     trigger('build:queued', PAYLOADS['build:queued:1'], function() {
       // expect job list to contain job
-      expectText('#jobs li:nth-child(3)', 'svenfuchs/minimal #3');
+      expectText('.queue-builds#jobs li:nth-child(1)', 'svenfuchs/minimal #3');
     });
 
     trigger('build:started', PAYLOADS['build:started:1'], function() {
