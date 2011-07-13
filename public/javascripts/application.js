@@ -69,11 +69,18 @@ $(document).ready(function() {
     });
   }, 100));
 
-  setInterval(function() { $(".slider").css('height',$("#right").outerHeight()) }, 100);
-  $(".slider").click(function() {
-    $("#right").toggle('fast');
+  function toggle_slider() {
+    $("#right").toggleClass('minimized');
     $('#main').toggleClass('large');
-    return false;
+    $('.slider').toggleClass('toggled');
+  }
+
+  if($.cookie('slider_hidden') !== 'true') {
+    toggle_slider();
+  }
+  $(".slider").click(function() {
+    $.cookie('slider_hidden', !($.cookie('slider_hidden') === 'true'));
+    toggle_slider();
   });
 });
 
