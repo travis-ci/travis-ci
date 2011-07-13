@@ -1,3 +1,10 @@
+@mixin transition($attributes) {
+  -o-transition: $attributes;
+  -ms-transition: $attributes;
+  -moz-transition: $attributes;
+  -webkit-transition: $attributes;
+  transition: $attributes;
+}
 @mixin centered {
   margin-left: auto;
   margin-right: auto;
@@ -32,3 +39,5 @@
   width: 20px;
   height: 20px;
 }
+
+
