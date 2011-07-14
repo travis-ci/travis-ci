@@ -26,7 +26,7 @@ if Rails.env.development? || Rails.env.jasmine?
     :started_at => '2010-11-12 12:00:00',
     :finished_at => '2010-11-12 12:00:08',
     :agent => '76f4f2ba',
-    :log => 'minimal build 1 log ...'
+    :log => File.read("#{Rails.root}/db/seeds/logs/svenfuchs.minimal.log")
   })
 
   Build.create!({
@@ -43,7 +43,7 @@ if Rails.env.development? || Rails.env.jasmine?
     :started_at => '2010-11-12 12:30:00',
     :finished_at => '2010-11-12 12:30:08',
     :agent => 'a1732e4f',
-    :log => 'minimal build 2 log ...'
+    :log => File.read("#{Rails.root}/db/seeds/logs/svenfuchs.minimal.2.log")
   })
 
   Build.create!(
@@ -59,7 +59,7 @@ if Rails.env.development? || Rails.env.jasmine?
     :committer_email => 'svenfuchs@artweb-design.de',
     :started_at => '2010-11-12 13:00:00',
     :agent => '76f4f2ba',
-    :log => 'minimal build 3 log ...',
+    :log => File.read("#{Rails.root}/db/seeds/logs/svenfuchs.minimal.log"),
     :config => { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'] }
   )
 
@@ -84,7 +84,7 @@ if Rails.env.development? || Rails.env.jasmine?
     :started_at => '2010-11-11 12:00:00',
     :finished_at => '2010-11-11 12:00:20',
     :agent => 'a1732e4f',
-    :log => 'enginex build 1 log ...'
+    :log => File.read("#{Rails.root}/db/seeds/logs/svenfuchs.minimal.2.log")
   })
 
 end

@@ -68,6 +68,20 @@ $(document).ready(function() {
       }
     });
   }, 100));
+
+  function toggle_slider() {
+    $("#right").toggleClass('minimized');
+    $('#main').toggleClass('large');
+    $('.slider').toggleClass('toggled');
+  }
+
+  if($.cookie('slider_hidden') === 'false') {
+    toggle_slider();
+  }
+  $(".slider").click(function() {
+    $.cookie('slider_hidden', !($.cookie('slider_hidden') === 'true'));
+    toggle_slider();
+  });
 });
 
 if (window.console) {
