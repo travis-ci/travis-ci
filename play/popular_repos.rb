@@ -3,7 +3,7 @@ require 'json'
 
 class RateLimitExceeded < Exception; end
 
-slugs = `heroku console 'Repository.order(:url).all.each { |r| puts r.slug } && nil' --remote production`.gsub(/\nnil$/, '').split("\n")
+slugs = `heroku run console 'Repository.order(:url).all.each { |r| puts r.slug } && nil' --remote production`.gsub(/\nnil$/, '').split("\n")
 data  = slugs.map do |slug|
   begin
     print "fetching stats for #{slug} ... "
