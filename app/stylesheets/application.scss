@@ -402,19 +402,21 @@ caption {
     overflow-x: auto;
 
     p {
+      position: relative;
       margin: 0 -15px;
-      padding: 0 15px;
+      padding: 0 15px 0 40px;
       &:hover {
         background-color: rgba(255,255,255,.05);
       }
       &.highlight {
         background-color: rgba(255,255,255,.5);
       }
-    }
-    a.linum {
-      cursor: pointer;
-      width: 40px;
-      padding-right: 20px;
+      a.linum {
+        position: absolute;
+        margin-left: -30px;
+        cursor: pointer;
+        background-color: #333;
+      }
     }
     /* deansi styles, see javascripts/lib/deansi.js */
 
@@ -483,13 +485,20 @@ caption {
       padding: 0 15px;
       background: #444 url(/images/icons/log.fold.closed.2.png) no-repeat 99.5% 2px;
       cursor: pointer;
-    }
-    .fold.open {
-      height: auto;
-      background-image: url(/images/icons/log.fold.open.2.png);
-    }
-    .fold.exec {
-      color: #999;
+
+      &.open {
+        height: auto;
+        background-image: url(/images/icons/log.fold.open.2.png);
+      }
+      &.exec {
+        a.linum {
+          background-color: rgba(255,255,255,.5) !important;
+        }
+      }
+
+      a {
+        background-color: #444;
+      }
     }
   }
   #matrix {
