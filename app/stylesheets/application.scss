@@ -5,10 +5,12 @@ html {
   padding: 0;
 }
 body {
+  overflow-x: hidden;
   font-family: Helvetica, Arial, sans-serif;
   line-height: 120%;
   margin: 0;
   padding: 0;
+  width: 100%;
 }
 body#home {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbQAAAAFCAIAAACit451AAAC7mlDQ1BJQ0MgUHJvZmlsZQAAeAGFVM9rE0EU/jZuqdAiCFprDrJ4kCJJWatoRdQ2/RFiawzbH7ZFkGQzSdZuNuvuJrWliOTi0SreRe2hB/+AHnrwZC9KhVpFKN6rKGKhFy3xzW5MtqXqwM5+8943731vdt8ADXLSNPWABOQNx1KiEWlsfEJq/IgAjqIJQTQlVdvsTiQGQYNz+Xvn2HoPgVtWw3v7d7J3rZrStpoHhP1A4Eea2Sqw7xdxClkSAog836Epx3QI3+PY8uyPOU55eMG1Dys9xFkifEA1Lc5/TbhTzSXTQINIOJT1cVI+nNeLlNcdB2luZsbIEL1PkKa7zO6rYqGcTvYOkL2d9H5Os94+wiHCCxmtP0a4jZ71jNU/4mHhpObEhj0cGDX0+GAVtxqp+DXCFF8QTSeiVHHZLg3xmK79VvJKgnCQOMpkYYBzWkhP10xu+LqHBX0m1xOv4ndWUeF5jxNn3tTd70XaAq8wDh0MGgyaDUhQEEUEYZiwUECGPBoxNLJyPyOrBhuTezJ1JGq7dGJEsUF7Ntw9t1Gk3Tz+KCJxlEO1CJL8Qf4qr8lP5Xn5y1yw2Fb3lK2bmrry4DvF5Zm5Gh7X08jjc01efJXUdpNXR5aseXq8muwaP+xXlzHmgjWPxHOw+/EtX5XMlymMFMXjVfPqS4R1WjE3359sfzs94i7PLrXWc62JizdWm5dn/WpI++6qvJPmVflPXvXx/GfNxGPiKTEmdornIYmXxS7xkthLqwviYG3HCJ2VhinSbZH6JNVgYJq89S9dP1t4vUZ/DPVRlBnM0lSJ93/CKmQ0nbkOb/qP28f8F+T3iuefKAIvbODImbptU3HvEKFlpW5zrgIXv9F98LZua6N+OPwEWDyrFq1SNZ8gvAEcdod6HugpmNOWls05Uocsn5O66cpiUsxQ20NSUtcl12VLFrOZVWLpdtiZ0x1uHKE5QvfEp0plk/qv8RGw/bBS+fmsUtl+ThrWgZf6b8C8/UXAeIuJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAXUlEQVRYCe3UsQ0AMQhD0csJCdEg9p+LWahTpWYAf7eueEg+M/MRBBBAQFKgu6sqMyPC3c3svPySIByNAAIILAKM4wJEjQACmgKMo+bfuRoBBBYBxnEBokYAAU2BCx/IBgej7Rj6AAAAAElFTkSuQmCC) repeat-y -27px top;
@@ -39,10 +41,12 @@ caption {
 
 #top {
   display: block;
+  float: left;
+  clear: both;
   background-color: black;
   height: 40px;
   width: 100%;
-  position: absolute;
+  top: 0px;
   z-index: 11;
   font-size: 13px;
   line-height: 40px;
@@ -55,24 +59,24 @@ caption {
   /* background-image: url(/images/background.jpg); */
 }
 #main {
-  padding: 60px 360px 30px 460px;
+  z-index: 30;
+  display: block;
+  padding: 60px 300px 30px 440px;
+  @include transition(padding .5s ease-out);
   &.loading {
     opacity: .3;
   }
-}
-#right {
-  position: absolute;
-  right: 0px;
-  min-height: 100%;
-  width: 300px;
-  z-index: 10;
-  border-left: 1px solid #ccc;
-  background-color: #f2f4f9;
-}
-#right .inner {
-  padding: 70px 50px 30px 50px;
+  &.large {
+    padding: 60px 100px 30px 440px;
+  }
 }
 
+.slide-left {
+  position: absolute;
+  top:150px;
+  right:0px;
+  background-color: #bcd;
+}
 
 /* top */
 
@@ -543,11 +547,9 @@ caption {
 /* right */
 
 #right {
+  z-index: 10;
   font-size: 13px;
 
-  .inner > div:first-of-type h4 {
-    margin-top: 15px;
-  }
   h4 {
     margin: 25px 0 0 0;
   }
@@ -621,6 +623,71 @@ caption {
     border: 1px solid #bbb;
     width: 168px;
   }
+
+  position: absolute;
+  right: 0px;
+  display: block;
+  top: 40px;
+  min-height: 100%;
+  background-color: #f2f4f9;
+  border-bottom: 1px solid #ccc;
+  overflow: visible;
+  @include transition(width .5s ease-out);
+  &.maximized {
+    width: 240px;
+  };
+  &.minimized {
+    width: 0px;
+  }
+  .slider {
+    $border-normal: #f2f4f9;
+    $border-light: #999;
+    $border-hover: #e1e2e6;
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    background-color: #f2f4f9;
+
+    &:hover {
+      background: $border-hover;
+      .icon {
+        border-color: $border-hover $border-hover $border-hover $border-light;
+      }
+    }
+
+    &.toggled {
+      .icon {
+        border-color: $border-normal $border-light $border-normal $border-normal;
+        border-width: 5px 5px 5px 0;
+      }
+      &:hover {
+        .icon {
+          border-color: $border-hover $border-light $border-hover $border-hover;
+        }
+      }
+    }
+    .icon {
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: 15px;
+      border-color: $border-normal $border-normal $border-normal $border-light;
+      border-width: 5px 0 5px 5px;
+      border-style: solid;
+      margin-top: -5px;
+      margin-left: 3px;
+    }
+    position: absolute;
+    height: 100%;
+    left: -10px;
+    width: 10px;
+  }
+  .inner {
+    .wrapper {
+      padding: 20px 20px 20px 10px;
+      min-width: 190px;
+    }
+  }
+
 }
 
 .list.loading h4 {
@@ -682,45 +749,54 @@ caption {
   .active .tab {
     display: block;
   }
-}
-#right .box h4 {
-  margin: 0;
-}
-#right .box a {
-  text-decoration: underline;
-}
-#right #alpha_warning {
-  background-color: #ffffda;
-}
-#right #alpha_warning h4 {
-  padding-left: 20px;
-  /* background: url(/images/construction.png) no-repeat top left; */
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAYAAAAmlE46AAAACXBIWXMAAAsTAAALEwEAmpwYAAACLUlEQVQoFY1STWsTURQ9d+bNJNOYJmnSNKaIlC5KSpVSNFGzaeuipeBG3bkNlip0LQXB7NwVERd+/Aqhfm2liwraaGrVQtAuikSbalIwmTQzz/tiBTtR8MIb3tx3zrvn3PtISglvEMd6DncAjYYfuFcY0wESXpL6fzKOwWgQOZ1cLKWxyKkNL+6vREyeH9ejZQPSxZ4Rm/hvYv3E3HRlOAXbbqJWeD3NxLveipo3kcsv9hj+Q9mWq8GBDsMKnp7N34t5cR1SJ9ZuZZJHPiZ87ihM9nh082Vf+tWzDHB56U9yB7GnsTnV/+Y2rLeAEQQi34DyLqaYdIB4QGqeyPTrOAuC6gvUEDQT8AtMzhD5/lmxdv1mquFfG2q4q9AaFbiWRN2KoH7y2NBIdjTFxMJv8r5Uop159B9O5i846Vnjc3cXDNlkjETNBuxKVYSLLy6uzNB25jG2WIpsS91dwCnbRjFR3ViAJuCwvj0zhKYRhquzQl0g9OXDNXZQLF3CGVW1XdHVcc6RCEfWH6I35kAMZiEDfSC+VtS24Hu/DO3dUx0+hImxzFsmeYPPBFZ+bGOsVAJ6Q0AXFxFC8AzVa22hugN8KgMDA0A4idVQHBmy7yMlGyjwuVn/yn5qfF+LCdxRnTuq+8Fyf+2tOEABNFn9mCBLu2rGXRPcC1O9D0XkUONQQcoMm0M3rwAvC6bT1ObF80fuSCLKZxq1PRFXUjhSn/1QXtlbe64qXf4uj/8EGPmtIwXAubMAAAAASUVORK5CYII%3D) no-repeat top left;
-}
-#right #alpha_warning p {
-  margin-bottom: 0;
-  color: #666;
-}
-#right #sponsors h4 {
-  margin: 0 -4px 0 0;
-  padding-right: 21px;
-  /* background: url(/images/smile.png) no-repeat 1px right; */
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAndJREFUeNqkk89LFGEYx7/vzLra7raullAEKxtRZEhFsevBWIgiQTrooYsnu9VR8KL1FwjdOxVFdAgUIcEoNuyQYISEhfmrdV1Bw7U1W11n35n37TuztUVihxoY3mdmnu/n/T7v84zQWuN/LvEnwH4pQnzVoxXalELc/cx4gvEo1zv7r+rCngCKk0y6J6K9MRGJQ/vrqXagizk4+UlYcwNpgrrrOvTYLoCdEh06khw0DnVBB2rhbH+Estah7R1m1cCoOQYhDVhLT2B9HutsuKaHKgCZEvVcMmbz45AyNuHspAH5Dcq2aGCnDFEaojoKs7oZX8evF+ik8XCX/mK4FNruMRr7Q9rPPItiewup4RwfSoBTwqvnDGUB9uYUHGsBgZP9IeWgx9V6ANLaRV0Cijtru0igRBks6YCxMBnTjQvZeAtf5DgIaP8d0ITqMC1vVETJNh9hJcYltLbmGEsvVhadwYLjIFYBsISiV6dj48XQayzOLnvJLqi8WsgsrCP1bLnsjgfGTc1fDhykIYuM/GhJnsDchyyyC6ue0BUspfOYn8kjnghDGAHm+yAtzLta348SRmRu8owRiSIQXEHLhRim3ixi+l2WriSC+wTi8VoEAyZ84dMo5jKQJYxU2pgfFA2EfAolHoaUnIFTmGYDeB5so7J/thEwg5yF8BVknt4o8EiOnu3Ta14JdZ16zZ2w7fkHrO8IzHCCB19P+9rrv+E/iKqGSxywi1h/P+zu3u2Kd43yyiNxmedxN9jUG/MfOAWjinxlw7YcbK3MYnV8IM2db567pUf3/Jmy94U7JL101MZWxdlJUDTBe5T3wPnbf/mZ/uX6LsAAhVKItwNoFMgAAAAASUVORK5CYII%3D) no-repeat 1px right;
-}
-#right #sponsors div {
-  margin: 15px -15px -15px -15px;
-  padding: 10px 15px 5px;
-  background-color: #eee;
-  -webkit-border-bottom-left-radius: 4px 4px;
-  -webkit-border-bottom-right-radius: 4px 4px;
-  -moz-border-bottom-left-radius: 4px 4px;
-  -moz-border-bottom-right-radius: 4px 4px;
-  border-bottom-left-radius: 4px 4px;
-  border-bottom-right-radius: 4px 4px;
-}
-#right #sponsors img {
-  border: 1px solid #bbb;
-  width: 168px;
+
+  .box {
+    h4 {
+      margin: 0;
+    }
+
+    a {
+      text-decoration: underline;
+    }
+  }
+
+  #alpha_warning {
+    background-color: #ffffda;
+
+    h4 {
+      padding-left: 20px;
+      /* background: url(/images/construction.png) no-repeat top left; */
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAYAAAAmlE46AAAACXBIWXMAAAsTAAALEwEAmpwYAAACLUlEQVQoFY1STWsTURQ9d+bNJNOYJmnSNKaIlC5KSpVSNFGzaeuipeBG3bkNlip0LQXB7NwVERd+/Aqhfm2liwraaGrVQtAuikSbalIwmTQzz/tiBTtR8MIb3tx3zrvn3PtISglvEMd6DncAjYYfuFcY0wESXpL6fzKOwWgQOZ1cLKWxyKkNL+6vREyeH9ejZQPSxZ4Rm/hvYv3E3HRlOAXbbqJWeD3NxLveipo3kcsv9hj+Q9mWq8GBDsMKnp7N34t5cR1SJ9ZuZZJHPiZ87ihM9nh082Vf+tWzDHB56U9yB7GnsTnV/+Y2rLeAEQQi34DyLqaYdIB4QGqeyPTrOAuC6gvUEDQT8AtMzhD5/lmxdv1mquFfG2q4q9AaFbiWRN2KoH7y2NBIdjTFxMJv8r5Uop159B9O5i846Vnjc3cXDNlkjETNBuxKVYSLLy6uzNB25jG2WIpsS91dwCnbRjFR3ViAJuCwvj0zhKYRhquzQl0g9OXDNXZQLF3CGVW1XdHVcc6RCEfWH6I35kAMZiEDfSC+VtS24Hu/DO3dUx0+hImxzFsmeYPPBFZ+bGOsVAJ6Q0AXFxFC8AzVa22hugN8KgMDA0A4idVQHBmy7yMlGyjwuVn/yn5qfF+LCdxRnTuq+8Fyf+2tOEABNFn9mCBLu2rGXRPcC1O9D0XkUONQQcoMm0M3rwAvC6bT1ObF80fuSCLKZxq1PRFXUjhSn/1QXtlbe64qXf4uj/8EGPmtIwXAubMAAAAASUVORK5CYII%3D) no-repeat top left;
+   }
+
+   p {
+    margin-bottom: 0;
+    color: #666;
+   }
+  }
+
+  #sponsors h4 {
+    margin: 0 -4px 0 0;
+    padding-right: 21px;
+    /* background: url(/images/smile.png) no-repeat 1px right; */
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAndJREFUeNqkk89LFGEYx7/vzLra7raullAEKxtRZEhFsevBWIgiQTrooYsnu9VR8KL1FwjdOxVFdAgUIcEoNuyQYISEhfmrdV1Bw7U1W11n35n37TuztUVihxoY3mdmnu/n/T7v84zQWuN/LvEnwH4pQnzVoxXalELc/cx4gvEo1zv7r+rCngCKk0y6J6K9MRGJQ/vrqXagizk4+UlYcwNpgrrrOvTYLoCdEh06khw0DnVBB2rhbH+Estah7R1m1cCoOQYhDVhLT2B9HutsuKaHKgCZEvVcMmbz45AyNuHspAH5Dcq2aGCnDFEaojoKs7oZX8evF+ik8XCX/mK4FNruMRr7Q9rPPItiewup4RwfSoBTwqvnDGUB9uYUHGsBgZP9IeWgx9V6ANLaRV0Cijtru0igRBks6YCxMBnTjQvZeAtf5DgIaP8d0ITqMC1vVETJNh9hJcYltLbmGEsvVhadwYLjIFYBsISiV6dj48XQayzOLnvJLqi8WsgsrCP1bLnsjgfGTc1fDhykIYuM/GhJnsDchyyyC6ue0BUspfOYn8kjnghDGAHm+yAtzLta348SRmRu8owRiSIQXEHLhRim3ixi+l2WriSC+wTi8VoEAyZ84dMo5jKQJYxU2pgfFA2EfAolHoaUnIFTmGYDeB5so7J/thEwg5yF8BVknt4o8EiOnu3Ta14JdZ16zZ2w7fkHrO8IzHCCB19P+9rrv+E/iKqGSxywi1h/P+zu3u2Kd43yyiNxmedxN9jUG/MfOAWjinxlw7YcbK3MYnV8IM2db567pUf3/Jmy94U7JL101MZWxdlJUDTBe5T3wPnbf/mZ/uX6LsAAhVKItwNoFMgAAAAASUVORK5CYII%3D) no-repeat 1px right;
+
+   div {
+    margin: 15px -15px -15px -15px;
+    padding: 10px 15px 5px;
+    background-color: #eee;
+    -webkit-border-bottom-left-radius: 4px 4px;
+    -webkit-border-bottom-right-radius: 4px 4px;
+    -moz-border-bottom-left-radius: 4px 4px;
+    -moz-border-bottom-right-radius: 4px 4px;
+    border-bottom-left-radius: 4px 4px;
+    border-bottom-right-radius: 4px 4px;
+  }
+  img {
+    border: 1px solid #bbb;
+    width: 168px;
+  }
+  }
 }
 
 /* scrollbars */
@@ -791,7 +867,7 @@ pre::-webkit-scrollbar-thumb:horizontal {
   background: url(/images/github-ribbon.png) no-repeat;
   text-indent: -999px;
   overflow: hidden;
-  z-index: 3;
+  z-index: 20;
 }
 
 .clearfix:after {
