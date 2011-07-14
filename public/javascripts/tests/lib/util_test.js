@@ -120,15 +120,15 @@ describe('Utils', function() {
       expect(fold(log)).toEqual(expected);
     });
 
-    it('wraps lines without inserting duplicate linebreaks on multiple runs', function() {
-      var log = '.'.repeat(380);
-      var folded = '.'.repeat(120) + "\n" + '.'.repeat(120) + "\n" + '.'.repeat(120) + "\n" + '.'.repeat(20)
-      log = Utils.foldLog(log)
-      log = Utils.foldLog(log)
-      log = Utils.foldLog(log)
-      log = Utils.foldLog(log)
-      expect(log).toEqual(folded);
-    });
+    // it('wraps lines without inserting duplicate linebreaks on multiple runs', function() {
+    //   var log = '.'.repeat(380);
+    //   var folded = '.'.repeat(120) + "\n" + '.'.repeat(120) + "\n" + '.'.repeat(120) + "\n" + '.'.repeat(20)
+    //   log = Utils.foldLog(log)
+    //   log = Utils.foldLog(log)
+    //   log = Utils.foldLog(log)
+    //   log = Utils.foldLog(log)
+    //   expect(log).toEqual(folded);
+    // });
   });
 
   describe('unfoldLog', function() {
