@@ -59,14 +59,15 @@ caption {
   /* background-image: url(/images/background.jpg); */
 }
 #main {
+  z-index: 30;
   display: block;
-  padding: 60px 360px 30px 460px;
+  padding: 60px 300px 30px 440px;
   @include transition(padding .5s ease-out);
   &.loading {
     opacity: .3;
   }
   &.large {
-    padding: 60px 60px 30px 460px;
+    padding: 60px 100px 30px 460px;
   }
 }
 
@@ -549,9 +550,6 @@ caption {
   z-index: 10;
   font-size: 13px;
 
-  .inner > div:first-of-type h4 {
-    margin-top: 15px;
-  }
   h4 {
     margin: 25px 0 0 0;
   }
@@ -631,22 +629,29 @@ caption {
   display: block;
   top: 40px;
   min-height: 100%;
-  border-left: 1px solid #ccc;
   background-color: #f2f4f9;
+  border-bottom: 1px solid #ccc;
   overflow: visible;
   @include transition(width .5s ease-out);
   &.maximized {
-    width: 300px;
+    width: 240px;
   };
   &.minimized {
     width: 0px;
   }
   .slider {
-    $border-normal: #BCD;
-    $border-light: #68E;
+    $border-normal: #f2f4f9;
+    $border-light: #999;
+    $border-hover: #e1e2e6;
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    background-color: #f2f4f9;
 
     &:hover {
-      background: #C2CFF1;
+      background: $border-hover;
+      .icon {
+        border-color: $border-hover $border-hover $border-hover $border-light;
+      }
     }
 
     &.toggled {
@@ -654,12 +659,17 @@ caption {
         border-color: $border-normal $border-light $border-normal $border-normal;
         border-width: 5px 5px 5px 0;
       }
+      &:hover {
+        .icon {
+          border-color: $border-hover $border-light $border-hover $border-hover;
+        }
+      }
     }
     .icon {
       width: 0;
       height: 0;
       position: absolute;
-      top: 20%;
+      top: 15px;
       border-color: $border-normal $border-normal $border-normal $border-light;
       border-width: 5px 0 5px 5px;
       border-style: solid;
@@ -669,13 +679,12 @@ caption {
     position: absolute;
     height: 100%;
     left: -10px;
-    background-color: #bcd;
     width: 10px;
   }
   .inner {
-    padding: 30px 20px 10px 20px;
     .wrapper {
-      min-width: 250px;
+      padding: 20px 20px 20px 10px;
+      min-width: 190px;
     }
   }
 
