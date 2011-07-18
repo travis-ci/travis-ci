@@ -395,27 +395,48 @@ caption {
     line-height: 140%;
     font-size: 90%;
     margin-top: 25px;
-    padding: 15px;
+    padding: 15px 0;
     color: white;
     background-color: #333;
     border-radius: 4px 4px;
-    overflow-x: auto;
 
     p {
-      margin: 0 -15px;
-      padding: 0 15px;
+      position: relative;
+      padding: 0 15px 0 50px;
+      margin: 0;
       &:hover {
         background-color: rgba(255,255,255,.05);
       }
       &.highlight {
         background-color: rgba(255,255,255,.5);
+        // a.linum {
+        //   background-color: rgba(255,255,255,.5);
+        // }
+      }
+      a.linum {
+        position: absolute;
+        margin-left: -40px;
+        cursor: pointer;
+        // background-color: #333;
       }
     }
-    a.linum {
+
+    .fold {
+      height: 16px;
+      overflow: hidden;
+      background: #444 url(/images/icons/log.fold.closed.2.png) no-repeat 99.5% 2px;
       cursor: pointer;
-      width: 40px;
-      padding-right: 20px;
+
+      &.open {
+        height: auto;
+        background-image: url(/images/icons/log.fold.open.2.png);
+      }
+
+      // a.linum {
+      //   background-color: #444;
+      // }
     }
+
     /* deansi styles, see javascripts/lib/deansi.js */
 
     .bold {
@@ -474,22 +495,6 @@ caption {
     }
     .bg-white {
       background-color: white;
-    }
-
-    .fold {
-      height: 16px;
-      overflow: hidden;
-      margin: 0 -15px;
-      padding: 0 15px;
-      background: #444 url(/images/icons/log.fold.closed.2.png) no-repeat 99.5% 2px;
-      cursor: pointer;
-    }
-    .fold.open {
-      height: auto;
-      background-image: url(/images/icons/log.fold.open.2.png);
-    }
-    .fold.exec {
-      color: #999;
     }
   }
   #matrix {
