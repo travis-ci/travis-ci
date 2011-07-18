@@ -409,15 +409,11 @@ caption {
       }
       &.highlight {
         background-color: rgba(255,255,255,.5);
-        // a.linum {
-        //   background-color: rgba(255,255,255,.5);
-        // }
       }
       a.linum {
         position: absolute;
         margin-left: -40px;
         cursor: pointer;
-        // background-color: #333;
       }
     }
 
@@ -431,10 +427,6 @@ caption {
         height: auto;
         background-image: url(/images/icons/log.fold.open.2.png);
       }
-
-      // a.linum {
-      //   background-color: #444;
-      // }
     }
 
     /* deansi styles, see javascripts/lib/deansi.js */
@@ -644,29 +636,23 @@ caption {
   &.minimized {
     width: 0px;
   }
+
+  $slider-border-normal: #f2f4f9;
+  $slider-border-light: #999;
+  $slider-border-hover: #e1e2e6;
   .slider {
-    $border-normal: #f2f4f9;
-    $border-light: #999;
-    $border-hover: #e1e2e6;
     border-left: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     background-color: #f2f4f9;
 
-    &:hover {
-      background: $border-hover;
-      .icon {
-        border-color: $border-hover $border-hover $border-hover $border-light;
-      }
-    }
-
     &.toggled {
       .icon {
-        border-color: $border-normal $border-light $border-normal $border-normal;
+        border-color: $slider-border-normal $slider-border-light $slider-border-normal $slider-border-normal;
         border-width: 5px 5px 5px 0;
       }
       &:hover {
         .icon {
-          border-color: $border-hover $border-light $border-hover $border-hover;
+          border-color: $slider-border-hover $slider-border-light $slider-border-hover $slider-border-hover;
         }
       }
     }
@@ -675,7 +661,7 @@ caption {
       height: 0;
       position: absolute;
       top: 15px;
-      border-color: $border-normal $border-normal $border-normal $border-light;
+      border-color: $slider-border-normal $slider-border-normal $slider-border-normal $slider-border-light;
       border-width: 5px 0 5px 5px;
       border-style: solid;
       margin-top: -5px;
@@ -686,6 +672,15 @@ caption {
     left: -10px;
     width: 10px;
   }
+  &:hover {
+    .slider {
+      background: $slider-border-hover;
+      .icon {
+        border-color: $slider-border-hover $slider-border-hover $slider-border-hover $slider-border-light;
+      }
+    }
+  }
+
   .inner {
     .wrapper {
       padding: 20px 20px 20px 10px;
