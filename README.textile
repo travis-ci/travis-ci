@@ -92,6 +92,11 @@ bc. [![Build Status](http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_N
 
 Travis' own status button looks like this: "!https://secure.travis-ci.org/travis-ci/travis-ci.png!":http://travis-ci.org/travis-ci/travis-ci
 
+You can limit the impact of this button to certain branches only. For example, you might not want to include feature branches, which might fail but don't mean the project itself fails.  
+Specify a `?branch=` parameter in the URI. Split branches with a comma if you want to specify several.
+
+bc. http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png?branch=master,staging,production
+
 **Please note :** If you are placing this image on a GitHub project status page we recommend you use the SSL enabled url so that GitHub does not proxy and cache the image. The SSL url is:
 
 bc. [![Build Status](https://secure.travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png)](http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME])
