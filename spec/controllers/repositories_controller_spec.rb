@@ -98,6 +98,15 @@ describe RepositoriesController do
     end
 
     it 'shows a "stable" button when the previous build passed and there\'s one still running' do
+      Factory(:broken_build, :repository => repository, :branch => 'master')
+      Factory(:successfull_build, :repository => repository, :branch => 'feature')
+
+      should_receive_file_with_status("stable")
+
+      get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci", :branch => 'feature')
+    end
+
+    it 'limits to the provided branch when the attribute is provided' do
       Factory(:successfull_build, :repository => repository)
       Factory(:running_build, :repository => repository)
 
