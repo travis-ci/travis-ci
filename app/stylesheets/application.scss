@@ -294,6 +294,7 @@ caption {
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 60;
   }
   .github-stats > * {
     float: left;
@@ -646,6 +647,7 @@ caption {
     background-color: #f2f4f9;
 
     &.toggled {
+      z-index: 50;
       .icon {
         border-color: $slider-border-normal $slider-border-light $slider-border-normal $slider-border-normal;
         border-width: 5px 5px 5px 0;
@@ -859,7 +861,7 @@ pre::-webkit-scrollbar-thumb:horizontal {
 
 #github_ribbon {
   position: absolute;
-  top: 0;
+  top: -40px;
   right: 0;
   display: block;
   width: 149px;
