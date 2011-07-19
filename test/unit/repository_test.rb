@@ -7,7 +7,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     super
     @repository_1 = Factory(:repository, :name => 'gem-release', :owner_name => 'svenfuchs')
     @repository_2 = Factory(:repository, :name => 'gem-release', :owner_name => 'flooose')
-    @build_4 = Factory(:build, :repository => repository_1, :number => '4', :status => 0, :branch => 'feature', :started_at => '2010-11-10 12:00:20', :finished_at => '2010-11-10 12:00:20')
+    @build_4 = Factory(:build, :repository => repository_1, :number => '4', :status => 1, :branch => 'feature', :started_at => '2010-11-10 12:00:20', :finished_at => '2010-11-10 12:00:20')
     @build_1 = Factory(:build, :repository => repository_1.reload, :number => '1', :status => 0, :started_at => '2010-11-11 12:00:00', :finished_at => '2010-11-11 12:00:10')
     @build_2 = Factory(:build, :repository => repository_2.reload, :number => '2', :status => 1, :started_at => '2010-11-11 12:00:10', :finished_at => '2010-11-11 12:00:10')
     @build_3 = Factory(:build, :repository => repository_2.reload, :number => '3', :status => nil, :started_at => '2010-11-11 12:00:20')
@@ -25,7 +25,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
   end
 
   test 'returns human readable status for branch' do
-    assert_equal 'stable', repository_1.human_status('feature')
+    assert_equal 'unstable', repository_1.human_status('feature')
   end
 
   test 'returns unknown human readable status for unfinished build' do
