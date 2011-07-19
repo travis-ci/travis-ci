@@ -32,7 +32,7 @@ class RepositoriesController < ApplicationController
     end
 
     def send_status_image_file
-      status = Repository.human_status_by(params.slice(:owner_name, :name), params[:branch])
+      status = Repository.human_status_by(params.slice(:owner_name, :name, :branch))
       path   = "#{Rails.public_path}/images/status/#{status}.png"
 
       response.headers["Expires"] = CGI.rfc1123_date(Time.now)

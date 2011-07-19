@@ -7,7 +7,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     super
     @repository_1 = Factory(:repository, :name => 'gem-release', :owner_name => 'svenfuchs')
     @repository_2 = Factory(:repository, :name => 'gem-release', :owner_name => 'flooose')
-    @build_4 = Factory(:build, :repository => repository_1, :number => '4', :status => 0, :branch => 'feature', :started_at => '2010-11-10 12:00:20', :finished_at => '2010-11-10 12:00:20')
+    @build_4 = Factory(:build, :repository => repository_1, :number => '4', :status => 1, :branch => 'feature', :started_at => '2010-11-10 12:00:20', :finished_at => '2010-11-10 12:00:20')
     @build_1 = Factory(:build, :repository => repository_1.reload, :number => '1', :status => 0, :started_at => '2010-11-11 12:00:00', :finished_at => '2010-11-11 12:00:10')
     @build_2 = Factory(:build, :repository => repository_2.reload, :number => '2', :status => 1, :started_at => '2010-11-11 12:00:10', :finished_at => '2010-11-11 12:00:10')
     @build_3 = Factory(:build, :repository => repository_2.reload, :number => '3', :status => nil, :started_at => '2010-11-11 12:00:20')
@@ -25,7 +25,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
   end
 
   test 'returns human readable status for branch' do
-    assert_equal 'stable', repository_1.human_status('feature')
+    assert_equal 'unstable', repository_1.human_status('feature')
   end
 
   test 'returns unknown human readable status for unfinished build' do
@@ -36,6 +36,18 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     repository = Repository.new(:name => 'gem-release', :owner_name => 'svenfuchs')
     assert !repository.valid?
     assert_equal ['has already been taken'], repository.errors['name']
+  end
+
+  test 'human_status_by: finds the human status of an existing repository with stable build' do
+    assert_equal 'stable', Repository.human_status_by({:name => 'gem-release', :owner_name => 'svenfuchs'})
+  end
+
+  test 'human_status_by: finds the human status of an existing repository with unstable build' do
+    assert_equal 'unstable', Repository.human_status_by({:name => 'gem-release', :owner_name => 'flooose'})
+  end
+
+  test 'human_status_by: finds the human status of an existing repository with a branch specified' do
+    assert_equal 'unstable', Repository.human_status_by({:name => 'gem-release', :owner_name => 'svenfuchs', :branch => 'feature'})
   end
 
   test 'find_or_create_by_github_repository: finds an existing repository' do
