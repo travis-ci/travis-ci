@@ -38,6 +38,18 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     assert_equal ['has already been taken'], repository.errors['name']
   end
 
+  test 'human_status_by: finds the human status of an existing repository with stable build' do
+    assert_equal 'stable', Repository.human_status_by({:name => 'gem-release', :owner_name => 'svenfuchs'})
+  end
+
+  test 'human_status_by: finds the human status of an existing repository with unstable build' do
+    assert_equal 'unstable', Repository.human_status_by({:name => 'gem-release', :owner_name => 'flooose'})
+  end
+
+  test 'human_status_by: finds the human status of an existing repository with a branch specified' do
+    assert_equal 'unstable', Repository.human_status_by({:name => 'gem-release', :owner_name => 'svenfuchs', :branch => 'feature'})
+  end
+
   test 'find_or_create_by_github_repository: finds an existing repository' do
     data    = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
     payload = Github::ServiceHook::Payload.new(data)
