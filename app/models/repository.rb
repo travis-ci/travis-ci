@@ -28,9 +28,10 @@ class Repository < ActiveRecord::Base
       end
     end
 
-    def human_status_by(attributes, branches="")
+    def human_status_by(attributes)
+      branch = attributes.delete(:branch)
       repository = where(attributes).first
-      repository ? repository.human_status(branches) : "unknown"
+      repository ? repository.human_status(branch) : "unknown"
     end
 
     def search(query)
