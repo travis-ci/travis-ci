@@ -30,6 +30,14 @@ describe('Utils', function() {
     });
   });
 
+  describe('escapeHtml', function() {
+    it('escapes html tags', function() {
+      var source = '<foo>bar</foo>';
+      var result = '&lt;foo&gt;bar&lt;/foo&gt;';
+      expect(Utils.escapeHtml(source)).toEqual(result);
+    });
+  });
+
   describe('escapeRuby', function() {
     it('escapes ruby style object output', function() {
       var source = '#<Object:0x00000005fb3628>';
@@ -38,9 +46,9 @@ describe('Utils', function() {
     });
   });
 
-    var fold = function(string) {
-      return Utils.foldLog(Utils.foldLog(string));
-    }
+  var fold = function(string) {
+    return Utils.foldLog(Utils.foldLog(string));
+  }
 
   describe('foldLog', function() {
     it('folds the "$ bundle install" portion of the log', function() {
