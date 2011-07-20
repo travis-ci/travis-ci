@@ -31,12 +31,11 @@ class JsonTest < ActiveSupport::TestCase
   test 'as_json(:for => :"build:started") includes everything required for the build:started event (4)' do
     expected = {
       'id' => build.id,
-      'commit' => '62aae5f70ceee39123ef',
-      'branch' => 'master',
       'repository_id' => build.repository.id,
       'number' => '1',
-      'started_at' => now,
       'commit' => '62aae5f70ceee39123ef',
+      'branch' => 'master',
+      'started_at' => now,
       'message' => 'the commit message',
       'committed_at' => now,
       'committer_name' => 'Sven Fuchs',
@@ -59,24 +58,36 @@ class JsonTest < ActiveSupport::TestCase
   test 'as_json(:for => :"build:configured") includes everything required for the build:configured event (4)' do
     build.update_attributes!(:config => { 'rvm' => ['1.8.7', '1.9.2'] })
 
-    expected = {
-      'id'     => build.id,
-      'number' => build.number,
-      'config' => { 'rvm' => ['1.8.7', '1.9.2'] },
-      'matrix' => [
-        { 'id' => build.matrix[0].id, 'parent_id' => build.id, 'number' => "#{build.number}.1", 'config' => { 'rvm' => '1.8.7' } },
-        { 'id' => build.matrix[1].id, 'parent_id' => build.id, 'number' => "#{build.number}.2", 'config' => { 'rvm' => '1.9.2' } }
-      ]
+    build_base = {
+      'repository_id' => build.repository.id,
+      'number' => '1',
+      'commit' => '62aae5f70ceee39123ef',
+      'branch' => 'master',
+      'started_at' => now,
+      'message' => 'the commit message',
+      'committed_at' => now,
+      'committer_name' => 'Sven Fuchs',
+      'committer_email' => 'svenfuchs@artweb-design.de',
     }
+
+    expected = build_base.merge(
+      'id' => build.id,
+      'config' => { 'rvm' => ['1.8.7', '1.9.2'] },
+      'author_name' => nil,
+      'author_email' => nil,
+      'matrix' => [
+        build_base.merge('id' => build.matrix[0].id, 'parent_id' => build.id, 'number' => "#{build.number}.1", 'config' => { 'rvm' => '1.8.7' }),
+        build_base.merge('id' => build.matrix[1].id, 'parent_id' => build.id, 'number' => "#{build.number}.2", 'config' => { 'rvm' => '1.9.2' })
+      ]
+    );
     assert_equal_hashes expected, build.as_json(:for => :'build:configured')
 
     expected = {
-      'id'  => repository.id,
+      'id' => repository.id,
       :slug => 'svenfuchs/minimal',
       'last_build_id' => build.id,
       'last_build_number' => '1',
       'last_build_started_at' => now,
-      'last_build_finished_at' => nil
     }
     assert_equal_hashes expected, repository.as_json(:for => :'build:configured')
   end
