@@ -55,7 +55,7 @@ Do not use a space after (, [ and before ], ).
     foo(1, 2)
     [1, 2]
 
-## Indentation of when, else, rescue, end
+### Indentation of when, else, rescue, end
 
 For if, case and begin blocks indent when, else, elsif, rescue and end as deep
 as the first char on the block's first line.
@@ -71,7 +71,11 @@ as the first char on the block's first line.
 
     # same for if/else/elsif/end and begin/rescue/end
 
-## Documentation
+### Indentation of public, protected, private blocks
+
+TBD
+
+### Document wisely
 
 Use RDoc and its conventions for API documentation.  Don't put an empty or
 commented empty line between the comment block and the def.
@@ -88,7 +92,7 @@ end of the line if possible.
 
     a =~ /weird regexp/ # briefly explain what it does
 
-## Breaking up long sections into logical paragraphs
+### Break up long sections into logical paragraphs
 
 If we have a very long classe or module we'll probably want to extract a class
 or module. If we have a very long method it probably should be broken up to
@@ -98,13 +102,13 @@ Where this is not possible (or was deferred) we can break them up into sections
 by adding a single empty line. We might also add a single comment line naming
 the section in classes and modules.
 
-## Try keeping lines shorter than 80 characters
+### Try keeping lines shorter than 80 characters
 
 We should try hard keeping lines short for readability. But we also should try
 hard to use as little vertical space as possible. Where these goals conflict we
 might exceed 80 chars.
 
-## Avoid trailing whitespace
+### Avoid trailing whitespace
 
 Trailing whitespace can become very annoying as soon as more than one person
 works on the code as it can cause unnecessary conflicts when some people's
