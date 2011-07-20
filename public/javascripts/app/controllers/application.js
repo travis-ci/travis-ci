@@ -51,39 +51,41 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   // actions
 
   recent: function() {
-    this.startLoading();
+    this.reset();
     this.followBuilds = true;
     this.selectTab('current');
     this.repositories.whenFetched(_.bind(function () {
       this.repositories.selectLast();
-      this.stopLoading();
+
     }, this));
   },
   repository: function(owner, name, line_number) {
+    this.reset();
     this.startLoading();
     window.params = { owner: owner, name: name, line_number: line_number, action: 'repository' }
     this.selectTab('current');
     this.repositories.whenFetched(_.bind(function(repositories) {
       repositories.selectLastBy({ slug: owner + '/' + name });
-      this.stopLoading();
+
     }, this));
   },
   repositoryHistory: function(owner, name) {
-    this.startLoading();
+    this.reset();
     this.selectTab('history');
     this.repositories.whenFetched(_.bind(function(repositories) {
       repositories.selectLastBy({ slug: owner + '/' + name })
-      this.stopLoading()
+
     }, this));
   },
   repositoryBuild: function(owner, name, buildId, line_number) {
+    this.reset();
     this.startLoading();
     window.params = { owner: owner, name: name, build_id: buildId, line_number: line_number, action: 'repositoryBuild' }
     this.buildId = parseInt(buildId);
     this.selectTab('build');
     this.repositories.whenFetched(_.bind(function(repositories) {
       repositories.selectLastBy({ slug: owner + '/' + name })
-      this.stopLoading()
+
     }, this));
   },
 
@@ -97,7 +99,6 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   },
   startLoading: function() {
     $('#main').addClass('loading')
-    this.reset();
   },
   stopLoading: function() {
     $('#main').removeClass('loading')
@@ -106,6 +107,8 @@ Travis.Controllers.Application = Backbone.Controller.extend({
 
   // internal events
   repositorySelected: function(repository) {
+    repository.builds.bind('finish_get_or_fetch', function() { this.stopLoading() }.bind(this))
+
     switch(this.tab) {
       case 'current':
         repository.builds.select(repository.get('last_build_id'));
@@ -142,7 +145,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.repositories.update(data);
   },
   buildingRails: function (data) {
-    data.slug && data.slug.match(/rails/)
+    return data.slug && data.slug.match(/rails/);
   },
   buildFinished: function(data) {
     this.repositories.update(data);

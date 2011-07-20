@@ -64,7 +64,8 @@ caption {
   padding: 60px 300px 30px 440px;
   @include transition(padding .5s ease-out);
   &.loading {
-    opacity: .3;
+    opacity: .1;
+    min-height: 1000px;
   }
   &.large {
     padding: 60px 100px 30px 440px;
