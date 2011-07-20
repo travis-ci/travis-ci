@@ -135,7 +135,7 @@ class Build < ActiveRecord::Base
     :job                => [:id, :number, :commit, :config, :branch],
     :'build:queued'     => [:id, :number],
     :'build:started'    => all_attrs - [:status, :log, :finished_at],
-    :'build:configured' => [:id, :parent_id, :number, :config],
+    :'build:configured' => all_attrs - [:status, :log, :finished_at],
     :'build:log'        => [:id, :parent_id],
     :'build:finished'   => [:id, :parent_id, :status, :finished_at],
   }

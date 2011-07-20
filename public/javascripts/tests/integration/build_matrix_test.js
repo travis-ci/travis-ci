@@ -22,14 +22,14 @@ describe('Running a build matrix', function() {
 
 
   beforeEach(function() {
-    mockFilterLog();
+    stubLineNumbering();
     startApp();
     goTo('/');
     waitsFor(repositoriesListPopulated());
   });
 
   afterEach(function() {
-    unmockFilterLog();
+    unstubLineNumbering();
     stopApp();
   });
 
