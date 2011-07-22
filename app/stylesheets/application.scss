@@ -290,31 +290,51 @@ caption {
     color: #666;
     text-decoration: underline;
   }
-
   .github-stats {
     position: absolute;
     top: 0;
     right: 0;
     z-index: 60;
+    a {
+      height: 16px;
+      display: block;
+      font-size: 12px;
+      font-weight: bold;
+      text-decoration: none;
+      margin-left: 10px;
+      padding-left: 20px;
+      background: no-repeat 0px 2px;
+      color: #999;
+      &.watchers {
+        background-image: url(/images/icons/github-watchers.png);
+      }
+      &.forks {
+        background-image: url(/images/icons/github-forks.png);
+      }
+    }
   }
   .github-stats > * {
     float: left;
   }
-  .github-stats a {
-    color: #999;
+  .github-admin {
+    position: absolute;
+    top: 0;
+    right: 0;
     display: block;
-    font-size: 12px;
-    font-weight: bold;
+    width: 0px;
+    height: 16px;
+    padding-right: 20px;
+    font-size: 11px;
     text-decoration: none;
-    margin-left: 10px;
-    padding-left: 20px;
-    background: no-repeat 0px 2px;
-  }
-  .github-stats .watchers {
-    background-image: url(/images/icons/github-watchers.png);
-  }
-  .github-stats .forks {
-    background-image: url(/images/icons/github-forks.png);
+    text-align: right;
+    color: #999;
+    background: url(/images/icons/github-admin.png) no-repeat right 1px;
+    text-indent: -999px;
+    overflow: hidden;
+    &:hover {
+      width: 100px;
+      text-indent: 0;
+    }
   }
 
   .tabs {
