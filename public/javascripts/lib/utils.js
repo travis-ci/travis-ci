@@ -115,6 +115,7 @@ Utils = {
         var url = 'http://github.com/' + repository.get('slug');
         element.find('.watchers').attr('href', url + '/watchers').text(data.repository.watchers);
         element.find('.forks').attr('href', url + '/network').text(data.repository.forks);
+        element.find('.github-admin').attr('href', url + '/admin/hooks#travis_minibucket');
       });
     }
   }
