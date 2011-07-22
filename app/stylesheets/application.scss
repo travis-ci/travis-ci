@@ -317,10 +317,11 @@ caption {
     float: left;
   }
   .github-admin {
+    /* display: block; */
+    display: none;
     position: absolute;
     top: 0;
     right: 0;
-    display: block;
     width: 0px;
     height: 16px;
     padding-right: 20px;
