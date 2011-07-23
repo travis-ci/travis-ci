@@ -1,13 +1,14 @@
 require 'test_helper'
 
 class ModelsRepositoryTest < ActiveSupport::TestCase
-  attr_reader :repository_1, :repository_2, :build_1, :build_2, :build_3
+  attr_reader :repository_1, :repository_2, :build_1, :build_2, :build_3, :build_4
 
   def setup
     super
     @repository_1 = Factory(:repository, :name => 'gem-release', :owner_name => 'svenfuchs')
     @repository_2 = Factory(:repository, :name => 'gem-release', :owner_name => 'flooose')
-    @build_1 = Factory(:build, :repository => repository_1, :number => '1', :status => 0, :started_at => '2010-11-11 12:00:00', :finished_at => '2010-11-11 12:00:10')
+    @build_4 = Factory(:build, :repository => repository_1, :number => '4', :status => 1, :branch => 'feature', :started_at => '2010-11-10 12:00:20', :finished_at => '2010-11-10 12:00:20')
+    @build_1 = Factory(:build, :repository => repository_1.reload, :number => '1', :status => 0, :started_at => '2010-11-11 12:00:00', :finished_at => '2010-11-11 12:00:10')
     @build_2 = Factory(:build, :repository => repository_2.reload, :number => '2', :status => 1, :started_at => '2010-11-11 12:00:10', :finished_at => '2010-11-11 12:00:10')
     @build_3 = Factory(:build, :repository => repository_2.reload, :number => '3', :status => nil, :started_at => '2010-11-11 12:00:20')
 
@@ -23,6 +24,10 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     assert_equal 'unstable', repository_2.human_status
   end
 
+  test 'returns human readable status for branch' do
+    assert_equal 'unstable', repository_1.human_status('feature')
+  end
+
   test 'returns unknown human readable status for unfinished build' do
     assert_equal Factory(:repository).human_status, 'unknown'
   end
@@ -31,6 +36,18 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     repository = Repository.new(:name => 'gem-release', :owner_name => 'svenfuchs')
     assert !repository.valid?
     assert_equal ['has already been taken'], repository.errors['name']
+  end
+
+  test 'human_status_by: finds the human status of an existing repository with stable build' do
+    assert_equal 'stable', Repository.human_status_by({:name => 'gem-release', :owner_name => 'svenfuchs'})
+  end
+
+  test 'human_status_by: finds the human status of an existing repository with unstable build' do
+    assert_equal 'unstable', Repository.human_status_by({:name => 'gem-release', :owner_name => 'flooose'})
+  end
+
+  test 'human_status_by: finds the human status of an existing repository with a branch specified' do
+    assert_equal 'unstable', Repository.human_status_by({:name => 'gem-release', :owner_name => 'svenfuchs', :branch => 'feature'})
   end
 
   test 'find_or_create_by_github_repository: finds an existing repository' do
@@ -139,6 +156,10 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
 
   test '#last_finished_build returns the most recent finished build' do
     assert_equal build_2, repository_2.last_finished_build
+  end
+
+  test '#last_finished_build with branch returns the most recent finished build on that branch' do
+    assert_equal build_4, repository_1.last_finished_build('feature')
   end
 
   test 'denormalizes last_build_id, last_build_number, last_build_status, last_build_started_at and last_build_finished_at' do

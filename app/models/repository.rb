@@ -7,7 +7,6 @@ class Repository < ActiveRecord::Base
   has_many :builds, :conditions => 'parent_id IS null', :dependent => :delete_all
 
   has_one :last_build,          :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND started_at IS NOT NULL'
-  has_one :last_finished_build, :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND finished_at IS NOT NULL'
   has_one :last_success,        :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND status = 0'
   has_one :last_failure,        :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND status = 1'
 
@@ -30,8 +29,9 @@ class Repository < ActiveRecord::Base
     end
 
     def human_status_by(attributes)
+      branch = attributes.delete(:branch)
       repository = where(attributes).first
-      repository ? repository.human_status : "unknown"
+      repository ? repository.human_status(branch) : "unknown"
     end
 
     def search(query)
@@ -80,14 +80,24 @@ class Repository < ActiveRecord::Base
     end
   end
 
-  def human_status
-    return 'unknown' unless last_finished_build
-    last_finished_build.status == 0 ? 'stable' : 'unstable'
+  def human_status(branches="")
+    return 'unknown' unless last_finished_build(branches)
+    last_finished_build(branches).status == 0 ? 'stable' : 'unstable'
   end
 
 
   def slug
     @slug ||= [owner_name, name].join('/')
+  end
+
+  def last_finished_build(branches="")
+    branches = branches.split(',') if branches.is_a?(String)
+    branches = [] if branches.nil?
+
+    builds.
+      where('parent_id IS NULL AND finished_at IS NOT NULL').
+      where(branches.empty? ? [] : ['branch IN (?)', branches]).
+      order('id DESC').first
   end
 
   base_attrs       = [:id]

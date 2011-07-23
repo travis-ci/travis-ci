@@ -118,13 +118,13 @@ var normalizeHash = function(hash) {
   return hash.replace(/#|!|\//) == '' ? '' : hash;
 };
 
-var mockFilterLog = function () {
-  window.original_utils_process = Utils.filterLog
-  Utils.filterLog = function(string) {
+var stubLineNumbering = function () {
+  Utils.originalNumberLines = Utils.numberLines;
+  Utils.numberLines = function(string) {
     return string;
   }
 }
 
-var unmockFilterLog = function () {
-  Utils.filterLog = window.original_utils_process
+var unstubLineNumbering = function () {
+  Utils.numberLines = Utils.originalNumberLines;
 }
