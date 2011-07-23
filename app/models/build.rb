@@ -51,8 +51,8 @@ class Build < ActiveRecord::Base
       config.values_at(*ENV_KEYS).compact.any? { |value| value.is_a?(Array) && value.size > 1 }
     end
 
-    def recent_build_list
-      started.order('id DESC').limit(10).includes(:matrix)
+    def recent_build_list page
+      started.order('id DESC').limit(10 * page).includes(:matrix)
     end
   end
 
