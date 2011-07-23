@@ -47,7 +47,6 @@ Travis.Views.Build.History.Table = Backbone.View.extend({
     this.loadMore = $("<tr class='load_more' colspan=''><td>Load More...</td></tr>")
     this.el.find('tbody').append(this.loadMore)
     this.loadMore.click(function(){
-      console.log (this.repository.builds.page())
       this.repository.builds.page(this.repository.builds.page() + 1)
       this.repository.builds.fetch()
     }.bind(this))
