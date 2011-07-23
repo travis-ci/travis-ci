@@ -9,7 +9,7 @@ class BuildsController < ApplicationController
   def index
     repository = Repository.find(params[:repository_id])
 
-    respond_with(repository.builds.recent_build_list)
+    respond_with(repository.builds.recent_build_list((params[:page] || 1).to_i))
   end
 
   def show
