@@ -42,21 +42,23 @@ Utils = {
     }
   },
   filterLog: function(string) {
-    // string = Handlebars.Utils.escapeExpression(string);
     string = Utils.stripPaths(string);
-    string = Utils.escapeRuby(string);
+    string = Utils.escapeHtml(string);
     string = Utils.foldLog(string);
     string = Deansi.parse(string);
-    string = Utils.breakLines(string);
+    string = Utils.numberLines(string);
     return string;
   },
   stripPaths: function(string) {
     return string.replace(/\/tmp\/travis\/builds(\/[^\/\n]+){2}\//g, '');
   },
+  escapeHtml: function(string) {
+    return Handlebars.Utils.escapeExpression(string);
+  },
   escapeRuby: function(string) {
     return string.replace(/#<(\w+.*?)>/, '#&lt;$1&gt;');
   },
-  breakLines: function(string) {
+  numberLines: function(string) {
     var newstring = "";
     var counter = 0;
     _.each(string.split('\n'), function (line) {
