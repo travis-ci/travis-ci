@@ -107,6 +107,7 @@ Travis.Collections.Builds = Travis.Collections.Base.extend({
     Travis.Collections.Base.prototype.initialize.apply(this, arguments);
     _.bindAll(this, 'url', 'dimensions', 'update');
     _.extend(this, options);
+    this.args = this.args || {};
   },
   _add: function(model, options) {
     Travis.Collections.Base.prototype._add.apply(this, arguments);
@@ -117,6 +118,12 @@ Travis.Collections.Builds = Travis.Collections.Base.extend({
       var build = this.get(attributes.id);
       build ? build.update(attributes) : this.add(new Travis.Models.Build(attributes, { repository: this.repository }));
     }
+  },
+  page: function(page) {
+    if (page) {
+      this.args.page = page;
+    }
+    return this.args.page || 1;
   },
   url: function() {
     return '/repositories/' + this.repository.id + '/builds' + Utils.queryString(this.args);
