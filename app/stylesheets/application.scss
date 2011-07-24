@@ -587,6 +587,17 @@ caption {
     white-space: nowrap;
     overflow: hidden;
     margin: 0;
+    ul.nested {
+      margin-top: 0px;
+      margin-bottom: 5px;
+      padding-left: 10px;
+      display: none;
+    }
+    &:hover {
+      ul.nested {
+        display: block;
+      }
+    }
   }
   .placeholder,
   .indicator {
@@ -982,4 +993,8 @@ ul#tokens {
   top: 10px;
   font-size: 25px;
   color: #FFFFFF;
+}
+
+.clear {
+  clear: both;
 }
