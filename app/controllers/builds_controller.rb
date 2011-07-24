@@ -1,3 +1,5 @@
+require 'travis/notifications'
+
 class BuildsController < ApplicationController
   respond_to :json
 
@@ -42,7 +44,7 @@ class BuildsController < ApplicationController
       trigger('build:configured', build, 'msg_id' => params[:msg_id])
     elsif build.was_finished?
       trigger('build:finished', build, 'msg_id' => params[:msg_id])
-      deliver_finished_email(build)
+      Travis::Notifications.send_notifications(build)
     end
 
     render :nothing => true
@@ -61,12 +63,6 @@ class BuildsController < ApplicationController
       Travis::Worker.class_eval { @queue = build.repository.name == 'rails' ? 'rails' : 'builds' } # FIXME OH SHI~
       Resque.enqueue(Travis::Worker, json_for(:job, build))
       trigger('build:queued', build)
-    end
-
-    def deliver_finished_email(build)
-      BuildMailer.finished_email(build.parent || build).deliver if build.send_notifications?
-    rescue Net::SMTPError => e
-      # TODO might want to log this event. e.g. happens when people specify bad email addresses like "foo[at]bar[dot]com"
     end
 
     def trigger(event, build, data = {})
