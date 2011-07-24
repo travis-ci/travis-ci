@@ -19,9 +19,10 @@ class MailNotificationsTest < ActionMailer::TestCase
       :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master"
     })
 
-    email = Travis::Notifications::Email::BuildMailer.finished_email(build).deliver
-
-    assert !ActionMailer::Base.deliveries.empty?
+    email = nil
+    assert_emails(1) do
+      email = Travis::Notifications::Email.notify(build)
+    end
 
     assert_equal ['bar@example.com', 'baz@example.com', 'foo@example.com'], email.to
     assert_equal 'svenfuchs/minimal#1 (master - 62aae5f): the build has failed', email.subject
@@ -45,8 +46,11 @@ class MailNotificationsTest < ActionMailer::TestCase
       :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master",
       :config => config
     })
-    email = Travis::Notifications::Email::BuildMailer.finished_email(build).deliver
-    assert !ActionMailer::Base.deliveries.empty?
+
+    email = nil
+    assert_emails(1) do
+      email = Travis::Notifications::Email.notify(build)
+    end
 
     assert_equal ["user1@example.de", "user2@example.de", "user3@example.de"], email.to
     assert_equal 'svenfuchs/minimal#1 (master - 62aae5f): the build has failed', email.subject
@@ -70,8 +74,11 @@ class MailNotificationsTest < ActionMailer::TestCase
       :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master",
       :config => config
     })
-    email = Travis::Notifications::Email::BuildMailer.finished_email(build).deliver
-    assert !ActionMailer::Base.deliveries.empty?
+
+    email = nil
+    assert_emails(1) do
+      email = Travis::Notifications::Email.notify(build)
+    end
 
     assert_equal ["user1@example.de"], email.to
     assert_equal 'svenfuchs/minimal#1 (master - 62aae5f): the build has failed', email.subject
@@ -96,11 +103,9 @@ class MailNotificationsTest < ActionMailer::TestCase
       :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master"
     })
 
-    email = Mail::Message.any_instance.expects(:deliver)
-
-    Travis::Notifications::Email::BuildMailer.expects(:finished_email).returns(email)
-
-    Travis::Notifications.send_notifications(build)
+    assert_emails(1) do
+      Travis::Notifications.send_notifications(build)
+    end
   end
 end
 
