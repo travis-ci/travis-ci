@@ -1,7 +1,7 @@
 require 'test_helper'
+require 'travis/notifications'
 
-class BuildMailerTest < ActionMailer::TestCase
-
+class MailNotificationsTest < ActionMailer::TestCase
   def setup
     @repository = Factory(:repository, :owner_email => 'foo@example.com')
   end
@@ -19,7 +19,7 @@ class BuildMailerTest < ActionMailer::TestCase
       :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master"
     })
 
-    email = BuildMailer.finished_email(build).deliver
+    email = Travis::Notifications::Email::BuildMailer.finished_email(build).deliver
 
     assert !ActionMailer::Base.deliveries.empty?
 
@@ -45,7 +45,7 @@ class BuildMailerTest < ActionMailer::TestCase
       :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master",
       :config => config
     })
-    email = BuildMailer.finished_email(build).deliver
+    email = Travis::Notifications::Email::BuildMailer.finished_email(build).deliver
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal ["user1@example.de", "user2@example.de", "user3@example.de"], email.to
@@ -70,7 +70,7 @@ class BuildMailerTest < ActionMailer::TestCase
       :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master",
       :config => config
     })
-    email = BuildMailer.finished_email(build).deliver
+    email = Travis::Notifications::Email::BuildMailer.finished_email(build).deliver
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal ["user1@example.de"], email.to
@@ -81,5 +81,47 @@ class BuildMailerTest < ActionMailer::TestCase
     assert_match /Status : Failed/,              email.encoded
     assert_match /View the changeset : https:\/\/github.com\/foo\/bar-baz\/compare\/master\.\.\.develop/, email.encoded
     assert_match /View the full build log and details : http:\/\/localhost:3000\/svenfuchs\/minimal\/builds\/1/, email.encoded
+  end
+
+  def test_finished_email_sent_via_travis_notifications
+    build = Factory(:build, {
+      :repository => @repository,
+      :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
+      :finished_at => Time.zone.local(2011, 6, 23, 16, 47, 52),
+      :committer_email => 'bar@example.com',
+      :author_name => 'Foo Bar',
+      :author_email => 'baz@example.com',
+      :status => 1,
+      :compare_url => "https://github.com/foo/bar-baz/compare/master...develop",
+      :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master"
+    })
+
+    email = Mail::Message.any_instance.expects(:deliver)
+
+    Travis::Notifications::Email::BuildMailer.expects(:finished_email).returns(email)
+
+    Travis::Notifications.send_notifications(build)
+  end
+end
+
+class IrcNotificationsTest < ActionMailer::TestCase
+  def setup
+    @repository = Factory(:repository, :owner_email => 'foo@example.com')
+  end
+
+  def test_no_irc_notifications
+    assert false
+  end
+
+  def test_one_irc_notification
+    assert false
+  end
+
+  def test_two_irc_notifications
+    assert false
+  end
+
+  def test_no_irc_notifications_when_notifications_are_disabled
+    assert false
   end
 end
