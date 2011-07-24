@@ -34,7 +34,7 @@ Travis consists of four main parts:
 * A "Resque":https://github.com/defunkt/resque worker for running a project's test suite remotely.
 * A websocket server for tailing build results to the browser. (This server is currently started within the Rails app process.)
 
-!https://github.com/travis-ci/travis-ci/blob/master/docs/travis.architecture.png!
+!https://github.com/travis-ci/travis-ci/raw/master/docs/travis.architecture.png!
 
 You can also watch this (quite old, but still valid) screencast to get an idea: "1:20 quick demo screencast (spike 2)":http://www.youtube.com/watch?v=mNOwCJhjWAw
 
