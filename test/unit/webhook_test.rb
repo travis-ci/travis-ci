@@ -67,7 +67,7 @@ class WebhookTest < NotificationsTestCase
   def stub_request(url, build)
     Travis::Notifications::Webhook.stubbed_adapter.post url do |env|
       assert_equal url, env[:url].path
-      assert_equal build.as_json.keys, JSON.parse(Rack::Utils.parse_query(env[:body])['payload']).keys
+      assert_equal build.as_json.keys.sort, JSON.parse(Rack::Utils.parse_query(env[:body])['payload']).keys.sort
       yield(env) if block_given?
     end
   end
