@@ -146,7 +146,7 @@ class BuildTest < ActiveSupport::TestCase
     repository = build.repository.reload
 
     assert_equal 0, repository.last_build_status
-    assert_equal june.to_s, repository.last_build_finished_at.to_s
+    assert_equal june, repository.last_build_finished_at
   end
 
   protected
