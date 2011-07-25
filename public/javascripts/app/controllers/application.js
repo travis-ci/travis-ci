@@ -104,7 +104,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     $('#main').removeClass('loading')
   },
   trackPage: function() {
-    window._gauges = _gauges || [];
+    window._gauges = window._gauges || [];
     window._gauges.push(['track']);
   },
 
