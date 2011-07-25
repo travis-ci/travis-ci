@@ -147,14 +147,14 @@ class Build < ActiveRecord::Base
     json.compact
   end
 
-  def send_notifications?
+  def send_email_notifications?
     (parent ? parent.matrix_finished? : finished?) && notifications_enabled? && unique_recipients.present?
   end
 
   # at some point we might want to move this to a Notifications manager that abstracts email and other types of notifications
   def unique_recipients
     @unique_recipients ||= if config && notifications = config['notifications']
-      notifications['recipients']
+      notifications['email'] || notifications['recipients']
     else
       recipients = [committer_email, author_email, repository.owner_email]
       recipients.select(&:present?).join(',').split(',').map(&:strip).uniq.join(',')
@@ -164,7 +164,17 @@ class Build < ActiveRecord::Base
   protected
 
     def notifications_enabled?
-      !(self.config && self.config['notifications'] && config['notifications']['disabled'])
+      if self.config
+        if self.config['email']
+          !!self.config['email']
+        elsif self.config['notifications'] && config['notifications']['disabled']
+          !config['notifications']['disabled']
+        else
+          true
+        end
+      else
+        true
+      end
     end
 
     def expand_matrix?

@@ -44,22 +44,49 @@ module Travis
         end
       end
 
+      def self.notify?(build)
+        build.config && build.config['notifications'] && !!build.config['notifications']['irc']
+      end
+
       def self.notify(build)
-        irc_server = ***********
+        if notify?(build)
+          irc_details = build.config['notifications']['irc']
+          irc_details = [irc_details] if irc_details.is_a?(String)
+          irc_details.each { |connection_string| connect_and_log(connection_string, build) }
+        end
+      end
+
+      def self.connect_and_log(connection_string, build)
+        server_and_port, channel = connection_string.split('#')
+
+        server, port = server_and_port.split(':')
 
         options = {}
-        options[:port]
+        options[:port] = port.to_i if port
 
-        sm = SimpleIrc.new(irc_server, BOT_NAME, options)
+        build_url = build_details_url(build)
 
-        sm.join('travis') do
-          say('[Travis-CI] travis-ci/travis-ci#612 (staging - e58c3a6): build has passed')
-          say('[Travis-CI] GitHub changeset : https://github.com/travis-ci/travis-ci/compare/bfd83f6...e58c3a6')
-          say('[Travis-CI] Full build details : http://travis-ci.org/travis-ci/travis-ci/builds/46911')
+        sm = SimpleIrc.new(server, BOT_NAME, options)
+
+        sm.join(channel) do
+          say("[Travis-CI] #{build.repository.slug}##{build.number} (#{build.branch} - #{build.commit[0, 7]}): the build has #{build.passed? ? 'passed' : 'failed' }")
+          say("[Travis-CI] GitHub changeset : #{build.compare_url}")
+          say("[Travis-CI] Full build details : #{build_url}")
         end
 
         sm.quit
       end
+
+      def self.build_details_url(build)
+        Rails.application.routes.url_helpers.user_repo_build_redirect_url({
+          :user => build.repository.owner_name,
+          :repository => build.repository.name,
+          :id => build.id,
+          :host => Travis.config['domain']
+        })
+      end
     end
+
+    register_notifier(Irc)
   end
 end
