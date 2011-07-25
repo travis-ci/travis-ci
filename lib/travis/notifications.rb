@@ -6,7 +6,9 @@ module Travis
     end
 
     def self.send_notifications(build)
-      @notifiers.each { |notifier| notifier.notify(build) }
+      return unless build.send_notifications?
+      build = build.parent || build
+      @notifiers.each { |notifier| notifier.notify(build)  }
     end
   end
 end
