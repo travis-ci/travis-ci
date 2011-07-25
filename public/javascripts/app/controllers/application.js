@@ -90,12 +90,12 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   },
 
   // helpers
-
   reset: function() {
     delete this.buildId;
     delete this.tab;
     this.followBuilds = false;
     window.params = {};
+    this.trackPage();
   },
   startLoading: function() {
     $('#main').addClass('loading')
@@ -103,6 +103,10 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   stopLoading: function() {
     $('#main').removeClass('loading')
   },
+  trackPage: function() {
+    window._gauges = _gauges || [];
+    window._gauges.push(['track']);
+  }
 
 
   // internal events
