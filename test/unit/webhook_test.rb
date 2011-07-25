@@ -1,12 +1,11 @@
-require 'test_helper'
-require 'travis/notifications'
+require 'unit/notifications/notifications_test_case'
 
-class WebhookTest < ActiveSupport::TestCase
+class WebhookTest < NotificationsTestCase
   def setup
+    super
+
     # Setup Faraday
     stub_adapter
-    # Setup the test object
-    @repository = Factory(:repository)
   end
 
   def test_finished_webhook
