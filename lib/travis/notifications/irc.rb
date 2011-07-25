@@ -82,7 +82,7 @@ module Travis
           :user => build.repository.owner_name,
           :repository => build.repository.name,
           :id => build.id,
-          :host => Travis.config['domain']
+          :host => Travis.config['domain'] || 'test.travis-ci.org'
         })
       end
     end
