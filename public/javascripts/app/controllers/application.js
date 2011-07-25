@@ -106,7 +106,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   trackPage: function() {
     window._gauges = _gauges || [];
     window._gauges.push(['track']);
-  }
+  },
 
 
   // internal events
