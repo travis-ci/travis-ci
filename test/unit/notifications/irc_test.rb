@@ -17,7 +17,7 @@ class IrcNotificationsTest < NotificationsTestCase
   def test_no_irc_notifications
     Travis::Notifications::Irc::SimpleIrc.expects(:new).never
 
-    Travis::Notifications::Irc.notify(build)
+    Travis::Notifications::Irc.notify(create_build)
   end
 
   def test_one_irc_notification
