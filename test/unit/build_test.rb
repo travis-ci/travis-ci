@@ -67,32 +67,37 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal 4, @repository.builds.next_number
   end
 
-  test 'given the build is a finished non-matrix build w/ recipients: send_notifications? should be true' do
+  test 'given the build is a finished non-matrix build: send_notifications? should be true' do
     build = Factory(:build, :repository => @repository, :finished_at => Time.now)
-    assert build.send_email_notifications?, 'send_notifications? should be true'
+    assert build.send_notifications?, 'send_notifications? should be true'
   end
 
-  test 'given the build is a finished matrix child build w/ recipients: send_notifications? should be true' do
+  test 'given the build is a finished matrix child build: send_notifications? should be true' do
     build = Factory(:build, :repository => @repository, :finished_at => Time.now)
     child = Factory(:build, :repository => @repository, :parent => build)
-    assert build.send_email_notifications?, 'send_notifications? should be true'
+    assert build.send_notifications?, 'send_notifications? should be true'
   end
 
   test 'given the build is not finished matrix child build: send_notifications? should be false' do
     build = Factory(:build, :repository => @repository, :finished_at => nil)
     child = Factory(:build, :repository => @repository, :parent => build)
-    assert !build.send_email_notifications?, 'send_notifications? should be false'
+    assert !build.send_notifications?, 'send_notifications? should be false'
   end
 
-  test 'given the build does not have recipients: send_notifications? should be false' do
+  test 'given the build does not have recipients: send_email_notifications? should be false' do
     build = Factory(:build, :repository => @repository, :finished_at => Time.now)
     build.stubs(:unique_recipients).returns('')
-    assert !build.send_email_notifications?, 'send_notifications? should be false'
+    assert !build.send_email_notifications?, 'send_email_notifications? should be false'
   end
 
-  test 'given the build has notifications disabled: send_notifications? should be false' do
+  test 'given the build has notifications disabled: send_email_notifications? should be false (deprecated api)' do
     build = Factory(:build, :repository => @repository, :finished_at => Time.now, :config => { 'notifications' => { 'disabled' => true } })
-    assert !build.send_email_notifications?, 'send_notifications? should be false'
+    assert !build.send_email_notifications?, 'send_email_notifications? should be false'
+  end
+
+  test 'given the build has notifications disabled: send_email_notifications? should be false' do
+    build = Factory(:build, :repository => @repository, :finished_at => Time.now, :config => { 'notifications' => { 'email' => false } })
+    assert !build.send_email_notifications?, 'send_email_notifications? should be false'
   end
 
   test 'given the build has an author_email: unique_recipients contains these emails' do

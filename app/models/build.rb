@@ -147,8 +147,12 @@ class Build < ActiveRecord::Base
     json.compact
   end
 
+  def send_notifications?
+    parent ? parent.matrix_finished? : finished?
+  end
+
   def send_email_notifications?
-    (parent ? parent.matrix_finished? : finished?) && notifications_enabled? && unique_recipients.present?
+    notifications_enabled? && unique_recipients.present?
   end
 
   # at some point we might want to move this to a Notifications manager that abstracts email and other types of notifications
