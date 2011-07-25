@@ -2,17 +2,9 @@ require 'unit/notifications/notifications_test_case'
 
 class EmailNotificationsTest < NotificationsTestCase
   def test_finished_email
-    build = Factory(:build, {
-      :repository => @repository,
-      :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
-      :finished_at => Time.zone.local(2011, 6, 23, 16, 47, 52),
-      :committer_email => 'bar@example.com',
-      :author_name => 'Foo Bar',
-      :author_email => 'baz@example.com',
-      :status => 1,
-      :compare_url => "https://github.com/foo/bar-baz/compare/master...develop",
-      :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master"
-    })
+    build = create_build(nil,
+                         { :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
+                           :finished_at => Time.zone.local(2011, 6, 23, 16, 47, 52)})
 
     email = nil
     assert_emails(1) do
@@ -30,17 +22,9 @@ class EmailNotificationsTest < NotificationsTestCase
   end
 
   def test_finished_email_with_configured_email_addresses_as_array
-    config = { 'notifications' => { 'email' => ['user1@example.de', 'user2@example.de', 'user3@example.de'] } }
-    build = Factory(:build, {
-      :repository => @repository,
-      :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
-      :finished_at => Time.zone.local(2011, 6, 23, 15, 47, 52),
-      :committer_email => 'bar@example.com',
-      :author_email => 'baz@example.com',
-      :compare_url => "https://github.com/foo/bar-baz/compare/master...develop",
-      :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master",
-      :config => config
-    })
+    build = create_build({ 'notifications' => { 'email' => ['user1@example.de', 'user2@example.de', 'user3@example.de'] } },
+                         { :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
+                           :finished_at => Time.zone.local(2011, 6, 23, 15, 47, 52) })
 
     email = nil
     assert_emails(1) do
@@ -58,17 +42,9 @@ class EmailNotificationsTest < NotificationsTestCase
   end
 
   def test_finished_email_with_configured_email_address_as_string
-    config = { 'notifications' => { 'email' => 'user1@example.de' } }
-    build = Factory(:build, {
-      :repository  => @repository,
-      :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
-      :finished_at => Time.zone.local(2011, 6, 23, 15, 30, 52),
-      :committer_email => 'bar@example.com',
-      :author_email => 'baz@example.com',
-      :compare_url => "https://github.com/foo/bar-baz/compare/master...develop",
-      :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master",
-      :config => config
-    })
+    build = create_build({ 'notifications' => { 'email' => 'user1@example.de' } },
+                         { :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
+                           :finished_at => Time.zone.local(2011, 6, 23, 15, 30, 52)})
 
     email = nil
     assert_emails(1) do
@@ -86,17 +62,7 @@ class EmailNotificationsTest < NotificationsTestCase
   end
 
   def test_email_notifications_turned_off
-    config = { 'notifications' => { 'email' => false } }
-    build = Factory(:build, {
-      :repository  => @repository,
-      :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
-      :finished_at => Time.zone.local(2011, 6, 23, 15, 30, 52),
-      :committer_email => 'bar@example.com',
-      :author_email => 'baz@example.com',
-      :compare_url => "https://github.com/foo/bar-baz/compare/master...develop",
-      :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master",
-      :config => config
-    })
+    build = create_build({ 'notifications' => { 'email' => false } })
 
     assert_no_emails do
       Travis::Notifications::Email.notify(build)
@@ -104,17 +70,9 @@ class EmailNotificationsTest < NotificationsTestCase
   end
 
   def test_finished_email_sent_via_travis_notifications
-    build = Factory(:build, {
-      :repository => @repository,
-      :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
-      :finished_at => Time.zone.local(2011, 6, 23, 16, 47, 52),
-      :committer_email => 'bar@example.com',
-      :author_name => 'Foo Bar',
-      :author_email => 'baz@example.com',
-      :status => 1,
-      :compare_url => "https://github.com/foo/bar-baz/compare/master...develop",
-      :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master"
-    })
+    build = create_build(nil,
+                         { :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
+                           :finished_at => Time.zone.local(2011, 6, 23, 16, 47, 52)})
 
     assert_emails(1) do
       Travis::Notifications.send_notifications(build)
@@ -124,17 +82,10 @@ end
 
 class DeprecatedEmailNotificationsTest < NotificationsTestCase
   def test_finished_email_with_configured_email_addresses_as_array
-    config = { 'notifications' => { 'recipients' => ['user1@example.de', 'user2@example.de', 'user3@example.de'] } }
-    build = Factory(:build, {
-      :repository => @repository,
-      :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
-      :finished_at => Time.zone.local(2011, 6, 23, 15, 47, 52),
-      :committer_email => 'bar@example.com',
-      :author_email => 'baz@example.com',
-      :compare_url => "https://github.com/foo/bar-baz/compare/master...develop",
-      :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master",
-      :config => config
-    })
+    build = create_build({ 'notifications' => { 'recipients' => ['user1@example.de', 'user2@example.de', 'user3@example.de'] } },
+                         { :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
+                           :finished_at => Time.zone.local(2011, 6, 23, 15, 47, 52) }
+                        )
 
     email = nil
     assert_emails(1) do
@@ -152,17 +103,9 @@ class DeprecatedEmailNotificationsTest < NotificationsTestCase
   end
 
   def test_finished_email_with_configured_email_address_as_string
-    config = { 'notifications' => { 'recipients' => 'user1@example.de' } }
-    build = Factory(:build, {
-      :repository  => @repository,
-      :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
-      :finished_at => Time.zone.local(2011, 6, 23, 15, 30, 52),
-      :committer_email => 'bar@example.com',
-      :author_email => 'baz@example.com',
-      :compare_url => "https://github.com/foo/bar-baz/compare/master...develop",
-      :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master",
-      :config => config
-    })
+    build = create_build({ 'notifications' => { 'recipients' => 'user1@example.de' } },
+                         { :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
+                           :finished_at => Time.zone.local(2011, 6, 23, 15, 30, 52) })
 
     email = nil
     assert_emails(1) do
@@ -180,17 +123,7 @@ class DeprecatedEmailNotificationsTest < NotificationsTestCase
   end
 
   def test_email_notifications_turned_off
-    config = { 'notifications' => { 'disabled' => true } }
-    build = Factory(:build, {
-      :repository  => @repository,
-      :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
-      :finished_at => Time.zone.local(2011, 6, 23, 15, 30, 52),
-      :committer_email => 'bar@example.com',
-      :author_email => 'baz@example.com',
-      :compare_url => "https://github.com/foo/bar-baz/compare/master...develop",
-      :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master",
-      :config => config
-    })
+    build = create_build({ 'notifications' => { 'disabled' => true } })
 
     assert_no_emails do
       Travis::Notifications::Email.notify(build)

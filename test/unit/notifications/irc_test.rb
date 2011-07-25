@@ -6,22 +6,6 @@ class IrcNotificationsTest < NotificationsTestCase
     @irc_mock = IrcMock.new
   end
 
-  def create_build(config = nil)
-    build = Factory(:build, {
-      :repository => @repository,
-      :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
-      :finished_at => Time.zone.local(2011, 6, 23, 16, 47, 52),
-      :committer_email => 'bar@example.com',
-      :author_name => 'Foo Bar',
-      :author_email => 'baz@example.com',
-      :status => 1,
-      :compare_url => "https://github.com/foo/bar-baz/compare/master...develop",
-      :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master"
-    })
-    build[:config] = config if config
-    build
-  end
-
   def stub_simple_irc(server, options)
     Travis::Notifications::Irc::SimpleIrc.
       expects(:new).once.
