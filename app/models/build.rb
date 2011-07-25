@@ -235,7 +235,8 @@ class Build < ActiveRecord::Base
 
     def was_finished
       if parent
-        parent.update_attributes!(:status => parent.matrix_status, :finished_at => !matrix? || matrix_finished? ? Time.now : nil)
+        date = !matrix? || matrix_finished? ? finished_at : nil
+        parent.update_attributes!(:status => parent.matrix_status, :finished_at => date)
         denormalize_to_repository(parent)
       else
         denormalize_to_repository(self)
