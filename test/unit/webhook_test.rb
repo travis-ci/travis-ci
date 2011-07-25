@@ -9,15 +9,7 @@ class WebhookTest < NotificationsTestCase
   end
 
   def test_finished_webhook
-    config = { 'notifications' => { 'webhooks' => ['http://evome.fr/notifications', 'http://example.com/'] } }
-    build = Factory(:build, {
-      :repository => @repository,
-      :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
-      :finished_at => Time.zone.local(2011, 6, 23, 15, 47, 52),
-      :compare_url => "https://github.com/foo/bar-baz/compare/master...develop",
-      :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master",
-      :config => config
-    })
+    build = create_build({ 'notifications' => { 'webhooks' => ['http://evome.fr/notifications', 'http://example.com/']}})
 
     stub_request '/notifications', build do |env|
       assert_equal 'evome.fr', env[:url].host
@@ -30,15 +22,7 @@ class WebhookTest < NotificationsTestCase
   end
 
   def test_finished_webhook_as_a_string
-    config = { 'notifications' => { 'webhooks' => 'http://evome.fr/notifications' } }
-    build = Factory(:build, {
-      :repository => @repository,
-      :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
-      :finished_at => Time.zone.local(2011, 6, 23, 15, 47, 52),
-      :compare_url => "https://github.com/foo/bar-baz/compare/master...develop",
-      :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master",
-      :config => config
-    })
+    build = create_build({ 'notifications' => { 'webhooks' => 'http://evome.fr/notifications' }})
 
     stub_request '/notifications', build do |env|
       assert_equal 'evome.fr', env[:url].host
@@ -48,15 +32,7 @@ class WebhookTest < NotificationsTestCase
   end
 
    def test_no_webhook
-    config = { 'notifications' => { 'webhooks' => '' } }
-    build = Factory(:build, {
-      :repository => @repository,
-      :started_at  => Time.zone.local(2011, 6, 23, 15, 30, 45),
-      :finished_at => Time.zone.local(2011, 6, 23, 15, 47, 52),
-      :compare_url => "https://github.com/foo/bar-baz/compare/master...develop",
-      :log => "From git://github.com/bai/travis\n  f4822cb..8947caa  master     -> origin/master",
-      :config => config
-    })
+    build = create_build({ 'notifications' => { 'webhooks' => '' }})
 
     Travis::Notifications::Webhook.notify(build)
 
