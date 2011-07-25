@@ -13,3 +13,4 @@ end
 
 require 'travis/notifications/email'
 require 'travis/notifications/irc'
+require 'travis/notifications/webhook'
