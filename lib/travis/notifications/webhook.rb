@@ -13,7 +13,7 @@ module Travis
         webhooks = Array(build.config['notifications']['webhooks']).reject { |wh| wh.blank? }
         webhooks.each do |webhook|
           http_adapter.post webhook do |req|
-           req.body = { :payload => build.as_json.to_json }
+            req.body = { :payload => build.to_json }
           end
         end
       end
@@ -24,8 +24,8 @@ module Travis
           b.adapter :net_http
         end
       end
-    end
 
-    register_notifier(self)
+    end
+    register_notifier(Webhook)
   end
 end
