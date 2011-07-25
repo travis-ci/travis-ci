@@ -128,7 +128,7 @@ class Build < ActiveRecord::Base
   end
 
   all_attrs = [:id, :repository_id, :parent_id, :number, :commit, :branch, :message, :status, :log, :started_at, :finished_at,
-    :committed_at, :committer_name, :committer_email, :author_name, :author_email, :config]
+    :committed_at, :committer_name, :committer_email, :author_name, :author_email, :compare_url, :config]
 
   JSON_ATTRS = {
     :default            => all_attrs,

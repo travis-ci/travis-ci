@@ -82,6 +82,12 @@ $(document).ready(function() {
     $.cookie('slider_hidden', !($.cookie('slider_hidden') === 'true'));
     toggle_slider();
   });
+
+  // Handlebars helpers
+  Handlebars.registerHelper('compare_view_refs', function(compare_url) {
+    var parts = compare_url.split('/');
+    return parts[parts.length - 1];
+  });
 });
 
 if (window.console) {
