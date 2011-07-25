@@ -2,7 +2,11 @@ module Travis
   module Notifications
     class Webhook
       def self.notify(build)
-        new.notify(build)
+        new.notify(build) if notify?(build)
+      end
+
+      def self.notify?(build)
+        build.config && build.config['notifications'] && !!build.config['notifications']['webhooks']
       end
 
       def notify(build)
