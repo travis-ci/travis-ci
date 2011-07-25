@@ -39,6 +39,16 @@ class WebhookTest < NotificationsTestCase
     # No need to assert anything here as Faraday would complain about a request not being stubbed <3
   end
 
+   def test_webhook_notification_sent_via_travis_notifications
+    build = create_build({ 'notifications' => { 'webhooks' => "http://evome.fr/notifications" } })
+
+    stub_request '/notifications', build do |env|
+      assert_equal 'evome.fr', env[:url].host
+    end
+
+    Travis::Notifications.send_notifications(build)
+  end
+
   def stub_adapter
     Travis::Notifications::Webhook.class_eval do
       def self.stubbed_adapter
