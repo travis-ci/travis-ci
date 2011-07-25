@@ -69,9 +69,9 @@ module Travis
         sm = SimpleIrc.new(server, BOT_NAME, options)
 
         sm.join(channel) do
-          say("[Travis-CI] #{build.repository.slug}##{build.number} (#{build.branch} - #{build.commit[0, 7]}): the build has #{build.passed? ? 'passed' : 'failed' }")
-          say("[Travis-CI] GitHub changeset : #{build.compare_url}")
-          say("[Travis-CI] Full build details : #{build_url}")
+          say("[Travis-CI] #{build.repository.slug}##{build.number} (#{build.branch} - #{build.commit[0, 7]} : #{build.author_name}): the build has #{build.passed? ? 'passed' : 'failed' }")
+          say("[Travis-CI] Change view : #{build.compare_url}")
+          say("[Travis-CI] Build details : #{build_url}")
         end
 
         sm.quit
