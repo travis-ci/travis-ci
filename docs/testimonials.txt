@@ -1,0 +1,2 @@
+Squeel is now using TravisCI (which rocks, by the way) for testing. ... I can’t recommend TravisCI enough. If you aren’t using it, you should be.
+http://metautonomo.us/2011/07/03/whats-new-with-squeel
