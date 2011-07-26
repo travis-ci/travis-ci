@@ -61,6 +61,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   },
   repository: function(owner, name, line_number) {
     this.reset();
+    this.trackPage();
     this.startLoading();
     window.params = { owner: owner, name: name, line_number: line_number, action: 'repository' }
     this.selectTab('current');
@@ -71,6 +72,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   },
   repositoryHistory: function(owner, name) {
     this.reset();
+    this.trackPage();
     this.selectTab('history');
     this.repositories.whenFetched(_.bind(function(repositories) {
       repositories.selectLastBy({ slug: owner + '/' + name })
@@ -79,6 +81,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   },
   repositoryBuild: function(owner, name, buildId, line_number) {
     this.reset();
+    this.trackPage();
     this.startLoading();
     window.params = { owner: owner, name: name, build_id: buildId, line_number: line_number, action: 'repositoryBuild' }
     this.buildId = parseInt(buildId);
@@ -95,7 +98,6 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     delete this.tab;
     this.followBuilds = false;
     window.params = {};
-    this.trackPage();
   },
   startLoading: function() {
     $('#main').addClass('loading')
