@@ -5,3 +5,5 @@ rvm:
   - 1.9.2
   - ruby-head
   - ree
+notifications:
+  irc: "irc.freenode.org#travis"
