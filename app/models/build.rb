@@ -175,6 +175,8 @@ class Build < ActiveRecord::Base
           notifications['email']
         elsif notifications['disabled']
           !notifications['disabled']
+        elsif notifications['disable']
+          !notifications['disable']
         else
           true
         end

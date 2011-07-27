@@ -90,8 +90,13 @@ class BuildTest < ActiveSupport::TestCase
     assert !build.send_email_notifications?, 'send_email_notifications? should be false'
   end
 
-  test 'given the build has notifications disabled: send_email_notifications? should be false (deprecated api)' do
+  test 'given the build has notifications disabled: send_email_notifications? should be false (deprecated api) (disabled => true)' do
     build = Factory(:build, :repository => @repository, :finished_at => Time.now, :config => { 'notifications' => { 'disabled' => true } })
+    assert !build.send_email_notifications?, 'send_email_notifications? should be false'
+  end
+
+  test 'given the build has notifications disabled: send_email_notifications? should be false (deprecated api) (disable => true)' do
+    build = Factory(:build, :repository => @repository, :finished_at => Time.now, :config => { 'notifications' => { 'disable' => true } })
     assert !build.send_email_notifications?, 'send_email_notifications? should be false'
   end
 
