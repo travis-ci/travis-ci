@@ -38,6 +38,9 @@ class ActiveSupport::TestCase
 
     DatabaseCleaner.clean
 
+    Mocha::Mockery.instance.teardown
+    Mocha::Mockery.reset_instance
+
     super
   end
 end
