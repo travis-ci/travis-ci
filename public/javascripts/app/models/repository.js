@@ -7,6 +7,8 @@ Travis.Models.Repository = Travis.Models.Base.extend({
   url: function() {
     if (this.id) {
       return '/repositories/' + this.id;
+    } else if (this.get('slug')) {
+      return this.get('slug') + '.json';
     } else {
       return '/repositories'
     }
