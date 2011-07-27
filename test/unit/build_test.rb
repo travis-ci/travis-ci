@@ -67,12 +67,12 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal 4, @repository.builds.next_number
   end
 
-  test 'given the build is a finished non-matrix build w/ recipients: send_notifications? should be true' do
+  test 'given the build is a finished non-matrix build: send_notifications? should be true' do
     build = Factory(:build, :repository => @repository, :finished_at => Time.now)
     assert build.send_notifications?, 'send_notifications? should be true'
   end
 
-  test 'given the build is a finished matrix child build w/ recipients: send_notifications? should be true' do
+  test 'given the build is a finished matrix child build: send_notifications? should be true' do
     build = Factory(:build, :repository => @repository, :finished_at => Time.now)
     child = Factory(:build, :repository => @repository, :parent => build)
     assert build.send_notifications?, 'send_notifications? should be true'
@@ -84,15 +84,20 @@ class BuildTest < ActiveSupport::TestCase
     assert !build.send_notifications?, 'send_notifications? should be false'
   end
 
-  test 'given the build does not have recipients: send_notifications? should be false' do
+  test 'given the build does not have recipients: send_email_notifications? should be false' do
     build = Factory(:build, :repository => @repository, :finished_at => Time.now)
     build.stubs(:unique_recipients).returns('')
-    assert !build.send_notifications?, 'send_notifications? should be false'
+    assert !build.send_email_notifications?, 'send_email_notifications? should be false'
   end
 
-  test 'given the build has notifications disabled: send_notifications? should be false' do
+  test 'given the build has notifications disabled: send_email_notifications? should be false (deprecated api)' do
     build = Factory(:build, :repository => @repository, :finished_at => Time.now, :config => { 'notifications' => { 'disabled' => true } })
-    assert !build.send_notifications?, 'send_notifications? should be false'
+    assert !build.send_email_notifications?, 'send_email_notifications? should be false'
+  end
+
+  test 'given the build has notifications disabled: send_email_notifications? should be false' do
+    build = Factory(:build, :repository => @repository, :finished_at => Time.now, :config => { 'notifications' => { 'email' => false } })
+    assert !build.send_email_notifications?, 'send_email_notifications? should be false'
   end
 
   test 'given the build has an author_email: unique_recipients contains these emails' do
@@ -140,13 +145,13 @@ class BuildTest < ActiveSupport::TestCase
 
   test "denormalize_to_repository denormalizes the build status and finished_at attributes to the build's repository if this is a matrix build and all children have finished" do
     build = Factory(:build, :repository => @repository, :matrix => [Factory(:build, :repository => @repository), Factory(:build, :repository => @repository)], :config => { 'rvm' => ['1.8.7', '1.9.2'] })
-    now = Time.current
-    build.matrix.first.update_attributes!(:finished_at => now, :status => 0)
-    build.matrix.last.update_attributes!(:finished_at => now, :status => 0)
+    june = Time.utc(2011, 06, 23, 20, 20, 20)
+    build.matrix.first.update_attributes!(:finished_at => june, :status => 0)
+    build.matrix.last.update_attributes!(:finished_at => june, :status => 0)
     repository = build.repository.reload
 
     assert_equal 0, repository.last_build_status
-    assert_equal now.to_s, repository.last_build_finished_at.to_s
+    assert_equal june, repository.last_build_finished_at
   end
 
   protected

@@ -128,7 +128,7 @@ class Build < ActiveRecord::Base
   end
 
   all_attrs = [:id, :repository_id, :parent_id, :number, :commit, :branch, :message, :status, :log, :started_at, :finished_at,
-    :committed_at, :committer_name, :committer_email, :author_name, :author_email, :config]
+    :committed_at, :committer_name, :committer_email, :author_name, :author_email, :compare_url, :config]
 
   JSON_ATTRS = {
     :default            => all_attrs,
@@ -148,13 +148,17 @@ class Build < ActiveRecord::Base
   end
 
   def send_notifications?
-    (parent ? parent.matrix_finished? : finished?) && notifications_enabled? && unique_recipients.present?
+    parent ? parent.matrix_finished? : finished?
+  end
+
+  def send_email_notifications?
+    notifications_enabled? && unique_recipients.present?
   end
 
   # at some point we might want to move this to a Notifications manager that abstracts email and other types of notifications
   def unique_recipients
     @unique_recipients ||= if config && notifications = config['notifications']
-      notifications['recipients']
+      notifications['email'] || notifications['recipients']
     else
       recipients = [committer_email, author_email, repository.owner_email]
       recipients.select(&:present?).join(',').split(',').map(&:strip).uniq.join(',')
@@ -164,7 +168,17 @@ class Build < ActiveRecord::Base
   protected
 
     def notifications_enabled?
-      !(self.config && self.config['notifications'] && config['notifications']['disabled'])
+      if self.config
+        if self.config['email']
+          !!self.config['email']
+        elsif self.config['notifications'] && config['notifications']['disabled']
+          !config['notifications']['disabled']
+        else
+          true
+        end
+      else
+        true
+      end
     end
 
     def expand_matrix?
@@ -225,7 +239,8 @@ class Build < ActiveRecord::Base
 
     def was_finished
       if parent
-        parent.update_attributes!(:status => parent.matrix_status, :finished_at => !matrix? || matrix_finished? ? Time.now : nil)
+        date = !matrix? || matrix_finished? ? finished_at : nil
+        parent.update_attributes!(:status => parent.matrix_status, :finished_at => date)
         denormalize_to_repository(parent)
       else
         denormalize_to_repository(self)

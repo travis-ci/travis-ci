@@ -11,6 +11,10 @@
   <div class="right">
     <dt>Commit</dt>
     <dd class="commit-hash"><a href="http://github.com/{{repository/slug}}/commit/{{commit}}">{{commit}}{{#if branch}} ({{branch}}){{/if}}</a></dd>
+    {{#if compare_url}}
+      <dt>Compare</dt>
+      <dd class="compare_view"><a href="{{compare_url}}">{{compare_view_refs compare_url}}</a></dd>
+    {{/if}}
     <dt>Author</dt>
     <dd class="author"><a href="mailto:{{author_email}}">{{author_name}}</a></dd>
     {{#if committer_name}}
