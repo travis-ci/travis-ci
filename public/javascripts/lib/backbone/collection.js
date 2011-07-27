@@ -54,10 +54,16 @@ Travis.Collections.Base = Backbone.Collection.extend({
   },
   getOrFetchLastBy: function(options, callback) {
     var element = this.getBy(options);
+
     if(element) {
       callback(element);
     } else {
-      this.fetch({ success: function(collection) { callback(this.getBy(options)) }.bind(this) });
+      var model = new Travis.Models.Repository(options, { collection: this });
+      model.fetch({ success: function(model) {
+        callback(model);
+        this.add(model, { silent: true })
+        model.collection.trigger('select', model)
+      }.bind(this) });
     }
   },
   getBy: function(options) {
