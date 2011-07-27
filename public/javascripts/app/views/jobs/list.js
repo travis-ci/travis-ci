@@ -15,8 +15,5 @@ Travis.Views.Jobs.List = Travis.Views.Base.List.extend({
   },
   elementRemoved: function(item) {
     $(this.selectors.item + item.get('id')).remove();
-  },
-  itemsMatch: function (item) {
-    return this.previousItem.get('repository').slug == item.get('repository').slug
   }
 });
