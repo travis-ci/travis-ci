@@ -73,7 +73,7 @@ class Build < ActiveRecord::Base
     # apparently even ActiveRecord 3 does not provide any public method for doing
     # direct SQL updates with sanitization that is easy to use, so we use
     # ActiveRecord::Base.update_all. MK.
-    self.class.update_all(["log = log || ?", chars], ["id = ?", self.id])
+    self.class.update_all(["log = COALESCE(log, '') || ?", chars], ["id = ?", self.id])
   end
 
   def configured?
