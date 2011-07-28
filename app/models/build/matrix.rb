@@ -10,6 +10,10 @@ class Build
       def matrix?(config)
         config.values_at(*ENV_KEYS).compact.any? { |value| value.is_a?(Array) && value.size > 1 }
       end
+
+      def keys_for(hash)
+        ENV_KEYS.select { |key| hash[key.to_s] }
+      end
     end
 
     def matrix_finished?
@@ -18,6 +22,16 @@ class Build
 
     def matrix_status
       matrix.map(&:status).include?(1) ? 1 : 0 if matrix.all?(&:finished?)
+    end
+
+    # Return only the child builds whose config matches against as passed hash
+    # e.g. build.matrix_for(rvm: '1.8.7', env: 'DB=postgresql')
+    def matrix_for(hash)
+      matrix.select do |build|
+        self.class.keys_for(hash).map do |key|
+          build.config[key] == hash[key]
+        end.inject(:&)
+      end
     end
 
     protected

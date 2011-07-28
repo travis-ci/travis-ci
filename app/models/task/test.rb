@@ -13,6 +13,10 @@ class Task::Test < Task
     self.status, self.finished_at = *data.values_at(:status, :finished_at)
   end
 
+  def passed?
+    status == 0
+  end
+
   protected
 
     def extract_finishing_attributes(attributes)
