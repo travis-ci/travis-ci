@@ -68,7 +68,12 @@ class Build < ActiveRecord::Base
 
   def append_log!(chars)
     self.log_appended = chars
-    update_attributes!(:log => [self.log, chars].join)
+    # update_attributes!(:log => [self.log, chars].join)
+    #
+    # apparently even ActiveRecord 3 does not provide any public method for doing
+    # direct SQL updates with sanitization that is easy to use, so we use
+    # ActiveRecord::Base.update_all. MK.
+    self.class.update_all(["log = log || ?", chars], ["id = ?", self.id])
   end
 
   def configured?

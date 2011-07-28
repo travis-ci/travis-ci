@@ -165,16 +165,21 @@ class BuildTest < ActiveSupport::TestCase
 
     line1 = "$ git clone --depth=1000 --quiet git://github.com/intridea/omniauth.git ~/builds/intridea/omniauth\n"
     build.append_log!(line1)
+    # we just did a straight SQL update, so reload the object
+    build.reload
     assert !build.log.blank?
-    assert_equal build.log, line1
+    assert_equal line1, build.log
 
     line2 = "$ git checkout -qf 662af2708525b776aac580b10cc903ba66050e06\n"
     build.append_log!(line2)
-    assert_equal build.log, line1 + line2
+    # we just did a straight SQL update, so reload the object
+    build.reload
+    assert_equal line1 + line2, build.log
 
     line3 = "$ bundle install --pa"
     build.append_log!(line3)
-    assert_equal build.log, line1 + line2 + line3
+    build.reload
+    assert_equal line1 + line2 + line3, build.log
   end
 
   protected
