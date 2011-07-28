@@ -14,16 +14,18 @@ class RepositoriesController < ApplicationController
 
   protected
 
-    def repository
-      @repository ||= Repository.find_by_params(params)
-    end
-
     def repositories
       @repositories ||= begin
         scope = Repository.timeline.recent
         scope = scope.by_owner_name(params[:owner_name]) if params[:owner_name]
         scope = scope.search(params[:search])            if params[:search].present?
         scope
+      end
+    end
+
+    def repository
+      @repository ||= Repository.find_by_params(params).tap do |repository|
+        repository.override_last_build_status!(params) if repository.try(:override_last_build_status?, params)
       end
     end
 end

@@ -2,7 +2,6 @@ require 'uri'
 require 'core_ext/hash/compact'
 
 class Repository < ActiveRecord::Base
-
   has_many :requests, :dependent => :delete_all
   has_many :builds, :dependent => :delete_all
 
@@ -12,6 +11,9 @@ class Repository < ActiveRecord::Base
 
   validates :name,       :presence => true, :uniqueness => { :scope => :owner_name }
   validates :owner_name, :presence => true
+  validate :last_build_status_cannot_be_overridden
+
+  attr_accessor :last_build_status_overridden
 
   class << self
     def timeline
@@ -84,6 +86,25 @@ class Repository < ActiveRecord::Base
         self.where(params.slice(:name, :owner_name)).first
       end
     end
+  end
+
+  def override_last_build_status?(hash)
+    last_build && Build.keys_for(hash).present?
+  end
+
+  def override_last_build_status!(hash)
+    last_build_status_overridden = true
+    matrix = self.last_build.matrix_for(hash)
+    self.last_build_status = if matrix.present?
+      # Set last build status to failing if any of the selected builds are failing
+      matrix.all?(&:passed?) ? 0 : 1
+    else
+      nil
+    end
+  end
+
+  def last_build_status_cannot_be_overridden
+    errors.add(:last_build_status, "can't be overridden") if last_build_status_overridden
   end
 
   def human_status(branches = nil)
