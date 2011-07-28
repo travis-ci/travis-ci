@@ -90,8 +90,13 @@ class BuildTest < ActiveSupport::TestCase
     assert !build.send_email_notifications?, 'send_email_notifications? should be false'
   end
 
-  test 'given the build has notifications disabled: send_email_notifications? should be false (deprecated api)' do
+  test 'given the build has notifications disabled: send_email_notifications? should be false (deprecated api) (disabled => true)' do
     build = Factory(:build, :repository => @repository, :finished_at => Time.now, :config => { 'notifications' => { 'disabled' => true } })
+    assert !build.send_email_notifications?, 'send_email_notifications? should be false'
+  end
+
+  test 'given the build has notifications disabled: send_email_notifications? should be false (deprecated api) (disable => true)' do
+    build = Factory(:build, :repository => @repository, :finished_at => Time.now, :config => { 'notifications' => { 'disable' => true } })
     assert !build.send_email_notifications?, 'send_email_notifications? should be false'
   end
 
@@ -152,6 +157,29 @@ class BuildTest < ActiveSupport::TestCase
 
     assert_equal 0, repository.last_build_status
     assert_equal june, repository.last_build_finished_at
+  end
+
+  test "appends streamed build log chunks" do
+    build = Factory(:build, :repository => @repository)
+    assert build.log.blank?
+
+    line1 = "$ git clone --depth=1000 --quiet git://github.com/intridea/omniauth.git ~/builds/intridea/omniauth\n"
+    build.append_log!(line1)
+    # we just did a straight SQL update, so reload the object
+    build.reload
+    assert !build.log.blank?
+    assert_equal line1, build.log
+
+    line2 = "$ git checkout -qf 662af2708525b776aac580b10cc903ba66050e06\n"
+    build.append_log!(line2)
+    # we just did a straight SQL update, so reload the object
+    build.reload
+    assert_equal line1 + line2, build.log
+
+    line3 = "$ bundle install --pa"
+    build.append_log!(line3)
+    build.reload
+    assert_equal line1 + line2 + line3, build.log
   end
 
   protected

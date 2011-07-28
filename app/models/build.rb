@@ -68,7 +68,12 @@ class Build < ActiveRecord::Base
 
   def append_log!(chars)
     self.log_appended = chars
-    update_attributes!(:log => [self.log, chars].join)
+    # update_attributes!(:log => [self.log, chars].join)
+    #
+    # apparently even ActiveRecord 3 does not provide any public method for doing
+    # direct SQL updates with sanitization that is easy to use, so we use
+    # ActiveRecord::Base.update_all. MK.
+    self.class.update_all(["log = COALESCE(log, '') || ?", chars], ["id = ?", self.id])
   end
 
   def configured?
@@ -157,27 +162,40 @@ class Build < ActiveRecord::Base
 
   # at some point we might want to move this to a Notifications manager that abstracts email and other types of notifications
   def unique_recipients
-    @unique_recipients ||= if config && notifications = config['notifications']
-      notifications['email'] || notifications['recipients']
-    else
-      recipients = [committer_email, author_email, repository.owner_email]
-      recipients.select(&:present?).join(',').split(',').map(&:strip).uniq.join(',')
+    @unique_recipients ||= begin
+      if emails_from_config
+        emails_from_config
+      else
+        recipients = [committer_email, author_email, repository.owner_email]
+        recipients.select(&:present?).join(',').split(',').map(&:strip).uniq.join(',')
+      end
     end
   end
 
   protected
 
     def notifications_enabled?
-      if self.config
-        if self.config['email']
-          !!self.config['email']
-        elsif self.config['notifications'] && config['notifications']['disabled']
-          !config['notifications']['disabled']
+      if self.config && notifications = self.config['notifications']
+        if !notifications['email'].nil?
+          notifications['email']
+        elsif notifications['disabled']
+          !notifications['disabled']
+        elsif notifications['disable']
+          !notifications['disable']
         else
           true
         end
       else
         true
+      end
+    end
+
+    def emails_from_config
+      @config_emails = begin
+        if config && notifications = config['notifications']
+          emails = notifications['email'] || notifications['recipients']
+          emails ? emails : nil
+        end
       end
     end
 
