@@ -172,7 +172,7 @@ class BuildTest < ActiveSupport::TestCase
     build.append_log!(line2)
     assert_equal build.log, line1 + line2
 
-    line3 = "$ bundle install --path vendor/bundle\n"
+    line3 = "$ bundle install --pa"
     build.append_log!(line3)
     assert_equal build.log, line1 + line2 + line3
   end
