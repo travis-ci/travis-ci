@@ -51,7 +51,8 @@ class BuildsController < ApplicationController
   end
 
   def log
-    build = Build.find(params[:id])
+    build = Build.find(params[:id], :select => "id, repository_id, parent_id", :include => [:repository])
+
     build.append_log!(params[:build][:log]) unless build.finished?
     trigger('build:log', build, 'build' => { '_log' => params[:build][:log] }, 'msg_id' => params[:msg_id])
     render :nothing => true
