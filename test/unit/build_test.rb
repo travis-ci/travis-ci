@@ -159,6 +159,24 @@ class BuildTest < ActiveSupport::TestCase
     assert_equal june, repository.last_build_finished_at
   end
 
+  test "appends streamed build log chunks" do
+    build = Factory(:build, :repository => @repository)
+    assert build.log.blank?
+
+    line1 = "$ git clone --depth=1000 --quiet git://github.com/intridea/omniauth.git ~/builds/intridea/omniauth\n"
+    build.append_log!(line1)
+    assert !build.log.blank?
+    assert_equal build.log, line1
+
+    line2 = "$ git checkout -qf 662af2708525b776aac580b10cc903ba66050e06\n"
+    build.append_log!(line2)
+    assert_equal build.log, line1 + line2
+
+    line3 = "$ bundle install --path vendor/bundle\n"
+    build.append_log!(line3)
+    assert_equal build.log, line1 + line2 + line3
+  end
+
   protected
 
     def assert_contains_recipients(actual, expected)
