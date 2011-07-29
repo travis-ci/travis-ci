@@ -148,11 +148,26 @@ class Build < ActiveRecord::Base
     :'build:configured' => all_attrs - [:status, :log, :finished_at],
     :'build:log'        => [:id, :parent_id],
     :'build:finished'   => [:id, :parent_id, :status, :finished_at],
+    :webhook            => [:id, :build_log_url, :number, :commit, :branch, :message, :started_at, :finished_at,
+      :committed_at, :committer_name, :committer_email, :author_name, :author_email, :compare_url]
+  }
+
+  JSON_MERGE = {
+    :webhook            => lambda {|build| {
+      :repository => {
+        :id => build.repository.id,
+        :name => build.repository.name,
+        :owner_name => build.repository.owner_name
+      },
+      :github_url => build.repository.url,
+      :status => build.status_message
+    }}
   }
 
   def as_json(options = nil)
     options ||= {}
     json = super(:only => JSON_ATTRS[options[:for] || :default])
+    json.merge!(JSON_MERGE[options[:for]].call(self)) if JSON_MERGE[options[:for]]
     json.merge!('matrix' => matrix.as_json(:for => options[:for])) if matrix?
     json.compact
   end
@@ -175,6 +190,10 @@ class Build < ActiveRecord::Base
         recipients.select(&:present?).join(',').split(',').map(&:strip).uniq.join(',')
       end
     end
+  end
+
+  def build_log_url
+    "http://travis-ci.org/#{repository.owner_name}/#{repository.name}/builds/#{id}"
   end
 
   protected

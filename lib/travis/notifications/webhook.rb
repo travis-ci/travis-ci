@@ -13,7 +13,7 @@ module Travis
         webhooks = Array(build.config['notifications']['webhooks']).reject { |wh| wh.blank? }
         webhooks.each do |webhook|
           http_adapter.post webhook do |req|
-            req.body = { :payload => build.to_json }
+            req.body = { :payload => build.to_json(:for => :webhook) }
             req.headers['Authorization'] = authorization(build)
           end
         end
