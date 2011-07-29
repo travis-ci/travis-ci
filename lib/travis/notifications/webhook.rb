@@ -14,6 +14,7 @@ module Travis
         webhooks.each do |webhook|
           http_adapter.post webhook do |req|
             req.body = { :payload => build.to_json }
+            req.headers['Authorization'] = authorization(build)
           end
         end
       end
@@ -23,6 +24,10 @@ module Travis
           b.request :url_encoded
           b.adapter :net_http
         end
+      end
+
+      def authorization(build)
+        Digest::SHA2.hexdigest(build.repository.name + build.repository.owner_name + build.token)
       end
 
     end
