@@ -61,7 +61,16 @@ class BuildsController < ApplicationController
   protected
 
     def enqueue!(build)
-      Travis::Worker.class_eval { @queue = build.repository.name == 'rails' ? 'rails' : 'builds' } # FIXME OH SHI~
+      # FIXME OH SHI~
+      Travis::Worker.class_eval do
+        @queue = if build.repository.name == 'rails'
+          'rails'
+        elsif build.repository.name == 'proper'
+          'erlang'
+        else
+          'builds'
+        end
+      end
       Resque.enqueue(Travis::Worker, json_for(:job, build))
       trigger('build:queued', build)
     end
