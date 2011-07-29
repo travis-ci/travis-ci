@@ -78,6 +78,14 @@ class Repository < ActiveRecord::Base
         end
       end
     end
+
+    def find_by_params(params)
+      if params[:id]
+        self.find(params[:id])
+      else
+        self.where(params.slice(:name, :owner_name)).first
+      end
+    end
   end
 
   def human_status(branches="")

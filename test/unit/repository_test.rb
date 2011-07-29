@@ -144,6 +144,16 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     end
   end
 
+  test "find_by_params should find a repository by it's id" do
+    repository = Factory.create(:repository)
+    assert_equal Repository.find_by_params(:id => repository.id), repository
+  end
+
+  test "find_by_params should find a repository by it's name and owner_name" do
+    repository = Factory.create(:repository)
+    assert_equal Repository.find_by_params(:name => repository.name, :owner_name => repository.owner_name), repository
+  end
+
   test '.timeline sorts the most repository with the most recent build to the top' do
     repositories = Repository.timeline.all
     assert_equal repository_2, repositories.first
