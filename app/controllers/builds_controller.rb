@@ -21,7 +21,7 @@ class BuildsController < ApplicationController
   end
 
   def create
-    if build = Build.create_from_github_payload(params[:payload])
+    if build = Build.create_from_github_payload(params[:payload], api_token)
       build.save!
       enqueue!(build)
       build.repository.update_attributes!(:last_build_started_at => Time.now) # TODO the build isn't actually started now
@@ -77,5 +77,10 @@ class BuildsController < ApplicationController
 
     def push(event, data)
       Pusher[event == 'build:queued' ? 'jobs' : 'repositories'].trigger(event, data)
+    end
+
+    def api_token
+      credentials = ActionController::HttpAuthentication::Basic.decode_credentials(request)
+      credentials.split(':').last
     end
 end
