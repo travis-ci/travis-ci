@@ -29,7 +29,7 @@ gem 'rabl',              '~> 0.3.0'
 gem 'jruby-openssl',     :platforms => :jruby
 
 
-gem 'newrelic_rpm',         '~> 3.1.0'
+gem 'newrelic_rpm',      '~> 3.1.0'
 
 
 group :test do
