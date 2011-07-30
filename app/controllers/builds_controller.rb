@@ -1,4 +1,4 @@
-require 'travis/notifications'
+require 'travis'
 
 class BuildsController < ApplicationController
   respond_to :json
@@ -61,17 +61,7 @@ class BuildsController < ApplicationController
   protected
 
     def enqueue!(build)
-      # FIXME OH SHI~
-      Travis::Worker.class_eval do
-        @queue = if build.repository.name == 'rails'
-          'rails'
-        elsif build.repository.name == 'proper'
-          'erlang'
-        else
-          'builds'
-        end
-      end
-      Resque.enqueue(Travis::Worker, json_for(:job, build))
+      Travis::Worker.enqueue(build)
       trigger('build:queued', build)
     end
 
