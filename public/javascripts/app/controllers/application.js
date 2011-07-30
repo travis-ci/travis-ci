@@ -43,7 +43,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.bind('build:configured', this.buildConfigured);
     this.bind('build:log',        this.buildLogged);
     this.bind('build:queued',     this.buildQueued);
-    this.bind('build:removed',    this.buildRemoved);
+    this.bind('build:removed',    this.buildRemoved); /* UNTESTED */
 
     this.workers.fetch();
     this.jobs.fetch();
@@ -133,10 +133,10 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   // external events
 
   buildQueued: function(data) {
-    this.addBuild(data);
+    this.addJob(data);
   },
   buildStarted: function(data) {
-    this.removeBuild(data);
+    this.removeJob(data);
     this.repositories.update(data);
 
     if((this.followBuilds || this.tab == 'current' && this.repositories.selected().get('slug') == data.slug) && !this.buildId && !data.build.parent_id) {
@@ -146,14 +146,14 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }
   },
   buildConfigured: function(data) {
-    this.removeBuild(data);
+    this.removeJob(data);
     this.repositories.update(data);
   },
   buildFinished: function(data) {
     this.repositories.update(data);
   },
   buildRemoved: function(data) {
-    this.removeBuild(data);
+    this.removeJob(data);
   },
   buildLogged: function(data) {
     this.repositories.update(data);
@@ -163,10 +163,10 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.repositoryShow.activateTab(this.tab);
   },
   addJob: function(data) {
-    this.jobsCollection().add({ number: data.build.number, id: data.build.id, repository: { slug: data.slug } });
+    this.jobsCollection(data).add({ number: data.build.number, id: data.build.id, repository: { slug: data.slug } });
   },
   removeJob: function(data) {
-    this.jobsCollection().remove({ id: data.build.id });
+    this.jobsCollection(data).remove({ id: data.build.id });
   },
   jobsCollection: function(data) {
     return this.buildingRails(data) ? this.jobsRails : this.jobs;

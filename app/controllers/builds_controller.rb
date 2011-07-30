@@ -43,6 +43,7 @@ class BuildsController < ApplicationController
       enqueue!(build)
       trigger('build:configured', build, 'msg_id' => params[:msg_id])
     elsif !build.build?
+      build.destroy
       trigger('build:removed', build, 'msg_id' => params[:msg_id])
     elsif build.was_finished?
       trigger('build:finished', build, 'msg_id' => params[:msg_id])
