@@ -133,10 +133,10 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   // external events
 
   buildQueued: function(data) {
-    this.addBuild(data);
+    this.addJob(data);
   },
   buildStarted: function(data) {
-    this.removeBuild(data);
+    this.removeJob(data);
     this.repositories.update(data);
 
     if((this.followBuilds || this.tab == 'current' && this.repositories.selected().get('slug') == data.slug) && !this.buildId && !data.build.parent_id) {
@@ -146,14 +146,14 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }
   },
   buildConfigured: function(data) {
-    this.removeBuild(data);
+    this.removeJob(data);
     this.repositories.update(data);
   },
   buildFinished: function(data) {
     this.repositories.update(data);
   },
   buildRemoved: function(data) {
-    this.removeBuild(data);
+    this.removeJob(data);
   },
   buildLogged: function(data) {
     this.repositories.update(data);
