@@ -7,7 +7,6 @@ class Repository < ActiveRecord::Base
   has_many :builds, :conditions => 'parent_id IS null', :dependent => :delete_all
 
   has_one :last_build,          :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND started_at IS NOT NULL'
-  has_one :last_finished_build, :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND finished_at IS NOT NULL'
   has_one :last_success,        :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND status = 0'
   has_one :last_failure,        :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND status = 1'
 
@@ -30,8 +29,9 @@ class Repository < ActiveRecord::Base
     end
 
     def human_status_by(attributes)
+      branch = attributes.delete(:branch)
       repository = where(attributes).first
-      return repository.nil? ? "unknown" : repository.human_status
+      repository ? repository.human_status(branch) : "unknown"
     end
 
     def search(query)
@@ -78,11 +78,19 @@ class Repository < ActiveRecord::Base
         end
       end
     end
+
+    def find_by_params(params)
+      if params[:id]
+        self.find(params[:id])
+      else
+        self.where(params.slice(:name, :owner_name)).first
+      end
+    end
   end
 
-  def human_status
-    return 'unknown' unless last_finished_build
-    last_finished_build.status == 0 ? 'stable' : 'unstable'
+  def human_status(branches="")
+    return 'unknown' unless last_finished_build(branches)
+    last_finished_build(branches).status == 0 ? 'stable' : 'unstable'
   end
 
 
@@ -90,19 +98,31 @@ class Repository < ActiveRecord::Base
     @slug ||= [owner_name, name].join('/')
   end
 
+  def last_finished_build(branches="")
+    branches = branches.split(',') if branches.is_a?(String)
+    branches = [] if branches.nil?
+
+    builds.
+      where('parent_id IS NULL AND finished_at IS NOT NULL').
+      where(branches.empty? ? [] : ['branch IN (?)', branches]).
+      order('id DESC').first
+  end
+
   base_attrs       = [:id]
   last_build_attrs = [:last_build_id, :last_build_number, :last_build_status, :last_build_started_at, :last_build_finished_at]
   all_attrs        = base_attrs + last_build_attrs
 
   JSON_ATTRS = {
-    :default            => all_attrs,
-    :job                => base_attrs,
-    :'build:queued'     => base_attrs,
-    :'build:log'        => [:id]
+    :default         => all_attrs,
+    :job             => base_attrs,
+    :'build:queued'  => base_attrs,
+    :'build:log'     => [:id],
+    :webhook         => [:id, :name, :owner_name]
   }
   JSON_METHODS = {
-    :default            => [:slug],
-    :'build:log'        => []
+    :default         => [:slug],
+    :'build:log'     => [],
+    :webhook         => []
   }
 
   def as_json(options = nil)

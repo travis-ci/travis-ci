@@ -2,12 +2,12 @@
 //
 Travis.Views.Base.List = Backbone.View.extend({
   initialize: function(args) {
-    _.bindAll(this, 'element', 'render', 'attached', 'detach', 'elementAdded', 'elementRemoved', 'collectionRefreshed');
+    _.bindAll(this, 'element', 'render', '_renderItem', 'attached', 'detach', 'elementAdded', 'elementRemoved', 'collectionRefreshed');
 
     this.selectors = _.extend({
       element: '#' + this.name,
-      list: '#' + this.name + ' ul',
-      item: '#' + this.name + ' #' +this.name.replace(/s$/, '') + '_'
+      list:    '#' + this.name + ' ul',
+      item:    '#' + this.name + ' #' +this.name.replace(/s$/, '') + '_'
     }, this.selectors || {});
 
     this.templates = _.extend({
@@ -66,9 +66,29 @@ Travis.Views.Base.List = Backbone.View.extend({
   _renderItem: function(item) {
     $('.empty', this.selectors.list).before($(this.templates.item(item.toJSON())));
   },
+  itemsMatch: function() { /* Should be defined in derived class */ },
   _renderItems: function() {
     $('*:not(.empty)', this.selectors.list).remove();
-    _.each(this.collection.models, this._renderItem.bind(this));
+    _.each(this.collection.models, function(item) {
+      item.el = $(this.templates.item(item.toJSON()))
+
+      if (this.previousItem) {
+        if (this.itemsMatch(item)) {
+          if (!_.any(this.previousItem.el.find("ul"))) {
+            this.previousItem.el.append("<ul class='nested'></ul>")
+          }
+          this.previousItem.el.find("ul").append(item.el)
+        } else {
+          this.previousItem = undefined
+        }
+      }
+
+      if (this.previousItem === undefined) {
+        this.previousItem = item;
+        $('.empty', this.selectors.list).before(item.el);
+      }
+
+    }.bind(this));
     this.element().removeClass('loading');
   },
 });

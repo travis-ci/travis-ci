@@ -31,8 +31,8 @@ var Deansi = {
     return string;
   },
   replace_escapes: function(string) {
-    string = string.replace(String.fromCharCode(27) + '(B', '');
-    return string.replace(String.fromCharCode(27), '');
+    string = string.replace(new RegExp(String.fromCharCode(27) + "\\(B", 'gm'), '')
+    return string.replace(new RegExp(String.fromCharCode(27), 'gm'), '');
   },
   replace_styles: function(string) {
     var pattern = /\[(?:0;)?((?:1|4|30|31|32|33|34|35|36|37|90|40|41|42|43|44|45|46|47|;)+)m(.*?)(?=\[[\d;]*m|$)/gm;

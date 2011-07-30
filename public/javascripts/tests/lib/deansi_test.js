@@ -29,12 +29,12 @@ describe('Deansi', function() {
       { ansi: "[42;37;1m", class: 'bg-green white bold' },
     ];
 
-    it('removes all occurances of \e(B', function() {
-      expect(deansi(String.fromCharCode(27) + '(Bfoo')).toEqual('foo');
+    it('removes all occurrences of \e(B', function() {
+      expect(deansi(String.fromCharCode(27) + '(Bfoo' + String.fromCharCode(27) + '(Bbar')).toEqual('foobar');
     });
 
-    it('removes all occurances of \e', function() {
-      expect(deansi(String.fromCharCode(27) + 'foo')).toEqual('foo');
+    it('removes all occurrences of \e', function() {
+      expect(deansi(String.fromCharCode(27) + 'foo' + String.fromCharCode(27) + 'bar')).toEqual('foobar');
     });
 
     it('replaces ANSI escape sequences having no closing sequence with a span having the respective css classes', function() {

@@ -1,3 +1,5 @@
+require 'travis'
+
 class BuildsController < ApplicationController
   respond_to :json
 
@@ -9,7 +11,7 @@ class BuildsController < ApplicationController
   def index
     repository = Repository.find(params[:repository_id])
 
-    respond_with(repository.builds.recent_build_list)
+    respond_with(repository.builds.recent((params[:page] || 1).to_i))
   end
 
   def show
@@ -19,7 +21,7 @@ class BuildsController < ApplicationController
   end
 
   def create
-    if build = Build.create_from_github_payload(params[:payload])
+    if build = Build.create_from_github_payload(params[:payload], api_token)
       build.save!
       enqueue!(build)
       build.repository.update_attributes!(:last_build_started_at => Time.now) # TODO the build isn't actually started now
@@ -37,19 +39,22 @@ class BuildsController < ApplicationController
     elsif build.matrix_expanded?
       build.matrix.each { |child| enqueue!(child) }
       trigger('build:configured', build, 'msg_id' => params[:msg_id])
-    elsif build.was_configured?
+    elsif build.was_configured? && build.build?
       enqueue!(build)
       trigger('build:configured', build, 'msg_id' => params[:msg_id])
+    elsif !build.build?
+      trigger('build:removed', build, 'msg_id' => params[:msg_id])
     elsif build.was_finished?
       trigger('build:finished', build, 'msg_id' => params[:msg_id])
-      deliver_finished_email(build)
+      Travis::Notifications.send_notifications(build)
     end
 
     render :nothing => true
   end
 
   def log
-    build = Build.find(params[:id])
+    build = Build.find(params[:id], :select => "id, repository_id, parent_id", :include => [:repository])
+
     build.append_log!(params[:build][:log]) unless build.finished?
     trigger('build:log', build, 'build' => { '_log' => params[:build][:log] }, 'msg_id' => params[:msg_id])
     render :nothing => true
@@ -58,15 +63,8 @@ class BuildsController < ApplicationController
   protected
 
     def enqueue!(build)
-      Travis::Worker.class_eval { @queue = build.repository.name == 'rails' ? 'rails' : 'builds' } # FIXME OH SHI~
-      Resque.enqueue(Travis::Worker, json_for(:job, build))
-      trigger('build:queued', build)
-    end
-
-    def deliver_finished_email(build)
-      BuildMailer.finished_email(build.parent || build).deliver if build.send_notifications?
-    rescue Net::SMTPError => e
-      # TODO might want to log this event. e.g. happens when people specify bad email addresses like "foo[at]bar[dot]com"
+      job_info = Travis::Worker.enqueue(build)
+      trigger('build:queued', build, job_info.slice('queue'))
     end
 
     def trigger(event, build, data = {})
@@ -80,5 +78,10 @@ class BuildsController < ApplicationController
 
     def push(event, data)
       Pusher[event == 'build:queued' ? 'jobs' : 'repositories'].trigger(event, data)
+    end
+
+    def api_token
+      credentials = ActionController::HttpAuthentication::Basic.decode_credentials(request)
+      credentials.split(':').last
     end
 end

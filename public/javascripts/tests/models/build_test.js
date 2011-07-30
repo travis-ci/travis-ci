@@ -11,6 +11,21 @@ describe('Builds', function() {
     stopApp();
   });
 
+  describe('comparator', function() {
+    it('should convert number', function() {
+      var builds = new Travis.Collections.Builds()
+      for(var i = 1; i < 25; i++ ) {
+        builds.add({ number: "125." + i.toString()})
+      }
+
+      var down_counter = 24;
+
+      for(var i = 0; i < 24; i++) {
+        expect(builds.at(i).get('number')).toEqual("125." + down_counter.toString())
+        down_counter--;
+      }
+    })
+  });
   describe('getOrFetch given a child build id', function() {
     it('works', function() {
       var builds = Travis.app.repositories.get(1).builds;

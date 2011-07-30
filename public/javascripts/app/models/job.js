@@ -4,8 +4,13 @@ Travis.Models.Job = Backbone.Model.extend({
 });
 
 Travis.Collections.Jobs = Backbone.Collection.extend({
+  initialize: function(elements, args) {
+    this.queue = args.queue || 'builds'
+  },
+  url: function() {
+    return this.queue ? '/jobs?queue=' + this.queue : '/jobs';
+  },
   model: Travis.Models.Job,
-  url: '/jobs',
   remove: function(element) {
     Backbone.Collection.prototype.remove.apply(this, [this.get(element.id)]);
   },

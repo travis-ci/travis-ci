@@ -5,6 +5,7 @@ Travis.Views.Build.History.Table = Backbone.View.extend({
     this.template = Travis.templates['build/history/table'];
 
     this.render();
+
     if(this.repository) {
       this.attachTo(this.repository);
     }
@@ -30,7 +31,6 @@ Travis.Views.Build.History.Table = Backbone.View.extend({
     this.builds.bind('refresh', this.collectionRefreshed);
     this.builds.bind('add', this.buildAdded);
 
-    this._update();
     this.updateTab();
   },
   collectionRefreshed: function() {
@@ -43,6 +43,14 @@ Travis.Views.Build.History.Table = Backbone.View.extend({
     this.el.find('tbody').empty();
     if(this.builds) this.builds.each(this._prependRow);
     if(this.parent && this.repository) this.parent.updateTab();
+
+    this.loadMore = $("<tr class='load_more' colspan=''><td>Load More...</td></tr>")
+    this.el.find('tbody').append(this.loadMore)
+    this.loadMore.click(function(){
+      this.repository.builds.page(this.repository.builds.page() + 1)
+      this.repository.builds.fetch()
+    }.bind(this))
+
   },
   _prependRow: function(build) {
     if(!build.get('parent_id')) {

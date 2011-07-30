@@ -1,5 +1,5 @@
-<div id="jobs" class="list">
-  <h4>Queue</h4>
+<div id="jobs" class="list queue-{{queue}}">
+  <h4>Queue: {{queue_display}}</h4>
   <ul>
     <li class="empty">no jobs</li>
   </ul>

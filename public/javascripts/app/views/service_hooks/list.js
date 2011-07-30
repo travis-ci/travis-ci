@@ -6,7 +6,7 @@ Travis.Views.ServiceHooks.List = Backbone.View.extend({
   },
   initialize: function() {
     _.bindAll(this, 'render', 'renderItem');
-    this.template = Travis.templates['repositories/my']
+    this.template = Travis.templates['repositories/service_hooks']
     this.collection.fetch({ success: this.render })
   },
   render: function() {

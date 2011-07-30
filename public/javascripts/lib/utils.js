@@ -42,26 +42,28 @@ Utils = {
     }
   },
   filterLog: function(string) {
-    // string = Handlebars.Utils.escapeExpression(string);
     string = Utils.stripPaths(string);
-    string = Utils.escapeRuby(string);
+    string = Utils.escapeHtml(string);
     string = Utils.foldLog(string);
     string = Deansi.parse(string);
-    string = Utils.breakLines(string);
+    string = Utils.numberLines(string);
     return string;
   },
   stripPaths: function(string) {
     return string.replace(/\/tmp\/travis\/builds(\/[^\/\n]+){2}\//g, '');
   },
+  escapeHtml: function(string) {
+    return Handlebars.Utils.escapeExpression(string);
+  },
   escapeRuby: function(string) {
     return string.replace(/#<(\w+.*?)>/, '#&lt;$1&gt;');
   },
-  breakLines: function(string) {
+  numberLines: function(string) {
     var newstring = "";
     var counter = 0;
     _.each(string.split('\n'), function (line) {
       counter++;
-      newstring += "<p class='line' name='line" + counter + "'><a class='linum'>" + counter+ "</a>" + line + "</p>"
+      newstring += "<p class='line'><a class='linum' name='line" + counter + "'>" + counter+ "</a>" + line + "</p>"
     })
     return newstring;
   },
@@ -78,7 +80,6 @@ Utils = {
     _.each(folds, function(fold, type) {
       string = string.replace(fold, function() { return arguments[1] + '<div class="fold ' + type + '">\n' + arguments[2].trim() + '</div>\n'; });
     });
-    string = string.replace(/([\.-_*SEF]{120})\n?/g, '$1\n')
     return string;
   },
   unfoldLog: function(string) {
@@ -114,7 +115,29 @@ Utils = {
         var url = 'http://github.com/' + repository.get('slug');
         element.find('.watchers').attr('href', url + '/watchers').text(data.repository.watchers);
         element.find('.forks').attr('href', url + '/network').text(data.repository.forks);
+        element.find('.github-admin').attr('href', url + '/admin/hooks#travis_minibucket');
       });
+    }
+  }
+}
+
+Utils.PathHelpers = {
+  repositoryPath: function(owner, name, line_number) {
+    if (line_number) {
+      // #!/:owner/:name/L:line_number
+      return "#!/" + owner + "/" + name + "/L" + line_number
+    } else {
+      // #!/:owner/:name
+      return path = "#!/" + owner + "/" + name
+    }
+  },
+  repositoryBuildPath: function(owner, name, build_id, line_number) {
+    if (line_number) {
+      //#!/:owner/:name/builds/:id/L:line_number
+      return "#!/" + owner + "/" + name + "/builds/" + build_id +"/L" + line_number
+    } else {
+      //#!/:owner/:name/builds
+      return "#!/" + owner + "/" + name + "/builds/" + build_id
     }
   }
 }

@@ -54,10 +54,16 @@ Travis.Collections.Base = Backbone.Collection.extend({
   },
   getOrFetchLastBy: function(options, callback) {
     var element = this.getBy(options);
+
     if(element) {
       callback(element);
     } else {
-      this.fetch({ success: function(collection) { callback(this.getBy(options)) }.bind(this) });
+      var model = new Travis.Models.Repository(options, { collection: this });
+      model.fetch({ success: function(model) {
+        callback(model);
+        this.add(model, { silent: true })
+        model.collection.trigger('select', model)
+      }.bind(this) });
     }
   },
   getBy: function(options) {
@@ -69,6 +75,7 @@ Travis.Collections.Base = Backbone.Collection.extend({
     var element = this.get(id);
     if(element) {
       callback(element);
+      this.trigger('finish_get_or_fetch');
     } else {
       var model = new this.model({ id: id, collection: this });
       model.fetch({
@@ -82,6 +89,7 @@ Travis.Collections.Base = Backbone.Collection.extend({
             this.add(model, { silent: true });
             callback(model);
           }
+          this.trigger('finish_get_or_fetch');
         }.bind(this),
         error: function() {
           // console.log('could not retrieve model:')

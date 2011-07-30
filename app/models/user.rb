@@ -8,31 +8,39 @@ class User < ActiveRecord::Base
   after_create :create_a_token
 
   class << self
-    def find_for_github_oauth(user_hash)
-      user_details = user_data_from_github_data(user_hash)
+    def find_or_create_for_oauth(payload)
+      user_details = user_data_from_oauth(payload)
 
       if user = User.find_by_github_id(user_details['github_id'])
         user.update_attributes(user_details)
+        user.recently_signed_up = false
         user
       else
-        create!(user_details)
+        create!(user_details).tap do |user|
+          user.recently_signed_up = true
+        end
       end
     end
 
-    def user_data_from_github_data(user_hash)
-      user_info = user_hash['user_info']
+    def user_data_from_oauth(payload)
+      user = payload['user_info']
       {
-        'name'  => user_info['name'],
-        'email' => user_info['email'],
-        'login' => user_info['nickname'],
-        'github_id' => user_hash['uid'],
-        'github_oauth_token' => user_hash['credentials']['token']
+        'name'  => user['name'],
+        'email' => user['email'],
+        'login' => user['nickname'],
+        'github_id' => payload['uid'],
+        'github_oauth_token' => payload['credentials']['token']
       }
     end
   end
 
   def profile_image_hash
     self.email? ? Digest::MD5.hexdigest(self.email) : '00000000000000000000000000000000'
+  end
+
+  attr_accessor :recently_signed_up
+  def recently_signed_up?
+    !!@recently_signed_up
   end
 
   private

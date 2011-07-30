@@ -16,6 +16,7 @@ Factory.define :build do |f|
   f.message 'the commit message'
   f.committer_name 'Sven Fuchs'
   f.committer_email 'svenfuchs@artweb-design.de'
+  f.token 'abcd'
 end
 
 Factory.define :running_build, :parent => :build do |f|

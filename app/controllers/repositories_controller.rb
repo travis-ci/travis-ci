@@ -4,13 +4,13 @@ class RepositoriesController < ApplicationController
   def index
     @repositories = repositories
 
-    respond_with(repositories)
+    respond_with(@repositories)
   end
 
   def show
     @repository = repository
 
-    respond_with(repository) do |format|
+    respond_with(@repository) do |format|
       format.png { send_status_image_file }
     end
   end
@@ -18,7 +18,7 @@ class RepositoriesController < ApplicationController
   protected
 
     def repository
-      Repository.where(:name => params[:name], :owner_name => params[:owner_name]).first
+      @repository ||= Repository.find_by_params(params)
     end
 
     def repositories
@@ -32,7 +32,7 @@ class RepositoriesController < ApplicationController
     end
 
     def send_status_image_file
-      status = Repository.human_status_by(params.slice(:owner_name, :name))
+      status = Repository.human_status_by(params.slice(:owner_name, :name, :branch))
       path   = "#{Rails.public_path}/images/status/#{status}.png"
 
       response.headers["Expires"] = CGI.rfc1123_date(Time.now)

@@ -26,24 +26,14 @@
   </head>
 
   <body id="<%= body_id %>">
-    <div id="top">
-      <h1>Travis</h1>
-
-      <ul id="navigation">
-        <%= top_bar_menu_item('Home', root_path) %>
-        <%= top_bar_menu_item('Stats', stats_path) %>
-        <%= top_bar_menu_item('About', '#', :class => "tool-tip", :title => "Coming Soon!") %>
-      </ul>
-
-      <%= render 'layouts/user_profile' %>
-
-      <a id="github_ribbon" class="ribbon" href="http://github.com/travis-ci/travis-ci" title="Fork me on GitHub">Fork me on Github</a>
-    </div>
+    <%= render 'layouts/top' %>
 
     <div id="flash-messages"></div>
 
     <div id="main">
       <%= yield %>
     </div>
+
+    <%= render 'layouts/gauges' %>
   </body>
 </html>
