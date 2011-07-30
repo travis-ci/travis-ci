@@ -43,7 +43,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.bind('build:configured', this.buildConfigured);
     this.bind('build:log',        this.buildLogged);
     this.bind('build:queued',     this.buildQueued);
-    this.bind('build:removed',    this.buildRemoved);
+    this.bind('build:removed',    this.buildRemoved); /* UNTESTED */
 
     this.workers.fetch();
     this.jobs.fetch();
