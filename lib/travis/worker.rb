@@ -21,7 +21,10 @@ module Travis
       # Enqueues the job with Resque
       def enqueue(build)
         worker = worker_for(build)
-        Resque.enqueue(worker, Travis::Utils.json_for(:job, build))
+        job_info = Travis::Utils.json_for(:job, build)
+        job_info.merge!(:queue => worker.queue)
+        Resque.enqueue(worker, job_info)
+        job_info
       end
 
       def queues
