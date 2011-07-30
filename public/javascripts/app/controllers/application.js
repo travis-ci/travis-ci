@@ -12,7 +12,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   },
   initialize: function() {
     _.bindAll(this, 'recent', 'byUser', 'repository', 'repositoryHistory', 'repositoryBuild', 'repositoryShow', 'repositorySelected',
-              'buildQueued', 'buildStarted', 'buildLogged', 'buildFinished');
+              'buildQueued', 'buildStarted', 'buildLogged', 'buildFinished', 'buildRemoved');
   },
 
   run: function() {
@@ -43,6 +43,8 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.bind('build:configured', this.buildConfigured);
     this.bind('build:log',        this.buildLogged);
     this.bind('build:queued',     this.buildQueued);
+    this.bind('build:removed',    this.buildRemoved);
+
     this.workers.fetch();
     this.jobs.fetch();
     this.jobsRails.fetch();
@@ -131,14 +133,12 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   // external events
 
   buildQueued: function(data) {
-    var collection = this.buildingRails(data) ? this.jobsRails : this.jobs;
-    collection.add({ number: data.build.number, id: data.build.id, repository: { slug: data.slug } });
+    this.addBuild(data);
   },
   buildStarted: function(data) {
-    var collection = this.buildingRails(data) ? this.jobsRails : this.jobs;
-    collection.remove({ id: data.build.matrix ? data.build.matrix[0].id : data.build.id });
-
+    this.removeBuild(data);
     this.repositories.update(data);
+
     if((this.followBuilds || this.tab == 'current' && this.repositories.selected().get('slug') == data.slug) && !this.buildId && !data.build.parent_id) {
       var repository = this.repositories.get(data.id);
       if(!repository.selected) repository.select();
@@ -146,22 +146,33 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }
   },
   buildConfigured: function(data) {
-    var collection = this.buildingRails(data) ? this.jobsRails : this.jobs;
-    collection.remove({ id: data.build.id });
+    this.removeBuild(data);
     this.repositories.update(data);
-  },
-  buildingRails: function (data) {
-    return data.slug && data.slug.match(/rails/);
   },
   buildFinished: function(data) {
     this.repositories.update(data);
+  },
+  buildRemoved: function(data) {
+    this.removeBuild(data);
   },
   buildLogged: function(data) {
     this.repositories.update(data);
   },
   selectTab: function(tab) {
-    this.tab = tab
+    this.tab = tab;
     this.repositoryShow.activateTab(this.tab);
   },
+  addJob: function(data) {
+    this.jobsCollection().add({ number: data.build.number, id: data.build.id, repository: { slug: data.slug } });
+  },
+  removeJob: function(data) {
+    this.jobsCollection().remove({ id: data.build.id });
+  },
+  jobsCollection: function(data) {
+    return this.buildingRails(data) ? this.jobsRails : this.jobs;
+  },
+  buildingRails: function (data) {
+    return data.slug && data.slug.match(/rails/);
+  }
 });
 
