@@ -9,7 +9,7 @@
 #       'slug' => 'rails/rails', 'queue' => 'rails'
 #     },
 #     {
-#       'language' => 'erlang', 'queue' => 'erlang'
+#       'target' => 'erlang', 'queue' => 'erlang'
 #     }
 #   ]
 # }
@@ -36,9 +36,9 @@ module Travis
       end
 
       def use_queue?(build, queue_details)
-        slug, language = queue_details['slug'], queue_details['language']
+        slug, language = queue_details['slug'], queue_details['target']
 
-        (build.repository.slug == slug) || (build.config && build.config['language'] == language)
+        (build.repository.slug == slug) || (build.config && build.config['target'] == language)
       end
 
       def to_s

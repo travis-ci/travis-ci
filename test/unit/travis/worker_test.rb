@@ -16,7 +16,7 @@ class TravisWorkerTest < ActiveSupport::TestCase
     @queues_hash = {
       'queues' => [
         { 'slug' => 'rails/rails', 'queue' => 'rails' },
-        { 'language' => 'erlang', 'queue' => 'erlang' }
+        { 'target' => 'erlang', 'queue' => 'erlang' }
       ]
     }
 
@@ -38,21 +38,21 @@ class TravisWorkerTest < ActiveSupport::TestCase
     assert Travis::Worker.const_defined?('Erlang')
   end
 
-  test "#use_queue? : returns false when neither slug or language match" do
-    assert !Travis::Worker.use_queue?(@build, { 'slug' => 'bob/bob', 'language' => 'bobkell' })
+  test "#use_queue? : returns false when neither slug or target match" do
+    assert !Travis::Worker.use_queue?(@build, { 'slug' => 'bob/bob', 'target' => 'bobkell' })
   end
 
   test "#use_queue? : returns true when slug matches" do
     @repository.owner_name = @repository.name = 'bob'
 
-    assert Travis::Worker.use_queue?(@build, { 'slug' => 'bob/bob', 'language' => 'bobkell' })
+    assert Travis::Worker.use_queue?(@build, { 'slug' => 'bob/bob', 'target' => 'bobkell' })
   end
 
-  test "#use_queue? : returns true when language matches" do
+  test "#use_queue? : returns true when target matches" do
     @build.config ||= {}
-    @build.config['language'] = 'bobkell'
+    @build.config['target'] = 'bobkell'
 
-    assert Travis::Worker.use_queue?(@build, { 'slug' => 'bob/bob', 'language' => 'bobkell' })
+    assert Travis::Worker.use_queue?(@build, { 'slug' => 'bob/bob', 'target' => 'bobkell' })
   end
 
   test "#worker_for : the default build queue is choosen" do
@@ -67,7 +67,7 @@ class TravisWorkerTest < ActiveSupport::TestCase
 
   test "#worker_for : the erlang build queue is choosen" do
     @build.config ||= {}
-    @build.config['language'] = 'erlang'
+    @build.config['target'] = 'erlang'
 
     assert_equal Travis::Worker::Erlang, Travis::Worker.worker_for(@build)
   end
