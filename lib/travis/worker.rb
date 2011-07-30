@@ -56,13 +56,14 @@ module Travis
       def setup_custom_queues
         queues.each do |queue_details|
           name = queue_details['queue']
-          next if Worker.constants.include?(name.capitalize.to_sym)
-          worker = Class.new(Worker) do
-            def self.queue
-              name.demodulize.underscore
+          unless Worker.const_defined?(name.capitalize)
+            worker = Class.new(Worker) do
+              def self.queue
+                name.demodulize.underscore
+              end
             end
+            Travis::Worker.const_set(name.capitalize, worker)
           end
-          Travis::Worker.const_set(name.capitalize, worker)
         end
       end
     end
