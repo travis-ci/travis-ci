@@ -118,25 +118,28 @@ class JsonTest < ActiveSupport::TestCase
   end
 
   test "as_json(:for => :webhook) includes everything required for the webhook" do
+    build.update_attributes(:compare_url => 'compare_url')
 
     expected = {
+      "id" => build.id,
+      :repository => {
+        "id" => build.repository.id,
+        "name" => "minimal",
+        "owner_name" => "svenfuchs"
+      },
+      "number" => "1",
       "branch" => "master",
       "commit" => '62aae5f70ceee39123ef',
+      "message" => "the commit message",
+      "status" => build.status,
+      :status_message => "Failed",
       "committed_at" =>  build.committed_at,
       "committer_email" => "svenfuchs@artweb-design.de",
       "committer_name" => "Sven Fuchs",
       "finished_at" => build.finished_at,
-      "id" => build.id,
-      "message" => "the commit message",
-      "number" => "1",
       "started_at" => build.started_at,
-      :repository => {
-        :id => build.repository.id,
-        :name => "minimal",
-        :owner_name => "svenfuchs"
-      },
       :github_url => "http://github.com/svenfuchs/minimal",
-      :status => "Failed"
+      'compare_url' => 'compare_url'
     }
     assert_equal_hashes expected, build.as_json(:for => :webhook)
   end

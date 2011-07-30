@@ -4,7 +4,7 @@ class BuildSourcesGithubTest < ActiveSupport::TestCase
   include TestHelpers::GithubApiTestHelper
 
   test 'creating a Build from Github payload' do
-    build = Build.create_from_github_payload(GITHUB_PAYLOADS['gem-release']).reload
+    build = Build.create_from_github_payload(GITHUB_PAYLOADS['gem-release'], 'abc').reload
 
     assert_equal '1', build.number
     assert_equal '9854592', build.commit
@@ -29,23 +29,23 @@ class BuildSourcesGithubTest < ActiveSupport::TestCase
 
   test 'a Github payload for a gh_pages branch does not create a build' do
     assert_difference('Build.count', 0) do
-      Build.create_from_github_payload(GITHUB_PAYLOADS['gh-pages-update'])
+      Build.create_from_github_payload(GITHUB_PAYLOADS['gh-pages-update'], 'abc')
     end
   end
 
   test 'a Github payload for a private repo does not create a build' do
     assert_difference('Build.count', 0) do
-      Build.create_from_github_payload(GITHUB_PAYLOADS['private-repo'])
+      Build.create_from_github_payload(GITHUB_PAYLOADS['private-repo'], 'abc')
     end
   end
 
   test 'a Github payload for a private repo returns falsea' do
-    assert_equal Build.create_from_github_payload(GITHUB_PAYLOADS['private-repo']) , false
+    assert_equal Build.create_from_github_payload(GITHUB_PAYLOADS['private-repo'], 'abc') , false
   end
 
   test 'a Github payload containing no commit information does not create a build' do
     assert_difference('Build.count', 0) do
-      Build.create_from_github_payload(GITHUB_PAYLOADS['force-no-commit'])
+      Build.create_from_github_payload(GITHUB_PAYLOADS['force-no-commit'], 'abc')
     end
   end
 end
