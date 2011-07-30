@@ -9,6 +9,7 @@ class Build
       :default            => all_attrs,
       :job                => [:id, :number, :commit, :config, :branch],
       :'build:queued'     => [:id, :number],
+      :'build:removed'    => [:id, :number],
       :'build:started'    => all_attrs - [:status, :log, :finished_at],
       :'build:configured' => all_attrs - [:status, :log, :finished_at],
       :'build:log'        => [:id, :parent_id],
@@ -19,7 +20,7 @@ class Build
 
     JSON_MERGE = {
       :webhook => lambda {|build| {
-        :repository => build.repository.as_json(:for => :webhook),
+        :repository => build.repository.as_json(:for => :webhook), # TODO the repository will also be included in the controller, already, see BuildsController#
         :github_url => build.repository.url, # TODO shouldn't this be part of the repository?
         :status_message => build.status_message
       } }

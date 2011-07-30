@@ -163,10 +163,10 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     this.repositoryShow.activateTab(this.tab);
   },
   addJob: function(data) {
-    this.jobsCollection().add({ number: data.build.number, id: data.build.id, repository: { slug: data.slug } });
+    this.jobsCollection(data).add({ number: data.build.number, id: data.build.id, repository: { slug: data.slug } });
   },
   removeJob: function(data) {
-    this.jobsCollection().remove({ id: data.build.id });
+    this.jobsCollection(data).remove({ id: data.build.id });
   },
   jobsCollection: function(data) {
     return this.buildingRails(data) ? this.jobsRails : this.jobs;

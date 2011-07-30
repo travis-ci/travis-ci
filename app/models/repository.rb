@@ -116,6 +116,7 @@ class Repository < ActiveRecord::Base
     :default         => all_attrs,
     :job             => base_attrs,
     :'build:queued'  => base_attrs,
+    :'build:removed' => base_attrs,
     :'build:log'     => [:id],
     :webhook         => [:id, :name, :owner_name]
   }
