@@ -6,3 +6,12 @@ https://twitter.com/#!/rbates/status/95965074723831809
 
 "@travisci Congrats! Great to see the Ruby community again pushing the boundaries of what is the default for OSS. Travis now is."
 https://twitter.com/#!/josephwilk/status/96168151980576769 - @josephwilk (Joseph Wilk)
+
+"I must say, I was skeptical, but @travisci is awesome. travis-ci.org/#!/thoughtbot/"
+http://twitter.com/#!/qrush/status/97070660500729856 - @qrush (Nick Quaranto)
+
+"Finally found the time to try @travisci on my open source projects... And it rocks! Continous integration for the community - join now!"
+http://twitter.com/#!/jaimeiniesta/status/97114964594139136 - @jaimeiniesta (Jaime Iniesta)
+
+"Travis is like Github for CIs. So easy to setup that everyone does it."
+https://twitter.com/#!/josevalim/status/97338403816873985 - @josevalim (José Valim)

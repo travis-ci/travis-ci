@@ -1,4 +1,4 @@
-require 'travis/notifications'
+require 'travis'
 
 class BuildsController < ApplicationController
   respond_to :json
@@ -11,7 +11,7 @@ class BuildsController < ApplicationController
   def index
     repository = Repository.find(params[:repository_id])
 
-    respond_with(repository.builds.recent_build_list((params[:page] || 1).to_i))
+    respond_with(repository.builds.recent((params[:page] || 1).to_i))
   end
 
   def show
@@ -21,7 +21,7 @@ class BuildsController < ApplicationController
   end
 
   def create
-    if build = Build.create_from_github_payload(params[:payload])
+    if build = Build.create_from_github_payload(params[:payload], api_token)
       build.save!
       enqueue!(build)
       build.repository.update_attributes!(:last_build_started_at => Time.now) # TODO the build isn't actually started now
@@ -39,9 +39,12 @@ class BuildsController < ApplicationController
     elsif build.matrix_expanded?
       build.matrix.each { |child| enqueue!(child) }
       trigger('build:configured', build, 'msg_id' => params[:msg_id])
-    elsif build.was_configured?
+    elsif build.was_configured? && build.build?
       enqueue!(build)
       trigger('build:configured', build, 'msg_id' => params[:msg_id])
+    elsif !build.build?
+      build.destroy
+      trigger('build:removed', build, 'msg_id' => params[:msg_id])
     elsif build.was_finished?
       trigger('build:finished', build, 'msg_id' => params[:msg_id])
       Travis::Notifications.send_notifications(build)
@@ -61,9 +64,8 @@ class BuildsController < ApplicationController
   protected
 
     def enqueue!(build)
-      Travis::Worker.class_eval { @queue = build.repository.name == 'rails' ? 'rails' : 'builds' } # FIXME OH SHI~
-      Resque.enqueue(Travis::Worker, json_for(:job, build))
-      trigger('build:queued', build)
+      job_info = Travis::Worker.enqueue(build)
+      trigger('build:queued', build, job_info.slice('queue'))
     end
 
     def trigger(event, build, data = {})
@@ -77,5 +79,10 @@ class BuildsController < ApplicationController
 
     def push(event, data)
       Pusher[event == 'build:queued' ? 'jobs' : 'repositories'].trigger(event, data)
+    end
+
+    def api_token
+      credentials = ActionController::HttpAuthentication::Basic.decode_credentials(request)
+      credentials.split(':').last
     end
 end
