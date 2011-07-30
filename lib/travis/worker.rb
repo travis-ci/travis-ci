@@ -40,9 +40,9 @@ module Travis
       end
 
       def use_queue?(build, queue_details)
-        slug, language = queue_details['slug'], queue_details['target']
+        slug, target = queue_details['slug'], queue_details['target']
 
-        (build.repository.slug == slug) || (build.config && build.config['target'] == language)
+        (build.repository.slug == slug) || (build.config && build.config['target'] && build.config['target'] == target)
       end
 
       def to_s
