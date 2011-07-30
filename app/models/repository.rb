@@ -113,14 +113,16 @@ class Repository < ActiveRecord::Base
   all_attrs        = base_attrs + last_build_attrs
 
   JSON_ATTRS = {
-    :default            => all_attrs,
-    :job                => base_attrs,
-    :'build:queued'     => base_attrs,
-    :'build:log'        => [:id]
+    :default         => all_attrs,
+    :job             => base_attrs,
+    :'build:queued'  => base_attrs,
+    :'build:log'     => [:id],
+    :webhook         => [:id, :name, :owner_name]
   }
   JSON_METHODS = {
-    :default            => [:slug],
-    :'build:log'        => []
+    :default         => [:slug],
+    :'build:log'     => [],
+    :webhook         => []
   }
 
   def as_json(options = nil)

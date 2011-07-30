@@ -67,7 +67,7 @@ class WebhookTest < NotificationsTestCase
   def stub_request(url, build)
     Travis::Notifications::Webhook.stubbed_adapter.post url do |env|
       assert_equal url, env[:url].path
-      assert_equal build.as_json.keys.sort, JSON.parse(Rack::Utils.parse_query(env[:body])['payload']).keys.sort
+      assert_equal build.as_json(:for => :webhook).keys.map(&:to_s).sort, JSON.parse(Rack::Utils.parse_query(env[:body])['payload']).keys.sort
       assert_equal env[:request_headers]['Authorization'],
         Digest::SHA2.hexdigest(build.repository.name + build.repository.owner_name + build.token)
 
