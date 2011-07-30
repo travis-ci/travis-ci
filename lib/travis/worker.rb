@@ -56,7 +56,7 @@ module Travis
       def setup_custom_queues
         queues.each do |queue_details|
           name = queue_details['queue']
-          unless Worker.const_defined?(name.capitalize)
+          unless Worker.const_defined?(name.capitalize, false)
             worker = Class.new(Worker) do
               def self.queue
                 name.demodulize.underscore
