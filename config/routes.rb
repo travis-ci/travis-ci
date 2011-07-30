@@ -3,9 +3,7 @@ require 'patches/rails_route_set'
 TravisCi::Application.routes.draw do
   root :to => 'home#index'
 
-  match ":owner_name/:name.png", :to => 'repositories#show', :format => 'png'
-  match ":owner_name/:name.xml", :to => 'repositories#show', :format => 'xml'
-  match ":owner_name/:name.json", :to => 'repositories#show', :format => 'json'
+  get ":owner_name/:name.:format", :to => 'repositories#show'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
