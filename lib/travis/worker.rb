@@ -23,6 +23,7 @@ module Travis
         worker = worker_for(build)
         job_info = Travis::Utils.json_for(:job, build)
         job_info.merge!(:queue => worker.queue)
+        Rails.logger.log("Job queued to #{worker.queue} : #{job_info.inspect}")
         Resque.enqueue(worker, job_info)
         job_info
       end
