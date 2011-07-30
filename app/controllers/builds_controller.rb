@@ -39,9 +39,11 @@ class BuildsController < ApplicationController
     elsif build.matrix_expanded?
       build.matrix.each { |child| enqueue!(child) }
       trigger('build:configured', build, 'msg_id' => params[:msg_id])
-    elsif build.was_configured?
+    elsif build.was_configured? && build.build?
       enqueue!(build)
       trigger('build:configured', build, 'msg_id' => params[:msg_id])
+    elsif !build.build?
+      trigger('build:removed', build, 'msg_id' => params[:msg_id])
     elsif build.was_finished?
       trigger('build:finished', build, 'msg_id' => params[:msg_id])
       Travis::Notifications.send_notifications(build)
