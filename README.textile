@@ -24,7 +24,7 @@ h2. Developer Documentation
 h2. Other sources
 
 * "Travis CI":http://bostonrb.org/presentations/travis-ci - Video: Presentation at Boston.rb ("Jeremy Weisskotten":https://twitter.com/#!/doctorzaius)
-* "Travis - a distributed build server tool for the Ruby community":http://svenfuchs.com/2011/2/5/travis-a-distributed-build-server-tool-for-the-ruby-community - Introductional blog post about the original idea ("Sven Fuchs":http://svenfuchs.com)
+* "Travis - a distributed build server tool for the Ruby community":http://svenfuchs.com/2011/2/5/travis-a-distributed-build-server-tool-for-the-ruby-community - Introductory blog post about the original idea ("Sven Fuchs":http://svenfuchs.com)
 
 h2. Overview
 
