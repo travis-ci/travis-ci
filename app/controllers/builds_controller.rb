@@ -63,8 +63,8 @@ class BuildsController < ApplicationController
   protected
 
     def enqueue!(build)
-      Travis::Worker.enqueue(build)
-      trigger('build:queued', build)
+      job_info = Travis::Worker.enqueue(build)
+      trigger('build:queued', build, job_info.slice('queue'))
     end
 
     def trigger(event, build, data = {})
