@@ -5,14 +5,14 @@ class Build
     end
 
     def send_email_notifications?
-      notifications_enabled? && unique_recipients.present?
+      emails_enabled? && unique_recipients.present?
     end
 
     # at some point we might want to move this to a Notifications manager that abstracts email and other types of notifications
     def unique_recipients
       @unique_recipients ||= begin
-        if recipients_from_config
-          recipients_from_config
+        if email_recipients
+          email_recipients
         else
           recipients = [committer_email, author_email, repository.owner_email]
           recipients.select(&:present?).join(',').split(',').map(&:strip).uniq.join(',')
@@ -22,27 +22,26 @@ class Build
 
     protected
 
-      def notifications_enabled?
-        if self.config && notifications = self.config['notifications']
-          if !notifications['email'].nil?
-            notifications['email']
-          elsif notifications['disabled']
-            !notifications['disabled']
-          elsif notifications['disable']
-            !notifications['disable']
-          else
-            true
-          end
+      def emails_enabled?
+        if notifications.blank?
+          true
+        elsif emails_disabled?
+          false
         else
           true
         end
       end
 
-      def recipients_from_config
-        @recipients_from_config = if config && notifications = config['notifications']
-          emails = notifications['email'] || notifications['recipients']
-          emails ? emails : nil
-        end
+      def email_recipients
+        notifications['email'] || notifications['recipients'] # TODO deprecate recipients
+      end
+
+      def emails_disabled?
+        notifications['email'] == false || notifications['disabled'] || notifications['disable'] # TODO deprecate disabled and disable
+      end
+
+      def notifications
+        config ? config['notifications'] : {}
       end
   end
 end
