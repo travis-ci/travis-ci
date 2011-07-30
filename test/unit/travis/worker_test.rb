@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class TravisWorkerTest < ActiveSupport::TestCase
-
   def remove_custom_workers
     @queues_hash['queues'].each do |queue_details|
       name = queue_details['queue'].capitalize
