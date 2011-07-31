@@ -32,6 +32,10 @@ class Build < ActiveRecord::Base
     def exclude?(attributes)
       sources.any? { |source| source.exclude?(attributes) }
     end
+
+    def keys_for(hash)
+      ENV_KEYS.select { |key| hash[key.to_s] }
+    end
   end
 
   def config=(config)
@@ -72,6 +76,16 @@ class Build < ActiveRecord::Base
 
   def color
     pending? ? '' : passed? ? 'green' : 'red'
+  end
+
+  # Return only the child builds whose config matches against as passed hash
+  # e.g. build.matrix_for(rvm: '1.8.7', env: 'DB=postgresql')
+  def matrix_for(hash)
+    matrix.select do |build|
+      self.class.keys_for(hash).map do |key|
+        build.config[key] == hash[key]
+      end.inject(:&)
+    end
   end
 
   protected
