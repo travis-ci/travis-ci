@@ -42,7 +42,7 @@ class Build < ActiveRecord::Base
     self.class.update_all(["log = COALESCE(log, '') || ?", chars], ["id = ?", self.id])
   end
 
-  def build?
+  def approved?
     branch_included? || !branch_excluded?
   end
 
