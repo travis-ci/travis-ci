@@ -172,7 +172,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     return this.buildingRails(data) ? this.jobsRails : this.jobs;
   },
   buildingRails: function (data) {
-    return data.slug && data.slug.match(/rails/);
+    return data.slug && data.slug == 'rails/rails';
   }
 });
 
