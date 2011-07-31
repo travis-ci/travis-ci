@@ -11,7 +11,7 @@ class BuildsController < ApplicationController
   def index
     repository = Repository.find(params[:repository_id])
 
-    respond_with(repository.builds.recent((params[:page] || 1).to_i))
+    respond_with(repository.builds.recent(params[:page]))
   end
 
   def show

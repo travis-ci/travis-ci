@@ -70,6 +70,6 @@
 
     <%= javascript_tag "var pusher = new Pusher('#{Pusher.key}');" unless Rails.env.jasmine? %>
 
-    <%= render 'layouts/gauges' %>
+    <%= render 'layouts/google_analytics' %>
   </body>
 </html>
