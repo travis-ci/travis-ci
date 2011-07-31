@@ -39,7 +39,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'mocha'
   gem 'test_declarative'
-  gem 'fakeredis'
+  gem 'fakeredis', '~> 0.2.0'
   gem 'webmock'
 
   platforms :ruby_18 do
