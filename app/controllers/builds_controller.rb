@@ -18,13 +18,17 @@ class BuildsController < ApplicationController
 
   protected
 
+    def repository
+      @repository ||= Repository.find_by_params(params) || not_found
+    end
+
     def builds
-      @builds ||= Repository.find_by_params(params).builds.recent(params.slice(:page))
+      @builds ||= repository.builds.recent(params.slice(:page))
     end
 
     def build
       @build ||= Build.find(params[:id])
     rescue ActiveRecord::RecordNotFound
-      @task = Task.find(params[:id])
+      @task = Task.find(params[:id]) || not_found
     end
 end

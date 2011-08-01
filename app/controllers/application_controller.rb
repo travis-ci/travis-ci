@@ -29,4 +29,7 @@ class ApplicationController < ActionController::Base
       headers['X-GIT_SHA'] = ENV['GIT_SHA'] if ENV['GIT_SHA']
     end
 
+    def not_found
+      raise ActionController::RoutingError.new('Not Found')
+    end
 end

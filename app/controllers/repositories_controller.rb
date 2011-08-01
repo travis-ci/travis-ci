@@ -25,6 +25,7 @@ class RepositoriesController < ApplicationController
 
     def repository
       @repository ||= Repository.find_by_params(params).tap do |repository|
+        not_found unless repository
         repository.override_last_build_status!(params) if repository.try(:override_last_build_status?, params)
       end
     end
