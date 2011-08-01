@@ -26,7 +26,7 @@ class ActiveSupport::TestCase
     Mocha::Mockery.instance.verify
 
     Travis.pusher = TestHelpers::Mocks::Pusher.new
-    Resque.redis  = FakeRedis::Redis.new
+    Resque.redis  = Redis.new
 
     DatabaseCleaner.start
 

@@ -7,6 +7,12 @@ TravisCi::Application.routes.draw do
   match ":owner_name/:name.xml", :to => 'repositories#show', :format => 'xml'
   match ":owner_name/:name.json", :to => 'repositories#show', :format => 'json'
 
+  match ":owner_name/:name/builds.xml", :to => 'builds#index', :format => 'xml'
+  match ":owner_name/:name/builds.json", :to => 'builds#index', :format => 'json'
+
+  match ":owner_name/:name/builds/:id.xml", :to => 'builds#show', :format => 'xml'
+  match ":owner_name/:name/builds/:id.json", :to => 'builds#show', :format => 'json'
+
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   as :user do

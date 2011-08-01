@@ -29,7 +29,7 @@ gem 'rabl',              '~> 0.3.0'
 gem 'jruby-openssl',     :platforms => :jruby
 
 
-gem 'newrelic_rpm',         '~> 3.1.0'
+gem 'newrelic_rpm',      '~> 3.1.0'
 
 
 group :test do
@@ -39,7 +39,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'mocha'
   gem 'test_declarative'
-  gem 'fakeredis'
+  gem 'fakeredis', '~> 0.2.0'
   gem 'webmock'
 
   platforms :ruby_18 do

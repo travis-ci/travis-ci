@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
 
   protected
 
+    def not_found
+      raise ActionController::RoutingError.new('Not Found')
+    end
+
     def repositories
       @repositories ||= Repository.timeline
     end
