@@ -1,7 +1,7 @@
 class CreateTasks < ActiveRecord::Migration
   def self.up
     create_table :tasks do |t|
-      t.references :build
+      t.references :owner, :polymorphic => true
       t.string   :type
       t.string   :state
       t.datetime :started_at

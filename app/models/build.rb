@@ -3,28 +3,24 @@ require 'core_ext/active_record/base'
 class Build < ActiveRecord::Base
   include SimpleStates
 
-  states :created, :started, :configured, :finished
+  states :created, :started, :finished
 
-  event :start,     :to => :started
-  event :configure, :to => :configured, :after => :expand_matrix
-  event :finished,  :to => :finished,   :if => :matrix_finished?
+  event :start,  :to => :started
+  event :finish, :to => :finished, :if => :matrix_finished?
 
-  has_many :tasks
-
-  serialize :config
+  has_many :tasks, :as => :owner
 
   def initialize(*)
     super
     @state = :created
-    tasks << Task::Configure.new
+  end
+
+  after_create do
+    expand_matrix
   end
 
   def start
     self.started_at = Time.now
-  end
-
-  def configure(config)
-    self.config = config
   end
 
   def expand_matrix
