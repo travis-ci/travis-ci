@@ -1,85 +1,121 @@
 require 'core_ext/active_record/base'
 
 class Build < ActiveRecord::Base
-  cattr_accessor :sources
-  self.sources = []
+  include SimpleStates
 
-  include Branches, Events, Json, Matrix, Notifications, Sources::Github
+  states :created, :started, :configured, :finished
 
-  ENV_KEYS = ['rvm', 'gemfile', 'env']
+  event :start,     :to => :started
+  event :configure, :to => :configured, :after => :expand_matrix
+  event :finished,  :to => :finished,   :if => :matrix_finished?
 
-  belongs_to :repository
-  belongs_to :parent, :class_name => 'Build', :foreign_key => :parent_id
-  has_many   :matrix, :class_name => 'Build', :foreign_key => :parent_id, :order => :id
-
-  validates :repository_id, :presence => true
+  has_many :tasks
 
   serialize :config
 
-  class << self
-    def recent(page)
-      started.order('id DESC').limit(10 * page).includes(:matrix)
-    end
-
-    def started
-      where(arel_table[:started_at].not_eq(nil))
-    end
-
-    def next_number
-      maximum(floor('number')).to_i + 1
-    end
-
-    def exclude?(attributes)
-      sources.any? { |source| source.exclude?(attributes) }
-    end
+  def initialize(*)
+    super
+    @state = :created
+    tasks << Task::Configure.new
   end
 
-  def config=(config)
-    write_attribute(:config, normalize_config(config))
+  def start
+    self.started_at = Time.now
   end
 
-  def append_log!(chars)
-    self.class.update_all(["log = COALESCE(log, '') || ?", chars], ["id = ?", self.id])
+  def configure(config)
+    self.config = config
   end
 
-  def approved?
-    branch_included? || !branch_excluded?
+  def expand_matrix
+    # @matrix = [Task::Test.new(:build => self), Task::Test.new(:build => self)]
   end
 
-  def configured?
-    config.present?
+  def finish
+    self.finished_at = Time.now
   end
 
-  def started?
-    started_at.present?
+  def matrix_finished?
+    matrix.all? { |task| task.finished? }
   end
 
-  def finished?
-    finished_at.present?
-  end
+  # cattr_accessor :sources
+  # self.sources = []
 
-  def pending?
-    !finished?
-  end
+  # include Branches, Events, Json, Matrix, Notifications, Sources::Github
 
-  def passed?
-    status == 0
-  end
+  # ENV_KEYS = ['rvm', 'gemfile', 'env']
 
-  def status_message
-    passed? ? 'Passed' : 'Failed'
-  end
+  # belongs_to :repository
+  # belongs_to :parent, :class_name => 'Build', :foreign_key => :parent_id
+  # has_many   :matrix, :class_name => 'Build', :foreign_key => :parent_id, :order => :id
 
-  def color
-    pending? ? '' : passed? ? 'green' : 'red'
-  end
+  # validates :repository_id, :presence => true
 
-  protected
+  # class << self
+  #   def recent(page)
+  #     started.order('id DESC').limit(10 * page).includes(:matrix)
+  #   end
 
-    def normalize_config(config)
-      ENV_KEYS.inject(config.to_hash) do |config, key|
-        config[key] = config[key].values if config[key].is_a?(Hash)
-        config
-      end
-    end
+  #   def started
+  #     where(arel_table[:started_at].not_eq(nil))
+  #   end
+
+  #   def next_number
+  #     maximum(floor('number')).to_i + 1
+  #   end
+
+  #   def exclude?(attributes)
+  #     sources.any? { |source| source.exclude?(attributes) }
+  #   end
+  # end
+
+  # def config=(config)
+  #   write_attribute(:config, normalize_config(config))
+  # end
+
+  # def append_log!(chars)
+  #   self.class.update_all(["log = COALESCE(log, '') || ?", chars], ["id = ?", self.id])
+  # end
+
+  # def approved?
+  #   branch_included? || !branch_excluded?
+  # end
+
+  # def configured?
+  #   config.present?
+  # end
+
+  # def started?
+  #   started_at.present?
+  # end
+
+  # def finished?
+  #   finished_at.present?
+  # end
+
+  # def pending?
+  #   !finished?
+  # end
+
+  # def passed?
+  #   status == 0
+  # end
+
+  # def status_message
+  #   passed? ? 'Passed' : 'Failed'
+  # end
+
+  # def color
+  #   pending? ? '' : passed? ? 'green' : 'red'
+  # end
+
+  # protected
+
+  #   def normalize_config(config)
+  #     ENV_KEYS.inject(config.to_hash) do |config, key|
+  #       config[key] = config[key].values if config[key].is_a?(Hash)
+  #       config
+  #     end
+  #   end
 end

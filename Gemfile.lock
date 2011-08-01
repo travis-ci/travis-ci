@@ -18,6 +18,13 @@ GIT
     resque-heartbeat (0.0.2)
       resque (~> 1.17.0)
 
+PATH
+  remote: ~/Development/projects/simple_states
+  specs:
+    simple_states (0.0.1)
+      activesupport
+      hashr (~> 0.0.10)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -100,6 +107,7 @@ GEM
     ffi (1.0.9-java)
     fssm (0.2.7)
     hashie (1.0.0)
+    hashr (0.0.10)
     hoptoad_notifier (2.4.11)
       activesupport
       builder
@@ -291,6 +299,7 @@ DEPENDENCIES
   ruby-debug
   ruby-debug19
   silent-postgres (~> 0.0.8)
+  simple_states!
   test_declarative
   unicorn (~> 4.0.0)
   unobtrusive_flash (~> 0.0.2)
