@@ -9,7 +9,7 @@ class BuildsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => :create
 
   def index
-    repository = Repository.find(params[:repository_id])
+    repository = Repository.find_by_params(params)
 
     respond_with(repository.builds.recent(params[:page]))
   end
