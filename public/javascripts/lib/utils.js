@@ -152,3 +152,11 @@ function trace() {
     _.each(stack, function(line) { console.log(line); });
   }
 }
+
+window._console = console;
+var console = {
+  log: function() {
+    if (/__DEBUG__/.exec(window.location.href) || window.__DEBUG__)
+      window._console.log(arguments)
+  }
+}
