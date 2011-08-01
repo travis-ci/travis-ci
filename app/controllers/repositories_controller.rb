@@ -8,10 +8,11 @@ class RepositoriesController < ApplicationController
   end
 
   def show
-    not_found unless @repository = repository
+    @repository = repository
 
     respond_with(@repository) do |format|
       format.png { send_status_image_file }
+      format.any { @repository || not_found }
     end
   end
 
