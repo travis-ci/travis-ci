@@ -15,3 +15,10 @@ http://twitter.com/#!/jaimeiniesta/status/97114964594139136 - @jaimeiniesta (Jai
 
 "Travis is like Github for CIs. So easy to setup that everyone does it."
 https://twitter.com/#!/josevalim/status/97338403816873985 - @josevalim (José Valim)
+
+"congrats to @joshkalderimis @svenfuchs and all TravisCI team for the last weeks achievements, you bring a new step for open & free software"
+https://twitter.com/#!/mcansky/status/97592491943006208 - @mcansky (Thomas Riboulet)
+
+"Just set up CI for my chess AI project on @travisci - awesome tool!"
+https://twitter.com/#!/arwagner/status/97866080067919872 - @arwagner (chessguy)
+

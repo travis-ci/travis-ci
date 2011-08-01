@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110729094426) do
+ActiveRecord::Schema.define(:version => 20110801020631) do
 
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(:version => 20110729094426) do
     t.text     "github_payload"
     t.string   "compare_url"
     t.string   "token"
+    t.string   "state"
   end
 
   add_index "builds", ["parent_id"], :name => "index_builds_on_parent_id"
@@ -73,6 +74,16 @@ ActiveRecord::Schema.define(:version => 20110729094426) do
 
   add_index "repositories", ["last_build_started_at"], :name => "index_repositories_on_last_build_started_at"
   add_index "repositories", ["owner_name", "name"], :name => "index_repositories_on_owner_name_and_name"
+
+  create_table "tasks", :force => true do |t|
+    t.integer  "build_id"
+    t.string   "type"
+    t.string   "state"
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "tokens", :force => true do |t|
     t.integer  "user_id"
