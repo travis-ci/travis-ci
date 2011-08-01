@@ -154,9 +154,13 @@ function trace() {
 }
 
 window._console = console;
+/*
+ * In order to use old (default) behavior of console, please use __DEBUG__ in URL hash, or __DEBUG__ global variable
+ *   when hash is not accessible
+ */
 var console = {
   log: function() {
-    if (/__DEBUG__/.exec(window.location.href) || window.__DEBUG__)
+    if (/__DEBUG__/.exec(window.location.hash) || window.__DEBUG__)
       window._console.log(arguments)
   }
 }
