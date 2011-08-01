@@ -62,6 +62,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }, this));
   },
   repository: function(owner, name, line_number) {
+    console.log ("application#repository: ", arguments)
     this.reset();
     this.trackPage();
     this.startLoading();
@@ -73,6 +74,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }, this));
   },
   repositoryHistory: function(owner, name) {
+    console.log ("application#repositoryHistory: ", arguments)
     this.reset();
     this.trackPage();
     this.selectTab('history');
@@ -82,6 +84,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }, this));
   },
   repositoryBuild: function(owner, name, buildId, line_number) {
+    console.log ("application#repositoryBuild: ", arguments)
     this.reset();
     this.trackPage();
     this.startLoading();
@@ -175,4 +178,5 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     return data.slug && data.slug == 'rails/rails';
   }
 });
+
 
