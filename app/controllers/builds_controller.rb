@@ -19,7 +19,7 @@ class BuildsController < ApplicationController
   protected
 
     def builds
-      @builds ||= Repository.find(params[:repository_id]).builds.recent(params.slice(:page))
+      @builds ||= Repository.find_by_params(params).builds.recent(params.slice(:page))
     end
 
     def build
