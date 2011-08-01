@@ -20,6 +20,24 @@ feature "Builds", %(
   scenario "build gets queued" do
     visit "/"
     dispatch_pusher_command 'jobs', 'build:queued', build_queued_event_info
-    should_see_text 'rails/rails'
+
+    with_scope "#jobs" do
+      should_see_text 'rails/rails'
+    end
+  end
+
+  scenario "build is removed from queue" do
+    visit "/"
+
+    dispatch_pusher_command 'jobs', 'build:queued', build_queued_event_info
+    dispatch_pusher_command 'jobs', 'build:started', build_queued_event_info
+
+    with_scope "#repositories" do
+      should_see_text "rails/rails"
+    end
+
+    with_scope "#jobs" do
+      should_not_see_text 'rails/rails'
+    end
   end
 end
