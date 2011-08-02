@@ -11,6 +11,9 @@ RSpec.configure do |config|
   config.before(:each) do
     Capybara.current_driver = :selenium
   end
+
+  config.include AcceptanceHelpers
+  config.include NavigationHelpers
 end
 
 Capybara.default_selector = :css

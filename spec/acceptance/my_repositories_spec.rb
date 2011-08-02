@@ -15,9 +15,7 @@ feature "Feature name", %(
     # It's not clear what exactly capybara have changed so that Rspec includes do not function. But that's not a good approach.
   end
   scenario "my repositories" do
-    self.extend HelperMethods
     self.extend OmniauthHelperMethods
-    self.extend NavigationHelpers
 
     mock_omniauth
 
