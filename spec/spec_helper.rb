@@ -1,5 +1,8 @@
-require 'rubygems'
-require 'spork' rescue nil
+begin
+  require 'rubygems'
+  require 'spork'
+rescue LoadError => e
+end
 
 ENV["RAILS_ENV"] ||= 'test'
 
