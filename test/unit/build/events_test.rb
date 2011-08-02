@@ -1,14 +1,8 @@
 require 'test_helper'
 
 class BuildEventsTest < ActiveSupport::TestCase
-  attr_reader :repository
-
-  def setup
-    @repository = Factory(:repository)
-  end
-
   test "denormalize_to_repository denormalizes the build id, number and started_at attributes to the build's repository" do
-    build = Factory(:build, :repository => repository)
+    build = Factory(:build)
     now = Time.current
     build.update_attributes!(:number => 1, :started_at => now)
     repository = build.repository.reload
@@ -19,7 +13,7 @@ class BuildEventsTest < ActiveSupport::TestCase
   end
 
   test "denormalize_to_repository denormalizes the build status and finished_at attributes to the build's repository if this is not a matrix build" do
-    build = Factory(:build, :repository => repository)
+    build = Factory(:build)
     now = Time.current
     build.update_attributes!(:finished_at => now, :status => 0)
     repository = build.repository.reload
@@ -29,7 +23,7 @@ class BuildEventsTest < ActiveSupport::TestCase
   end
 
   test "denormalize_to_repository denormalizes the build status and finished_at attributes to the build's repository if this is a matrix build and all children have finished" do
-    build = Factory(:build, :repository => repository, :matrix => [Factory(:build, :repository => repository), Factory(:build, :repository => repository)], :config => { 'rvm' => ['1.8.7', '1.9.2'] })
+    build = Factory(:build, :matrix => [Factory(:build), Factory(:build)], :config => { 'rvm' => ['1.8.7', '1.9.2'] })
     june = Time.utc(2011, 06, 23, 20, 20, 20)
     build.matrix.first.update_attributes!(:finished_at => june, :status => 0)
     build.matrix.last.update_attributes!(:finished_at => june, :status => 0)

@@ -6,7 +6,6 @@ class Task::Configure < Task
 
   event :start,  :to => :started, :after => :propagate
   event :finish, :to => :finished, :after => :configure_owner
-  # event :all, :after => :propagate
 
   def configure_owner(event, config)
     owner.configure!(config)

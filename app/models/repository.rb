@@ -4,11 +4,12 @@ require 'travis/git_hub_api'
 
 class Repository < ActiveRecord::Base
 
-  has_many :builds, :conditions => 'parent_id IS null', :dependent => :delete_all
+  has_many :requests, :dependent => :delete_all
+  has_many :builds, :dependent => :delete_all
 
-  has_one :last_build,          :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND started_at IS NOT NULL'
-  has_one :last_success,        :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND status = 0'
-  has_one :last_failure,        :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND status = 1'
+  has_one :last_build,   :class_name => 'Build', :order => 'id DESC', :conditions => 'started_at IS NOT NULL'
+  has_one :last_success, :class_name => 'Build', :order => 'id DESC', :conditions => 'status = 0'
+  has_one :last_failure, :class_name => 'Build', :order => 'id DESC', :conditions => 'status = 1'
 
   validates :name,       :presence => true, :uniqueness => { :scope => :owner_name }
   validates :owner_name, :presence => true

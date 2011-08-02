@@ -1,5 +1,3 @@
-*.rbc
-.DS_Store
 .bundle
 .rvmrc
 config/resque.god
@@ -9,5 +7,8 @@ db/*.sqlite3-journal
 log/*.log
 tmp/
 vendor/htmlunit
+*.rbc
+*.dump
+.DS_Store
 *~
 \#*

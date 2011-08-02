@@ -28,10 +28,8 @@ gem 'rabl',              '~> 0.3.0'
 
 gem 'jruby-openssl',     :platforms => :jruby
 
-
 gem 'simple_states',     :path => '~/Development/projects/simple_states'
 gem 'newrelic_rpm',      '~> 3.1.0'
-
 
 group :test do
   gem 'capybara', '~> 1.0.0'
@@ -51,19 +49,16 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.6.1'
-end
 
-group :development do
   platforms :mri_18 do
     # required as linecache uses it but does not have it as a dep
     gem "require_relative", "~> 1.0.1"
     gem 'ruby-debug'
   end
 
-  # sadly ruby-debug19 (linecache19) doesn't
-  # work with ruby-head, but we don't use this in
-  # development so this should cover us just in case
-  unless RUBY_VERSION == '1.9.3'
+  unless RUBY_VERSION == '1.9.3' && RUBY_PLATFORM !~ /darwin/
+    # will need to install ruby-debug19 manually:
+    # gem install ruby-debug19 -- --with-ruby-include=$rvm_path/src/ruby-1.9.3-preview1
     gem 'ruby-debug19', :platforms => :mri_19
   end
 end
