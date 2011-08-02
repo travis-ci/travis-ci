@@ -4,18 +4,16 @@ class Build
   module Matrix
     extend ActiveSupport::Concern
 
+    ENV_KEYS = [:rvm, :gemfile, :env]
+
     included do
-      before_save :expand_matrix!, :if => :expand_matrix?
+      before_create :expand_matrix
     end
 
     module ClassMethods
       def matrix?(config)
         config.values_at(*ENV_KEYS).compact.any? { |value| value.is_a?(Array) && value.size > 1 }
       end
-    end
-
-    def matrix?
-      parent_id.blank? && matrix_config?
     end
 
     def matrix_expanded?
@@ -32,13 +30,11 @@ class Build
 
     protected
 
-      def expand_matrix?
-        matrix? && matrix.empty?
-      end
-
-      def expand_matrix!
+      def expand_matrix
         expand_matrix_config(matrix_config.to_a).each_with_index do |row, ix|
-          matrix.build(attributes.merge(:number => "#{number}.#{ix + 1}", :config => config.merge(Hash[*row.flatten]), :log => ''))
+          attributes = self.attributes.slice(*Task.column_names)
+          attributes.merge!(:number => "#{number}.#{ix + 1}", :config => config.merge(Hash[*row.flatten]), :log => '')
+          matrix.build(attributes)
         end
       end
 

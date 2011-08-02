@@ -1,3 +1,5 @@
+http://news.ycombinator.com/item?id=2811554
+
 Squeel is now using TravisCI (which rocks, by the way) for testing. ... I can’t recommend TravisCI enough. If you aren’t using it, you should be.
 http://metautonomo.us/2011/07/03/whats-new-with-squeel
 
@@ -22,3 +24,8 @@ https://twitter.com/#!/mcansky/status/97592491943006208 - @mcansky (Thomas Ribou
 "Just set up CI for my chess AI project on @travisci - awesome tool!"
 https://twitter.com/#!/arwagner/status/97866080067919872 - @arwagner (chessguy)
 
+"@travisci thank you for the incredible service!"
+https://twitter.com/#!/modetojoy/status/98471473697652736 - @modetojoy (Durran Jordan)
+
+"Running tests is fun with @travisci: http://t.co/vv7VxEc"
+https://twitter.com/#!/ledermann/status/98706896336334850 - @ledermann (Georg Ledermann)

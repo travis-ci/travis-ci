@@ -1,117 +1,60 @@
 require 'core_ext/active_record/base'
 
 class Build < ActiveRecord::Base
-  include SimpleStates
+  include SimpleStates, Matrix, Notifications
+  # include Events, Json
 
   states :created, :started, :finished
 
   event :start,  :to => :started
   event :finish, :to => :finished, :if => :matrix_finished?
 
-  has_many :tasks, :as => :owner
+  belongs_to :commit
+  belongs_to :repository
+  belongs_to :request
+  has_many   :matrix, :class_name => 'Task::Test', :order => :id, :as => :owner
 
-  def initialize(*)
-    super
-    @state = :created
+  validates :repository_id, :commit_id, :request_id, :presence => true
+
+  class << self
+    def recent(page)
+      started.order('id DESC').limit(10 * page).includes(:matrix)
+    end
+
+    def started
+      where(arel_table[:started_at].not_eq(nil))
+    end
+
+    def next_number
+      maximum(floor('number')).to_i + 1
+    end
   end
 
-  after_create do
-    expand_matrix
+  after_initialize do
+    self.config = {} if config.nil?
   end
 
-  def start
-    self.started_at = Time.now
+  before_create do
+    self.number = self.class.next_number
   end
 
-  def expand_matrix
-    # @matrix = [Task::Test.new(:build => self), Task::Test.new(:build => self)]
+  def finish(status)
+    self.status = status
   end
 
-  def finish
-    self.finished_at = Time.now
+  def pending?
+    !finished?
   end
 
-  def matrix_finished?
-    matrix.all? { |task| task.finished? }
+  def passed?
+    status == 0
   end
 
-  # cattr_accessor :sources
-  # self.sources = []
+  def status_message
+    passed? ? 'Passed' : 'Failed'
+  end
 
-  # include Branches, Events, Json, Matrix, Notifications, Sources::Github
-
-  # ENV_KEYS = ['rvm', 'gemfile', 'env']
-
-  # belongs_to :repository
-  # belongs_to :parent, :class_name => 'Build', :foreign_key => :parent_id
-  # has_many   :matrix, :class_name => 'Build', :foreign_key => :parent_id, :order => :id
-
-  # validates :repository_id, :presence => true
-
-  # class << self
-  #   def recent(page)
-  #     started.order('id DESC').limit(10 * page).includes(:matrix)
-  #   end
-
-  #   def started
-  #     where(arel_table[:started_at].not_eq(nil))
-  #   end
-
-  #   def next_number
-  #     maximum(floor('number')).to_i + 1
-  #   end
-
-  #   def exclude?(attributes)
-  #     sources.any? { |source| source.exclude?(attributes) }
-  #   end
-  # end
-
-  # def config=(config)
-  #   write_attribute(:config, normalize_config(config))
-  # end
-
-  # def append_log!(chars)
-  #   self.class.update_all(["log = COALESCE(log, '') || ?", chars], ["id = ?", self.id])
-  # end
-
-  # def approved?
-  #   branch_included? || !branch_excluded?
-  # end
-
-  # def configured?
-  #   config.present?
-  # end
-
-  # def started?
-  #   started_at.present?
-  # end
-
-  # def finished?
-  #   finished_at.present?
-  # end
-
-  # def pending?
-  #   !finished?
-  # end
-
-  # def passed?
-  #   status == 0
-  # end
-
-  # def status_message
-  #   passed? ? 'Passed' : 'Failed'
-  # end
-
-  # def color
-  #   pending? ? '' : passed? ? 'green' : 'red'
-  # end
-
-  # protected
-
-  #   def normalize_config(config)
-  #     ENV_KEYS.inject(config.to_hash) do |config, key|
-  #       config[key] = config[key].values if config[key].is_a?(Hash)
-  #       config
-  #     end
-  #   end
+  def color
+    pending? ? '' : passed? ? 'green' : 'red'
+  end
 end

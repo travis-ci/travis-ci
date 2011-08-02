@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class BuildMatrixTest < ActiveSupport::TestCase
-  Build.send(:public, :expand_matrix!, :matrix_config, :expand_matrix_config)
+  Build.send(:public, :expand_matrix, :matrix_config, :expand_matrix_config)
 
   attr_reader :config
 
@@ -16,20 +16,6 @@ class BuildMatrixTest < ActiveSupport::TestCase
         - gemfiles/rails-2.3.x
         - gemfiles/rails-3.0.x
     yaml
-  end
-
-  test 'updating the build config w/ stupid rack params' do
-    build = Factory(:build, :config => {
-      'rvm'     => { '0' => '1.8.7', '1' => '1.9.2' },
-      'gemfile' => { '0' => 'gemfiles/rails-2.3.x', '1' => 'gemfiles/rails-3.0.x' },
-      'env'     => { '0' => 'FOO=bar', '1' => 'FOO=baz' }
-    })
-    expected = {
-      'rvm'     => ['1.8.7', '1.9.2'],
-      'gemfile' => ['gemfiles/rails-2.3.x', 'gemfiles/rails-3.0.x'],
-      'env'     => ['FOO=bar', 'FOO=baz']
-    }
-    assert_equal expected, build.config
   end
 
   test 'matrix_config w/ no array values' do
@@ -188,8 +174,8 @@ class BuildMatrixTest < ActiveSupport::TestCase
 
   test 'matrix_finished? returns true if all child builds have finished' do
     build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'] })
-    build.matrix[0].update_attributes(:finished_at => Time.now)
-    build.matrix[1].update_attributes(:finished_at => Time.now)
+    build.matrix[0].update_attributes!(:state => :finished)
+    build.matrix[1].update_attributes!(:state => :finished)
 
     assert build.matrix_finished?
   end
@@ -210,15 +196,15 @@ class BuildMatrixTest < ActiveSupport::TestCase
 
   test 'matrix_status returns 1 if any child has the status 1' do
     build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'] })
-    build.matrix[0].update_attributes(:status => 1, :finished_at => Time.now)
-    build.matrix[1].update_attributes(:status => 0, :finished_at => Time.now)
+    build.matrix[0].update_attributes!(:status => 1, :state => :finished)
+    build.matrix[1].update_attributes!(:status => 0, :state => :finished)
     assert_equal 1, build.matrix_status
   end
 
   test 'matrix_status returns 0 if all children have the status 0' do
     build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'] })
-    build.matrix[0].update_attributes(:status => 0, :finished_at => Time.now)
-    build.matrix[1].update_attributes(:status => 0, :finished_at => Time.now)
+    build.matrix[0].update_attributes!(:status => 0, :state => :finished)
+    build.matrix[1].update_attributes!(:status => 0, :state => :finished)
     assert_equal 0, build.matrix_status
   end
 

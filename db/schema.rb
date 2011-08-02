@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110801161818) do
+ActiveRecord::Schema.define(:version => 20110803020412) do
 
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
@@ -18,30 +18,35 @@ ActiveRecord::Schema.define(:version => 20110801161818) do
     t.integer  "status"
     t.datetime "started_at"
     t.datetime "finished_at"
-    t.text     "log",             :default => ""
-    t.string   "commit"
-    t.text     "message"
-    t.datetime "committed_at"
-    t.string   "committer_name"
-    t.string   "committer_email"
-    t.string   "author_name"
-    t.string   "author_email"
-    t.string   "agent"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "parent_id"
     t.text     "config"
-    t.string   "ref"
-    t.string   "branch"
-    t.text     "github_payload"
-    t.string   "compare_url"
     t.string   "token"
     t.string   "state"
+    t.integer  "commit_id"
+    t.integer  "request_id"
   end
 
   add_index "builds", ["parent_id"], :name => "index_builds_on_parent_id"
   add_index "builds", ["repository_id", "parent_id", "started_at"], :name => "index_builds_on_repository_id_and_parent_id_and_started_at"
   add_index "builds", ["repository_id"], :name => "index_builds_on_repository_id"
+
+  create_table "commits", :force => true do |t|
+    t.string   "number"
+    t.string   "commit"
+    t.string   "ref"
+    t.string   "branch"
+    t.text     "message"
+    t.string   "compare_url"
+    t.datetime "committed_at"
+    t.string   "committer_name"
+    t.string   "committer_email"
+    t.string   "author_name"
+    t.string   "author_email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "rails_admin_histories", :force => true do |t|
     t.string   "message"
@@ -77,15 +82,11 @@ ActiveRecord::Schema.define(:version => 20110801161818) do
 
   create_table "requests", :force => true do |t|
     t.integer  "repository_id"
+    t.integer  "commit_id"
+    t.string   "source"
     t.text     "payload"
     t.string   "state"
-    t.string   "commit"
-    t.string   "ref"
-    t.string   "branch"
-    t.string   "token"
     t.text     "config"
-    t.string   "job_id"
-    t.string   "worker"
     t.datetime "started_at"
     t.datetime "finished_at"
     t.datetime "created_at"
@@ -93,10 +94,18 @@ ActiveRecord::Schema.define(:version => 20110801161818) do
   end
 
   create_table "tasks", :force => true do |t|
+    t.integer  "repository_id"
+    t.integer  "commit_id"
     t.integer  "owner_id"
     t.string   "owner_type"
     t.string   "type"
     t.string   "state"
+    t.string   "number"
+    t.text     "config"
+    t.integer  "status"
+    t.text     "log",           :default => ""
+    t.string   "job_id"
+    t.string   "worker"
     t.datetime "started_at"
     t.datetime "finished_at"
     t.datetime "created_at"

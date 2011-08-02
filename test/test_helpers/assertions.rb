@@ -1,5 +1,10 @@
 module TestHelpers
   module Assertions
+    def assert_state(state, object)
+      assert object.state?(state), "#{object.inspect} should be #{state}"
+      assert_equal now, object.send(:"#{state}_at")
+    end
+
     def assert_flunks(message)
       _wrap_assertion do
         exception = nil
