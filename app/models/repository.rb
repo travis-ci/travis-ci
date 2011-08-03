@@ -88,12 +88,12 @@ class Repository < ActiveRecord::Base
     end
   end
 
-  def override_last_build_status?(hash)
-    last_build && Build.keys_for(hash).present?
+  def override_last_build_status?(config)
+    last_build && Build.matrix_keys_for(config).present?
   end
 
   def override_last_build_status!(hash)
-    last_build_status_overridden = true
+    self.last_build_status_overridden = true
     matrix = self.last_build.matrix_for(hash)
     self.last_build_status = if matrix.present?
       # Set last build status to failing if any of the selected builds are failing
