@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ModelsRepositoryTest < ActiveSupport::TestCase
-  attr_reader :repository_1, :repository_2, :build_1, :build_2, :build_3, :build_4
+  attr_reader :repository_1, :repository_2, :repository_3, :build_1, :build_2, :build_3, :build_4, :build_5
 
   def setup
     super
@@ -11,9 +11,14 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     @build_1 = Factory(:build, :repository => repository_1.reload, :number => '1', :status => 0, :started_at => '2010-11-11 12:00:00', :finished_at => '2010-11-11 12:00:10')
     @build_2 = Factory(:build, :repository => repository_2.reload, :number => '2', :status => 1, :started_at => '2010-11-11 12:00:10', :finished_at => '2010-11-11 12:00:10')
     @build_3 = Factory(:build, :repository => repository_2.reload, :number => '3', :status => nil, :started_at => '2010-11-11 12:00:20')
-
+    
+    @repository_3 = Factory(:repository, :name => 'gem-release', :owner_name => 'joelmahoney')
+    @build_5 = Factory(:build, :repository => repository_3, :number => '5', :status => 0, :started_at => '2010-11-11 12:00:05', :finished_at => '2010-11-11 12:00:10', :config => { 'rvm' => ['1.8.7', '1.9.2'], 'env' => ['DB=sqlite3', 'DB=postgresql'] })
+    @repository_3.update_attribute(:last_build, @build_5)
+    
     repository_1.reload
     repository_2.reload
+    repository_3.reload
   end
 
   test 'returns stable human readable status for stable build' do
@@ -185,4 +190,61 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     child = Factory(:build, :repository => repository_1, :parent => build_1, :number => '1.1')
     assert_equal '1', repository_1.reload.last_build_number
   end
+    
+  test "validates last_build_status has not been overridden" do
+    repository = Factory(:repository, :last_build => @build_5)
+    repository.last_build_status_overridden = true
+    assert_raises(ActiveRecord::RecordInvalid) do
+      repository.save!
+    end
+  end
+
+  ####### JOEL AND ERIK TESTS #######
+
+  test "override_last_build_status? returns false when last_build is nil" do
+    repo = Factory(:repository, :last_build => nil)
+    assert !repo.override_last_build_status?('rvm' => '1.8.7')
+  end
+
+  test "override_last_build_status? returns false when no matching keys" do
+    assert !repository_3.override_last_build_status?({})
+  end
+  
+  test "override_last_build_status? returns true with last_build and matching keys" do
+    assert repository_3.override_last_build_status?('rvm' => '1.8.7')
+  end
+  
+  test "override_last_build_status! sets last_build_status_overridden to true" do
+    repository_3.override_last_build_status!({})
+    assert repository_3.last_build_status_overridden
+  end
+  
+  test "override_last_build_status! sets last_build_status nil when hash is empty" do
+    repository_3.override_last_build_status!({})
+    assert_equal nil, repository_3.last_build_status
+  end
+
+  test "override_last_build_status! sets last_build_status nil when hash is invalid" do
+    repository_3.override_last_build_status!({'foo' => 'bar'})
+    assert_equal nil, repository_3.last_build_status
+  end
+
+  test "override_last_build_status! sets last_build_status to 0 (passing) when all specified builds are passing" do
+    build_5.matrix.each do |build|
+      build.update_attribute(:status, 0) if build.config['rvm'] == '1.8.7'
+      build.update_attribute(:status, 1) if build.config['rvm'] == '1.9.2'
+    end
+    repository_3.override_last_build_status!({'rvm' => '1.8.7'})
+    assert_equal 0, repository_3.last_build_status
+  end
+
+  test "override_last_build_status! sets last_build_status to 1 (failing) when at least one specified build is failing" do
+    build_5.matrix.each do |build|
+      build.update_attribute(:status, 0)
+    end
+    build_5.matrix[0].update_attribute(:status, 1)
+    repository_3.override_last_build_status!({'rvm' => '1.8.7'})
+    assert_equal 1, repository_3.last_build_status
+  end
+
 end

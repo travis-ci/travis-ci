@@ -254,5 +254,21 @@ class BuildMatrixTest < ActiveSupport::TestCase
     )
     assert_equal_hashes expected, build.as_json(:for => :'build:started')
   end
+  
+  test "matrix_for selects matching builds" do
+    build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'], 'env' => ['DB=sqlite3', 'DB=postgresql'] })
+    assert_equal [build.matrix[0]], build.matrix_for({'rvm' => '1.8.7', 'env' => 'DB=sqlite3'})
+  end
+  
+  test "matrix_for does not select builds with non-matching values" do
+    build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'], 'env' => ['DB=sqlite3', 'DB=postgresql'] })
+    assert_equal [], build.matrix_for({'rvm' => 'nomatch', 'env' => 'DB=sqlite3'})
+  end
+  
+  test "matrix_for does not select builds with non-matching keys" do
+    build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'], 'env' => ['DB=sqlite3', 'DB=postgresql'] })
+    assert_equal [build.matrix[0], build.matrix[1]], build.matrix_for({'rvm' => '1.8.7', 'nomatch' => 'DB=sqlite3'})
+  end
+
 end
 

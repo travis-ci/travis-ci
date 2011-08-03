@@ -34,8 +34,9 @@ class Build < ActiveRecord::Base
     end
 
     def keys_for(hash)
-      ENV_KEYS.select { |key| hash[key.to_s] }
+      ENV_KEYS.select { |key| hash.keys.map(&:to_s).include?(key) }
     end
+    
   end
 
   def config=(config)
@@ -82,7 +83,7 @@ class Build < ActiveRecord::Base
   # e.g. build.matrix_for(rvm: '1.8.7', env: 'DB=postgresql')
   def matrix_for(hash)
     matrix.select do |build|
-      self.class.keys_for(hash).map do |key|
+      Build.keys_for(hash).map do |key|
         build.config[key] == hash[key]
       end.inject(:&)
     end
