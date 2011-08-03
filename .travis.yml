@@ -3,7 +3,7 @@ script: "bundle exec rake test:ci"
 rvm:
   - 1.8.7
   - 1.9.2
-  - ruby-head
+  - 1.9.3
   - ree
 notifications:
   irc: "irc.freenode.org#travis"

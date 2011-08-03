@@ -9,13 +9,13 @@ class BuildsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => :create
 
   def index
-    repository = Repository.find(params[:repository_id])
+    not_found unless repository = Repository.find_by_params(params)
 
-    respond_with(repository.builds.recent((params[:page] || 1).to_i))
+    respond_with(repository.builds.recent(params[:page]))
   end
 
   def show
-    build = Build.find(params[:id])
+    not_found unless build = Build.find(params[:id])
 
     respond_with(build)
   end

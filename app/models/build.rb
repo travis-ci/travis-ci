@@ -18,6 +18,7 @@ class Build < ActiveRecord::Base
 
   class << self
     def recent(page)
+      page = (page || 1).to_i
       started.order('id DESC').limit(10 * page).includes(:matrix)
     end
 
