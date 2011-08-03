@@ -6,7 +6,7 @@ class BuildMailer < ActionMailer::Base
   def finished_email(build)
     @build     = build
     subject    = "#{build.repository.slug}##{build.number} (#{build.branch} - #{build.commit[0, 7]}): the build has #{build.passed? ? 'passed' : 'failed' }"
-    recipients = build.unique_recipients
+    recipients = build.email_recipients
     mail(:to => recipients, :subject => subject)
   end
 end

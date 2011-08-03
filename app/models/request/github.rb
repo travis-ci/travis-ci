@@ -16,7 +16,7 @@ class Request
         commit = data.commits.last
 
         if commit && !Github.reject?(data.repository, commit)
-          attributes = { :source => :github, :payload => payload, :commit => Commit.create!(commit.to_hash) }
+          attributes = { :source => :github, :payload => payload, :commit => Commit.create!(commit.to_hash), :token => token }
           repository = Repository.find_or_create_by_github_repository(data.repository)
           repository.requests.create!(attributes)
         end

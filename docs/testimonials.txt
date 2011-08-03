@@ -29,3 +29,6 @@ https://twitter.com/#!/modetojoy/status/98471473697652736 - @modetojoy (Durran J
 
 "Running tests is fun with @travisci: http://t.co/vv7VxEc"
 https://twitter.com/#!/ledermann/status/98706896336334850 - @ledermann (Georg Ledermann)
+
+"I found my new CI @travisci you rocks!"
+https://twitter.com/#!/julionc/status/98960746448297984 - @julionc (Julio Napurí)

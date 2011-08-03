@@ -23,13 +23,14 @@ class BuildEventsTest < ActiveSupport::TestCase
   end
 
   test "denormalize_to_repository denormalizes the build status and finished_at attributes to the build's repository if this is a matrix build and all children have finished" do
+    now = Time.now
     build = Factory(:build, :matrix => [Factory(:build), Factory(:build)], :config => { 'rvm' => ['1.8.7', '1.9.2'] })
-    june = Time.utc(2011, 06, 23, 20, 20, 20)
-    build.matrix.first.update_attributes!(:finished_at => june, :status => 0)
-    build.matrix.last.update_attributes!(:finished_at => june, :status => 0)
+
+    build.matrix.first.update_attributes!(:finished_at => now, :status => 0)
+    build.matrix.last.update_attributes!(:finished_at => now, :status => 0)
     repository = build.repository.reload
 
     assert_equal 0, repository.last_build_status
-    assert_equal june, repository.last_build_finished_at
+    assert_equal now, repository.last_build_finished_at
   end
 end
