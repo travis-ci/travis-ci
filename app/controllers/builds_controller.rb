@@ -39,10 +39,10 @@ class BuildsController < ApplicationController
     elsif build.matrix_expanded?
       build.matrix.each { |child| enqueue!(child) }
       trigger('build:configured', build, 'msg_id' => params[:msg_id])
-    elsif build.was_configured? && build.build?
+    elsif build.was_configured? && build.approved?
       enqueue!(build)
       trigger('build:configured', build, 'msg_id' => params[:msg_id])
-    elsif !build.build?
+    elsif !build.approved?
       build.destroy
       trigger('build:removed', build, 'msg_id' => params[:msg_id])
     elsif build.was_finished?
