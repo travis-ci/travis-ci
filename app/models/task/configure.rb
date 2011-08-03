@@ -7,6 +7,10 @@ class Task::Configure < Task
   event :start,  :to => :started, :after => :propagate
   event :finish, :to => :finished, :after => :configure_owner
 
+  after_create do
+    enqueue!
+  end
+
   def configure_owner(event, config)
     owner.configure!(config)
   end

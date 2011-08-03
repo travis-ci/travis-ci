@@ -10,6 +10,7 @@ class CreateRequests < ActiveRecord::Migration
       t.text       :payload
       t.string     :state
       t.text       :config
+      t.string     :token
 
       t.datetime :started_at
       t.datetime :finished_at

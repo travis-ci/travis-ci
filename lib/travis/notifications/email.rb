@@ -1,13 +1,27 @@
 module Travis
   module Notifications
-    module Email
-      def self.notify(build)
-        BuildMailer.finished_email(build).deliver if build.send_email_notifications?
-      rescue Net::SMTPError => e
-        # TODO might want to log this event. e.g. happens when people specify bad email addresses like "foo[at]bar[dot]com"
-      end
-    end
+    class Email
+      EVENTS = 'build:finished'
 
-    register_notifier(Email)
+      def receive(event, object, *args)
+        send_emails(object) if object.send_email_notifications?
+      end
+
+      protected
+
+        def send_emails(object)
+          email(object).deliver
+        rescue Net::SMTPError => e
+          # TODO need to log this event. e.g. happens when people specify bad email addresses like "foo[at]bar[dot]com"
+        end
+
+        def email(object)
+          mailer(object).send(:"#{object.state}_email", object)
+        end
+
+        def mailer(object)
+          "#{object.class.name}Mailer".constantize.new
+        end
+    end
   end
 end
