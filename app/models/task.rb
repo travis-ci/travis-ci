@@ -42,6 +42,12 @@ class Task < ActiveRecord::Base
     owner.send(*args)
   end
 
+  def matrix_config?(config)
+    config = config.to_hash.symbolize_keys
+    keys   = Build.matrix_keys_for(config)
+    keys.map { |key| self.config[key.to_sym] == config[key] }.inject(:&)
+  end
+
   protected
 
     # This extracts attributes like :started_at, :finished_at, :config from the

@@ -26,7 +26,7 @@ describe Repository do
     end
 
     describe 'find_and_remove_service_hook' do
-      let(:user)    { Factory(:user) }
+      let(:user) { Factory(:user) }
 
       it 'finds an existing repo and removes a service hook' do
         stub_request(:post, 'https://api.github.com/hub').to_return(:status => 200, :body => '', :headers => {})
@@ -42,7 +42,7 @@ describe Repository do
     end
 
     describe 'find_or_create_and_add_service_hook' do
-      let(:user)    { Factory(:user) }
+      let(:user) { Factory(:user) }
 
       it 'finds an existing repo and adds a service hook' do
         stub_request(:post, 'https://api.github.com/hub').to_return(:status => 200, :body => '', :headers => {})
@@ -170,6 +170,66 @@ describe Repository do
     Factory(:build, :repository => repository, :state => 'started', :commit => Factory(:commit, :branch => 'feature'))
 
     repository.last_finished_build('feature').id.should == build.id
+  end
+
+  it 'validates last_build_status has not been overridden' do
+    repository = Factory(:repository)
+    repository.last_build_status_overridden = true
+    assert_raises(ActiveRecord::RecordInvalid) do
+      repository.save!
+    end
+  end
+
+  describe 'override_last_build_status?' do
+    let(:repository) { Factory(:build, :state => 'finished', :config => { 'rvm' => ['1.8.7', '1.9.2'], 'env' => ['DB=sqlite3', 'DB=postgresql'] }).repository }
+
+    it 'returns false when last_build is nil' do
+      repository.builds.delete_all
+      assert !repository.override_last_build_status?('rvm' => '1.8.7')
+    end
+
+    it 'override_last_build_status? returns false when no matching keys' do
+      assert !repository.override_last_build_status?({})
+    end
+
+    it 'override_last_build_status? returns true with last_build and matching keys' do
+      assert repository.override_last_build_status?('rvm' => '1.8.7')
+    end
+  end
+
+  describe 'override_last_build_status!' do
+    let(:repository) { Factory(:build, :state => 'finished', :config => { 'rvm' => ['1.8.7', '1.9.2'], 'env' => ['DB=sqlite3', 'DB=postgresql'] }).repository }
+
+    it 'sets last_build_status_overridden to true' do
+      repository.override_last_build_status!({})
+      assert repository.last_build_status_overridden
+    end
+
+    it 'sets last_build_status nil when hash is empty' do
+      repository.override_last_build_status!({})
+      assert_equal nil, repository.last_build_status
+    end
+
+    it 'sets last_build_status nil when hash is invalid' do
+      repository.override_last_build_status!('foo' => 'bar')
+      assert_equal nil, repository.last_build_status
+    end
+
+    it 'sets last_build_status to 0 (passing) when all specified builds are passing' do
+      repository.builds.first.matrix.each do |task|
+        task.update_attribute(:status, task.config[:rvm] == '1.8.7' ? 0 : 1)
+      end
+      repository.override_last_build_status!('rvm' => '1.8.7')
+      assert_equal 0, repository.last_build_status
+    end
+
+    it 'sets last_build_status to 1 (failing) when at least one specified build is failing' do
+      repository.builds.first.matrix.each_with_index do |build, ix|
+        build.update_attribute(:status, ix == 0 ? 1 : 0)
+      end
+      repository.override_last_build_status!('rvm' => '1.8.7')
+      assert_equal 1, repository.last_build_status
+    end
   end
 end
 
