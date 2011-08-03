@@ -199,8 +199,6 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     end
   end
 
-  ####### JOEL AND ERIK TESTS #######
-
   test "override_last_build_status? returns false when last_build is nil" do
     repo = Factory(:repository, :last_build => nil)
     assert !repo.override_last_build_status?('rvm' => '1.8.7')
