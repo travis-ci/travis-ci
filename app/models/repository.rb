@@ -3,7 +3,7 @@ require 'core_ext/hash/compact'
 require 'travis/git_hub_api'
 
 class Repository < ActiveRecord::Base
-
+  attr_accessor :last_build_status_overridden
   has_many :builds, :conditions => 'parent_id IS null', :dependent => :delete_all
 
   has_one :last_build,          :class_name => 'Build', :order => 'id DESC', :conditions => 'parent_id IS NULL AND started_at IS NOT NULL'
@@ -12,6 +12,7 @@ class Repository < ActiveRecord::Base
 
   validates :name,       :presence => true, :uniqueness => { :scope => :owner_name }
   validates :owner_name, :presence => true
+  validate :last_build_status_cannot_be_overridden
 
   class << self
     def timeline
@@ -88,11 +89,29 @@ class Repository < ActiveRecord::Base
     end
   end
 
+  def override_last_build_status?(hash)
+    last_build && Build.keys_for(hash).present?
+  end
+
+  def override_last_build_status!(hash)
+    self.last_build_status_overridden = true
+    matrix = self.last_build.matrix_for(hash)
+    self.last_build_status = if matrix.present?
+      # Set last build status to failing if any of the selected builds are failing
+      matrix.all?(&:passed?) ? 0 : 1
+    else
+      nil
+    end
+  end
+
+  def last_build_status_cannot_be_overridden
+    errors.add(:last_build_status, "can't be overridden") if last_build_status_overridden
+  end
+
   def human_status(branches="")
     return 'unknown' unless last_finished_build(branches)
     last_finished_build(branches).status == 0 ? 'stable' : 'unstable'
   end
-
 
   def slug
     @slug ||= [owner_name, name].join('/')

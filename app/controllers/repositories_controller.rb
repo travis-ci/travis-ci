@@ -10,6 +10,8 @@ class RepositoriesController < ApplicationController
   def show
     @repository = repository
 
+    @repository.override_last_build_status!(params) if @repository.try(:override_last_build_status?, params)
+
     respond_with(@repository) do |format|
       format.png { send_status_image_file }
       format.any { @repository || not_found }
@@ -18,18 +20,18 @@ class RepositoriesController < ApplicationController
 
   protected
 
-    def repository
-      @repository ||= Repository.find_by_params(params)
+    def repositories
+      @repositories ||= if params[:owner_name]
+        Repository.where(:owner_name => params[:owner_name]).timeline
+      else
+        Repository.timeline.recent
+      end
+
+      params[:search].present? ? @repositories.search(params[:search]) : @repositories
     end
 
-    def repositories
-      repos = if params[:owner_name]
-          Repository.where(:owner_name => params[:owner_name]).timeline
-        else
-          Repository.timeline.recent
-        end
-
-      params[:search].present? ? repos.search(params[:search]) : repos
+    def repository
+      @repository ||= Repository.find_by_params(params)
     end
 
     def send_status_image_file
@@ -40,5 +42,4 @@ class RepositoriesController < ApplicationController
 
       send_file(path, :type => 'image/png', :disposition => 'inline')
     end
-
 end
