@@ -6,7 +6,15 @@ class Request
 
     class << self
       def reject?(repository, commit)
-        repository.private? || commit.branch.match(/gh[-_]pages/i)
+        repository.private? || skipped?(commit) || github_pages?(commit)
+      end
+
+      def skipped?(commit)
+        commit.message.try(:match, /\[ci ([\w ]*)\]/i) && $1.downcase == 'skip'
+      end
+
+      def github_pages?(commit)
+        commit.branch.try(:match, /gh[-_]pages/i)
       end
     end
 
