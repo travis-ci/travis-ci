@@ -136,9 +136,11 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   // external events
 
   buildQueued: function(data) {
+    console.log ("application#buildQueued: ", arguments)
     this.addJob(data);
   },
   buildStarted: function(data) {
+    console.log ("application#buildStarted: ", arguments)
     this.removeJob(data);
     this.repositories.update(data);
 
@@ -149,18 +151,23 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }
   },
   buildConfigured: function(data) {
+    console.log ("application#buildConfigured: ", arguments)
     this.removeJob(data);
     this.repositories.update(data);
   },
   buildFinished: function(data) {
+    console.log ("application#buildFinished: ", arguments)
     this.repositories.update(data);
   },
   buildRemoved: function(data) {
+    console.log ("application#buildRemoved: ", arguments)
     this.removeJob(data);
   },
   buildLogged: function(data) {
+    console.log ("application#buildLogged: ", arguments)
     this.repositories.update(data);
   },
+
   selectTab: function(tab) {
     this.tab = tab;
     this.repositoryShow.activateTab(this.tab);
