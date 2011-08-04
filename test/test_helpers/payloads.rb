@@ -133,6 +133,60 @@ GITHUB_PAYLOADS = {
     "before":"0000000000000000000000000000000000000000",
     "compare":"https://github.com/LTe/acts-as-messageable/compare/v0.3.0",
     "created":true
+  }),
+
+  'travis-ci' => %({
+    "created": false,
+    "commits": [
+      { "modified": ["public/javascripts/app/controllers/application.js"],
+        "removed": [],
+        "message": "Adding debug log messages to application.js",
+        "distinct": false,
+        "added": [],
+        "url": "https://github.com/travis-ci/travis-ci/commit/d2ee302726c96966085c605a22db8f4ec88cfeea",
+        "timestamp": "2011-08-04T09:33:11-07:00",
+        "id": "d2ee302726c96966085c605a22db8f4ec88cfeea",
+        "author": {
+          "email": "oleksandr.petrov@gmail.com",
+          "username": "ifesdjeen",
+          "name": "Oleksandr Petrov"
+        }
+      }
+    ],
+    "before": "d76c31606fe88118559f55600edffcc484cd6573",
+    "forced": false,
+    "after": "d2ee302726c96966085c605a22db8f4ec88cfeea",
+    "deleted": false,
+    "repository": {
+      "has_wiki": true,
+      "watchers": 535,
+      "has_issues": true,
+      "open_issues": 60,
+      "forks": 84,
+      "organization": "travis-ci",
+      "created_at": "2011/02/27 22:30:40 -0800",
+      "fork": false,
+      "url": "https://github.com/travis-ci/travis-ci",
+      "pushed_at": "2011/08/04 10:25:48 -0700",
+      "language": "JavaScript",
+      "has_downloads": true,
+      "private": false,
+      "size": 812,
+      "owner": {
+        "email": "contact@travis-ci.org\",
+        "name": "travis-ci\"
+      },
+      "name": "travis-ci",
+      "homepage": "http://travis-ci.org",
+      "description": "A distributed build system for the Ruby community. See also github.com/travis-ci/travis-worker and github.com/travis-ci/travis-cookbooks"
+    },
+    "compare": "https://github.com/travis-ci/travis-ci/compare/d76c316...d2ee302",
+    "base_ref": "refs/heads/production",
+    "ref": "refs/heads/master",
+    "pusher": {
+      "email": "josh.kalderimis@gmail.com",
+      "name": "joshk"
+    }
   })
 }
 
