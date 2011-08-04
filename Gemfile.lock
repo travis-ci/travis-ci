@@ -179,7 +179,7 @@ GEM
     rake (0.9.2)
     rbx-require-relative (0.0.5)
     rdoc (3.8)
-    redis (2.2.1)
+    redis (2.2.2)
     redis-namespace (1.0.3)
       redis (< 3.0.0)
     refraction (0.2.0)
