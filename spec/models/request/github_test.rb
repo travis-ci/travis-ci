@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Request::Github do
-  describe 'creation' do
+  describe 'create_from_github_payload' do
     def create_request(name)
       Request.create_from_github_payload(GITHUB_PAYLOADS[name], 'travis-token')
     end
@@ -46,6 +46,48 @@ describe Request::Github do
     it 'given a payload containing no commit information does not create a request' do
       lambda { create_request('force-no-commit') }.should_not change(Request, :count)
     end
+
+    describe 'commit message skip command' do
+      let(:payload) { ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release']) }
+
+      def payload_with_custom_message_addition(message)
+        payload['commits'].first['message'] += message
+        ActiveSupport::JSON.encode(payload)
+      end
+
+      it '[ci skip] does not create a request' do
+        payload = payload_with_custom_message_addition(' [ci skip]')
+        lambda { Request.create_from_github_payload(payload, 'abc') }.should_not change(Build, :count)
+      end
+
+      it '[CI skip] does not create a request' do
+        payload = payload_with_custom_message_addition(' [CI skip]')
+        lambda { Request.create_from_github_payload(payload, 'abc') }.should_not change(Build, :count)
+      end
+
+      it '[CI not-valid-command] creates a request' do
+        payload = payload_with_custom_message_addition(' [CI not-valid-command]')
+        lambda { Request.create_from_github_payload(payload, 'abc') }.should_not change(Build, :count)
+      end
+    end
+  end
+
+  describe 'reject?' do
+    let(:repository) { Github::Repository.new }
+
+    it 'returns true when the commit message includes [ci skip]' do
+      commit = Hashr.new(:message => 'lets party like its 1999 [ci skip]')
+      assert Request::Github.reject?(repository, commit)
+    end
+
+    it 'returns true when the commit message includes [CI SKIP]' do
+      commit = Hashr.new(:message => 'lets party like its 1999 [CI SKIP]')
+      assert Request::Github.reject?(repository, commit)
+    end
+
+    it 'returns false when the commit message includes [ci not-valid-command]' do
+      commit = Hashr.new(:message => 'lets party like its 1999 [ci not-valid-command]')
+      assert !Request::Github.reject?(repository, commit)
+    end
   end
 end
-
