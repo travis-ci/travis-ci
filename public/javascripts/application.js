@@ -57,16 +57,7 @@ $(document).ready(function() {
   }
 
   $('#search input').keyup(_.debounce(function(e) {
-    var searchString = $(this).val();
-
-    $.ajax({
-      type: "GET",
-      url: "/repositories",
-      data: "search=" + searchString,
-      success: function(repositories) {
-        Travis.app.repositories.refresh(repositories);
-      }
-    });
+    Travis.app.repositories.setFilter($(this).val()).fetch()
   }, 100));
 
   function toggle_slider() {
