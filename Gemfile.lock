@@ -11,28 +11,12 @@ GIT
       multi_json (~> 1.0.2)
 
 GIT
-  remote: https://github.com/svenfuchs/data_migrations.git
-  revision: 8e3befe07f5b1b3082b8ca1fbce857a138c599eb
-  specs:
-    data_migrations (0.0.1)
-      activerecord
-      rake
-
-GIT
   remote: https://github.com/svenfuchs/resque-heartbeat.git
   revision: ba7a89f504906182635ec2cecbed5bd52a557aa6
   ref: ba7a89f
   specs:
     resque-heartbeat (0.0.2)
       resque (~> 1.17.0)
-
-GIT
-  remote: https://github.com/svenfuchs/simple_states.git
-  revision: 2cbc61f0267af7cf3dd33f21974255ceb6cbe5ce
-  specs:
-    simple_states (0.0.5)
-      activesupport
-      hashr (~> 0.0.10)
 
 GEM
   remote: http://rubygems.org/
@@ -43,12 +27,12 @@ GEM
     Platform (0.4.0)
     SystemTimer (1.2.3)
     abstract (1.0.0)
-    actionmailer (3.0.10)
-      actionpack (= 3.0.10)
+    actionmailer (3.0.9)
+      actionpack (= 3.0.9)
       mail (~> 2.2.19)
-    actionpack (3.0.10)
-      activemodel (= 3.0.10)
-      activesupport (= 3.0.10)
+    actionpack (3.0.9)
+      activemodel (= 3.0.9)
+      activesupport (= 3.0.9)
       builder (~> 2.1.2)
       erubis (~> 2.6.6)
       i18n (~> 0.5.0)
@@ -56,32 +40,34 @@ GEM
       rack-mount (~> 0.6.14)
       rack-test (~> 0.5.7)
       tzinfo (~> 0.3.23)
-    activemodel (3.0.10)
-      activesupport (= 3.0.10)
+    activemodel (3.0.9)
+      activesupport (= 3.0.9)
       builder (~> 2.1.2)
       i18n (~> 0.5.0)
-    activerecord (3.0.10)
-      activemodel (= 3.0.10)
-      activesupport (= 3.0.10)
+    activerecord (3.0.9)
+      activemodel (= 3.0.9)
+      activesupport (= 3.0.9)
       arel (~> 2.0.10)
       tzinfo (~> 0.3.23)
-    activeresource (3.0.10)
-      activemodel (= 3.0.10)
-      activesupport (= 3.0.10)
-    activesupport (3.0.10)
+    activeresource (3.0.9)
+      activemodel (= 3.0.9)
+      activesupport (= 3.0.9)
+    activesupport (3.0.9)
     addressable (2.2.6)
     archive-tar-minitar (0.5.2)
     arel (2.0.10)
     bcrypt-ruby (2.1.4)
+    bcrypt-ruby (2.1.4-java)
+    bouncy-castle-java (1.5.0146.1)
     builder (2.1.2)
-    capybara (1.0.1)
+    capybara (1.0.0)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
-      selenium-webdriver (~> 2.0)
+      selenium-webdriver (~> 0.2.0)
       xpath (~> 0.1.4)
-    childprocess (0.2.1)
+    childprocess (0.2.0)
       ffi (~> 1.0.6)
     chunky_png (1.2.0)
     clockwork (0.2.4)
@@ -99,8 +85,11 @@ GEM
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
-    factory_girl (2.0.5)
-    fakeredis (0.2.2)
+    factory_girl (1.3.3)
+    factory_girl_rails (1.0.1)
+      factory_girl (~> 1.3)
+      railties (>= 3.0.0)
+    fakeredis (0.2.0)
       redis (~> 2.2.0)
     faraday (0.6.1)
       addressable (~> 2.2.4)
@@ -109,16 +98,19 @@ GEM
     faraday_middleware (0.6.5)
       faraday (~> 0.6.0)
     ffi (1.0.9)
+    ffi (1.0.9-java)
     fssm (0.2.7)
     hashie (1.0.0)
-    hashr (0.0.12)
     hoptoad_notifier (2.4.11)
       activesupport
       builder
     i18n (0.5.0)
     jammit (0.6.3)
       yui-compressor (>= 0.9.3)
+    jruby-openssl (0.7.4)
+      bouncy-castle-java
     json (1.5.3)
+    json (1.5.3-java)
     json_pure (1.5.3)
     kgio (2.6.0)
     linecache (0.46)
@@ -131,7 +123,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
-    minitest (2.5.0)
+    minitest (2.3.1)
     minitest_tu_shim (1.3.2)
       minitest (>= 1.6.0)
     mocha (0.9.12)
@@ -140,6 +132,7 @@ GEM
     multipart-post (1.1.3)
     newrelic_rpm (3.1.1)
     nokogiri (1.5.0)
+    nokogiri (1.5.0-java)
     oa-core (0.2.6)
     oa-oauth (0.2.6)
       faraday (~> 0.6.1)
@@ -168,24 +161,24 @@ GEM
       rack (>= 1.0.0)
     rack-test (0.5.7)
       rack (>= 1.0)
-    rails (3.0.10)
-      actionmailer (= 3.0.10)
-      actionpack (= 3.0.10)
-      activerecord (= 3.0.10)
-      activeresource (= 3.0.10)
-      activesupport (= 3.0.10)
+    rails (3.0.9)
+      actionmailer (= 3.0.9)
+      actionpack (= 3.0.9)
+      activerecord (= 3.0.9)
+      activeresource (= 3.0.9)
+      activesupport (= 3.0.9)
       bundler (~> 1.0)
-      railties (= 3.0.10)
-    railties (3.0.10)
-      actionpack (= 3.0.10)
-      activesupport (= 3.0.10)
+      railties (= 3.0.9)
+    railties (3.0.9)
+      actionpack (= 3.0.9)
+      activesupport (= 3.0.9)
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (~> 0.14.4)
     raindrops (0.7.0)
     rake (0.9.2)
     rbx-require-relative (0.0.5)
-    rdoc (3.9.3)
+    rdoc (3.8)
     redis (2.2.2)
     redis-namespace (1.0.3)
       redis (< 3.0.0)
@@ -238,6 +231,7 @@ GEM
     sinatra (1.2.6)
       rack (~> 1.1)
       tilt (< 2.0, >= 1.2.2)
+    test_declarative (0.0.5)
     thor (0.14.6)
     tilt (1.3.2)
     treetop (1.4.10)
@@ -253,16 +247,17 @@ GEM
       rack (>= 1.0.0)
     warden (1.0.5)
       rack (>= 1.0)
-    webmock (1.7.4)
+    webmock (1.6.4)
       addressable (> 2.2.5, ~> 2.2)
       crack (>= 0.1.7)
     xpath (0.1.4)
       nokogiri (~> 1.3)
-    yajl-ruby (0.8.3)
+    yajl-ruby (0.8.2)
     yui-compressor (0.9.6)
       POpen4 (>= 0.1.4)
 
 PLATFORMS
+  java
   ruby
 
 DEPENDENCIES
@@ -270,12 +265,11 @@ DEPENDENCIES
   capybara (~> 1.0.0)
   clockwork
   compass (~> 0.11.3)
-  data_migrations!
   database_cleaner
   devise (~> 1.4.2)
-  factory_girl (~> 2.0.3)
-  fakeredis
-  hashr (~> 0.0.12)
+  factory_girl (~> 1.3)
+  factory_girl_rails
+  fakeredis (~> 0.2.0)
   hoptoad_notifier (~> 2.4.11)
   jammit (~> 0.6.0)
   jruby-openssl
@@ -298,7 +292,7 @@ DEPENDENCIES
   ruby-debug
   ruby-debug19
   silent-postgres (~> 0.0.8)
-  simple_states!
+  test_declarative
   unicorn (~> 4.0.0)
   unobtrusive_flash (~> 0.0.2)
   webmock
