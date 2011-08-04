@@ -160,7 +160,15 @@ window._console = console;
  */
 var console = {
   log: function() {
-    if (/__DEBUG__/.exec(window.location.hash) || window.__DEBUG__)
-      window._console.log(arguments)
+    if (/__DEBUG__/.exec(window.location.hash) || window.__DEBUG__) {
+      if (!_.isEmpty(window.__DEBUG_FILTER__)) {
+        if (_.include(arguments[0], window.__DEBUG_FILTER__)) {
+          window._console.log(arguments)
+        }
+      }
+      else {
+        window._console.log(arguments)
+      }
+    }
   }
 }
