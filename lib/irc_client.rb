@@ -5,6 +5,9 @@
 # https://github.com/tbuehlmann/ponder
 # https://github.com/cinchrb/cinch
 # https://github.com/cho45/net-irc
+
+require "socket"
+
 class IrcClient
   attr_accessor :channel
 

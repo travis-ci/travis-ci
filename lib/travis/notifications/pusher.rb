@@ -3,7 +3,7 @@ module Travis
     class Pusher
       EVENTS = [/build:/, /task:/]
 
-      def receive(event, object, *args)
+      def notify(event, object, *args)
         push(event, json_for(event, object)) # TODO gotta figure out incremental log updates. was: .deep_merge(data)
       end
 

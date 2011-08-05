@@ -11,6 +11,7 @@ end
 Factory.define :request do |f|
   f.repository { Repository.first || Factory(:repository) }
   f.association :commit
+  f.token 'the-token'
 end
 
 Factory.define :commit do |f|
@@ -20,13 +21,15 @@ Factory.define :commit do |f|
   f.committed_at { Time.now }
   f.committer_name 'Sven Fuchs'
   f.committer_email 'svenfuchs@artweb-design.de'
+  f.author_name 'Sven Fuchs'
+  f.author_email 'svenfuchs@artweb-design.de'
+  f.compare_url 'https://github.com/svenfuchs/minimal/compare/master...develop'
 end
 
 Factory.define :build do |f|
   f.repository { Repository.first || Factory(:repository) }
   f.association :request
   f.association :commit
-  f.number '1'
 end
 
 Factory.define :running_build, :parent => :build do |f|

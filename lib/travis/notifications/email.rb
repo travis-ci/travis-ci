@@ -3,7 +3,7 @@ module Travis
     class Email
       EVENTS = 'build:finished'
 
-      def receive(event, object, *args)
+      def notify(event, object, *args)
         send_emails(object) if object.send_email_notifications?
       end
 
@@ -20,7 +20,7 @@ module Travis
         end
 
         def mailer(object)
-          "#{object.class.name}Mailer".constantize.new
+          "#{object.class.name}Mailer".constantize
         end
     end
   end

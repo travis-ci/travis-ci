@@ -12,7 +12,7 @@ Travis.Views.ServiceHooks.List = Backbone.View.extend({
   render: function() {
     this.el.html(this.template({}))
     _.each(this.collection.sortBy( function(a,b) {
-      return a.get('is_active');
+      return a.get('active');
     }).reverse(), _.bind(function(item) {
       this.el.find("#service_hooks").append(this.renderItem(item))
     }, this))

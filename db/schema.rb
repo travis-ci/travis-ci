@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110803020412) do
+ActiveRecord::Schema.define(:version => 20110805030147) do
 
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(:version => 20110803020412) do
   add_index "builds", ["repository_id"], :name => "index_builds_on_repository_id"
 
   create_table "commits", :force => true do |t|
-    t.string   "number"
     t.string   "commit"
     t.string   "ref"
     t.string   "branch"
@@ -74,7 +73,7 @@ ActiveRecord::Schema.define(:version => 20110803020412) do
     t.datetime "last_build_finished_at"
     t.string   "owner_name"
     t.text     "owner_email"
-    t.boolean  "is_active"
+    t.boolean  "active"
   end
 
   add_index "repositories", ["last_build_started_at"], :name => "index_repositories_on_last_build_started_at"
@@ -87,6 +86,7 @@ ActiveRecord::Schema.define(:version => 20110803020412) do
     t.text     "payload"
     t.string   "state"
     t.text     "config"
+    t.string   "token"
     t.datetime "started_at"
     t.datetime "finished_at"
     t.datetime "created_at"

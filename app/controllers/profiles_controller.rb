@@ -19,7 +19,7 @@ class ProfilesController < ApplicationController
   end
 
   def update_service_hook
-    if params[:is_active]
+    if params[:active]
       repository = Repository.find_or_create_and_add_service_hook(*service_hook_args)
     else
       repository = Repository.find_and_remove_service_hook(*service_hook_args)
@@ -27,7 +27,7 @@ class ProfilesController < ApplicationController
 
     respond_with(repository)
   rescue ActiveRecord::RecordInvalid, Travis::GitHubApi::ServiceHookError => e
-    respond_with(repository, :only => [:id, :is_active], :status => :not_acceptable)
+    respond_with(repository, :only => [:id, :active], :status => :not_acceptable)
   end
 
   private

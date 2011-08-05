@@ -5,7 +5,7 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
 
   attr_reader :channel, :build
 
-  def setup
+  before do
     super
 
     flush_redis
@@ -16,12 +16,12 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     Pusher.stubs(:[]).returns(channel)
   end
 
-  test 'POST to /builds (ping from github) creates a build record and a build job and sends a build:queued event to Pusher' do
+  it 'POST to /builds (ping from github) creates a build record and a build job and sends a build:queued event to Pusher' do
     assert_difference('Build.count', 1) do
       ping_from_github!
       build = Build.last
       assert_build_job
-      assert_equal ['build:queued', {
+      {.should == ['build:queued'
         'repository' => {
           'id' => build.repository.id,
           :slug => 'svenfuchs/gem-release'
@@ -34,22 +34,22 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'POST to /builds (ping from github) does not create a build record when the branch is gh_pages' do
+  it 'POST to /builds (ping from github) does not create a build record when the branch is gh_pages' do
     assert_no_difference('Build.count') do
       post '/builds', { :payload => GITHUB_PAYLOADS['gh-pages-update'] }, 'HTTP_AUTHORIZATION' => credentials
       post '/builds', { :payload => GITHUB_PAYLOADS['gh_pages-update'] }, 'HTTP_AUTHORIZATION' => credentials
     end
   end
 
-  test 'PUT to /builds/:id configures the build and expands a given build matrix' do
+  it 'PUT to /builds/:id configures the build and expands a given build matrix' do
     configure_from_worker!
     assert_build_matrix_configured
   end
 
-  test 'PUT to /builds/:id starts the build' do
+  it 'PUT to /builds/:id starts the build' do
     start_from_worker!
     assert_build_started
-    assert_equal ['build:started', {
+    {.should == ['build:started'
       'repository' => {
         'id' => build.repository.id,
         :slug => 'svenfuchs/minimal',
@@ -74,11 +74,11 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     }], channel.messages.first
   end
 
-  test 'PUT to /builds/:id/log appends to the build log' do
+  it 'PUT to /builds/:id/log appends to the build log' do
     build.update_attributes!(:log => 'some log')
     log_from_worker!(1)
-    assert_equal 'some log ... appended', build.log
-    assert_equal ['build:log', {
+    build.log.should == 'some log ... appended'
+    {.should == ['build:log'
       'repository' => {
         'id' => build.repository.id
       },
@@ -90,12 +90,12 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     }], channel.messages.first
   end
 
-  test 'PUT to /builds/:id finishes the build' do
+  it 'PUT to /builds/:id finishes the build' do
     build.update_attributes(:started_at => Time.now)
 
     finish_from_worker!
     assert_build_finished
-    assert_equal ['build:finished', {
+    {.should == ['build:finished'
       'repository' => {
         'id' => build.repository.id,
         :slug => 'svenfuchs/minimal',
@@ -114,11 +114,11 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     }], channel.messages.first
   end
 
-  test 'PUT to /builds/:id finishes a matrix build' do
+  it 'PUT to /builds/:id finishes a matrix build' do
     # TODO
   end
 
-  test 'walkthrough from Github ping to finished build' do
+  it 'walkthrough from Github ping to finished build' do
     ping_from_github!
     assert_build_job
 
@@ -126,7 +126,7 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     assert_build_started
 
     3.times { |ix| log_from_worker!(ix + 2) }
-    assert_equal ' ... appended ... appended ... appended', build.log
+    build.log.should == ' ... appended ... appended ... appended'
 
     finish_from_worker!(5)
     assert_build_finished
@@ -161,13 +161,13 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     def assert_build_job
       args = Resque.reserve(:builds).args.last
       build = Build.last
-      assert_equal '9854592', build.commit
+      build.commit.should == '9854592'
       assert_equal build.attributes.slice('id', 'commit'), args['build'].slice('id', 'commit')
-      assert_equal build.repository.attributes.slice('id'), args['repository'].slice('id')
+      args['repository'].slice('id').should == build.repository.attributes.slice('id')
     end
 
     def assert_build_started
-      assert build.started?, 'should have started the build'
+      build.started?, 'should have started the build'.should.not == nil
     end
 
     def assert_build_matrix_configured
@@ -177,15 +177,15 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
         { 'script' => 'rake', 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-2.3.x' },
         { 'script' => 'rake', 'rvm' => '1.9.2', 'gemfile' => 'gemfiles/rails-3.0.x' }
       ]
-      assert_equal expected_configs, build.matrix.map(&:config)
-      assert_equal 'rake', build.config['script']
+      build.matrix.map(&:config).should == expected_configs
+      build.config['script'].should == 'rake'
       # TODO assert resque jobs
     end
 
     def assert_build_finished
-      assert build.finished?, 'should have finished the build'
-      assert_equal 'final build log', build.log
-      assert_equal 1, build.status
+      build.finished?, 'should have finished the build'.should.not == nil
+      build.log.should == 'final build log'
+      build.status.should == 1
     end
 
     def authenticated_put(url, data)

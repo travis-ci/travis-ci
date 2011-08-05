@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class JobsControllerTest < ActionDispatch::IntegrationTest
-  def setup
+  before do
     super
     jobs = [
       { "args" => ["45e545857c0f755b419d0f0d48fd7ac1bede6be9", { "repository" => { "slug" => "svenfuchs/gem-release", "id" => 8 }, "build" => { "number" => "3",   "commit" => "b0a1b69", "config" => { "script" => "ruby test/all.rb", "rvm" => "ree"   }, "id" => 1 } }], "class" => "Travis::Builder" },
@@ -10,7 +10,7 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
     Resque.stubs(:peek).returns(jobs)
   end
 
-  test '.index list all jobs on the queue' do
+  it '.index list all jobs on the queue' do
     get('jobs', :format => :json)
 
     jobs = ActiveSupport::JSON.decode(response.body)
@@ -20,6 +20,6 @@ class JobsControllerTest < ActionDispatch::IntegrationTest
       { 'id' => 2, 'number' => '3.1', 'commit' => 'b0a1b69', 'repository' => { 'id' => 8, 'slug' => 'svenfuchs/gem-release' } },
     ]
 
-    assert_equal expected, jobs
+    jobs.should == expected
   end
 end

@@ -1,11 +1,11 @@
-require "socket"
+require 'irc_client'
 
 module Travis
   module Notifications
     class Irc
       EVENTS = 'build:finished'
 
-      def receive(event, build, *args)
+      def notify(event, build, *args)
         send_irc_notifications(build) if send_irc_notifications?(build)
       end
 
@@ -16,20 +16,19 @@ module Travis
         end
 
         def send_irc_notifications(build)
-          if notify?(build)
-            config = build.config[:notifications][:irc]
-            config = [config] if config.is_a?(String)
-            config.each { |irc_url| connect_and_log(irc_url, build) }
-          end
+          config = build.config[:notifications][:irc]
+          config = [config] if config.is_a?(String)
+          config.each { |irc_url| connect_and_log(irc_url, build) }
         end
 
         def connect_and_log(irc_url, build)
           server, port, channel = parse(irc_url)
-          build_url = build_details_url(build)
+          commit = build.commit
+          build_url = self.build_url(build)
 
-          irc(server, BOT_NAME, channel, :port => port) do
-            say "[travis-ci] #{build.repository.slug}##{build.number} (#{build.branch} - #{build.commit[0, 7]} : #{build.author_name}): the build has #{build.passed? ? 'passed' : 'failed' }"
-            say "[travis-ci] Change view : #{build.compare_url}"
+          irc(server, name, channel, :port => port) do
+            say "[travis-ci] #{build.repository.slug}##{build.number} (#{commit.branch} - #{commit.commit[0, 7]} : #{commit.author_name}): the build has #{build.passed? ? 'passed' : 'failed' }"
+            say "[travis-ci] Change view : #{commit.compare_url}"
             say "[travis-ci] Build details : #{build_url}"
           end
         end
@@ -42,16 +41,16 @@ module Travis
         end
 
         def parse(url)
-          server_and_port, channel = connection_string.split('#')
+          server_and_port, channel = url.split('#')
           server, port = server_and_port.split(':')
           [server, port, channel]
         end
 
-        def bot_name
-          Travis.config['irc'].try(:fetch, 'bot_name', 'travis-ci')
+        def name
+          Travis.config['irc'].try(:fetch, 'name', nil) || 'travis-ci'
         end
 
-        def build_details_url(build)
+        def build_url(build)
           Rails.application.routes.url_helpers.user_repo_build_redirect_url(
             :user => build.repository.owner_name,
             :repository => build.repository.name,
