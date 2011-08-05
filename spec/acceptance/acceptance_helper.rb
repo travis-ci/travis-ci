@@ -3,20 +3,16 @@ require 'rspec'
 require 'capybara/rspec'
 require 'webmock'
 
-# Put your acceptance spec helpers inside /spec/acceptance/support
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
-require "selenium-webdriver"
-
-RSpec.configure do |config|
-  config.before(:each) do
-    Capybara.current_driver = :selenium
-  end
-end
 
 Capybara.default_selector = :css
+Capybara.javascript_driver = :selenium
 
+# Capybara's default driver is Rack::Test
 Capybara.register_driver :selenium do |app|
+  require "selenium-webdriver"
   Capybara::Selenium::Driver.new(app, { :browser => :chrome })
 end
-
 WebMock.disable_net_connect!(:allow_localhost => true)
+
+
