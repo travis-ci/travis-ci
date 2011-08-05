@@ -35,7 +35,7 @@ TravisCi::Application.routes.draw do
   match "/#{Jammit.package_path}/:package.:extension", :to => 'jammit#package', :as => :jammit, :constraints => { :extension => /.+/ }
 end
 
-# we want these AFTER rails admin is loaded
+# we want these after everything else is loaded
 TravisCi::Application.routes.append do
   match ":user",                        :to => redirect("/#!/%{user}"),                            :as => :user_redirect
   match ":user/:repository",            :to => redirect("/#!/%{user}/%{repository}"),              :as => :user_repo_redirect

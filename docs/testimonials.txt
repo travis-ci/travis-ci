@@ -3,6 +3,9 @@ http://news.ycombinator.com/item?id=2811554
 Squeel is now using TravisCI (which rocks, by the way) for testing. ... I can’t recommend TravisCI enough. If you aren’t using it, you should be.
 http://metautonomo.us/2011/07/03/whats-new-with-squeel
 
+"With friends like Travis CI, we can't lose!" - @evanphx (Evan Phoenix)
+irc.freenode.net#travis
+
 "@travisci I love what you're doing, keep up the great work" - @rbates (Ryan Bates)
 https://twitter.com/#!/rbates/status/95965074723831809
 
@@ -35,3 +38,7 @@ https://twitter.com/#!/julionc/status/98960746448297984 - @julionc (Julio Napur�
 
 "@travisci is just, mad awesome: travis-ci.org/#!/ajsharp/bldr"
 http://twitter.com/ajsharp/status/99168224238768128 - @ajsharp (Alex Sharp)
+
+"Travis Continuous Integration is really great: travis-ci.org/#!/tdreyno/mid… Now running tests on Ruby 1.8.7 and 1.9.2 after every commit."
+https://twitter.com/#!/middlemanapp/status/99554750592331778 - @middlemanapp (Middleman)
+
