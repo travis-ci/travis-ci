@@ -8,6 +8,7 @@ class Build < ActiveRecord::Base
 
   event :start,  :to => :started
   event :finish, :to => :finished, :if => :matrix_finished?
+  event :all, :after => :propagate
 
   belongs_to :commit
   belongs_to :repository
@@ -54,8 +55,8 @@ class Build < ActiveRecord::Base
     super(config.deep_symbolize_keys)
   end
 
-  def finish(status)
-    self.status = status
+  def finish(attributes)
+    self.status = attributes[:status]
   end
 
   def pending?
@@ -73,4 +74,26 @@ class Build < ActiveRecord::Base
   def color
     pending? ? '' : passed? ? 'green' : 'red'
   end
+
+  protected
+
+    def propagate(*args)
+      event = args.first # TODO bug in simple_state? getting an error when i add this to the method signature
+      repository.update_attributes!(denormalize_attributes_for(event)) if denormalize?(event)
+    end
+
+    DENORMALIZE = {
+      :start  => %w(id number started_at),
+      :finish => %w(status finished_at)
+    }
+
+    def denormalize?(event)
+      DENORMALIZE.key?(event)
+    end
+
+    def denormalize_attributes_for(event)
+      DENORMALIZE[event].inject({}) do |result, key|
+        result.merge(:"last_build_#{key}" => send(key))
+      end
+    end
 end
