@@ -30,7 +30,7 @@ gem 'rabl',              '~> 0.3.0'
 
 gem 'jruby-openssl',     :platforms => :jruby
 
-gem 'simple_states',     :path => '~/Development/projects/simple_states'
+gem 'simple_states',     '~> 0.0.4'
 gem 'newrelic_rpm',      '~> 3.1.0'
 
 group :test do

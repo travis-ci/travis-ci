@@ -18,13 +18,6 @@ GIT
     resque-heartbeat (0.0.2)
       resque (~> 1.17.0)
 
-PATH
-  remote: ~/Development/projects/simple_states
-  specs:
-    simple_states (0.0.2)
-      activesupport
-      hashr (~> 0.0.10)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -235,6 +228,9 @@ GEM
     signature (0.1.2)
       ruby-hmac
     silent-postgres (0.0.8)
+    simple_states (0.0.4)
+      activesupport
+      hashr (~> 0.0.10)
     sinatra (1.2.6)
       rack (~> 1.1)
       tilt (< 2.0, >= 1.2.2)
@@ -300,7 +296,7 @@ DEPENDENCIES
   ruby-debug
   ruby-debug19
   silent-postgres (~> 0.0.8)
-  simple_states!
+  simple_states (~> 0.0.4)
   test_declarative
   unicorn (~> 4.0.0)
   unobtrusive_flash (~> 0.0.2)
