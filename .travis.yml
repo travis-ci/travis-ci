@@ -5,5 +5,7 @@ rvm:
   - 1.9.2
   - 1.9.3
   - ree
+  - rbx
+  - rbx-2.0
 notifications:
   irc: "irc.freenode.org#travis"
