@@ -7,12 +7,16 @@ class Task < ActiveRecord::Base
 
   validates :owner_id, :owner_type, :presence => true
 
+  after_create do
+    enqueue
+  end
+
   def propagate(*args)
     owner.send(*args)
   end
 
-  def notify(event, *args)
-    Travis::Notifications.dispatch(namespace(event, self), self, *args)
+  def notify(*args)
+    # Travis::Notifications.dispatch(namespace(event, self), self, *args)
   end
 
   protected

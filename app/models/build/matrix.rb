@@ -25,7 +25,7 @@ class Build
     end
 
     def matrix_status
-      matrix.map(&:status).include?(1) ? 1 : 0 if matrix? && matrix.all?(&:finished?)
+      matrix.map(&:status).include?(1) ? 1 : 0 if matrix.all?(&:finished?)
     end
 
     protected

@@ -18,11 +18,23 @@ class Build < ActiveRecord::Base
 
   class << self
     def recent(page)
-      started.order('id DESC').limit(10 * page).includes(:matrix)
+      started.descending.limit(10 * page).includes(:matrix)
     end
 
     def started
-      where(arel_table[:started_at].not_eq(nil))
+      where(:state => 'started')
+    end
+
+    def finished
+      where(:state => 'finished')
+    end
+
+    def on_branch(branches)
+      joins(:commit).where(["commits.branch IN (?)", branches])
+    end
+
+    def descending
+      order(arel_table[:id].desc)
     end
 
     def next_number
@@ -36,6 +48,10 @@ class Build < ActiveRecord::Base
 
   before_create do
     self.number = self.class.next_number
+  end
+
+  def config=(config)
+    super(config.deep_symbolize_keys)
   end
 
   def finish(status)

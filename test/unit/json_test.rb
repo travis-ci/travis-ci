@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class JsonTest < ActiveSupport::TestCase
+describe "Json", ActiveSupport::TestCase do
   attr_reader :now, :build, :repository
 
-  def setup
+  before do
     @now = Time.now
     Time.stubs(:now).returns(now)
 
@@ -12,7 +12,7 @@ class JsonTest < ActiveSupport::TestCase
     super
   end
 
-  test 'as_json(:for => :job) includes everything required for the resque build job (2)' do
+  it 'as_json(:for => :job) includes everything required for the resque build job (2)' do
     expected = { 'id' => build.id, 'number' => '1', 'commit' => '62aae5f70ceee39123ef', 'branch' => 'master' }
     assert_equal_hashes expected, build.as_json(:for => :job)
 
@@ -20,7 +20,7 @@ class JsonTest < ActiveSupport::TestCase
     assert_equal_hashes expected, repository.as_json(:for => :job)
   end
 
-  test 'as_json(:for => :"build:queued") includes everything required for the build:scheduled event (4)' do
+  it 'as_json(:for => :"build:queued") includes everything required for the build:scheduled event (4)' do
     expected = { 'id' => build.id, 'number' => build.number }
     assert_equal_hashes expected, build.as_json(:for => :'build:queued')
 
@@ -28,7 +28,7 @@ class JsonTest < ActiveSupport::TestCase
     assert_equal_hashes expected, repository.as_json(:for => :'build:queued')
   end
 
-  test 'as_json(:for => :"build:started") includes everything required for the build:started event (4)' do
+  it 'as_json(:for => :"build:started") includes everything required for the build:started event (4)' do
     expected = {
       'id' => build.id,
       'repository_id' => build.repository.id,
@@ -55,7 +55,7 @@ class JsonTest < ActiveSupport::TestCase
     assert_equal_hashes expected, repository.as_json(:for => :'build:started')
   end
 
-  test 'as_json(:for => :"build:configured") includes everything required for the build:configured event (4)' do
+  it 'as_json(:for => :"build:configured") includes everything required for the build:configured event (4)' do
     build.update_attributes!(:config => { 'rvm' => ['1.8.7', '1.9.2'] })
 
     build_base = {
@@ -92,7 +92,7 @@ class JsonTest < ActiveSupport::TestCase
     assert_equal_hashes expected, repository.as_json(:for => :'build:configured')
   end
 
-  test 'as_json(:for => :"build:log") includes everything required for the build:log event (4)' do
+  it 'as_json(:for => :"build:log") includes everything required for the build:log event (4)' do
     expected = { 'id' => build.id }
     assert_equal_hashes expected, build.as_json(:for => :'build:log')
 
@@ -100,7 +100,7 @@ class JsonTest < ActiveSupport::TestCase
     assert_equal_hashes expected, repository.as_json(:for => :'build:log')
   end
 
-  test 'as_json(:for => :"build:finished") includes everything required for the build:finished event (4)' do
+  it 'as_json(:for => :"build:finished") includes everything required for the build:finished event (4)' do
     build.update_attributes(:finished_at => now)
 
     expected = { 'id' => build.id, 'status' => build.status, 'finished_at' => now }
@@ -117,7 +117,7 @@ class JsonTest < ActiveSupport::TestCase
     assert_equal_hashes expected, repository.as_json(:for => :'build:finished')
   end
 
-  test "as_json(:for => :webhook) includes everything required for the webhook" do
+  it "as_json(:for => :webhook) includes everything required for the webhook" do
     build.update_attributes(:compare_url => 'compare_url')
 
     expected = {

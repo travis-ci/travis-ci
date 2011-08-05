@@ -11,7 +11,7 @@ class Request < ActiveRecord::Base
   belongs_to :repository
   has_many   :builds
 
-  validates :repository_id, :commit_id, :presence => true
+  validates :repository_id, :commit_id, :token, :presence => true
 
   serialize :config
 
@@ -25,7 +25,7 @@ class Request < ActiveRecord::Base
   end
 
   def approved?
-    branch_included? || !branch_excluded?
+    branch_included? && !branch_excluded?
   end
 
   protected

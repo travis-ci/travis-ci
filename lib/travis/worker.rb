@@ -1,31 +1,15 @@
-# based on
-# https://gist.github.com/7dd37cb802143d054cac
-# https://gist.github.com/070c8a8056c66579acb1
-# and https://gist.github.com/f5a0f28b087859b4dca8
-
-# {
-#   'queues' => [
-#     {
-#       'slug' => 'rails/rails', 'queue' => 'rails'
-#     },
-#     {
-#       'target' => 'erlang', 'queue' => 'erlang'
-#     }
-#   ]
-# }
-
 module Travis
   class Worker
 
     class << self
-      # Enqueues the job with Resque
-      def enqueue(build)
-        worker = worker_for(build)
-        job_info = Travis::Utils.json_for(:job, build)
-        job_info.merge!(:queue => worker.queue)
-        ::Rails.logger.info("Job queued to #{worker.queue} : #{job_info.inspect}")
-        Resque.enqueue(worker, job_info)
-        job_info
+      def enqueue(task)
+        # TODO make sure we use FakeRedis for tests
+        #
+        # worker = worker_for(build)
+        # data = Travis::Utils.json_for(:job, task).merge(:queue => worker.queue)
+        # ::Rails.logger.info("Job queued to #{worker.queue} : #{data.inspect}")
+        # Resque.enqueue(worker, data)
+        # data
       end
 
       def to_s
@@ -41,15 +25,15 @@ module Travis
       end
 
       def worker_for(build)
-        queues.each do |config|
-          return Worker.const_get(config['queue'].capitalize) if use_queue?(build, config)
+        queues.each do |queue|
+          return Worker.const_get(queue['queue'].capitalize) if use_queue?(build, queue)
         end
         Worker
       end
 
       def use_queue?(build, config)
         slug, target = config['slug'], config['target']
-        (build.repository.slug == slug) || (build.config && build.config['target'] && build.config['target'] == target)
+        (build.repository.slug == slug) || (build.config && build.config[:target] && build.config[:target] == target)
       end
 
       def setup_custom_queues

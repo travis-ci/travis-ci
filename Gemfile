@@ -1,9 +1,11 @@
+
 source :rubygems
 
 gem 'rails',             '~> 3.0.9'
 gem 'rake',              '~> 0.9.2'
 gem 'pg',                '~> 0.11.0'
 gem 'yajl-ruby',         '~> 0.8.2'
+gem 'hashr',             '~> 0.0.10'
 
 gem 'compass',           '~> 0.11.3'
 gem 'devise',            '~> 1.4.2'

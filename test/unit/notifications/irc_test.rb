@@ -2,6 +2,11 @@ require 'unit/notifications/notifications_test_case'
 
 class IrcNotificationsTest < NotificationsTestCase
   def setup
+    @repository = Factory(:repository, :owner_email => 'foo@example.com')
+    TCPSocket.any_instance.stubs(:puts => true, :get => true, :eof? => true)
+  end
+
+  before do
     super
     @irc_mock = IrcMock.new
   end
@@ -14,13 +19,13 @@ class IrcNotificationsTest < NotificationsTestCase
 
   ###########################################
 
-  def test_no_irc_notifications
+  it "no irc notifications" do
     Travis::Notifications::Irc::SimpleIrc.expects(:new).never
 
     Travis::Notifications::Irc.notify(create_build)
   end
 
-  def test_one_irc_notification
+  it "one irc notification" do
     build = create_build({ 'notifications' => { 'irc' => "irc.freenode.org:1234#fbb" } })
 
     stub_simple_irc('irc.freenode.org', { :port => 1234 })
@@ -33,7 +38,7 @@ class IrcNotificationsTest < NotificationsTestCase
     assert_match /\[Travis-CI\] Build details : http:\/\/test.travis-ci.org\/svenfuchs\/minimal\/builds\/1/, @irc_mock.output[3]
   end
 
-  def test_two_irc_notifications
+  it "two irc notifications" do
     build = create_build({ 'notifications' => { 'irc' => ["irc.freenode.org:1234#foo", "irc.freenode.org#bar"] } })
 
     stub_simple_irc('irc.freenode.org', { :port => 1234 })
@@ -52,7 +57,7 @@ class IrcNotificationsTest < NotificationsTestCase
     assert_match /\[Travis-CI\] Build details : http:\/\/test.travis-ci.org\/svenfuchs\/minimal\/builds\/1/, @irc_mock.output[9]
   end
 
-  def test_irc_notification_sent_via_travis_notifications
+  it "irc notification sent via travis notifications" do
     build = create_build({ 'notifications' => { 'irc' => "irc.freenode.org#foobarbaz" } })
 
     stub_simple_irc('irc.freenode.org', {})

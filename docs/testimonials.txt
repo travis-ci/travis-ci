@@ -32,3 +32,6 @@ https://twitter.com/#!/ledermann/status/98706896336334850 - @ledermann (Georg Le
 
 "I found my new CI @travisci you rocks!"
 https://twitter.com/#!/julionc/status/98960746448297984 - @julionc (Julio Napurí)
+
+"@travisci is just, mad awesome: travis-ci.org/#!/ajsharp/bldr"
+http://twitter.com/ajsharp/status/99168224238768128 - @ajsharp (Alex Sharp)

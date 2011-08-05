@@ -1,5 +1,5 @@
 class CreateRequests < ActiveRecord::Migration
-  MIGRATE_COLUMNS = [:github_payload]
+  MIGRATE_COLUMNS = [:github_payload, :token]
 
   def self.up
     create_table :requests do |t|

@@ -1,19 +1,19 @@
 require 'test_helper'
 require 'core_ext/hash/compact'
 
-class CoreExtHashTest < ActiveSupport::TestCase
-  test 'Hash#compact' do
+describe "CoreExtHash", ActiveSupport::TestCase do
+  it 'Hash#compact' do
     hash     = { :a => :b, :c => nil }
     expected = { :a => :b }
 
-    assert_equal expected, hash.compact
+    hash.compact.should == expected
   end
 
-  test 'Hash#compact!' do
+  it 'Hash#compact!' do
     hash     = { :a => :b, :c => nil }
     expected = { :a => :b }
 
     hash.compact!
-    assert_equal expected, hash
+    hash.should == expected
   end
 end

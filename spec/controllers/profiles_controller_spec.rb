@@ -20,10 +20,10 @@ describe ProfilesController do
       end
 
       it "creates repository if it does not exist" do
-        put(:update_service_hook, :name => "minimal", :owner => "svenfuchs", :is_active => true)
+        put(:update_service_hook, :name => "minimal", :owner => "svenfuchs", :active => true)
 
         Repository.count.should eql(1)
-        Repository.first.is_active?.should eql(true)
+        Repository.first.active?.should eql(true)
 
         assert_requested(:post, "https://api.github.com/hub?access_token=myfaketoken", :times => 1)
       end
@@ -31,10 +31,10 @@ describe ProfilesController do
       it "updates existing repository if it exists" do
         repository # make sure the repo has been created
 
-        put(:update_service_hook, :name => "minimal", :owner => "svenfuchs", :is_active => true)
+        put(:update_service_hook, :name => "minimal", :owner => "svenfuchs", :active => true)
 
         Repository.count.should eql(1)
-        Repository.first.is_active?.should eql(true)
+        Repository.first.active?.should eql(true)
 
         assert_requested(:post, "https://api.github.com/hub?access_token=myfaketoken", :times => 1)
       end
@@ -49,9 +49,9 @@ describe ProfilesController do
       it "updates existing repository" do
         repository # make sure the repo has been created
 
-        put(:update_service_hook, :name => "minimal", :owner => "svenfuchs", :is_active => false)
+        put(:update_service_hook, :name => "minimal", :owner => "svenfuchs", :active => false)
 
-        Repository.first.is_active?.should eql(false)
+        Repository.first.active?.should eql(false)
 
         assert_requested(:post, "https://api.github.com/hub?access_token=myfaketoken", :times => 1)
       end

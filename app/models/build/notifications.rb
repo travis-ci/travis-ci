@@ -13,7 +13,7 @@ class Build
     end
 
     def webhooks
-      Array(notifications[:webhooks]).reject(&:blank?)
+      Array(notifications[:webhooks]).map { |webhook| webhook.split(' ') }.flatten.map(&:strip).reject(&:blank?)
     end
 
     protected
