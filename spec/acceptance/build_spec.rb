@@ -17,7 +17,7 @@ feature "Builds", %(
     }
   }
 
-  scenario "build gets queued" do
+  scenario "build gets queued", :js => true do
     visit "/"
     dispatch_pusher_command 'jobs', 'build:queued', build_queued_event_info
     should_see_text 'rails/rails'

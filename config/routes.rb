@@ -37,8 +37,8 @@ end
 
 # we want these AFTER rails admin is loaded
 TravisCi::Application.routes.append do
-  match ":user",             :to => redirect("/#!/%{user}"),               :as => :user_redirect
-  match ":user/:repository", :to => redirect("/#!/%{user}/%{repository}"), :as => :user_repo_redirect
+  match ":user",                        :to => redirect("/#!/%{user}"),                            :as => :user_redirect
+  match ":user/:repository",            :to => redirect("/#!/%{user}/%{repository}"),              :as => :user_repo_redirect
   match ":user/:repository/builds",     :to => redirect("/#!/%{user}/%{repository}/builds"),       :as => :user_repo_builds_redirect
   match ":user/:repository/builds/:id", :to => redirect("/#!/%{user}/%{repository}/builds/%{id}"), :as => :user_repo_build_redirect
 end
