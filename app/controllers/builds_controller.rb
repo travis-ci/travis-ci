@@ -27,8 +27,9 @@ class BuildsController < ApplicationController
   end
 
   def update
-    build = Build.find(params[:id])
-    build.update_attributes!(params[:build])
+    request = Request.find(params[:id])
+    request.configure(params[:payload])
+
     render :nothing => true
   end
 
