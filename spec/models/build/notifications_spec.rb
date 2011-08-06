@@ -46,6 +46,12 @@ describe Build, 'notifications', ActiveSupport::TestCase do
       assert_contains_recipients(build.email_recipients, build.repository.owner_email)
     end
 
+    it 'contains the owner details if it has a configuration but no emails specified' do
+      build = Factory(:build, :config => {})
+      build.repository.stubs(:owner_email).returns('owner-1@email.com,owner-2@email.com')
+      assert_contains_recipients(build.email_recipients, build.repository.owner_email)
+    end
+
     it "equals the recipients specified in the build configuration if any" do
       recipients = %w(recipient-1@email.com recipient-2@email.com)
       build = Factory(:build, :config => { :notifications => { :recipients => recipients } })
