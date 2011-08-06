@@ -4,11 +4,11 @@ module Travis
       def enqueue(task)
         # TODO make sure we use FakeRedis for tests
         #
-        # worker = worker_for(build)
-        # data = Travis::Utils.json_for(:job, task).merge(:queue => worker.queue)
-        # ::Rails.logger.info("Job queued to #{worker.queue} : #{data.inspect}")
-        # Resque.enqueue(worker, data)
-        # data
+        worker = worker_for(task)
+        data = Travis::Utils.json_for(:job, task).merge(:queue => worker.queue)
+        ::Rails.logger.info("Job queued to #{worker.queue} : #{data.inspect}")
+        Resque.enqueue(worker, data)
+        data
       end
 
       def to_s
