@@ -12,6 +12,7 @@ class Task < ActiveRecord::Base
   serialize :config
 
   after_create do
+    puts "AFTER CREATE CALL"
     enqueue
   end
 
@@ -20,6 +21,7 @@ class Task < ActiveRecord::Base
   end
 
   def notify(*args)
+    puts args
     # Travis::Notifications.dispatch(namespace(event, self), self, *args)
   end
 
@@ -47,6 +49,7 @@ class Task < ActiveRecord::Base
   protected
 
     def enqueue
+      puts "ENQUEUE"
       Travis::Worker.enqueue(self)
     end
 
