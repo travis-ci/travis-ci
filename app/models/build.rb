@@ -1,8 +1,7 @@
 require 'core_ext/active_record/base'
 
 class Build < ActiveRecord::Base
-  include SimpleStates, Matrix, Notifications
-  # include Events, Json
+  include Json, Matrix, Notifications, SimpleStates
 
   states :created, :started, :finished
 
@@ -11,19 +10,21 @@ class Build < ActiveRecord::Base
   event :all, :after => :propagate
 
   belongs_to :commit
-  belongs_to :repository
   belongs_to :request
+  belongs_to :repository, :autosave => true
   has_many   :matrix, :class_name => 'Task::Test', :order => :id, :as => :owner
 
   validates :repository_id, :commit_id, :request_id, :presence => true
 
+  serialize :config
+
   class << self
     def recent(page)
-      started.descending.limit(10 * page).includes(:matrix)
+      started.descending.limit(10 * page).includes(:matrix) # TODO should use an offset when we use limit!
     end
 
     def started
-      where(:state => 'started')
+      where(:state => ['started', 'finished'])
     end
 
     def finished
@@ -79,7 +80,7 @@ class Build < ActiveRecord::Base
 
     def propagate(*args)
       event = args.first # TODO bug in simple_state? getting an error when i add this to the method signature
-      repository.update_attributes!(denormalize_attributes_for(event)) if denormalize?(event)
+      repository.update_attributes!(denormalize_attributes_for(event)) # if denormalize?(event)
     end
 
     DENORMALIZE = {

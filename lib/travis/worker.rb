@@ -1,6 +1,5 @@
 module Travis
   class Worker
-
     class << self
       def enqueue(task)
         # TODO make sure we use FakeRedis for tests

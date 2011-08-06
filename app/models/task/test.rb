@@ -8,4 +8,8 @@ class Task::Test < Task
   def append_log!(chars)
     self.class.update_all(["log = COALESCE(log, '') || ?", chars], ["id = ?", self.id])
   end
+
+  def finish(data)
+    self.status = data[:status]
+  end
 end

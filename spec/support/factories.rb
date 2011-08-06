@@ -8,6 +8,15 @@ Factory.define :repository do |f|
   f.updated_at { |r| r.created_at + 5.minutes }
 end
 
+Factory.define :minimal, :parent => :repository do
+end
+
+Factory.define :enginex, :class => Repository do |f|
+  f.name 'enginex'
+  f.owner_name 'josevalim'
+  f.last_duration 30
+end
+
 Factory.define :request do |f|
   f.repository { Repository.first || Factory(:repository) }
   f.association :commit

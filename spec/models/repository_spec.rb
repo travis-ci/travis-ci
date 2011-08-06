@@ -187,9 +187,10 @@ describe Repository do
 
   it 'last_build returns the most recent build' do
     repository = Factory.create(:repository)
-    Factory(:build, :repository => repository)
-    Factory(:build, :repository => repository)
-    build = Factory(:build, :repository => repository)
+    attributes = { :repository => repository, :state => 'finished' }
+    Factory(:build, attributes)
+    Factory(:build, attributes)
+    build = Factory(:build, attributes)
 
     repository.last_build.id.should == build.id
   end

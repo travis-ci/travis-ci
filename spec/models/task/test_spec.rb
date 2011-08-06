@@ -12,17 +12,19 @@ describe ::Task::Test do
     build.reload.should be_started
   end
 
-  it "finish finishes the task and, when all of the tasks are finished, the build" do
+  it "finish finishes the task, sets the status and, when all of the tasks are finished, the build" do
     tasks = build.matrix
     tasks.first.start!
-    tasks.first.finish!(0)
+    tasks.first.finish!(:status => 0)
 
     build.reload.should be_started
     tasks.first.should be_finished
+    tasks.first.status.should == 0
 
-    tasks.second.finish!(0)
+    tasks.second.finish!(:status => 0)
     build.reload.should be_finished
     tasks.second.should be_finished
+    tasks.second.status.should == 0
     build.status.should == 0
   end
 

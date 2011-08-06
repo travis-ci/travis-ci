@@ -7,7 +7,7 @@ class Repository < ActiveRecord::Base
   has_many :requests, :dependent => :delete_all
   has_many :builds, :dependent => :delete_all
 
-  has_one :last_build,   :class_name => 'Build', :order => 'id DESC'
+  has_one :last_build,   :class_name => 'Build', :order => 'id DESC', :conditions => { :state  => ['started', 'finished']  }
   has_one :last_success, :class_name => 'Build', :order => 'id DESC', :conditions => { :status => 0 }
   has_one :last_failure, :class_name => 'Build', :order => 'id DESC', :conditions => { :status => 1 }
 
@@ -32,7 +32,7 @@ class Repository < ActiveRecord::Base
     def human_status_by(attributes)
       branch = attributes.delete(:branch)
       repository = where(attributes).first
-      repository ? repository.human_status(branch) : "unknown"
+      repository ? repository.human_status(branch) : 'unknown'
     end
 
     def search(query)

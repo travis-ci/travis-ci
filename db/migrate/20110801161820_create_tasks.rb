@@ -35,7 +35,7 @@ class CreateTasks < ActiveRecord::Migration
     end
 
     change_table :builds do |t|
-      t.remove *MIGRATE_COLUMNS - [:number, :status]
+      t.remove *MIGRATE_COLUMNS + [:parent_id] - [:number, :status]
     end
   end
 

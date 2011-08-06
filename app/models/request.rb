@@ -2,9 +2,9 @@ class Request < ActiveRecord::Base
   include SimpleStates, Branches, Github
 
   states :created, :started, :finished
-  event :start,  :to => :started
+  event :start,     :to => :started
   event :configure, :to => :configured, :after => :finish
-  event :finish, :to => :finished
+  event :finish,    :to => :finished
 
   has_one    :task, :as => :owner
   belongs_to :commit
