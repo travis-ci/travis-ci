@@ -31,7 +31,7 @@ else
 end
 
 RSpec.configure do |config|
-  config.mock_with :rspec
+  config.mock_with :mocha
 
   config.include Devise::TestHelpers, :type => :controller
   config.include JsonHelpers

@@ -27,12 +27,16 @@ describe BuildsController do
 
   describe "POST 'create' (ping from github)" do
     it 'creates a Request record and configure task and enqueues configure task' do
+      # Resque.expects(:enqueue).with(Travis::Worker,
+                                    # {'build' => {'id' => 1, 'branch' => 'master', 'commit' => '9854592'}, 'repository' => {'id' => 1, :slug => 'svenfuchs/gem-release'}, :queue => 'builds'})
+
       payload = GITHUB_PAYLOADS['gem-release']
       lambda {
         post :create, :payload => payload
       }.should change(Request, :count).by(1)
 
-      Resque.expects(:enqueue).with(Request.all.first.task)
+      task = Request.all.first.task
+
       Request.all.first.task.should_not be_nil
     end
 
@@ -43,13 +47,15 @@ describe BuildsController do
     end
   end
 
-  describe "PUT 'update'" do
-    let(:payload) {
-      { "build" => { "config" => { "script" => "rake", "rvm" => ["1.8.7", "1.9.2"], "gemfile" => ["gemfiles/rails-2.3.x", "gemfiles/rails-3.0.x"] } } }
-    }
-    it 'configures the build and expands a given build matrix' do
-      # put :update, :id => request.id, WORKER_PAYLOADS[:configured].merge('msg_id' => msg_id)
+  # describe "PUT 'update'" do
+  #   let(:payload) {
+  #     { "build" => { "config" => { "script" => "rake", "rvm" => ["1.8.7", "1.9.2"], "gemfile" => ["gemfiles/rails-2.3.x", "gemfiles/rails-3.0.x"] } } }
+  #   }
 
-    end
-  end
+  #   it 'configures the build and expands a given build matrix' do
+  #     put :update, :id => _request.id, :payload => payload
+  #     Resque.expects(:enqueue).with(Travis::Worker, payload)
+  #     puts Build.count
+  #   end
+  # end
 end
