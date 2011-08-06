@@ -118,6 +118,41 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     # TODO
   end
 
+  test "PUT to /builds/:id with unrecognized build attribute queue is removed from build before updating attributes" do
+    payload = WORKER_PAYLOADS[:started].merge('msg_id' => 0)
+    payload['build'] = payload['build'].merge('queue' => 'builds')
+
+    authenticated_put(build_path(build), payload)
+
+    build.reload
+
+    assert_build_started
+
+    assert_equal ['build:started', {
+      'repository' => {
+        'id' => build.repository.id,
+        :slug => 'svenfuchs/minimal',
+        'last_build_id' => build.id,
+        'last_build_number' => '1',
+        'last_build_status' => nil,
+        'last_build_started_at' => build.started_at,
+        'last_build_finished_at' => nil
+      },
+      'build' => {
+        'id' => build.id,
+        'repository_id' => build.repository.id,
+        'number' => '1',
+        'commit' => '62aae5f70ceee39123ef',
+        'branch' => 'master',
+        'message' => 'the commit message',
+        'committer_name' => 'Sven Fuchs',
+        'committer_email' => 'svenfuchs@artweb-design.de',
+        'started_at' => build.started_at,
+      },
+      'msg_id' => '0'
+    }], channel.messages.first
+  end
+
   test 'walkthrough from Github ping to finished build' do
     ping_from_github!
     assert_build_job

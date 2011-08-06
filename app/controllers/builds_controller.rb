@@ -32,7 +32,7 @@ class BuildsController < ApplicationController
 
   def update
     build = Build.find(params[:id])
-    build.update_attributes!(params[:build])
+    build.update_attributes!(params[:build].except(:queue))
 
     if build.was_started?
       trigger('build:started', build, 'msg_id' => params[:msg_id])
