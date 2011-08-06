@@ -37,11 +37,15 @@ class Build < ActiveRecord::Base
     def keys_for(hash)
       ENV_KEYS.select { |key| hash.keys.map(&:to_s).include?(key) }
     end
-    
+
   end
 
   def config=(config)
     write_attribute(:config, normalize_config(config))
+  end
+
+  def config
+    read_attribute(:config) || write_attribute(:config, {})
   end
 
   def append_log!(chars)
