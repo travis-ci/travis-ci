@@ -41,7 +41,7 @@ class Build
       end
 
       def notifications
-        config.fetch('notifications', {})
+        config ? config['notifications'] : {}
       end
   end
 end
