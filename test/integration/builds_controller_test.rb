@@ -69,6 +69,7 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
         'committer_name' => 'Sven Fuchs',
         'committer_email' => 'svenfuchs@artweb-design.de',
         'started_at' => build.started_at,
+        'config' => {}
       },
       'msg_id' => '1'
     }], channel.messages.first
@@ -148,6 +149,7 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
         'committer_name' => 'Sven Fuchs',
         'committer_email' => 'svenfuchs@artweb-design.de',
         'started_at' => build.started_at,
+        'config' => {}
       },
       'msg_id' => '0'
     }], channel.messages.first

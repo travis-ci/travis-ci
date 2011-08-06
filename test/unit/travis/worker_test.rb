@@ -81,7 +81,7 @@ class TravisWorkerTest < ActiveSupport::TestCase
 
   test "#enqueue : job is queued on the standard build queue" do
     job_hash = {
-      'build' => { 'branch' => 'master', 'commit' => '62aae5f70ceee39123ef', 'id' => 1, 'number' => '1' },
+      'build' => { 'branch' => 'master', 'commit' => '62aae5f70ceee39123ef', 'id' => 1, 'number' => '1', 'config' => {} },
       'repository' => { 'id' => 1, :slug => 'svenfuchs/minimal' },
       :queue => 'builds'
     }

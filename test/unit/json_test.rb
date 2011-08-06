@@ -13,7 +13,7 @@ class JsonTest < ActiveSupport::TestCase
   end
 
   test 'as_json(:for => :job) includes everything required for the resque build job (2)' do
-    expected = { 'id' => build.id, 'number' => '1', 'commit' => '62aae5f70ceee39123ef', 'branch' => 'master' }
+    expected = { 'id' => build.id, 'number' => '1', 'commit' => '62aae5f70ceee39123ef', 'branch' => 'master', 'config' => {} }
     assert_equal_hashes expected, build.as_json(:for => :job)
 
     expected = { 'id' => repository.id, :slug => 'svenfuchs/minimal' }
@@ -42,6 +42,7 @@ class JsonTest < ActiveSupport::TestCase
       'committer_email' => 'svenfuchs@artweb-design.de',
       'author_name' => nil,
       'author_email' => nil,
+      'config' => {}
     }
     assert_equal_hashes expected, build.as_json(:for => :'build:started')
 
