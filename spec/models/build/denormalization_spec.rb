@@ -4,43 +4,40 @@ describe Build, 'denormalization' do
   let(:build) { Factory(:build) }
 
   describe 'on build:started' do
-    it 'denormalizes last_build_id to its repository' do
-      build.start!
+    before :each do
+      build.matrix.each do |task|
+        task.start!
+      end
+      build.reload
+    end
 
-      build.repository.last_build_id.should == build.id
+    it 'denormalizes last_build_id to its repository' do
+      build.reload.repository.last_build_id.should == build.id
     end
 
     it 'denormalizes last_build_number to its repository' do
-      build.start!
-
-      build.number.should_not be_nil
-      build.repository.last_build_number.should == build.number
+      build.reload.repository.last_build_number.should == build.number
     end
 
     it 'denormalizes last_build_started_at to its repository' do
-      build.start!
-
-      build.started_at.should_not be_nil
-      build.repository.last_build_started_at.should == build.started_at
+      build.reload.repository.last_build_started_at.should == build.started_at
     end
   end
 
   describe 'on build:finished' do
-    it 'denormalizes last_build_status to its repository' do
-      build.stubs(:matrix_finished?).returns(true)
-      build.start!
-      build.finish!(:status => 0)
+    before :each do
+      build.matrix.each do |task|
+        task.start!
+        task.finish!(:status => 0)
+      end
+      build.reload
+    end
 
-      build.status.should_not be_nil
+    it 'denormalizes last_build_status to its repository' do
       build.repository.last_build_status.should == build.status
     end
 
     it 'denormalizes last_build_finished_at to its repository' do
-      build.stubs(:matrix_finished?).returns(true)
-      build.start!
-      build.finish!(:status => 0)
-
-      build.finished_at.should_not be_nil
       build.repository.last_build_finished_at.should == build.finished_at
     end
   end

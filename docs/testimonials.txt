@@ -1,10 +1,13 @@
 http://news.ycombinator.com/item?id=2811554
 
-Squeel is now using TravisCI (which rocks, by the way) for testing. ... I can’t recommend TravisCI enough. If you aren’t using it, you should be.
+"Squeel is now using TravisCI (which rocks, by the way) for testing. ... I can’t recommend TravisCI enough. If you aren’t using it, you should be."
 http://metautonomo.us/2011/07/03/whats-new-with-squeel
 
-"With friends like Travis CI, we can't lose!" - @evanphx (Evan Phoenix)
-irc.freenode.net#travis
+"With friends like Travis CI, we can't lose!"
+irc.freenode.net#travis - @evanphx (Evan Phoenix)
+
+"Travis-CI is simply killin it! http://t.co/J8hDzY7 What a terrific resource this will be for Ruby and other communities."
+https://twitter.com/#!/brixen/status/99530377080733696 - @brixen (Brian Ford)
 
 "@travisci I love what you're doing, keep up the great work" - @rbates (Ryan Bates)
 https://twitter.com/#!/rbates/status/95965074723831809
@@ -15,11 +18,11 @@ https://twitter.com/#!/josephwilk/status/96168151980576769 - @josephwilk (Joseph
 "I must say, I was skeptical, but @travisci is awesome. travis-ci.org/#!/thoughtbot/"
 http://twitter.com/#!/qrush/status/97070660500729856 - @qrush (Nick Quaranto)
 
-"Finally found the time to try @travisci on my open source projects... And it rocks! Continous integration for the community - join now!"
-http://twitter.com/#!/jaimeiniesta/status/97114964594139136 - @jaimeiniesta (Jaime Iniesta)
-
 "Travis is like Github for CIs. So easy to setup that everyone does it."
 https://twitter.com/#!/josevalim/status/97338403816873985 - @josevalim (José Valim)
+
+"Finally found the time to try @travisci on my open source projects... And it rocks! Continous integration for the community - join now!"
+http://twitter.com/#!/jaimeiniesta/status/97114964594139136 - @jaimeiniesta (Jaime Iniesta)
 
 "congrats to @joshkalderimis @svenfuchs and all TravisCI team for the last weeks achievements, you bring a new step for open & free software"
 https://twitter.com/#!/mcansky/status/97592491943006208 - @mcansky (Thomas Riboulet)
