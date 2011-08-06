@@ -21,10 +21,7 @@ class BuildsController < ApplicationController
   end
 
   def create
-    if build = Build.create_from_github_payload(params[:payload], api_token)
-      build.save!
-      build.repository.update_attributes!(:last_build_started_at => Time.now) # TODO the build isn't actually started now
-    end
+    Request.create_from_github_payload(params[:payload], api_token)
 
     render :nothing => true
   end
@@ -43,4 +40,10 @@ class BuildsController < ApplicationController
     # trigger('build:log', build, 'build' => { '_log' => params[:build][:log] }, 'msg_id' => params[:msg_id])
     render :nothing => true
   end
+
+  protected
+    def api_token
+      credentials = ActionController::HttpAuthentication::Basic.decode_credentials(request)
+      credentials.split(':').last
+    end
 end
