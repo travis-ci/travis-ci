@@ -67,6 +67,12 @@ class BuildNotificationsTest < ActiveSupport::TestCase
     assert_contains_recipients(build.unique_recipients, recipients)
   end
 
+  test "given the builds configuration exists but has no email details, unique_recipients contains the owner details" do
+    build = Factory(:build, :repository => repository, :config => {})
+    build.repository.stubs(:owner_email).returns('owner-1@email.com,owner-2@email.com')
+    assert_contains_recipients(build.unique_recipients, build.repository.owner_email)
+  end
+
   protected
 
     def assert_contains_recipients(actual, expected)

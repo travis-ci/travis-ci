@@ -41,7 +41,7 @@ class Build
       end
 
       def notifications
-        config ? config['notifications'] : {}
+        config.try(:fetch, 'notifications', {}) || {}
       end
   end
 end
