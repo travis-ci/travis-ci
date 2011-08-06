@@ -27,8 +27,8 @@ describe BuildsController do
 
   describe "POST 'create' (ping from github)" do
     it 'creates a Request record and configure task and enqueues configure task' do
-      # Resque.expects(:enqueue).with(Travis::Worker,
-                                    # {'build' => {'id' => 1, 'branch' => 'master', 'commit' => '9854592'}, 'repository' => {'id' => 1, :slug => 'svenfuchs/gem-release'}, :queue => 'builds'})
+      Resque.expects(:enqueue).with(Travis::Worker,
+                                    {'build' => {'id' => 1, 'branch' => 'master', 'commit' => '9854592'}, 'repository' => {'id' => 1, :slug => 'svenfuchs/gem-release'}, :queue => 'builds'})
 
       payload = GITHUB_PAYLOADS['gem-release']
       lambda {
@@ -47,15 +47,18 @@ describe BuildsController do
     end
   end
 
-  # describe "PUT 'update'" do
-  #   let(:payload) {
-  #     { "build" => { "config" => { "script" => "rake", "rvm" => ["1.8.7", "1.9.2"], "gemfile" => ["gemfiles/rails-2.3.x", "gemfiles/rails-3.0.x"] } } }
-  #   }
+  describe "PUT 'update'" do
+    let(:payload) {
+      { "build" => { "config" => { "script" => "rake", "rvm" => ["1.8.7", "1.9.2"], "gemfile" => ["gemfiles/rails-2.3.x", "gemfiles/rails-3.0.x"] } } }
+    }
 
-  #   it 'configures the build and expands a given build matrix' do
-  #     put :update, :id => _request.id, :payload => payload
-  #     Resque.expects(:enqueue).with(Travis::Worker, payload)
-  #     puts Build.count
-  #   end
-  # end
+    it 'configures the build and expands a given build matrix' do
+      Resque.expects(:enqueue).with(Travis::Worker, {'build' => {'id' => 2, 'branch' => 'master', 'commit' => '62aae5f70ceee39123ef'}, 'repository' => {'id' => 2, :slug => 'svenfuchs/minimal'}, :queue => 'builds'})
+      Resque.expects(:enqueue).with(Travis::Worker, {'build' => {'config' => {}, 'id' => 3, 'number' => '.1', 'branch' => 'master', 'commit' => '62aae5f70ceee39123ef'}, 'repository' => {'id' => 2, :slug => 'svenfuchs/minimal'}, :queue => 'builds'})
+
+      lambda {
+        put :update, :id => _request.id, :payload => payload
+      }.should change(Task, :count).by(2)
+    end
+  end
 end
