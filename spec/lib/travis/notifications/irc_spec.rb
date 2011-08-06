@@ -4,7 +4,7 @@ describe Travis::Notifications::Irc do
   attr_reader :irc
 
   before do
-    @irc = IrcMock.new
+    @irc = TestHelpers::Mocks::Irc.new
     TCPSocket.any_instance.stubs(:puts => true, :get => true, :eof? => true)
   end
 
