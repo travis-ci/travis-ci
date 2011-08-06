@@ -13,7 +13,7 @@ describe BuildsController do
   include TestHelpers::GithubApiTestHelper
   include TestHelpers::RedisHelper
 
-  let(:request) { Factory(:request).reload }
+  let(:_request) { Factory(:request).reload }
   let(:build) { Factory(:build).reload }
   let(:channel) { TestHelpers::Mocks::Channel.new }
   let(:user) { User.create!(:login => 'user').tap { |user| user.tokens.create! } }
@@ -47,9 +47,8 @@ describe BuildsController do
     let(:payload) {
       { "build" => { "config" => { "script" => "rake", "rvm" => ["1.8.7", "1.9.2"], "gemfile" => ["gemfiles/rails-2.3.x", "gemfiles/rails-3.0.x"] } } }
     }
-
     it 'configures the build and expands a given build matrix' do
-      put :update, :id => request.id, payload
+      # put :update, :id => request.id, WORKER_PAYLOADS[:configured].merge('msg_id' => msg_id)
 
     end
   end
