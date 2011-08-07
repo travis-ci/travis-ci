@@ -4,7 +4,7 @@
 class Task::Configure < Task
   states :created, :started, :finished
 
-  event :start,  :to => :started, :after => :propagate
+  event :start,  :to => :started,  :after => :propagate
   event :finish, :to => :finished, :after => :configure_owner
 
   def configure_owner(event, config)

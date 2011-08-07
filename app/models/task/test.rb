@@ -4,7 +4,6 @@ class Task::Test < Task
 
   event :start,  :to => :started, :after => :propagate
   event :finish, :to => :finished, :after => :propagate
-  event :all, :after => :notify
 
   def finish(data)
     self.status = data[:status]

@@ -1,7 +1,7 @@
 require 'core_ext/active_record/base'
 
 class Build < ActiveRecord::Base
-  include Matrix, Notifications, SimpleStates
+  include Matrix, Notifications, SimpleStates, Travis::Notifications
 
   states :created, :started, :finished
 

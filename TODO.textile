@@ -4,6 +4,8 @@
 + make Travis.config a Hashr instance
 + ensure Task::Test can cope with incremental updates
 
+- configure notifications receivers
+- improve specs for notifications receivers (actually hook receivers up to the dispatcher)
 - spec Pusher notifications
 - data migrations
 

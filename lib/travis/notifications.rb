@@ -30,5 +30,18 @@ module Travis
           end
         end
     end
+
+    def notify(*args)
+      event = args.shift # TODO maybe a simple_states bug? can't add event to the signature.
+      Travis::Notifications.dispatch(client_event(event, self), self, *args)
+    end
+
+    protected
+
+      def client_event(event, object)
+        event = "#{event}ed".gsub('eed', 'ed') unless event == :log
+        # ['build', event].join(':') # later: object.class.name.demodulize.underscore
+        [object.class.name.underscore.gsub('/', ':'), event].join(':')
+      end
   end
 end
