@@ -6,7 +6,7 @@ describe Travis::Renderer do
   end
 
   after do
-    Travis::Renderer.send(:public, :template_path)
+    Travis::Renderer.send(:protected, :template_path)
   end
 
   let(:build) { Factory(:build) }
