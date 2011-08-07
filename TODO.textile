@@ -1,3 +1,3 @@
-- tons of JSON
++ tons of JSON
 - move Worker to Notification:Worker
 - ensure Task::Build can cope with incremental updates
