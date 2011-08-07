@@ -20,7 +20,8 @@ class Task < ActiveRecord::Base
   end
 
   def notify(*args)
-    # Travis::Notifications.dispatch(namespace(event, self), self, *args)
+    event = args.shift # TODO maybe a simple_states bug? can't add event to the signature.
+    Travis::Notifications.dispatch(namespace(event, self), self, *args)
   end
 
   protected

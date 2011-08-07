@@ -1,7 +1,7 @@
 require 'yaml'
 
 module Travis
-  class Config < Hash
+  class Config < Hashr
     def initialize
       replace(load_env || load_file || {})
     end

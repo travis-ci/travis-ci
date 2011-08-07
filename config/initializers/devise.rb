@@ -1,7 +1,7 @@
 require 'travis'
 require 'devise/api_token_authenticatable'
 
-OAUTH2_CONFIG = Travis.config['oauth2'] || {}
+OAUTH2_CONFIG = Travis.config.oauth2 || {}
 
 # override this for rails admin
 class CustomFailure < Devise::FailureApp

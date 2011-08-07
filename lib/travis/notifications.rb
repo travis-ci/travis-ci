@@ -6,6 +6,7 @@ module Travis
     autoload :Worker,  'travis/notifications/worker'
 
     mattr_accessor :subscriptions
+    self.subscriptions = []
 
     class << self
       def init(*subscribers)
