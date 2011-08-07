@@ -6,6 +6,12 @@ describe Travis::Notifications::Irc do
   before do
     @irc = TestHelpers::Mocks::Irc.new
     TCPSocket.any_instance.stubs(:puts => true, :get => true, :eof? => true)
+    Travis.config.notifications = [:irc]
+  end
+
+  after do
+    Travis.config.notifications.clear
+    Travis::Notifications.subscriptions.clear
   end
 
   let(:repository) { Factory(:repository, :owner_email => 'owner@example.com') }
@@ -17,7 +23,7 @@ describe Travis::Notifications::Irc do
   it "no irc notifications" do
     build = Factory(:build)
     IrcClient.expects(:new).never
-    Travis::Notifications::Irc.new.notify('build:finished', build)
+    Travis::Notifications.dispatch('build:finished', build)
   end
 
   it "one irc notification" do

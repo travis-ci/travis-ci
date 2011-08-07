@@ -1,8 +1,23 @@
 require 'spec_helper'
 
-describe Travis::Notifications::Email do
+RSpec::Matchers.define :send_email_notification_on do |event|
+  match do |build|
+    # Travis::Notifications::Email.new.notify(event, build)
+    dispatch =  lambda { Travis::Notifications.dispatch(event, build) }
+    dispatch.should change(ActionMailer::Base.deliveries, :size).by(1)
+    ActionMailer::Base.deliveries.last
+  end
+end
 
-  # TODO actually subscribe Email to Notifications and go through Notifications.dispatch
+describe Travis::Notifications::Email do
+  before do
+    Travis.config.notifications = [:email]
+  end
+
+  after do
+    Travis.config.notifications.clear
+    Travis::Notifications.subscriptions.clear
+  end
 
   it "finished email" do
     started_at  = Time.zone.local(2011, 6, 23, 15, 30, 45)

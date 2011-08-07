@@ -2,17 +2,15 @@ module Travis
   module Notifications
     autoload :Email,   'travis/notifications/email'
     autoload :Irc,     'travis/notifications/irc'
+    autoload :Pusher,  'travis/notifications/pusher'
     autoload :Webhook, 'travis/notifications/webhook'
     autoload :Worker,  'travis/notifications/worker'
 
-    mattr_accessor :subscriptions
-    self.subscriptions = []
-
     class << self
-      def init(*subscribers)
-        self.subscriptions = Array(subscribers).inject({}) do |subscriptions, subscriber|
-          subscriber = subscriber.camelize.constantize.new if subscriber.is_a?(String)
-          subscriptions.merge(subscriber::EVENTS => subscriber)
+      def subscriptions
+        @subscriptions ||= Array(Travis.config.notifications).inject({}) do |subscriptions, subscriber|
+          subscriber = const_get(subscriber.to_s.camelize)
+          subscriptions.merge(subscriber::EVENTS => subscriber.new)
         end
       end
 

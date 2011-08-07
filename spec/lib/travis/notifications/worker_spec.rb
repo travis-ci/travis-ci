@@ -1,10 +1,15 @@
 require 'spec_helper'
 
 describe Travis::Notifications::Worker do
-  let(:config) { Hashr.new(:queues => [ { :queue => 'rails', :slug => 'rails/rails' }, { :queue => 'erlang', :target => 'erlang' } ]) }
-
   before do
-    Travis.stubs(:config).returns(config)
+    # TODO clean this up and just set configuration
+    Travis.config.notifications = [:worker]
+    Travis.config.queues = [{ :queue => 'rails', :slug => 'rails/rails' }, { :queue => 'erlang', :target => 'erlang' }]
+  end
+
+  after do
+    Travis.config.notifications.clear
+    Travis::Notifications.subscriptions.clear
   end
 
   let(:worker) { Travis::Notifications::Worker.new }
