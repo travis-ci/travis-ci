@@ -1,7 +1,7 @@
 require 'webmock/rspec'
 
 module TestHelpers
-  module GithubApiTestHelper
+  module GithubApi
     PATHS = %w(
       api/v2/json/repos/show/svenfuchs/gem-release
       api/v2/json/repos/show/travis-ci/travis-ci

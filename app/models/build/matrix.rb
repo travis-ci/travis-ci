@@ -6,10 +6,6 @@ class Build
 
     ENV_KEYS = [:rvm, :gemfile, :env]
 
-    included do
-      before_create :expand_matrix
-    end
-
     module ClassMethods
       def matrix?(config)
         config.values_at(*ENV_KEYS).compact.any? { |value| value.is_a?(Array) && value.size > 1 }

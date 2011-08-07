@@ -110,29 +110,4 @@ class Repository < ActiveRecord::Base
     scope = scope.on_branch(branches) if branches.present?
     scope.descending.first
   end
-
-  base_attrs       = [:id]
-  last_build_attrs = [:last_build_id, :last_build_number, :last_build_status, :last_build_started_at, :last_build_finished_at]
-  all_attrs        = base_attrs + last_build_attrs
-
-  JSON_ATTRS = {
-    :default         => all_attrs,
-    :job             => base_attrs,
-    :'build:queued'  => base_attrs,
-    :'build:removed' => base_attrs,
-    :'build:log'     => [:id],
-    :webhook         => [:id, :name, :owner_name]
-  }
-  JSON_METHODS = {
-    :default         => [:slug],
-    :'build:log'     => [],
-    :webhook         => []
-  }
-
-  def as_json(options = nil)
-    options ||= {} # ActiveSupport seems to pass nil here?
-    attrs   = JSON_ATTRS[options[:for]]   || JSON_ATTRS[:default]
-    methods = JSON_METHODS[options[:for]] || JSON_METHODS[:default]
-    super(:only => attrs, :methods => methods) #.compact
-  end
 end

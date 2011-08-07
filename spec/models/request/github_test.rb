@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Request::Github do
-  include GithubApiTestHelper
+  include TestHelpers::GithubApi
 
   describe 'creation' do
     def create_request(name)

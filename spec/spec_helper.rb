@@ -34,7 +34,7 @@ RSpec.configure do |config|
   config.mock_with :mocha
 
   config.include Devise::TestHelpers, :type => :controller
-  config.include JsonHelpers
+  config.include TestHelpers::Json
 
   # config.before(:each, :webmocked => true) do
   #   self.extend WebMock::API

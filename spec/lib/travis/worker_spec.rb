@@ -64,13 +64,14 @@ describe Travis::Worker do
   end
 
   it "enqueue adds a job to the given queue" do
-    payload = {
-      'build' => { 'branch' => 'master', 'commit' => '62aae5f70ceee39123ef', 'id' => 1, 'number' => '1' },
-      'repository' => { 'id' => 1, :slug => 'svenfuchs/minimal' },
+    build = Factory(:build)
+    task  = build.matrix.first
+    Resque.expects(:enqueue).with(Travis::Worker,
+      :build => { :id => task.id, :number => '1.1', :commit => '62aae5f70ceee39123ef', :branch => 'master', :config => {} },
+      :repository => { :id => build.repository.id, :slug => 'svenfuchs/minimal' },
       :queue => 'builds'
-    }
-    Resque.expects(:enqueue).with(Travis::Worker, payload)
-    Travis::Worker.enqueue(Factory(:build))
+    )
+    Travis::Worker.enqueue(task)
   end
 end
 

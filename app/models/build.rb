@@ -1,7 +1,7 @@
 require 'core_ext/active_record/base'
 
 class Build < ActiveRecord::Base
-  include Json, Matrix, Notifications, SimpleStates
+  include Matrix, Notifications, SimpleStates
 
   states :created, :started, :finished
 
@@ -12,7 +12,7 @@ class Build < ActiveRecord::Base
   belongs_to :commit
   belongs_to :request
   belongs_to :repository, :autosave => true
-  has_many   :matrix, :class_name => 'Task::Test', :order => :id, :as => :owner
+  has_many   :matrix, :as => :owner, :order => :id, :class_name => 'Task::Test'
 
   validates :repository_id, :commit_id, :request_id, :presence => true
 
@@ -50,6 +50,7 @@ class Build < ActiveRecord::Base
 
   before_create do
     self.number = self.class.next_number
+    expand_matrix
   end
 
   def config=(config)

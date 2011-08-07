@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'github'
 
 describe Github do
-  include GithubApiTestHelper
+  include TestHelpers::GithubApi
 
   before do
     mock_github_api
@@ -23,7 +23,7 @@ describe Github do
   end
 
   it 'repository owned by a user' do
-    repository = Github::Repository.new(data).fetch
+    repository = Github::Repository.new(data['repository']).fetch
     repository.name.should == 'gem-release'
     repository.owner_name.should == 'svenfuchs'
     repository.owner_email.should == 'svenfuchs@artweb-design.de'
@@ -48,7 +48,7 @@ describe Github do
 
   it 'build' do
     repository = Github::Repository.new(data['repository'])
-    commit = Github::Commit.new(data['commits'].first.merge(:ref => 'refs/heads/master'), repository, data['compare'])
+    commit = Github::Commit.new(data['commits'].first.merge('ref' => 'refs/heads/master', 'compare_url' => data['compare']), repository)
 
     commit.commit.should == '9854592'
     commit.branch.should == 'master'
@@ -61,11 +61,10 @@ describe Github do
   end
 
   it 'build to_hash' do
-    data = ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
     repository = Github::Repository.new(data['repository'])
-    commit = Github::Commit.new(data['commits'].first.merge(:ref => 'refs/heads/master'), repository, data['compare'])
+    commit = Github::Commit.new(data['commits'].first.merge('ref' => 'refs/heads/master', 'compare_url' => data['compare']), repository)
 
-    expected = {
+    commit.to_hash.should == {
       :commit => '9854592',
       :branch => 'master',
       :message => 'Bump to 0.0.15',
@@ -76,8 +75,6 @@ describe Github do
       :author_email => 'chris@flooose.de',
       :compare_url => 'https://github.com/svenfuchs/gem-release/compare/af674bd...9854592'
     }
-
-    commit.to_hash.should == expected
   end
 end
 

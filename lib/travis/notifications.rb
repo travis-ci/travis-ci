@@ -3,6 +3,7 @@ module Travis
     autoload :Email,   'travis/notifications/email'
     autoload :Irc,     'travis/notifications/irc'
     autoload :Webhook, 'travis/notifications/webhook'
+    autoload :Worker,  'travis/notifications/worker'
 
     mattr_accessor :subscriptions
 

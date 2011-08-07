@@ -61,14 +61,14 @@ describe RepositoriesController do
 
   describe "GET 'show', format png" do
     before(:each) do
-      controller.stub!(:render)
+      controller.stubs(:render)
     end
 
     let(:repository) { Factory.create(:repository, :owner_name => "sven", :name => "travis-ci") }
 
     it 'shows an "unknown" button when the repository does not exist' do
       repository
-      should_receive_file_with_status("unknown")
+      expects_file_with_status("unknown")
 
       get(:show, :format => "png", :owner_name => "sven", :name => "shmavis-ci")
     end
@@ -76,7 +76,7 @@ describe RepositoriesController do
     it 'shows an "unknown" button when it only has a build thats not finished' do
       Factory(:running_build, :repository => repository)
 
-      should_receive_file_with_status("unknown")
+      expects_file_with_status("unknown")
 
       get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
     end
@@ -84,7 +84,7 @@ describe RepositoriesController do
     it 'shows an "unstable" button when the repository has broken build' do
       Factory(:broken_build, :repository => repository)
 
-      should_receive_file_with_status("unstable")
+      expects_file_with_status("unstable")
 
       get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
     end
@@ -92,7 +92,7 @@ describe RepositoriesController do
     it 'shows a "stable" button when the repository\'s last build passed' do
       Factory(:successfull_build, :repository => repository)
 
-      should_receive_file_with_status("stable")
+      expects_file_with_status("stable")
 
       get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
     end
@@ -101,7 +101,7 @@ describe RepositoriesController do
       Factory(:broken_build, :repository => repository, :branch => 'master')
       Factory(:successfull_build, :repository => repository, :branch => 'feature')
 
-      should_receive_file_with_status("stable")
+      expects_file_with_status("stable")
 
       get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci", :branch => 'feature')
     end
@@ -110,13 +110,13 @@ describe RepositoriesController do
       Factory(:successfull_build, :repository => repository)
       Factory(:running_build, :repository => repository)
 
-      should_receive_file_with_status("stable")
+      expects_file_with_status("stable")
 
       get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
     end
 
-    def should_receive_file_with_status(status)
-      controller.should_receive(:send_file).
+    def expects_file_with_status(status)
+      controller.expects(:send_file).
         with("#{Rails.public_path}/images/status/#{status}.png", { :type=>"image/png", :disposition=>"inline" }).
         once
     end

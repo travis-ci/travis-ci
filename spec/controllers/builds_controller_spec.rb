@@ -10,8 +10,8 @@ RSpec::Matchers.define :be_in_queue do
 end
 
 describe BuildsController do
-  include TestHelpers::GithubApiTestHelper
-  include TestHelpers::RedisHelper
+  include TestHelpers::GithubApi
+  include TestHelpers::Redis
 
   let(:_request) { Factory(:request).reload }
   let(:build) { Factory(:build).reload }
