@@ -1,5 +1,4 @@
 class Statistics
-
   class << self
     def daily_repository_counts
       repos = Repository.
@@ -35,5 +34,4 @@ class Statistics
       end
     end
   end
-
 end

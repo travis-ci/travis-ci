@@ -1,5 +1,4 @@
 module BuildMailerHelper
-
   def print_build_matrix_summary(matrix)
     title = '#      RVM       Duration             Status      Build Log'
 
@@ -31,9 +30,6 @@ module BuildMailerHelper
     time_pieces.to_sentence
   end
 
-
-  # duration helpers
-
   ONE_HOUR = 3600
   ONE_MINUTE = 60
 
@@ -48,5 +44,4 @@ module BuildMailerHelper
   def seconds_part(diff)
     diff % ONE_MINUTE
   end
-
 end

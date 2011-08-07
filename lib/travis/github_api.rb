@@ -1,7 +1,7 @@
 require 'travis'
 
 module Travis
-  module GitHubApi
+  module GithubApi
     class ServiceHookError < StandardError; end
 
     class << self
@@ -35,6 +35,5 @@ module Travis
         Octokit.repositories(login)
       end
     end
-
   end
 end

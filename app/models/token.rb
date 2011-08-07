@@ -12,5 +12,4 @@ class Token < ActiveRecord::Base
     def generate_token
       self.token = Devise.friendly_token.first(20)
     end
-
 end
