@@ -11,9 +11,7 @@ class Task < ActiveRecord::Base
 
   serialize :config
 
-  after_create do
-    enqueue
-  end
+  after_create :enqueue
 
   def propagate(*args)
     owner.send(*args)

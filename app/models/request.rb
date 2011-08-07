@@ -16,7 +16,7 @@ class Request < ActiveRecord::Base
   serialize :config
 
   before_create do
-    self.task = Task::Configure.new
+    self.build_task(:repository => self.repository, :commit => self.commit)
   end
 
   def configure(config)
