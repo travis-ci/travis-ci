@@ -1,26 +1,24 @@
-defaults: &defaults
+production:
   adapter: postgresql
+  database: travis_production
   encoding: unicode
   pool: 5
-
-  # Minimum log levels, in increasing order:
-  #   debug5, debug4, debug3, debug2, debug1,
-  #   log, notice, warning, error, fatal, and panic
-  # The server defaults to notice.
   min_messages: warning
 
 development:
-  <<: *defaults
-  database: travis_development
-
-production:
-  <<: *defaults
-  database: travis_production
+  adapter: sqlite3
+  database: db/development.sqlite3
+  pool: 5
+  timeout: 5000
 
 jasmine:
-  <<: *defaults
-  database: travis_jasmine
+  adapter: sqlite3
+  database: db/jasmine.sqlite3
+  pool: 5
+  timeout: 5000
 
 test:
-  <<: *defaults
-  database: travis_test
+  adapter: sqlite3
+  database: db/test.sqlite3
+  pool: 5
+  timeout: 5000
