@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Travis::Notifications::Worker do
-  let(:config) { { :queues => [ { :queue => 'rails', :slug => 'rails/rails' }, { :queue => 'erlang', :target => 'erlang' } ] } }
+  let(:config) { Hashr.new(:queues => [ { :queue => 'rails', :slug => 'rails/rails' }, { :queue => 'erlang', :target => 'erlang' } ]) }
 
   before do
     Travis.stubs(:config).returns(config)

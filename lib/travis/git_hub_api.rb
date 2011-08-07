@@ -12,7 +12,7 @@ module Travis
         client.subscribe_service_hook(repository.owner_name, repository.name, "Travis", {
           :token  => user.tokens.first.token,
           :user   => user.login,
-          :domain => Travis.config['domain']
+          :domain => Travis.config.domain
         })
       rescue Octokit::UnprocessableEntity => e
         # we might want to improve this for logging purposes

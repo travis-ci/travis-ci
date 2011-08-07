@@ -47,7 +47,7 @@ module Travis
         end
 
         def name
-          Travis.config['irc'].try(:fetch, 'name', nil) || 'travis-ci'
+          Travis.config.irc.try(:name) || 'travis-ci'
         end
 
         def build_url(build)
@@ -55,7 +55,7 @@ module Travis
             :user => build.repository.owner_name,
             :repository => build.repository.name,
             :id => build.id,
-            :host => Travis.config['domain'] || 'test.travis-ci.org'
+            :host => Travis.config.domain || 'test.travis-ci.org'
           )
         end
     end

@@ -11,7 +11,7 @@ module Travis
         end
 
         def queues
-          @queues ||= Array(Travis.config[:queues]).compact.map do |queue|
+          @queues ||= Array(Travis.config.queues).compact.map do |queue|
             Queue.new(*queue.values_at(*[:queue, :slug, :target]))
           end
         end
