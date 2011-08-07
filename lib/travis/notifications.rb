@@ -24,7 +24,7 @@ module Travis
 
         def match?(subscription, event)
           Array(subscription).any? do |subscription|
-            subscription.is_a?(Regexp) ? subscription.match?(event) : subscription == event
+            subscription.is_a?(Regexp) ? subscription.match(event) : subscription == event
           end
         end
     end

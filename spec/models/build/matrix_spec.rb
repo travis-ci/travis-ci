@@ -122,22 +122,6 @@ describe Build, 'matrix' do
     end
   end
 
-  describe 'matrix_expanded?' do
-    xit 'returns true if the matrix has just been expanded' do
-      assert Factory(:build, :config => config).matrix_expanded?
-    end
-
-    xit 'returns false if there is no matrix' do
-      assert !Factory(:build).matrix_expanded?
-    end
-
-    xit 'returns false if the matrix existed before' do
-      build = Factory(:build, :config => config)
-      build.save!
-      assert !build.matrix_expanded?
-    end
-  end
-
   describe 'matrix_status' do
     it 'returns 1 if any task has the status 1' do
       build = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
@@ -152,39 +136,6 @@ describe Build, 'matrix' do
       build.matrix[1].update_attributes!(:status => 0, :state => :finished)
       build.matrix_status.should == 0
     end
-  end
-
-  xit 'matrix build as_json' do
-    build = Factory(:build, :number => '2', :config => config)
-    build_attributes = {
-      :id => build.id,
-      :repository_id => build.repository.id,
-      :number => '2',
-      :commit => '12345',
-      :branch => 'master',
-      :message => 'the commit message',
-      :committer_name => 'Sven Fuchs',
-      :committer_email => 'svenfuchs@artweb-design.de',
-      :config => { :script => 'rake ci', :gemfile => ['gemfiles/rails-2.3.x', 'gemfiles/rails-3.0.x'], :rvm => ['1.8.7', '1.9.2']},
-    }
-    matrix_attributes = {
-      :repository_id => build.repository.id,
-      :parent_id => build.id,
-      :commit => '12345',
-      :branch => 'master',
-      :committer_name => 'Sven Fuchs',
-      :committer_email => 'svenfuchs@artweb-design.de',
-      :message => 'the commit message',
-    }
-    expected = build_attributes.merge(
-      :matrix => [
-        matrix_attributes.merge(:id => build.id + 1, :number => '2.1', :config => { :script => 'rake ci', :gemfile => 'gemfiles/rails-2.3.x', :rvm => '1.8.7' }),
-        matrix_attributes.merge(:id => build.id + 2, :number => '2.2', :config => { :script => 'rake ci', :gemfile => 'gemfiles/rails-3.0.x', :rvm => '1.8.7' }),
-        matrix_attributes.merge(:id => build.id + 3, :number => '2.3', :config => { :script => 'rake ci', :gemfile => 'gemfiles/rails-2.3.x', :rvm => '1.9.2' }),
-        matrix_attributes.merge(:id => build.id + 4, :number => '2.4', :config => { :script => 'rake ci', :gemfile => 'gemfiles/rails-3.0.x', :rvm => '1.9.2' }),
-      ]
-    )
-    assert_equal_hashes expected, build.as_json(:for => :'build:started')
   end
 end
 

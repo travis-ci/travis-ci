@@ -140,14 +140,9 @@ describe Repository do
     end
 
     describe 'timeline' do
-      xit 'sorts the most repository with the most recent build to the top' do
-        repository_1 = Factory.create(:repository, :name => 'repository_1')
-        repository_2 = Factory.create(:repository, :name => 'repository_2')
-
-        Factory(:build, :repository => repository_1, :started_at => '2010-11-11 12:00:00', :finished_at => '2010-11-11 12:00:10')
-        Factory(:build, :repository => repository_1, :started_at => '2010-11-10 12:00:20', :finished_at => '2010-11-10 12:00:20')
-        Factory(:build, :repository => repository_2, :started_at => '2010-11-11 12:00:10', :finished_at => '2010-11-11 12:00:10')
-        Factory(:build, :repository => repository_2, :started_at => '2010-11-11 12:00:20')
+      it 'sorts the most repository with the most recent build to the top' do
+        repository_1 = Factory.create(:repository, :name => 'repository_1', :last_build_started_at => '2011-11-11')
+        repository_2 = Factory.create(:repository, :name => 'repository_2', :last_build_started_at => '2011-11-12')
 
         repositories = Repository.timeline.all
         repositories.first.id.should == repository_2.id
@@ -211,20 +206,6 @@ describe Repository do
     Factory(:build, :repository => repository, :state => 'started', :commit => Factory(:commit, :branch => 'feature'))
 
     repository.last_finished_build('feature').id.should == build.id
-  end
-
-  xit 'denormalizes last_build_id, last_build_number, last_build_status, last_build_started_at and last_build_finished_at' do
-    attribute_names = %w(last_build_id last_build_number last_build_status last_build_started_at last_build_finished_at)
-    attributes = repository_1.attributes.values_at(*attribute_names)
-    assert_equal [build_1.id.to_s, '1', '0', '2010-11-11 12:00:00 UTC', '2010-11-11 12:00:10 UTC'], attributes.map(&:to_s)
-
-    attributes = repository_2.attributes.values_at(*attribute_names)
-    assert_equal [build_3.id.to_s, '3', '', '2010-11-11 12:00:20 UTC', ''], attributes.map(&:to_s)
-  end
-
-  xit 'does not denormalize matrix child builds' do
-    child = Factory(:build, :repository => repository_1, :parent => build_1, :number => '1.1')
-    repository_1.reload.last_build_number.should == '1'
   end
 end
 

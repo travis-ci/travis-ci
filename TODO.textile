@@ -6,12 +6,15 @@
 + configure notifications receivers
 + improve specs for notifications receivers (actually hook receivers up to the dispatcher)
 + spec Travis::Config
-
-- spec Pusher notifications
-- data migrations
++ spec Pusher notifications
 
 - go through all models and add pending specs
 - go through all specs and do final cleanup
 
-- make payload instances Hashrs and rewrite Github
+- add Pusher notification specs for actual messages sent
+- data migrations
+
+
+
+- later: make payload instances Hashrs and rewrite lib/github
 
