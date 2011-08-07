@@ -16,11 +16,11 @@ describe BuildsController, 'JSON api version 1', :type => :controller do
       task  = build['matrix'].first
 
       build.keys.should =~ %w(
-        id repository_id number config state status started_at finished_at matrix
+        id repository_id matrix number config state status started_at finished_at
         commit branch compare_url message committed_at committer_email committer_name author_name author_email
       )
       task.keys.should =~ %w(
-        id repository_id number config state status started_at finished_at
+        id repository_id parent_id number config state status started_at finished_at
         commit branch compare_url message committed_at committer_email committer_name author_name author_email
       )
     end

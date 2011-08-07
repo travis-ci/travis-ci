@@ -5,7 +5,7 @@ describe ProfilesController do
   include Devise::SignInHelpers
 
   before(:each) do
-    Token.any_instance.stub(:token).and_return('afaketoken')
+    Token.any_instance.stubs(:token).returns('afaketoken')
     sign_in_user user
   end
 

@@ -6,7 +6,7 @@ class Request < ActiveRecord::Base
   event :configure, :to => :configured, :after => :finish
   event :finish,    :to => :finished
 
-  has_one    :task, :as => :owner
+  has_one    :task, :as => :owner, :class_name => 'Task::Configure'
   belongs_to :commit
   belongs_to :repository
   has_many   :builds

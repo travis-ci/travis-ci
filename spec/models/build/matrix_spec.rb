@@ -99,8 +99,8 @@ describe Build, 'matrix' do
     end
 
     it 'expanding a matrix build adds a sub-build number to the task number' do
-      build = Factory(:build, :number => '2', :config => config)
-      assert_equal ['2.1', '2.2', '2.3', '2.4'], build.matrix.map(&:number)[0..3]
+      build = Factory(:build, :config => config)
+      assert_equal ['1.1', '1.2', '1.3', '1.4'], build.matrix.map(&:number)[0..3]
     end
   end
 

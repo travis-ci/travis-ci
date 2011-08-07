@@ -2,13 +2,15 @@ module Travis
   class Worker
     class << self
       def enqueue(task)
-        # TODO make sure we use FakeRedis for tests
-        #
-        worker = worker_for(task)
-        data = Travis::Utils.json_for(:job, task).merge(:queue => worker.queue)
-        ::Rails.logger.info("Job queued to #{worker.queue} : #{data.inspect}")
-        Resque.enqueue(worker, data)
-        data
+        worker  = worker_for(task)
+        payload = {
+          :build => Travis::Renderer.hash(task, :type => :job),
+          :repository => Travis::Renderer.hash(task.repository, :type => :job),
+          :queue => worker.queue
+        }
+        ::Rails.logger.info("Job queued to #{worker.queue.inspect}: #{payload.inspect}")
+        Resque.enqueue(worker, payload)
+        payload
       end
 
       def to_s

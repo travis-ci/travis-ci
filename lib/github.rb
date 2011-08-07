@@ -38,7 +38,7 @@ module Github
       end
 
       def commits
-        @commits ||= self['commits'].map { |commit| Commit.new(commit.merge(:ref => ref), repository, compare_url) }
+        @commits ||= self['commits'].map { |commit| Commit.new(commit.merge('ref' => ref, 'compare_url' => compare_url), repository) }
       end
 
       def compare_url
@@ -73,7 +73,7 @@ module Github
     end
 
     def path
-      "repos/show/#{owner}/#{name}"
+      "repos/show/#{owner_name}/#{name}"
     end
 
     def private?
@@ -84,10 +84,9 @@ module Github
   class Commit < OpenStruct
     ATTR_NAMES = [:commit, :message, :branch, :committed_at, :committer_name, :committer_email, :author_name, :author_email, :compare_url]
 
-    def initialize(data, repository, compare_url)
+    def initialize(data, repository)
       data['author'] ||= {}
       data['repository']  = repository
-      data['compare_url'] = compare_url
       super(data)
     end
 
@@ -132,7 +131,7 @@ module Github
     end
 
     def compare_url
-      self['compare']
+      self['compare_url']
     end
   end
 

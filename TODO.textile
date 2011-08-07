@@ -1,3 +1,5 @@
 + tons of JSON
+- json for configure tasks
 - move Worker to Notification:Worker
 - ensure Task::Build can cope with incremental updates
+- data migrations

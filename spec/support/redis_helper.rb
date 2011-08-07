@@ -1,5 +1,5 @@
 module TestHelpers
-  module RedisHelper
+  module Redis
     def flush_redis
       Resque.redis.flushall
     end

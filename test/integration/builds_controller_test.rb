@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class BuildsControllerTest < ActionDispatch::IntegrationTest
-  include TestHelpers::GithubApiTestHelper
+  include TestHelpers::GithubApi
 
   attr_reader :channel, :build
 
