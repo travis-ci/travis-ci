@@ -1,21 +1,48 @@
 require 'spec_helper'
 
 describe Task::Configure do
-  let(:now)     { Time.now.tap { |now| Time.stubs(:now).returns(now) } }
-  let(:request) { Factory(:request) }
+  attr_reader :request, :task
 
-  it "start starts the task and propagates to the request" do
-    request.task.start!
-    request.reload.should be_started
+  before do
+    @request = Factory(:request)
+    @task = request.task
   end
 
-  it "finish finishes the task and configures the request" do
-    config = { :rvm => ['1.8.7', '1.9.2'] }
-    request.task.finish!(config)
+  let(:now) { Time.now.tap { |now| Time.stubs(:now).returns(now) } }
 
-    request.reload.should be_finished
-    request.task.should be_finished
-    request.config.should == config
+  describe 'start' do
+    it 'start starts the task and propagates to the request' do
+      task.start!
+      request.reload.should be_started
+    end
+
+    it 'notifies observers' do
+      Travis::Notifications.expects(:dispatch).with('task:configure:started', task)
+      task.start!
+    end
+  end
+
+  describe 'finish' do
+    let(:config) { { :rvm => ['1.8.7', '1.9.2'] } }
+
+    it 'finishes the task and configures the request' do
+      task.finish!(config)
+
+      request.reload.should be_finished
+      request.config.should == config
+
+      task.should be_finished
+    end
+
+    it 'notifies observers' do
+      Travis::Notifications.expects(:dispatch).with('task:configure:started', task)
+      Travis::Notifications.expects(:dispatch).with('task:configure:finished', task, config)
+      # Travis::Notifications.expects(:dispatch).with('request:configured', task, config) # not implemented
+      Travis::Notifications.expects(:dispatch).with { |event, object| event == 'task:test:created' && object.is_a?(Task::Test) }
+
+      task.start!
+      task.finish!(config)
+    end
   end
 end
 

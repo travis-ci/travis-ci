@@ -21,7 +21,7 @@ describe ::Task::Test do
     end
 
     it 'notifies observers' do
-      Travis::Notifications.expects(:dispatch).with('build:started', task)
+      Travis::Notifications.expects(:dispatch).with('test:started', task)
       task.start!
     end
   end
@@ -41,7 +41,7 @@ describe ::Task::Test do
     end
 
     it 'notifies observers' do
-      Travis::Notifications.expects(:dispatch).with('build:log', task, :log => 'chars')
+      Travis::Notifications.expects(:dispatch).with('build:log', build, :log => 'chars')
       Task::Test.append_log!(task.id, 'chars')
     end
   end
@@ -64,8 +64,8 @@ describe ::Task::Test do
     end
 
     it 'notifies observers' do
-      Travis::Notifications.expects(:dispatch).with('build:started', first)
-      Travis::Notifications.expects(:dispatch).with('build:finished', first, :status => 0)
+      Travis::Notifications.expects(:dispatch).with('test:started', first)
+      Travis::Notifications.expects(:dispatch).with('test:finished', first, :status => 0)
 
       first.start!
       first.finish!(:status => 0)
