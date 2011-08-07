@@ -1,6 +1,22 @@
 require 'spec_helper'
 
 describe Task, 'json' do
+  describe 'rendering a Task::Configure' do
+    attr_reader :repository, :build, :task
+
+    before do
+      @task = Factory(:request).task
+    end
+
+    it 'render_json with :type => :job includes everything required for the build job' do
+      render_json(task, :type => :job).should == {
+        'id' => task.id,
+        'commit' => '62aae5f70ceee39123ef',
+        'branch' => 'master',
+      }
+    end
+  end
+
   describe 'rendering a Task::Test' do
     attr_reader :repository, :build, :task
 
