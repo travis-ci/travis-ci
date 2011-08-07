@@ -17,4 +17,3 @@ describe Hash, 'extensions' do
     hash.should == expected
   end
 end
-

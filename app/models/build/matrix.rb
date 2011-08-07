@@ -12,10 +12,6 @@ class Build
       end
     end
 
-    def matrix_expanded?
-      self.class.matrix?(@previously_changed['config'][1]) rescue false # TODO how to use some public AR API?
-    end
-
     def matrix_finished?
       matrix.all?(&:finished?)
     end

@@ -1,6 +1,5 @@
 require 'uri'
 require 'core_ext/hash/compact'
-require 'travis/git_hub_api'
 
 class Repository < ActiveRecord::Base
 
@@ -44,7 +43,7 @@ class Repository < ActiveRecord::Base
       repo.active = false
 
       if repo.valid?
-        Travis::GitHubApi.remove_service_hook(repo, user)
+        Travis::GithubApi.remove_service_hook(repo, user)
         repo.save!
         repo
       else
@@ -57,7 +56,7 @@ class Repository < ActiveRecord::Base
       repo.active = true
 
       if repo.valid?
-        Travis::GitHubApi.add_service_hook(repo, user)
+        Travis::GithubApi.add_service_hook(repo, user)
         repo.save!
         repo
       else
@@ -66,7 +65,7 @@ class Repository < ActiveRecord::Base
     end
 
     def github_repos_for_user(user)
-      github_repos = Travis::GitHubApi.repository_list_for_user(user.login)
+      github_repos = Travis::GithubApi.repository_list_for_user(user.login)
 
       repo_name_active_array = where(:owner_name => user.login).select([:active, :name]).map { |repo| [repo.name, repo.active] }
       names_and_active = Hash[repo_name_active_array]

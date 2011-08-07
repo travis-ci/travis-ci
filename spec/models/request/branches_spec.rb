@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Request::Branches do
-  describe 'approve?' do
+  describe :approve? do
     describe 'returns true' do
       let(:commit) { Commit.new(:branch => 'master') }
 

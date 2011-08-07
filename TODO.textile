@@ -7,11 +7,12 @@
 + improve specs for notifications receivers (actually hook receivers up to the dispatcher)
 + spec Travis::Config
 + spec Pusher notifications
++ go through all models and add pending specs
++ go through all specs and do some cleanup
 
-- go through all models and add pending specs
-- go through all specs and do final cleanup
 
 - add Pusher notification specs for actual messages sent
+- add JSON specs for :event task:configure and task:test events
 - data migrations
 
 

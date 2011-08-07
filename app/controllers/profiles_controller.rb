@@ -26,7 +26,7 @@ class ProfilesController < ApplicationController
     end
 
     respond_with(repository)
-  rescue ActiveRecord::RecordInvalid, Travis::GitHubApi::ServiceHookError => e
+  rescue ActiveRecord::RecordInvalid, Travis::GithubApi::ServiceHookError => e
     respond_with(repository, :only => [:id, :active], :status => :not_acceptable)
   end
 

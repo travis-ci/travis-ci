@@ -1,18 +1,6 @@
 require 'spec_helper'
 
 describe Repository do
-  # before do
-  #   @repository_1 =
-  #   @repository_2 = Factory(:repository, :name => 'gem-release', :owner_name => 'flooose')
-  #   @build_4 = Factory(:build, :repository => repository_1, :number => '4', :status => 1, :branch => 'feature', :started_at => '2010-11-10 12:00:20', :finished_at => '2010-11-10 12:00:20')
-  #   @build_1 = Factory(:build, :repository => repository_1.reload, :number => '1', :status => 0, :started_at => '2010-11-11 12:00:00', :finished_at => '2010-11-11 12:00:10')
-  #   @build_2 = Factory(:build, :repository => repository_2.reload, :number => '2', :status => 1, :started_at => '2010-11-11 12:00:10', :finished_at => '2010-11-11 12:00:10')
-  #   @build_3 = Factory(:build, :repository => repository_2.reload, :number => '3', :status => nil, :started_at => '2010-11-11 12:00:20')
-
-  #   repository_1.reload
-  #   repository_2.reload
-  # end
-
   describe 'validates' do
     it 'uniqueness of :owner_name/:name' do
       existing = Factory(:repository)
@@ -107,7 +95,7 @@ describe Repository do
 
         lambda do
           Repository.find_or_create_and_add_service_hook('svenfuchs', 'not-so-minimal', user)
-        end.should raise_exception(Travis::GitHubApi::ServiceHookError)
+        end.should raise_exception(Travis::GithubApi::ServiceHookError)
       end
 
       it 'raises an error when can not authorize with GitHub' do
@@ -115,7 +103,7 @@ describe Repository do
 
         lambda do
           Repository.find_or_create_and_add_service_hook('svenfuchs', 'not-so-minimal', user)
-        end.should raise_exception(Travis::GitHubApi::ServiceHookError)
+        end.should raise_exception(Travis::GithubApi::ServiceHookError)
       end
 
       it 'raises an error if the record is invalid' do

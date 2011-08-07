@@ -4,14 +4,14 @@ describe User do
   let (:user)    { Factory.build(:user) }
   let (:payload) { GITHUB_PAYLOADS[:oauth] }
 
-  describe 'profile_image_hash' do
-    it 'returns a MD5 hash of the email if an email is set' do
-      user.profile_image_hash.should == Digest::MD5.hexdigest(user.email)
+  describe 'find_or_create_for_oauth' do
+    def user(payload)
+      User.find_or_create_for_oauth(payload)
     end
 
-    it 'returns 32 zeros if no email is set' do
-      user.email = nil
-      user.profile_image_hash.should == '0' * 32
+    it 'marks new users as such' do
+      user(payload).should be_recently_signed_up
+      user(payload).should_not be_recently_signed_up
     end
   end
 
@@ -27,15 +27,14 @@ describe User do
     end
   end
 
-  describe 'find_or_create_for_oauth' do
-    def user(payload)
-      User.find_or_create_for_oauth(payload)
+  describe 'profile_image_hash' do
+    it 'returns a MD5 hash of the email if an email is set' do
+      user.profile_image_hash.should == Digest::MD5.hexdigest(user.email)
     end
 
-    it 'marks new users as such' do
-      user(payload).should be_recently_signed_up
-      user(payload).should_not be_recently_signed_up
+    it 'returns 32 zeros if no email is set' do
+      user.email = nil
+      user.profile_image_hash.should == '0' * 32
     end
   end
 end
-

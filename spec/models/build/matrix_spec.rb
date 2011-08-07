@@ -21,7 +21,41 @@ describe Build, 'matrix' do
     yml
   }
 
-  describe 'matrix_config' do
+  describe :matrix_finished? do
+    it 'returns false if at least one task has not finished' do
+      build = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
+      build.matrix[0].update_attributes(:finished_at => Time.now)
+      build.matrix[1].update_attributes(:finished_at => nil)
+
+      build.matrix_finished?.should_not be_true
+    end
+
+    it 'returns true if all tasks have finished' do
+      build = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
+      build.matrix[0].update_attributes!(:state => :finished)
+      build.matrix[1].update_attributes!(:state => :finished)
+
+      build.matrix_finished?.should_not be_nil
+    end
+  end
+
+  describe :matrix_status do
+    it 'returns 1 if any task has the status 1' do
+      build = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
+      build.matrix[0].update_attributes!(:status => 1, :state => :finished)
+      build.matrix[1].update_attributes!(:status => 0, :state => :finished)
+      build.matrix_status.should == 1
+    end
+
+    it 'returns 0 if all tasks have the status 0' do
+      build = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
+      build.matrix[0].update_attributes!(:status => 0, :state => :finished)
+      build.matrix[1].update_attributes!(:status => 0, :state => :finished)
+      build.matrix_status.should == 0
+    end
+  end
+
+  describe :matrix_config do
     it 'with string values' do
       build = Factory(:build, :config => { :rvm => '1.8.7', :gemfile => 'gemfiles/rails-2.3.x', :env => 'FOO=bar' })
       build.matrix_config.should be_nil
@@ -54,7 +88,7 @@ describe Build, 'matrix' do
     end
   end
 
-  describe 'expand_matrix_config' do
+  describe :expand_matrix_config do
     it 'expands the build matrix configuration' do
       build = Factory(:build, :config => config)
       build.expand_matrix_config(build.matrix_config.to_a).should == [
@@ -74,67 +108,34 @@ describe Build, 'matrix' do
     end
   end
 
-  it 'expanding a matrix build sets the config to the tasks' do
-    build = Factory(:build, :config => config)
-    build.matrix.map(&:config).should == [
-      { :script => 'rake ci', :rvm => '1.8.7', :gemfile => 'gemfiles/rails-3.0.6',      :env => 'USE_GIT_REPOS=true' },
-      { :script => 'rake ci', :rvm => '1.8.7', :gemfile => 'gemfiles/rails-3.0.7',      :env => 'USE_GIT_REPOS=true' },
-      { :script => 'rake ci', :rvm => '1.8.7', :gemfile => 'gemfiles/rails-3-0-stable', :env => 'USE_GIT_REPOS=true' },
-      { :script => 'rake ci', :rvm => '1.8.7', :gemfile => 'gemfiles/rails-master',     :env => 'USE_GIT_REPOS=true' },
-      { :script => 'rake ci', :rvm => '1.9.1', :gemfile => 'gemfiles/rails-3.0.6',      :env => 'USE_GIT_REPOS=true' },
-      { :script => 'rake ci', :rvm => '1.9.1', :gemfile => 'gemfiles/rails-3.0.7',      :env => 'USE_GIT_REPOS=true' },
-      { :script => 'rake ci', :rvm => '1.9.1', :gemfile => 'gemfiles/rails-3-0-stable', :env => 'USE_GIT_REPOS=true' },
-      { :script => 'rake ci', :rvm => '1.9.1', :gemfile => 'gemfiles/rails-master',     :env => 'USE_GIT_REPOS=true' },
-      { :script => 'rake ci', :rvm => '1.9.2', :gemfile => 'gemfiles/rails-3.0.6',      :env => 'USE_GIT_REPOS=true' },
-      { :script => 'rake ci', :rvm => '1.9.2', :gemfile => 'gemfiles/rails-3.0.7',      :env => 'USE_GIT_REPOS=true' },
-      { :script => 'rake ci', :rvm => '1.9.2', :gemfile => 'gemfiles/rails-3-0-stable', :env => 'USE_GIT_REPOS=true' },
-      { :script => 'rake ci', :rvm => '1.9.2', :gemfile => 'gemfiles/rails-master',     :env => 'USE_GIT_REPOS=true' },
-    ]
-  end
+  describe :expand_matrix do
+    it 'sets the config to the tasks' do
+      build = Factory(:build, :config => config)
+      build.matrix.map(&:config).should == [
+        { :script => 'rake ci', :rvm => '1.8.7', :gemfile => 'gemfiles/rails-3.0.6',      :env => 'USE_GIT_REPOS=true' },
+        { :script => 'rake ci', :rvm => '1.8.7', :gemfile => 'gemfiles/rails-3.0.7',      :env => 'USE_GIT_REPOS=true' },
+        { :script => 'rake ci', :rvm => '1.8.7', :gemfile => 'gemfiles/rails-3-0-stable', :env => 'USE_GIT_REPOS=true' },
+        { :script => 'rake ci', :rvm => '1.8.7', :gemfile => 'gemfiles/rails-master',     :env => 'USE_GIT_REPOS=true' },
+        { :script => 'rake ci', :rvm => '1.9.1', :gemfile => 'gemfiles/rails-3.0.6',      :env => 'USE_GIT_REPOS=true' },
+        { :script => 'rake ci', :rvm => '1.9.1', :gemfile => 'gemfiles/rails-3.0.7',      :env => 'USE_GIT_REPOS=true' },
+        { :script => 'rake ci', :rvm => '1.9.1', :gemfile => 'gemfiles/rails-3-0-stable', :env => 'USE_GIT_REPOS=true' },
+        { :script => 'rake ci', :rvm => '1.9.1', :gemfile => 'gemfiles/rails-master',     :env => 'USE_GIT_REPOS=true' },
+        { :script => 'rake ci', :rvm => '1.9.2', :gemfile => 'gemfiles/rails-3.0.6',      :env => 'USE_GIT_REPOS=true' },
+        { :script => 'rake ci', :rvm => '1.9.2', :gemfile => 'gemfiles/rails-3.0.7',      :env => 'USE_GIT_REPOS=true' },
+        { :script => 'rake ci', :rvm => '1.9.2', :gemfile => 'gemfiles/rails-3-0-stable', :env => 'USE_GIT_REPOS=true' },
+        { :script => 'rake ci', :rvm => '1.9.2', :gemfile => 'gemfiles/rails-master',     :env => 'USE_GIT_REPOS=true' },
+      ]
+    end
 
-  describe 'expanding the matrix' do
-    it 'expanding a matrix build copies build attributes' do
+    it 'copies build attributes' do
+      # TODO spec other attributes!
       build = Factory(:build, :config => config)
       build.matrix.map(&:commit_id).uniq.should == [build.commit_id]
     end
 
-    it 'expanding a matrix build adds a sub-build number to the task number' do
+    it 'adds a sub-build number to the task number' do
       build = Factory(:build, :config => config)
       assert_equal ['1.1', '1.2', '1.3', '1.4'], build.matrix.map(&:number)[0..3]
-    end
-  end
-
-  describe 'matrix_finished?' do
-    it 'returns false if at least one task has not finished' do
-      build = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
-      build.matrix[0].update_attributes(:finished_at => Time.now)
-      build.matrix[1].update_attributes(:finished_at => nil)
-
-      build.matrix_finished?.should_not be_true
-    end
-
-    it 'returns true if all tasks have finished' do
-      build = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
-      build.matrix[0].update_attributes!(:state => :finished)
-      build.matrix[1].update_attributes!(:state => :finished)
-
-      build.matrix_finished?.should_not be_nil
-    end
-  end
-
-  describe 'matrix_status' do
-    it 'returns 1 if any task has the status 1' do
-      build = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
-      build.matrix[0].update_attributes!(:status => 1, :state => :finished)
-      build.matrix[1].update_attributes!(:status => 0, :state => :finished)
-      build.matrix_status.should == 1
-    end
-
-    it 'returns 0 if all tasks have the status 0' do
-      build = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
-      build.matrix[0].update_attributes!(:status => 0, :state => :finished)
-      build.matrix[1].update_attributes!(:status => 0, :state => :finished)
-      build.matrix_status.should == 0
     end
   end
 end

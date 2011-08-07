@@ -1,47 +1,26 @@
 require 'spec_helper'
 
 describe ::Task::Test do
-  attr_reader :build, :task, :first, :second
+  attr_reader :build, :first, :second
 
   before do
     @build  = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
     @first  = build.matrix.first
     @second = build.matrix.second
-    @task   = first
   end
 
   let(:now)   { Time.now.tap { |now| Time.stubs(:now).returns(now) } }
 
   describe 'start' do
     it 'starts the task and propagates to the build' do
-      task.start!
-      task.reload.should be_started
+      first.start!
+      first.reload.should be_started
       build.reload.should be_started
     end
 
     it 'notifies observers' do
-      Travis::Notifications.expects(:dispatch).with('task:test:started', task)
-      task.start!
-    end
-  end
-
-  describe 'append_log!' do
-    it 'appends streamed build log chunks' do
-      task = build.matrix.first
-      lines = [
-        "$ git clone --depth=1000 --quiet git://github.com/intridea/omniauth.git ~/builds/intridea/omniauth\n",
-        "$ git checkout -qf 662af2708525b776aac580b10cc903ba66050e06\n",
-        "$ bundle install --pa"
-      ]
-      0.upto(2) do |ix|
-        Task::Test.append_log!(task.id, lines[ix])
-        assert_equal lines[0, ix + 1].join, task.reload.log
-      end
-    end
-
-    it 'notifies observers' do
-      Travis::Notifications.expects(:dispatch).with('build:log', build, :log => 'chars')
-      Task::Test.append_log!(task.id, 'chars')
+      Travis::Notifications.expects(:dispatch).with('task:test:started', first)
+      first.start!
     end
   end
 

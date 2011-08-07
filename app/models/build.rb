@@ -20,10 +20,10 @@ class Build < ActiveRecord::Base
 
   class << self
     def recent(page)
-      started.descending.limit(10 * page).includes(:matrix) # TODO should use an offset when we use limit!
+      was_started.descending.limit(10 * page).includes(:matrix) # TODO should use an offset when we use limit!
     end
 
-    def started
+    def was_started
       where(:state => ['started', 'finished'])
     end
 

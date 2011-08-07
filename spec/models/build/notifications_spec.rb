@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Build, 'notifications', ActiveSupport::TestCase do
-  describe 'send_email_notifications?' do
+  describe :send_email_notifications? do
     it 'returns true by default' do
       build = Factory(:build)
       build.send_email_notifications?.should be_true
@@ -29,7 +29,7 @@ describe Build, 'notifications', ActiveSupport::TestCase do
     end
   end
 
-  describe 'email_recipients' do
+  describe :email_recipients do
     it 'contains the author emails if the build has them set' do
       build = Factory(:build, :commit => Factory(:commit, :author_email => 'author-1@email.com,author-2@email.com'))
       assert_contains_recipients(build.email_recipients, build.commit.author_email)
@@ -53,7 +53,7 @@ describe Build, 'notifications', ActiveSupport::TestCase do
     end
   end
 
-  describe 'send_webhook_notifications?' do
+  describe :send_webhook_notifications? do
     it 'returns true if the build configuration specifies webhooks' do
       build = Factory(:build, :config => { :notifications => { :webhooks => ['http://evome.fr/notifications', 'http://example.com/'] } })
       build.send_webhook_notifications?.should be_true
@@ -65,7 +65,7 @@ describe Build, 'notifications', ActiveSupport::TestCase do
     end
   end
 
-  describe 'webhooks' do
+  describe :webhooks do
     it 'returns an array of values if the build configuration specifies a single, comma separated string' do
       webhooks = 'http://evome.fr/notifications, http://example.com'
       build = Factory(:build, :config => { :notifications => { :webhooks => webhooks } })
