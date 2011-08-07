@@ -6,13 +6,12 @@ module Travis
   autoload :Notifications, 'travis/notifications'
 
   class << self
+    delegate :json, :hash, :to => 'Travis::Renderer'
+
     attr_accessor :pusher
 
     def config
       @config ||= Config.new
     end
-  end
-
-  class Worker
   end
 end

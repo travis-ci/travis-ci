@@ -3,11 +3,9 @@ module Travis
     class << self
       def enqueue(task)
         worker  = worker_for(task)
-        payload = {
-          :build => Travis::Renderer.hash(task, :type => :job),
-          :repository => Travis::Renderer.hash(task.repository, :type => :job),
-          :queue => worker.queue
-        }
+        payload = payload_for(task)
+        payload.merge!(:queue => worker.queue)
+
         ::Rails.logger.info("Job queued to #{worker.queue.inspect}: #{payload.inspect}")
         Resque.enqueue(worker, payload)
         payload
@@ -30,6 +28,10 @@ module Travis
           return Worker.const_get(queue['queue'].capitalize) if use_queue?(build, queue)
         end
         Worker
+      end
+
+      def payload_for(task)
+        Travis.hash({ :build => task, :repository => task.repository }, :type => :job)
       end
 
       def use_queue?(build, config)

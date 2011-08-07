@@ -2,58 +2,80 @@ module Travis
   class Renderer
     class << self
       def hash(object, options = {})
-        render(:hash, object, options)
+        new(:hash, object, options).render
       end
 
       def json(object, options = {})
-        render(:json, object, options)
+        new(:json, object, options).render
       end
 
       def xml(object, options = {})
-        render(:json, object, options)
+        new(:xml, object, options).render
+      end
+    end
+
+    attr_reader :format, :object, :options, :version, :type, :template_name
+
+    def initialize(format, object, options = {})
+      @format, @object, @options = format, object, options
+
+      @version = options.fetch(:version, :v1)
+      @type    = options.fetch(:type, :default)
+      @template_name = options.fetch(:template, model_name)
+    end
+
+    def render
+      send(object.is_a?(Hash) ? :render_hash : :render_object)
+    end
+
+    protected
+
+      def render_hash
+        object.inject({}) do |result, (key, value)|
+          result.merge(key => self.class.send(format, value, options))
+        end
       end
 
-      protected
+      def render_object
+        set_instance_variable
+        view = Rabl::Engine.new(template, :format => format) # :view_path => view_path(options) TODO view_path doesn't seem get passed through to :extends
+        view.render(self, { :object => object })
+      end
 
-        def render(format, object, options)
-          set_instance_variable(object)
-          view = Rabl::Engine.new(template(object, options), :format => format, :view_path => view_path(options)) # TODO view_path doesn't seem get passed through to :extends
-          view.render(self, { :object => object })
-        end
+      def set_instance_variable
+        instance_variable_set(:"@#{model_name.split('/').last}", object)
+      end
 
-        def set_instance_variable(object)
-          instance_variable_set(:"@#{model_name(object).split('/').last}", object)
-        end
+      def template
+        File.read(find_template) # should use Tilt or ActionView (or internal classes) in order to cache things. or look into Rabl to support it there
+      end
 
-        def template(object, options)
-          File.read(find_template(object, options)) # should use Tilt or ActionView (or internal classes) in order to cache things. or look into Rabl to support it there
-        end
+      def find_template
+        template_paths.detect { |path| File.exists?(path) } || raise_template_not_found
+      end
 
-        def find_template(object, options)
-          [options[:type], 'default'].compact.each do |type|
-            path = template_path(object, options.merge(:type => type))
-            return path if File.exists?(path)
-          end
-          raise "could not find rabl template for #{object.inspect} with #{options.inspect}"
-        end
+      def template_paths
+        [type, 'default'].compact.map { |type| template_path(type) }
+      end
 
-        def template_path(object, options)
-          base = view_path(options)
-          type = options.fetch(:type)
-          name = options.fetch(:template, model_name(object))
+      def template_path(type)
+        [view_path, type, "#{template_name}.rabl"].join('/')
+      end
 
-          [base, type, "#{name}.rabl"].join('/')
-        end
+      def view_path
+        ['app/views', version]
+      end
 
-        def view_path(options)
-          ['app/views', options.fetch(:version, 'v1')]
-        end
-
-        def model_name(object)
+      def model_name
+        @model_name = begin
           item = object.is_a?(Array) ? object.first : object
           name = item.class.name.underscore
           object.is_a?(Array) ? name.pluralize : name
         end
-    end
+      end
+
+      def raise_template_not_found
+        raise "could not find rabl template for #<#{object.class.name}> with #{options.inspect}"
+      end
   end
 end
