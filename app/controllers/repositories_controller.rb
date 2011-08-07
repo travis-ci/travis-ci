@@ -39,5 +39,4 @@ class RepositoriesController < ApplicationController
 
       send_file(path, :type => 'image/png', :disposition => 'inline')
     end
-
 end

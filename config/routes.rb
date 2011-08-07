@@ -13,11 +13,6 @@ TravisCi::Application.routes.draw do
     get 'users/sign_out', :to => 'devise/sessions#destroy', :as => :destroy_session
   end
 
-  resource :profile, :only => :show do
-    get :service_hooks
-    put :service_hooks, :to => 'profiles#update_service_hook'
-  end
-
   resources :repositories, :only => [:index, :show] do
     resources :builds, :except => [:new, :edit, :destroy]
   end
@@ -28,6 +23,11 @@ TravisCi::Application.routes.draw do
 
   resources :jobs,    :only => :index
   resources :workers, :only => :index
+
+  resource :profile, :only => :show do
+    get :service_hooks, :to => 'service_hooks#index'
+    put :service_hooks, :to => 'service_hooks#update'
+  end
 
   match "/stats" => "statistics#index"
 
