@@ -7,5 +7,4 @@ class StatisticsController < ApplicationController
     @repo_graph_stats  = Statistics.daily_repository_counts
     @build_graph_stats = Statistics.daily_build_counts
   end
-
 end
