@@ -1,11 +1,14 @@
 + tons of JSON
 + move Worker to Notification:Worker
 + json for configure tasks
++ make Travis.config a Hashr instance
++ ensure Task::Test can cope with incremental updates
 
-- ensure Task::Build can cope with incremental updates
 - spec Pusher notifications
 - data migrations
-- make config and payload instances Hashrs
 
 - go through all models and add pending specs
 - go through all specs and do final cleanup
+
+- make payload instances Hashrs and rewrite Github
+
