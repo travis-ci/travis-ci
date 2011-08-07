@@ -1,39 +1,5 @@
 require 'uri'
 
-RSpec::Matchers.define :post_webhooks_on do |event, options|
-  match do |build|
-    options[:to].each { |url| expect_request(url, build) }
-    Travis::Notifications::Webhook.new.notify('build:finished', build)
-  end
-
-  def expect_request(url, build)
-    uri = URI.parse(url)
-    $http_stub.post uri.path do |env|
-      env[:url].host.should == uri.host
-      env[:url].path.should == uri.path
-      env[:request_headers]['Authorization'].should == authorization_for(build)
-      payload_from(env).keys.sort.should == build.as_json(:for => :webhook).keys.map(&:to_s).sort
-    end
-  end
-
-  def payload_from(env)
-    JSON.parse(Rack::Utils.parse_query(env[:body])['payload'])
-  end
-
-  def authorization_for(build)
-    Travis::Notifications::Webhook.new.send(:authorization, build)
-  end
-end
-
-RSpec::Matchers.define :send_email_notification_on do |event|
-  match do |build|
-    lambda do
-      Travis::Notifications::Email.new.notify(event, build)
-    end.should change(ActionMailer::Base.deliveries, :size).by(1)
-    ActionMailer::Base.deliveries.last
-  end
-end
-
 RSpec::Matchers.define :have_body_text do |text|
   match do |email|
     text = text.strip.split("\n").map(&:strip).join("\n")

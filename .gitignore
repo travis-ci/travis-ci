@@ -2,6 +2,7 @@
 .rvmrc
 config/resque.god
 config/travis.yml
+config/travis.yml.backup
 db/*.sqlite3
 db/*.sqlite3-journal
 log/*.log

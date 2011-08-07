@@ -12,6 +12,12 @@ production:
       queue: rails
     - target: erlang
       queue: erlang
+  notifications:
+    - pusher
+    - worker
+    - email
+    - irc
+    - webhook
   redis:
     url: redis://YOUR_REDIS_URL
   pusher:
@@ -29,6 +35,9 @@ production:
     url: "YOUR_GITHUB_USERNAME:YOUR_TRAVIS_TOKEN@YOUR_APP.heroku.com"
 
 development:
+  notifications:
+    - pusher
+    - worker
   redis:
     url: redis://localhost:6379
   pusher:
