@@ -1,5 +1,11 @@
 + tons of JSON
+
 - json for configure tasks
 - move Worker to Notification:Worker
 - ensure Task::Build can cope with incremental updates
+- spec Pusher notifications
 - data migrations
+- make config and payload instances Hashrs
+
+- go through all models and add pending specs
+- go through all specs and do final cleanup
