@@ -2,7 +2,6 @@ require 'spec_helper'
 
 RSpec::Matchers.define :send_email_notification_on do |event|
   match do |build|
-    # Travis::Notifications::Email.new.notify(event, build)
     dispatch =  lambda { Travis::Notifications.dispatch(event, build) }
     dispatch.should change(ActionMailer::Base.deliveries, :size).by(1)
     ActionMailer::Base.deliveries.last

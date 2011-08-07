@@ -54,7 +54,7 @@ module TestHelpers
         @messages = []
       end
 
-      def push(*args)
+      def trigger(*args)
         messages << args
       end
     end
