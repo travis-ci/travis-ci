@@ -9,43 +9,36 @@ class User < ActiveRecord::Base
 
   class << self
     def find_or_create_for_oauth(payload)
-      user_details = user_data_from_oauth(payload)
-
-      if user = User.find_by_github_id(user_details['github_id'])
-        user.update_attributes(user_details)
-        user.recently_signed_up = false
-        user
-      else
-        create!(user_details).tap do |user|
-          user.recently_signed_up = true
-        end
-      end
+      data = user_data_from_oauth(payload)
+      User.find_by_github_id(data['github_id']) || create!(data)
     end
 
     def user_data_from_oauth(payload)
-      user = payload['user_info']
       {
-        'name'  => user['name'],
-        'email' => user['email'],
-        'login' => user['nickname'],
+        'name'  => payload['user_info']['name'],
+        'email' => payload['user_info']['email'],
+        'login' => payload['user_info']['nickname'],
         'github_id' => payload['uid'],
         'github_oauth_token' => payload['credentials']['token']
       }
     end
   end
 
-  def profile_image_hash
-    self.email? ? Digest::MD5.hexdigest(self.email) : '00000000000000000000000000000000'
+  before_create do
+    @recently_signed_up = true
   end
 
-  attr_accessor :recently_signed_up
   def recently_signed_up?
     !!@recently_signed_up
   end
 
+  def profile_image_hash
+    self.email? ? Digest::MD5.hexdigest(self.email) : '00000000000000000000000000000000'
+  end
+
   private
 
-  def create_a_token
-    self.tokens.create!
-  end
+    def create_a_token
+      self.tokens.create!
+    end
 end
