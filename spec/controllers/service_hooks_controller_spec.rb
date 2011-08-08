@@ -4,7 +4,7 @@ describe ServiceHooksController do
   include Devise::SignInHelpers, TestHelpers::GithubApi
 
   before(:each) do
-    mock_github_api
+    mock_github_api # TODO should only do this once for the suite, right
     sign_in_user user
   end
 
@@ -16,13 +16,11 @@ describe ServiceHooksController do
 
       response.should be_success
 
-      ## FIXME: probably it makes sense to verify these things agains a complete json, even though we care most about these fields
-      result = ActiveSupport::JSON.decode response.body
-
-      result.first['name'].should   eql('safemode')
-      result.first['owner'].should  eql('svenfuchs')
-      result.second['name'].should  eql('scriptaculous-sortabletree')
-      result.second['owner'].should eql('svenfuchs')
+      result = json_response
+      result.first['name'].should   == 'safemode'
+      result.first['owner'].should  == 'svenfuchs'
+      result.second['name'].should  == 'scriptaculous-sortabletree'
+      result.second['owner'].should == 'svenfuchs'
     end
   end
 
@@ -35,8 +33,8 @@ describe ServiceHooksController do
       it 'creates a repository if it does not exist' do
         put :update, :name => 'minimal', :owner => 'svenfuchs', :active => true
 
-        Repository.count.should eql(1)
-        Repository.first.active?.should eql(true)
+        Repository.count.should == 1
+        Repository.first.active?.should be_true
 
         assert_requested(:post, 'https://api.github.com/hub?access_token=github_oauth_token', :times => 1)
       end
@@ -46,8 +44,8 @@ describe ServiceHooksController do
 
         put :update, :name => 'minimal', :owner => 'svenfuchs', :active => true
 
-        Repository.count.should eql(1)
-        Repository.first.active?.should eql(true)
+        Repository.count.should == 1
+        Repository.first.active?.should be_true
 
         assert_requested(:post, 'https://api.github.com/hub?access_token=github_oauth_token', :times => 1)
       end
@@ -59,7 +57,7 @@ describe ServiceHooksController do
 
         put :update, :name => 'minimal', :owner => 'svenfuchs', :active => false
 
-        Repository.first.active?.should eql(false)
+        Repository.first.active?.should be_false
 
         assert_requested(:post, 'https://api.github.com/hub?access_token=github_oauth_token', :times => 1)
       end

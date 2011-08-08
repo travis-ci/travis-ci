@@ -18,6 +18,10 @@ class Task < ActiveRecord::Base
 
   serialize :config
 
+  after_initialize do
+    self.config = {} if config.nil?
+  end
+
   after_create do
     notify(:create) # TODO this really should be in simple_states, but will probably require some AR hackery
   end

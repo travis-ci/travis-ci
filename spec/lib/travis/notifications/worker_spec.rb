@@ -52,7 +52,7 @@ describe Travis::Notifications::Worker do
     }
 
     Resque.expects(:enqueue).with(queue, payload)
-    worker.notify('build:created', task)
+    Travis::Notifications.dispatch('build:created', task)
   end
 end
 

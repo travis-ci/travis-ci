@@ -12,11 +12,22 @@ module Travis
         def push(event, object, *args)
           data = args.last.is_a?(Hash) ? args.pop : {}
           data = data_for(event, object).deep_merge(data)
-          channel(event).trigger(event, data)
+          channel(event).trigger(client_event_for(event), data)
         end
 
         def channel(event)
           ::Pusher[queue_for(event)]
+        end
+
+        def client_event_for(event)
+          case event
+          when /task:.*:created/
+            'build:queued'
+          # when /task:.*:finished/
+          #   'build:removed'
+          else
+            event
+          end
         end
 
         def queue_for(event)

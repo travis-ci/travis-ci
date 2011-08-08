@@ -1,8 +1,6 @@
 class RepositoriesController < ApplicationController
   responders :rabl, :status_image
 
-  prepend_view_path 'app/views/v1/default'
-
   respond_to :json, :xml
   respond_to :png, :only => :show
 

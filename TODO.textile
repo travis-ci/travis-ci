@@ -9,13 +9,23 @@
 + spec Pusher notifications
 + go through all models and add pending specs
 + go through all specs and do some cleanup
++ add TestsController
 
 
 - add Pusher notification specs for actual messages sent
 - add JSON specs for :event task:configure and task:test events
-- data migrations
+- add data migrations
+- port commits from staging
 
+
+def self.up
+  migrate_table :builds, :to => :tasks |t|
+    t.condition => 'parent_id IS NULL'
+    t.move :number
+    t.copy :all, :except => :foo
+    t.exec 'UPDATE foo ...'
+  end
+end
 
 
 - later: make payload instances Hashrs and rewrite lib/github
-

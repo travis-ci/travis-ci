@@ -6,7 +6,7 @@ require 'webmock'
 load_all File.expand_path('../support/**/*.rb', __FILE__)
 
 RSpec.configure do |config|
-  config.before(:each) do
+  config.before :each, :js => true do
     Capybara.current_driver = :selenium
   end
 

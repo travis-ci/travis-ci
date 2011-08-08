@@ -62,5 +62,6 @@ Factory.define :user do |f|
   f.name  'Sven Fuchs'
   f.login 'svenfuchs'
   f.email 'sven@fuchs.com'
+  f.tokens { [Token.new] }
 end
 
