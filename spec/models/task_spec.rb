@@ -3,12 +3,10 @@ require 'spec_helper'
 describe ::Task do
   attr_reader :build, :task
 
-  before do
-    @build  = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
-    @task   = build.matrix.first
-  end
+  let!(:build){ Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] }) }
+  let!(:task) { build.matrix.first }
 
-  describe 'append_log!' do
+  context :append_log! do
     it 'appends streamed build log chunks' do
       lines = [
         "$ git clone --depth=1000 --quiet git://github.com/intridea/omniauth.git ~/builds/intridea/omniauth\n",
@@ -25,6 +23,21 @@ describe ::Task do
       Travis::Notifications.expects(:dispatch).with('build:log', build, :log => 'chars')
       Task::Test.append_log!(task.id, 'chars')
     end
+  end
+
+  describe :update_attributes do
+    let(:started_payload) { WORKER_PAYLOADS[:started] }
+    let(:finished_payload) { WORKER_PAYLOADS[:finished] }
+
+    it "starts the build" do
+      task.update_attributes(started_payload)
+      task.should be_started
+    end
+    it "finishes the build" do
+      task.update_attributes(finished_payload)
+      task.should be_finished
+    end
+    it "adds log to the build"
   end
 end
 
