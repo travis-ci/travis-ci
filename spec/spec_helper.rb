@@ -1,4 +1,5 @@
-# This file is copied to spec/ when you run 'rails generate rspec:install'
+require 'rubygems'
+
 ENV["RAILS_ENV"] ||= 'test'
 
 begin
@@ -20,7 +21,7 @@ def configure
   require 'patches/rspec_hash_diff'
 end
 
-if defined? Spork
+if defined?(Spork)
   Spork.prefork  { configure }
   Spork.each_run { load_all '{app,lib}/**/*.rb', '/config/routes.rb' }
 else
