@@ -74,8 +74,9 @@ module TestHelpers
     end
 
     def ping_from_github!
+      authorize 'test', 'test'
       # HOW TO FUCKING HTTP AUTH WITH THIS PIECE OF SHIT OF A LIBRARY.
-      post '', :payload => JSON.parse(GITHUB_PAYLOADS['gem-release'])
+      post '/builds', :payload => JSON.parse(GITHUB_PAYLOADS['gem-release'])
       @task = Request.first.task
     end
 
@@ -96,7 +97,7 @@ module TestHelpers
     end
 
     def repository
-      request.repository
+      _request.repository
     end
 
     def _request
@@ -104,7 +105,7 @@ module TestHelpers
     end
 
     def build
-      task.is_a?(Task::Configure) ? request.builds.first : task.owner
+      task.is_a?(Task::Configure) ? _request.builds.first : task.owner
     end
   end
 end
@@ -121,15 +122,16 @@ feature 'The build process' do
   end
 
   let(:pusher) { TestHelpers::Mocks::Pusher.new }
+  include Rack::Test::Methods
 
-  scenario 'creates a request from a github payload, configures it, creates the build and runs the tests', :driver => 'rack_test' do
+  scenario 'creates a request from a github payload, configures it, creates the build and runs the tests', :driver => :rack_test do
     # request.env['HTTP_AUTHORIZATION'] = credentials
     p self.class.name
     p respond_to?(:authorize)
     p respond_to?(:basic_authorize)
     ping_from_github!
 
-    request.should be_created
+    _request.should be_created
     pusher.should have_message('build:queued')           # for client compat. should be task:configure:created
     task.should be_queued
 
@@ -138,7 +140,7 @@ feature 'The build process' do
 
     worker.finish!(task, :config => {})
 
-    request.should be_finished
+    _request.should be_finished
     build.should be_created
     pusher.should have_message('task:configure:finished') # not currently used.
 
