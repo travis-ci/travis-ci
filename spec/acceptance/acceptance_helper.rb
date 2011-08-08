@@ -5,11 +5,17 @@ require 'webmock'
 
 load_all File.expand_path('../support/**/*.rb', __FILE__)
 
-Capybara.default_selector  = :css
-Capybara.javascript_driver = :selenium
+RSpec.configure do |config|
+  config.before(:each) do
+    Capybara.current_driver = :selenium
+  end
 
-# Capybara's default driver is Rack::Test
+  config.include AcceptanceHelpers
+  config.include NavigationHelpers
+end
+
+Capybara.default_selector = :css
+
 Capybara.register_driver :selenium do |app|
-  require "selenium-webdriver"
   Capybara::Selenium::Driver.new(app, { :browser => :chrome })
 end

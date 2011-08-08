@@ -6,18 +6,17 @@ feature "Feature name", %(
   I should have my repositories available
 ) do
 
+  self.extend WebMock::API
   before(:each) do
-    stub_request(:get, "https://github.com/api/v2/json/repos/show/nickname").to_return(:status => 200, :body => File.open("./spec/fixtures/github_user_repos.json").read)
+    stub_request(:get, "https://github.com/api/v2/json/repos/show/nickname").to_return(:status => 200, :body => File.open("./spec/fixtures/github/api/v2/json/repos/show/svenfuchs.json").read)
   end
 
   before(:all) do
     # It's not clear what exactly capybara have changed so that Rspec includes do not function. But that's not a good approach.
   end
 
-  scenario "my repositories", :js => true, :webmocked => true do
-    self.extend HelperMethods
+  scenario "my repositories" do
     self.extend OmniauthHelperMethods
-    self.extend NavigationHelpers
 
     mock_omniauth
 
