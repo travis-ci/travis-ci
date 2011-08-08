@@ -28,6 +28,15 @@ class Task < ActiveRecord::Base
     notify(:create) # TODO this really should be in simple_states, but will probably require some AR hackery
   end
 
+  def update_attributes *args
+    build_attributes = args.first["build"]
+    if build_attributes["started_at"]
+      self.start!
+    elsif build_attributes["finished_at"]
+      self.finish! build_attributes.slice(:status)
+    end
+  end
+
   def append_log!(chars)
     self.class.update_all(["log = COALESCE(log, '') || ?", chars], ["id = ?", id])
     owner.notify(:log, :log => chars)

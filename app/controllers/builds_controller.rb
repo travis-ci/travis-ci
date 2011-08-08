@@ -8,19 +8,23 @@ class BuildsController < ApplicationController
   # the github-service code for this to work correctly
   skip_before_filter :verify_authenticity_token, :only => :create
 
+  # GET /builds
   def index
     respond_with recent_builds
   end
 
+  # GET /builds/:id
   def show
     respond_with build
   end
 
+  # POST /builds
   def create
     Request.create_from_github_payload(params[:payload], api_token)
     render :nothing => true
   end
 
+  # PUT /builds/:id
   def update
     payload = params[:build]
 
@@ -35,8 +39,9 @@ class BuildsController < ApplicationController
     render :nothing => true
   end
 
+  # PUT /builds/:id/log
   def log
-    Task.append_log!(params[:id], params[:build][:log])
+    Task::Test.append_log!(params[:id], params[:build][:log])
     render :nothing => true
   end
 
