@@ -21,7 +21,7 @@ class Request < ActiveRecord::Base
 
   def configure(config)
     self.config = normalize_config(config || {})
-    builds.create!(:repository => repository, :commit => commit) if approved?
+    builds.create!(:repository => repository, :commit => commit, :config => self.config) if approved?
   end
 
   def approved?

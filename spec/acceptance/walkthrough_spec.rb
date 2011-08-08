@@ -1,44 +1,5 @@
 require 'spec_helper'
 
-RSpec::Matchers.define :have_message do |event|
-  match do |pusher|
-    if message = pusher.messages.detect { |message| message.first == event }
-      pusher.messages.delete(message)
-      # message.last['build'].should_not be_empty # TODO
-      # message.last['repository'].should_not be_empty
-      true
-    else
-      false
-    end
-  end
-end
-
-RSpec::Matchers.define :be_queued do
-  match do |task|
-    @task = task
-    @actual = Resque.pop('builds')['args'].last rescue nil
-    @actual == expected
-  end
-
-  failure_message_for_should do
-    @actual ?
-      "expected the queued job to have the payload #{@actual.inspect} but had #{expected.inspect}" :
-      "expected a job with the payload #{expected.inspect} to be queued but the queue is empty"
-  end
-
-  failure_message_for_should_not do
-    "expected no job with the payload #{expected.inspect} to be queued but it is"
-  end
-
-  def expected
-    {
-      'repository' => { 'id' => @task.repository.id, 'slug' => @task.repository.slug },
-      'build' => { 'id' => @task.id, 'commit' => @task.commit.commit, 'branch' => @task.commit.branch },
-      'queue' => 'builds'
-    }
-  end
-end
-
 RSpec::Matchers.define :be_listed do |repository|
   match do
     # TODO gotta convert to steak to access multiple controllers
