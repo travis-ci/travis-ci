@@ -22,12 +22,21 @@ class BuildsController < ApplicationController
   end
 
   def update
-    Request.find(params[:id]).configure(params[:payload])
+    payload = params[:build]
+
+    if payload[:started_at]
+      Task.find(params[:id]).start!(payload)
+    elsif payload[:finished_at] || payload[:config]
+      Task.find(params[:id]).finish!(payload)
+    else
+      raise "WTF unknown payload #{params.inspect}"
+    end
+
     render :nothing => true
   end
 
   def log
-    Task::Test.append_log!(params[:id], params[:build][:log])
+    Task.append_log!(params[:id], params[:build][:log])
     render :nothing => true
   end
 

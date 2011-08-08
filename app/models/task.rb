@@ -3,7 +3,9 @@ class Task < ActiveRecord::Base
 
   class << self
     def append_log!(id, chars)
-      task = find(id, :select => [:id, :repository_id, :owner_id, :owner_type, :state], :include => :repository)
+      # TODO using find here (on the base class) would not instantiate the model as an STI model? I.e. with the given type?
+      # might need to set this class abstract for that?
+      task = Task::Test.find(id, :select => [:id, :repository_id, :owner_id, :owner_type, :state], :include => :repository)
       task.append_log!(chars) unless task.finished?
     end
   end
