@@ -1,157 +1,112 @@
-# -*- coding: utf-8 -*-
 require 'spec_helper'
-require 'webmock/rspec'
 
 describe RepositoriesController do
-  describe "GET 'index'" do
-    before(:each) do
-      # setup the two repos we need
-      Factory.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
-      Factory.create(:repository, :owner_name => "josh", :name => "globalize", :last_build_started_at => Date.yesterday)
-    end
+  describe 'GET :index returns a list of repositories' do
+    before(:each) { Scenario.default }
 
-    context "returns a list of repositories in xml format" do
-      it "ordered by last build started date" do
-        get(:index, :format => :xml)
-
-        response.should be_success
-
-        result = ActiveSupport::XmlMini.parse response.body
-        repository_nodes = result["repositories"]["repository"]
-        repository_nodes.count.should eql(2)
-        repository_nodes.first["slug"]["__content__"].should  eql("sven/travis-ci")
-        repository_nodes.second["slug"]["__content__"].should eql("josh/globalize")
-      end
-
-      it "filtered by owner name" do
-        get(:index, :owner_name => "sven", :format => :xml)
-
-        response.should be_success
-        result = ActiveSupport::XmlMini.parse response.body
-        repository_node = result["repositories"]["repository"]
-        repository_node["slug"]["__content__"].should eql("sven/travis-ci")
-      end
-    end
-
-    context "returns a list of repositories in json format" do
-      it "ordered by last build started date" do
+    context 'in json' do
+      it 'ordered by last build started date' do
         get(:index, :format => :json)
 
         response.should be_success
-
-        result = ActiveSupport::JSON.decode response.body
-
-        result.count.should eql(2)
-        result.first["slug"].should  eql("sven/travis-ci")
-        result.second["slug"].should eql("josh/globalize")
+        result = ActiveSupport::JSON.decode(response.body)
+        result.count.should == 2
+        result.first['slug'].should  == 'svenfuchs/minimal'
+        result.second['slug'].should == 'josevalim/enginex'
       end
 
-      it "filtered by owner name" do
-        get(:index, :owner_name => "sven", :format => :json)
+      it 'filtered by owner name' do
+        get(:index, :owner_name => 'svenfuchs', :format => :json)
 
         response.should be_success
-
-        result = ActiveSupport::JSON.decode response.body
-
-        result.count.should eql(1)
-        result.first["slug"].should eql("sven/travis-ci")
+        result = ActiveSupport::JSON.decode(response.body)
+        result.count.should  == 1
+        result.first['slug'].should == 'svenfuchs/minimal'
       end
     end
   end
 
-  describe "GET 'show', format png" do
+  describe 'GET :show' do
+    let(:repository) { Scenario.default.first }
+
+    it 'in json' do
+      get :show, :owner_name => repository.owner_name, :name => repository.name, :format => 'json'
+
+      ActiveSupport::JSON.decode(response.body).should == {
+       'id' => repository.id,
+       'slug' => 'svenfuchs/minimal',
+       'last_build_finished_at' => '2010-11-12T12:30:20Z',
+       'last_build_id' => repository.last_build_id,
+       'last_build_number' => '2',
+       'last_build_started_at' => '2010-11-12T12:30:00Z',
+       'last_build_status' => 0
+      }
+    end
+  end
+
+  describe 'GET :show, format png' do
     before(:each) do
       controller.stubs(:render)
     end
 
-    let(:repository) { Factory.create(:repository, :owner_name => "sven", :name => "travis-ci") }
-
-    it 'shows an "unknown" button when the repository does not exist' do
-      repository
-      expects_file_with_status("unknown")
-
-      get(:show, :format => "png", :owner_name => "sven", :name => "shmavis-ci")
+    def get_png(repository, params = {})
+      lambda { get :show, params.merge(:owner_name => repository.owner_name, :name => repository.name, :format => 'png') }
     end
 
-    it 'shows an "unknown" button when it only has a build thats not finished' do
-      Factory(:running_build, :repository => repository)
-
-      expects_file_with_status("unknown")
-
-      get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
-    end
-
-    it 'shows an "unstable" button when the repository has broken build' do
-      Factory(:broken_build, :repository => repository)
-
-      expects_file_with_status("unstable")
-
-      get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
-    end
-
-    it 'shows a "stable" button when the repository\'s last build passed' do
-      Factory(:successfull_build, :repository => repository)
-
-      expects_file_with_status("stable")
-
-      get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
-    end
-
-    it 'shows a "stable" button when the previous build passed and there\'s one still running' do
-      Factory(:broken_build, :repository => repository, :branch => 'master')
-      Factory(:successfull_build, :repository => repository, :branch => 'feature')
-
-      expects_file_with_status("stable")
-
-      get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci", :branch => 'feature')
-    end
-
-    it 'limits to the provided branch when the attribute is provided' do
-      Factory(:successfull_build, :repository => repository)
-      Factory(:running_build, :repository => repository)
-
-      expects_file_with_status("stable")
-
-      get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
-    end
-
-    def expects_file_with_status(status)
-      controller.expects(:send_file).
-        with("#{Rails.public_path}/images/status/#{status}.png", { :type=>"image/png", :disposition=>"inline" }).
-        once
-    end
-  end
-
-  describe "GET 'show', format json" do
-    before(:each) do
-      Factory.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
-    end
-    it "" do
-      get :show, :owner_name => "sven", :name => "travis-ci", :format => "json"
-
-      result = ActiveSupport::JSON.decode response.body
-      %w(id last_build_id last_build_number last_build_status last_build_started_at last_build_finished_at slug status).each do |node_name|
-        result.include?(node_name).should be_true
+    describe 'without a branch parameter' do
+      it '"unknown" when the repository does not exist' do
+        repository = Repository.new(:owner_name => 'does not', :name => 'exist')
+        get_png(repository).should serve_status_image('unknown')
       end
-      result['status'].should eql 'unknown'
-      result['slug'].should eql 'sven/travis-ci'
-    end
-  end
 
-  describe "GET 'show', format xml" do
-    before(:each) do
-      Factory.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
-    end
-
-    it "return info about repository in xml format" do
-      get :show, :owner_name => "sven", :name => "travis-ci", :format => "xml"
-
-      result = ActiveSupport::XmlMini.parse response.body
-      %w(id last_build_id last_build_number last_build_status last_build_started_at last_build_finished_at slug status).each do |node_name|
-        result['repository'].include?(node_name).should be_true
+      it '"unknown" when it only has a build that is not finished' do
+        repository = Factory(:running_build).repository
+        get_png(repository).should serve_status_image('unknown')
       end
-      result['repository']['status']['__content__'].should eql 'unknown'
-      result['repository']['slug']['__content__'].should eql 'sven/travis-ci'
+
+      it '"unstable" when the last build has failed' do
+        repository = Factory(:broken_build).repository
+        get_png(repository).should serve_status_image('unstable')
+      end
+
+      it '"stable" when the last build has passed' do
+        repository = Factory(:successfull_build).repository
+        get_png(repository).should serve_status_image('stable')
+      end
+
+      it '"stable" when there is a running build but the previous one has passed' do
+        repository = Factory(:successfull_build).repository
+        Factory(:build, :repository => repository, :state => 'started')
+        get_png(repository).should serve_status_image('stable')
+      end
+    end
+
+    describe 'with a branch parameter' do
+      it '"unknown" when the repository does not exist' do
+        repository = Repository.new(:owner_name => 'does not', :name => 'exist')
+        get_png(repository, :branch => 'master').should serve_status_image('unknown')
+      end
+
+      it '"unknown" when it only has a build that is not finished' do
+        repository = Factory(:running_build).repository
+        get_png(repository, :branch => 'master').should serve_status_image('unknown')
+      end
+
+      it '"unstable" when the last build has failed' do
+        repository = Factory(:broken_build).repository
+        get_png(repository, :branch => 'master').should serve_status_image('unstable')
+      end
+
+      it '"stable" when the last build has passed' do
+        repository = Factory(:successfull_build).repository
+        get_png(repository, :branch => 'master').should serve_status_image('stable')
+      end
+
+      it '"stable" when there is a running build but the previous one has passed' do
+        repository = Factory(:successfull_build).repository
+        Factory(:build, :repository => repository, :state => 'started')
+        get_png(repository, :branch => 'master').should serve_status_image('stable')
+      end
     end
   end
 end

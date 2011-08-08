@@ -18,6 +18,7 @@ describe BuildsController do
   let(:channel) { TestHelpers::Mocks::Channel.new }
   let(:user) { User.create!(:login => 'user').tap { |user| user.tokens.create! } }
   let(:credentials) { ActionController::HttpAuthentication::Basic.encode_credentials(user.login, user.tokens.first.token) }
+  let(:queue) { Travis::Notifications::Worker.default_queue }
 
   before(:each) do
     flush_redis
@@ -27,8 +28,7 @@ describe BuildsController do
 
   describe "POST 'create' (ping from github)" do
     it 'creates a Request record and configure task and enqueues configure task' do
-      Resque.expects(:enqueue).with(Travis::Worker,
-                                    {'build' => {'id' => 1, 'branch' => 'master', 'commit' => '9854592'}, 'repository' => {'id' => 1, :slug => 'svenfuchs/gem-release'}, :queue => 'builds'})
+      Resque.expects(:enqueue).with(queue, {'build' => {'id' => 1, 'branch' => 'master', 'commit' => '9854592'}, 'repository' => {'id' => 1, :slug => 'svenfuchs/gem-release'}, :queue => 'builds'})
 
       payload = GITHUB_PAYLOADS['gem-release']
       lambda {
@@ -53,8 +53,8 @@ describe BuildsController do
     }
 
     it 'configures the build and expands a given build matrix' do
-      Resque.expects(:enqueue).with(Travis::Worker, {'build' => {'id' => 2, 'branch' => 'master', 'commit' => '62aae5f70ceee39123ef'}, 'repository' => {'id' => 2, :slug => 'svenfuchs/minimal'}, :queue => 'builds'})
-      Resque.expects(:enqueue).with(Travis::Worker, {'build' => {'config' => {}, 'id' => 3, 'number' => '.1', 'branch' => 'master', 'commit' => '62aae5f70ceee39123ef'}, 'repository' => {'id' => 2, :slug => 'svenfuchs/minimal'}, :queue => 'builds'})
+      Resque.expects(:enqueue).with(queue, {'build' => {'id' => 2, 'branch' => 'master', 'commit' => '62aae5f70ceee39123ef'}, 'repository' => {'id' => 2, :slug => 'svenfuchs/minimal'}, :queue => 'builds'})
+      Resque.expects(:enqueue).with(queue, {'build' => {'config' => {}, 'id' => 3, 'number' => '.1', 'branch' => 'master', 'commit' => '62aae5f70ceee39123ef'}, 'repository' => {'id' => 2, :slug => 'svenfuchs/minimal'}, :queue => 'builds'})
 
       lambda {
         put :update, :id => _request.id, :payload => payload

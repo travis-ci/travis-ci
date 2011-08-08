@@ -1,18 +1,17 @@
 class RepositoriesController < ApplicationController
+  responders :rabl, :status_image
+
+  prepend_view_path 'app/views/v1/default'
+
   respond_to :json, :xml
+  respond_to :png, :only => :show
 
   def index
-    @repositories = repositories
-
-    respond_with(@repositories)
+    respond_with(repositories)
   end
 
   def show
-    @repository = repository
-
-    respond_with(@repository) do |format|
-      format.png { send_status_image_file }
-    end
+    respond_with(repository)
   end
 
   protected
@@ -22,21 +21,11 @@ class RepositoriesController < ApplicationController
     end
 
     def repositories
-      repos = if params[:owner_name]
-          Repository.where(:owner_name => params[:owner_name]).timeline
-        else
-          Repository.timeline.recent
-        end
-
-      params[:search].present? ? repos.search(params[:search]) : repos
-    end
-
-    def send_status_image_file
-      status = Repository.human_status_by(params.slice(:owner_name, :name, :branch))
-      path   = "#{Rails.public_path}/images/status/#{status}.png"
-
-      response.headers["Expires"] = CGI.rfc1123_date(Time.now)
-
-      send_file(path, :type => 'image/png', :disposition => 'inline')
+      @repositories ||= begin
+        scope = Repository.timeline.recent
+        scope = scope.by_owner_name(params[:owner_name]) if params[:owner_name]
+        scope = scope.search(params[:search])            if params[:search].present?
+        scope
+      end
     end
 end

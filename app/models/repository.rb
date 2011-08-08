@@ -22,16 +22,14 @@ class Repository < ActiveRecord::Base
       limit(20)
     end
 
+    def by_owner_name(owner_name)
+      where(:owner_name => owner_name)
+    end
+
     def find_or_create_by_github_repository(data)
       find_or_create_by_name_and_owner_name(data.name, data.owner_name) do |r|
         r.update_attributes!(data.to_hash)
       end
-    end
-
-    def human_status_by(attributes)
-      branch = attributes.delete(:branch)
-      repository = where(attributes).first
-      repository ? repository.human_status(branch) : 'unknown'
     end
 
     def search(query)
@@ -88,7 +86,7 @@ class Repository < ActiveRecord::Base
     end
   end
 
-  def human_status(branches="")
+  def human_status(branches = nil)
     if build = last_finished_build(branches)
       build.status == 0 ? 'stable' : 'unstable'
     else
@@ -101,10 +99,9 @@ class Repository < ActiveRecord::Base
   end
 
   def last_finished_build(branches = nil)
+    branches ||= []
     branches = branches.split(',') if branches.is_a?(String)
-    branches = [] if branches.nil?
 
-    # TODO extract this to scopes
     scope = builds.finished
     scope = scope.on_branch(branches) if branches.present?
     scope.descending.first
