@@ -1,9 +1,10 @@
+require 'responders'
+
 module Travis
   autoload :Config,        'travis/config'
   autoload :GithubApi,     'travis/github_api'
-  autoload :Worker,        'travis/worker'
-  autoload :Renderer,      'travis/renderer'
   autoload :Notifications, 'travis/notifications'
+  autoload :Renderer,      'travis/renderer'
 
   class << self
     delegate :json, :hash, :to => 'Travis::Renderer'

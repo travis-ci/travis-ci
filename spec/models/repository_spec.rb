@@ -11,30 +11,6 @@ describe Repository do
   end
 
   describe 'class methods' do
-    describe 'human_status_by' do
-      let(:repository) { Factory(:repository) }
-
-      it 'returns "stable" if the last finished build of the repository with the given name and owner_name has passed' do
-        Factory(:build, :repository => repository, :state => 'finished', :status => 0)
-        Repository.human_status_by(:name => 'minimal', :owner_name => 'svenfuchs').should == 'stable'
-      end
-
-      it 'returns "stable" if the last finished build (in the given branch) of the repository with the given name and owner_name has passed on the given branch' do
-        Factory(:build, :repository => repository, :state => 'finished', :status => 0, :commit => Factory(:commit, :branch => 'feature'))
-        Repository.human_status_by(:name => 'minimal', :owner_name => 'svenfuchs', :branch => 'feature').should == 'stable'
-      end
-
-      it 'returns "unstable" if the last finished build of the repository with the given name and owner_name has passed' do
-        Factory(:build, :repository => repository, :state => 'finished', :status => 1)
-        Repository.human_status_by(:name => 'minimal', :owner_name => 'svenfuchs').should == 'unstable'
-      end
-
-      it 'returns "unstable" if the last finished build (in the given branch) of the repository with the given name and owner_name has passed' do
-        Factory(:build, :repository => repository, :state => 'finished', :status => 1, :commit => Factory(:commit, :branch => 'feature'))
-        Repository.human_status_by(:name => 'minimal', :owner_name => 'svenfuchs', :branch => 'feature').should == 'unstable'
-      end
-    end
-
     describe 'find_or_create_by_github_repository' do
       let(:payload) { Github::ServiceHook::Payload.new(ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])) }
 

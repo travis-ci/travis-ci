@@ -39,28 +39,3 @@ describe Travis::Notifications::Webhook do
     end
   end
 end
-
-RSpec::Matchers.define :post_webhooks_on do |event, object, options|
-  match do |dispatch|
-    options[:to].each { |url| expect_request(url, object) }
-    dispatch.call(event, object)
-  end
-
-  def expect_request(url, object)
-    uri = URI.parse(url)
-    $http_stub.post uri.path do |env|
-      env[:url].host.should == uri.host
-      env[:url].path.should == uri.path
-      env[:request_headers]['Authorization'].should == authorization_for(object)
-      payload_from(env).keys.sort.should == object.as_json(:for => :webhook).keys.map(&:to_s).sort
-    end
-  end
-
-  def payload_from(env)
-    JSON.parse(Rack::Utils.parse_query(env[:body])['payload'])
-  end
-
-  def authorization_for(object)
-    Travis::Notifications::Webhook.new.send(:authorization, object)
-  end
-end

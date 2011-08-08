@@ -42,18 +42,20 @@ Factory.define :build do |f|
 end
 
 Factory.define :running_build, :parent => :build do |f|
-  f.started_at { Time.now }
+  f.repository { Factory(:repository, :name => 'running_build') }
+  f.state 'started'
 end
 
 Factory.define :successfull_build, :parent => :build do |f|
+  f.repository { Factory(:repository, :name => 'successfull_build') }
   f.status 0
-  f.finished_at { Time.now }
+  f.state 'finished'
 end
 
 Factory.define :broken_build, :parent => :build do |f|
+  f.repository { Factory(:repository, :name => 'broken_build') }
   f.status 1
-  f.started_at { Time.now }
-  f.finished_at { Time.now }
+  f.state 'finished'
 end
 
 Factory.define :user do |f|
