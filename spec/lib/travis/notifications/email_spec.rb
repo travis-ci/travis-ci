@@ -5,11 +5,6 @@ describe Travis::Notifications::Email do
     Travis.config.notifications = [:email]
   end
 
-  after do
-    Travis.config.notifications.clear
-    Travis::Notifications.subscriptions.clear
-  end
-
   it "finished email" do
     started_at  = Time.zone.local(2011, 6, 23, 15, 30, 45)
     finished_at = Time.zone.local(2011, 6, 23, 16, 47, 52)

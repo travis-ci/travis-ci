@@ -12,7 +12,6 @@ module Travis
         def send_emails(object)
           email(object).deliver
         rescue Net::SMTPError => e
-          # TODO need to log this event. e.g. happens when people specify bad email addresses like "foo[at]bar[dot]com"
         end
 
         def email(object)

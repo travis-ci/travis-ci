@@ -8,6 +8,7 @@ db/*.sqlite3-journal
 log/*.log
 tmp/
 vendor/htmlunit
+*.log
 *.rbc
 *.dump
 .DS_Store
