@@ -3,7 +3,7 @@ module Travis
     class Worker
       autoload :Queue, 'travis/notifications/worker/queue'
 
-      EVENTS = 'task:finished'
+      EVENTS = /task:.*:created/
 
       class << self
         def default_queue

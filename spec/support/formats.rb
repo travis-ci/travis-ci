@@ -1,5 +1,9 @@
 module TestHelpers
-  module Json
+  module Formats
+    def json_response
+      ActiveSupport::JSON.decode(response.body)
+    end
+
     def render_json(object, options = {})
       normalize_json(Travis.json(object, options))
     end

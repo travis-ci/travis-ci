@@ -19,6 +19,7 @@ def configure
   require 'capybara/rspec'
   require 'webmock'
   require 'patches/rspec_hash_diff'
+  require 'fakeredis'
 end
 
 if defined?(Spork)
@@ -32,7 +33,7 @@ RSpec.configure do |config|
   config.mock_with :mocha
 
   config.include Devise::TestHelpers, :type => :controller
-  config.include TestHelpers::Json
+  config.include TestHelpers::Formats
 
   config.before :suite do
     DatabaseCleaner.strategy = :transaction

@@ -1,6 +1,8 @@
 require 'resque_helpers'
 
 class ApplicationController < ActionController::Base
+  prepend_view_path 'app/views/v1/default'
+
   protect_from_forgery
 
   before_filter :set_gitsha_header

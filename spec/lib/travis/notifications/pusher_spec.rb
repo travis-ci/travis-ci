@@ -8,6 +8,7 @@ describe Travis::Notifications::Pusher do
     @task   = request.task
     @build  = Factory(:build, :request => request)
 
+    # TODO extract stup_pusher or something
     Travis.config.notifications = [:pusher]
     Travis::Notifications::Pusher.send(:public, :queue_for, :data_for, :template_dir)
     Travis::Notifications::Pusher.any_instance.stubs(:channel).returns(TestHelpers::Mocks::Pusher.new)

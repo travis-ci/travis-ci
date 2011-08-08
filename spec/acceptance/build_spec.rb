@@ -26,7 +26,7 @@ feature "Builds", %(
     end
   end
 
-  scenario "build is removed from queue" do
+  scenario "build is removed from queue", :js => true do
     visit "/"
 
     dispatch_pusher_command 'jobs', 'build:queued', build_queued_event_info

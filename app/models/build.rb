@@ -7,7 +7,7 @@ class Build < ActiveRecord::Base
 
   event :start,  :to => :started
   event :finish, :to => :finished, :if => :matrix_finished?
-  event :all, :after => :propagate
+  event :all, :after => :denormalize # TODO bug in simple_states. should be able to pass an array
 
   belongs_to :commit
   belongs_to :request
@@ -79,9 +79,10 @@ class Build < ActiveRecord::Base
 
   protected
 
-    def propagate(*args)
+    def denormalize(*args)
       event = args.first # TODO bug in simple_state? getting an error when i add this to the method signature
       repository.update_attributes!(denormalize_attributes_for(event)) # if denormalize?(event)
+      notify(*args)
     end
 
     DENORMALIZE = {
