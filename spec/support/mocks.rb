@@ -57,6 +57,10 @@ module TestHelpers
       def trigger(*args)
         messages << args
       end
+
+      def reset!
+        @messages = []
+      end
     end
 
     class Irc

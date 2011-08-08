@@ -27,9 +27,7 @@ RSpec::Matchers.define :be_queued do
   end
 
   failure_message_for_should_not do
-    @actual ?
-      "expected the queued job not to have #{@actual.inspect} but it has" :
-      "expected no job with the payload #{expected.inspect} to be queued but it is"
+    "expected no job with the payload #{expected.inspect} to be queued but it is"
   end
 
   def expected
@@ -53,30 +51,29 @@ end
 module TestHelpers
   module Walkthrough
     class Worker
+      attr_reader :context
+
+      delegate :put, :to => :context
+
       def initialize(context)
         @context = context
       end
 
-      def start!(task)
-        task.start! # TODO should PUT to builds/1
+      def start!(task, data)
+        put "/builds/#{task.id}", data
         task.reload
       end
+      alias :finish! :start!
 
       def log!(task, data)
-        task.append_log!(data)
-        task.reload
-      end
-
-      def finish!(task, params)
-        task.finish!(params) # TODO should PUT to builds/1
+        put "/builds/#{task.id}/log", data
         task.reload
       end
     end
 
     def ping_from_github!
       authorize 'test', 'test'
-      # HOW TO FUCKING HTTP AUTH WITH THIS PIECE OF SHIT OF A LIBRARY.
-      post '/builds', :payload => JSON.parse(GITHUB_PAYLOADS['gem-release'])
+      post '/builds', :payload => GITHUB_PAYLOADS['gem-release']
       @task = Request.first.task
     end
 
@@ -111,34 +108,30 @@ module TestHelpers
 end
 
 feature 'The build process' do
-# describe BuildsController, :type => :controller do
-  include TestHelpers::GithubApi, TestHelpers::Walkthrough, TestHelpers::Redis
+  include Rack::Test::Methods, TestHelpers::GithubApi, TestHelpers::Walkthrough, TestHelpers::Redis
 
   before(:each) do
     # TODO extract stub_pusher or something
     Travis.config.notifications = [:worker, :pusher]
     Travis::Notifications::Pusher.any_instance.stubs(:channel).returns(pusher)
+    pusher.reset!
+    flush_redis
     mock_github_api
   end
 
   let(:pusher) { TestHelpers::Mocks::Pusher.new }
-  include Rack::Test::Methods
 
   scenario 'creates a request from a github payload, configures it, creates the build and runs the tests', :driver => :rack_test do
-    # request.env['HTTP_AUTHORIZATION'] = credentials
-    p self.class.name
-    p respond_to?(:authorize)
-    p respond_to?(:basic_authorize)
     ping_from_github!
 
     _request.should be_created
     pusher.should have_message('build:queued')           # for client compat. should be task:configure:created
     task.should be_queued
 
-    worker.start!(task)
-    pusher.should have_message('task:configure:started') # not currently used.
+    worker.start!(task, 'build' => { 'started_at' => Time.now })
+    # pusher.should have_message('task:configure:started') # not currently used.
 
-    worker.finish!(task, :config => {})
+    worker.finish!(task, 'build' => { 'config' => { 'rvm' => ['1.8.7', '1.9.2'] } })
 
     _request.should be_finished
     build.should be_created
@@ -149,7 +142,7 @@ feature 'The build process' do
     # repository.should_not be_listed
 
     while next_task!
-      worker.start!(task)
+      worker.start!(task, :build => { 'started_at' => Time.now })
 
       task.should be_started
       build.should be_started
@@ -159,11 +152,11 @@ feature 'The build process' do
       # build.should show(:status => 'started')
       # task.should show(:status => 'started')
 
-      worker.log!(task, 'foo')
+      worker.log!(task, :build => { 'log' => 'foo' })
       task.log.should == 'foo'
       pusher.should have_message('build:log', :log => 'foo')
 
-      worker.finish!(task, :status => 0, :log => 'foo bar')
+      worker.finish!(task, :build => { 'finished_at' => Time.now, 'status' => 0, 'log' => 'foo bar'})
       task.should be_finished
       pusher.should have_message('task:test:finished')   # not currently used.
       # task.should show(:status => 'finished')
