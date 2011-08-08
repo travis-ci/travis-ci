@@ -43,7 +43,10 @@ end
 
 RSpec::Matchers.define :be_listed do |repository|
   match do
-    true # TODO
+    # TODO gotta convert to steak to access multiple controllers
+    # get 'repositories#index', :format => :json
+    # json_reponse.should include(blah)
+    true
   end
 end
 
@@ -71,14 +74,12 @@ module TestHelpers
     end
 
     def ping_from_github!
-      @request.env['HTTP_AUTHORIZATION'] = credentials
-      post :create, :payload => JSON.parse(GITHUB_PAYLOADS['gem-release'])
+      # HOW TO FUCKING HTTP AUTH WITH THIS PIECE OF SHIT OF A LIBRARY.
+      post '', :payload => JSON.parse(GITHUB_PAYLOADS['gem-release'])
       @task = Request.first.task
     end
 
     def credentials
-      user = User.first || Factory(:user)
-      ActionController::HttpAuthentication::Basic.encode_credentials(user.login, user.tokens.first.token)
     end
 
     def next_task!
@@ -98,7 +99,7 @@ module TestHelpers
       request.repository
     end
 
-    def request
+    def _request
       task.is_a?(Task::Configure) ? task.owner : task.owner.request
     end
 
@@ -108,7 +109,8 @@ module TestHelpers
   end
 end
 
-describe BuildsController, :type => :controller do
+feature 'The build process' do
+# describe BuildsController, :type => :controller do
   include TestHelpers::GithubApi, TestHelpers::Walkthrough, TestHelpers::Redis
 
   before(:each) do
@@ -120,7 +122,11 @@ describe BuildsController, :type => :controller do
 
   let(:pusher) { TestHelpers::Mocks::Pusher.new }
 
-  it 'creates a request from a github payload, configures it, creates the build and runs the tests' do
+  scenario 'creates a request from a github payload, configures it, creates the build and runs the tests', :driver => 'rack_test' do
+    # request.env['HTTP_AUTHORIZATION'] = credentials
+    p self.class.name
+    p respond_to?(:authorize)
+    p respond_to?(:basic_authorize)
     ping_from_github!
 
     request.should be_created
