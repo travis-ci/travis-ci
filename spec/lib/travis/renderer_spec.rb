@@ -9,7 +9,8 @@ describe Travis::Renderer do
     Travis::Renderer.send(:protected, :template_path)
   end
 
-  let(:build) { Factory(:build) }
+  let(:build)      { Factory(:build) }
+  let(:repository) { build.repository }
 
   describe 'rendering' do
     before do
@@ -25,7 +26,7 @@ describe Travis::Renderer do
     end
 
     it 'given a Hash hash returns a Hash containing Hashes' do
-      Travis.hash(:repository => build.repository, :build => build).should == { :repository => { :id => build.id }, :build => { :id => build.id } }
+      Travis.hash(:repository => repository, :build => build).should == { :repository => { :id => repository.id }, :build => { :id => build.id } }
     end
   end
 

@@ -7,9 +7,13 @@ begin
 rescue LoadError => e
 end
 
+def load_all(*patterns)
+  patterns.each { |pattern| Dir[pattern].sort.each { |path| load path } }
+end
+
 def configure
   require File.expand_path("../../config/environment", __FILE__)
-  Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+  load_all 'spec/support/**/*.rb'
   require 'rspec/rails'
   require 'capybara/rspec'
   require 'webmock'
@@ -17,15 +21,8 @@ def configure
 end
 
 if defined? Spork
-  Spork.prefork do
-    configure
-  end
-
-  Spork.each_run do
-    Dir["#{Rails.root}/app/**/*.rb"].each { |f| load f }
-    Dir["#{Rails.root}/lib/**/*.rb"].each { |f| load f }
-    load "#{Rails.root}/config/routes.rb"
-  end
+  Spork.prefork  { configure }
+  Spork.each_run { load_all '{app,lib}/**/*.rb', '/config/routes.rb' }
 else
   configure
 end
@@ -35,11 +32,6 @@ RSpec.configure do |config|
 
   config.include Devise::TestHelpers, :type => :controller
   config.include TestHelpers::Json
-
-  # config.before(:each, :webmocked => true) do
-  #   self.extend WebMock::API
-  #   WebMock.disable_net_connect!(:allow_localhost => true)
-  # end
 
   config.before :suite do
     DatabaseCleaner.strategy = :transaction
@@ -52,6 +44,8 @@ RSpec.configure do |config|
 
   config.after :each do
     DatabaseCleaner.clean
+    Travis.instance_variable_set(:@config, nil)
+    Travis::Notifications.instance_variable_set(:@subscriptions, nil)
   end
 end
 

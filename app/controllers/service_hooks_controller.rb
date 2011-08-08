@@ -1,4 +1,6 @@
 class ServiceHooksController < ApplicationController
+  rescue_from ActiveRecord::RecordInvalid, Travis::GithubApi::ServiceHookError, :with => :not_acceptable
+
   layout 'simple'
 
   before_filter :authenticate_user!
@@ -14,11 +16,6 @@ class ServiceHooksController < ApplicationController
   def update
     repository = params[:active] ? activate_repository : deactivate_repository
     respond_with(repository)
-
-  # TODO isn't there a more descriptive, rails'ish way to do this?
-  # also, repository will be nil when an exception was raised
-  rescue ActiveRecord::RecordInvalid, Travis::GithubApi::ServiceHookError => e
-    respond_with(repository, :only => [:id, :active], :status => :not_acceptable)
   end
 
   private
