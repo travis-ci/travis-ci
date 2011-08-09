@@ -24,8 +24,8 @@ describe Build, 'matrix' do
   describe :matrix_finished? do
     it 'returns false if at least one task has not finished' do
       build = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
-      build.matrix[0].update_attributes(:finished_at => Time.now)
-      build.matrix[1].update_attributes(:finished_at => nil)
+      build.matrix[0].update_attributes(:state => :finished)
+      build.matrix[1].update_attributes(:state => :started)
 
       build.matrix_finished?.should_not be_true
     end
