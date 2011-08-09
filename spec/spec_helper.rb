@@ -49,7 +49,8 @@ RSpec.configure do |config|
     Resque.redis.flushall
     DatabaseCleaner.clean
     Travis.instance_variable_set(:@config, nil)
-    Travis::Notifications.instance_variable_set(:@subscriptions, nil)
+    Travis::Notifications.instance_variable_set(:@queues, nil)
+    Travis::Notifications::Worker.instance_variable_set(:@queues, nil)
   end
 end
 

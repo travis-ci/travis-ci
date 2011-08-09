@@ -10,83 +10,72 @@ RSpec::Matchers.define :be_in_queue do
 end
 
 describe BuildsController do
-  let(:pusher) { TestHelpers::Mocks::Pusher.new }
-  let(:_request) { Factory(:request).reload }
-  let(:build) { Factory(:build).reload }
-  let(:channel) { TestHelpers::Mocks::Channel.new }
-  let(:user) { User.create!(:login => 'user').tap { |user| user.tokens.create! } }
-  let(:credentials) { ActionController::HttpAuthentication::Basic.encode_credentials(user.login, user.tokens.first.token) }
-  let(:queue) { Travis::Notifications::Worker.default_queue }
+  let!(:_request) { Factory(:request).reload }
+  let(:build)     { Factory(:build).reload }
+  let(:user)      { User.create!(:login => 'user').tap { |user| user.tokens.create! } }
+  let(:auth)      { ActionController::HttpAuthentication::Basic.encode_credentials(user.login, user.tokens.first.token) }
+
+  let(:pusher)    { TestHelpers::Mocks::Pusher.new }
+  let(:queue)     { Travis::Notifications::Worker.default_queue }
+  let(:channel)   { TestHelpers::Mocks::Channel.new }
 
   before(:each) do
     Travis.config.notifications = [:worker, :pusher]
     Travis::Notifications::Pusher.any_instance.stubs(:channel).returns(pusher)
 
     Pusher.stubs(:[]).returns(channel)
-    request.env['HTTP_AUTHORIZATION'] = credentials
+    request.env['HTTP_AUTHORIZATION'] = auth
   end
 
-  describe "POST :create" do
-    it "should create a Request including its commit on repository" do
+  describe 'POST :create' do
+    it 'should create a Request including its commit on repository' do
       payload = GITHUB_PAYLOADS['gem-release']
 
-      lambda { post :create, :payload => payload }.should change(Request, :count).by(1)
+      create = lambda { post :create, :payload => payload }
+      create.should change(Request, :count).by(1)
 
-      build_request = Request.all.first
-      build_request.should be_created
-      build_request.payload.should eql payload
-      build_request.task.should be_queued
+      request = Request.all.first
+      request.should be_created
+      request.payload.should eql payload
+      request.task.should be_queued
     end
 
     it 'does not create a build record when the branch is gh_pages'
   end
 
-  describe "PUT update" do
-    let(:config_payload) {
-      { "build" => { "config" => { "script" => "rake", :rvm => ["1.8.7", "1.9.2"], :gemfile => ["gemfiles/rails-2.3.x", "gemfiles/rails-3.0.x"] } } }
+  describe 'PUT update' do
+    let(:payloads) {
+      {
+        :config  => { :build => { 'config' => { 'script' => 'rake', 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['gemfiles/rails-2.3.x', 'gemfiles/rails-3.0.x'] } } },
+        :finish  => { :build => { 'finished_at' => '2011-06-16 22:59:41 +0200', 'status' => 1, 'log' => 'final build log' } },
+        :log     => { :build => { 'log' => ' ... appended' } },
+        :started => { :build => { 'started_at' => '2011-06-16 22:59:41 +0200' } }
+      }
     }
 
-    let(:finish_payload) {
-      { "build" => { "finished_at" => "2011-06-16 22:59:41 +0200", "status" => 1, "log" => "final build log" } }
-    }
-
-    let(:log_payload) {
-      { "build" => { "log" => " ... appended" } }
-    }
-
-    let(:started_payload) {
-      { "build" => { "started_at" => "2011-06-16 22:59:41 +0200" } }
-    }
-    let(:finished_payload){
-      { "build" => { "finished_at" => "2011-06-16 22:59:41 +0200", "status" => 1, "log" => "final build log" } }
-    }
-
-    it "finishes the request and creates a build" do
-      _request
-
-      lambda {
-        put :update, :id => _request.id, :payload => config_payload
-      }.should change(Task, :count).by(4)
+    it 'a config payload finishes the request and creates a build' do
+      update = lambda { put :update, payloads[:config].merge(:id => _request.id) }
+      update.should change(Task::Test, :count).by(4)
     end
 
     it 'starts the build' do
 
     end
 
-    it "finishes the build"
+    it 'finishes the build'
     it 'finishes a matrix build'
   end
 
-  describe "GET /builds" do
-    it "should return builds array JSON" do
+  describe 'GET /builds' do
+    it 'should return builds array JSON' do
 
     end
   end
 
-  describe "GET /build" do
-    it "should return build details JSON"
+  describe 'GET /build' do
+    it 'should return build details JSON'
   end
-  describe "PUT /builds/:id" do
+  describe 'PUT /builds/:id' do
     it 'appends to the build log'
   end
 end
