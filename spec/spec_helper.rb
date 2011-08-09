@@ -36,20 +36,23 @@ RSpec.configure do |config|
   config.include TestHelpers::Formats
 
   config.before :suite do
-    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with :truncation
   end
 
   config.before :each do
     Resque.redis.flushall
     DatabaseCleaner.start
+    Travis.instance_variable_set(:@config, nil)
+    Travis::Notifications.instance_variable_set(:@subscriptions, nil)
+    Travis::Notifications::Worker.instance_variable_set(:@queues, nil)
   end
 
   config.after :each do
     Resque.redis.flushall
     DatabaseCleaner.clean
     Travis.instance_variable_set(:@config, nil)
-    Travis::Notifications.instance_variable_set(:@queues, nil)
+    Travis::Notifications.instance_variable_set(:@subscriptions, nil)
     Travis::Notifications::Worker.instance_variable_set(:@queues, nil)
   end
 end

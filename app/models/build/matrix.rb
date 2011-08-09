@@ -37,7 +37,7 @@ class Build
       def matrix_config
         @matrix_config ||= begin
           config = self.config || {}
-          keys   = ENV_KEYS & config.keys
+          keys   = ENV_KEYS & config.keys.map(&:to_sym)
           size   = config.slice(*keys).values.select { |value| value.is_a?(Array) }.max { |lft, rgt| lft.size <=> rgt.size }.try(:size) || 1
 
           keys.inject([]) do |result, key|

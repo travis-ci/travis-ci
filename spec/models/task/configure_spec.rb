@@ -26,7 +26,7 @@ describe Task::Configure do
     let(:config) { { :rvm => ['1.8.7', '1.9.2'] } }
 
     it 'finishes the task and configures the request' do
-      task.finish!(config)
+      task.finish!(:config => config)
 
       request.reload.should be_finished
       request.config.should == config
@@ -36,12 +36,12 @@ describe Task::Configure do
 
     it 'notifies observers' do
       Travis::Notifications.expects(:dispatch).with('task:configure:started', task)
-      Travis::Notifications.expects(:dispatch).with('task:configure:finished', task, config)
+      Travis::Notifications.expects(:dispatch).with('task:configure:finished', task, :config => config)
       # Travis::Notifications.expects(:dispatch).with('request:configured', task, config) # not implemented
       Travis::Notifications.expects(:dispatch).with('task:test:created', instance_of(Task::Test)).times(2)
 
       task.start!
-      task.finish!(config)
+      task.finish!(:config => config)
     end
   end
 end

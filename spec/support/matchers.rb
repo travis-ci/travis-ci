@@ -105,7 +105,8 @@ RSpec::Matchers.define :be_queued do |*args|
   end
 
   def find_job(queue, payload)
-    Resque.peek(queue, 0, 50).detect { |job| job['args'].last.deep_symbolize_keys == payload }
+    jobs = Resque.peek(queue, 0, 50)
+    jobs.detect { |job| job['args'].last.deep_symbolize_keys == payload }
   end
 
   failure_message_for_should do

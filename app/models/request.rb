@@ -19,8 +19,8 @@ class Request < ActiveRecord::Base
     self.build_task(:repository => self.repository, :commit => self.commit)
   end
 
-  def configure(config)
-    self.config = normalize_config(config || {})
+  def configure(data)
+    self.config = normalize_config(data[:config] || {})
     builds.create!(:repository => repository, :commit => commit, :config => self.config) if approved?
   end
 

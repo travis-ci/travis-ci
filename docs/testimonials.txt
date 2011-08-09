@@ -21,6 +21,9 @@ http://twitter.com/#!/qrush/status/97070660500729856 - @qrush (Nick Quaranto)
 "Travis is like Github for CIs. So easy to setup that everyone does it."
 https://twitter.com/#!/josevalim/status/97338403816873985 - @josevalim (José Valim)
 
+"After Github I think this is the second best free service I have ever seen!"
+irc.freenode.net#travis - @robertodecurnex (Roberto Decurnex)
+
 "Finally found the time to try @travisci on my open source projects... And it rocks! Continous integration for the community - join now!"
 http://twitter.com/#!/jaimeiniesta/status/97114964594139136 - @jaimeiniesta (Jaime Iniesta)
 
