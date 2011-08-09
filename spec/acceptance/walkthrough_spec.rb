@@ -105,7 +105,7 @@ feature 'The build process' do
     pusher.should have_message('task:configure:finished') # not currently used.
 
     task.should_not be_queued
-    # build.matrix.each { |task| task.should be_queued }
+    build.matrix.each { |task| task.should be_queued }
     # repository.should_not be_listed
 
     while next_task!
