@@ -26,15 +26,17 @@ class BuildsController < ApplicationController
 
   # PUT /builds/:id
   def update
-    payload = params[:build]
+    Task.find(params[:id]).update_attributes(params[:build])
 
-    if payload[:started_at]
-      Task.find(params[:id]).start!(payload)
-    elsif payload[:finished_at] || payload[:config]
-      Task.find(params[:id]).finish!(payload)
-    else
-      raise "WTF unknown payload #{params.inspect}"
-    end
+    # payload = params[:build]
+
+    # if payload[:started_at]
+    #   Task.find(params[:id]).start!(payload)
+    # elsif payload[:finished_at] || payload[:config]
+    #   Task.find(params[:id]).finish!(payload)
+    # else
+    #   raise "WTF unknown payload #{params.inspect}"
+    # end
 
     render :nothing => true
   end

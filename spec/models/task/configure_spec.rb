@@ -38,7 +38,7 @@ describe Task::Configure do
       Travis::Notifications.expects(:dispatch).with('task:configure:started', task)
       Travis::Notifications.expects(:dispatch).with('task:configure:finished', task, config)
       # Travis::Notifications.expects(:dispatch).with('request:configured', task, config) # not implemented
-      Travis::Notifications.expects(:dispatch).with { |event, object| event == 'task:test:created' && object.is_a?(Task::Test) }
+      Travis::Notifications.expects(:dispatch).with('task:test:created', instance_of(Task::Test)).times(2)
 
       task.start!
       task.finish!(config)

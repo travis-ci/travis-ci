@@ -3,8 +3,8 @@ require 'spec_helper'
 describe ::Task do
   attr_reader :build, :task
 
-  let!(:build){ Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] }) }
-  let!(:task) { build.matrix.first }
+  let!(:build) { Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] }) }
+  let!(:task)  { build.matrix.first }
 
   context :append_log! do
     it 'appends streamed build log chunks' do

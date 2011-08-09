@@ -28,12 +28,20 @@ class Task < ActiveRecord::Base
     notify(:create) # TODO this really should be in simple_states, but will probably require some AR hackery
   end
 
-  def update_attributes *args
-    build_attributes = args.first["build"]
-    if build_attributes["started_at"]
-      self.start!
-    elsif build_attributes["finished_at"]
-      self.finish! build_attributes.slice(:status)
+  def update_attributes(attributes)
+    # if payload[:started_at]
+    #   Task.find(params[:id]).start!(payload)
+    # elsif payload[:finished_at] || payload[:config]
+    #   Task.find(params[:id]).finish!(payload)
+    # else
+    #   raise "WTF unknown payload #{params.inspect}"
+    # end
+    if starting?(attributes)
+      start!(attributes)
+    elsif finishing?(attributes)
+      finish!(attributes)
+    else
+      super
     end
   end
 
@@ -45,4 +53,10 @@ class Task < ActiveRecord::Base
   def propagate(*args)
     owner.send(*args)
   end
+
+  protected
+
+    def starting?(attributes)
+      attributes.key?(:started_at)
+    end
 end

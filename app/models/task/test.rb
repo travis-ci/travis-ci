@@ -8,4 +8,10 @@ class Task::Test < Task
   def finish(data)
     self.status = data[:status]
   end
+
+  protected
+
+    def finishing?(attributes)
+      attributes.key?(:finished_at)
+    end
 end

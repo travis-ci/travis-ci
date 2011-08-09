@@ -9,7 +9,7 @@ describe ::Task::Test do
     @second = build.matrix.second
   end
 
-  let(:now)   { Time.now.tap { |now| Time.stubs(:now).returns(now) } }
+  let(:now) { Time.now.tap { |now| Time.stubs(:now).returns(now) } }
 
   describe 'start' do
     it 'starts the task and propagates to the build' do
@@ -19,7 +19,10 @@ describe ::Task::Test do
     end
 
     it 'notifies observers' do
+      # TODO this does not test any particular order of messages.
+      # should use a "collector" notification receiver and test the actual order.
       Travis::Notifications.expects(:dispatch).with('task:test:started', first)
+      Travis::Notifications.expects(:dispatch).with('build:started', build)
       first.start!
     end
   end
@@ -44,6 +47,7 @@ describe ::Task::Test do
     it 'notifies observers' do
       Travis::Notifications.expects(:dispatch).with('task:test:started', first)
       Travis::Notifications.expects(:dispatch).with('task:test:finished', first, :status => 0)
+      Travis::Notifications.expects(:dispatch).with('build:started', build)
 
       first.start!
       first.finish!(:status => 0)

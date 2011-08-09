@@ -10,4 +10,10 @@ class Task::Configure < Task
   def configure_owner(event, config)
     owner.configure!(config)
   end
+
+  protected
+
+    def finishing?(attributes)
+      attributes.key?(:config)
+    end
 end
