@@ -29,18 +29,20 @@ else
   configure
 end
 
-RSpec.configure do |config|
-  config.mock_with :mocha
+RSpec.configure do |c|
+  c.filter_run_excluding :js => true if ENV['CI']
 
-  config.include Devise::TestHelpers, :type => :controller
-  config.include TestHelpers::Formats
+  c.mock_with :mocha
 
-  config.before :suite do
+  c.include Devise::TestHelpers, :type => :controller
+  c.include TestHelpers::Formats
+
+  c.before :suite do
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with :truncation
   end
 
-  config.before :each do
+  c.before :each do
     Resque.redis.flushall
     DatabaseCleaner.start
     Travis.instance_variable_set(:@config, nil)
@@ -48,7 +50,7 @@ RSpec.configure do |config|
     Travis::Notifications::Worker.instance_variable_set(:@queues, nil)
   end
 
-  config.after :each do
+  c.after :each do
     Resque.redis.flushall
     DatabaseCleaner.clean
     Travis.instance_variable_set(:@config, nil)
