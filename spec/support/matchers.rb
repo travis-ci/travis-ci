@@ -92,7 +92,7 @@ end
 
 RSpec::Matchers.define :be_queued do |*args|
   match do |task|
-    @queue = args.first || builds
+    @queue = args.first || 'builds'
     @task = task
 
     @expected = Travis.hash({ :repository => @task.repository, :build => @task }, :type => :job).deep_symbolize_keys.merge(:queue => 'builds')

@@ -26,6 +26,7 @@ class BuildsController < ApplicationController
 
   # PUT /builds/:id
   def update
+    p params
     Task.find(params[:id]).update_attributes(params[:build])
 
     # payload = params[:build]
