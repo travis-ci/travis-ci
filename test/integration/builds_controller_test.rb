@@ -6,13 +6,8 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
   attr_reader :channel, :build
 
   before do
-    super
-
-    flush_redis
-
     @build   = Factory(:build).reload
     @channel = TestHelpers::Mocks::Channel.new
-
     Pusher.stubs(:[]).returns(channel)
   end
 
