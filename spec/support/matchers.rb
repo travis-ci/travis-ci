@@ -90,30 +90,36 @@ RSpec::Matchers.define :have_message do |event|
   end
 end
 
-RSpec::Matchers.define :be_queued do
+RSpec::Matchers.define :be_queued do |*args|
   match do |task|
+    @queue = args.first || builds
     @task = task
-    @actual = Resque.pop('builds')['args'].last rescue nil
-    @actual == expected
+
+    @expected = Travis.hash({ :repository => @task.repository, :build => @task }, :type => :job).deep_symbolize_keys.merge(:queue => 'builds')
+    @actual = job ? job['args'].last.deep_symbolize_keys : nil
+    @actual == @expected
+  end
+
+  def job
+    @job ||= find_job(@queue, @expected)
+  end
+
+  def find_job(queue, payload)
+    Resque.peek(queue, 0, 50).detect { |job| job['args'].last.deep_symbolize_keys == payload }
   end
 
   failure_message_for_should do
     @actual ?
-      "expected the queued job to have the payload #{@actual.inspect} but had #{expected.inspect}" :
-      "expected a job with the payload #{expected.inspect} to be queued but the queue is empty"
+      "expected the job queued in #{@queue.inspect} to have the payload #{@actual.inspect} but had #{@expected.inspect}" :
+      "expected a job with the payload #{@expected.inspect} to be queued in #{@queue.inspect} but none was found"
   end
 
   failure_message_for_should_not do
     @actual ?
-      "expected the queued job not to have #{@actual.inspect} but it has" :
-      "expected no job with the payload #{expected.inspect} to be queued but it is"
+      "expected the job queued in #{@queue.inspect} not to have #{@actual.inspect} but it has" :
+      "expected no job with the payload #{@expected.inspect} to be queued in #{@queue.inspect} but it is"
   end
 
   def expected
-    {
-      'repository' => { 'id' => @task.repository.id, 'slug' => @task.repository.slug },
-      'build' => { 'id' => @task.id, 'commit' => @task.commit.commit, 'branch' => @task.commit.branch },
-      'queue' => 'builds'
-    }
   end
 end
