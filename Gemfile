@@ -1,4 +1,3 @@
-
 source :rubygems
 
 gem 'rails',             '~> 3.0.9'
@@ -38,7 +37,6 @@ group :test do
   gem 'capybara',        '~> 1.0.0'
   gem 'database_cleaner'
   gem 'factory_girl',    '~> 1.3'
-  gem 'factory_girl_rails'
   gem 'mocha'
   gem 'fakeredis'
   gem 'webmock'
