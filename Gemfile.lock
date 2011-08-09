@@ -18,8 +18,9 @@ GIT
     resque-heartbeat (0.0.2)
       resque (~> 1.17.0)
 
-PATH
-  remote: ~/Development/projects/simple_states
+GIT
+  remote: https://github.com/svenfuchs/simple_states.git
+  revision: 5172150d421e01cdc83d81cb4bc74a3d1ea4d03b
   specs:
     simple_states (0.0.4)
       activesupport
