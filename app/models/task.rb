@@ -51,7 +51,7 @@ class Task < ActiveRecord::Base
       attributes = (attributes || {}).deep_symbolize_keys
       [:start, :finish].each do |state|
         state_attributes = send(:"extract_#{state}ing_attributes", attributes)
-        send(:"#{state}", attributes) if state_attributes.present?
+        send(:"#{state}!", state_attributes) if state_attributes.present?
       end
     end
 

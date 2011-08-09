@@ -14,21 +14,28 @@ module TestHelpers
     class Worker
       attr_reader :context
 
-      delegate :put, :to => :context
-
       def initialize(context)
         @context = context
       end
 
       def start!(task, data)
+        Resque.pop('builds')
         put "/builds/#{task.id}", data
         task.reload
       end
-      alias :finish! :start!
+
+      def finish!(task, data)
+        put "/builds/#{task.id}", data
+        task.reload
+      end
 
       def log!(task, data)
         put "/builds/#{task.id}/log", data
         task.reload
+      end
+
+      def put(path, data)
+        context.put(path, data)
       end
     end
 
