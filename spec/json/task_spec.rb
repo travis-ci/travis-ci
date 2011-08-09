@@ -22,7 +22,7 @@ describe Task, 'json' do
 
     before do
       @repository = Scenario.default.first
-      @build = repository.reload.builds.first
+      @build = repository.reload.last_build
       @task  = build.matrix.first
     end
 
@@ -31,17 +31,17 @@ describe Task, 'json' do
         'id' => task.id,
         'parent_id' => build.id,
         'repository_id' => repository.id,
-        'number' => '1.1',
+        'number' => '2.1',
         'config' => { 'rvm' => '1.8.7', 'gemfile' => 'test/Gemfile.rails-2.3.x' },
         'state' => 'finished',
-        'status' => 1,
-        'started_at' => '2010-11-12T12:00:00Z',
-        'finished_at' => '2010-11-12T12:00:10Z',
-        'commit' => '1a738d9d6f297c105ae2',
+        'status' => 0,
+        'started_at' => '2010-11-12T12:30:00Z',
+        'finished_at' => '2010-11-12T12:30:20Z',
+        'commit' => '91d1b7b2a310131fe3f8',
         'branch' => 'master',
         'compare_url' => 'https://github.com/svenfuchs/minimal/compare/master...develop',
-        'message' => 'add Gemfile',
-        'committed_at' => '2010-11-12T11:50:00Z',
+        'message' => 'Bump to 0.0.22',
+        'committed_at' => '2010-11-12T12:25:00Z',
         'committer_email' => 'svenfuchs@artweb-design.de',
         'committer_name' => 'Sven Fuchs',
         'author_name' => 'Sven Fuchs',
@@ -53,8 +53,8 @@ describe Task, 'json' do
       render_json(task, :type => :job).should == {
         'id' => task.id,
         'config' => { 'rvm' => '1.8.7', 'gemfile' => 'test/Gemfile.rails-2.3.x' },
-        'number' => '1.1',
-        'commit' => '1a738d9d6f297c105ae2',
+        'number' => '2.1',
+        'commit' => '91d1b7b2a310131fe3f8',
         'branch' => 'master',
       }
     end
