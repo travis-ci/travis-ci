@@ -11,7 +11,7 @@ class Task::Test < Task
 
   protected
 
-    def finishing?(attributes)
-      attributes.key?(:finished_at)
+    def extract_finishing_attributes(attributes)
+      extract!(attributes, :finished_at)
     end
 end

@@ -13,7 +13,7 @@ class Task::Configure < Task
 
   protected
 
-    def finishing?(attributes)
-      attributes.key?(:config)
+    def extract_finishing_attributes(attributes)
+      extract!(attributes, :config)
     end
 end
