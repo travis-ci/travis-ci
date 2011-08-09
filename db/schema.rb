@@ -20,16 +20,12 @@ ActiveRecord::Schema.define(:version => 20110805030147) do
     t.datetime "finished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "parent_id"
     t.text     "config"
-    t.string   "token"
     t.string   "state"
     t.integer  "commit_id"
     t.integer  "request_id"
   end
 
-  add_index "builds", ["parent_id"], :name => "index_builds_on_parent_id"
-  add_index "builds", ["repository_id", "parent_id", "started_at"], :name => "index_builds_on_repository_id_and_parent_id_and_started_at"
   add_index "builds", ["repository_id"], :name => "index_builds_on_repository_id"
 
   create_table "commits", :force => true do |t|
