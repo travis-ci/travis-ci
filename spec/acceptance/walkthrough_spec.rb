@@ -69,14 +69,13 @@ module TestHelpers
 end
 
 feature 'The build process' do
-  include Rack::Test::Methods, TestHelpers::GithubApi, TestHelpers::Walkthrough, TestHelpers::Redis
+  include Rack::Test::Methods, TestHelpers::GithubApi, TestHelpers::Walkthrough
 
   before(:each) do
     # TODO extract stub_pusher or something
     Travis.config.notifications = [:worker, :pusher]
     Travis::Notifications::Pusher.any_instance.stubs(:channel).returns(pusher)
     pusher.reset!
-    flush_redis
     mock_github_api
   end
 

@@ -10,11 +10,7 @@ RSpec::Matchers.define :be_in_queue do
 end
 
 describe BuildsController do
-  # include TestHelpers::GithubApi
-  include TestHelpers::Redis
-
   let(:pusher) { TestHelpers::Mocks::Pusher.new }
-
   let(:_request) { Factory(:request).reload }
   let(:build) { Factory(:build).reload }
   let(:channel) { TestHelpers::Mocks::Channel.new }
@@ -23,8 +19,6 @@ describe BuildsController do
   let(:queue) { Travis::Notifications::Worker.default_queue }
 
   before(:each) do
-    flush_redis
-
     Travis.config.notifications = [:worker, :pusher]
     Travis::Notifications::Pusher.any_instance.stubs(:channel).returns(pusher)
 

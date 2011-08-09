@@ -41,10 +41,12 @@ RSpec.configure do |config|
   end
 
   config.before :each do
+    Resque.redis.flushall
     DatabaseCleaner.start
   end
 
   config.after :each do
+    Resque.redis.flushall
     DatabaseCleaner.clean
     Travis.instance_variable_set(:@config, nil)
     Travis::Notifications.instance_variable_set(:@subscriptions, nil)
