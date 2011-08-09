@@ -29,20 +29,8 @@ class Task < ActiveRecord::Base
   end
 
   def update_attributes(attributes)
-    # if payload[:started_at]
-    #   Task.find(params[:id]).start!(payload)
-    # elsif payload[:finished_at] || payload[:config]
-    #   Task.find(params[:id]).finish!(payload)
-    # else
-    #   raise "WTF unknown payload #{params.inspect}"
-    # end
-    if starting?(attributes)
-      start!(attributes)
-    elsif finishing?(attributes)
-      finish!(attributes)
-    else
-      super
-    end
+    update_states_from_attributes(attributes)
+    super
   end
 
   def append_log!(chars)
@@ -56,7 +44,23 @@ class Task < ActiveRecord::Base
 
   protected
 
-    def starting?(attributes)
-      attributes.key?(:started_at)
+    # This extracts attributes like :started_at, :finished_at, :config from the
+    # given attributes and triggers state changes based on them. See the respective
+    # `extract_[state]ing_attributes` methods.
+    def update_states_from_attributes(attributes)
+      attributes = (attributes || {}).deep_symbolize_keys
+      [:start, :finish].each do |state|
+        state_attributes = send(:"extract_#{state}ing_attributes", attributes)
+        send(:"#{state}", attributes) if state_attributes.present?
+      end
+    end
+
+    def extract_starting_attributes(attributes)
+      extract!(attributes, :started_at)
+    end
+
+    def extract!(hash, *keys)
+      # arrrgh. is there no ruby or activesupport hash method that does this?
+      hash.slice(*keys).tap { |result| hash.except!(*keys) }
     end
 end

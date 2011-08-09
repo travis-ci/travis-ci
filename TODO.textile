@@ -29,3 +29,8 @@ end
 
 
 - later: make payload instances Hashrs and rewrite lib/github
+
+# Api changes
+
+- client: use task route for looking up child builds
+- config: change queues configuration section

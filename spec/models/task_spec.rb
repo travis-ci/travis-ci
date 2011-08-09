@@ -24,20 +24,5 @@ describe ::Task do
       Task::Test.append_log!(task.id, 'chars')
     end
   end
-
-  describe :update_attributes do
-    let(:started_payload) { WORKER_PAYLOADS[:started] }
-    let(:finished_payload) { WORKER_PAYLOADS[:finished] }
-
-    it "starts the build" do
-      task.update_attributes(started_payload)
-      task.should be_started
-    end
-    it "finishes the build" do
-      task.update_attributes(finished_payload)
-      task.should be_finished
-    end
-    it "adds log to the build"
-  end
 end
 

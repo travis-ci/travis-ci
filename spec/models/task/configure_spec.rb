@@ -10,7 +10,7 @@ describe Task::Configure do
 
   let(:now) { Time.now.tap { |now| Time.stubs(:now).returns(now) } }
 
-  describe 'start' do
+  describe :start! do
     it 'start starts the task and propagates to the request' do
       task.start!
       request.reload.should be_started
@@ -22,7 +22,7 @@ describe Task::Configure do
     end
   end
 
-  describe 'finish' do
+  describe :finish! do
     let(:config) { { :rvm => ['1.8.7', '1.9.2'] } }
 
     it 'finishes the task and configures the request' do

@@ -40,19 +40,18 @@ describe Travis::Notifications::Worker do
     end
   end
 
-  it "enqueue adds a job to the given queue" do
-    build = Factory(:build)
-    task  = build.matrix.first
+  describe 'enqueue' do
+    it "adds a config job to the given queue" do
+      request = Factory(:request)
+      request.task.should be_queued('builds')
+    end
 
-    queue = Travis::Notifications::Worker.send(:default_queue)
-    payload = {
-      :build => { :id => task.id, :number => '1.1', :commit => '62aae5f70ceee39123ef', :branch => 'master', :config => {} },
-      :repository => { :id => build.repository.id, :slug => 'svenfuchs/minimal' },
-      :queue => 'builds'
-    }
-
-    Resque.expects(:enqueue).with(queue, payload)
-    Travis::Notifications.dispatch('build:created', task)
+    it "adds a test job to the given queue" do
+      build = Factory(:build)
+      build.matrix.reverse.each do |task|
+        task.should be_queued('builds')
+      end
+    end
   end
 end
 

@@ -7,11 +7,13 @@ oauth2: &oauth2
   user_attribute_uid_key: user/login
 
 production:
-  queues:
-    - slug: rails/rails
-      queue: rails
-    - target: erlang
-      queue: erlang
+  queue:
+    backend: resque
+    map:
+      - slug: rails/rails
+        queue: rails
+      - target: erlang
+        queue: erlang
   notifications:
     - pusher
     - worker

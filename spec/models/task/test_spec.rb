@@ -11,7 +11,22 @@ describe ::Task::Test do
 
   let(:now) { Time.now.tap { |now| Time.stubs(:now).returns(now) } }
 
-  describe 'start' do
+  describe :update_attributes do
+    let(:started_payload)  { WORKER_PAYLOADS[:started] }
+    let(:finished_payload) { WORKER_PAYLOADS[:finished] }
+
+    it "starts the task" do
+      first.update_attributes(started_payload['build'])
+      first.should be_started
+    end
+
+    it "finishes the task" do
+      first.update_attributes(finished_payload['build'])
+      first.should be_finished
+    end
+  end
+
+  describe :start! do
     it 'starts the task and propagates to the build' do
       first.start!
       first.reload.should be_started
@@ -27,7 +42,7 @@ describe ::Task::Test do
     end
   end
 
-  describe 'finish' do
+  describe :finish! do
     it 'finishes the task, sets the status and, when all of the tasks are finished, the build' do
       first.start!
       first.finish!(:status => 0)
