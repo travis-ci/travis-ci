@@ -93,7 +93,7 @@ GEM
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
-    factory_girl (1.3.3)
+    factory_girl (2.0.3)
     fakeredis (0.1.4)
     faraday (0.6.1)
       addressable (~> 2.2.4)
@@ -271,7 +271,7 @@ DEPENDENCIES
   compass (~> 0.11.3)
   database_cleaner
   devise (~> 1.4.2)
-  factory_girl (~> 1.3)
+  factory_girl (~> 2.0.3)
   fakeredis
   hashr (~> 0.0.10)
   hoptoad_notifier (~> 2.4.11)
