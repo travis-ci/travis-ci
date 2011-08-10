@@ -1,8 +1,6 @@
-module TestHelpers
+module Support
   module Walkthrough
     class Api
-      include TestHelpers::Formats
-
       delegate :last_response, :get, :to => :context
 
       attr_reader :context

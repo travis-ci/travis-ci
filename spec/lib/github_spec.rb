@@ -2,8 +2,6 @@ require 'spec_helper'
 require 'github'
 
 describe Github do
-  include TestHelpers::GithubApi
-
   before do
     mock_github_api
   end

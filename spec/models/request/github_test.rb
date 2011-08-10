@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe Request::Github do
-  include TestHelpers::GithubApi
-
   describe 'creation' do
     def create_request(name)
       Request.create_from_github_payload(GITHUB_PAYLOADS[name], 'travis-token')

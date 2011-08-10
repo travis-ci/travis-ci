@@ -14,9 +14,9 @@ describe BuildsController do
   let(:user)      { User.create!(:login => 'user').tap { |user| user.tokens.create! } }
   let(:auth)      { ActionController::HttpAuthentication::Basic.encode_credentials(user.login, user.tokens.first.token) }
 
-  let(:pusher)    { TestHelpers::Mocks::Pusher.new }
+  let(:pusher)    { Support::Mocks::Pusher.new }
+  let(:channel)   { Support::Mocks::Channel.new }
   let(:queue)     { Travis::Notifications::Worker.default_queue }
-  let(:channel)   { TestHelpers::Mocks::Channel.new }
 
   before(:each) do
     Travis.config.notifications = [:worker, :pusher]
