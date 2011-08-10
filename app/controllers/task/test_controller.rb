@@ -1,6 +1,6 @@
 require 'travis'
 
-class TestsController < ApplicationController
+class Task::TestsController < ApplicationController
   responders :rabl
 
   respond_to :json
