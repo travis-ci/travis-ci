@@ -1,14 +1,5 @@
 require 'spec_helper'
 
-RSpec::Matchers.define :be_in_queue do
-  match do |build|
-    args = Resque.reserve(:tasks).args.last
-    build.commit.should eql '9854592'
-    args['build'].slice('id', 'commit').should eql build.attributes.slice('id', 'commit')
-    args['repository'].slice('id').should      eql build.repository.attributes.slice('id')
-  end
-end
-
 describe BuildsController do
   let(:build)     { Factory(:build).reload }
   let(:user)      { User.create!(:login => 'user').tap { |user| user.tokens.create! } }
@@ -46,49 +37,43 @@ describe BuildsController do
   end
 
   describe 'PUT update' do
-    let(:payloads) {
-      {
-        :config => { 'build' => { 'config' => { 'rvm' => ['1.8.7', '1.9.2'] } } },
-        :start  => { 'build' => { 'started_at' => '2011-06-16 22:59:41 +0200' } },
-        :log    => { 'build' => { 'log' => '... appended' } },
-        :finish => { 'build' => { 'finished_at' => '2011-06-16 22:59:41 +0200', 'status' => 1, 'log' => 'final build log' } },
-      }
-    }
-
     describe 'a config payload' do
+      let(:payload) { { 'build' => { 'config' => { 'rvm' => ['1.8.7', '1.9.2'] } } } }
+
       it "finishes the request's configure task" do
         request = Factory(:request)
-        put :update, payloads[:config].merge(:id => request.task.id)
+        put :update, payload.merge(:id => request.task.id)
         request.reload.task.should be_finished
       end
 
       it 'finishes the request' do
         request = Factory(:request)
-        put :update, payloads[:config].merge(:id => request.task.id)
+        put :update, payload.merge(:id => request.task.id)
         request.reload.should be_finished
       end
 
       it 'creates a new build' do
         request = Factory(:request)
-        update = lambda { put :update, payloads[:config].merge(:id => request.task.id) }
+        update = lambda { put :update, payload.merge(:id => request.task.id) }
         update.should change(Build, :count).by(1)
         request.builds.should_not be_empty
       end
 
       it "creates the build's matrix test tasks" do
         request = Factory(:request)
-        update = lambda { put :update, payloads[:config].merge(:id => request.task.id) }
+        update = lambda { put :update, payload.merge(:id => request.task.id) }
         update.should change(Task::Test, :count).by(2)
         request.builds.first.matrix.should_not be_empty
       end
     end
 
     describe 'a task start payload' do
-      let(:build) { Factory(:build) }
-      let(:task)  { build.matrix.first }
+      let(:payload) { { 'build' => { 'started_at' => '2011-06-16 22:59:41 +0200' } } }
+      let(:build)   { Factory(:build) }
+      let(:task)    { build.matrix.first }
 
       before :each do
-        put :update, payloads[:start].merge(:id => task.id)
+        put :update, payload.merge(:id => task.id)
       end
 
       it 'starts the task' do
@@ -101,11 +86,12 @@ describe BuildsController do
     end
 
     describe 'a task log payload' do
-      let(:build) { Factory(:build) }
-      let(:task)  { build.matrix.first }
+      let(:payload) { { 'build' => { 'log' => '... appended' } } }
+      let(:build)   { Factory(:build) }
+      let(:task)    { build.matrix.first }
 
       before :each do
-        put :update, payloads[:log].merge(:id => task.id)
+        put :update, payload.merge(:id => task.id)
       end
 
       it "appends the log output to the task's log" do
@@ -114,22 +100,23 @@ describe BuildsController do
     end
 
     describe 'a task finish payload' do
-      let(:build) { Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] }) }
+      let(:payload) { { 'build' => { 'finished_at' => '2011-06-16 22:59:41 +0200', 'status' => 1, 'log' => 'final build log' } } }
+      let(:build)   { Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] }) }
+      let(:task)    { build.matrix.first }
 
       it 'finishes a matrix test task' do
-        task = build.matrix.first
-        put :update, payloads[:finish].merge(:id => task)
+        put :update, payload.merge(:id => task)
         task.reload.should be_finished
       end
 
       it 'but does not finish the build if a task is still pending' do
-        put :update, payloads[:finish].merge(:id => build.matrix.first.id)
+        put :update, payload.merge(:id => task.id)
         build.reload.should_not be_finished
       end
 
       it 'and finishes the build if all tasks are finished' do
         build.matrix.each do |task|
-          put :update, payloads[:finish].merge(:id => task.id)
+          put :update, payload.merge(:id => task.id)
         end
         build.reload.should be_finished
       end
