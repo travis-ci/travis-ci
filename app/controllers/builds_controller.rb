@@ -10,7 +10,7 @@ class BuildsController < ApplicationController
 
   # GET /builds
   def index
-    respond_with recent_builds
+    respond_with builds
   end
 
   # GET /builds/:id
@@ -38,12 +38,12 @@ class BuildsController < ApplicationController
 
   protected
 
-    def recent_builds
-      Repository.find(params[:repository_id]).builds.recent((params[:page] || 1).to_i)
+    def builds
+      @builds ||= Repository.find(params[:repository_id]).builds.recent(params.slice(:page))
     end
 
     def build
-      Build.find(params[:id])
+      @build ||= Build.find(params[:id])
     end
 
     def api_token

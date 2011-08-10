@@ -3,6 +3,8 @@ require 'core_ext/active_record/base'
 class Build < ActiveRecord::Base
   include Matrix, Notifications, SimpleStates, Travis::Notifications
 
+  PER_PAGE = 10
+
   states :created, :started, :finished
 
   event :start,  :to => :started
@@ -19,8 +21,8 @@ class Build < ActiveRecord::Base
   serialize :config
 
   class << self
-    def recent(page)
-      was_started.descending.limit(10 * page).includes(:matrix) # TODO should use an offset when we use limit!
+    def recent(options = {})
+      was_started.descending.paged(options).includes(:matrix)
     end
 
     def was_started
@@ -32,11 +34,17 @@ class Build < ActiveRecord::Base
     end
 
     def on_branch(branches)
-      joins(:commit).where(["commits.branch IN (?)", branches])
+      joins(:commit).where(["commits.branch IN (?)", Array(branches).join(',').split(',')])
     end
 
     def descending
       order(arel_table[:id].desc)
+    end
+
+    def paged(options)
+      # TODO should use an offset when we use limit!
+      # offset(PER_PAGE * options[:offset]).limit(options[:page])
+      limit(PER_PAGE * (options[:page] || 1).to_i)
     end
 
     def next_number
@@ -57,8 +65,8 @@ class Build < ActiveRecord::Base
     super(config.deep_symbolize_keys)
   end
 
-  def finish(attributes)
-    self.status = attributes[:status]
+  def finish(data)
+    self.status = data[:status]
   end
 
   def pending?
@@ -70,11 +78,11 @@ class Build < ActiveRecord::Base
   end
 
   def status_message
-    passed? ? 'Passed' : 'Failed'
+    pending? ? 'Pending' : passed? ? 'Passed' : 'Failed'
   end
 
   def color
-    pending? ? '' : passed? ? 'green' : 'red'
+    pending? ? 'yellow' : passed? ? 'green' : 'red'
   end
 
   protected
