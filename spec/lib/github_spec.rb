@@ -1,11 +1,7 @@
 require 'spec_helper'
 require 'github'
 
-describe Github do
-  before do
-    mock_github_api
-  end
-
+describe Github, :webmock => true do
   let(:data) {
     ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
   }

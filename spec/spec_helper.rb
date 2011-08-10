@@ -41,22 +41,25 @@ RSpec.configure do |c|
   c.before :suite do
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean_with :truncation
+
   end
 
   c.before :each do
-    Resque.redis.flushall
     DatabaseCleaner.start
+    Resque.redis.flushall
+    pusher.reset!
+
     Travis.instance_variable_set(:@config, nil)
     Travis::Notifications.instance_variable_set(:@subscriptions, nil)
     Travis::Notifications::Worker.instance_variable_set(:@queues, nil)
   end
 
+  c.before :each, :webmock => true do
+    Support::GithubApi.mock!
+  end
+
   c.after :each do
-    Resque.redis.flushall
     DatabaseCleaner.clean
-    Travis.instance_variable_set(:@config, nil)
-    Travis::Notifications.instance_variable_set(:@subscriptions, nil)
-    Travis::Notifications::Worker.instance_variable_set(:@queues, nil)
   end
 end
 

@@ -4,12 +4,7 @@ feature 'The build process' do
   before(:each) do
     # TODO extract stub_pusher or something
     Travis.config.notifications = [:worker, :pusher]
-    Travis::Notifications::Pusher.any_instance.stubs(:channel).returns(pusher)
-    pusher.reset!
-    mock_github_api
   end
-
-  let(:pusher) { Support::Mocks::Pusher.new }
 
   scenario 'creates a request from a github payload, configures it, creates the build and runs the tests', :driver => :rack_test do
     ping_from_github!
