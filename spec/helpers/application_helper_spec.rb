@@ -18,7 +18,7 @@ describe ApplicationHelper do
   end
 
   describe 'gravatar' do
-    let(:user) { Factory.build(:user) }
+    let(:user) { FactoryGirl.build(:user) }
 
     it '#gravatar returns an IMG tag for a given user' do
       gravatar(user).should == "<img alt=\"#{user.name}\" class=\"profile-avatar\" src=\"http://www.gravatar.com/avatar/#{user.profile_image_hash}?s=48&amp;d=mm\" />"

@@ -26,11 +26,11 @@ describe Repository do
     end
 
     describe 'find_and_remove_service_hook' do
-      let(:user)    { Factory.create(:user) }
+      let(:user)    { Factory(:user) }
 
       it 'finds an existing repo and removes a service hook' do
         stub_request(:post, 'https://api.github.com/hub').to_return(:status => 200, :body => '', :headers => {})
-        minimal = Factory.create(:repository)
+        minimal = Factory(:repository)
 
         lambda do
           repository = Repository.find_and_remove_service_hook('svenfuchs', 'minimal', user)
@@ -42,11 +42,11 @@ describe Repository do
     end
 
     describe 'find_or_create_and_add_service_hook' do
-      let(:user)    { Factory.create(:user) }
+      let(:user)    { Factory(:user) }
 
       it 'finds an existing repo and adds a service hook' do
         stub_request(:post, 'https://api.github.com/hub').to_return(:status => 200, :body => '', :headers => {})
-        minimal = Factory.create(:repository)
+        minimal = Factory(:repository)
 
         lambda do
           repository = Repository.find_or_create_and_add_service_hook('svenfuchs', 'minimal', user)
@@ -90,7 +90,7 @@ describe Repository do
     end
 
     describe 'find_by_params' do
-      let(:minimal) { Factory.create(:repository) }
+      let(:minimal) { Factory(:repository) }
 
       it "should find a repository by it's id" do
         Repository.find_by_params(:id => minimal.id).id.should == minimal.id
@@ -105,8 +105,8 @@ describe Repository do
 
     describe 'timeline' do
       it 'sorts the most repository with the most recent build to the top' do
-        repository_1 = Factory.create(:repository, :name => 'repository_1', :last_build_started_at => '2011-11-11')
-        repository_2 = Factory.create(:repository, :name => 'repository_2', :last_build_started_at => '2011-11-12')
+        repository_1 = Factory(:repository, :name => 'repository_1', :last_build_started_at => '2011-11-11')
+        repository_2 = Factory(:repository, :name => 'repository_2', :last_build_started_at => '2011-11-12')
 
         repositories = Repository.timeline.all
         repositories.first.id.should == repository_2.id
@@ -145,7 +145,7 @@ describe Repository do
   end
 
   it 'last_build returns the most recent build' do
-    repository = Factory.create(:repository)
+    repository = Factory(:repository)
     attributes = { :repository => repository, :state => 'finished' }
     Factory(:build, attributes)
     Factory(:build, attributes)
@@ -155,7 +155,7 @@ describe Repository do
   end
 
   it 'last_finished_build returns the most recent finished build' do
-    repository = Factory.create(:repository)
+    repository = Factory(:repository)
     Factory(:build, :repository => repository, :state => 'finished')
     build = Factory(:build, :repository => repository, :state => 'finished')
     Factory(:build, :repository => repository, :state => 'started')
@@ -164,7 +164,7 @@ describe Repository do
   end
 
   it 'last_finished_build with branch returns the most recent finished build on that branch' do
-    repository = Factory.create(:repository)
+    repository = Factory(:repository)
     build = Factory(:build, :repository => repository, :state => 'finished', :commit => Factory(:commit, :branch => 'feature'))
     Factory(:build, :repository => repository, :state => 'finished', :commit => Factory(:commit, :branch => 'master'))
     Factory(:build, :repository => repository, :state => 'started', :commit => Factory(:commit, :branch => 'feature'))

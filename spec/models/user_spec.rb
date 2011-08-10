@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe User do
-  let (:user)    { Factory.build(:user) }
+  let (:user)    { FactoryGirl.build(:user) }
   let (:payload) { GITHUB_PAYLOADS[:oauth] }
 
   describe 'find_or_create_for_oauth' do
