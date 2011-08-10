@@ -1,14 +1,5 @@
 require 'spec_helper'
 
-RSpec::Matchers.define :be_listed do |repository|
-  match do
-    # TODO gotta convert to steak to access multiple controllers
-    # get 'repositories#index', :format => :json
-    # json_reponse.should include(blah)
-    true
-  end
-end
-
 feature 'The build process' do
   include Rack::Test::Methods, TestHelpers::GithubApi, TestHelpers::Walkthrough
 
@@ -40,7 +31,7 @@ feature 'The build process' do
 
     task.should_not be_queued
     build.matrix.each { |task| task.should be_queued }
-    # repository.should_not be_listed
+    api.repositories.should_not include(json_for(repository))
 
     while next_task!
       worker.start!(task, :build => { 'started_at' => Time.now })
@@ -49,9 +40,9 @@ feature 'The build process' do
       build.should be_started
       pusher.should have_message('build:started')
 
-      repository.should be_listed(:status => 'started')
-      # build.should show(:status => 'started')
-      # task.should show(:status => 'started')
+      api.repositories.should include(json_for(repository))
+      # api.build(build).should include(json_for(build))
+      # api.task(task).should include(json_for(task))
 
       worker.log!(task, :build => { 'log' => 'foo' })
       task.log.should == 'foo'
@@ -60,12 +51,16 @@ feature 'The build process' do
       worker.finish!(task, :build => { 'finished_at' => Time.now, 'status' => 0, 'log' => 'foo bar'})
       task.should be_finished
       pusher.should have_message('task:test:finished')   # not currently used.
-      # task.should show(:status => 'finished')
+      # api.task(task).should include(json_for(task))
     end
 
     build.should be_finished
+    build.status.should == 0
+    # api.build(build).should include(json_for(build))
+
+    repository.should have_last_build(build)
+    api.repositories.should include(json_for(repository))
+
     pusher.should have_message('build:finished')
-    repository.should be_listed(:status => 'finished')
-    # build.should show(:status => 'finished', :log => 'foo bar')
   end
 end
