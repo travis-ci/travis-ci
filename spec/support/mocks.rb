@@ -1,4 +1,4 @@
-module TestHelpers
+module Support
   module Mocks
     class Connection
       def callback; end

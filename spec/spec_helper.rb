@@ -34,8 +34,9 @@ RSpec.configure do |c|
 
   c.mock_with :mocha
 
-  c.include Devise::TestHelpers, :type => :controller
-  c.include TestHelpers::Formats
+  Support.constants.each do |constant|
+    c.include Support.const_get(constant)
+  end
 
   c.before :suite do
     DatabaseCleaner.strategy = :truncation

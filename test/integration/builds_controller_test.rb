@@ -1,13 +1,11 @@
 require 'test_helper'
 
 class BuildsControllerTest < ActionDispatch::IntegrationTest
-  include TestHelpers::GithubApi
-
   attr_reader :channel, :build
 
   before do
     @build   = Factory(:build).reload
-    @channel = TestHelpers::Mocks::Channel.new
+    @channel = Support::Mocks::Channel.new
     Pusher.stubs(:[]).returns(channel)
   end
 

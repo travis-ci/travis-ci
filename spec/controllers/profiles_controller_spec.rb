@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe ProfilesController do
-  include Devise::SignInHelpers
-
   let(:user) { Factory(:user) }
 
   before(:each) do

@@ -1,6 +1,6 @@
 require 'webmock/rspec'
 
-module TestHelpers
+module Support
   module GithubApi
     URLS = %w(
       https://github.com/api/v2/json/repos/show/svenfuchs

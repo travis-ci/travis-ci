@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe ServiceHooksController do
-  include Devise::SignInHelpers, TestHelpers::GithubApi
-
   before(:each) do
     mock_github_api # TODO should only do this once for the suite, right
     sign_in_user user

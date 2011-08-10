@@ -11,7 +11,7 @@ describe Travis::Notifications::Pusher do
     # TODO extract stup_pusher or something
     Travis.config.notifications = [:pusher]
     Travis::Notifications::Pusher.send(:public, :queue_for, :data_for, :template_dir)
-    Travis::Notifications::Pusher.any_instance.stubs(:channel).returns(TestHelpers::Mocks::Pusher.new)
+    Travis::Notifications::Pusher.any_instance.stubs(:channel).returns(Support::Mocks::Pusher.new)
   end
 
   after do
