@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/acceptance_helper'
+require 'client/spec_helper'
 
 feature "Builds", %(
   As a non-registered user

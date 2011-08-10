@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 feature 'The build process' do
-  include Rack::Test::Methods, TestHelpers::GithubApi, TestHelpers::Walkthrough
-
   before(:each) do
     # TODO extract stub_pusher or something
     Travis.config.notifications = [:worker, :pusher]
@@ -11,7 +9,7 @@ feature 'The build process' do
     mock_github_api
   end
 
-  let(:pusher) { TestHelpers::Mocks::Pusher.new }
+  let(:pusher) { Support::Mocks::Pusher.new }
 
   scenario 'creates a request from a github payload, configures it, creates the build and runs the tests', :driver => :rack_test do
     ping_from_github!

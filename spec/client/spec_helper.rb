@@ -1,17 +1,15 @@
+Dir['spec/client/support/**/*.rb'].sort.each { |path| require File.expand_path(path) }
+
 require 'spec_helper'
 require 'rspec'
 require 'capybara/rspec'
 require 'webmock'
 
-load_all File.expand_path('../support/**/*.rb', __FILE__)
 
 RSpec.configure do |config|
   config.before :each, :js => true do
     Capybara.current_driver = :selenium
   end
-
-  config.include AcceptanceHelpers
-  config.include NavigationHelpers
 end
 
 Capybara.default_selector = :css

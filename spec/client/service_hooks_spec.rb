@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/acceptance_helper'
+require 'client/spec_helper'
 require 'webmock/rspec'
 
 feature "Feature name", %(
@@ -16,8 +16,6 @@ feature "Feature name", %(
   end
 
   scenario "my repositories", :js => true do
-    self.extend OmniauthHelperMethods
-
     mock_omniauth
 
     visit homepage
