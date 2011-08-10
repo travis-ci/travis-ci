@@ -26,7 +26,7 @@ describe RepositoriesController do
     end
   end
 
-  describe 'GET :show' do
+  describe 'GET :show returns repository details' do
     let(:repository) { Scenario.default.first }
 
     it 'in json' do
