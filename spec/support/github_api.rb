@@ -12,7 +12,7 @@ module Support
       http://github.com/api/v2/json/user/show/LTe
     )
 
-    class Request
+    class Requst
       attr_reader :url, :filename
 
       def initialize(url)
@@ -39,8 +39,14 @@ module Support
       end
     end
 
+    class << self
+      def mock!
+        URLS.each { |url| Requst.new(url).stub! }
+      end
+    end
+
     def mock_github_api
-      URLS.each { |url| Request.new(url).stub! }
+      Support::GithubApi.mock!
     end
 
     def stub_github_api_post

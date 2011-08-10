@@ -3,7 +3,7 @@ require 'client/spec_helper'
 feature "Builds", %(
   As a non-registered user
   I should see current build processes
-) do
+), :js => true do
 
   let(:build_queued_event_info) { {
       :repository => {
@@ -17,7 +17,7 @@ feature "Builds", %(
     }
   }
 
-  scenario "build gets queued", :js => true do
+  scenario "build gets queued" do
     visit "/"
     dispatch_pusher_command 'jobs', 'build:queued', build_queued_event_info
 
@@ -26,7 +26,7 @@ feature "Builds", %(
     end
   end
 
-  scenario "build is removed from queue", :js => true do
+  scenario "build is removed from queue" do
     visit "/"
 
     dispatch_pusher_command 'jobs', 'build:queued', build_queued_event_info

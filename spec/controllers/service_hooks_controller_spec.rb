@@ -1,8 +1,7 @@
 require 'spec_helper'
 
-describe ServiceHooksController do
+describe ServiceHooksController, :webmock => true do
   before(:each) do
-    mock_github_api # TODO should only do this once for the suite, right
     sign_in_user user
   end
 
