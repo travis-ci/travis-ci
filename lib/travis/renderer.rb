@@ -25,16 +25,17 @@ module Travis
     end
 
     def render
-      send(object.is_a?(Hash) ? :render_hash : :render_object)
+      # send(object.is_a?(Hash) ? :render_hash : :render_object)
+      render_object
     end
 
     protected
 
-      def render_hash
-        object.inject({}) do |result, (key, value)|
-          result.merge(key => self.class.send(format, value, options))
-        end
-      end
+      # def render_hash
+      #   object.inject({}) do |result, (key, value)|
+      #     result.merge(key.to_sym => self.class.send(format, value, options))
+      #   end
+      # end
 
       def render_object
         set_instance_variable
@@ -75,7 +76,7 @@ module Travis
       end
 
       def raise_template_not_found
-        raise "could not find rabl template for #<#{object.class.name}> with #{options.inspect}"
+        raise "could not find rabl template for #{object.class.name} with #{options.inspect}"
       end
   end
 end

@@ -1,3 +1,0 @@
-object @build
-
-attributes :id

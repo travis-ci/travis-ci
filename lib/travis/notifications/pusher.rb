@@ -3,6 +3,30 @@ module Travis
     class Pusher
       EVENTS = [/build:/, /task:/]
 
+      class Message
+        attr_reader :event, :object
+
+        def initialize(event, object)
+          @event, @object = event, object
+        end
+
+        def to_hash
+          render(:hash)
+        end
+
+        def render(format)
+          Travis.send(format, data, :type => :event, :template => template).first # TODO wtf is this an array??
+        end
+
+        def data
+          { :build => object, :repository => object.repository }
+        end
+
+        def template
+          @type ||= event.to_s.split(':').join('/')
+        end
+      end
+
       def notify(event, object, *args)
         push(event, object, *args)
       end
@@ -11,7 +35,7 @@ module Travis
 
         def push(event, object, *args)
           data = args.last.is_a?(Hash) ? args.pop : {}
-          data = data_for(event, object).deep_merge(data)
+          data = data_for(event, object, data)
           channel(event).trigger(client_event_for(event), data)
         end
 
@@ -34,16 +58,8 @@ module Travis
           event.starts_with?('task:') ? 'jobs' : 'repositories'
         end
 
-        def data_for(event, object)
-          data = { 'build' => object, 'repository' => object.repository }
-          dir  = event.split(':').tap { |tokens| tokens.slice!(1..-2) if tokens.size > 2 }.join('_')
-          Travis.hash(data, :type => "event/#{dir}")
-        end
-
-        def template_dir(event, object)
-          tokens = event.split(':')
-          tokens.slice!(1..-2) if tokens.size > 2
-          tokens.join('_')
+        def data_for(event, object, extra = {})
+          Message.new(client_event_for(event), object).to_hash.deep_merge(extra)
         end
     end
   end

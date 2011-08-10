@@ -61,6 +61,7 @@ module Support
       def reset!
         @messages = []
       end
+      alias :clear! :reset!
     end
 
     class Irc

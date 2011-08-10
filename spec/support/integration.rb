@@ -1,6 +1,10 @@
 module Support
-  module Walkthrough
+  module Integration
+    include Rack::Test::Methods
+
     class Api
+      include Support::Formats
+
       delegate :last_response, :get, :to => :context
 
       attr_reader :context
