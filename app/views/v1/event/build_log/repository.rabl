@@ -1,3 +1,0 @@
-object @repository
-
-attributes :id

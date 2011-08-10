@@ -12,12 +12,12 @@
 + add TestsController
 
 
-- add Pusher notification specs for actual messages sent
-- add JSON specs for :event task:configure and task:test events
+? add Pusher notification specs for actual messages sent
+? add JSON specs for :event task:configure and task:test events
 - add data migrations
 - port commits from staging
 - calculate build duration from matrix.sum(&:duration) or similar
-
+- move actions from builds_controller to tasks_controller and use routes to keep the /builds url
 
 def self.up
   migrate_table :builds, :to => :tasks |t|
@@ -34,4 +34,5 @@ end
 # Api changes
 
 - client: use task route for looking up child builds
+- client: for configure jobs show "?" instead of a build number
 - config: change queues configuration section

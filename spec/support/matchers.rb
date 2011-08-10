@@ -88,14 +88,17 @@ end
 
 RSpec::Matchers.define :have_message do |event|
   match do |pusher|
-    if message = pusher.messages.detect { |message| message.first == event }
-      pusher.messages.delete(message)
-      # message.last['build'].should_not be_empty # TODO
-      # message.last['repository'].should_not be_empty
-      true
-    else
-      false
-    end
+    @event = event
+
+    description { "have a message #{event.inspect}" }
+    failure_message_for_should { "expected pusher to receive #{event.inspect} but it did not. Instead it has the following messages: #{pusher.messages.map(&:first).map(&:inspect).join(', ')}" }
+    failure_message_for_should_not { "expected pusher not to receive #{event.inspect} but it did" }
+
+    !!find_message.tap { |message| pusher.messages.delete(message) }
+  end
+
+  def find_message
+    pusher.messages.detect { |message| message.first == @event }
   end
 end
 

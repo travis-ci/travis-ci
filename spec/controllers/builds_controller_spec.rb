@@ -131,4 +131,3 @@ describe BuildsController do
     it 'returns build details in json'
   end
 end
-

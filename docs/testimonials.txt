@@ -48,3 +48,9 @@ http://twitter.com/ajsharp/status/99168224238768128 - @ajsharp (Alex Sharp)
 "Travis Continuous Integration is really great: travis-ci.org/#!/tdreyno/mid… Now running tests on Ruby 1.8.7 and 1.9.2 after every commit."
 https://twitter.com/#!/middlemanapp/status/99554750592331778 - @middlemanapp (Middleman)
 
+"It’s the new awesomesauce. (...) Travis CI is a no brainer. It’s free. It works. It’s trivial to setup."
+http://labnotes.org/2011/08/10/travis-ci - @assaf (Assaf Arkin)
+
+"Oh man, @travisci is awesome! The build matrix getting green *live* makes me want to test more. Congratz guys!"
+http://twitter.com/#!/jbbarth/status/101384811201052672 = @jbbarth (Jean-Baptiste BARTH)
+

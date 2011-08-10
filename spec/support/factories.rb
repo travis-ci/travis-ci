@@ -28,7 +28,7 @@ FactoryGirl.define do
     f.commit '62aae5f70ceee39123ef'
     f.branch 'master'
     f.message 'the commit message'
-    f.committed_at { Time.now }
+    f.committed_at '2011-11-11T11:11:11Z'
     f.committer_name 'Sven Fuchs'
     f.committer_email 'svenfuchs@artweb-design.de'
     f.author_name 'Sven Fuchs'
