@@ -21,7 +21,7 @@ TravisCi::Application.routes.draw do
     put 'log', :on => :member, :as => :log
   end
 
-  resources :tests,   :only => :show
+  resources :tests,   :only => :show, :controller => 'task/tests'
   resources :jobs,    :only => :index
   resources :workers, :only => :index
 
