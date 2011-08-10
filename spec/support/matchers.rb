@@ -1,5 +1,14 @@
 require 'uri'
 
+RSpec::Matchers.define :have_last_build do |build|
+  match do |repository|
+    repository.last_build_id.should == build.id
+    repository.last_build_status.should == build.status
+    repository.last_build_started_at.should == build.started_at
+    repository.last_build_finished_at.should == build.finished_at
+  end
+end
+
 RSpec::Matchers.define :send_email_notification_on do |event|
   match do |build|
     dispatch =  lambda { Travis::Notifications.dispatch(event, build) }

@@ -16,6 +16,7 @@
 - add JSON specs for :event task:configure and task:test events
 - add data migrations
 - port commits from staging
+- calculate build duration from matrix.sum(&:duration) or similar
 
 
 def self.up
