@@ -17,21 +17,30 @@ Factory.define :build do |f|
   f.committer_name 'Sven Fuchs'
   f.committer_email 'svenfuchs@artweb-design.de'
   f.token 'abcd'
+  f.started_at { |b| Time.utc(2011, 01, 30, 5, 25) }
+  f.finished_at { |b| b.started_at + 5.minutes }
+  f.status 0
 end
 
 Factory.define :running_build, :parent => :build do |f|
   f.started_at { Time.now }
+  f.finished_at nil
+  f.status nil
 end
 
-Factory.define :successfull_build, :parent => :build do |f|
-  f.status 0
+Factory.define :successful_build, :parent => :build do |f|
   f.finished_at { Time.now }
+  f.status 0
 end
 
 Factory.define :broken_build, :parent => :build do |f|
-  f.status 1
   f.started_at { Time.now }
   f.finished_at { Time.now }
+  f.status 1
+end
+
+Factory.define :development_branch_build, :parent => :build do |f|
+  f.branch 'development'
 end
 
 Factory.define :user do |f|

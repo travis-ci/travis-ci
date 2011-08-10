@@ -6,8 +6,8 @@ describe RepositoriesController do
   describe "GET 'index'" do
     before(:each) do
       # setup the two repos we need
-      Factory.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
-      Factory.create(:repository, :owner_name => "josh", :name => "globalize", :last_build_started_at => Date.yesterday)
+      Factory.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today, :last_build_finished_at => Date.today + 5.minutes)
+      Factory.create(:repository, :owner_name => "josh", :name => "globalize", :last_build_started_at => Date.yesterday, :last_build_finished_at => Date.yesterday + 5.minutes)
     end
 
     context "returns a list of repositories in xml format" do
@@ -42,7 +42,7 @@ describe RepositoriesController do
         result = ActiveSupport::JSON.decode response.body
 
         result.count.should eql(2)
-        result.first["slug"].should  eql("sven/travis-ci")
+        result.first["slug"].should eql("sven/travis-ci")
         result.second["slug"].should eql("josh/globalize")
       end
 
@@ -75,44 +75,41 @@ describe RepositoriesController do
 
     it 'shows an "unknown" button when it only has a build thats not finished' do
       Factory(:running_build, :repository => repository)
-
       should_receive_file_with_status("unknown")
 
       get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
     end
 
-    it 'shows an "unstable" button when the repository has broken build' do
+    it 'shows an "failing" button when the repository has broken build' do
       Factory(:broken_build, :repository => repository)
 
-      should_receive_file_with_status("unstable")
+      should_receive_file_with_status("failing")
 
       get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
     end
 
-    it 'shows a "stable" button when the repository\'s last build passed' do
-      Factory(:successfull_build, :repository => repository)
+    it 'shows a "passing" button when the repository\'s last build passed' do
+      Factory(:successful_build, :repository => repository)
 
-      should_receive_file_with_status("stable")
+      should_receive_file_with_status("passing")
 
       get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
     end
 
-    it 'shows a "stable" button when the previous build passed and there\'s one still running' do
-      Factory(:broken_build, :repository => repository, :branch => 'master')
-      Factory(:successfull_build, :repository => repository, :branch => 'feature')
+    it 'shows a "passing" button when the previous build passed and there\'s one still running' do
+      Factory(:successful_build, :repository => repository)
+      Factory(:running_build, :repository => repository)
+      should_receive_file_with_status("passing")
 
-      should_receive_file_with_status("stable")
-
-      get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci", :branch => 'feature')
+      get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
     end
 
     it 'limits to the provided branch when the attribute is provided' do
-      Factory(:successfull_build, :repository => repository)
-      Factory(:running_build, :repository => repository)
+      Factory(:successful_build, :repository => repository, :branch => 'dev')
+      Factory(:broken_build, :repository => repository, :branch => 'master')
+      should_receive_file_with_status("passing")
 
-      should_receive_file_with_status("stable")
-
-      get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
+      get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci", :branch => 'dev')
     end
 
     def should_receive_file_with_status(status)
@@ -184,10 +181,10 @@ describe RepositoriesController do
     end
 
     context "with parameters rvm:perl" do
-      it "return last build status unknown" do
+      it "return last build status for the parent build" do
         get :show, :owner_name => "sven", :name => "travis-ci", :format => "json", :params => {:rvm => "perl"}
         result = ActiveSupport::JSON.decode response.body
-        result['last_build_status'].should eql nil
+        result['last_build_status'].should eql 0
       end
     end
 
@@ -195,11 +192,10 @@ describe RepositoriesController do
       get :show, :owner_name => "sven", :name => "travis-ci", :format => "json"
 
       result = ActiveSupport::JSON.decode response.body
-      %w(id last_build_id last_build_number last_build_status last_build_started_at last_build_finished_at slug status).each do |node_name|
+      %w(id last_build_id last_build_number last_build_status last_build_started_at last_build_finished_at slug).each do |node_name|
         result.include?(node_name).should be_true
       end
-      result['last_build_status'].should eql nil
-      result['status'].should eql 'unknown'
+      result['last_build_status'].should eql 0
       result['slug'].should eql 'sven/travis-ci'
     end
   end
@@ -213,11 +209,10 @@ describe RepositoriesController do
       get :show, :owner_name => "sven", :name => "travis-ci", :format => "xml"
 
       result = ActiveSupport::XmlMini.parse response.body
-      %w(id last_build_id last_build_number last_build_status last_build_started_at last_build_finished_at slug status).each do |node_name|
+      %w(id last_build_id last_build_number last_build_status last_build_started_at last_build_finished_at slug).each do |node_name|
         result['repository'].include?(node_name).should be_true
       end
       result['repository']['last_build_status']['__content__'].should eql nil
-      result['repository']['status']['__content__'].should eql 'unknown'
       result['repository']['slug']['__content__'].should eql 'sven/travis-ci'
     end
   end

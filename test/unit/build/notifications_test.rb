@@ -19,8 +19,8 @@ class BuildNotificationsTest < ActiveSupport::TestCase
   end
 
   test 'given the build is not finished matrix child build: send_notifications? should be false' do
-    build = Factory(:build, :repository => repository, :finished_at => nil)
-    child = Factory(:build, :repository => repository, :parent => build)
+    build = Factory(:running_build, :repository => repository, :finished_at => nil)
+    child = Factory(:running_build, :repository => repository, :parent => build)
     assert !build.send_notifications?, 'send_notifications? should be false'
   end
 

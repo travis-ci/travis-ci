@@ -1,58 +1,43 @@
 require 'test_helper'
 
 class ModelsRepositoryTest < ActiveSupport::TestCase
-  attr_reader :repository_1, :repository_2, :repository_3, :build_1, :build_2, :build_3, :build_4, :build_5
+  attr_reader :repository_0, :repository_1, :repository_2, :repository_3, :build_0, :build_1, :build_2, :build_3, :build_4
 
   def setup
     super
+    @repository_0 = Factory(:repository, :name => 'gem-release', :owner_name => 'sferik')
     @repository_1 = Factory(:repository, :name => 'gem-release', :owner_name => 'svenfuchs')
     @repository_2 = Factory(:repository, :name => 'gem-release', :owner_name => 'flooose')
-    @build_4 = Factory(:build, :repository => repository_1, :number => '4', :status => 1, :branch => 'feature', :started_at => '2010-11-10 12:00:20', :finished_at => '2010-11-10 12:00:20')
-    @build_1 = Factory(:build, :repository => repository_1.reload, :number => '1', :status => 0, :started_at => '2010-11-11 12:00:00', :finished_at => '2010-11-11 12:00:10')
-    @build_2 = Factory(:build, :repository => repository_2.reload, :number => '2', :status => 1, :started_at => '2010-11-11 12:00:10', :finished_at => '2010-11-11 12:00:10')
-    @build_3 = Factory(:build, :repository => repository_2.reload, :number => '3', :status => nil, :started_at => '2010-11-11 12:00:20')
-    
     @repository_3 = Factory(:repository, :name => 'gem-release', :owner_name => 'joelmahoney')
-    @build_5 = Factory(:build, :repository => repository_3, :number => '5', :status => 0, :started_at => '2010-11-11 12:00:05', :finished_at => '2010-11-11 12:00:10', :config => { 'rvm' => ['1.8.7', '1.9.2'], 'env' => ['DB=sqlite3', 'DB=postgresql'] })
-    @repository_3.update_attribute(:last_build, @build_5)
-    
+
+    @build_0 = Factory(:build, :repository => repository_1.reload, :number => '0', :status => 1, :branch => 'feature', :started_at => '2010-11-10 12:00:20', :finished_at => '2010-11-10 12:00:20')
+    @build_1 = Factory(:build, :repository => repository_1.reload, :number => '1', :status => 0, :started_at => '2010-11-11 12:00:00', :finished_at => '2010-11-11 12:00:10')
+    @build_2 = Factory(:build, :repository => repository_0.reload, :number => '2', :status => 1, :started_at => '2010-11-11 12:00:10', :finished_at => '2010-11-11 12:00:10')
+    @build_3 = Factory(:build, :repository => repository_2.reload, :number => '3', :status => nil, :started_at => '2010-11-11 12:00:20')
+    @build_4 = Factory(:development_branch_build, :repository => repository_3.reload, :number => '4', :status => 0, :started_at => '2010-11-11 12:00:05', :finished_at => '2010-11-11 12:00:10', :config => { 'rvm' => ['1.8.7', '1.9.2'], 'env' => ['DB=sqlite3', 'DB=postgresql'] })
+
+    repository_0.reload
     repository_1.reload
     repository_2.reload
     repository_3.reload
   end
 
-  test 'returns stable human readable status for stable build' do
-    assert_equal 'stable', repository_1.human_status
+  test 'returns passing human readable status for passing build' do
+    assert_equal 'passing', repository_1.last_finished_build_status_name
   end
 
-  test 'returns unstable human readable status for unstable build' do
-    assert_equal 'unstable', repository_2.human_status
-  end
-
-  test 'returns human readable status for branch' do
-    assert_equal 'unstable', repository_1.human_status('feature')
+  test 'returns failing human readable status for failing build' do
+    assert_equal 'failing', repository_0.last_finished_build_status_name
   end
 
   test 'returns unknown human readable status for unfinished build' do
-    assert_equal Factory(:repository).human_status, 'unknown'
+    assert_equal 'unknown', repository_2.last_finished_build_status_name
   end
 
   test 'validates_uniqueness of :owner_name/:name' do
     repository = Repository.new(:name => 'gem-release', :owner_name => 'svenfuchs')
     assert !repository.valid?
     assert_equal ['has already been taken'], repository.errors['name']
-  end
-
-  test 'human_status_by: finds the human status of an existing repository with stable build' do
-    assert_equal 'stable', Repository.human_status_by({:name => 'gem-release', :owner_name => 'svenfuchs'})
-  end
-
-  test 'human_status_by: finds the human status of an existing repository with unstable build' do
-    assert_equal 'unstable', Repository.human_status_by({:name => 'gem-release', :owner_name => 'flooose'})
-  end
-
-  test 'human_status_by: finds the human status of an existing repository with a branch specified' do
-    assert_equal 'unstable', Repository.human_status_by({:name => 'gem-release', :owner_name => 'svenfuchs', :branch => 'feature'})
   end
 
   test 'find_or_create_by_github_repository: finds an existing repository' do
@@ -170,11 +155,11 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
   end
 
   test '#last_finished_build returns the most recent finished build' do
-    assert_equal build_2, repository_2.last_finished_build
+    assert_equal build_1, repository_1.last_finished_build
   end
 
   test '#last_finished_build with branch returns the most recent finished build on that branch' do
-    assert_equal build_4, repository_1.last_finished_build('feature')
+    assert_equal build_0, repository_1.last_finished_build({'branch' => 'feature'})
   end
 
   test 'denormalizes last_build_id, last_build_number, last_build_status, last_build_started_at and last_build_finished_at' do
@@ -183,66 +168,58 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     assert_equal [build_1.id.to_s, '1', '0', '2010-11-11 12:00:00 UTC', '2010-11-11 12:00:10 UTC'], attributes.map(&:to_s)
 
     attributes = repository_2.attributes.values_at(*attribute_names)
-    assert_equal [build_3.id.to_s, '3', '', '2010-11-11 12:00:20 UTC', ''], attributes.map(&:to_s)
+    assert_equal [build_3.id.to_s, '3', '', '2010-11-11 12:00:20 UTC', '2010-11-11 12:05:20 UTC'], attributes.map(&:to_s)
   end
 
   test 'does not denormalize matrix child builds' do
     child = Factory(:build, :repository => repository_1, :parent => build_1, :number => '1.1')
     assert_equal '1', repository_1.reload.last_build_number
   end
-    
+
   test "validates last_build_status has not been overridden" do
-    repository = Factory(:repository, :last_build => @build_5)
+    repository = Factory(:repository, :last_build => @build_4)
     repository.last_build_status_overridden = true
     assert_raises(ActiveRecord::RecordInvalid) do
       repository.save!
     end
   end
 
-  test "override_last_build_status? returns false when last_build is nil" do
-    repo = Factory(:repository, :last_build => nil)
-    assert !repo.override_last_build_status?('rvm' => '1.8.7')
-  end
-
-  test "override_last_build_status? returns false when no matching keys" do
-    assert !repository_3.override_last_build_status?({})
-  end
-  
-  test "override_last_build_status? returns true with last_build and matching keys" do
-    assert repository_3.override_last_build_status?('rvm' => '1.8.7')
-  end
-  
-  test "override_last_build_status! sets last_build_status_overridden to true" do
-    repository_3.override_last_build_status!({})
+  test "override_last_finished_build_status! sets last_build_status_overridden to true" do
+    repository_3.override_last_finished_build_status!({})
     assert repository_3.last_build_status_overridden
   end
-  
-  test "override_last_build_status! sets last_build_status nil when hash is empty" do
-    repository_3.override_last_build_status!({})
-    assert_equal nil, repository_3.last_build_status
-  end
 
-  test "override_last_build_status! sets last_build_status nil when hash is invalid" do
-    repository_3.override_last_build_status!({'foo' => 'bar'})
-    assert_equal nil, repository_3.last_build_status
-  end
-
-  test "override_last_build_status! sets last_build_status to 0 (passing) when all specified builds are passing" do
-    build_5.matrix.each do |build|
-      build.update_attribute(:status, 0) if build.config['rvm'] == '1.8.7'
-      build.update_attribute(:status, 1) if build.config['rvm'] == '1.9.2'
-    end
-    repository_3.override_last_build_status!({'rvm' => '1.8.7'})
+  test "override_last_finished_build_status! leaves last_build_status unchanged when hash is empty" do
+    repository_3.override_last_finished_build_status!({})
     assert_equal 0, repository_3.last_build_status
   end
 
-  test "override_last_build_status! sets last_build_status to 1 (failing) when at least one specified build is failing" do
-    build_5.matrix.each do |build|
+  test "override_last_finished_build_status! should ignore an invalid hash" do
+    repository_3.override_last_finished_build_status!({'foo' => 'bar'})
+    assert_equal 0, repository_3.last_build_status
+  end
+
+  test "override_last_finished_build_status! sets last_build_status to 0 (passing) when all specified builds are passing" do
+    build_4.matrix.each do |build|
+      build.update_attribute(:status, 0) if build.config['rvm'] == '1.8.7'
+      build.update_attribute(:status, 1) if build.config['rvm'] == '1.9.2'
+    end
+    repository_3.override_last_finished_build_status!({'rvm' => '1.8.7'})
+    assert_equal 0, repository_3.last_build_status
+  end
+
+  test "override_last_finished_build_status! sets last_build_status to 1 (failing) when at least one specified build is failing" do
+    build_4.matrix.each do |build|
       build.update_attribute(:status, 0)
     end
-    build_5.matrix[0].update_attribute(:status, 1)
-    repository_3.override_last_build_status!({'rvm' => '1.8.7'})
+    build_4.matrix[0].update_attribute(:status, 1)
+    repository_3.override_last_finished_build_status!({'rvm' => '1.8.7'})
     assert_equal 1, repository_3.last_build_status
+  end
+
+  test "override_last_finished_build_status! sets last_build_status to 0 (passing) when the branch is matching" do
+    repository_3.override_last_finished_build_status!({'branch' => 'development'})
+    assert_equal 0, repository_3.last_build_status
   end
 
 end
