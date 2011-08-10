@@ -9,7 +9,7 @@ describe Repository, 'json' do
   end
 
   it 'returns the expected json' do
-    render_json(repository).should == {
+    json_for(repository).should == {
       'id' => repository.id,
       'slug' => 'svenfuchs/minimal',
       'last_build_id' => last_build.id,
@@ -20,22 +20,22 @@ describe Repository, 'json' do
     }
   end
 
-  it 'render_json with :type => :job includes everything required for the build job' do
-    render_json(repository, :type => :job).should == {
+  it 'json_for with :type => :job includes everything required for the build job' do
+    json_for(repository, :type => :job).should == {
       'id' => repository.id,
       'slug' => 'svenfuchs/minimal'
     }
   end
 
-  it 'render_json with :type => :event, :template => "build_queued/repository" includes everything required for the client-side build:scheduled event' do
-    render_json(repository, :type => :event, :template => 'build_queued/repository').should == {
+  it 'json_for with :type => :event, :template => "build_queued/repository" includes everything required for the client-side build:scheduled event' do
+    json_for(repository, :type => :event, :template => 'build_queued/repository').should == {
       'id' => repository.id,
       'slug' => 'svenfuchs/minimal'
     }
   end
 
   it 'with :type => :event, :template => "build_started/repository" includes everything required for the client-side build:scheduled event' do
-    render_json(repository, :type => :event, :template => 'build_started/repository').should == {
+    json_for(repository, :type => :event, :template => 'build_started/repository').should == {
       'id' => repository.id,
       'slug' => 'svenfuchs/minimal',
       'last_build_id' => last_build.id,
@@ -48,7 +48,7 @@ describe Repository, 'json' do
   # will see if we can entirely remove this event
   #
   # it 'with :type => :event, :template => "build_configured/repository" includes everything required for the client-side build:configured event' do
-  #   render_json(repository, :type => :event, :template => 'build_configured/repository').should == {
+  #   json_for(repository, :type => :event, :template => 'build_configured/repository').should == {
   #     'id' => repository.id,
   #     'slug' => 'svenfuchs/minimal',
   #     'last_build_id' => last_build.id,
@@ -58,13 +58,13 @@ describe Repository, 'json' do
   # end
 
   it 'with :type => :event, :template => "build_log/repository" includes everything required for the client-side build:log event' do
-    render_json(repository, :type => :event, :template => 'build_log/repository').should == {
+    json_for(repository, :type => :event, :template => 'build_log/repository').should == {
       'id' => repository.id,
     }
   end
 
   it 'with :type => :event, :template => "build_finished/repository" includes everything required for the client-side build:finished event' do
-    render_json(repository, :type => :event, :template => 'build_finished/repository').should == {
+    json_for(repository, :type => :event, :template => 'build_finished/repository').should == {
       'id' => repository.id,
       'slug' => 'svenfuchs/minimal',
       'last_build_id' => last_build.id,
@@ -75,7 +75,7 @@ describe Repository, 'json' do
   end
 
   it 'with :type => :webhook it includes everything required for the client-side build:finished event' do
-    render_json(repository, :type => :webhook).should == {
+    json_for(repository, :type => :webhook).should == {
       'id' => repository.id,
       'name' => 'minimal',
       'owner_name' => 'svenfuchs',

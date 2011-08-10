@@ -9,7 +9,7 @@ describe Build, 'json' do
   end
 
   it 'for the http api' do
-    json = render_json(build)
+    json = json_for(build)
     json.except('matrix').should == {
       'id' => build.id,
       'repository_id' => repository.id,
@@ -29,18 +29,18 @@ describe Build, 'json' do
       'author_name' => 'Sven Fuchs',
       'author_email' => 'svenfuchs@artweb-design.de',
     }
-    json['matrix'].first.should == build.matrix.map { |task| render_json(task) }.first
+    json['matrix'].first.should == build.matrix.map { |task| json_for(task) }.first
   end
 
   it 'with :type => :event, :template => "build_queued/build" it includes everything required for the client-side build:scheduled event' do
-    render_json(build, :type => :event, :template => 'build_queued/build').should == {
+    json_for(build, :type => :event, :template => 'build_queued/build').should == {
       'id' => build.id,
       'number' => '2'
     }
   end
 
   it 'with :type => :event, :template => "build_started/build" it includes everything required for the client-side build:scheduled event' do
-    json = render_json(build, :type => :event, :template => 'build_started/build')
+    json = json_for(build, :type => :event, :template => 'build_started/build')
     json.except('matrix').should == {
       'id' => build.id,
       'repository_id' => build.repository.id,
@@ -56,13 +56,13 @@ describe Build, 'json' do
       'author_name' => 'Sven Fuchs',
       'author_email' => 'svenfuchs@artweb-design.de',
     }
-    json['matrix'].first.should == build.matrix.map { |task| render_json(task) }.first
+    json['matrix'].first.should == build.matrix.map { |task| json_for(task) }.first
   end
 
   # will see if we can entirely remove this event
   #
   # it 'with :type => :event, :template => "build_configured/build" it includes everything required for the client-side build:configured event' do
-  #   render_json(build, :type => :event, :template => 'build_configured/build').should == {
+  #   json_for(build, :type => :event, :template => 'build_configured/build').should == {
   #     'id' => build.id,
   #     'repository_id' => build.repository.id,
   #     'number' => '1',
@@ -81,13 +81,13 @@ describe Build, 'json' do
   # end
 
   it 'with :type => :event, :template => "build_log/build" it includes everything required for the client-side build:log event' do
-    render_json(build, :type => :event, :template => 'build_log/build').should == {
+    json_for(build, :type => :event, :template => 'build_log/build').should == {
       'id' => build.id,
     }
   end
 
   it 'with :type => :event, :template => "build_finished/build" it includes everything required for the client-side build:finished event' do
-    render_json(build, :type => :event, :template => 'build_finished/build').should == {
+    json_for(build, :type => :event, :template => 'build_finished/build').should == {
       'id' => build.id,
       'status' => 0,
       'finished_at' => '2010-11-12T12:30:20Z'
@@ -95,9 +95,9 @@ describe Build, 'json' do
   end
 
   it 'with :type => :webhook it includes everything required for the client-side build:finished event' do
-    render_json(build, :type => :webhook).except('matrix').should == {
+    json_for(build, :type => :webhook).except('matrix').should == {
       'id' => build.id,
-      'repository' => render_json(repository, :type => :webhook),
+      'repository' => json_for(repository, :type => :webhook),
       'number' => '2',
       'status' => 0,
       'status_message' => 'Passed',

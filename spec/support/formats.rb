@@ -1,10 +1,11 @@
 module TestHelpers
   module Formats
     def json_response
+      response = respond_to?(:last_response) ? last_response : self.response
       ActiveSupport::JSON.decode(response.body)
     end
 
-    def render_json(object, options = {})
+    def json_for(object, options = {})
       normalize_json(Travis.json(object, options))
     end
 
