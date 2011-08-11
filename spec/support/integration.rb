@@ -1,7 +1,5 @@
 module Support
   module Integration
-    include Rack::Test::Methods
-
     class Api
       include Support::Formats
 
