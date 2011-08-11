@@ -8,7 +8,6 @@ module Support
       end
     end
 
-
     def pusher
       @pusher ||= Support::Mocks::Pusher.new
     end

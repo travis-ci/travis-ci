@@ -37,9 +37,16 @@ module Responders
       end
 
       def template_name
-        name = controller.class.controller_path
-        name = name.singularize unless collection?
-        name
+        if resource.present?
+          collection? ? singular_resource_name.pluralize : singular_resource_name
+        else
+          'empty'
+        end
+      end
+
+      def singular_resource_name
+        item = collection? ? resource.first : resource
+        item.class.name.underscore
       end
 
       def collection?

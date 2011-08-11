@@ -14,16 +14,14 @@ TravisCi::Application.routes.draw do
   end
 
   resources :repositories, :only => [:index, :show] do
-    resources :builds, :except => [:new, :edit, :destroy]
+    resources :builds, :only => [:index, :show]
   end
 
-  resources :builds, :only => [:show, :create, :update] do
-    put 'log', :on => :member, :as => :log
-  end
-
-  resources :tests,   :only => :show, :controller => 'task/tests'
-  resources :jobs,    :only => :index
-  resources :workers, :only => :index
+  resources :builds,   :only => :show
+  resources :requests, :only => :create
+  resources :tasks,    :only => [:show, :update, :log]
+  resources :jobs,     :only => :index
+  resources :workers,  :only => :index
 
   resource :profile, :only => :show do
     get :service_hooks, :to => 'service_hooks#index'
@@ -32,8 +30,12 @@ TravisCi::Application.routes.draw do
 
   match "/stats" => "statistics#index"
 
-  # need to include the jammit route here so it preceeds the user route below
   match "/#{Jammit.package_path}/:package.:extension", :to => 'jammit#package', :as => :jammit, :constraints => { :extension => /.+/ }
+
+  # legacy routes used by github service hooks and workers
+  post 'builds',         :to => 'requests#create'
+  put  'builds/:id',     :to => 'tests#update'
+  put  'builds/:id/log', :to => 'tests#log'
 end
 
 # we want these after everything else is loaded
