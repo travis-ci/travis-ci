@@ -44,6 +44,16 @@ class BuildNotificationsTest < ActiveSupport::TestCase
     build = Factory(:build, :repository => repository, :finished_at => Time.now, :config => { 'notifications' => { 'email' => false } })
     assert !build.send_email_notifications?, 'send_email_notifications? should be false'
   end
+  
+  test 'given the build is a finished and passed non-matrix build with default non-verbose config: send_notifications? should be false' do
+    build = Factory(:build, :repository => repository, :finished_at => Time.now, :status => 0)
+    assert !build.send_notifications?, 'send_notifications? should be false'
+  end
+  
+  test 'given the build is a finished and passed non-matrix build with verbose config: send_notifications? should be true' do
+    build = Factory(:build, :repository => repository, :finished_at => Time.now, :status => 0, :config => { 'notifications' => { 'verbose' => true } })
+    assert build.send_notifications?, 'send_notifications? should be true'
+  end
 
   test 'given the build has an author_email: unique_recipients contains these emails' do
     build = Factory(:build, :repository => repository, :author_email => 'author-1@email.com,author-2@email.com')
