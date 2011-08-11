@@ -1,31 +1,9 @@
 module Travis
   module Notifications
     class Pusher
+      autoload :Payload, 'travis/notifications/pusher/payload'
+
       EVENTS = [/build:/, /task:.*:(created|finished)/]
-
-      class Payload
-        attr_reader :event, :object, :extra
-
-        def initialize(event, object, extra = {})
-          @event, @object, @extra = event, object, extra
-        end
-
-        def to_hash
-          render(:hash)
-        end
-
-        def render(format)
-          Travis.send(format, data, :type => :event, :template => template).first.deep_merge(extra) # TODO wtf is this an array??
-        end
-
-        def data
-          { :build => object, :repository => object.repository }
-        end
-
-        def template
-          event.to_s.split(':').join('/')
-        end
-      end
 
       def notify(event, object, *args)
         push(event, object, *args)

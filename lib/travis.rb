@@ -7,8 +7,6 @@ module Travis
   autoload :Renderer,      'travis/renderer'
 
   class << self
-    delegate :json, :hash, :to => 'Travis::Renderer'
-
     attr_accessor :pusher
 
     def config

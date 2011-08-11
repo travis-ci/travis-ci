@@ -110,7 +110,6 @@ RSpec::Matchers.define :be_queued do |*args|
     @task = task
 
     @expected = Travis::Notifications::Worker.payload_for(@task, :queue => 'builds')
-    # @expected = Travis.hash({ :repository => @task.repository, :build => @task }, :type => :job).deep_symbolize_keys.merge(:queue => 'builds')
     @actual = job ? job['args'].last.deep_symbolize_keys : nil
     @actual == @expected
   end
