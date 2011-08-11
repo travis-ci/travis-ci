@@ -33,7 +33,7 @@ module Travis
     protected
 
       def set_instance_variable
-        instance_variable_set(:"@#{model_name.split('/').last}", object)
+        instance_variable_set(:"@#{model_name.split('/').first}", object)
       end
 
       def template
