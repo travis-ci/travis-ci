@@ -6,7 +6,7 @@ class Build < ActiveRecord::Base
 
   include Branches, Events, Json, Matrix, Notifications, Sources::Github
 
-  ENV_KEYS = ['rvm', 'gemfile', 'env']
+  ENV_KEYS = ['rvm', 'gemfile', 'env', 'otp_release']
 
   belongs_to :repository
   belongs_to :parent, :class_name => 'Build', :foreign_key => :parent_id
@@ -37,7 +37,7 @@ class Build < ActiveRecord::Base
     def keys_for(hash)
       ENV_KEYS.select { |key| hash.keys.map(&:to_s).include?(key) }
     end
-    
+
   end
 
   def config=(config)
