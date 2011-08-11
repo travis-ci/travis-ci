@@ -1,27 +1,9 @@
 module Travis
   module Notifications
     class Webhook
+      autoload :Payload, 'travis/notifications/webhook/payload'
+
       EVENTS = 'build:finished'
-
-      class Payload
-        attr_reader :object
-
-        def initialize(object)
-          @object = object
-        end
-
-        def to_hash
-          render(:hash)
-        end
-
-        def render(format)
-          Travis.send(format, object, :type => :webhook, :template => template)
-        end
-
-        def template
-          object.class.name.underscore
-        end
-      end
 
       class << self
         def payload_for(build)

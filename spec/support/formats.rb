@@ -6,7 +6,7 @@ module Support
     end
 
     def json_for_http(object, options = {})
-      normalize_json(Travis.json(object, options))
+      normalize_json(Travis::Renderer.json(object, options))
     end
 
     def json_for_pusher(event, object)
