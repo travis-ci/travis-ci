@@ -10,10 +10,9 @@
 + go through all models and add pending specs
 + go through all specs and do some cleanup
 + add TestsController
++ add Pusher notification specs for actual messages sent
++ add JSON specs for build:queued and build:removed event payloads
 
-
-? add Pusher notification specs for actual messages sent
-? add JSON specs for :event task:configure and task:test events
 - add data migrations
 - port commits from staging
 - calculate build duration from matrix.sum(&:duration) or similar

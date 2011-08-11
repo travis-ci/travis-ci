@@ -14,7 +14,7 @@ describe Travis::Renderer do
 
   describe 'rendering' do
     before do
-      Travis::Renderer.any_instance.stubs(:template).returns('attributes :id')
+      Travis::Renderer.any_instance.stubs(:template).returns('object @build; attributes :id')
     end
 
     it 'given a model hash returns a Hash' do

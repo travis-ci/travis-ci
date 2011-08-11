@@ -13,7 +13,7 @@ module Travis
         end
 
         def render(format)
-          Travis::Renderer.send(format, data, :type => :event, :template => template).first.deep_merge(extra) # TODO wtf is this an array??
+          Travis::Renderer.send(format, data, :type => :event, :template => template).deep_merge(extra)
         end
 
         def data
