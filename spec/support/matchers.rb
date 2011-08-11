@@ -29,7 +29,9 @@ RSpec::Matchers.define :post_webhooks_on do |event, object, options|
       env[:url].host.should == uri.host
       env[:url].path.should == uri.path
       env[:request_headers]['Authorization'].should == authorization_for(object)
-      payload_from(env).keys.sort.should == object.as_json(:for => :webhook).keys.map(&:to_s).sort
+
+      payload = normalize_json(Travis::Notifications::Webhook::Payload.new(object).to_hash)
+      payload_from(env).keys.sort.should == payload.keys.map(&:to_s).sort
     end
   end
 
@@ -107,7 +109,8 @@ RSpec::Matchers.define :be_queued do |*args|
     @queue = args.first || 'builds'
     @task = task
 
-    @expected = Travis.hash({ :repository => @task.repository, :build => @task }, :type => :job).deep_symbolize_keys.merge(:queue => 'builds')
+    @expected = Travis::Notifications::Worker.payload_for(@task, :queue => 'builds')
+    # @expected = Travis.hash({ :repository => @task.repository, :build => @task }, :type => :job).deep_symbolize_keys.merge(:queue => 'builds')
     @actual = job ? job['args'].last.deep_symbolize_keys : nil
     @actual == @expected
   end

@@ -1,8 +1,13 @@
-object @test
+task, repository = @hash.values_at(:task, :repository)
 
-attributes :id, :number, :config
-
-glue @test.commit do
-  extends 'v1/job/commit'
+child task => :build do
+  attributes :id, :number, :config
+  glue(task.commit) { attributes :commit, :branch }
 end
+
+child repository => :repository do
+  attributes :id
+  node(:slug) { |repository| repository.slug }
+end
+
 

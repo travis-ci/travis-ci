@@ -26,7 +26,7 @@ feature 'The build process' do
 
     task.should_not be_queued
     build.matrix.each { |task| task.should be_queued }
-    api.repositories.should_not include(json_for(repository))
+    api.repositories.should_not include(json_for_http(repository))
 
     while next_task!
       worker.start!(task, :build => { 'started_at' => Time.now })
@@ -35,9 +35,9 @@ feature 'The build process' do
       build.should be_started
       pusher.should have_message('build:started')
 
-      api.repositories.should include(json_for(repository))
-      # api.build(build).should include(json_for(build))
-      # api.task(task).should include(json_for(task))
+      api.repositories.should include(json_for_http(repository))
+      # api.build(build).should include(json_for_http(build))
+      # api.task(task).should include(json_for_http(task))
 
       worker.log!(task, :build => { 'log' => 'foo' })
       task.log.should == 'foo'
@@ -46,15 +46,15 @@ feature 'The build process' do
       worker.finish!(task, :build => { 'finished_at' => Time.now, 'status' => 0, 'log' => 'foo bar'})
       task.should be_finished
       pusher.should have_message('task:test:finished')   # not currently used.
-      # api.task(task).should include(json_for(task))
+      # api.task(task).should include(json_for_http(task))
     end
 
     build.should be_finished
     build.status.should == 0
-    # api.build(build).should include(json_for(build))
+    # api.build(build).should include(json_for_http(build))
 
     repository.should have_last_build(build)
-    api.repositories.should include(json_for(repository))
+    api.repositories.should include(json_for_http(repository))
 
     pusher.should have_message('build:finished')
   end
