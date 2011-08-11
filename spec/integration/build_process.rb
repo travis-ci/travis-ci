@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 feature 'The build process' do
+  include Rack::Test::Methods
+
   before(:each) do
     # TODO extract stub_pusher or something
     Travis.config.notifications = [:worker, :pusher]
