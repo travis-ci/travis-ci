@@ -25,23 +25,12 @@ module Travis
     end
 
     def render
-      # send(object.is_a?(Hash) ? :render_hash : :render_object)
-      render_object
+      set_instance_variable
+      view = Rabl::Engine.new(template, :format => format) # :view_path => view_path(options) TODO view_path doesn't seem get passed through to :extends
+      view.render(self, {})
     end
 
     protected
-
-      # def render_hash
-      #   object.inject({}) do |result, (key, value)|
-      #     result.merge(key.to_sym => self.class.send(format, value, options))
-      #   end
-      # end
-
-      def render_object
-        set_instance_variable
-        view = Rabl::Engine.new(template, :format => format) # :view_path => view_path(options) TODO view_path doesn't seem get passed through to :extends
-        view.render(self, { :object => object })
-      end
 
       def set_instance_variable
         instance_variable_set(:"@#{model_name.split('/').last}", object)
