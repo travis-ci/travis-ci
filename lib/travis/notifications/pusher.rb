@@ -1,13 +1,13 @@
 module Travis
   module Notifications
     class Pusher
-      EVENTS = [/build:/, /task:/]
+      EVENTS = [/build:/, /task:.*:(created|finished)/]
 
-      class Message
-        attr_reader :event, :object
+      class Payload
+        attr_reader :event, :object, :extra
 
-        def initialize(event, object)
-          @event, @object = event, object
+        def initialize(event, object, extra = {})
+          @event, @object, @extra = event, object, extra
         end
 
         def to_hash
@@ -15,7 +15,7 @@ module Travis
         end
 
         def render(format)
-          Travis.send(format, data, :type => :event, :template => template).first # TODO wtf is this an array??
+          Travis.send(format, data, :type => :event, :template => template).first.deep_merge(extra) # TODO wtf is this an array??
         end
 
         def data
@@ -23,7 +23,7 @@ module Travis
         end
 
         def template
-          @type ||= event.to_s.split(':').join('/')
+          event.to_s.split(':').join('/')
         end
       end
 
@@ -35,7 +35,7 @@ module Travis
 
         def push(event, object, *args)
           data = args.last.is_a?(Hash) ? args.pop : {}
-          data = data_for(event, object, data)
+          data = payload_for(event, object, data)
           channel(event).trigger(client_event_for(event), data)
         end
 
@@ -47,8 +47,8 @@ module Travis
           case event
           when /task:.*:created/
             'build:queued'
-          # when /task:.*:finished/
-          #   'build:removed'
+          when /task:.*:finished/
+            'build:removed'
           else
             event
           end
@@ -58,8 +58,8 @@ module Travis
           event.starts_with?('task:') ? 'jobs' : 'repositories'
         end
 
-        def data_for(event, object, extra = {})
-          Message.new(client_event_for(event), object).to_hash.deep_merge(extra)
+        def payload_for(event, object, extra = {})
+          Payload.new(client_event_for(event), object, extra).to_hash
         end
     end
   end

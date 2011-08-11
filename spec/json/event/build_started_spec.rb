@@ -1,43 +1,13 @@
 require 'spec_helper'
 
-describe 'Event (pusher)', 'json' do
+describe 'JSON for websocket events' do
 
   let(:repository) { Scenario.default.first }
   let(:build) { repository.last_build }
   let(:task) { build.matrix.first }
 
-  def json_for(event, object)
-    normalize_json(Travis::Notifications::Pusher::Message.new(event, object).to_hash)
-  end
-
-  it 'build:queued' do
-    json_for('build:queued', task).should == {
-     'build' => {
-       'id' => task.id,
-       'number' => '2.1'
-      },
-      'repository' => {
-        'id' => repository.id,
-        'slug' => "svenfuchs/minimal"
-      }
-    }
-  end
-
-  it 'build:removed' do
-    json_for('build:removed', task).should == {
-     'build' => {
-       'id' => task.id,
-       'number' => '2.1'
-      },
-      'repository' => {
-        'id' => repository.id,
-        'slug' => "svenfuchs/minimal"
-      }
-    }
-  end
-
   it 'build:started' do
-    data = json_for('build:started', build)
+    data = json_for_pusher('build:started', build)
 
     data['build'].except('matrix').should == {
       'id' => build.id,
@@ -81,34 +51,4 @@ describe 'Event (pusher)', 'json' do
       'last_build_started_at' => '2010-11-12T12:30:00Z',
     }
   end
-
-  it 'build:log' do
-    json_for('build:log', build).should == {
-      'build' => {
-        'id' => build.id,
-      },
-      'repository' => {
-        'id' => 1,
-      }
-    }
-  end
-
-  it 'build:finished' do
-    json_for('build:finished', build).should == {
-      'build' => {
-        'id' => build.id,
-        'status' => 0,
-        'finished_at' => '2010-11-12T12:30:20Z'
-      },
-      'repository' => {
-        'id' => 1,
-        'slug' => 'svenfuchs/minimal',
-        'last_build_id' => 2,
-        'last_build_number' => '2',
-        'last_build_started_at' => '2010-11-12T12:30:00Z',
-        'last_build_finished_at' => '2010-11-12T12:30:20Z',
-      }
-    }
-  end
 end
-

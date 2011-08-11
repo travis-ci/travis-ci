@@ -18,15 +18,11 @@ describe Travis::Renderer do
     end
 
     it 'given a model hash returns a Hash' do
-      Travis.hash(build).should == { :id => build.id }
+      Travis::Renderer.hash(build).should == { :id => build.id }
     end
 
     it 'given a model json returns a JSON String' do
-      JSON.parse(Travis.json(build)).should == { 'id' => build.id }
-    end
-
-    it 'given a Hash hash returns a Hash containing Hashes' do
-      Travis.hash(:repository => repository, :build => build).should == { :repository => { :id => repository.id }, :build => { :id => build.id } }
+      JSON.parse(Travis::Renderer.json(build)).should == { 'id' => build.id }
     end
   end
 

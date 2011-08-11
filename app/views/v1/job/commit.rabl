@@ -1,2 +1,0 @@
-attributes :commit, :branch
-

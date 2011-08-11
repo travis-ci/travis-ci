@@ -3,11 +3,11 @@ require 'spec_helper'
 describe Travis::Notifications::Pusher do
   before do
     Travis.config.notifications = [:pusher]
-    Travis::Notifications::Pusher.send(:public, :queue_for, :data_for)
+    Travis::Notifications::Pusher.send(:public, :queue_for, :payload_for)
   end
 
   after do
-    Travis::Notifications::Pusher.send(:protected, :queue_for, :data_for)
+    Travis::Notifications::Pusher.send(:protected, :queue_for, :payload_for)
   end
 
   let(:receiver) { Travis::Notifications::Pusher.new }
@@ -56,25 +56,25 @@ describe Travis::Notifications::Pusher do
     end
   end
 
-  describe 'data_for returns the payload required for client side task events' do
+  describe 'payload_for returns the payload required for client side task events' do
     it 'build:queued' do
-      receiver.data_for('build:queued', task) == [:build, :repository]
+      receiver.payload_for('build:queued', task) == [:build, :repository]
     end
 
     it 'build:removed' do
-      receiver.data_for('build:removed', build) == [:build, :repository]
+      receiver.payload_for('build:removed', build) == [:build, :repository]
     end
 
     it 'build:started' do
-      receiver.data_for('build:started', build) == [:build, :repository]
+      receiver.payload_for('build:started', build) == [:build, :repository]
     end
 
     it 'build:log' do
-      receiver.data_for('build:log', build, :log => 'foo') == [:build, :repository, :log]
+      receiver.payload_for('build:log', build, :log => 'foo') == [:build, :repository, :log]
     end
 
     it 'build:finished' do
-      receiver.data_for('build:finished', build).keys.should == [:build, :repository]
+      receiver.payload_for('build:finished', build).keys.should == [:build, :repository]
     end
   end
 

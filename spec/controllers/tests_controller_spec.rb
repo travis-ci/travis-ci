@@ -7,7 +7,7 @@ describe Task::TestsController do
 
     it 'in json' do
       get :show, :id => test.id, :format => 'json'
-      json_response.should == json_for(test)
+      json_response.should == json_for_http(test)
     end
   end
 end
