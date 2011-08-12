@@ -26,7 +26,7 @@ class RepositoriesController < ApplicationController
     def repository
       @repository ||= Repository.find_by_params(params).tap do |repository|
         not_found unless repository || params[:format] == 'png'
-        repository.override_last_build_status!(params) if repository.try(:override_last_build_status?, params)
+        repository.override_last_finished_build_status!(params) if repository
       end
     end
 end
