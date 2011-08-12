@@ -96,9 +96,9 @@ describe RepositoriesController do
     end
 
     context 'with parameters rvm:perl' do
-      it 'return last build status unknown' do
+      it 'return last build status for the parent build' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => 'perl'
-        json_response['last_build_status'].should be_nil
+        json_response['last_build_status'].should == 1
       end
     end
   end
@@ -123,20 +123,20 @@ describe RepositoriesController do
         get_png(repository).should serve_status_image('unknown')
       end
 
-      it '"unstable" when the last build has failed' do
+      it '"failing" when the last build has failed' do
         repository = Factory(:broken_build).repository
-        get_png(repository).should serve_status_image('unstable')
+        get_png(repository).should serve_status_image('failing')
       end
 
-      it '"stable" when the last build has passed' do
+      it '"passing" when the last build has passed' do
         repository = Factory(:successfull_build).repository
-        get_png(repository).should serve_status_image('stable')
+        get_png(repository).should serve_status_image('passing')
       end
 
       it '"stable" when there is a running build but the previous one has passed' do
         repository = Factory(:successfull_build).repository
         Factory(:build, :repository => repository, :state => 'started')
-        get_png(repository).should serve_status_image('stable')
+        get_png(repository).should serve_status_image('passing')
       end
     end
 
@@ -151,20 +151,20 @@ describe RepositoriesController do
         get_png(repository, :branch => 'master').should serve_status_image('unknown')
       end
 
-      it '"unstable" when the last build has failed' do
+      it '"failing" when the last build has failed' do
         repository = Factory(:broken_build).repository
-        get_png(repository, :branch => 'master').should serve_status_image('unstable')
+        get_png(repository, :branch => 'master').should serve_status_image('failing')
       end
 
-      it '"stable" when the last build has passed' do
+      it '"passing" when the last build has passed' do
         repository = Factory(:successfull_build).repository
-        get_png(repository, :branch => 'master').should serve_status_image('stable')
+        get_png(repository, :branch => 'master').should serve_status_image('passing')
       end
 
-      it '"stable" when there is a running build but the previous one has passed' do
+      it '"passing" when there is a running build but the previous one has passed' do
         repository = Factory(:successfull_build).repository
         Factory(:build, :repository => repository, :state => 'started')
-        get_png(repository, :branch => 'master').should serve_status_image('stable')
+        get_png(repository, :branch => 'master').should serve_status_image('passing')
       end
     end
   end

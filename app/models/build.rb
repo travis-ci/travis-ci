@@ -34,7 +34,7 @@ class Build < ActiveRecord::Base
     end
 
     def on_branch(branches)
-      joins(:commit).where(["commits.branch IN (?)", Array(branches).join(',').split(',')])
+      joins(:commit).where(branches ? ["commits.branch IN (?)", Array(branches).join(',').split(',')] : [])
     end
 
     def descending

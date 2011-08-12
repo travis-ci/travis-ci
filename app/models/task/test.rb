@@ -17,6 +17,14 @@ class Task::Test < Task
     status == 0
   end
 
+  def failed?
+    status == 1
+  end
+
+  def unknown?
+    status == nil
+  end
+
   protected
 
     def extract_finishing_attributes(attributes)

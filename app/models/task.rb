@@ -44,8 +44,9 @@ class Task < ActiveRecord::Base
 
   def matrix_config?(config)
     config = config.to_hash.symbolize_keys
-    keys   = Build.matrix_keys_for(config)
-    keys.map { |key| self.config[key.to_sym] == config[key] }.inject(:&)
+    Build.matrix_keys_for(config).map do |key|
+      self.config[key.to_sym] == config[key] || commit.branch == config[key]
+    end.inject(:&)
   end
 
   protected

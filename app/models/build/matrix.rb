@@ -12,7 +12,8 @@ class Build
       end
 
       def matrix_keys_for(config)
-        ENV_KEYS & config.keys.map(&:to_sym)
+        keys = ENV_KEYS + [Repository::BRANCH_KEY]
+        keys & config.keys.map(&:to_sym)
       end
     end
 

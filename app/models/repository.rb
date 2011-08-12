@@ -2,6 +2,9 @@ require 'uri'
 require 'core_ext/hash/compact'
 
 class Repository < ActiveRecord::Base
+  STATUSES = { nil => 'unknown', 0 => 'passing', 1 => 'failing' }
+  BRANCH_KEY = :branch
+
   has_many :requests, :dependent => :delete_all
   has_many :builds, :dependent => :delete_all
 
@@ -88,18 +91,22 @@ class Repository < ActiveRecord::Base
     end
   end
 
-  def override_last_build_status?(config)
-    last_build && Build.matrix_keys_for(config).present?
-  end
+  def override_last_finished_build_status!(data)
+    branches = data[Repository::BRANCH_KEY].try(:split, ',')
+    build = builds.finished.on_branch(branches).descending.first
+    matrix = build.try(:matrix_for, data)
 
-  def override_last_build_status!(hash)
-    self.last_build_status_overridden = true
-    matrix = self.last_build.matrix_for(hash)
     self.last_build_status = if matrix.present?
-      # Set last build status to failing if any of the selected builds are failing
-      matrix.all?(&:passed?) ? 0 : 1
+      self.last_build_status_overridden = true
+      if matrix.all?(&:passed?) # TODO move to matrix_status
+        0
+      elsif matrix.any?(&:failed?)
+        1
+      elsif matrix.any?(&:unknown?)
+        nil
+      end
     else
-      nil
+      build.try(:status)
     end
   end
 
@@ -107,24 +114,11 @@ class Repository < ActiveRecord::Base
     errors.add(:last_build_status, "can't be overridden") if last_build_status_overridden
   end
 
-  def human_status(branches = nil)
-    if build = last_finished_build(branches)
-      build.status == 0 ? 'stable' : 'unstable'
-    else
-      'unknown'
-    end
+  def last_finished_build_status_name
+    STATUSES[last_build_status]
   end
 
   def slug
     @slug ||= [owner_name, name].join('/')
-  end
-
-  def last_finished_build(branches = nil)
-    branches ||= []
-    branches = branches.split(',') if branches.is_a?(String)
-
-    scope = builds.finished
-    scope = scope.on_branch(branches) if branches.present?
-    scope.descending.first
   end
 end

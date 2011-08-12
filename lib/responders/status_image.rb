@@ -26,9 +26,7 @@ module Responders
       end
 
       def status
-        resource ? resource.human_status(params[:branch]) : 'unknown'
+        resource.blank? ? Repository::STATUSES[nil] : resource.last_finished_build_status_name
       end
   end
 end
-
-
