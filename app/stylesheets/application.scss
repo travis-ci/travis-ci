@@ -61,7 +61,7 @@ caption {
 #main {
   z-index: 30;
   display: block;
-  padding: 60px 300px 30px 440px;
+  padding: 60px 290px 30px 440px;
   @include transition(padding .5s ease-out);
   &.loading {
     opacity: .1;
@@ -670,6 +670,12 @@ caption {
   };
   &.minimized {
     width: 0px;
+
+    .inner {
+      .wrapper {
+        display: none;
+      }
+    }
   }
 
   $slider-border-normal: #f2f4f9;
