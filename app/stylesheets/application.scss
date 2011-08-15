@@ -114,6 +114,10 @@ caption {
   #navigation li a {
     display: block;
     padding: 0 15px;
+
+    &:hover {
+      color: #FFF;
+    }
   }
   .profile {
     margin: 0 160px 0 0;
