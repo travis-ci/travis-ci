@@ -2,10 +2,11 @@ class Build
   module Notifications
     def send_notifications?
       # ensure that notifications for a successful build only get sent in verbose mode
+      # or for passed builds if the previous one failed
       if parent
-        parent.matrix_finished? && ((parent.passed? && verbose?) || !passed?)
+        parent.matrix_finished? && ((parent.passed? && verbose?) || (passed? && self.class.recent(1).last && !self.class.recent(1).last.passed?) || !passed?)
       else
-        finished? && ((passed? && verbose?) || !passed?)
+        finished? && ((passed? && verbose?) || (passed? && self.class.recent(1).last && !self.class.recent(1).last.passed?) || !passed?)
       end
     end
 
