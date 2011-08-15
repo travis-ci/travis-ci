@@ -6,7 +6,7 @@ html {
 }
 body {
   overflow-x: hidden;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   line-height: 120%;
   margin: 0;
   padding: 0;
@@ -61,7 +61,7 @@ caption {
 #main {
   z-index: 30;
   display: block;
-  padding: 60px 300px 30px 440px;
+  padding: 60px 290px 30px 440px;
   @include transition(padding .5s ease-out);
   &.loading {
     opacity: .1;
@@ -114,6 +114,10 @@ caption {
   #navigation li a {
     display: block;
     padding: 0 15px;
+
+    &:hover {
+      color: #FFF;
+    }
   }
   .profile {
     margin: 0 160px 0 0;
@@ -670,6 +674,12 @@ caption {
   };
   &.minimized {
     width: 0px;
+
+    .inner {
+      .wrapper {
+        display: none;
+      }
+    }
   }
 
   $slider-border-normal: #f2f4f9;
@@ -691,6 +701,8 @@ caption {
           border-color: $slider-border-hover $slider-border-light $slider-border-hover $slider-border-hover;
         }
       }
+      left: -20px;
+      width: 20px;
     }
     .icon {
       width: 0;
