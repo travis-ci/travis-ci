@@ -18,17 +18,20 @@ ActiveRecord::Schema.define(:version => 20110805030147) do
     t.integer  "status"
     t.datetime "started_at"
     t.datetime "finished_at"
+    t.string   "commit"
+    t.string   "agent"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "config"
-    t.string   "state"
     t.integer  "commit_id"
     t.integer  "request_id"
+    t.string   "state"
   end
 
   add_index "builds", ["repository_id"], :name => "index_builds_on_repository_id"
 
   create_table "commits", :force => true do |t|
+    t.integer  "repository_id"
     t.string   "commit"
     t.string   "ref"
     t.string   "branch"
@@ -78,11 +81,11 @@ ActiveRecord::Schema.define(:version => 20110805030147) do
   create_table "requests", :force => true do |t|
     t.integer  "repository_id"
     t.integer  "commit_id"
+    t.string   "state"
     t.string   "source"
     t.text     "payload"
-    t.string   "state"
-    t.text     "config"
     t.string   "token"
+    t.text     "config"
     t.datetime "started_at"
     t.datetime "finished_at"
     t.datetime "created_at"

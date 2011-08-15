@@ -37,10 +37,10 @@ module Responders
       end
 
       def template_name
-        if resource.present?
-          collection? ? singular_resource_name.pluralize : singular_resource_name
-        else
+        if collection? && resource.first.nil?
           'empty'
+        else
+          collection? ? singular_resource_name.pluralize : singular_resource_name
         end
       end
 

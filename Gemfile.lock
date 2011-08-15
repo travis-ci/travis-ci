@@ -26,6 +26,13 @@ GIT
       activesupport
       hashr (~> 0.0.10)
 
+PATH
+  remote: ~/Development/projects/data_migrations
+  specs:
+    data_migrations (0.0.1)
+      activerecord
+      rake
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -269,6 +276,7 @@ DEPENDENCIES
   capybara (~> 1.0.0)
   clockwork
   compass (~> 0.11.3)
+  data_migrations!
   database_cleaner
   devise (~> 1.4.2)
   factory_girl (~> 2.0.3)

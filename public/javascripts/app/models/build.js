@@ -53,7 +53,7 @@ Travis.Models.Build = Travis.Models.Base.extend({
     this.trigger('append:log', chars);
   },
   url: function() {
-    return '/builds/' + this.id;
+    return this.matrix ? '/builds/' + this.id : '/task/' + this.id;
   },
   commit: function() {
     var commit = this.get('commit');

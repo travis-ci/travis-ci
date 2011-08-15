@@ -12,11 +12,11 @@
 + add TestsController
 + add Pusher notification specs for actual messages sent
 + add JSON specs for build:queued and build:removed event payloads
++ move actions from builds_controller to tasks_controller and use routes to keep the /builds url
 
 - add data migrations
 - port commits from staging
 - calculate build duration from matrix.sum(&:duration) or similar
-- move actions from builds_controller to tasks_controller and use routes to keep the /builds url
 
 def self.up
   migrate_table :builds, :to => :tasks |t|

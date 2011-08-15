@@ -1,4 +1,4 @@
-object @build
+collection(@builds)
 
 attributes :id, :repository_id, :number, :state, :status,
            :started_at, :finished_at, :config

@@ -16,7 +16,7 @@ class Build < ActiveRecord::Base
   belongs_to :repository, :autosave => true
   has_many   :matrix, :as => :owner, :order => :id, :class_name => 'Task::Test'
 
-  validates :repository_id, :commit_id, :request_id, :presence => true
+  # validates :repository_id, :commit_id, :request_id, :presence => true
 
   serialize :config
 
