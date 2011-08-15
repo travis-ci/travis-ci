@@ -33,6 +33,8 @@ gem 'jruby-openssl',     :platforms => :jruby
 gem 'simple_states',     :git => 'https://github.com/svenfuchs/simple_states.git'
 gem 'newrelic_rpm',      '~> 3.1.0'
 
+gem 'data_migrations',   :path => '~/Development/projects/data_migrations'
+
 group :test do
   gem 'capybara',        '~> 1.0.0'
   gem 'database_cleaner'

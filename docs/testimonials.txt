@@ -1,5 +1,3 @@
-http://news.ycombinator.com/item?id=2811554
-
 "Squeel is now using TravisCI (which rocks, by the way) for testing. ... I can’t recommend TravisCI enough. If you aren’t using it, you should be."
 http://metautonomo.us/2011/07/03/whats-new-with-squeel
 
@@ -20,6 +18,9 @@ http://twitter.com/#!/qrush/status/97070660500729856 - @qrush (Nick Quaranto)
 
 "Travis is like Github for CIs. So easy to setup that everyone does it."
 https://twitter.com/#!/josevalim/status/97338403816873985 - @josevalim (José Valim)
+
+"If you haven't tried yet, do put your project on @travisci. Awesome app with many nice people behind it."
+http://twitter.com/#!/seancribbs/status/103096406583152640 - @seancribbs (Sean Cribbs)
 
 "After Github I think this is the second best free service I have ever seen!"
 irc.freenode.net#travis - @robertodecurnex (Roberto Decurnex)
@@ -52,5 +53,16 @@ https://twitter.com/#!/middlemanapp/status/99554750592331778 - @middlemanapp (Mi
 http://labnotes.org/2011/08/10/travis-ci - @assaf (Assaf Arkin)
 
 "Oh man, @travisci is awesome! The build matrix getting green *live* makes me want to test more. Congratz guys!"
-http://twitter.com/#!/jbbarth/status/101384811201052672 = @jbbarth (Jean-Baptiste BARTH)
+http://twitter.com/#!/jbbarth/status/101384811201052672 - @jbbarth (Jean-Baptiste BARTH)
 
+"@travisci is just awesome. It really couldn't be easier to use."
+http://twitter.com/#!/jameskilton/status/101814640962572289 - @jameskilton (Jason Roelofs)
+
+"Loving @travisci - the nodejs support is superb."
+http://twitter.com/#!/raoulmillais/status/103082646397124608 - @raoulmillais (Raoul Millais)
+
+"Travis rocks!"
+http://news.ycombinator.com/item?id=2811554 - @flippingbits (Flipping Bits)
+
+"@travisci is one of the best things I've seen #rubythankful"
+http://twitter.com/#!/nhocki/status/103206778690482176 - @nhocki (Nicolás Hock Isaza)
