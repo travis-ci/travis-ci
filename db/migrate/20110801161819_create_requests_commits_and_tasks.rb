@@ -78,7 +78,7 @@ class CreateRequestsCommitsAndTasks < ActiveRecord::Migration
 
     migrate_table :builds, :to => :tasks do |t|
       t.where  'parent_id IS NOT NULL OR parent_id IS NULL AND (SELECT COUNT(*) FROM builds AS children WHERE children.id = builds.id) = 0'
-      t.copy   :number, :status, :started_at, :finished_at
+      t.copy   :number, :status, :started_at, :finished_at, :commit, :config
       t.move   :log
       t.copy   :parent_id, :to => :owner_id
       t.set    :owner_type, 'Build'
