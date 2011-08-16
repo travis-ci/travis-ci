@@ -66,3 +66,6 @@ http://news.ycombinator.com/item?id=2811554 - @flippingbits (Flipping Bits)
 
 "@travisci is one of the best things I've seen #rubythankful"
 http://twitter.com/#!/nhocki/status/103206778690482176 - @nhocki (Nicolás Hock Isaza)
+
+"so, combine @github's Ace editor, @travisci's CI, and @heroku's infrastructure, do I still need a computer?"
+http://twitter.com/#!/ngauthier/status/103202629798199296 - @ngauthier (Nick Gauthier)
