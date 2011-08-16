@@ -24,5 +24,7 @@ class BuildsController < ApplicationController
 
     def build
       @build ||= Build.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      @task = Task.find(params[:id])
     end
 end
