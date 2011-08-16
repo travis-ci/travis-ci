@@ -21,6 +21,7 @@ describe 'HTTP API for Task::Test' do
       'branch' => 'master',
       'compare_url' => 'https://github.com/svenfuchs/minimal/compare/master...develop',
       'message' => 'Bump to 0.0.22',
+      'log' => 'minimal log 2',
       'committed_at' => '2010-11-12T12:25:00Z',
       'committer_email' => 'svenfuchs@artweb-design.de',
       'committer_name' => 'Sven Fuchs',
