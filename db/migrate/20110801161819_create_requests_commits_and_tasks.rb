@@ -1,6 +1,4 @@
-class CreateRequests < ActiveRecord::Migration
-  MIGRATE_COLUMNS = [:github_payload, :token]
-
+class CreateRequestsCommitsAndTasks < ActiveRecord::Migration
   def self.up
     change_table :builds do |t|
       t.references :commit
@@ -95,6 +93,13 @@ class CreateRequests < ActiveRecord::Migration
     execute "UPDATE builds SET state = 'finished'"
     execute 'DELETE FROM builds WHERE parent_id IS NOT NULL'
 
+    execute "DROP SEQUENCE shared_builds_tasks_seq" rescue nil
+    execute "CREATE SEQUENCE shared_builds_tasks_seq START WITH #{[Build.maximum(:id), Task.maximum(:id)].max + 1} CACHE 30"
+    execute "ALTER TABLE builds ALTER COLUMN id TYPE BIGINT"
+    execute "ALTER TABLE builds ALTER COLUMN id SET DEFAULT nextval('shared_builds_tasks_seq')"
+    execute "ALTER TABLE tasks  ALTER COLUMN id TYPE BIGINT"
+    execute "ALTER TABLE tasks  ALTER COLUMN id SET DEFAULT nextval('shared_builds_tasks_seq')"
+
     remove_column :requests, :commit
     remove_column :tasks, :commit
     remove_column :builds, :parent_id
@@ -146,3 +151,4 @@ class CreateRequests < ActiveRecord::Migration
     # drop_table :requests
   end
 end
+
