@@ -7,7 +7,7 @@ class JsonTest < ActiveSupport::TestCase
     @now = Time.now
     Time.stubs(:now).returns(now)
 
-    @build = Factory.create(:build, :started_at => now, :committed_at => now)
+    @build = FactoryGirl.create(:build, :started_at => now, :committed_at => now)
     @repository = build.repository
     super
   end

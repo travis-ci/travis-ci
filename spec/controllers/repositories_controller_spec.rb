@@ -6,8 +6,8 @@ describe RepositoriesController do
   describe "GET 'index'" do
     before(:each) do
       # setup the two repos we need
-      Factory.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
-      Factory.create(:repository, :owner_name => "josh", :name => "globalize", :last_build_started_at => Date.yesterday)
+      FactoryGirl.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
+      FactoryGirl.create(:repository, :owner_name => "josh", :name => "globalize", :last_build_started_at => Date.yesterday)
     end
 
     context "returns a list of repositories in xml format" do
@@ -64,7 +64,7 @@ describe RepositoriesController do
       controller.stub!(:render)
     end
 
-    let(:repository) { Factory.create(:repository, :owner_name => "sven", :name => "travis-ci") }
+    let(:repository) { FactoryGirl.create(:repository, :owner_name => "sven", :name => "travis-ci") }
 
     it 'shows an "unknown" button when the repository does not exist' do
       repository
@@ -124,8 +124,8 @@ describe RepositoriesController do
 
   describe "GET 'show', format json" do
     before(:each) do
-      travis = Factory.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
-      build_parent = Factory.create(:build, :repository => travis, :started_at => Time.now, :config => {'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'], 'env' => ['DB=sqlite3', 'DB=postgres']})
+      travis = FactoryGirl.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
+      build_parent = FactoryGirl.create(:build, :repository => travis, :started_at => Time.now, :config => {'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'], 'env' => ['DB=sqlite3', 'DB=postgres']})
       build_parent.matrix.each do |build|
         if build.config['rvm'] == '1.8.7'
           build.update_attribute(:status, 0)
@@ -206,7 +206,7 @@ describe RepositoriesController do
 
   describe "GET 'show', format xml" do
     before(:each) do
-      Factory.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
+      FactoryGirl.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
     end
 
     it "return info about repository in xml format" do

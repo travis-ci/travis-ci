@@ -2,7 +2,7 @@ module Devise
   module SignInHelpers
     # Creates a user form Factory and signs her in
     def sign_in_new_user
-        @user = Factory.create(:user)
+        @user = FactoryGirl.create(:user)
         sign_in_user @user
     end
 

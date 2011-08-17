@@ -11,11 +11,11 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     @build_1 = Factory(:build, :repository => repository_1.reload, :number => '1', :status => 0, :started_at => '2010-11-11 12:00:00', :finished_at => '2010-11-11 12:00:10')
     @build_2 = Factory(:build, :repository => repository_2.reload, :number => '2', :status => 1, :started_at => '2010-11-11 12:00:10', :finished_at => '2010-11-11 12:00:10')
     @build_3 = Factory(:build, :repository => repository_2.reload, :number => '3', :status => nil, :started_at => '2010-11-11 12:00:20')
-    
+
     @repository_3 = Factory(:repository, :name => 'gem-release', :owner_name => 'joelmahoney')
     @build_5 = Factory(:build, :repository => repository_3, :number => '5', :status => 0, :started_at => '2010-11-11 12:00:05', :finished_at => '2010-11-11 12:00:10', :config => { 'rvm' => ['1.8.7', '1.9.2'], 'env' => ['DB=sqlite3', 'DB=postgresql'] })
     @repository_3.update_attribute(:last_build, @build_5)
-    
+
     repository_1.reload
     repository_2.reload
     repository_3.reload
@@ -78,8 +78,8 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     stub_request(:post, "https://api.github.com/hub").
       to_return(:status => 200, :body => "", :headers => {})
 
-    minimal = Factory.create(:repository)
-    user    = Factory.create(:user)
+    minimal = FactoryGirl.create(:repository)
+    user    = FactoryGirl.create(:user)
 
     assert_no_difference('Repository.count') do
       with_hook = Repository.find_and_remove_service_hook('svenfuchs', 'minimal', user)
@@ -95,8 +95,8 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     stub_request(:post, "https://api.github.com/hub").
       to_return(:status => 200, :body => "", :headers => {})
 
-    minimal = Factory.create(:repository)
-    user    = Factory.create(:user)
+    minimal = FactoryGirl.create(:repository)
+    user    = FactoryGirl.create(:user)
 
     assert_no_difference('Repository.count') do
       with_hook = Repository.find_or_create_and_add_service_hook('svenfuchs', 'minimal', user)
@@ -110,7 +110,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     stub_request(:post, "https://api.github.com/hub").
       to_return(:status => 200, :body => "", :headers => {})
 
-    user = Factory.create(:user)
+    user = FactoryGirl.create(:user)
 
     assert_difference('Repository.count', 1) do
       new_repo = Repository.find_or_create_and_add_service_hook('svenfuchs', 'not-so-minimal', user)
@@ -123,7 +123,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     stub_request(:post, "https://api.github.com/hub").
       to_return(:status => 422, :body => '{ "message":"test message" }', :headers => {})
 
-    user = Factory.create(:user)
+    user = FactoryGirl.create(:user)
 
     assert_raises(Travis::GitHubApi::ServiceHookError) do
       Repository.find_or_create_and_add_service_hook('svenfuchs', 'not-so-minimal', user)
@@ -134,7 +134,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     stub_request(:post, "https://api.github.com/hub").
       to_return(:status => 401, :body => '{ "message":"test message" }', :headers => {})
 
-    user = Factory.create(:user)
+    user = FactoryGirl.create(:user)
 
     assert_raises(Travis::GitHubApi::ServiceHookError) do
       Repository.find_or_create_and_add_service_hook('svenfuchs', 'not-so-minimal', user)
@@ -142,7 +142,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
   end
 
   test "find_or_create_and_add_service_hook: raises an error if the record is invalid" do
-    user = Factory.create(:user)
+    user = FactoryGirl.create(:user)
 
     assert_raises(ActiveRecord::RecordInvalid) do
       Repository.find_or_create_and_add_service_hook('svenfuchs', nil, user)
@@ -150,12 +150,12 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
   end
 
   test "find_by_params should find a repository by it's id" do
-    repository = Factory.create(:repository)
+    repository = FactoryGirl.create(:repository)
     assert_equal Repository.find_by_params(:id => repository.id), repository
   end
 
   test "find_by_params should find a repository by it's name and owner_name" do
-    repository = Factory.create(:repository)
+    repository = FactoryGirl.create(:repository)
     assert_equal Repository.find_by_params(:name => repository.name, :owner_name => repository.owner_name), repository
   end
 
@@ -190,7 +190,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     child = Factory(:build, :repository => repository_1, :parent => build_1, :number => '1.1')
     assert_equal '1', repository_1.reload.last_build_number
   end
-    
+
   test "validates last_build_status has not been overridden" do
     repository = Factory(:repository, :last_build => @build_5)
     repository.last_build_status_overridden = true
@@ -207,16 +207,16 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
   test "override_last_build_status? returns false when no matching keys" do
     assert !repository_3.override_last_build_status?({})
   end
-  
+
   test "override_last_build_status? returns true with last_build and matching keys" do
     assert repository_3.override_last_build_status?('rvm' => '1.8.7')
   end
-  
+
   test "override_last_build_status! sets last_build_status_overridden to true" do
     repository_3.override_last_build_status!({})
     assert repository_3.last_build_status_overridden
   end
-  
+
   test "override_last_build_status! sets last_build_status nil when hash is empty" do
     repository_3.override_last_build_status!({})
     assert_equal nil, repository_3.last_build_status
