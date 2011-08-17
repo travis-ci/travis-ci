@@ -63,8 +63,8 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     stub_request(:post, "https://api.github.com/hub").
       to_return(:status => 200, :body => "", :headers => {})
 
-    minimal = Factory.create(:repository)
-    user    = Factory.create(:user)
+    minimal = FactoryGirl.create(:repository)
+    user    = FactoryGirl.create(:user)
 
     assert_no_difference('Repository.count') do
       with_hook = Repository.find_and_remove_service_hook('svenfuchs', 'minimal', user)
@@ -80,8 +80,8 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     stub_request(:post, "https://api.github.com/hub").
       to_return(:status => 200, :body => "", :headers => {})
 
-    minimal = Factory.create(:repository)
-    user    = Factory.create(:user)
+    minimal = FactoryGirl.create(:repository)
+    user    = FactoryGirl.create(:user)
 
     assert_no_difference('Repository.count') do
       with_hook = Repository.find_or_create_and_add_service_hook('svenfuchs', 'minimal', user)
@@ -95,7 +95,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     stub_request(:post, "https://api.github.com/hub").
       to_return(:status => 200, :body => "", :headers => {})
 
-    user = Factory.create(:user)
+    user = FactoryGirl.create(:user)
 
     assert_difference('Repository.count', 1) do
       new_repo = Repository.find_or_create_and_add_service_hook('svenfuchs', 'not-so-minimal', user)
@@ -108,7 +108,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     stub_request(:post, "https://api.github.com/hub").
       to_return(:status => 422, :body => '{ "message":"test message" }', :headers => {})
 
-    user = Factory.create(:user)
+    user = FactoryGirl.create(:user)
 
     assert_raises(Travis::GitHubApi::ServiceHookError) do
       Repository.find_or_create_and_add_service_hook('svenfuchs', 'not-so-minimal', user)
@@ -119,7 +119,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     stub_request(:post, "https://api.github.com/hub").
       to_return(:status => 401, :body => '{ "message":"test message" }', :headers => {})
 
-    user = Factory.create(:user)
+    user = FactoryGirl.create(:user)
 
     assert_raises(Travis::GitHubApi::ServiceHookError) do
       Repository.find_or_create_and_add_service_hook('svenfuchs', 'not-so-minimal', user)
@@ -127,7 +127,7 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
   end
 
   test "find_or_create_and_add_service_hook: raises an error if the record is invalid" do
-    user = Factory.create(:user)
+    user = FactoryGirl.create(:user)
 
     assert_raises(ActiveRecord::RecordInvalid) do
       Repository.find_or_create_and_add_service_hook('svenfuchs', nil, user)
@@ -135,12 +135,12 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
   end
 
   test "find_by_params should find a repository by it's id" do
-    repository = Factory.create(:repository)
+    repository = FactoryGirl.create(:repository)
     assert_equal Repository.find_by_params(:id => repository.id), repository
   end
 
   test "find_by_params should find a repository by it's name and owner_name" do
-    repository = Factory.create(:repository)
+    repository = FactoryGirl.create(:repository)
     assert_equal Repository.find_by_params(:name => repository.name, :owner_name => repository.owner_name), repository
   end
 
