@@ -241,7 +241,7 @@ GEM
       rack (>= 1.0.0)
     warden (1.0.5)
       rack (>= 1.0)
-    webmock (1.7.2)
+    webmock (1.7.4)
       addressable (> 2.2.5, ~> 2.2)
       crack (>= 0.1.7)
     xpath (0.1.4)
