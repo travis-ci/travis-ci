@@ -11,7 +11,7 @@ class Request < ActiveRecord::Base
   belongs_to :repository
   has_many   :builds
 
-  validates :repository_id, :commit_id, :token, :presence => true
+  validates :repository_id, :commit_id, :presence => true
 
   serialize :config
 

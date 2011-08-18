@@ -42,6 +42,7 @@ module Travis
 
           ::Rails.logger.info("Job queued to #{queue.name.inspect}: #{payload.inspect}")
           Resque.enqueue(queue, payload)
+
           payload
         end
     end

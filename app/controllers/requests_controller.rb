@@ -10,5 +10,7 @@ class RequestsController < ApplicationController
     def api_token
       credentials = ActionController::HttpAuthentication::Basic.decode_credentials(request)
       credentials.split(':').last
+    rescue
+      ''
     end
 end
