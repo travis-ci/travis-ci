@@ -109,7 +109,7 @@ RSpec::Matchers.define :be_queued do |*args|
     @queue = args.first || 'builds'
     @task = task
 
-    @expected = Travis::Notifications::Worker.payload_for(@task, :queue => 'builds')
+    @expected = task.is_a?(Task) ? Travis::Notifications::Worker.payload_for(@task, :queue => 'builds') : task
     @actual = job ? job['args'].last.deep_symbolize_keys : nil
     @actual == @expected
   end
@@ -120,6 +120,7 @@ RSpec::Matchers.define :be_queued do |*args|
 
   def find_job(queue, payload)
     jobs = Resque.peek(queue, 0, 50)
+    payload = payload.deep_symbolize_keys
     jobs.detect { |job| job['args'].last.deep_symbolize_keys == payload }
   end
 

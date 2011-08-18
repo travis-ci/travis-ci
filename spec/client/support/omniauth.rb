@@ -3,8 +3,8 @@ module Support
     def mock_omniauth
       OmniAuth.config.test_mode = true
       OmniAuth.config.mock_auth[:github] = {
-        "provider" => "github",
-        "uid" => "12345",
+        'provider' => 'github',
+        'uid' => '12345',
         'credentials' => {
           'token' => 'access_token',
           'secret' => 'secret'
