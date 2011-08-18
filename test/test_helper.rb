@@ -5,6 +5,7 @@ require 'rails/test_help'
 require 'test_declarative'
 require 'mocha'
 require 'fakeredis'
+require 'factory_girl'
 
 require 'travis'
 
