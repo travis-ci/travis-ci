@@ -17,6 +17,7 @@ def configure
   require 'capybara/rspec'
   require 'webmock'
   require 'fakeredis'
+  require 'factory_girl'
   load_all 'spec/support/**/*.rb'
 
   RSpec.configure do |c|
