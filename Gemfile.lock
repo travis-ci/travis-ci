@@ -21,6 +21,10 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
+    POpen4 (0.1.4)
+      Platform (>= 0.4.0)
+      open4
+    Platform (0.4.0)
     SystemTimer (1.2.3)
     abstract (1.0.0)
     actionmailer (3.0.10)
@@ -81,9 +85,9 @@ GEM
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
-    factory_girl (1.3.3)
-    factory_girl_rails (1.0.1)
-      factory_girl (~> 1.3)
+    factory_girl (2.0.4)
+    factory_girl_rails (1.1.0)
+      factory_girl (~> 2.0.0)
       railties (>= 3.0.0)
     fakeredis (0.2.0)
       redis (~> 2.2.0)
@@ -141,8 +145,10 @@ GEM
     oauth2 (0.4.1)
       faraday (~> 0.6.1)
       multi_json (>= 0.0.5)
+    open4 (1.1.0)
     orm_adapter (0.0.5)
     pg (0.11.0)
+    polyglot (0.3.2)
     pusher (0.8.2)
       crack (~> 0.1.0)
       multi_json (~> 1.0)
@@ -261,7 +267,7 @@ DEPENDENCIES
   compass (~> 0.11.3)
   database_cleaner
   devise (~> 1.4.2)
-  factory_girl (~> 1.3)
+  factory_girl
   factory_girl_rails
   fakeredis (~> 0.2.0)
   hoptoad_notifier (~> 2.4.11)
