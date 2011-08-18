@@ -8,6 +8,7 @@ ENV["RAILS_ENV"] ||= 'test'
 
 def configure
   require File.expand_path("../../config/environment", __FILE__)
+  require 'factory_girl'
   require 'rspec/rails'
 
   # Requires supporting ruby files with custom matchers and macros, etc,
@@ -22,8 +23,6 @@ if defined? Spork
 else
   configure
 end
-
-
 
 RSpec.configure do |config|
   # == Mock Framework
@@ -46,6 +45,3 @@ RSpec.configure do |config|
 end
 
 WebMock.disable_net_connect!(:allow_localhost => true)
-
-
-
