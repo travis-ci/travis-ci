@@ -958,9 +958,8 @@ ul#tokens {
     .controls {
       position: absolute;
       top: 10px;
-      right: 10px;
+      right: 0;
       white-space: nowrap;
-      background-color: white;
       .github-admin {
         float: left;
         display: block;
@@ -968,20 +967,19 @@ ul#tokens {
         height: 20px;
         margin-left: 10px;
         font-size: 14px;
-        background: url('/images/icons/admin.png') no-repeat 3px 3px;
+        background: #fff url('/images/icons/admin.png') no-repeat 3px 3px;
         text-indent: -999px;
         overflow: hidden;
       }
       .toggle_enabled {
         float: left;
-        background: url('/images/off.png') no-repeat;
+        background: #fff url('/images/off.png') 10px 0 no-repeat;
         display: block;
-        width: 70px;
+        width: 130px;
         height: 20px;
-        margin-left: 10px;
         cursor: pointer;
         &.on {
-          background: url('/images/on.png') no-repeat;
+          background: #fff url('/images/on.png') no-repeat;
         }
       }
     }
