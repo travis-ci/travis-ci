@@ -89,7 +89,7 @@ GEM
     factory_girl_rails (1.1.0)
       factory_girl (~> 2.0.0)
       railties (>= 3.0.0)
-    fakeredis (0.2.0)
+    fakeredis (0.2.1)
       redis (~> 2.2.0)
     faraday (0.6.1)
       addressable (~> 2.2.4)
