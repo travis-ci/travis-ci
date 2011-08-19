@@ -81,4 +81,5 @@ My first spike was using Nanite for running workers.
 
 h2. Requirements
 
-* Ruby 1.8.7 or Ruby 1.9.2 (Ruby 1.9.1 is not supported).
+* Ruby 1.8.7 or Ruby 1.9.2 (Ruby 1.9.1 is not supported)
+* PostgreSQL for the pg gem
