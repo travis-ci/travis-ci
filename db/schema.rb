@@ -45,6 +45,17 @@ ActiveRecord::Schema.define(:version => 20110805030147) do
     t.string   "author_email"
     t.datetime "created_at"
     t.datetime "updated_at"
+<<<<<<< HEAD
+=======
+    t.integer  "parent_id"
+    t.text     "config"
+    t.string   "ref"
+    t.string   "branch"
+    t.text     "github_payload"
+    t.string   "compare_url"
+    t.string   "token"
+    t.text     "tags"
+>>>>>>> 41a5023... Adding tags based on regexp pattern on Build.log and Build.config
   end
 
   create_table "rails_admin_histories", :force => true do |t|

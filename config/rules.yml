@@ -1,0 +1,6 @@
+MissingTravisFile:
+  pattern: no Travis file
+  message: We havent found any travis.yml file
+MissingRakeFile:
+  pattern: no RakeFile
+  message: We haven't found any RakeFile
