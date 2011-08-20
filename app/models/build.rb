@@ -1,7 +1,7 @@
 require 'core_ext/active_record/base'
 
 class Build < ActiveRecord::Base
-  include Matrix, Notifications, SimpleStates, Travis::Notifications
+  include Matrix, Notifications, SimpleStates, Tagging, Travis::Notifications
 
   PER_PAGE = 10
 
