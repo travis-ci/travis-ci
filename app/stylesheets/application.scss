@@ -958,30 +958,29 @@ ul#tokens {
     .controls {
       position: absolute;
       top: 10px;
-      right: 10px;
+      right: 0;
       white-space: nowrap;
-      background-color: white;
-      .github-admin {
+      a {
         float: left;
         display: block;
-        width: 20px;
+      }
+      .github-admin {
+        // Overriding an earlier definition above, which is probably
+        // obsolete. TODO: Remove if so.
+        position: relative;
         height: 20px;
-        margin-left: 10px;
-        font-size: 14px;
-        background: url('/images/icons/admin.png') no-repeat 3px 3px;
-        text-indent: -999px;
-        overflow: hidden;
+        width: 20px;
+        padding-right: 0;
+        background: #fff url('/images/icons/admin.png') no-repeat 3px 4px;
       }
       .toggle_enabled {
-        float: left;
-        background: url('/images/off.png') no-repeat;
-        display: block;
-        width: 70px;
         height: 20px;
+        width: 80px;
         margin-left: 10px;
+        background: #fff url('/images/off.png') no-repeat;
         cursor: pointer;
         &.on {
-          background: url('/images/on.png') no-repeat;
+          background: #fff url('/images/on.png') no-repeat;
         }
       }
     }
