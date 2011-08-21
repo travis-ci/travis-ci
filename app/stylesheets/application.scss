@@ -742,7 +742,7 @@ caption {
     margin: 0 10px 0 0;
     border: 1px solid #ccc;
     background-color: #f6f6f6;
-    border-bottom-color: transparent;
+    border-bottom: none;
     cursor: pointer;
     z-index: 0;
     @include border-top-radius(4px);
