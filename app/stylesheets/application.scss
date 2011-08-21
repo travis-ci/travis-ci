@@ -38,41 +38,6 @@ caption {
   color: #666;
 }
 
-/* layout */
-
-#top {
-  display: block;
-  float: left;
-  clear: both;
-  background-color: black;
-  height: 40px;
-  width: 100%;
-  top: 0px;
-  z-index: 11;
-  font-size: 13px;
-  line-height: 40px;
-  @include background(linear-gradient(#444, #111));
-}
-#left {
-  position: absolute;
-  top: 40px;
-  width: 400px;
-  /* background-image: url(/images/background.jpg); */
-}
-#main {
-  z-index: 30;
-  display: block;
-  padding: 60px 290px 30px 440px;
-  @include transition(padding .5s ease-out);
-  &.loading {
-    opacity: .1;
-    min-height: 1000px;
-  }
-  &.large {
-    padding: 60px 100px 30px 440px;
-  }
-}
-
 .slide-left {
   position: absolute;
   top:150px;
@@ -84,6 +49,17 @@ caption {
 
 #top {
   color: #ccc;
+  display: block;
+  float: left;
+  clear: both;
+  background-color: black;
+  height: 40px;
+  width: 100%;
+  top: 0px;
+  z-index: 11;
+  font-size: 13px;
+  line-height: 40px;
+  @include background(linear-gradient(#444, #111));
 
   h1 {
     float: left;
@@ -164,6 +140,11 @@ caption {
 /* left */
 
 #left {
+  position: absolute;
+  top: 40px;
+  width: 400px;
+  /* background-image: url(/images/background.jpg); */
+
   #search {
     height: 90px;
     padding: 30px 20px 0 20px;
@@ -270,6 +251,18 @@ caption {
 /* main */
 
 #main {
+  z-index: 30;
+  display: block;
+  padding: 60px 290px 30px 440px;
+  @include transition(padding .5s ease-out);
+
+  &.loading {
+    opacity: .1;
+    min-height: 1000px;
+  }
+  &.large {
+    padding: 60px 100px 30px 440px;
+  }
   .repository {
     position: relative;
   }
