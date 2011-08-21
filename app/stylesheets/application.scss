@@ -51,7 +51,7 @@ caption {
   z-index: 11;
   font-size: 13px;
   line-height: 40px;
-  background: url(/images/layout/bg-top.png) repeat-x;
+  @include background(linear-gradient(#444, #111));
 }
 #left {
   position: absolute;
