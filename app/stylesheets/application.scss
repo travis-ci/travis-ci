@@ -873,19 +873,6 @@ pre::-webkit-scrollbar-thumb:horizontal {
   }
 }
 
-#github_ribbon {
-  position: absolute;
-  top: -40px;
-  right: 0;
-  display: block;
-  width: 149px;
-  height: 150px;
-  background: url(/images/github-ribbon.png) no-repeat;
-  text-indent: -999px;
-  overflow: hidden;
-  z-index: 20;
-}
-
 .clearfix:after {
   clear: both;
   content: ".";
@@ -976,4 +963,30 @@ ul#tokens {
 
 .clear {
   clear: both;
+}
+
+/**
+ * Github Badge
+ */
+
+#github {
+  right: -65px;
+  height: 30px;
+  top: 40px;
+  position: absolute;
+  text-decoration: none;
+  width: 250px;
+  @include rotate(45deg);
+  z-index: 100;
+  span {
+    background: orange;
+    color: white;
+    font-size: 14px;
+    left: 0;
+    padding: 5px 0;
+    position: absolute;
+    text-align: center;
+    width: 250px;
+    @include box-shadow(rgba(black, 0.2) 1px 1px 10px, rgba(black, 0.07) 0 0 3px 1px inset);
+  }
 }
