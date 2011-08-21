@@ -14,6 +14,9 @@ class Repository < ActiveRecord::Base
   validates :owner_name, :presence => true
   validate :last_build_status_cannot_be_overridden
 
+  STATUSES = {nil => "unknown", 0 => "passing", 1 => "failing"}
+  BRANCH_KEY = 'branch'
+
   class << self
     def timeline
       where(arel_table[:last_build_started_at].not_eq(nil)).order(arel_table[:last_build_started_at].desc)
@@ -27,12 +30,6 @@ class Repository < ActiveRecord::Base
       find_or_create_by_name_and_owner_name(data.name, data.owner_name) do |r|
         r.update_attributes!(data.to_hash)
       end
-    end
-
-    def human_status_by(attributes)
-      branch = attributes.delete(:branch)
-      repository = where(attributes).first
-      repository ? repository.human_status(branch) : "unknown"
     end
 
     def search(query)
@@ -89,18 +86,31 @@ class Repository < ActiveRecord::Base
     end
   end
 
-  def override_last_build_status?(hash)
-    last_build && Build.keys_for(hash).present?
+  def last_finished_build(hash={})
+    branches = hash[BRANCH_KEY].try(:split, ',')
+
+    builds.
+      where('parent_id IS NULL AND finished_at IS NOT NULL').
+      where(branches.blank? ? [] : ['branch IN (?)', branches]).
+      order('id DESC').first
   end
 
-  def override_last_build_status!(hash)
+  def override_last_finished_build_status!(hash)
     self.last_build_status_overridden = true
-    matrix = self.last_build.matrix_for(hash)
+    last_finished_build = last_finished_build(hash)
+    matrix = last_finished_build.try(:matrix_for, hash)
+
     self.last_build_status = if matrix.present?
-      # Set last build status to failing if any of the selected builds are failing
-      matrix.all?(&:passed?) ? 0 : 1
+      self.last_build_status_overridden = true
+      if matrix.all?(&:passed?)
+        0
+      elsif matrix.any?(&:failed?)
+        1
+      elsif matrix.any?(&:unknown?)
+        nil
+      end
     else
-      nil
+      last_finished_build.try(:status)
     end
   end
 
@@ -108,23 +118,12 @@ class Repository < ActiveRecord::Base
     errors.add(:last_build_status, "can't be overridden") if last_build_status_overridden
   end
 
-  def human_status(branches="")
-    return 'unknown' unless last_finished_build(branches)
-    last_finished_build(branches).status == 0 ? 'stable' : 'unstable'
+  def last_finished_build_status_name
+    STATUSES[last_build_status]
   end
 
   def slug
     @slug ||= [owner_name, name].join('/')
-  end
-
-  def last_finished_build(branches="")
-    branches = branches.split(',') if branches.is_a?(String)
-    branches = [] if branches.nil?
-
-    builds.
-      where('parent_id IS NULL AND finished_at IS NOT NULL').
-      where(branches.empty? ? [] : ['branch IN (?)', branches]).
-      order('id DESC').first
   end
 
   base_attrs       = [:id]

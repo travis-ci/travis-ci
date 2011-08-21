@@ -10,7 +10,7 @@ class RepositoriesController < ApplicationController
   def show
     @repository = repository
 
-    @repository.override_last_build_status!(params) if @repository.try(:override_last_build_status?, params)
+    @repository.try(:override_last_finished_build_status!, params)
 
     respond_with(@repository) do |format|
       format.png { send_status_image_file }
@@ -35,11 +35,13 @@ class RepositoriesController < ApplicationController
     end
 
     def send_status_image_file
-      status = Repository.human_status_by(params.slice(:owner_name, :name, :branch))
-      path   = "#{Rails.public_path}/images/status/#{status}.png"
-
+      status = if @repository.blank?
+        Repository::STATUSES[nil]
+      else
+        @repository.last_finished_build_status_name
+      end
+      path = "#{Rails.public_path}/images/status/#{status}.png"
       response.headers["Expires"] = CGI.rfc1123_date(Time.now)
-
       send_file(path, :type => 'image/png', :disposition => 'inline')
     end
 end

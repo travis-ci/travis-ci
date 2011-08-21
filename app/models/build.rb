@@ -35,7 +35,8 @@ class Build < ActiveRecord::Base
     end
 
     def keys_for(hash)
-      ENV_KEYS.select { |key| hash.keys.map(&:to_s).include?(key) }
+      keys = ENV_KEYS + [Repository::BRANCH_KEY]
+      keys.select { |key| hash.keys.map(&:to_s).include?(key) }
     end
 
   end
@@ -72,6 +73,14 @@ class Build < ActiveRecord::Base
     status == 0
   end
 
+  def failed?
+    status == 1
+  end
+
+  def unknown?
+    status == nil
+  end
+
   def status_message
     passed? ? 'Passed' : 'Failed'
   end
@@ -85,7 +94,7 @@ class Build < ActiveRecord::Base
   def matrix_for(hash)
     matrix.select do |build|
       Build.keys_for(hash).map do |key|
-        build.config[key] == hash[key]
+        build.config[key] == hash[key] || build.branch == hash[key]
       end.inject(:&)
     end
   end

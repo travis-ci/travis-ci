@@ -50,26 +50,24 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
     start_from_worker!
     assert_build_started
     assert_equal ['build:started', {
-      'repository' => {
-        'id' => build.repository.id,
-        :slug => 'svenfuchs/minimal',
-        'last_build_id' => build.id,
-        'last_build_number' => '1',
-        'last_build_status' => nil,
-        'last_build_started_at' => build.started_at,
-        'last_build_finished_at' => nil
-      },
       'build' => {
-        'id' => build.id,
-        'repository_id' => build.repository.id,
-        'number' => '1',
-        'commit' => '62aae5f70ceee39123ef',
         'branch' => 'master',
-        'message' => 'the commit message',
-        'committer_name' => 'Sven Fuchs',
+        'commit' => '62aae5f70ceee39123ef',
         'committer_email' => 'svenfuchs@artweb-design.de',
-        'started_at' => build.started_at,
-      },
+        'committer_name' => 'Sven Fuchs',
+        'id' => 1,
+        'message' => 'the commit message',
+        'number' => '1',
+        'repository_id' => 1,
+        'started_at' => build.started_at},
+      'repository' => {
+        'id' => 1,
+        'last_build_finished_at' => build.finished_at,
+        'last_build_id' => 1,
+        'last_build_number' => '1',
+        'last_build_started_at' => build.started_at,
+        'last_build_status' => 0,
+        :slug=>'svenfuchs/minimal'},
       'msg_id' => '1'
     }], channel.messages.first
   end
@@ -134,9 +132,9 @@ class BuildsControllerTest < ActionDispatch::IntegrationTest
         :slug => 'svenfuchs/minimal',
         'last_build_id' => build.id,
         'last_build_number' => '1',
-        'last_build_status' => nil,
+        'last_build_status' => 0,
         'last_build_started_at' => build.started_at,
-        'last_build_finished_at' => nil
+        'last_build_finished_at' => build.finished_at,
       },
       'build' => {
         'id' => build.id,

@@ -5,5 +5,3 @@ attributes :id, :last_build_id,
            :last_build_started_at, :last_build_finished_at
 
 node(:slug) { |repository| repository.slug }
-
-node(:status) { |repository| repository.human_status }
