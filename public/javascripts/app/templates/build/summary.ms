@@ -1,4 +1,4 @@
-<dl class="summary left clearfix {{color}}">
+<dl class="summary left {{color}}">
   <div class="left">
     <dt>Build</dt>
     <dd class="number"><a href="/#!/{{repository/slug}}/builds/{{id}}">{{number}}</a></dd>

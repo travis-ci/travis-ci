@@ -371,6 +371,7 @@ caption {
   }
   .summary {
     margin: 20px 0 0 0;
+    @include clearfix;
   }
   .summary .left,
   .summary .right {
@@ -866,15 +867,6 @@ pre::-webkit-scrollbar-thumb:horizontal {
   }
 }
 
-.clearfix:after {
-  clear: both;
-  content: ".";
-  display: block;
-  height: 0;
-  visibility: hidden;
-  font-size: 0;
-}
-
 ul#tokens {
   @include list-base;
 }
@@ -952,10 +944,6 @@ ul#tokens {
   top: 10px;
   font-size: 25px;
   color: #FFFFFF;
-}
-
-.clear {
-  clear: both;
 }
 
 /**
