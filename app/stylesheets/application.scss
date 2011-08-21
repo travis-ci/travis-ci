@@ -49,10 +49,7 @@ caption {
 
 #top {
   color: #ccc;
-  display: block;
   float: left;
-  clear: both;
-  background-color: black;
   height: 40px;
   width: 100%;
   top: 0px;
@@ -60,6 +57,7 @@ caption {
   font-size: 13px;
   line-height: 40px;
   @include background(linear-gradient(#444, #111));
+  @include clearfix;
 
   h1 {
     float: left;
