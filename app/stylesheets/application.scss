@@ -142,9 +142,7 @@ caption {
     right: 160px;
     background-color: #444;
     @include border-bottom-radius(4px);
-    -moz-box-shadow: 2px 2px 10px #888;
-    -webkit-box-shadow: 2px 2px 10px #888;
-    box-shadow: 2px 2px 10px #888;
+    @include single-box-shadow(rgba(black, 0.3), 2px, 2px, 10px);
   }
   .profile ul li {
     padding: 0;
