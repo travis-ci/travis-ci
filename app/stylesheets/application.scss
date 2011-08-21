@@ -745,7 +745,7 @@ caption {
     border-bottom-color: transparent;
     cursor: pointer;
     z-index: 0;
-    @include border-bottom-radius(4px);
+    @include border-top-radius(4px);
   }
   .active h5 {
     background-color: #fff;
