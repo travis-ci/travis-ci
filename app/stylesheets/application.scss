@@ -941,16 +941,16 @@ ul#tokens {
         height: 20px;
         width: 20px;
         padding-right: 0;
-        background: #fff url('/images/icons/admin.png') no-repeat 3px 4px;
+        background: url('/images/icons/admin.png') no-repeat 3px 4px;
       }
       .toggle_enabled {
         height: 20px;
         width: 80px;
         margin-left: 10px;
-        background: #fff url('/images/off.png') no-repeat;
+        background: url('/images/off.png') no-repeat;
         cursor: pointer;
         &.on {
-          background: #fff url('/images/on.png') no-repeat;
+          background: url('/images/on.png') no-repeat;
         }
       }
     }
