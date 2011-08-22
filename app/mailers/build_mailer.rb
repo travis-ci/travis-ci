@@ -11,6 +11,6 @@ class BuildMailer < ActionMailer::Base
   
   private
     def subject
-      "#{@build.repository.slug}##{@build.number} (#{@build.branch} - #{@build.commit[0, 7]}): the build has #{@build.passed? ? 'passed' : 'failed' }"
+      "[#{@build.status_message}] #{@build.repository.slug}##{@build.number} (#{@build.branch} - #{@build.commit[0, 7]})"
     end
 end
