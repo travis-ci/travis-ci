@@ -23,6 +23,12 @@ describe "repositories/show.cctray.xml.builder" do
     rendered_xml.should have_attribute("activity", "Sleeping").for_node_path(%w{Projects Project})
   end
   
+  it "renders the last build time in the correct format" do
+    assign(:repository, stub_model(Repository, :id => 1, :last_build_finished_at => DateTime.parse("05 Aug 2011 12:15:34 +0000")))
+    render
+    rendered_xml.should have_attribute("lastBuildTime", "2011-08-05T12:15:34.000+0000").for_node_path(%w{Projects Project})
+  end
+  
   it "renders the correct activity status for a repository with a running build" do
     assign(:repository, stub_model(Repository, :id => 1, :last_build => stub_model(Build, :started? => true, :finished? => false)))
     render
@@ -66,7 +72,8 @@ RSpec::Matchers.define :have_attribute do |key, value|
   end
   
   failure_message_for_should do |actual|
-    "expected that #{find_node(actual, @node_path)} would have attribute '#{key}' with value of '#{value}'"
+    node = find_node(actual, @node_path)
+    "expected rendered XML would have attribute '#{key}' with value of '#{value}', but was #{node ? node[key] : nil}"
   end
   
   def find_node(root, node_path)
