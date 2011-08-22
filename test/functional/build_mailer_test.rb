@@ -1,13 +1,9 @@
 require 'test_helper'
 
 class BuildMailerTest < ActionMailer::TestCase
-  attr_reader :build
-  
-  def setup
-    @build = Factory(:successfull_build)
-  end
-  
-  test "finished_email" do
+
+  test "passed build finished_email" do
+    build = Factory(:successfull_build)
     mail = BuildMailer.finished_email(build)
     
     assert_equal "[Passed] svenfuchs/minimal#1 (master - 62aae5f)", mail.subject
@@ -16,4 +12,16 @@ class BuildMailerTest < ActionMailer::TestCase
     assert_match build.number, mail.body.encoded
     assert_match build.status_message, mail.body.encoded
   end
+  
+  test "broken build finished email" do
+    build = Factory(:broken_build)
+    mail = BuildMailer.finished_email(build)
+    
+    assert_equal "[Failed] svenfuchs/minimal#1 (master - 62aae5f)", mail.subject
+    assert_equal ["svenfuchs@artweb-design.de"], mail.to
+    assert_equal ["notifications@travis-ci.org"], mail.from
+    assert_match build.number, mail.body.encoded
+    assert_match build.status_message, mail.body.encoded
+  end
+
 end
