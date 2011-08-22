@@ -32,6 +32,7 @@ end
 FactoryGirl.define do
   factory :successfull_build, :parent => :build do
     status 0
+    started_at { Time.now }
     finished_at { Time.now }
   end
 end
