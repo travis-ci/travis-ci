@@ -20,8 +20,12 @@
 
 module Responders
   module Rabl
+    VALID_XML_SCHEMAS = ['cctray']
+
     def to_format
-      if rabl_format?
+      if schema = known_xml_schema
+        render "repositories/show.#{schema}.xml.builder" # TODO port this to rabl
+      elsif rabl_format?
         render :template => template_name
       else
         super
@@ -51,6 +55,11 @@ module Responders
 
       def collection?
         resource.respond_to?(:slice)
+      end
+
+      def known_xml_schema
+        schema_key = controller.params[:schema].try(:downcase)
+        schema_key if VALID_XML_SCHEMAS.include?(schema_key)
       end
   end
 end

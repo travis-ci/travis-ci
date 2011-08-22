@@ -5,6 +5,11 @@ module Support
       ActiveSupport::JSON.decode(response.body)
     end
 
+    def xml_response
+      response = respond_to?(:last_response) ? last_response : self.response
+      ActiveSupport::XmlMini.parse(response.body)
+    end
+
     def json_for_http(object, options = {})
       normalize_json(Travis::Renderer.json(object, options))
     end

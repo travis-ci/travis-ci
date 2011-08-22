@@ -27,6 +27,8 @@ describe RepositoriesController do
   end
 
   describe 'GET :show, format json' do
+    let(:repository) { Factory.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today) }
+
     before(:each) do
       config = { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'], 'env' => ['DB=sqlite3', 'DB=postgres'] }
       build = Factory.create(:build, :repository => repository, :config => config)
@@ -36,8 +38,6 @@ describe RepositoriesController do
       end
       repository.reload
     end
-
-    let(:repository) { Factory.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today) }
 
     it 'returns info about repository in json format' do
       get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json'
@@ -100,6 +100,58 @@ describe RepositoriesController do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => 'perl'
         json_response['last_build_status'].should == 1
       end
+    end
+  end
+
+  describe 'GET :show, format xml (schema: not specified)' do
+    let(:repository) { Factory.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today) }
+
+    before(:each) do
+      config = { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'], 'env' => ['DB=sqlite3', 'DB=postgres'] }
+      build = Factory.create(:build, :repository => repository, :config => config)
+      build.matrix.each do |task|
+        task.start!(:started_at => '2010-11-12T12:30:00Z')
+        task.finish!(:status => task.config[:rvm] == '1.8.7' ? 0 : 1, :finished_at => '2010-11-12T12:30:20Z')
+      end
+      repository.reload
+    end
+
+    it 'return info about repository in xml format' do
+      get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'xml'
+
+      xml_response.should == {
+        'repository' => {
+          'id'                     => { '__content__' => '1' },
+          'slug'                   => { '__content__' => 'sven/travis-ci' },
+          'last_build_id'          => { '__content__' => '1' },
+          'last_build_number'      => { '__content__' => '1' },
+          'last_build_status'      => { '__content__' => '1' },
+          'last_build_started_at'  => { '__content__' => '2010-11-12T12:30:00Z' },
+          'last_build_finished_at' => { '__content__' => '2010-11-12T12:30:20Z' },
+        }
+      }
+    end
+  end
+
+  describe 'GET :show, format xml (schema: cctray)' do
+    before(:each) do
+      Factory(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today)
+    end
+
+    it 'returns info about repository in CCTray (CruiseControl) XML format' do
+      get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'xml', :schema => 'cctray'
+      response.should render_template('show.cctray')
+    end
+  end
+
+  describe 'GET :show, format xml (schema: unknown)' do
+    before(:each) do
+      Factory(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today)
+    end
+
+    it 'does not attempt to render unsupported XML schemas' do
+      get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'xml', :schema => 'somerandomschema'
+      response.should_not render_template('show.somerandomschema')
     end
   end
 

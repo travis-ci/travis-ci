@@ -10,6 +10,9 @@ class RepositoriesController < ApplicationController
 
   def show
     respond_with(repository)
+    # do |format|
+    #   format.xml { send_repository_in_xml_format } # TODO move to an xml responder
+    # end
   end
 
   protected
