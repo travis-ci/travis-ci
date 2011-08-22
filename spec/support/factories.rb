@@ -59,6 +59,8 @@ FactoryGirl.define do
     f.repository { Factory(:repository, :name => 'broken_build') }
     f.status 1
     f.state 'finished'
+    started_at { Time.now }
+    finished_at { Time.now }
   end
 
   factory :user do |f|
