@@ -6,6 +6,7 @@ TravisCi::Application.routes.draw do
   match ":owner_name/:name.png", :to => 'repositories#show', :format => 'png'
   match ":owner_name/:name.xml", :to => 'repositories#show', :format => 'xml'
   match ":owner_name/:name.json", :to => 'repositories#show', :format => 'json'
+  match ":owner_name/:name/cc.xml", :to => 'repositories#show', :format => 'xml', :schema => 'cctray'
 
   match ":owner_name/:name/builds.xml", :to => 'builds#index', :format => 'xml'
   match ":owner_name/:name/builds.json", :to => 'builds#index', :format => 'json'
