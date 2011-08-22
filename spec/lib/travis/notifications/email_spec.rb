@@ -15,7 +15,7 @@ describe Travis::Notifications::Email do
 
     email = build.should send_email_notification_on('build:finished')
     email.should deliver_to(['owner@example.com', 'committer@example.com', 'author@example.com'])
-    email.should have_subject('svenfuchs/minimal#1 (master - 62aae5f): the build has failed')
+    email.should have_subject('[Failed] svenfuchs/minimal#1 (master - 62aae5f)')
 
     email.should have_body_text(%(
       Build : #1
