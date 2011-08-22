@@ -1,6 +1,5 @@
-<%- title = "Build Update for #{@build.repository.slug}" -%>
-<%= title %>
-<%= '-' * (title.size + 20) %>
+<%= title(@build) %>
+<%= '-' * (title(@build).size + 20) %>
 
 Build : #<%= @build.number %>
 

@@ -1,11 +1,13 @@
 module BuildMailerHelper
+  def title(build)
+    "Build Update for #{build.repository.slug}"
+  end
+
   def print_build_matrix_summary(matrix)
     title = '#      RVM       Duration             Status      Build Log'
-
     summary_lines = matrix.map do |build|
       [build.number, build.config["RVM"], build_duration(build.started_at, build.finished_at), build.status, "build.link"]
     end
-
     title
   end
 
