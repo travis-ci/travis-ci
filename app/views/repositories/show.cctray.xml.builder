@@ -5,6 +5,6 @@ xml.Projects do
     :lastBuildStatus => cctray_build_status(repository.last_build_status),
     :lastBuildLabel  => repository.last_build_number,
     :lastBuildTime   => repository.last_build_finished_at,
-    :webURL          => repository.url
+    :webUrl          => repository.url
   )
 end
