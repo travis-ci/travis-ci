@@ -13,8 +13,7 @@ describe "repositories/show.cctray.xml.builder" do
     ))
     render
     rendered_xml.should have_attribute("name", "travisci").for_node_path(%w{Projects Project})
-    rendered_xml.should have_attribute("webURL", "http://travis-ci.org").for_node_path(%w{Projects Project})
-    rendered_xml.should have_attribute("webURL", "http://travis-ci.org").for_node_path(%w{Projects Project})
+    rendered_xml.should have_attribute("webUrl", "http://travis-ci.org").for_node_path(%w{Projects Project})
     rendered_xml.should have_attribute("lastBuildLabel", "123").for_node_path(%w{Projects Project})
   end
   
