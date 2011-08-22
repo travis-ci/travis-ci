@@ -6,7 +6,7 @@ describe BuildMailer do
     let(:mail)  { BuildMailer.finished_email(build) }
 
     it 'subject' do
-      mail.subject.should == "svenfuchs/successfull_build#1 (master - 62aae5f): the build has passed"
+      mail.subject.should == "[Passed] svenfuchs/successfull_build#1 (master - 62aae5f)"
     end
 
     it 'recipient' do
