@@ -13,11 +13,3 @@ Status : <%= @build.status_message %>
 View the changeset : <%= @build.compare_url %>
 
 View the full build log and details : <%= user_repo_build_redirect_url(:user => @build.repository.owner_name, :repository => @build.repository.name, :id => @build.id )%>
-
-
-
---
-
-You can configure recipients for build notifications in your .travis.yml file. See http://bit.ly/lCybCJ
-
-The delivery of this notification was kindly sponsored by Postmark. Send transactional email confidently using http://postmarkapp.com
