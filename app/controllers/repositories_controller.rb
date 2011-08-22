@@ -14,6 +14,7 @@ class RepositoriesController < ApplicationController
 
     respond_with(@repository) do |format|
       format.png { send_status_image_file }
+      format.xml { send_repository_in_xml_format }
       format.any { @repository || not_found }
     end
   end
@@ -41,5 +42,17 @@ class RepositoriesController < ApplicationController
       response.headers["Expires"] = CGI.rfc1123_date(Time.now)
 
       send_file(path, :type => 'image/png', :disposition => 'inline')
+    end
+    
+    VALID_XML_SCHEMAS = ["cctray"]
+    
+    def send_repository_in_xml_format
+      schema_key = params[:schema].try(:downcase)
+      
+      if (schema_key && VALID_XML_SCHEMAS.include?(schema_key))
+        render "repositories/show.#{schema_key}.xml.builder"
+      else
+        @repository
+      end
     end
 end
