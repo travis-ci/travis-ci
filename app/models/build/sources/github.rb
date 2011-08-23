@@ -11,7 +11,8 @@ class Build
 
       class << self
         def exclude?(attributes)
-          attributes.key?(:branch) && attributes[:branch].match(/gh[-_]pages/i)
+          (attributes.key?(:branch) && attributes[:branch].match(/gh[-_]pages/i)) ||
+          (attributes[:message] && attributes[:message].downcase.match(/\[ci ([\w ]*)\]/) && $1 == 'skip')
         end
       end
 

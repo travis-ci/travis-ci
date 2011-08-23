@@ -152,3 +152,23 @@ function trace() {
     _.each(stack, function(line) { console.log(line); });
   }
 }
+
+window._console = console;
+/*
+ * In order to use old (default) behavior of console, please use __DEBUG__ in URL hash, or __DEBUG__ global variable
+ *   when hash is not accessible
+ */
+var console = {
+  log: function() {
+    if (/__DEBUG__/.exec(window.location.hash) || window.__DEBUG__) {
+      if (!_.isEmpty(window.__DEBUG_FILTER__)) {
+        if (_.include(arguments[0], window.__DEBUG_FILTER__)) {
+          window._console.log(arguments)
+        }
+      }
+      else {
+        window._console.log(arguments)
+      }
+    }
+  }
+}

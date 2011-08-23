@@ -1,4 +1,5 @@
 @import "mixins.scss";
+@import "compass";
 
 html {
   margin: 0;
@@ -6,7 +7,7 @@ html {
 }
 body {
   overflow-x: hidden;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   line-height: 120%;
   margin: 0;
   padding: 0;
@@ -37,41 +38,6 @@ caption {
   color: #666;
 }
 
-/* layout */
-
-#top {
-  display: block;
-  float: left;
-  clear: both;
-  background-color: black;
-  height: 40px;
-  width: 100%;
-  top: 0px;
-  z-index: 11;
-  font-size: 13px;
-  line-height: 40px;
-  background: url(/images/layout/bg-top.png) repeat-x;
-}
-#left {
-  position: absolute;
-  top: 40px;
-  width: 400px;
-  /* background-image: url(/images/background.jpg); */
-}
-#main {
-  z-index: 30;
-  display: block;
-  padding: 60px 300px 30px 440px;
-  @include transition(padding .5s ease-out);
-  &.loading {
-    opacity: .1;
-    min-height: 1000px;
-  }
-  &.large {
-    padding: 60px 100px 30px 440px;
-  }
-}
-
 .slide-left {
   position: absolute;
   top:150px;
@@ -83,16 +49,22 @@ caption {
 
 #top {
   color: #ccc;
+  float: left;
+  height: 40px;
+  width: 100%;
+  top: 0px;
+  z-index: 11;
+  font-size: 13px;
+  line-height: 40px;
+  @include background(linear-gradient(#444, #111));
+  @include clearfix;
 
   h1 {
     float: left;
     width: 73px;
     height: 30px;
-    margin: 4px 0 0 22px;
-    text-indent: -99px;
-    overflow: hidden;
-    color: #d52818;
-    font-size: 24px;
+    margin: 4px 40px 0 22px;
+    text-indent: -9999px;
     background: url(/images/logo.png) no-repeat;
   }
   ul {
@@ -103,7 +75,6 @@ caption {
   }
   #navigation {
     float: left;
-    margin-left: 40px;
   }
   #navigation li {
     float: left;
@@ -114,6 +85,10 @@ caption {
   #navigation li a {
     display: block;
     padding: 0 15px;
+
+    &:hover {
+      color: #FFF;
+    }
   }
   .profile {
     margin: 0 160px 0 0;
@@ -136,15 +111,8 @@ caption {
     top: 40px;
     right: 160px;
     background-color: #444;
-    -webkit-border-bottom-left-radius: 4px 4px;
-    -webkit-border-bottom-right-radius: 4px 4px;
-    -moz-border-bottom-left-radius: 4px 4px;
-    -moz-border-bottom-right-radius: 4px 4px;
-    border-bottom-left-radius: 4px 4px;
-    border-bottom-right-radius: 4px 4px;
-    -moz-box-shadow: 2px 2px 10px #888;
-    -webkit-box-shadow: 2px 2px 10px #888;
-    box-shadow: 2px 2px 10px #888;
+    @include border-bottom-radius(4px);
+    @include single-box-shadow(rgba(black, 0.3), 2px, 2px, 10px);
   }
   .profile ul li {
     padding: 0;
@@ -158,12 +126,7 @@ caption {
     background-color: #555;
   }
   .profile ul li:last-child a:hover {
-    -webkit-border-bottom-left-radius: 4px 4px;
-    -webkit-border-bottom-right-radius: 4px 4px;
-    -moz-border-bottom-left-radius: 4px 4px;
-    -moz-border-bottom-right-radius: 4px 4px;
-    border-bottom-left-radius: 4px 4px;
-    border-bottom-right-radius: 4px 4px;
+    @include border-bottom-radius(4px);
   }
 }
 
@@ -171,6 +134,11 @@ caption {
 /* left */
 
 #left {
+  position: absolute;
+  top: 40px;
+  width: 400px;
+  /* background-image: url(/images/background.jpg); */
+
   #search {
     height: 90px;
     padding: 30px 20px 0 20px;
@@ -183,9 +151,7 @@ caption {
     font-size: 10pt;
     color: #666;
     border: 1px solid #ddd;
-    -webkit-border-radius: 4px 4px;
-    -moz-border-radius: 4px 4px;
-    border-radius: 4px 4px;
+    @include border-radius(4px);
     /* background: #fff url(/images/icons/search.png) no-repeat 335px 8px; */
     background: #fff url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAANCAIAAAASSxgVAAAC7mlDQ1BJQ0MgUHJvZmlsZQAAeAGFVM9rE0EU/jZuqdAiCFprDrJ4kCJJWatoRdQ2/RFiawzbH7ZFkGQzSdZuNuvuJrWliOTi0SreRe2hB/+AHnrwZC9KhVpFKN6rKGKhFy3xzW5MtqXqwM5+8943731vdt8ADXLSNPWABOQNx1KiEWlsfEJq/IgAjqIJQTQlVdvsTiQGQYNz+Xvn2HoPgVtWw3v7d7J3rZrStpoHhP1A4Eea2Sqw7xdxClkSAog836Epx3QI3+PY8uyPOU55eMG1Dys9xFkifEA1Lc5/TbhTzSXTQINIOJT1cVI+nNeLlNcdB2luZsbIEL1PkKa7zO6rYqGcTvYOkL2d9H5Os94+wiHCCxmtP0a4jZ71jNU/4mHhpObEhj0cGDX0+GAVtxqp+DXCFF8QTSeiVHHZLg3xmK79VvJKgnCQOMpkYYBzWkhP10xu+LqHBX0m1xOv4ndWUeF5jxNn3tTd70XaAq8wDh0MGgyaDUhQEEUEYZiwUECGPBoxNLJyPyOrBhuTezJ1JGq7dGJEsUF7Ntw9t1Gk3Tz+KCJxlEO1CJL8Qf4qr8lP5Xn5y1yw2Fb3lK2bmrry4DvF5Zm5Gh7X08jjc01efJXUdpNXR5aseXq8muwaP+xXlzHmgjWPxHOw+/EtX5XMlymMFMXjVfPqS4R1WjE3359sfzs94i7PLrXWc62JizdWm5dn/WpI++6qvJPmVflPXvXx/GfNxGPiKTEmdornIYmXxS7xkthLqwviYG3HCJ2VhinSbZH6JNVgYJq89S9dP1t4vUZ/DPVRlBnM0lSJ93/CKmQ0nbkOb/qP28f8F+T3iuefKAIvbODImbptU3HvEKFlpW5zrgIXv9F98LZua6N+OPwEWDyrFq1SNZ8gvAEcdod6HugpmNOWls05Uocsn5O66cpiUsxQ20NSUtcl12VLFrOZVWLpdtiZ0x1uHKE5QvfEp0plk/qv8RGw/bBS+fmsUtl+ThrWgZf6b8C8/UXAeIuJAAAACXBIWXMAAAsTAAALEwEAmpwYAAABTUlEQVQYGU2Qy8qCUBSF/2NWJiE4KO0CRg0MRNEwfI3eIJ8o38VniFRqVKMmXYiIwAYNxKKL/5Lscgae5drfWWfvQ5Ik+Xuv0+k0nU7n8/l2u5UkSVVVy7J4nicfKAxD13V9338fSXdAg8GAfllAgyAA0Wq1TNNst9ur1Wo2m8EURfELLRYLQgiO9vv9QqFQqVRyudxms4FPfZJ2ux3yNE1jWZZhmHK5DI0q/C/UbDZhLZdLmk7jEQMNAT+D8NPpdPAdj8ee58VxPJlMoOF0u92spyiKcDes9XqNliFeq9frGYaRQufzeTQaHY/HarWqKAq4/X7faDRkWdZ1vVar0SAcxzkcDhh1OBxyHPd4PO73ez6fLxaLpVIJk9KXy+V6vQqCYNt2vV5H7fW8eA6KSjuGIIDSISkKsZgcTtbOz0aez+ftdkMNGT/+VwL4ByFknYU4StqkAAAAAElFTkSuQmCC) no-repeat 335px 8px;
   }
@@ -279,6 +245,18 @@ caption {
 /* main */
 
 #main {
+  z-index: 30;
+  display: block;
+  padding: 60px 290px 30px 440px;
+  @include transition(padding .5s ease-out);
+
+  &.loading {
+    opacity: .1;
+    min-height: 1000px;
+  }
+  &.large {
+    padding: 60px 100px 30px 440px;
+  }
   .repository {
     position: relative;
   }
@@ -387,6 +365,7 @@ caption {
   }
   .summary {
     margin: 20px 0 0 0;
+    @include clearfix;
   }
   .summary .left,
   .summary .right {
@@ -422,7 +401,7 @@ caption {
     padding: 15px 0;
     color: white;
     background-color: #333;
-    border-radius: 4px 4px;
+    @include border-radius(4px);
 
     p {
       position: relative;
@@ -485,7 +464,7 @@ caption {
     .white {
       color: white;
     }
-    .grey {
+    .black.bright {
       color: #999;
     }
     .bg-black {
@@ -611,10 +590,8 @@ caption {
     margin-top: 25px;
     padding: 15px;
     border: 1px solid #ccc;
-    -webkit-border-radius: 4px 4px;
-    -moz-border-radius: 4px 4px;
-    border-radius: 4px 4px;
     background-color: #fff;
+    @include border-radius(4px);
   }
   .box h4 {
     margin: 0;
@@ -644,12 +621,7 @@ caption {
     margin: 15px -15px -15px -15px;
     padding: 10px 15px 5px;
     background-color: #eee;
-    -webkit-border-bottom-left-radius: 4px 4px;
-    -webkit-border-bottom-right-radius: 4px 4px;
-    -moz-border-bottom-left-radius: 4px 4px;
-    -moz-border-bottom-right-radius: 4px 4px;
-    border-bottom-left-radius: 4px 4px;
-    border-bottom-right-radius: 4px 4px;
+    @include border-bottom-radius(4px);
   }
   #sponsors img {
     border: 1px solid #bbb;
@@ -670,6 +642,12 @@ caption {
   };
   &.minimized {
     width: 0px;
+
+    .inner {
+      .wrapper {
+        display: none;
+      }
+    }
   }
 
   $slider-border-normal: #f2f4f9;
@@ -691,6 +669,8 @@ caption {
           border-color: $slider-border-hover $slider-border-light $slider-border-hover $slider-border-hover;
         }
       }
+      left: -20px;
+      width: 20px;
     }
     .icon {
       width: 0;
@@ -750,15 +730,10 @@ caption {
     margin: 0 10px 0 0;
     border: 1px solid #ccc;
     background-color: #f6f6f6;
-    -webkit-border-top-left-radius: 4px 4px;
-    -webkit-border-top-right-radius: 4px 4px;
-    -moz-border-top-left-radius: 4px 4px;
-    -moz-border-top-right-radius: 4px 4px;
-    border-top-left-radius: 4px 4px;
-    border-top-right-radius: 4px 4px;
-    border-bottom-color: transparent;
+    border-bottom: none;
     cursor: pointer;
     z-index: 0;
+    @include border-top-radius(4px);
   }
   .active h5 {
     background-color: #fff;
@@ -821,12 +796,7 @@ caption {
     margin: 15px -15px -15px -15px;
     padding: 10px 15px 5px;
     background-color: #eee;
-    -webkit-border-bottom-left-radius: 4px 4px;
-    -webkit-border-bottom-right-radius: 4px 4px;
-    -moz-border-bottom-left-radius: 4px 4px;
-    -moz-border-bottom-right-radius: 4px 4px;
-    border-bottom-left-radius: 4px 4px;
-    border-bottom-right-radius: 4px 4px;
+    @include border-bottom-radius(4px);
   }
   img {
     border: 1px solid #bbb;
@@ -870,9 +840,7 @@ pre::-webkit-scrollbar-thumb:horizontal {
 }
 
 .profile-avatar {
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
+  @include border-radius(4px);
 }
 
 #profile {
@@ -891,28 +859,6 @@ pre::-webkit-scrollbar-thumb:horizontal {
   .highlight {
     color: #C7371A;
   }
-}
-
-#github_ribbon {
-  position: absolute;
-  top: -40px;
-  right: 0;
-  display: block;
-  width: 149px;
-  height: 150px;
-  background: url(/images/github-ribbon.png) no-repeat;
-  text-indent: -999px;
-  overflow: hidden;
-  z-index: 20;
-}
-
-.clearfix:after {
-  clear: both;
-  content: ".";
-  display: block;
-  height: 0;
-  visibility: hidden;
-  font-size: 0;
 }
 
 ul#tokens {
@@ -946,27 +892,26 @@ ul#tokens {
     .controls {
       position: absolute;
       top: 10px;
-      right: 10px;
+      right: 0;
       white-space: nowrap;
-      background-color: white;
-      .github-admin {
+      a {
         float: left;
         display: block;
-        width: 20px;
+      }
+      .github-admin {
+        // Overriding an earlier definition above, which is probably
+        // obsolete. TODO: Remove if so.
+        position: relative;
         height: 20px;
-        margin-left: 10px;
-        font-size: 14px;
-        background: url('/images/icons/admin.png') no-repeat 3px 3px;
-        text-indent: -999px;
-        overflow: hidden;
+        width: 20px;
+        padding-right: 0;
+        background: url('/images/icons/admin.png') no-repeat 3px 4px;
       }
       .toggle_enabled {
-        float: left;
-        background: url('/images/off.png') no-repeat;
-        display: block;
-        width: 70px;
         height: 20px;
+        width: 80px;
         margin-left: 10px;
+        background: url('/images/off.png') no-repeat;
         cursor: pointer;
         &.on {
           background: url('/images/on.png') no-repeat;
@@ -995,6 +940,28 @@ ul#tokens {
   color: #FFFFFF;
 }
 
-.clear {
-  clear: both;
+/**
+ * Github Badge
+ */
+
+#github {
+  right: -65px;
+  height: 30px;
+  top: 40px;
+  position: absolute;
+  text-decoration: none;
+  width: 250px;
+  @include rotate(45deg);
+  z-index: 100;
+  span {
+    background: orange;
+    color: white;
+    font-size: 14px;
+    left: 0;
+    padding: 5px 0;
+    position: absolute;
+    text-align: center;
+    width: 250px;
+    @include box-shadow(rgba(black, 0.2) 1px 1px 10px, rgba(black, 0.07) 0 0 3px 1px inset);
+  }
 }

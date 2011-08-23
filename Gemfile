@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'rails',             '~> 3.0.9'
+gem 'rails',             '~> 3.0.10'
 gem 'rake',              '~> 0.9.2'
 gem 'pg',                '~> 0.11.0'
 gem 'yajl-ruby',         '~> 0.8.2'
@@ -35,11 +35,11 @@ gem 'newrelic_rpm',      '~> 3.1.0'
 group :test do
   gem 'capybara', '~> 1.0.0'
   gem 'database_cleaner'
-  gem 'factory_girl', '~> 1.3'
+  gem 'factory_girl'
   gem 'factory_girl_rails'
   gem 'mocha'
   gem 'test_declarative'
-  gem 'fakeredis'
+  gem 'fakeredis', '~> 0.2.0'
   gem 'webmock'
 
   platforms :ruby_18 do

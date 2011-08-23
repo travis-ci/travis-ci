@@ -43,4 +43,20 @@ class BuildTest < ActiveSupport::TestCase
     build.reload
     assert_equal line1 + line2 + line3, build.log
   end
+
+  test "keys_for only selects ENV_KEYS" do
+    Build::ENV_KEYS.each do |key|
+      before = {'invalid key' => 'invalid', key => 'valid'}
+      after = Build.keys_for(before)
+      assert_equal [key], after
+    end
+  end
+
+  test "keys_for selects symbolized ENV_KEYS" do
+    Build::ENV_KEYS.each do |key|
+      before = {key.to_sym => 'valid'}
+      after = Build.keys_for(before)
+      assert_equal [key], after
+    end
+  end
 end

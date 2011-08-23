@@ -62,6 +62,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }, this));
   },
   repository: function(owner, name, line_number) {
+    console.log ("application#repository: ", arguments)
     this.reset();
     this.trackPage();
     this.startLoading();
@@ -73,6 +74,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }, this));
   },
   repositoryHistory: function(owner, name) {
+    console.log ("application#repositoryHistory: ", arguments)
     this.reset();
     this.trackPage();
     this.selectTab('history');
@@ -82,6 +84,7 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }, this));
   },
   repositoryBuild: function(owner, name, buildId, line_number) {
+    console.log ("application#repositoryBuild: ", arguments)
     this.reset();
     this.trackPage();
     this.startLoading();
@@ -108,8 +111,8 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     $('#main').removeClass('loading')
   },
   trackPage: function() {
-    window._gauges = window._gauges || [];
-    window._gauges.push(['track']);
+    window._gaq = _gaq || [];
+    window._gaq.push(['_trackPageview']);
   },
 
 
@@ -133,9 +136,11 @@ Travis.Controllers.Application = Backbone.Controller.extend({
   // external events
 
   buildQueued: function(data) {
+    console.log ("application#buildQueued: ", arguments)
     this.addJob(data);
   },
   buildStarted: function(data) {
+    console.log ("application#buildStarted: ", arguments)
     this.removeJob(data);
     this.repositories.update(data);
 
@@ -146,18 +151,23 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     }
   },
   buildConfigured: function(data) {
+    console.log ("application#buildConfigured: ", arguments)
     this.removeJob(data);
     this.repositories.update(data);
   },
   buildFinished: function(data) {
+    console.log ("application#buildFinished: ", arguments)
     this.repositories.update(data);
   },
   buildRemoved: function(data) {
+    console.log ("application#buildRemoved: ", arguments)
     this.removeJob(data);
   },
   buildLogged: function(data) {
+    console.log ("application#buildLogged: ", arguments)
     this.repositories.update(data);
   },
+
   selectTab: function(tab) {
     this.tab = tab;
     this.repositoryShow.activateTab(this.tab);
@@ -175,4 +185,5 @@ Travis.Controllers.Application = Backbone.Controller.extend({
     return data.slug && data.slug == 'rails/rails';
   }
 });
+
 

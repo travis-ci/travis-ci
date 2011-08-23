@@ -1,42 +1,53 @@
-Factory.define :repository do |f|
-  f.name 'minimal'
-  f.owner_name 'svenfuchs'
-  f.owner_email 'svenfuchs@artweb-design.de'
-  f.url  { |r| "http://github.com/#{r.owner_name}/#{r.name}" }
-  f.last_duration 60
-  f.created_at { |r| Time.utc(2011, 01, 30, 5, 25) }
-  f.updated_at { |r| r.created_at + 5.minutes }
-end
+FactoryGirl.define do
+  factory :repository do
+    name 'minimal'
+    owner_name 'svenfuchs'
+    owner_email 'svenfuchs@artweb-design.de'
+    url  { |r| "http://github.com/#{r.owner_name}/#{r.name}" }
+    last_duration 60
+    created_at { |r| Time.utc(2011, 01, 30, 5, 25) }
+    updated_at { |r| r.created_at + 5.minutes }
+  end
 
-Factory.define :build do |f|
-  f.association :repository
-  f.number '1'
-  f.commit '62aae5f70ceee39123ef'
-  f.branch 'master'
-  f.message 'the commit message'
-  f.committer_name 'Sven Fuchs'
-  f.committer_email 'svenfuchs@artweb-design.de'
-  f.token 'abcd'
-end
+  factory :build do
+    association :repository
+    number '1'
+    commit '62aae5f70ceee39123ef'
+    branch 'master'
+    message 'the commit message'
+    committer_name 'Sven Fuchs'
+    committer_email 'svenfuchs@artweb-design.de'
+    token 'abcd'
+    started_at { |b| Time.utc(2011, 01, 30, 5, 25) }
+    finished_at { |b| b.started_at + 5.minutes }
+    status 0
+  end
 
-Factory.define :running_build, :parent => :build do |f|
-  f.started_at { Time.now }
-end
+  factory :running_build, :parent => :build do
+    started_at { Time.now }
+    finished_at nil
+    status nil
+  end
 
-Factory.define :successfull_build, :parent => :build do |f|
-  f.status 0
-  f.finished_at { Time.now }
-end
+  factory :successful_build, :parent => :build do
+    started_at { Time.now }
+    finished_at { Time.now }
+    status 0
+  end
 
-Factory.define :broken_build, :parent => :build do |f|
-  f.status 1
-  f.started_at { Time.now }
-  f.finished_at { Time.now }
-end
+  factory :broken_build, :parent => :build do
+    started_at { Time.now }
+    finished_at { Time.now }
+    status 1
+  end
 
-Factory.define :user do |f|
-  f.name  'Sven Fuchs'
-  f.login 'svenfuchs'
-  f.email 'sven@fuchs.com'
-end
+  factory :development_branch_build, :parent => :build do
+    branch 'development'
+  end
 
+  factory :user do
+    name  'Sven Fuchs'
+    login 'svenfuchs'
+    email 'sven@fuchs.com'
+  end
+end

@@ -39,7 +39,16 @@ Travis.Collections.Repositories = Travis.Collections.Base.extend({
   model: Travis.Models.Repository,
   initialize: function(models) {
     Travis.Collections.Base.prototype.initialize.apply(this, arguments);
-    _.bindAll(this, 'url', 'update');
+    _.bindAll(this, 'url', 'update', 'setFilter');
+    this.options = {}
+  },
+  setFilter: function(filter) {
+    if (_.any(filter)) {
+      this.options.search = filter;
+    } else {
+      delete this.options.search;
+    }
+    return this;
   },
   url: function() {
     return '/repositories' + Utils.queryString(this.options);
@@ -47,7 +56,12 @@ Travis.Collections.Repositories = Travis.Collections.Base.extend({
   update: function(attributes) {
     attributes = _.extend(_.clone(attributes), { build: _.clone(attributes.build) });
     var repository = this.get(attributes.id);
-    repository ? repository.set(attributes) : this.add(new Travis.Models.Repository(attributes));
+
+    if (repository) {
+      repository.set(attributes)
+    } else if (_.isEmpty(this.options.search)) {
+      this.add(new Travis.Models.Repository(attributes));
+    }
   },
   comparator: function(repository) {
     return repository.get('last_build_started_at');

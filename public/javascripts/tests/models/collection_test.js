@@ -107,7 +107,7 @@ describe('Collection:', function() {
     it('selectLastBy: selects the model by the given attributes', function() {
       this.collection.selectLastBy({ number: 1 });
       this.server.respond();
-      expect(this.collection.get(1).selected).toBeTruthy();
+      expect(this.collection.at(0).selected).toBeTruthy();
     });
 
     it('getOrFetchLast: fetches the collection and then gets the last model', function() {

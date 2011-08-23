@@ -19,8 +19,8 @@ class BuildNotificationsTest < ActiveSupport::TestCase
   end
 
   test 'given the build is not finished matrix child build: send_notifications? should be false' do
-    build = Factory(:build, :repository => repository, :finished_at => nil)
-    child = Factory(:build, :repository => repository, :parent => build)
+    build = Factory(:running_build, :repository => repository, :finished_at => nil)
+    child = Factory(:running_build, :repository => repository, :parent => build)
     assert !build.send_notifications?, 'send_notifications? should be false'
   end
 
@@ -65,6 +65,12 @@ class BuildNotificationsTest < ActiveSupport::TestCase
     recipients = %w(recipient-1@email.com recipient-2@email.com)
     build = Factory(:build, :repository => repository, :config => { 'notifications' => { 'recipients' => recipients } })
     assert_contains_recipients(build.unique_recipients, recipients)
+  end
+
+  test "given the builds configuration exists but has no email details, unique_recipients contains the owner details" do
+    build = Factory(:build, :repository => repository, :config => {})
+    build.repository.stubs(:owner_email).returns('owner-1@email.com,owner-2@email.com')
+    assert_contains_recipients(build.unique_recipients, build.repository.owner_email)
   end
 
   protected

@@ -6,8 +6,8 @@ describe RepositoriesController do
   describe "GET 'index'" do
     before(:each) do
       # setup the two repos we need
-      Factory.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
-      Factory.create(:repository, :owner_name => "josh", :name => "globalize", :last_build_started_at => Date.yesterday)
+      FactoryGirl.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today, :last_build_finished_at => Date.today + 5.minutes)
+      FactoryGirl.create(:repository, :owner_name => "josh", :name => "globalize", :last_build_started_at => Date.yesterday, :last_build_finished_at => Date.yesterday + 5.minutes)
     end
 
     context "returns a list of repositories in xml format" do
@@ -42,7 +42,7 @@ describe RepositoriesController do
         result = ActiveSupport::JSON.decode response.body
 
         result.count.should eql(2)
-        result.first["slug"].should  eql("sven/travis-ci")
+        result.first["slug"].should eql("sven/travis-ci")
         result.second["slug"].should eql("josh/globalize")
       end
 
@@ -64,7 +64,7 @@ describe RepositoriesController do
       controller.stub!(:render)
     end
 
-    let(:repository) { Factory.create(:repository, :owner_name => "sven", :name => "travis-ci") }
+    let(:repository) { FactoryGirl.create(:repository, :owner_name => "sven", :name => "travis-ci") }
 
     it 'shows an "unknown" button when the repository does not exist' do
       repository
@@ -75,44 +75,41 @@ describe RepositoriesController do
 
     it 'shows an "unknown" button when it only has a build thats not finished' do
       Factory(:running_build, :repository => repository)
-
       should_receive_file_with_status("unknown")
 
       get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
     end
 
-    it 'shows an "unstable" button when the repository has broken build' do
+    it 'shows an "failing" button when the repository has broken build' do
       Factory(:broken_build, :repository => repository)
 
-      should_receive_file_with_status("unstable")
+      should_receive_file_with_status("failing")
 
       get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
     end
 
-    it 'shows a "stable" button when the repository\'s last build passed' do
-      Factory(:successfull_build, :repository => repository)
+    it 'shows a "passing" button when the repository\'s last build passed' do
+      Factory(:successful_build, :repository => repository)
 
-      should_receive_file_with_status("stable")
+      should_receive_file_with_status("passing")
 
       get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
     end
 
-    it 'shows a "stable" button when the previous build passed and there\'s one still running' do
-      Factory(:broken_build, :repository => repository, :branch => 'master')
-      Factory(:successfull_build, :repository => repository, :branch => 'feature')
+    it 'shows a "passing" button when the previous build passed and there\'s one still running' do
+      Factory(:successful_build, :repository => repository)
+      Factory(:running_build, :repository => repository)
+      should_receive_file_with_status("passing")
 
-      should_receive_file_with_status("stable")
-
-      get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci", :branch => 'feature')
+      get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
     end
 
     it 'limits to the provided branch when the attribute is provided' do
-      Factory(:successfull_build, :repository => repository)
-      Factory(:running_build, :repository => repository)
+      Factory(:successful_build, :repository => repository, :branch => 'dev')
+      Factory(:broken_build, :repository => repository, :branch => 'master')
+      should_receive_file_with_status("passing")
 
-      should_receive_file_with_status("stable")
-
-      get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci")
+      get(:show, :format => "png", :owner_name => "sven", :name => "travis-ci", :branch => 'dev')
     end
 
     def should_receive_file_with_status(status)
@@ -124,35 +121,123 @@ describe RepositoriesController do
 
   describe "GET 'show', format json" do
     before(:each) do
-      Factory.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
+      travis = FactoryGirl.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
+      build_parent = FactoryGirl.create(:build, :repository => travis, :started_at => Time.now, :config => {'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'], 'env' => ['DB=sqlite3', 'DB=postgres']})
+      build_parent.matrix.each do |build|
+        if build.config['rvm'] == '1.8.7'
+          build.update_attribute(:status, 0)
+        elsif build.config['rvm'] == '1.9.2'
+          build.update_attribute(:status, 1)
+        end
+      end
     end
-    it "" do
+
+    context "with parameter rvm:1.8.7" do
+      it "return last build status passing" do
+        get :show, :owner_name => "sven", :name => "travis-ci", :format => "json", :rvm => "1.8.7"
+        result = ActiveSupport::JSON.decode response.body
+        result['last_build_status'].should eql 0
+      end
+    end
+
+    context "with parameter rvm:1.9.2" do
+      it "return last build status failing" do
+        get :show, :owner_name => "sven", :name => "travis-ci", :format => "json", :rvm => "1.9.2"
+        result = ActiveSupport::JSON.decode response.body
+        result['last_build_status'].should eql 1
+      end
+    end
+
+    context "with parameters rvm:1.8.7 and gemfile:test/Gemfile.rails-2.3.x" do
+      it "return last build status passing" do
+        get :show, :owner_name => "sven", :name => "travis-ci", :format => "json", :rvm => "1.8.7", :gemfile => "test/Gemfile.rails-2.3.x"
+        result = ActiveSupport::JSON.decode response.body
+        result['last_build_status'].should eql 0
+      end
+    end
+
+    context "with parameters rvm:1.9.2 and gemfile:test/Gemfile.rails-3.0.x" do
+      it "return last build status failing" do
+        get :show, :owner_name => "sven", :name => "travis-ci", :format => "json", :rvm => "1.9.2", :gemfile => "test/Gemfile.rails-2.3.x"
+        result = ActiveSupport::JSON.decode response.body
+        result['last_build_status'].should eql 1
+      end
+    end
+
+    context "with parameters rvm:1.8.7, gemfile:test/Gemfile.rails-2.3.x, and env:DB=postgres passed" do
+      it "return last build status passing" do
+        get :show, :owner_name => "sven", :name => "travis-ci", :format => "json", :rvm => "1.8.7", :gemfile => "test/Gemfile.rails-2.3.x", :env => 'DB=postgres'
+        result = ActiveSupport::JSON.decode response.body
+        result['last_build_status'].should eql 0
+      end
+    end
+
+    context "with parameters rvm:1.9.2, gemfile:test/Gemfile.rails-2.3.x, and env:DB=postgres passed" do
+      it "return last build status failing" do
+        get :show, :owner_name => "sven", :name => "travis-ci", :format => "json", :rvm => "1.9.2", :gemfile => "test/Gemfile.rails-2.3.x", :env => 'DB=postgres'
+        result = ActiveSupport::JSON.decode response.body
+        result['last_build_status'].should eql 1
+      end
+    end
+
+    context "with parameters rvm:perl" do
+      it "return last build status for the parent build" do
+        get :show, :owner_name => "sven", :name => "travis-ci", :format => "json", :params => {:rvm => "perl"}
+        result = ActiveSupport::JSON.decode response.body
+        result['last_build_status'].should eql 0
+      end
+    end
+
+    it "return info about repository in json format" do
       get :show, :owner_name => "sven", :name => "travis-ci", :format => "json"
 
       result = ActiveSupport::JSON.decode response.body
-      %w(id last_build_id last_build_number last_build_status last_build_started_at last_build_finished_at slug status).each do |node_name|
+      %w(id last_build_id last_build_number last_build_status last_build_started_at last_build_finished_at slug).each do |node_name|
         result.include?(node_name).should be_true
       end
-      result['status'].should eql 'unknown'
+      result['last_build_status'].should eql 0
       result['slug'].should eql 'sven/travis-ci'
     end
   end
 
-  describe "GET 'show', format xml" do
+  describe "GET 'show', format xml (schema: not specified)" do
     before(:each) do
-      Factory.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
+      FactoryGirl.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
     end
 
     it "return info about repository in xml format" do
       get :show, :owner_name => "sven", :name => "travis-ci", :format => "xml"
 
       result = ActiveSupport::XmlMini.parse response.body
-      %w(id last_build_id last_build_number last_build_status last_build_started_at last_build_finished_at slug status).each do |node_name|
+      %w(id last_build_id last_build_number last_build_status last_build_started_at last_build_finished_at slug).each do |node_name|
         result['repository'].include?(node_name).should be_true
       end
-      result['repository']['status']['__content__'].should eql 'unknown'
+      result['repository']['last_build_status']['__content__'].should eql nil
       result['repository']['slug']['__content__'].should eql 'sven/travis-ci'
     end
   end
-end
+  
+  describe "GET 'show', format xml (schema: cctray)" do
+    before(:each) do
+      FactoryGirl.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
+    end
 
+    it "returns info about repository in CCTray (CruiseControl) XML format" do
+      get :show, :owner_name => "sven", :name => "travis-ci", :format => "xml", :schema => "cctray"
+      
+      response.should render_template("show.cctray")
+    end
+  end
+  
+  describe "GET 'show', format xml (schema: unknown)" do
+    before(:each) do
+      FactoryGirl.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
+    end
+
+    it "does not attempt to render unsupported XML schemas" do
+      get :show, :owner_name => "sven", :name => "travis-ci", :format => "xml", :schema => "somerandomschema"
+      
+      response.should_not render_template("show.somerandomschema")
+    end
+  end
+end

@@ -18,14 +18,14 @@ class ApplicationHelperTest < ActionView::TestCase
   end
 
   test '#gravatar returns an IMG tag for a given user' do
-    user = Factory.build(:user)
+    user = FactoryGirl.build(:user)
     expected = "<img alt=\"#{user.name}\" class=\"profile-avatar\" src=\"http://www.gravatar.com/avatar/#{user.profile_image_hash}?s=48&amp;d=mm\" />"
 
     assert_equal expected, gravatar(user)
   end
 
   test '#gravatar with a given :size returns an IMG tag with the given :size' do
-    user = Factory.build(:user)
+    user = FactoryGirl.build(:user)
     expected = "<img alt=\"#{user.name}\" class=\"profile-avatar\" src=\"http://www.gravatar.com/avatar/#{user.profile_image_hash}?s=24&amp;d=mm\" />"
 
     assert_equal expected, gravatar(user, :size => 24)
