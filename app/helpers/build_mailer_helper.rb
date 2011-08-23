@@ -1,4 +1,8 @@
 module BuildMailerHelper
+  
+  def title(build)
+    "Build Update for #{build.repository.slug}"
+  end
 
   def print_build_matrix_summary(matrix)
     title = '#      RVM       Duration             Status      Build Log'
