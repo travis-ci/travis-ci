@@ -5,7 +5,6 @@ require 'rspec'
 require 'capybara/rspec'
 require 'webmock'
 
-
 RSpec.configure do |config|
   config.before :each, :js => true do
     Capybara.current_driver = :selenium

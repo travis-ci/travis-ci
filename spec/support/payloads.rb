@@ -168,6 +168,14 @@ WORKER_PAYLOADS = {
   :started    => { "build" => { "started_at" => "2011-06-16 22:59:41 +0200" } },
   :configured => { "build" => { "config" => { "script" => "rake", "rvm" => ["1.8.7", "1.9.2"], "gemfile" => ["gemfiles/rails-2.3.x", "gemfiles/rails-3.0.x"] } } },
   :log        => { "build" => { "log" => " ... appended" } },
-  :finished   => { "build" => { "finished_at" => "2011-06-16 22:59:41 +0200", "status" => 1, "log" => "final build log" } }
+  :finished   => { "build" => { "finished_at" => "2011-06-16 22:59:41 +0200", "status" => 1, "log" => "final build log" } },
+
+  'task:configure:started'  => { 'build' => { 'started_at'  => '2011-01-01 00:00:00 +0200' } },
+  'task:configure:finished' => { 'build' => { 'finished_at' => '2011-01-01 00:01:00 +0200', 'config' => { 'rvm' => ['1.8.7', '1.9.2'] } } },
+  'task:test:started'       => { 'build' => { 'started_at'  => '2011-01-01 00:02:00 +0200' } },
+  'task:test:log:1'         => { 'build' => { 'log'  => 'the '  } },
+  'task:test:log:2'         => { 'build' => { 'log'  => 'full ' } },
+  'task:test:log:3'         => { 'build' => { 'log'  => 'log'   } },
+  'task:test:finished'      => { 'build' => { 'finished_at' => '2011-01-01 00:03:00 +0200', 'status' => 0, 'log' => 'the full log' } }
 }
 

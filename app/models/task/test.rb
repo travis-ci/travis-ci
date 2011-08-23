@@ -5,7 +5,11 @@ class Task::Test < Task
   event :start,  :to => :started, :after => :propagate
   event :finish, :to => :finished, :after => :propagate
 
-  def finish(data)
+  def start(data = {})
+    self.started_at = data[:started_at]
+  end
+
+  def finish(data = {})
     self.status, self.finished_at = *data.values_at(:status, :finished_at)
   end
 

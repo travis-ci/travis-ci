@@ -28,9 +28,13 @@ describe ::Task::Test do
 
   describe :start! do
     it 'starts the task and propagates to the build' do
-      first.start!
+      first.start! :started_at => '2011-01-01 00:00:00 +0200'
+
       first.reload.should be_started
+      first.started_at.should == DateTime.parse('2011-01-01 00:00:00 +0200')
+
       build.reload.should be_started
+      build.started_at.should == DateTime.parse('2011-01-01 00:00:00 +0200')
     end
 
     it 'notifies observers' do
@@ -45,18 +49,22 @@ describe ::Task::Test do
   describe :finish! do
     it 'finishes the task, sets the status and, when all of the tasks are finished, the build' do
       first.start!
-      first.finish!(:status => 0)
+      first.finish!(:status => 0, :finished_at => '2011-01-01 00:00:00 +0200')
 
       build.reload.should be_started
       first.reload.should be_finished
+      first.finished_at.should == DateTime.parse('2011-01-01 00:00:00 +0200')
       first.status.should == 0
 
-      second.finish!(:status => 0)
+      second.finish!(:status => 0, :finished_at => '2011-01-01 00:01:00 +0200')
+
+      second.reload.should be_finished
+      second.finished_at.should == DateTime.parse('2011-01-01 00:01:00 +0200')
+      second.status.should == 0
 
       build.reload.should be_finished
+      build.finished_at.should == DateTime.parse('2011-01-01 00:01:00 +0200')
       build.status.should == 0
-      second.reload.should be_finished
-      second.status.should == 0
     end
 
     it 'notifies observers' do

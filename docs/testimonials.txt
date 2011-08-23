@@ -53,7 +53,7 @@ https://twitter.com/#!/middlemanapp/status/99554750592331778 - @middlemanapp (Mi
 http://labnotes.org/2011/08/10/travis-ci - @assaf (Assaf Arkin)
 
 "Oh man, @travisci is awesome! The build matrix getting green *live* makes me want to test more. Congratz guys!"
-http://twitter.com/#!/jbbarth/status/101384811201052672 - @jbbarth (Jean-Baptiste BARTH)
+http://twitter.com/#!/jbbarth/status/101384811201052672 - @jbbarth (Jean-Baptiste Barth)
 
 "@travisci is just awesome. It really couldn't be easier to use."
 http://twitter.com/#!/jameskilton/status/101814640962572289 - @jameskilton (Jason Roelofs)
@@ -69,3 +69,9 @@ http://twitter.com/#!/nhocki/status/103206778690482176 - @nhocki (Nicolás Hock 
 
 "so, combine @github's Ace editor, @travisci's CI, and @heroku's infrastructure, do I still need a computer?"
 http://twitter.com/#!/ngauthier/status/103202629798199296 - @ngauthier (Nick Gauthier)
+
+"Big ♥ to @travisci for that awesome and free CI service. It helps to make open source software more stable and fun. #rubythankful"<D-§><D-§>
+https://twitter.com/#!/mordaroso/status/104105304362455040 - @mordaroso (Fabio Kuhn)
+
+".@travisci is awesome @MadisonRuby"
+https://twitter.com/#!/MadisonRuby/status/104586671802163200 - @dkastner (Derek Kastner)

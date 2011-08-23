@@ -37,4 +37,5 @@ module Responders
   end
 end
 
+require 'action_controller'
 ActionController::Base.extend Responders::ControllerMethod
