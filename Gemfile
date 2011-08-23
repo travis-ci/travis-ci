@@ -29,11 +29,10 @@ gem 'rabl',              '~> 0.3.0'
 
 gem 'jruby-openssl',     :platforms => :jruby
 
-# gem 'simple_states',     '~> 0.0.4'
+# gem 'simple_states',     '~> 0.0.5'
 gem 'simple_states',     :git => 'https://github.com/svenfuchs/simple_states.git'
+gem 'data_migrations',   :git => 'https://github.com/svenfuchs/data_migrations.git'
 gem 'newrelic_rpm',      '~> 3.1.0'
-
-gem 'data_migrations',   :path => '~/Development/projects/data_migrations'
 
 group :test do
   gem 'capybara',        '~> 1.0.0'

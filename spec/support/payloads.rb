@@ -150,25 +150,24 @@ GITHUB_PAYLOADS = {
 }
 
 
-RESQUE_PAYLOADS = {
-  "gem-release" => {
-    "repository" => {
-      "id" => 1,
-      "slug" => "svenfuchs/gem-release",
-    },
-    "build" => {
-      "id" => 1,
-      "commit" => "9854592",
-    }
-  }
-}
+# RESQUE_PAYLOADS = {
+#   "gem-release" => {
+#     "repository" => {
+#       "id" => 1,
+#       "slug" => "svenfuchs/gem-release",
+#     },
+#     "build" => {
+#       "id" => 1,
+#       "commit" => "9854592",
+#     }
+#   }
+# }
 
-# TODO use these in builder/rails_test
 WORKER_PAYLOADS = {
-  :started    => { "build" => { "started_at" => "2011-06-16 22:59:41 +0200" } },
-  :configured => { "build" => { "config" => { "script" => "rake", "rvm" => ["1.8.7", "1.9.2"], "gemfile" => ["gemfiles/rails-2.3.x", "gemfiles/rails-3.0.x"] } } },
-  :log        => { "build" => { "log" => " ... appended" } },
-  :finished   => { "build" => { "finished_at" => "2011-06-16 22:59:41 +0200", "status" => 1, "log" => "final build log" } },
+  # :started    => { "build" => { "started_at" => "2011-06-16 22:59:41 +0200" } },
+  # :configured => { "build" => { "config" => { "script" => "rake", "rvm" => ["1.8.7", "1.9.2"], "gemfile" => ["gemfiles/rails-2.3.x", "gemfiles/rails-3.0.x"] } } },
+  # :log        => { "build" => { "log" => " ... appended" } },
+  # :finished   => { "build" => { "finished_at" => "2011-06-16 22:59:41 +0200", "status" => 1, "log" => "final build log" } },
 
   'task:configure:started'  => { 'build' => { 'started_at'  => '2011-01-01 00:00:00 +0200' } },
   'task:configure:finished' => { 'build' => { 'finished_at' => '2011-01-01 00:01:00 +0200', 'config' => { 'rvm' => ['1.8.7', '1.9.2'] } } },
@@ -179,3 +178,20 @@ WORKER_PAYLOADS = {
   'task:test:finished'      => { 'build' => { 'finished_at' => '2011-01-01 00:03:00 +0200', 'status' => 0, 'log' => 'the full log' } }
 }
 
+QUEUE_PAYLOADS = {
+  'task:configure' => {
+    :build      => { :id => 1, :commit => '9854592', :branch => 'master' },
+    :repository => { :id => 1, :slug => 'svenfuchs/gem-release' },
+    :queue      => 'builds'
+  },
+  'task:test:1' => {
+    :build      => { :id => 2, :number => '1.1', :commit => '9854592', :branch => 'master', :config => { :rvm => '1.8.7' } },
+    :repository => { :id => 1, :slug => 'svenfuchs/gem-release' },
+    :queue      => 'builds'
+  },
+  'task:test:2' => {
+    :build      => { :id => 3, :number => '1.2', :commit => '9854592', :branch => 'master', :config => { :rvm => '1.9.2' } },
+    :repository => { :id => 1, :slug => 'svenfuchs/gem-release' },
+    :queue      => 'builds'
+  }
+}
