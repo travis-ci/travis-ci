@@ -204,7 +204,7 @@ describe RepositoriesController do
     end
   end
 
-  describe "GET 'show', format xml" do
+  describe "GET 'show', format xml (schema: not specified)" do
     before(:each) do
       FactoryGirl.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
     end
@@ -219,6 +219,30 @@ describe RepositoriesController do
       result['repository']['last_build_status']['__content__'].should eql nil
       result['repository']['status']['__content__'].should eql 'unknown'
       result['repository']['slug']['__content__'].should eql 'sven/travis-ci'
+    end
+  end
+  
+  describe "GET 'show', format xml (schema: cctray)" do
+    before(:each) do
+      FactoryGirl.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
+    end
+
+    it "returns info about repository in CCTray (CruiseControl) XML format" do
+      get :show, :owner_name => "sven", :name => "travis-ci", :format => "xml", :schema => "cctray"
+      
+      response.should render_template("show.cctray")
+    end
+  end
+  
+  describe "GET 'show', format xml (schema: unknown)" do
+    before(:each) do
+      FactoryGirl.create(:repository, :owner_name => "sven", :name => "travis-ci", :last_build_started_at => Date.today)
+    end
+
+    it "does not attempt to render unsupported XML schemas" do
+      get :show, :owner_name => "sven", :name => "travis-ci", :format => "xml", :schema => "somerandomschema"
+      
+      response.should_not render_template("show.somerandomschema")
     end
   end
 end
