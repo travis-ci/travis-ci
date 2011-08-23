@@ -4,7 +4,6 @@ feature 'The build process' do
   include Rack::Test::Methods
 
   before(:each) do
-    # TODO extract stub_pusher or something
     Travis.config.notifications = [:worker, :pusher]
   end
 
@@ -12,7 +11,7 @@ feature 'The build process' do
     ping_from_github!
 
     _request.should be_created
-    pusher.should have_message('build:queued')           # for client compat. should be task:configure:created
+    pusher.should have_message('build:queued') # TODO legacy. should be task:configure:created
     task.should be_queued
 
     worker.start!(task, 'build' => { 'started_at' => Time.now })
@@ -36,8 +35,8 @@ feature 'The build process' do
       pusher.should have_message('build:started')
 
       api.repositories.should include(json_for_http(repository))
-      # api.build(build).should include(json_for_http(build))
-      # api.task(task).should include(json_for_http(task))
+      # api.build(build).should include(json_for_http(build)) # TODO
+      # api.task(task).should include(json_for_http(task))    # TODO
 
       worker.log!(task, :build => { 'log' => 'foo' })
       task.log.should == 'foo'
@@ -46,12 +45,12 @@ feature 'The build process' do
       worker.finish!(task, :build => { 'finished_at' => Time.now, 'status' => 0, 'log' => 'foo bar'})
       task.should be_finished
       pusher.should have_message('task:test:finished')   # not currently used.
-      # api.task(task).should include(json_for_http(task))
+      # api.task(task).should include(json_for_http(task)) # TODO
     end
 
     build.should be_finished
     build.status.should == 0
-    # api.build(build).should include(json_for_http(build))
+    # api.build(build).should include(json_for_http(build)) # TODO
 
     repository.should have_last_build(build)
     api.repositories.should include(json_for_http(repository))

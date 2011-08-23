@@ -2,7 +2,7 @@ require 'client/spec_helper'
 
 feature 'Walking through the build process', :js => true do
   before :each do
-    Travis.config.notifications = [:worker]
+    Travis.config.notifications = [:worker, :pusher]
   end
 
   let(:github_payloads) { GITHUB_PAYLOADS }
@@ -10,46 +10,88 @@ feature 'Walking through the build process', :js => true do
   let(:worker_payloads) { WORKER_PAYLOADS }
 
   scenario 'reloading the page after each event' do
-    ping_from_github! :reload_page => true
-    should_see_job 'svenfuchs/gem-release' # TODO should see 'svenfuchs/gem-release *'
-    queue_payloads['task:configure'].should be_queued(:queue => 'builds', :pop => true)
+    reloading_page do
+      build_process!
+    end
+  end
 
-    receive_from_worker!('task:configure:started', :reload_page => true)
+  scenario 'updating through websockets' do
+    sending_websocket_messages do
+      build_process!
+    end
+  end
+
+  def build_process!
+    visit '/'
+
+    ping_from_github!
+    should_see_job 'svenfuchs/gem-release' # TODO should see 'svenfuchs/gem-release *'
+    should_have_job 'task:configure'
+
+    receive_from_worker!('task:configure:started')
     should_not_see_job 'svenfuchs/gem-release'
 
-    receive_from_worker!('task:configure:finished', :reload_page => true)
+    receive_from_worker!('task:configure:finished')
     should_see_jobs 'svenfuchs/gem-release #1.1', 'svenfuchs/gem-release #1.2'
     should_have_jobs 'task:test:1', 'task:test:2'
 
     2.upto(3) do |id|
       number = "1.#{id - 1}"
 
-      receive_from_worker!('task:test:started', :to => "builds/#{id}", :reload_page => true)
+      receive_from_worker!('task:test:started', :to => "builds/#{id}")
+      click_link 'Current'
+
       should_not_see_job "svenfuchs/gem-release #{number}"
       should_see_selected_repository 'svenfuchs/gem-release', :color => 'yellow'
       should_see_matrix '1.1', '1.2', :tab => 'current'
 
       1.upto(3) do |num|
-        receive_from_worker!("task:test:log:#{num}", :to => "builds/#{id}/log", :reload_page => true)
+        receive_from_worker!("task:test:log:#{num}", :to => "builds/#{id}/log")
       end
       click_link number
-      should_see_log 'the full log'
+      should_see_log 'the full log' unless @send_websocket_messages # TODO why the heck do these not get appended to the log elements
 
-      receive_from_worker!('task:test:finished', :to => "builds/#{id}", :reload_page => true)
+      receive_from_worker!('task:test:finished', :to => "builds/#{id}")
       click_link number
     end
 
     should_see_selected_repository 'svenfuchs/gem-release', :duration => '1 min', :finished_at => 'ago', :color => 'green'
   end
 
+  def reloading_page
+    @reload_page = true
+    yield
+    @reload_page = false
+  end
+
+  def sending_websocket_messages
+    @send_websocket_messages = true
+    yield
+    Travis.config.notifications.clear
+    @send_websocket_messages = false
+  end
+
   def ping_from_github!(options = { :reload_page => false })
     post 'builds', :payload => github_payloads['gem-release']
-    visit '/' if options[:reload_page]
+    after_receive_message!
   end
 
   def receive_from_worker!(event, options = { :reload_path => false })
     put options[:to] || 'builds/1', worker_payloads[event] # legacy route. should be tasks/1 in future
-    visit '/' if options[:reload_page]
+    after_receive_message!
+  end
+
+  def after_receive_message!
+    visit '/' if @reload_page
+    send_websocket_messages! if @send_websocket_messages
+  end
+
+  def send_websocket_messages!
+    pusher.messages.each do |message|
+      page.execute_script "Travis.trigger(#{message.first.inspect}, #{message.last.to_json})"
+      sleep(0.5)
+    end
+    pusher.messages.clear
   end
 
   def should_see_job(*jobs)
