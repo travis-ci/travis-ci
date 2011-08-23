@@ -3,7 +3,15 @@ require 'yaml'
 
 module Travis
   class Config < Hashr
-    define :notifications => [], :queues => []
+    module Pusher
+      def key
+        self[:key]
+      end
+    end
+
+    define :notifications => []
+    define :queues => []
+    define :pusher => Pusher
 
     def initialize(data = nil, *args)
       data ||= load_env || load_file || {}

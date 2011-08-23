@@ -3,7 +3,7 @@ module Travis
     class Pusher
       autoload :Payload, 'travis/notifications/pusher/payload'
 
-      EVENTS = [/build:/, /task:.*:(created|finished)/]
+      EVENTS = [/build:.*/, 'task:configure:started', /task:.*:(created|finished)/]
 
       def notify(event, object, *args)
         push(event, object, *args)
@@ -25,6 +25,8 @@ module Travis
           case event
           when /task:.*:created/
             'build:queued'
+          when 'task:configure:started'
+            'build:removed'
           when /task:.*:finished/
             'build:removed'
           else

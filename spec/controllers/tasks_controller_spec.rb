@@ -16,9 +16,6 @@ describe TasksController do
     let(:user)      { User.create!(:login => 'user').tap { |user| user.tokens.create! } }
     let(:auth)      { ActionController::HttpAuthentication::Basic.encode_credentials(user.login, user.tokens.first.token) }
 
-    let(:pusher)    { Support::Mocks::Pusher.new }
-    let(:channel)   { Support::Mocks::Channel.new }
-
     before(:each) do
       Travis.config.notifications = [:pusher]
       request.env['HTTP_AUTHORIZATION'] = auth

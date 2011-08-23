@@ -35,7 +35,7 @@ class Task < ActiveRecord::Base
 
   def append_log!(chars)
     self.class.update_all(["log = COALESCE(log, '') || ?", chars], ["id = ?", id])
-    owner.notify(:log, :log => chars)
+    owner.notify(:log, :build => { :_log => chars })
   end
 
   def propagate(*args)
