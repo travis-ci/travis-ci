@@ -181,12 +181,12 @@ describe RepositoriesController do
       end
 
       it '"passing" when the last build has passed' do
-        repository = Factory(:successfull_build).repository
+        repository = Factory(:successful_build).repository
         get_png(repository).should serve_status_image('passing')
       end
 
       it '"stable" when there is a running build but the previous one has passed' do
-        repository = Factory(:successfull_build).repository
+        repository = Factory(:successful_build).repository
         Factory(:build, :repository => repository, :state => 'started')
         get_png(repository).should serve_status_image('passing')
       end
@@ -209,12 +209,12 @@ describe RepositoriesController do
       end
 
       it '"passing" when the last build has passed' do
-        repository = Factory(:successfull_build).repository
+        repository = Factory(:successful_build).repository
         get_png(repository, :branch => 'master').should serve_status_image('passing')
       end
 
       it '"passing" when there is a running build but the previous one has passed' do
-        repository = Factory(:successfull_build).repository
+        repository = Factory(:successful_build).repository
         Factory(:build, :repository => repository, :state => 'started')
         get_png(repository, :branch => 'master').should serve_status_image('passing')
       end
