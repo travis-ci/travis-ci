@@ -12,7 +12,7 @@ class EmailNotificationsTest < NotificationsTestCase
     end
 
     assert_equal ['bar@example.com', 'baz@example.com', 'foo@example.com'], email.to
-    assert_equal 'svenfuchs/minimal#1 (master - 62aae5f): the build has failed', email.subject
+    assert_equal '[Failed] svenfuchs/minimal#1 (master - 62aae5f)', email.subject
 
     assert_match /Duration : 1 hour, 17 minutes, and 7 seconds/,  email.encoded
     assert_match /Message : the commit message/,                  email.encoded
@@ -32,7 +32,7 @@ class EmailNotificationsTest < NotificationsTestCase
     end
 
     assert_equal ["user1@example.de", "user2@example.de", "user3@example.de"],   email.to
-    assert_equal 'svenfuchs/minimal#1 (master - 62aae5f): the build has failed', email.subject
+    assert_equal '[Failed] svenfuchs/minimal#1 (master - 62aae5f)', email.subject
 
     assert_match /Duration : 17 minutes and 7 seconds/, email.encoded
     assert_match /Message : the commit message/,        email.encoded
@@ -52,7 +52,7 @@ class EmailNotificationsTest < NotificationsTestCase
     end
 
     assert_equal ["user1@example.de"], email.to
-    assert_equal 'svenfuchs/minimal#1 (master - 62aae5f): the build has failed', email.subject
+    assert_equal '[Failed] svenfuchs/minimal#1 (master - 62aae5f)', email.subject
 
     assert_match /Duration : 7 seconds/,         email.encoded
     assert_match /Message : the commit message/, email.encoded
@@ -93,7 +93,7 @@ class DeprecatedEmailNotificationsTest < NotificationsTestCase
     end
 
     assert_equal ["user1@example.de", "user2@example.de", "user3@example.de"],   email.to
-    assert_equal 'svenfuchs/minimal#1 (master - 62aae5f): the build has failed', email.subject
+    assert_equal '[Failed] svenfuchs/minimal#1 (master - 62aae5f)', email.subject
 
     assert_match /Duration : 17 minutes and 7 seconds/, email.encoded
     assert_match /Message : the commit message/,        email.encoded
@@ -113,7 +113,7 @@ class DeprecatedEmailNotificationsTest < NotificationsTestCase
     end
 
     assert_equal ["user1@example.de"], email.to
-    assert_equal 'svenfuchs/minimal#1 (master - 62aae5f): the build has failed', email.subject
+    assert_equal '[Failed] svenfuchs/minimal#1 (master - 62aae5f)', email.subject
 
     assert_match /Duration : 7 seconds/,         email.encoded
     assert_match /Message : the commit message/, email.encoded
