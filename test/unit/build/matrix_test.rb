@@ -234,6 +234,7 @@ class BuildMatrixTest < ActiveSupport::TestCase
       'committer_name' => 'Sven Fuchs',
       'committer_email' => 'svenfuchs@artweb-design.de',
       'config' => { 'script' => 'rake ci', 'gemfile' => ['gemfiles/rails-2.3.x', 'gemfiles/rails-3.0.x'], 'rvm' => ['1.8.7', '1.9.2']},
+      'started_at' => build.started_at,
     }
     matrix_attributes = {
       'repository_id' => build.repository.id,
@@ -243,6 +244,7 @@ class BuildMatrixTest < ActiveSupport::TestCase
       'committer_name' => 'Sven Fuchs',
       'committer_email' => 'svenfuchs@artweb-design.de',
       'message' => 'the commit message',
+      'started_at' => build.started_at,
     }
     expected = build_attributes.merge(
       'matrix' => [
@@ -254,17 +256,17 @@ class BuildMatrixTest < ActiveSupport::TestCase
     )
     assert_equal_hashes expected, build.as_json(:for => :'build:started')
   end
-  
+
   test "matrix_for selects matching builds" do
     build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'], 'env' => ['DB=sqlite3', 'DB=postgresql'] })
     assert_equal [build.matrix[0]], build.matrix_for({'rvm' => '1.8.7', 'env' => 'DB=sqlite3'})
   end
-  
+
   test "matrix_for does not select builds with non-matching values" do
     build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'], 'env' => ['DB=sqlite3', 'DB=postgresql'] })
     assert_equal [], build.matrix_for({'rvm' => 'nomatch', 'env' => 'DB=sqlite3'})
   end
-  
+
   test "matrix_for does not select builds with non-matching keys" do
     build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'], 'env' => ['DB=sqlite3', 'DB=postgresql'] })
     assert_equal [build.matrix[0], build.matrix[1]], build.matrix_for({'rvm' => '1.8.7', 'nomatch' => 'DB=sqlite3'})

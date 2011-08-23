@@ -8,9 +8,7 @@ FactoryGirl.define do
     created_at { |r| Time.utc(2011, 01, 30, 5, 25) }
     updated_at { |r| r.created_at + 5.minutes }
   end
-end
 
-FactoryGirl.define do
   factory :build do
     association :repository
     number '1'
@@ -20,32 +18,39 @@ FactoryGirl.define do
     committer_name 'Sven Fuchs'
     committer_email 'svenfuchs@artweb-design.de'
     token 'abcd'
+    started_at { |b| Time.utc(2011, 01, 30, 5, 25) }
+    finished_at { |b| b.started_at + 5.minutes }
+    status 0
   end
-end
 
-FactoryGirl.define do
   factory :running_build, :parent => :build do
     started_at { Time.now }
+    finished_at nil
+    status nil
   end
-end
 
-FactoryGirl.define do
   factory :successfull_build, :parent => :build do
+    started_at { Time.now }
+    finished_at { Time.now }
     status 0
+  end
+
+  factory :successful_build, :parent => :build do
     started_at { Time.now }
     finished_at { Time.now }
+    status 0
   end
-end
 
-FactoryGirl.define do
   factory :broken_build, :parent => :build do
-    status 1
     started_at { Time.now }
     finished_at { Time.now }
+    status 1
   end
-end
 
-FactoryGirl.define do
+  factory :development_branch_build, :parent => :build do
+    branch 'development'
+  end
+
   factory :user do
     name  'Sven Fuchs'
     login 'svenfuchs'

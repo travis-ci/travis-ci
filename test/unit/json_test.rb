@@ -51,6 +51,8 @@ class JsonTest < ActiveSupport::TestCase
       'last_build_id' => build.id,
       'last_build_number' => '1',
       'last_build_started_at' => now,
+      'last_build_finished_at' => build.finished_at,
+      'last_build_status' => 0,
     }
     assert_equal_hashes expected, repository.as_json(:for => :'build:started')
   end
@@ -88,6 +90,8 @@ class JsonTest < ActiveSupport::TestCase
       'last_build_id' => build.id,
       'last_build_number' => '1',
       'last_build_started_at' => now,
+      'last_build_finished_at' => build.finished_at,
+      'last_build_status' => 0,
     }
     assert_equal_hashes expected, repository.as_json(:for => :'build:configured')
   end
@@ -112,7 +116,8 @@ class JsonTest < ActiveSupport::TestCase
       'last_build_id' => build.id,
       'last_build_number' => '1',
       'last_build_started_at' => now,
-      'last_build_finished_at' => now
+      'last_build_finished_at' => now,
+      'last_build_status' => 0,
     }
     assert_equal_hashes expected, repository.as_json(:for => :'build:finished')
   end
@@ -132,7 +137,7 @@ class JsonTest < ActiveSupport::TestCase
       "commit" => '62aae5f70ceee39123ef',
       "message" => "the commit message",
       "status" => build.status,
-      :status_message => "Failed",
+      :status_message => "Passed",
       "committed_at" =>  build.committed_at,
       "committer_email" => "svenfuchs@artweb-design.de",
       "committer_name" => "Sven Fuchs",

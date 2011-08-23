@@ -87,4 +87,49 @@ if Rails.env.development? || Rails.env.jasmine?
     :log => File.read("#{Rails.root}/db/seeds/logs/svenfuchs.minimal.2.log")
   })
 
+
+  rails_admin = Repository.create!({
+    :owner_name => 'sferik',
+    :name => 'rails_admin',
+    :url => 'https://github.com/sferik/rails_admin',
+    :last_duration => 30
+  })
+
+  Build.create!({
+    :repository => rails_admin,
+    :branch => 'master',
+    :number => 1,
+    :status => 0,
+    :commit => '565294c05913cfc232300',
+    :message => 'fixes to API',
+    :committed_at => '2010-11-11 11:58:00',
+    :author_name => 'Erik Michaels-Ober',
+    :author_email => 'sferik@email.com',
+    :committer_name => 'Erik Michaels-Ober',
+    :committer_email => 'sferik@email.com',
+    :started_at => '2010-11-11 12:00:00',
+    :finished_at => '2011-08-09 12:00:20',
+    :agent => 'a1732e4d',
+    :log => File.read("#{Rails.root}/db/seeds/logs/svenfuchs.minimal.2.log"),
+    :config => { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'] }
+  })
+
+  Build.create!({
+    :repository => rails_admin,
+    :branch => 'dev',
+    :number => 2,
+    :status => 0,
+    :commit => '565294c05913cfc232301',
+    :message => 'more fixes to API',
+    :committed_at => '2011-08-08 11:58:00',
+    :author_name => 'Erik Michaels-Ober',
+    :author_email => 'sferik@email.com',
+    :committer_name => 'Erik Michaels-Ober',
+    :committer_email => 'sferik@email.com',
+    :started_at => '2011-08-09 12:10:00',
+    :finished_at => '2011-08-09 12:10:20',
+    :agent => 'a1732e4d',
+    :log => File.read("#{Rails.root}/db/seeds/logs/svenfuchs.minimal.2.log"),
+    :config => { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'] }
+  })
 end
