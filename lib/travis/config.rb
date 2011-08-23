@@ -1,3 +1,4 @@
+require 'hashr'
 require 'yaml'
 
 module Travis

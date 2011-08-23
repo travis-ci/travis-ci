@@ -109,25 +109,23 @@ RSpec::Matchers.define :be_queued do |*args|
     @queue = args.first || 'builds'
     @task = task
 
-    @expected = task.is_a?(Task) ? Travis::Notifications::Worker.payload_for(@task, :queue => 'builds') : task
     @actual = job ? job['args'].last.deep_symbolize_keys : nil
+    @expected = task.is_a?(Task) ? Travis::Notifications::Worker.payload_for(@task, :queue => 'builds') : task
     @actual == @expected
   end
 
   def job
-    @job ||= find_job(@queue, @expected)
+    @job ||= Resque.peek(@queue, 0, 50).detect { |job| job['args'].last.deep_symbolize_keys == @actual.deep_symbolize_keys }
   end
 
-  def find_job(queue, payload)
-    jobs = Resque.peek(queue, 0, 50)
-    payload = payload.deep_symbolize_keys
-    jobs.detect { |job| job['args'].last.deep_symbolize_keys == payload }
+  def jobs
+    Resque.peek(@queue, 0, 50).map { |job| job.inspect }.join("\n")
   end
 
   failure_message_for_should do
     @actual ?
       "expected the job queued in #{@queue.inspect} to have the payload #{@actual.inspect} but had #{@expected.inspect}" :
-      "expected a job with the payload #{@expected.inspect} to be queued in #{@queue.inspect} but none was found"
+      "expected a job with the payload #{@expected.inspect} to be queued in #{@queue.inspect} but none was found. Instead there are the following jobs:\n\n#{jobs}"
   end
 
   failure_message_for_should_not do

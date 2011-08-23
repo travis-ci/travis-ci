@@ -1,10 +1,10 @@
 ENV["RAILS_ENV"] ||= 'test'
 
-begin
-  require 'rubygems'
-  require 'spork'
-rescue LoadError => e
-end
+# begin
+#   require 'rubygems'
+#   require 'spork'
+# rescue LoadError => e
+# end
 
 def load_all(*patterns)
   patterns.each { |pattern| Dir[pattern].sort.each { |path| load File.expand_path(path) } }
@@ -20,7 +20,7 @@ def configure
   load_all 'spec/support/**/*.rb'
 
   RSpec.configure do |c|
-    c.filter_run_excluding :js => true if ENV['CI']
+    # c.filter_run_excluding :js => true if ENV['CI']
 
     c.mock_with :mocha
 

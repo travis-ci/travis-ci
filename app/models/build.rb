@@ -65,8 +65,12 @@ class Build < ActiveRecord::Base
     super(config.deep_symbolize_keys)
   end
 
-  def finish(data)
-    self.status = data[:status]
+  def start(data = {})
+    self.started_at = data[:started_at]
+  end
+
+  def finish(data = {})
+    self.status, self.finished_at = *data.values_at(:status, :finished_at)
   end
 
   def pending?

@@ -34,8 +34,8 @@ TravisCi::Application.routes.draw do
 
   # legacy routes used by github service hooks and workers
   post 'builds',         :to => 'requests#create'
-  put  'builds/:id',     :to => 'tests#update'
-  put  'builds/:id/log', :to => 'tests#log'
+  put  'builds/:id',     :to => 'tasks#update'
+  put  'builds/:id/log', :to => 'tasks#log'
 end
 
 # we want these after everything else is loaded

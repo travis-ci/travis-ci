@@ -9,44 +9,67 @@ feature 'Walking through the build process', :js => true do
     post 'builds', :payload => GITHUB_PAYLOADS['gem-release']
     visit '/'
 
+    should_see 'svenfuchs/gem-release', :within => '#jobs.queue-builds' # TODO should see 'svenfuchs/gem-release *'
     payload = {
-      :build => { :id => 1, :commit => '9854592', :branch => 'master' },
+      :build      => { :id => 1, :commit => '9854592', :branch => 'master' },
       :repository => { :id => 1, :slug => 'svenfuchs/gem-release' },
-      :queue => 'builds'
+      :queue      => 'builds'
     }
     payload.should be_queued
-    should_see 'svenfuchs/gem-release', :within => '#jobs.queue-builds' # TODO should be 'svenfuchs/gem-release *'
-
     Resque.pop('builds')
-    # post a task:configure:started message
-    # visit '/'
-    # should not see the configure task in the jobs list
-    #
-    # post a task:configure:finished message with the config
-    # visit '/'
-    # should see the test task in the jobs list
-    #
-    # pop it off the queue and inspect it (we can't do that with capybara, right. can we somehow use drb?)
-    #
-    # post a task:test:started message
-    # visit '/'
-    # should not see the test task in the job list
-    # repository should be at the top of the repositories list and show the started build (yellow, started_at)
-    # current tab should be active and show the current build matrix
-    #
-    # visit '#![repository/slug]/builds'
-    # builds tab should be active and show the current build listed
-    #
-    # visit '#![repository/slug]/build/[id]'
-    # builds tab should be active and show the current build
-    #
-    # post a task:test:log message with a log update
-    # visit '/'
-    # should show the updated log
-    #
-    # post a task:test:finished message with the result and full log
-    # visit '/'
-    # repositories list should show the finished build (green, finished_at, duration)
-    # current tab should show the finished build (green, finished_at, duration, full log)
+
+    # task:configure:started
+    put 'builds/1', WORKER_PAYLOADS['task:configure:started'] # legacy route. should be tasks/1 in future
+    visit '/'
+    should_not_see 'svenfuchs/gem-release', :within => '#jobs.queue-builds'
+
+    # task:configure:finished
+    put 'builds/1', WORKER_PAYLOADS['task:configure:finished'] # legacy route. should be tasks/1 in future
+    visit '/'
+
+    should_see 'svenfuchs/gem-release #1.1', :within => '#jobs.queue-builds'
+    payload = {
+      :build      => { :id => 2, :number => '1.1', :commit => '9854592', :branch => 'master', :config => { :rvm => '1.8.7' } },
+      :repository => { :id => 1, :slug => 'svenfuchs/gem-release' },
+      :queue      => 'builds'
+    }
+    payload.should be_queued
+    Resque.pop('builds')
+
+    should_see 'svenfuchs/gem-release #1.2', :within => '#jobs.queue-builds'
+    payload = {
+      :build      => { :id => 3, :number => '1.2', :commit => '9854592', :branch => 'master', :config => { :rvm => '1.9.2' } },
+      :repository => { :id => 1, :slug => 'svenfuchs/gem-release' },
+      :queue      => 'builds'
+    }
+    payload.should be_queued
+    Resque.pop('builds')
+
+    2.upto(3) do |id|
+      put "builds/#{id}", WORKER_PAYLOADS['task:test:started'] # legacy route. should be tasks/1 in future
+      visit '/'
+
+      should_not_see "svenfuchs/gem-release #1.#{id - 1}", :within => '#jobs.queue-builds'
+      should_see 'gem-release', :within => '#repositories .repository:first-child'
+      should_see 'gem-release', :within => '#repositories .repository.selected' # TODO how to merge these?
+      should_see '1.1', :within => '#tab_current.active'
+      should_see '1.2', :within => '#tab_current.active'
+
+      1.upto(3) do |num|
+        put "builds/#{id}/log", WORKER_PAYLOADS["task:test:log:#{num}"] # legacy route. should be tasks/1/log in future
+      end
+      visit '/'
+      click_link "1.#{id - 1}"
+      should_see 'the full log', :within => '#tab_build.active .log'
+
+      put "builds/#{id}", WORKER_PAYLOADS['task:test:finished'] # legacy route. should be tasks/1 in future
+      visit '/'
+
+      click_link "1.#{id - 1}"
+      should_see 'the full log', :within => '#tab_build.active .log'
+    end
+
+    should_see '1 min', :within => '#repositories .repository.selected.green .duration'
+    should_see 'ago',   :within => '#repositories .repository.selected.green .finished_at'
   end
 end
