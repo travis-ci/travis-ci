@@ -29,12 +29,6 @@ FactoryGirl.define do
     status nil
   end
 
-  factory :successfull_build, :parent => :build do
-    started_at { Time.now }
-    finished_at { Time.now }
-    status 0
-  end
-
   factory :successful_build, :parent => :build do
     started_at { Time.now }
     finished_at { Time.now }

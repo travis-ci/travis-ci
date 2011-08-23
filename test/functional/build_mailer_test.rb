@@ -3,7 +3,7 @@ require 'test_helper'
 class BuildMailerTest < ActionMailer::TestCase
 
   test "passed build finished_email" do
-    build = Factory(:successfull_build)
+    build = Factory(:successful_build)
     mail = BuildMailer.finished_email(build)
     
     assert_equal "[Passed] svenfuchs/minimal#1 (master - 62aae5f)", mail.subject

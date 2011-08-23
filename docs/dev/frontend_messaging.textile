@@ -101,7 +101,7 @@ h2. Events
 
 4. 'build:finished':
    Is triggered when worker finished build for the whole repo or child build from matrix.
-   Status 0 - build was successfull. Status 1 - failed.
+   Status 0 - build was successful. Status 1 - failed.
    - Updates the repository list item
    - Updates the build summary
     {

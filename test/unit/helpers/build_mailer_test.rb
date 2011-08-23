@@ -4,7 +4,7 @@ class BuildMailerHelperTest < ActionView::TestCase
   attr_reader :build
   
   def setup
-    @build = Factory(:successfull_build)
+    @build = Factory(:successful_build)
   end
 
   test "#title returns title for the build" do
