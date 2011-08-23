@@ -5,10 +5,10 @@ describe BuildMailer do
     let(:mail)  { BuildMailer.finished_email(build) }
 
     describe 'for a successful build' do
-      let(:build) { Factory(:successfull_build) }
+      let(:build) { Factory(:successful_build) }
 
       it 'subject' do
-        mail.subject.should == '[Passed] svenfuchs/successfull_build#1 (master - 62aae5f)'
+        mail.subject.should == '[Passed] svenfuchs/successful_build#1 (master - 62aae5f)'
       end
 
       it 'recipient' do
