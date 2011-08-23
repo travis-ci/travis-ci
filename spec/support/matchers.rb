@@ -106,16 +106,18 @@ end
 
 RSpec::Matchers.define :be_queued do |*args|
   match do |task|
-    @queue = args.first || 'builds'
+    @options = args.last.is_a?(Hash) ? args.pop : {}
+    @queue = args.first || @options[:queue] || 'builds'
     @task = task
-
-    @actual = job ? job['args'].last.deep_symbolize_keys : nil
     @expected = task.is_a?(Task) ? Travis::Notifications::Worker.payload_for(@task, :queue => 'builds') : task
+    @actual = job ? job['args'].last.deep_symbolize_keys : nil
+
+    Resque.pop(@queue) if @options[:pop]
     @actual == @expected
   end
 
   def job
-    @job ||= Resque.peek(@queue, 0, 50).detect { |job| job['args'].last.deep_symbolize_keys == @actual.deep_symbolize_keys }
+    @job ||= Resque.peek(@queue, 0, 50).detect { |job| job['args'].last.deep_symbolize_keys == @expected.deep_symbolize_keys }
   end
 
   def jobs
@@ -132,8 +134,5 @@ RSpec::Matchers.define :be_queued do |*args|
     @actual ?
       "expected the job queued in #{@queue.inspect} not to have #{@actual.inspect} but it has" :
       "expected no job with the payload #{@expected.inspect} to be queued in #{@queue.inspect} but it is"
-  end
-
-  def expected
   end
 end

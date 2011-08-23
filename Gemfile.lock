@@ -11,6 +11,14 @@ GIT
       multi_json (~> 1.0.2)
 
 GIT
+  remote: https://github.com/svenfuchs/data_migrations.git
+  revision: 8e3befe07f5b1b3082b8ca1fbce857a138c599eb
+  specs:
+    data_migrations (0.0.1)
+      activerecord
+      rake
+
+GIT
   remote: https://github.com/svenfuchs/resque-heartbeat.git
   revision: ba7a89f504906182635ec2cecbed5bd52a557aa6
   ref: ba7a89f
@@ -20,18 +28,11 @@ GIT
 
 GIT
   remote: https://github.com/svenfuchs/simple_states.git
-  revision: 19b455cd550a2b625d117c4b7b7b7a2babe56669
+  revision: 2cbc61f0267af7cf3dd33f21974255ceb6cbe5ce
   specs:
-    simple_states (0.0.4)
+    simple_states (0.0.5)
       activesupport
       hashr (~> 0.0.10)
-
-PATH
-  remote: ~/Development/projects/data_migrations
-  specs:
-    data_migrations (0.0.1)
-      activerecord
-      rake
 
 GEM
   remote: http://rubygems.org/
@@ -253,7 +254,7 @@ GEM
     warden (1.0.5)
       rack (>= 1.0)
     webmock (1.7.4)
-      addressable (~> 2.2, > 2.2.5)
+      addressable (> 2.2.5, ~> 2.2)
       crack (>= 0.1.7)
     xpath (0.1.4)
       nokogiri (~> 1.3)
