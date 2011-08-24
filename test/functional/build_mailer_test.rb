@@ -11,6 +11,7 @@ class BuildMailerTest < ActionMailer::TestCase
     assert_equal ["notifications@travis-ci.org"], mail.from
     assert_match build.number, mail.body.encoded
     assert_match build.status_message, mail.body.encoded
+    assert mail.multipart?, "email is multipart"
   end
   
   test "broken build finished email" do
@@ -22,6 +23,7 @@ class BuildMailerTest < ActionMailer::TestCase
     assert_equal ["notifications@travis-ci.org"], mail.from
     assert_match build.number, mail.body.encoded
     assert_match build.status_message, mail.body.encoded
+    assert mail.multipart?, "email is multipart"
   end
 
 end
