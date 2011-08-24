@@ -3,8 +3,6 @@ require 'yaml'
 
 module Travis
   class Config < Hashr
-    module Access; def key() self[:key] end end
-
     class << self
       def load_env
         YAML.load(ENV['travis_config']) if ENV['travis_config']
@@ -23,10 +21,8 @@ module Travis
       end
     end
 
-    define :notifications => [],
-           :queues  => [],
-           :pusher  => { :_include => Access },
-           :hoptoad => { :_include => Access }
+    define  :notifications => [], :queues  => []
+    default :_access => [:key]
 
     def initialize(data = nil, *args)
       data ||= self.class.load_env || self.class.load_file || {}
