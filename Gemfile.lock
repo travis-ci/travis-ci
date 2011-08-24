@@ -99,8 +99,8 @@ GEM
     diff-lcs (1.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
-    factory_girl (2.0.4)
-    fakeredis (0.2.1)
+    factory_girl (2.0.5)
+    fakeredis (0.2.2)
       redis (~> 2.2.0)
     faraday (0.6.1)
       addressable (~> 2.2.4)
@@ -111,7 +111,7 @@ GEM
     ffi (1.0.9)
     fssm (0.2.7)
     hashie (1.0.0)
-    hashr (0.0.11)
+    hashr (0.0.12)
     hoptoad_notifier (2.4.11)
       activesupport
       builder
@@ -185,7 +185,7 @@ GEM
     raindrops (0.7.0)
     rake (0.9.2)
     rbx-require-relative (0.0.5)
-    rdoc (3.9.2)
+    rdoc (3.9.3)
     redis (2.2.2)
     redis-namespace (1.0.3)
       redis (< 3.0.0)
@@ -227,7 +227,7 @@ GEM
       archive-tar-minitar (>= 0.5.2)
     rubyzip (0.9.4)
     sass (3.1.7)
-    selenium-webdriver (2.4.0)
+    selenium-webdriver (2.5.0)
       childprocess (>= 0.2.1)
       ffi (>= 1.0.7)
       json_pure
@@ -275,7 +275,7 @@ DEPENDENCIES
   devise (~> 1.4.2)
   factory_girl (~> 2.0.3)
   fakeredis
-  hashr (~> 0.0.10)
+  hashr (~> 0.0.12)
   hoptoad_notifier (~> 2.4.11)
   jammit (~> 0.6.0)
   jruby-openssl
