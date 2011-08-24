@@ -3,35 +3,34 @@ require 'yaml'
 
 module Travis
   class Config < Hashr
-    module Pusher
-      def key
-        self[:key]
+    module Access; def key() self[:key] end end
+
+    class << self
+      def load_env
+        YAML.load(ENV['travis_config']) if ENV['travis_config']
+      end
+
+      def load_file
+        YAML.load_file(filename)[environment] if File.exists?(filename)
+      end
+
+      def filename
+        @filename ||= File.expand_path('../../../config/travis.yml', __FILE__)
+      end
+
+      def environment
+        defined?(Rails) ? Rails.env : 'test'
       end
     end
 
-    define :notifications => []
-    define :queues => []
-    define :pusher => Pusher
+    define :notifications => [],
+           :queues  => [],
+           :pusher  => { :_include => Access },
+           :hoptoad => { :_include => Access }
 
     def initialize(data = nil, *args)
-      data ||= load_env || load_file || {}
+      data ||= self.class.load_env || self.class.load_file || {}
       super
-    end
-
-    def load_env
-      YAML.load(ENV['travis_config']) if ENV['travis_config']
-    end
-
-    def load_file
-      YAML.load_file(filename)[environment] if File.exists?(filename)
-    end
-
-    def filename
-      @filename = File.expand_path('../../../config/travis.yml', __FILE__)
-    end
-
-    def environment
-      defined?(Rails) ? Rails.env : 'test'
     end
   end
 end

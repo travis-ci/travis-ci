@@ -30,4 +30,23 @@ describe Travis, 'config' do
       config.queues.should == []
     end
   end
+
+  describe 'the example config file' do
+    let(:data)    { YAML.load_file(File.expand_path('config/travis.example.yml'))['production'] }
+    before(:each) { Travis::Config.stubs(:load_file).returns(data) }
+
+    it 'can access pusher' do
+      lambda { config.pusher.key }.should_not raise_error
+    end
+
+    it 'can access all keys recursively' do
+      nested_access = lambda do |config, data|
+        data.keys.each do |key|
+          lambda { config.send(key) }.should_not raise_error
+          nested_access.call(config.send(key), data[key]) if data[key].is_a?(Hash)
+        end
+      end
+      nested_access.call(config, data)
+    end
+  end
 end

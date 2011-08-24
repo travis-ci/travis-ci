@@ -28,8 +28,8 @@ production:
     client_id: YOUR_GITHUB_CLIENT_ID
     client_secret: YOUR_GITHUB_CLIENT_SECRET
     <<: *oauth2
-  # hoptoad:
-  #   key: YOUR_HOPTOAD_KEY
+  hoptoad:
+    key: YOUR_HOPTOAD_KEY
   rails:
     # You get a Travis token on your application's profile page by signing in to your application via Github OAuth2.
     url: "YOUR_GITHUB_USERNAME:YOUR_TRAVIS_TOKEN@YOUR_APP.heroku.com"
