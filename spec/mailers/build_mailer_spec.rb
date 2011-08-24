@@ -26,6 +26,10 @@ describe BuildMailer do
       it 'displays the status message' do
         mail.body.encoded.should include(build.status_message)
       end
+
+      it 'is a multipart email' do
+        mail.should be_multipart
+      end
     end
 
     describe 'for a broken build' do
@@ -49,6 +53,10 @@ describe BuildMailer do
 
       it 'displays the status message' do
         mail.body.encoded.should include(build.status_message)
+      end
+
+      it 'is a multipart email' do
+        mail.should be_multipart
       end
     end
   end

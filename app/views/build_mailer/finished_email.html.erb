@@ -1,0 +1,14 @@
+<% content_for :status_message, @build.status_message %>
+
+Build : #<%= @build.number %><br>
+<br>
+Duration : <%= build_duration(@build.started_at, @build.finished_at) %><br>
+Commit : <%= @build.commit[0..7] %> (<%= @build.branch %>)<br>
+Author : <%= @build.author_name %><br>
+Message : <%= @build.message %><br>
+<br>
+Status : <%= @build.status_message %><br>
+<br>
+View the changeset : <%= @build.compare_url %><br>
+<br>
+View the full build log and details : <%= user_repo_build_redirect_url(:user => @build.repository.owner_name, :repository => @build.repository.name, :id => @build.id )%>
