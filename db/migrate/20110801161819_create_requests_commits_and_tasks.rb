@@ -93,7 +93,7 @@ class CreateRequestsCommitsAndTasks < ActiveRecord::Migration
     execute "UPDATE builds SET state = 'finished'"
     execute 'DELETE FROM builds WHERE parent_id IS NOT NULL'
 
-    execute "DROP SEQUENCE shared_builds_tasks_seq" rescue nil
+    # execute "DROP SEQUENCE shared_builds_tasks_seq" rescue nil
     execute "CREATE SEQUENCE shared_builds_tasks_seq START WITH #{[Build.maximum(:id), Task.maximum(:id)].max + 1} CACHE 30"
     execute "ALTER TABLE builds ALTER COLUMN id TYPE BIGINT"
     execute "ALTER TABLE builds ALTER COLUMN id SET DEFAULT nextval('shared_builds_tasks_seq')"
