@@ -18,7 +18,7 @@
 - the worker doesn't seem to notify about task:configure:started
 - fix n+1 queries: https://gist.github.com/058e40dc43b3eb5ac64c
 
-- port commits from staging
+- port commits from master/staging (see below)
 - calculate build duration from matrix.sum(&:duration) or similar
 
 def self.up
@@ -38,3 +38,52 @@ end
 - client: use task route for looking up child builds
 - client: for configure jobs show "?" instead of a build number
 - config: change queues configuration section
+
+
+# Commits to port from master
+
+7e3b6a52	gilesbowkett	copy edit: there is no such word as introductional
+2bab80d1  sferik	API to get last build status for a specific config
+
+270c87ff	jeffkreeftmeijer	Add new JSON and XML routes
+8393151f	jeffkreeftmeijer	Throw RoutingErrors in the API actions
+8e49a4fe	jeffkreeftmeijer	Don't raise RoutingErrors when the format is .png
+440150ec	joshk	bug fix for find_by_params when used in a nested setup
+
+3e7b9275	ifesdjeen	Covering build queues with acceptance tests, because of bug on product...
+c4acdd12	joshk	rescue from spork not being found, need to talk to Alex about this fur...
+ccfa58aa	joshk	wrap the spork require in a begin rescue block
+19b55d5b	joelmahoney	add unit tests for repository (and build) status methods
+c2631fd3	joelmahoney	remove testing comment
+
+51d8cb14	joshk	if you add [ci skip] to your commit message then the build will be ski...
+f22a63eb	joshk	fixed an issue with the build not updating due to extra from the worke...
+b00a06b3	joshk	fix for notification errors we are seeing in hoptoad where the config ...
+
+0c8464b5	joshk	update tests to respect that config on build now returns a default has...
+6e9d0fbe	joshk	Revert "update tests to respect that config on build now returns a def...
+9cd7082c	joshk	Sadly this breaks the workers, ugly hax coming soon
+a990b6f1	joshk	notifications fix + test : second attempt, this time with less breakag...
+
+809445ed	joshk	erlang uses otp_release in its matrix
+
+cbfc4f37	joelmahoney	Make status PNG response match the JSON/XML API responses
+
+b738cf56	sferik	Replace deprecated Factory.build with FactoryGirl.build
+886749cc	sferik	Replace deprecated Factory.create with FactoryGirl.create
+ec5c0021	sferik	Require factory_girl
+8c51e94b	sferik	Update to Factory Girl 2.0 syntax
+
+51b13b51	tilsammans	introduce test for BuildMailer
+aede9241	tilsammans	use the actual build status message in the subject
+b256acb8	tilsammans	use helpers like DHH intended
+f29279a2	tilsammans	move the footer into a layout
+7dce10cd	tilsammans	fix and expand test cases
+
+5b576203	lukeredpath	Support rendering repositories in CruiseControl/CCTray XML schema form...
+40ea9739	lukeredpath	CCMenu (and possibly CCTray) will try and locate the CC XML file at a ...
+a877c89f	lukeredpath	It helps to use the correct field name for the web URL.
+a4d5e571	lukeredpath	Render the last build time in the correct format for CCTray.
+
+38239470	bai	Merge remote-tracking branch 'joelmahoney/consistent_api'
+24353334	bai	Fix typo: that should be successful instead of successfull.
