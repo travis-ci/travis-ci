@@ -11,12 +11,28 @@ GIT
       multi_json (~> 1.0.2)
 
 GIT
+  remote: https://github.com/svenfuchs/data_migrations.git
+  revision: f16dd925ead6863f38fe76f13bbabae0c230225b
+  specs:
+    data_migrations (0.0.1)
+      activerecord
+      rake
+
+GIT
   remote: https://github.com/svenfuchs/resque-heartbeat.git
   revision: ba7a89f504906182635ec2cecbed5bd52a557aa6
   ref: ba7a89f
   specs:
     resque-heartbeat (0.0.2)
       resque (~> 1.17.0)
+
+GIT
+  remote: https://github.com/svenfuchs/simple_states.git
+  revision: 29d47e490676f5e6cc9ccf0ce80dfb226144fc2d
+  specs:
+    simple_states (0.0.5)
+      activesupport
+      hashr (~> 0.0.10)
 
 GEM
   remote: http://rubygems.org/
@@ -86,9 +102,6 @@ GEM
     erubis (2.6.6)
       abstract (>= 1.0.0)
     factory_girl (2.0.5)
-    factory_girl_rails (1.1.0)
-      factory_girl (~> 2.0.0)
-      railties (>= 3.0.0)
     fakeredis (0.2.2)
       redis (~> 2.2.0)
     faraday (0.6.1)
@@ -101,6 +114,7 @@ GEM
     ffi (1.0.9-java)
     fssm (0.2.7)
     hashie (1.0.0)
+    hashr (0.0.12)
     hoptoad_notifier (2.4.11)
       activesupport
       builder
@@ -231,7 +245,6 @@ GEM
     sinatra (1.2.6)
       rack (~> 1.1)
       tilt (< 2.0, >= 1.2.2)
-    test_declarative (0.0.5)
     thor (0.14.6)
     tilt (1.3.2)
     treetop (1.4.10)
@@ -265,11 +278,12 @@ DEPENDENCIES
   capybara (~> 1.0.0)
   clockwork
   compass (~> 0.11.3)
+  data_migrations!
   database_cleaner
   devise (~> 1.4.2)
-  factory_girl
-  factory_girl_rails
+  factory_girl (~> 2.0.3)
   fakeredis (~> 0.2.0)
+  hashr (~> 0.0.12)
   hoptoad_notifier (~> 2.4.11)
   jammit (~> 0.6.0)
   jruby-openssl
@@ -292,7 +306,7 @@ DEPENDENCIES
   ruby-debug
   ruby-debug19
   silent-postgres (~> 0.0.8)
-  test_declarative
+  simple_states!
   unicorn (~> 4.0.0)
   unobtrusive_flash (~> 0.0.2)
   webmock
