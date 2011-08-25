@@ -45,6 +45,7 @@ class CreateRequestsCommitsAndTasks < ActiveRecord::Migration
       t.references :commit
       t.references :owner, :polymorphic => true
 
+      t.string   :queue
       t.string   :type
       t.string   :state
       t.string   :number
@@ -99,6 +100,10 @@ class CreateRequestsCommitsAndTasks < ActiveRecord::Migration
     execute "ALTER TABLE builds ALTER COLUMN id SET DEFAULT nextval('shared_builds_tasks_seq')"
     execute "ALTER TABLE tasks  ALTER COLUMN id TYPE BIGINT"
     execute "ALTER TABLE tasks  ALTER COLUMN id SET DEFAULT nextval('shared_builds_tasks_seq')"
+
+    %w(commits requests tasks).each do |table_name|
+      execute "SELECT setval('#{table_name}_id_seq', #{select_value("SELECT max(id) FROM #{table_name}").to_i + 1})"
+    end
 
     remove_column :requests, :commit
     remove_column :tasks, :commit

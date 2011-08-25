@@ -14,21 +14,6 @@ describe Travis::Notifications::Pusher do
   let(:task)     { Factory(:request).task }
   let(:build)    { Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] }) }
 
-# [:create]
-# [:start, {:started_at=>"2011-08-10 15:52:34 +0200"}]
-# [:finish, {:config=>{:rvm=>["1.8.7", "1.9.2"]}}]
-# [:create]
-# [:create]
-# [:start, {:started_at=>"2011-08-10 15:52:34 +0200"}]
-# [:start, {:started_at=>"2011-08-10 15:52:34 +0200"}]
-# [:log, {:log=>"foo"}]
-# [:finish, {:finished_at=>"2011-08-10 15:52:34 +0200", :status=>"0"}]
-# [:start, {:started_at=>"2011-08-10 15:52:34 +0200"}]
-# [:start, {:started_at=>"2011-08-10 15:52:34 +0200"}]
-# [:log, {:log=>"foo"}]
-# [:finish, {:finished_at=>"2011-08-10 15:52:34 +0200", :status=>"0"}]
-# [:finish, {:finished_at=>"2011-08-10 15:52:34 +0200", :status=>"0"}]
-
   describe 'sends a message to pusher' do
     it 'build:queued' do
       Travis::Notifications.dispatch('build:queued', build)
@@ -54,6 +39,12 @@ describe Travis::Notifications::Pusher do
       Travis::Notifications.dispatch('build:finished', build)
       pusher.should have_message('build:finished', build)
     end
+
+    it 'task:test:started' do
+      Travis::Notifications.dispatch('task:test:started', task)
+      pusher.should have_message('task:test:started', task)
+    end
+
   end
 
   describe 'payload_for returns the payload required for client side task events' do

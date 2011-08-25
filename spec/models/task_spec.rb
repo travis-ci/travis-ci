@@ -20,7 +20,7 @@ describe ::Task do
     end
 
     it 'notifies observers' do
-      Travis::Notifications.expects(:dispatch).with('build:log', build, :build => { :_log => 'chars' })
+      Travis::Notifications.expects(:dispatch).with('task:test:log', task, :build => { :_log => 'chars' })
       Task::Test.append_log!(task.id, 'chars')
     end
   end
