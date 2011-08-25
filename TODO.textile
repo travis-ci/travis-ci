@@ -13,8 +13,11 @@
 + add Pusher notification specs for actual messages sent
 + add JSON specs for build:queued and build:removed event payloads
 + move actions from builds_controller to tasks_controller and use routes to keep the /builds url
++ add data migrations
 
-- add data migrations
+- the worker doesn't seem to notify about task:configure:started
+- fix n+1 queries: https://gist.github.com/058e40dc43b3eb5ac64c
+
 - port commits from staging
 - calculate build duration from matrix.sum(&:duration) or similar
 
