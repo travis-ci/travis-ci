@@ -3,11 +3,7 @@ before_script:
   - "cp config/database.example.yml config/database.yml"
 script: "bundle exec rake test:ci"
 rvm:
-  - 1.8.7
   - 1.9.2
   - 1.9.3
-  - ree
-  - rbx
-  - rbx-2.0
 notifications:
   irc: "irc.freenode.org#travis"
