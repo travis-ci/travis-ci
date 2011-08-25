@@ -42,7 +42,7 @@ describe Travis::Notifications::Pusher do
 
     it 'task:test:started' do
       Travis::Notifications.dispatch('task:test:started', task)
-      pusher.should have_message('task:test:started', task)
+      pusher.should have_message('build:removed', task)
     end
 
   end
