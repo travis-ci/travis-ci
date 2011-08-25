@@ -39,7 +39,7 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_girl',    '~> 2.0.3'
   gem 'mocha'
-  gem 'fakeredis'
+  gem 'fakeredis',       '~> 0.2.0'
   gem 'webmock'
 
   platforms :ruby_18 do
