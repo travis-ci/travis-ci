@@ -21,7 +21,7 @@ def configure
   load_all 'spec/support/**/*.rb'
 
   RSpec.configure do |c|
-    # c.filter_run_excluding :js => true if ENV['CI']
+    c.filter_run_excluding :js => true if ENV['CI']
 
     c.mock_with :mocha
 
