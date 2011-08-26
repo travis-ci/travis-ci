@@ -47,3 +47,31 @@ describe "/owner/repository.xml" do
   end
   
 end
+
+describe "/owner/repository/cc.xml" do
+  
+  it "routes to RepositoriesController#show in XML format with the cctray schema" do
+    { :get => "/owner/repository/cc.xml" }.
+      should route_to(
+        :controller => "repositories",
+        :action     => "show",
+        :owner_name => "owner",
+        :name       => "repository",
+        :format     => "xml",
+        :schema     => "cctray"
+      ) 
+  end
+  
+  it "routes to RepositoriesController#show in XML format with the cctray schema when owner and repository name contains dots" do
+    { :get => "/some.owner/some.repository/cc.xml" }.
+      should route_to(
+        :controller => "repositories",
+        :action     => "show",
+        :owner_name => "some.owner",
+        :name       => "some.repository",
+        :format     => "xml",
+        :schema     => "cctray"
+      ) 
+  end
+  
+end
