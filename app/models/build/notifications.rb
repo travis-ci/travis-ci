@@ -1,11 +1,21 @@
 class Build
   module Notifications
     def send_notifications?
-      parent ? parent.matrix_finished? : finished?
+      # ensure that notifications for a successful build only get sent in verbose mode
+      # or for passed builds if the previous one failed
+      if parent
+        parent.matrix_finished? && ((parent.passed? && verbose?) || (passed? && self.class.recent(1).last && !self.class.recent(1).last.passed?) || !passed?)
+      else
+        finished? && ((passed? && verbose?) || (passed? && self.class.recent(1).last && !self.class.recent(1).last.passed?) || !passed?)
+      end
     end
 
     def send_email_notifications?
       emails_enabled? && unique_recipients.present?
+    end
+    
+    def verbose?
+      notifications['verbose']
     end
 
     # at some point we might want to move this to a Notifications manager that abstracts email and other types of notifications
