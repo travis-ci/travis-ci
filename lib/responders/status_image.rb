@@ -26,7 +26,10 @@ module Responders
       end
 
       def status
-        resource.blank? ? Repository::STATUSES[nil] : resource.last_finished_build_status_name
+        @status = begin
+          resource.override_last_finished_build_status!(controller.params) if resource.respond_to?(:override_last_finished_build_status)
+          resource.blank? ? Repository::STATUSES[nil] : resource.last_finished_build_status_name
+        end
       end
   end
 end

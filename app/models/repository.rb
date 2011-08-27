@@ -92,7 +92,7 @@ class Repository < ActiveRecord::Base
   end
 
   def override_last_finished_build_status!(data)
-    branches = data[Repository::BRANCH_KEY].try(:split, ',')
+    branches = data[BRANCH_KEY].try(:split, ',')
     build = builds.finished.on_branch(branches).descending.first
     matrix = build.try(:matrix_for, data)
 
