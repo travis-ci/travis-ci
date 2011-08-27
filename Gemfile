@@ -4,7 +4,7 @@ gem 'rails',             '~> 3.0.10'
 gem 'rake',              '~> 0.9.2'
 gem 'pg',                '~> 0.11.0'
 gem 'yajl-ruby',         '~> 0.8.2'
-gem 'hashr',             '~> 0.0.12'
+gem 'hashr',             '~> 0.0.13'
 
 gem 'compass',           '~> 0.11.3'
 gem 'devise',            '~> 1.4.2'
@@ -29,9 +29,8 @@ gem 'rabl',              '~> 0.3.0'
 
 gem 'jruby-openssl',     :platforms => :jruby
 
-# gem 'simple_states',     '~> 0.0.5'
-gem 'simple_states',     :git => 'https://github.com/svenfuchs/simple_states.git'
-gem 'data_migrations',   :git => 'https://github.com/svenfuchs/data_migrations.git'
+gem 'simple_states',     '~> 0.0.5'
+gem 'data_migrations',   '~> 0.0.1'
 gem 'newrelic_rpm',      '~> 3.1.0'
 
 group :test do
