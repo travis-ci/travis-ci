@@ -59,7 +59,7 @@ Travis.Views.Build.Build = Backbone.View.extend({
     if(this.build) {
       this.el.empty();
       this._renderSummary();
-      if (this.build.matrix && this.build.matrix.length > 0) {
+      if (this.build.matrix && this.build.matrix.length > 1) {
           this._renderMatrix();
       } else {
         this._renderLog();
@@ -70,7 +70,8 @@ Travis.Views.Build.Build = Backbone.View.extend({
     this.el.append(new Travis.Views.Build.Summary({ model: this.build, parent: this }).render().el);
   },
   _renderLog: function() {
-    this.log = new Travis.Views.Build.Log({ model: this.build, parent: this })
+    var model = this.build.matrix ? this.build.matrix.models[0] : this.build; // actually, it should always have a matrix now
+    this.log = new Travis.Views.Build.Log({ model: model, parent: this })
     this.el.append(this.log.render().el);
     this.log.initializeEvents();
     this.log.activateCurrentLine();
