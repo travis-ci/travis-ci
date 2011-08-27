@@ -948,22 +948,26 @@ ul#tokens {
 
 #github {
   right: -65px;
-  height: 30px;
+  height: 40px;
   top: 40px;
   position: absolute;
   text-decoration: none;
   width: 250px;
   @include rotate(45deg);
   z-index: 100;
+  border-top: 2px solid #EF9F4C;
+  border-bottom: 2px solid #EF9F4C;
   span {
-    background: orange;
+    background: #FA7600;
     color: white;
-    font-size: 14px;
+    font-size: 13px;
     left: 0;
-    padding: 5px 0;
+    padding: 3px 0;
     position: absolute;
     text-align: center;
     width: 250px;
-    @include box-shadow(rgba(black, 0.2) 1px 1px 10px, rgba(black, 0.07) 0 0 3px 1px inset);
+    text-shadow: 0 0 15px black;
+    letter-spacing: -1px;
+    @include box-shadow(rgba(black, 0.5) 1px 1px 10px, rgba(black, 0.07) 0 0 3px 1px inset);
   }
 }
