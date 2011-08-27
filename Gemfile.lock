@@ -67,7 +67,7 @@ GEM
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
       xpath (~> 0.1.4)
-    childprocess (0.2.1)
+    childprocess (0.2.2)
       ffi (~> 1.0.6)
     chunky_png (1.2.1)
     clockwork (0.2.4)
