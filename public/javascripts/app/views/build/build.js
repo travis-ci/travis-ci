@@ -59,7 +59,7 @@ Travis.Views.Build.Build = Backbone.View.extend({
     if(this.build) {
       this.el.empty();
       this._renderSummary();
-      if(this.build.matrix) {
+      if (this.build.matrix && this.build.matrix.length > 0) {
           this._renderMatrix();
       } else {
         this._renderLog();
