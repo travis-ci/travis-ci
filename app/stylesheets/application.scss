@@ -964,11 +964,11 @@ ul#tokens {
     font-size: 13px;
     font-weight: bold;
     letter-spacing: -1px;
-    text-shadow: 0 0 15px black;
-    border-top: 2px solid #EF9F4C;
-    border-bottom: 2px solid #EF9F4C;
+    text-shadow: 0 0 10px #522600;
+    border-top: 2px solid #ef9f4c;
+    border-bottom: 2px solid #ef9f4c;
     color: white;
-    background: #FA7600;
+    background: #ef7600;
     @include box-shadow(rgba(black, 0.5) 1px 1px 10px, rgba(black, 0.07) 0 0 3px 1px inset);
   }
 }
