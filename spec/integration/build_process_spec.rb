@@ -7,7 +7,7 @@ feature 'The build process' do
     Travis.config.notifications = [:worker, :pusher]
   end
 
-  scenario 'creates a request from a github payload, configures it, creates the build and runs the tests', :driver => :rack_test do
+  scenario 'creates a request from a github payload, configures it, creates the build and runs the tests (multiple tests matrix)', :driver => :rack_test do
     ping_from_github!
 
     _request.should be_created
@@ -21,7 +21,7 @@ feature 'The build process' do
 
     _request.should be_finished
     build.should be_created
-    pusher.should have_message('task:configure:finished') # not currently used.
+    pusher.should have_message('build:removed')
 
     task.should_not be_queued
     build.matrix.each { |task| task.should be_queued }
@@ -44,7 +44,7 @@ feature 'The build process' do
 
       worker.finish!(task, :build => { 'finished_at' => Time.now, 'status' => 0, 'log' => 'foo bar'})
       task.should be_finished
-      pusher.should have_message('task:test:finished')   # not currently used.
+      pusher.should have_message('build:finished')
       # api.task(task).should include(json_for_http(task)) # TODO
     end
 
