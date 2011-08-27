@@ -1,8 +1,6 @@
 require 'travis'
 require 'devise/api_token_authenticatable'
 
-OAUTH2_CONFIG = Travis.config.oauth2 || {}
-
 # override this for rails admin
 class CustomFailure < Devise::FailureApp
   def redirect_url
@@ -11,14 +9,15 @@ class CustomFailure < Devise::FailureApp
   protected :redirect_url
 end
 
-Devise.setup do |config|
+Devise.setup do |c|
   require 'devise/orm/active_record'
 
-  config.warden do |manager|
+  c.warden do |manager|
     manager.failure_app = CustomFailure
   end
 
-  config.http_authenticatable = true
+  c.http_authenticatable = true
 
-  config.omniauth :github, OAUTH2_CONFIG['client_id'], OAUTH2_CONFIG['client_secret'], :scope => OAUTH2_CONFIG['scope']
+  oauth2 = Travis.config.oauth2 || {}
+  c.omniauth :github, oauth2.client_id, oauth2.client_secret, :scope => oauth2.scope
 end
