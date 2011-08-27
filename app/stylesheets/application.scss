@@ -947,27 +947,28 @@ ul#tokens {
  */
 
 #github {
+  position: absolute;
+  z-index: 100;
+  top: 40px;
   right: -65px;
   height: 40px;
-  top: 40px;
-  position: absolute;
-  text-decoration: none;
   width: 250px;
+  text-decoration: none;
   @include rotate(45deg);
-  z-index: 100;
-  border-top: 2px solid #EF9F4C;
-  border-bottom: 2px solid #EF9F4C;
   span {
-    background: #FA7600;
-    color: white;
-    font-size: 13px;
-    left: 0;
-    padding: 3px 0;
     position: absolute;
-    text-align: center;
+    left: 0;
     width: 250px;
-    text-shadow: 0 0 15px black;
+    padding: 3px 0;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
     letter-spacing: -1px;
+    text-shadow: 0 0 15px black;
+    border-top: 2px solid #EF9F4C;
+    border-bottom: 2px solid #EF9F4C;
+    color: white;
+    background: #FA7600;
     @include box-shadow(rgba(black, 0.5) 1px 1px 10px, rgba(black, 0.07) 0 0 3px 1px inset);
   }
 }
