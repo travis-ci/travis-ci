@@ -35,14 +35,10 @@ class Build
 
       def expand_matrix
         expand_matrix_config(matrix_config.to_a).each_with_index do |row, ix|
-          attributes = self.attributes.slice(*Task.column_names)
+          attributes = self.attributes.slice(*Task.column_names).symbolize_keys
           attributes.merge!(:number => "#{number}.#{ix + 1}", :config => config.merge(Hash[*row.flatten]), :log => '')
           matrix.build(attributes)
         end
-      end
-
-      def matrix_config?
-        matrix_config.present?
       end
 
       def matrix_config
@@ -56,7 +52,7 @@ class Build
             values = [values] unless values.is_a?(Array)
             values += [values.last] * (size - values.size) if values.size < size
             result << values.map { |value| [key, value] }
-          end if size > 1
+          end
         end
       end
 
