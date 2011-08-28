@@ -222,4 +222,8 @@ class ModelsRepositoryTest < ActiveSupport::TestCase
     assert_equal 0, repository_3.last_build_status
   end
 
+  test 'repository search/filter is case-insensitive' do
+    assert_equal 4, Repository.search('GeM-rElEaSe').count
+    assert_equal 4, Repository.search('rElEaS').count
+  end
 end
