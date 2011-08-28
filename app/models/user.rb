@@ -36,6 +36,13 @@ class User < ActiveRecord::Base
     self.email? ? Digest::MD5.hexdigest(self.email) : '00000000000000000000000000000000'
   end
 
+  def github_repositories
+    states = Repository.where(:owner_name => login).active_by_name
+    Travis::GithubApi.repositories_for_user(login).each do |repository|
+      repository.active = states[repository.name] || false
+    end
+  end
+
   private
 
     def create_a_token

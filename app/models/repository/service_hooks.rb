@@ -1,6 +1,12 @@
 module Repository::ServiceHooks
   extend ActiveSupport::Concern
 
+  module ClassMethods
+    def active_by_name
+      Hash[select([:active, :name]).map { |repository| [repository.name, repository.active] }]
+    end
+  end
+
   module InstanceMethods
     def service_hook
       @service_hook ||= ServiceHook.new(self)

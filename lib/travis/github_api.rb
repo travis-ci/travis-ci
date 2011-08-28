@@ -31,7 +31,7 @@ module Travis
         raise ServiceHookError, 'error unsubscribing from the GitHub push event'
       end
 
-      def repository_list_for_user(login)
+      def repositories_for_user(login)
         Octokit.repositories(login)
       end
     end
