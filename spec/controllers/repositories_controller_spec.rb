@@ -98,7 +98,7 @@ describe RepositoriesController do
     context 'with parameters rvm:perl' do
       it 'return last build status for the parent build' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => 'perl'
-        json_response['last_build_status'].should == 1
+        json_response['last_build_status'].should be_nil
       end
     end
   end

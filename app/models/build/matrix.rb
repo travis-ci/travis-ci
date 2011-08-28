@@ -17,18 +17,27 @@ class Build
       end
     end
 
+    # Return only the child builds whose config matches against as passed hash
+    # e.g. build.matrix_for(rvm: '1.8.7', env: 'DB=postgresql')
+    def matrix_for(config)
+      config.blank? ? matrix : matrix.select { |task| task.matrix_config?(config) }
+    end
+
     def matrix_finished?
       matrix.all?(&:finished?)
     end
 
-    def matrix_status
-      matrix.map(&:status).include?(1) ? 1 : 0 if matrix.all?(&:finished?)
-    end
-
-    # Return only the child builds whose config matches against as passed hash
-    # e.g. build.matrix_for(rvm: '1.8.7', env: 'DB=postgresql')
-    def matrix_for(config)
-      matrix.select { |task| task.matrix_config?(config) }
+    def matrix_status(config = {})
+      tests = matrix_for(config)
+      if tests.blank?
+        nil
+      elsif tests.all?(&:passed?)
+        0
+      elsif tests.any?(&:failed?)
+        1
+      else
+        nil
+      end
     end
 
     protected

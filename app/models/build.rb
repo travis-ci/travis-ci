@@ -37,6 +37,10 @@ class Build < ActiveRecord::Base
       joins(:commit).where(branches ? ["commits.branch IN (?)", Array(branches).join(',').split(',')] : [])
     end
 
+    def last_finished_on_branch(branches)
+      finished.on_branch(branches).descending.first
+    end
+
     def descending
       order(arel_table[:id].desc)
     end

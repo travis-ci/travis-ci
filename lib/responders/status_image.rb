@@ -1,5 +1,7 @@
 module Responders
   module StatusImage
+    STATUS_NAMES = { nil => 'unknown', 0 => 'passing', 1 => 'failing' }
+
     delegate :params, :headers, :send_file, :to => :controller
 
     def to_format
@@ -26,7 +28,7 @@ module Responders
       end
 
       def status
-        resource.blank? ? Repository::STATUSES[nil] : resource.last_finished_build_status_name
+        STATUS_NAMES[resource.try(:last_build_status, controller.params)]
       end
   end
 end
