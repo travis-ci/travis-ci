@@ -16,6 +16,12 @@ class Request
       def github_pages?(commit)
         commit.branch.try(:match, /gh[-_]pages/i)
       end
+
+      def find_or_create_repository(data)
+        Repository.find_or_create_by_name_and_owner_name(data.name, data.owner_name) do |r|
+          r.update_attributes!(data.to_hash)
+        end
+      end
     end
 
     module ClassMethods
@@ -25,7 +31,7 @@ class Request
 
         if commit && !Github.reject?(data.repository, commit)
           attributes = { :source => :github, :payload => payload, :commit => Commit.create!(commit.to_hash), :token => token }
-          repository = Repository.find_or_create_by_github_repository(data.repository)
+          repository = Request::Github.find_or_create_repository(data.repository)
           repository.requests.create!(attributes)
         end
       end

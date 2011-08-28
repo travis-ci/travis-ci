@@ -6,6 +6,20 @@ describe Request::Github do
       Request.create_from_github_payload(GITHUB_PAYLOADS[name], 'travis-token')
     end
 
+    describe 'find_or_create_repository' do
+      let(:payload) { Github::ServiceHook::Payload.new(ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])) }
+
+      it 'finds an existing repository' do
+        repository = Factory(:repository, :owner_name => payload.repository.owner_name, :name => payload.repository.name)
+        Request::Github.find_or_create_repository(payload.repository).id.should == repository.id
+      end
+
+      it 'creates a new repository' do
+        repository = Request::Github.find_or_create_repository(payload.repository)
+        repository.attributes.slice('name', 'owner_name').should == { 'owner_name' => 'svenfuchs', 'name' => 'gem-release' }
+      end
+    end
+
     it 'given a valid payload creates a request including its commit on the repository' do
       request = create_request('gem-release').reload
       repository = request.repository
