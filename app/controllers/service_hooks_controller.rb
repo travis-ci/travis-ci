@@ -19,7 +19,7 @@ class ServiceHooksController < ApplicationController
   private
 
     def repositories
-      @repositories ||= Repository.github_repos_for_user(current_user)
+      @repositories ||= current_user.github_repositories
     end
 
     def repository

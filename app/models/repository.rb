@@ -37,21 +37,6 @@ class Repository < ActiveRecord::Base
       where("repositories.name LIKE ? OR repositories.owner_name LIKE ?", "%#{query}%", "%#{query}%")
     end
 
-    def github_repos_for_user(user)
-      github_repos = Travis::GithubApi.repository_list_for_user(user.login)
-
-      repo_name_active_array = where(:owner_name => user.login).select([:active, :name]).map { |repo| [repo.name, repo.active] }
-      names_and_active = Hash[repo_name_active_array]
-
-      github_repos.each do |repo|
-        if names_and_active[repo.name].nil?
-          repo.active = false
-        else
-          repo.active = names_and_active[repo.name]
-        end
-      end
-    end
-
     def find_by_params(params)
       if id = params[:id] || params[:repository_id]
         self.find(id)

@@ -1,6 +1,17 @@
 require 'spec_helper'
 
 describe Repository::ServiceHooks do
+  describe 'active_by_name' do
+    it 'returns a hash of active by name attributes (can be scoped)' do
+      Factory(:repository, :active => true, :owner_name => 'svenfuchs', :name => 'minimal')
+      Factory(:repository, :active => false, :owner_name => 'svenfuchs', :name => 'gem-release')
+      Factory(:repository, :active => true, :owner_name => 'josevalim', :name => 'enginex')
+
+      result = Repository.where(:owner_name => 'svenfuchs').active_by_name
+      result.should == { 'minimal' => true, 'gem-release' => false }
+    end
+  end
+
   describe 'toggle' do
     let(:user)       { Factory(:user) }
     let(:repository) { Factory(:repository) }

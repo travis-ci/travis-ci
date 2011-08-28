@@ -37,4 +37,6 @@ describe User do
       user.profile_image_hash.should == '0' * 32
     end
   end
+
+  xit 'github_repositories should be specified'
 end
