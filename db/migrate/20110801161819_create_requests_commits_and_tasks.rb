@@ -72,9 +72,7 @@ class CreateRequestsCommitsAndTasks < ActiveRecord::Migration
       t.move :github_payload, :token, :to => [:payload, :token]
       t.set  :state, 'finished'
       t.set  :source, 'github'
-      t.set  :state, 'finished'
 
-      t.exec 'UPDATE requests SET commit_id = (SELECT commits.id FROM commits WHERE commits.commit = requests.commit LIMIT 1)'
     end
 
     migrate_table :builds, :to => :tasks do |t|
@@ -85,13 +83,18 @@ class CreateRequestsCommitsAndTasks < ActiveRecord::Migration
       t.set    :owner_type, 'Build'
       t.set    :type, 'Task::Test'
       t.set    :state, 'finished'
-
-      t.exec   'UPDATE tasks SET commit_id = (SELECT commits.id FROM commits WHERE commits.commit = tasks.commit LIMIT 1)'
     end
+
+    add_index :commits, :commit
+    add_index :builds, :commit
+    add_index :requests, :commit
+    add_index :tasks, :commit
+
+    execute 'UPDATE requests SET commit_id = (SELECT commits.id FROM commits WHERE commits.commit = requests.commit LIMIT 1)'
+    execute 'UPDATE tasks SET commit_id = (SELECT commits.id FROM commits WHERE commits.commit = tasks.commit LIMIT 1)'
 
     execute 'UPDATE builds SET request_id = (SELECT requests.id FROM requests WHERE requests.commit = builds.commit LIMIT 1)'
     execute 'UPDATE builds SET commit_id = (SELECT commits.id FROM commits WHERE commits.commit = builds.commit LIMIT 1)'
-    execute "UPDATE builds SET state = 'finished'"
     execute 'DELETE FROM builds WHERE parent_id IS NOT NULL'
 
     # execute "DROP SEQUENCE shared_builds_tasks_seq" rescue nil
@@ -105,9 +108,10 @@ class CreateRequestsCommitsAndTasks < ActiveRecord::Migration
       execute "SELECT setval('#{table_name}_id_seq', #{select_value("SELECT max(id) FROM #{table_name}").to_i + 1})"
     end
 
+    remove_column :builds, :parent_id
+    remove_column :builds, :commit
     remove_column :requests, :commit
     remove_column :tasks, :commit
-    remove_column :builds, :parent_id
   end
 
   def self.down
