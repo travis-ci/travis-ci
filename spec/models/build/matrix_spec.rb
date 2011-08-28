@@ -111,6 +111,42 @@ describe Build, 'matrix' do
     yml
   }
 
+  let(:multiple_tests_config_with_exculsion) {
+    YAML.load <<-yml
+      rvm:
+        - 1.8.7
+        - 1.9.2
+      gemfile:
+        - gemfiles/rails-2.3.x
+        - gemfiles/rails-3.0.x
+        - gemfiles/rails-3.1.x
+      matrix:
+        exclude:
+          - rvm: 1.8.7
+            gemfile: gemfiles/rails-3.1.x
+          - rvm: 1.9.2
+            gemfile: gemfiles/rails-2.3.x
+    yml
+  }
+
+  let(:multiple_tests_config_with_invalid_exculsion) {
+    YAML.load <<-yml
+      rvm:
+        - 1.8.7
+        - 1.9.2
+      gemfile:
+        - gemfiles/rails-3.0.x
+        - gemfiles/rails-3.1.x
+      env:
+        - FOO=bar
+        - BAR=baz
+      matrix:
+        exclude:
+          - rvm: 1.9.2
+            gemfile: gemfiles/rails-3.0.x
+    yml
+  }
+
   describe :expand_matrix_config do
     it 'expands the build matrix configuration (single test config)' do
       build = Factory(:build, :config => single_test_config)
@@ -183,6 +219,43 @@ describe Build, 'matrix' do
     it 'adds a sub-build number to the task number' do
       build = Factory(:build, :config => multiple_tests_config)
       assert_equal ['1.1', '1.2', '1.3', '1.4'], build.matrix.map(&:number)[0..3]
+    end
+
+    describe :exclude_matrix_config do
+      it 'excludes a matrix config when all config items are defined in the exclusion' do
+        build = Factory(:build, :config => multiple_tests_config_with_exculsion)
+
+        matrix_exclusion = {
+          :exclude => [
+            { :rvm => "1.8.7", :gemfile => "gemfiles/rails-3.1.x" },
+            { :rvm => "1.9.2", :gemfile => "gemfiles/rails-2.3.x" }
+          ]
+        }
+
+        build.matrix.map(&:config).should == [
+          { :rvm => '1.8.7', :gemfile => 'gemfiles/rails-2.3.x', :matrix => matrix_exclusion },
+          { :rvm => '1.8.7', :gemfile => 'gemfiles/rails-3.0.x', :matrix => matrix_exclusion },
+          { :rvm => '1.9.2', :gemfile => 'gemfiles/rails-3.0.x', :matrix => matrix_exclusion },
+          { :rvm => '1.9.2', :gemfile => 'gemfiles/rails-3.1.x', :matrix => matrix_exclusion }
+        ]
+      end
+
+      it 'does not exclude a matrix config when the matrix exclusion definition is incomplete' do
+        build = Factory(:build, :config => multiple_tests_config_with_invalid_exculsion)
+
+        matrix_exclusion = { :exclude => [{ :rvm => "1.9.2", :gemfile => "gemfiles/rails-3.0.x" }] }
+
+        build.matrix.map(&:config).should == [
+          { :rvm => '1.8.7', :gemfile => 'gemfiles/rails-3.0.x', :env => 'FOO=bar', :matrix => matrix_exclusion },
+          { :rvm => '1.8.7', :gemfile => 'gemfiles/rails-3.0.x', :env => 'BAR=baz', :matrix => matrix_exclusion },
+          { :rvm => '1.8.7', :gemfile => 'gemfiles/rails-3.1.x', :env => 'FOO=bar', :matrix => matrix_exclusion },
+          { :rvm => '1.8.7', :gemfile => 'gemfiles/rails-3.1.x', :env => 'BAR=baz', :matrix => matrix_exclusion },
+          { :rvm => '1.9.2', :gemfile => 'gemfiles/rails-3.0.x', :env => 'FOO=bar', :matrix => matrix_exclusion },
+          { :rvm => '1.9.2', :gemfile => 'gemfiles/rails-3.0.x', :env => 'BAR=baz', :matrix => matrix_exclusion },
+          { :rvm => '1.9.2', :gemfile => 'gemfiles/rails-3.1.x', :env => 'FOO=bar', :matrix => matrix_exclusion },
+          { :rvm => '1.9.2', :gemfile => 'gemfiles/rails-3.1.x', :env => 'BAR=baz', :matrix => matrix_exclusion }
+        ]
+      end
     end
   end
 
