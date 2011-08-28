@@ -8,28 +8,22 @@ class ServiceHooksController < ApplicationController
   respond_to :json
 
   def index
-    repositories = Repository.github_repos_for_user(current_user)
-
     respond_with(repositories)
   end
 
   def update
-    repository = params[:active] ? activate_repository : deactivate_repository
+    repository.service_hook.toggle(params[:active], current_user)
     respond_with(repository)
   end
 
   private
 
-    def activate_repository
-      Repository.find_or_create_and_add_service_hook(*service_hook_args)
+    def repositories
+      @repositories ||= Repository.github_repos_for_user(current_user)
     end
 
-    def deactivate_repository
-      Repository.find_and_remove_service_hook(*service_hook_args)
-    end
-
-    def service_hook_args
-      [params[:owner], params[:name], current_user]
+    def repository
+      @repository ||= Repository.find_or_create_by_owner_name_and_name(params[:owner], params[:name])
     end
 end
 

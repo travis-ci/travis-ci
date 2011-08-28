@@ -2,6 +2,8 @@ require 'uri'
 require 'core_ext/hash/compact'
 
 class Repository < ActiveRecord::Base
+  include ServiceHooks
+
   STATUSES = { nil => 'unknown', 0 => 'passing', 1 => 'failing' }
   BRANCH_KEY = :branch
 
@@ -33,32 +35,6 @@ class Repository < ActiveRecord::Base
 
     def search(query)
       where("repositories.name LIKE ? OR repositories.owner_name LIKE ?", "%#{query}%", "%#{query}%")
-    end
-
-    def find_and_remove_service_hook(owner_name, name, user)
-      repo = find_by_name_and_owner_name(name, owner_name)
-      repo.active = false
-
-      if repo.valid?
-        Travis::GithubApi.remove_service_hook(repo, user)
-        repo.save!
-        repo
-      else
-        raise ActiveRecord::RecordInvalid, repo
-      end
-    end
-
-    def find_or_create_and_add_service_hook(owner_name, name, user)
-      repo = find_or_initialize_by_name_and_owner_name(name, owner_name)
-      repo.active = true
-
-      if repo.valid?
-        Travis::GithubApi.add_service_hook(repo, user)
-        repo.save!
-        repo
-      else
-        raise ActiveRecord::RecordInvalid, repo
-      end
     end
 
     def github_repos_for_user(user)
