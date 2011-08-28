@@ -13,23 +13,10 @@
 + add JSON specs for build:queued and build:removed event payloads
 + move actions from builds_controller to tasks_controller and use routes to keep the /builds url
 + add data migrations
++ fix n+1 queries: https://gist.github.com/058e40dc43b3eb5ac64c
 
 - the worker doesn't seem to notify about task:configure:started
-- fix n+1 queries: https://gist.github.com/058e40dc43b3eb5ac64c
-
-- port commits from staging
-- double check with Joel Mahoney on ported cbfc4f37
 - calculate build duration from matrix.sum(&:duration) or similar
-
-def self.up
-  migrate_table :builds, :to => :tasks |t|
-    t.condition => 'parent_id IS NULL'
-    t.move :number
-    t.copy :all, :except => :foo
-    t.exec 'UPDATE foo ...'
-  end
-end
-
 
 - later: make payload instances Hashrs and rewrite lib/github
 
