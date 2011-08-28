@@ -27,6 +27,8 @@ module Travis
     def render
       set_instance_variable
       view = Rabl::Engine.new(template, :format => format) # :view_path => view_path(options) TODO view_path doesn't seem get passed through to :extends
+      view.singleton_class.send(:attr_accessor, :params) # omg. essentially need this for a test helper? is there no way to pass locals in?
+      view.params = options[:params] || {}
       view.render(self, {})
     end
 

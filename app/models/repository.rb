@@ -4,7 +4,6 @@ require 'core_ext/hash/compact'
 class Repository < ActiveRecord::Base
   include ServiceHooks
 
-  STATUSES = { nil => 'unknown', 0 => 'passing', 1 => 'failing' }
   BRANCH_KEY = :branch
 
   has_many :requests, :dependent => :delete_all
@@ -16,9 +15,6 @@ class Repository < ActiveRecord::Base
 
   validates :name,       :presence => true, :uniqueness => { :scope => :owner_name }
   validates :owner_name, :presence => true
-  validate :last_build_status_cannot_be_overridden
-
-  attr_accessor :last_build_status_overridden
 
   class << self
     def timeline
@@ -46,31 +42,15 @@ class Repository < ActiveRecord::Base
     end
   end
 
-  def override_last_finished_build_status!(data)
-    branches = data[Repository::BRANCH_KEY].try(:split, ',')
-    build = builds.finished.on_branch(branches).descending.first
-    matrix = build.try(:matrix_for, data)
+  def last_build_status(params = {})
+    params = params.symbolize_keys.slice(*Build.matrix_keys_for(params))
 
-    self.last_build_status = if matrix.present?
-      self.last_build_status_overridden = true
-      if matrix.all?(&:passed?) # TODO move to matrix_status
-        0
-      elsif matrix.any?(&:failed?)
-        1
-      elsif matrix.any?(&:unknown?)
-        nil
-      end
+    if params.blank?
+      read_attribute(:last_build_status)
     else
-      build.try(:status)
+      build = builds.last_finished_on_branch(params[Repository::BRANCH_KEY].try(:split, ','))
+      build.try(:matrix_status, params)
     end
-  end
-
-  def last_build_status_cannot_be_overridden
-    errors.add(:last_build_status, "can't be overridden") if last_build_status_overridden
-  end
-
-  def last_finished_build_status_name
-    STATUSES[last_build_status]
   end
 
   def slug

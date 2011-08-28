@@ -48,7 +48,7 @@ FactoryGirl.define do
   end
 
   factory :successful_build, :parent => :build do |f|
-    f.repository { Factory(:repository, :name => 'successful_build') }
+    f.repository { Factory(:repository, :name => 'successful_build', :last_build_status => 0) }
     f.status 0
     f.state 'finished'
     started_at { Time.now }
@@ -56,7 +56,7 @@ FactoryGirl.define do
   end
 
   factory :broken_build, :parent => :build do |f|
-    f.repository { Factory(:repository, :name => 'broken_build') }
+    f.repository { Factory(:repository, :name => 'broken_build', :last_build_status => 1) }
     f.status 1
     f.state 'finished'
     started_at { Time.now }
