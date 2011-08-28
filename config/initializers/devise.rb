@@ -18,6 +18,6 @@ Devise.setup do |c|
 
   c.http_authenticatable = true
 
-  oauth2 = Travis.config.oauth2 || {}
+  oauth2 = Travis.config.oauth2 || Hashr.new
   c.omniauth :github, oauth2.client_id, oauth2.client_secret, :scope => oauth2.scope
 end
