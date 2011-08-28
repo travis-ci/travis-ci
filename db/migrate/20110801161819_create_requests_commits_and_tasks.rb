@@ -62,9 +62,11 @@ class CreateRequestsCommitsAndTasks < ActiveRecord::Migration
     end
 
     migrate_table :builds, :to => :commits do |t|
-      t.copy :repository_id, :created_at, :updated_at, :commit
-      t.move :ref, :branch, :message, :compare_url, :committed_at,
-             :committer_name, :committer_email, :author_name, :author_email
+      t.copy   :repository_id, :created_at, :updated_at, :commit,
+               :ref, :branch, :message, :compare_url, :committed_at,
+               :committer_name, :committer_email, :author_name, :author_email
+      t.remove :ref, :branch, :message, :compare_url, :committed_at,
+               :committer_name, :committer_email, :author_name, :author_email
     end
 
     migrate_table :builds, :to => :requests do |t|
@@ -72,13 +74,12 @@ class CreateRequestsCommitsAndTasks < ActiveRecord::Migration
       t.move :github_payload, :token, :to => [:payload, :token]
       t.set  :state, 'finished'
       t.set  :source, 'github'
-
     end
 
     migrate_table :builds, :to => :tasks do |t|
       t.where  'parent_id IS NOT NULL OR parent_id IS NULL AND (SELECT COUNT(*) FROM builds AS children WHERE children.id = builds.id) = 0'
-      t.copy   :number, :status, :started_at, :finished_at, :commit, :config
-      t.move   :log
+      t.copy   :number, :status, :started_at, :finished_at, :commit, :config, :log
+      t.remove :log
       t.copy   :parent_id, :to => :owner_id
       t.set    :owner_type, 'Build'
       t.set    :type, 'Task::Test'
@@ -93,9 +94,9 @@ class CreateRequestsCommitsAndTasks < ActiveRecord::Migration
     execute 'UPDATE requests SET commit_id = (SELECT commits.id FROM commits WHERE commits.commit = requests.commit LIMIT 1)'
     execute 'UPDATE tasks SET commit_id = (SELECT commits.id FROM commits WHERE commits.commit = tasks.commit LIMIT 1)'
 
+    execute 'DELETE FROM builds WHERE parent_id IS NOT NULL'
     execute 'UPDATE builds SET request_id = (SELECT requests.id FROM requests WHERE requests.commit = builds.commit LIMIT 1)'
     execute 'UPDATE builds SET commit_id = (SELECT commits.id FROM commits WHERE commits.commit = builds.commit LIMIT 1)'
-    execute 'DELETE FROM builds WHERE parent_id IS NOT NULL'
 
     # execute "DROP SEQUENCE shared_builds_tasks_seq" rescue nil
     execute "CREATE SEQUENCE shared_builds_tasks_seq START WITH #{[Build.maximum(:id), Task.maximum(:id)].max + 1} CACHE 30"
