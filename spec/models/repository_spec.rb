@@ -11,20 +11,6 @@ describe Repository do
   end
 
   describe 'class methods' do
-    describe 'find_or_create_by_github_repository' do
-      let(:payload) { Github::ServiceHook::Payload.new(ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])) }
-
-      it 'finds an existing repository' do
-        repository = Factory(:repository, :owner_name => payload.repository.owner_name, :name => payload.repository.name)
-        Repository.find_or_create_by_github_repository(payload.repository).id.should == repository.id
-      end
-
-      it 'creates a new repository' do
-        repository = Repository.find_or_create_by_github_repository(payload.repository)
-        repository.attributes.slice('name', 'owner_name').should == { 'owner_name' => 'svenfuchs', 'name' => 'gem-release' }
-      end
-    end
-
     describe 'find_and_remove_service_hook' do
       let(:user) { Factory(:user) }
 
