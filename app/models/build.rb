@@ -22,7 +22,7 @@ class Build < ActiveRecord::Base
 
   class << self
     def recent(options = {})
-      was_started.descending.paged(options).includes(:matrix)
+      was_started.descending.paged(options).includes([:commit, { :matrix => :commit }])
     end
 
     def was_started
