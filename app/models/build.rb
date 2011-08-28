@@ -34,7 +34,8 @@ class Build < ActiveRecord::Base
     end
 
     def on_branch(branches)
-      joins(:commit).where(branches ? ["commits.branch IN (?)", Array(branches).join(',').split(',')] : [])
+      branches = Array(branches.try(:split, ',')).compact.join(',').split(',')
+      joins(:commit).where(branches.present? ? ["commits.branch IN (?)", branches] : [])
     end
 
     def last_finished_on_branch(branches)

@@ -7,7 +7,11 @@ class Repository < ActiveRecord::Base
   BRANCH_KEY = :branch
 
   has_many :requests, :dependent => :delete_all
-  has_many :builds, :dependent => :delete_all
+  has_many :builds, :dependent => :delete_all do
+    def last_status_on(params)
+      last_finished_on_branch(params[:branch]).try(:matrix_status, params)
+    end
+  end
 
   has_one :last_build,   :class_name => 'Build', :order => 'id DESC', :conditions => { :state  => ['started', 'finished']  }
   has_one :last_success, :class_name => 'Build', :order => 'id DESC', :conditions => { :status => 0 }
@@ -44,13 +48,7 @@ class Repository < ActiveRecord::Base
 
   def last_build_status(params = {})
     params = params.symbolize_keys.slice(*Build.matrix_keys_for(params))
-
-    if params.blank?
-      read_attribute(:last_build_status)
-    else
-      build = builds.last_finished_on_branch(params[Repository::BRANCH_KEY].try(:split, ','))
-      build.try(:matrix_status, params)
-    end
+    params.blank? ? read_attribute(:last_build_status) : builds.last_status_on(params)
   end
 
   def slug
