@@ -34,7 +34,7 @@ class Repository < ActiveRecord::Base
     end
 
     def search(query)
-      where("repositories.name LIKE ? OR repositories.owner_name LIKE ?", "%#{query}%", "%#{query}%")
+      where('repositories.name ~* ? OR repositories.owner_name ~* ?', query, query)
     end
 
     def find_by_params(params)

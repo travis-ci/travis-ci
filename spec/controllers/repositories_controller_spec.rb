@@ -27,11 +27,11 @@ describe RepositoriesController do
   end
 
   describe 'GET :show, format json' do
-    let(:repository) { Factory.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today) }
+    let(:repository) { FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today) }
 
     before(:each) do
       config = { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'], 'env' => ['DB=sqlite3', 'DB=postgres'] }
-      build = Factory.create(:build, :repository => repository, :config => config)
+      build = FactoryGirl.create(:build, :repository => repository, :config => config)
       build.matrix.each do |task|
         task.start!(:started_at => '2010-11-12T12:30:00Z')
         task.finish!(:status => task.config[:rvm] == '1.8.7' ? 0 : 1, :finished_at => '2010-11-12T12:30:20Z')
@@ -104,11 +104,11 @@ describe RepositoriesController do
   end
 
   describe 'GET :show, format xml (schema: not specified)' do
-    let(:repository) { Factory.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today) }
+    let(:repository) { FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today) }
 
     before(:each) do
       config = { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'], 'env' => ['DB=sqlite3', 'DB=postgres'] }
-      build = Factory.create(:build, :repository => repository, :config => config)
+      build = FactoryGirl.create(:build, :repository => repository, :config => config)
       build.matrix.each do |task|
         task.start!(:started_at => '2010-11-12T12:30:00Z')
         task.finish!(:status => task.config[:rvm] == '1.8.7' ? 0 : 1, :finished_at => '2010-11-12T12:30:20Z')
