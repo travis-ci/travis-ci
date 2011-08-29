@@ -75,7 +75,8 @@ class Build < ActiveRecord::Base
   end
 
   def finish(data = {})
-    self.status, self.finished_at = *data.values_at(:status, :finished_at)
+    self.status = matrix_status
+    self.finished_at = data[:finished_at]
   end
 
   def pending?
@@ -84,6 +85,10 @@ class Build < ActiveRecord::Base
 
   def passed?
     status == 0
+  end
+
+  def failed?
+    !passed?
   end
 
   def status_message
