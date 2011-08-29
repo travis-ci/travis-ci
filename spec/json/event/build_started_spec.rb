@@ -32,7 +32,6 @@ describe 'JSON for websocket events' do
       'parent_id' => build.id,
       'number' => '2.1',
       'config' => { 'rvm' => '1.8.7', 'gemfile' => 'test/Gemfile.rails-2.3.x' },
-      'started_at' => '2010-11-12T12:30:00Z',
       'commit' => "91d1b7b2a310131fe3f8",
       'branch' => "master",
       'message' => 'Bump to 0.0.22',
