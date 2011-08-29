@@ -74,7 +74,7 @@
        },
        series: [{
           name: 'Total Builds',
-          data: <%= @build_graph_stats.map { |stats| [DateTime.parse(stats[:date]).to_i * 1000, stats[:built_on_date]] }.to_json %>
+          data: <%= @test_graph_stats.map { |stats| [DateTime.parse(stats[:date]).to_i * 1000, stats[:run_on_date]] }.to_json %>
        }]
     });
 

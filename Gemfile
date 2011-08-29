@@ -29,7 +29,7 @@ gem 'rabl',              '~> 0.3.0'
 
 gem 'jruby-openssl',     :platforms => :jruby
 
-gem 'simple_states',     '~> 0.0.5'
+gem 'simple_states',     '~> 0.0.6'
 gem 'data_migrations',   '~> 0.0.1'
 gem 'newrelic_rpm',      '~> 3.1.0'
 
