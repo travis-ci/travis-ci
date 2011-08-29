@@ -62,7 +62,7 @@ class Build < ActiveRecord::Base
   end
 
   before_create do
-    self.number = self.class.next_number
+    self.number = repository.builds.next_number
     expand_matrix
   end
 
