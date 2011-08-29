@@ -1,8 +1,3 @@
-# Refactoring to Builds, Tasks and Tests
-
-In order to simplify code and make classes better map to domain concepts, we
-are going to refactor the server/app and worker code to the following classes:
-
 ## Application domain
 
 The following classes encapsulate the application domain model concepts. I.e.
@@ -139,18 +134,13 @@ So, in more detail:
 
 ### Build approval
 
+* App saves the configuration.
+
 If the build is eligible (i.e. not excluded by the configuration) then:
 
-* App saves the configuration and spawns one or many Build::Tests
+* App spawns one or many Build::Tests
 * App queues each of the Build::Tests
 * App emits one or many build:test:queued events
-
-### Build disapproval
-
-If the build is uneligible (i.e. excluded by the configuration) then:
-
-* App deletes the Build and its Build::Config.
-* App emits a build:removed event
 
 ### Build::Test execution
 
