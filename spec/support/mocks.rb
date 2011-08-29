@@ -78,6 +78,10 @@ module Support
         instance_eval(&block) and leave if block_given?
       end
 
+      def run(&block)
+        instance_eval(&block) if block_given?
+      end
+
       def leave
         say "PART #{@channel}"
       end
