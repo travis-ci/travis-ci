@@ -16,26 +16,27 @@ module Travis
         end
 
         def send_irc_notifications(build)
-          config = build.config[:notifications][:irc]
-          config = [config] if config.is_a?(String)
-          config.each { |irc_url| connect_and_log(irc_url, build) }
+          config = Array(build.config[:notifications][:irc])
+          config.each { |url| send_notification(url, build) }
         end
 
-        def connect_and_log(irc_url, build)
-          server, port, channel = parse(irc_url)
+        def send_notification(url, build)
+          server, port, channel = parse(url)
           commit = build.commit
           build_url = self.build_url(build)
 
-          irc(server, name, channel, :port => port) do
+          irc(server, nick, channel, :port => port) do |irc|
             say "[travis-ci] #{build.repository.slug}##{build.number} (#{commit.branch} - #{commit.commit[0, 7]} : #{commit.author_name}): the build has #{build.passed? ? 'passed' : 'failed' }"
             say "[travis-ci] Change view : #{commit.compare_url}"
             say "[travis-ci] Build details : #{build_url}"
           end
         end
 
-        def irc(server, name, channel, options, &block)
-          IrcClient.new(server, name, options).tap do |irc|
-            irc.join(channel, &block)
+        def irc(server, nick, channel, options, &block)
+          IrcClient.new(server, nick, options).tap do |irc|
+            irc.join(channel)
+            irc.run(&block) if block_given?
+            irc.leave
             irc.quit
           end
         end
@@ -46,8 +47,8 @@ module Travis
           [server, port, channel]
         end
 
-        def name
-          Travis.config.irc.try(:name) || 'travis-ci'
+        def nick
+          Travis.config.irc.try(:nick) || 'travis-ci'
         end
 
         def build_url(build)
