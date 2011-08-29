@@ -98,7 +98,7 @@ GEM
     ffi (1.0.9)
     fssm (0.2.7)
     hashie (1.0.0)
-    hashr (0.0.13)
+    hashr (0.0.14)
     hoptoad_notifier (2.4.11)
       activesupport
       builder
@@ -244,7 +244,7 @@ GEM
     warden (1.0.5)
       rack (>= 1.0)
     webmock (1.7.5)
-      addressable (~> 2.2, > 2.2.5)
+      addressable (> 2.2.5, ~> 2.2)
       crack (>= 0.1.7)
     xpath (0.1.4)
       nokogiri (~> 1.3)
@@ -265,7 +265,7 @@ DEPENDENCIES
   devise (~> 1.4.2)
   factory_girl (~> 2.0.3)
   fakeredis (~> 0.2.0)
-  hashr (~> 0.0.13)
+  hashr (~> 0.0.14)
   hoptoad_notifier (~> 2.4.11)
   jammit (~> 0.6.0)
   jruby-openssl
