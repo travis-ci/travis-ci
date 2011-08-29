@@ -103,7 +103,7 @@ class Build < ActiveRecord::Base
     end
 
     DENORMALIZE = {
-      :start  => %w(id number started_at),
+      :start  => %w(id number status started_at finished_at),
       :finish => %w(status finished_at)
     }
 
