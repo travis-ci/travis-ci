@@ -72,7 +72,24 @@ class Build
           base = base.dup
           base.empty? ? [result] : base.shift.map { |value| matrix.call(base, result + [value]) }.flatten_once
         end
-        matrix.call(config).uniq
+        expanded = matrix.call(config).uniq
+        exclude_matrix_configs(expanded)
+      end
+
+      def exclude_matrix_configs(expanded_matrix)
+        expanded_matrix.reject do |config|
+          exclude_config?(config)
+        end
+      end
+
+      def exclude_config?(config)
+        exclude_configs = config_matrix_settings[:exclude] || []
+        exclude_configs.any? { |e| e.to_a.sort == config.sort }
+      end
+
+      def config_matrix_settings
+        config = self.config || {}
+        config[:matrix] || {}
       end
   end
 end
