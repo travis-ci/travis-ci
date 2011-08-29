@@ -10,19 +10,19 @@ module Travis
       def subscriptions
         @subscriptions ||= Array(Travis.config.notifications).inject({}) do |subscriptions, subscriber|
           subscriber = const_get(subscriber.to_s.camelize)
-          subscriptions.merge(subscriber::EVENTS => subscriber.new)
+          subscriptions.merge(subscriber.new => subscriber::EVENTS)
         end
       end
 
       def dispatch(event, *args)
-        subscriptions.each do |subscription, subscriber|
-          subscriber.notify(event, *args) if match?(subscription, event)
+        subscriptions.each do |subscriber, subscription|
+          subscriber.notify(event, *args) if matches?(subscription, event)
         end
       end
 
       protected
 
-        def match?(subscription, event)
+        def matches?(subscription, event)
           Array(subscription).any? do |subscription|
             subscription.is_a?(Regexp) ? subscription.match(event) : subscription == event
           end
