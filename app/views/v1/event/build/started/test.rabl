@@ -1,6 +1,6 @@
 object @task
 
-attributes :id, :repository_id, :number, :started_at, :config
+attributes :id, :repository_id, :number, :config
 
 node(:parent_id) { @task.owner_id }
 node(:started_at) { @task.started_at } if @task.started?

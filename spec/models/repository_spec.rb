@@ -35,6 +35,15 @@ describe Repository do
         repositories.last.id.should == repository_1.id
       end
     end
+
+    describe 'search' do
+      it 'performs searches case-insensitive' do
+        repository_1 = Factory(:repository, :name => 'repository_1', :last_build_started_at => '2011-11-11')
+        repository_2 = Factory(:repository, :name => 'repository_2', :last_build_started_at => '2011-11-12')
+
+        assert_equal 2, Repository.search('ePoS').count
+      end
+    end
   end
 
   it 'last_build returns the most recent build' do
