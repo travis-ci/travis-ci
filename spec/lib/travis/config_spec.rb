@@ -49,4 +49,9 @@ describe Travis, 'config' do
       nested_access.call(config, data)
     end
   end
+
+  it 'deep symbolizes arrays, too' do
+    config = Travis::Config.new('queues' => [{ 'slug' => 'rails/rails', 'queue' => 'rails' }])
+    assert_equal ['rails/rails', 'rails'], config.queues.first.values_at(:slug, :queue)
+  end
 end
