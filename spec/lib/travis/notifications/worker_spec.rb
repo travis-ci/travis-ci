@@ -46,10 +46,10 @@ describe Travis::Notifications::Worker do
       worker.send(:queue_for, build).name.should == 'builds'
     end
 
-    it "returns the queue when language matches the given configuration hash" do
-      build = Factory(:build, :repository => Factory(:repository), :config => { :target => 'erlang' })
-      worker.send(:queue_for, build).name.should == 'erlang'
-    end
+    # it "returns the queue when language matches the given configuration hash" do
+    #   build = Factory(:build, :repository => Factory(:repository), :config => { :target => 'erlang' })
+    #   worker.send(:queue_for, build).name.should == 'erlang'
+    # end
   end
 
   describe 'enqueue' do
