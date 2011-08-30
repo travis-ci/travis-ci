@@ -1,10 +1,10 @@
 ENV["RAILS_ENV"] ||= 'test'
 
-# begin
-#   require 'rubygems'
-#   require 'spork'
-# rescue LoadError => e
-# end
+begin
+  require 'rubygems'
+  require 'spork'
+rescue LoadError => e
+end
 
 def load_all(*patterns)
   patterns.each { |pattern| Dir[pattern].sort.each { |path| load File.expand_path(path) } }
@@ -59,7 +59,8 @@ end
 
 if defined?(Spork)
   Spork.prefork  { configure }
-  # Spork.each_run { load_all '{app,lib}/**/*.rb', '/config/routes.rb' }
+  Spork.each_run { load_all 'lib/**/*.rb', '/config/routes.rb' }
 else
   configure
 end
+

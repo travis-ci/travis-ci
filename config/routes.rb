@@ -5,7 +5,6 @@ TravisCi::Application.routes.draw do
 
   # this is a special route for cctray support, and it must appear before other repository routes
   match "*owner_name/*name/cc", :to => 'repositories#show', :format => 'xml', :schema => 'cctray'
-  
   match "*owner_name/*name.png", :to => 'repositories#show', :format => 'png'
   match "*owner_name/*name.json", :to => 'repositories#show', :format => 'json'
   match "*owner_name/*name.xml", :to => 'repositories#show', :format => 'xml'
