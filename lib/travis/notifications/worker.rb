@@ -13,14 +13,14 @@ module Travis
 
         def queues
           @queues ||= Array(Travis.config.queues).compact.map do |queue|
-            Queue.new(*queue.values_at(*[:queue, :slug, :target]))
+            Queue.new(*queue.values_at(*[:queue, :slug, :target, :language]))
           end
         end
 
         def queue_for(task)
-          slug   = task.repository.slug
-          target = task.config[:target]
-          queues.detect { |queue| queue.matches?(slug, target) } || default_queue
+          slug = task.repository.slug
+          target, language = task.config.values_at(:target, :language)
+          queues.detect { |queue| queue.matches?(slug, target, language) } || default_queue
         end
 
         def payload_for(task, extra)
