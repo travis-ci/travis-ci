@@ -2,36 +2,41 @@ source :rubygems
 
 gem 'rails',             '~> 3.0.10'
 gem 'rake',              '~> 0.9.2'
-gem 'pg',                '~> 0.11.0'
-gem 'yajl-ruby',         '~> 0.8.2'
-gem 'hashr',             '~> 0.0.14'
-
-gem 'compass',           '~> 0.11.3'
-gem 'devise',            '~> 1.4.2'
-gem 'oa-oauth',          '~> 0.2.6'
-
 gem 'refraction',        '~> 0.2.0'
-gem 'unobtrusive_flash', '~> 0.0.2'
-gem 'pusher',            '~> 0.8.1'
-gem 'octokit',           :git => 'https://github.com/pengwynn/octokit.git', :ref => '463e08caa4f940045f7f'
-
-gem 'silent-postgres',   '~> 0.0.8'
-gem 'hoptoad_notifier',  '~> 2.4.11'
-gem 'jammit',            '~> 0.6.0'
-
-gem 'unicorn',           '~> 4.0.0', :platform => :ruby
-gem 'SystemTimer',       '~> 1.2.3', :platforms => :ruby_18
-gem 'clockwork'
-
-gem 'resque',            '~> 1.17.1'
-gem 'resque-heartbeat',  :git => 'https://github.com/svenfuchs/resque-heartbeat.git', :ref => 'ba7a89f'
-gem 'rabl',              '~> 0.3.0'
-
 gem 'jruby-openssl',     :platforms => :jruby
 
-gem 'simple_states',     '~> 0.0.7'
+# storage
+gem 'pg',                '~> 0.11.0'
+gem 'silent-postgres',   '~> 0.0.8'
 gem 'data_migrations',   '~> 0.0.1'
+gem 'resque',            '~> 1.17.1'
+gem 'resque-heartbeat',  '~> 0.0.3'
+
+# structures
+gem 'yajl-ruby',         '~> 0.8.2'
+gem 'hashr',             '~> 0.0.14'
+gem 'rabl',              '~> 0.3.0'
+
+# app
+gem 'devise',            '~> 1.4.2'
+gem 'oa-oauth',          :git => 'git://github.com/intridea/omniauth.git', :ref => '4bc762da3beb10e75468' # current release depends on faraday 0.6.1, octokit on faraday ~> 0.7.3
+gem 'simple_states',     '~> 0.0.7'
+gem 'unobtrusive_flash', '~> 0.0.2'
+
+# apis
+gem 'octokit',           '~> 0.6.4'
+gem 'pusher',            '~> 0.8.1'
+gem 'hoptoad_notifier',  '~> 2.4.11'
 gem 'newrelic_rpm',      '~> 3.1.0'
+
+# assets
+gem 'jammit',            '~> 0.6.0'
+gem 'compass',           '~> 0.11.3'
+
+# heroku
+gem 'unicorn',           '~> 4.0.0', :platforms => :ruby
+gem 'SystemTimer',       '~> 1.2.3', :platforms => :ruby_18
+gem 'clockwork'
 
 group :test do
   gem 'capybara',        '~> 1.0.0'
