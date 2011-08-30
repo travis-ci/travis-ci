@@ -222,7 +222,7 @@ GEM
     signature (0.1.2)
       ruby-hmac
     silent-postgres (0.0.8)
-    simple_states (0.0.6)
+    simple_states (0.0.7)
       activesupport
       hashr (~> 0.0.10)
     sinatra (1.2.6)
@@ -288,7 +288,7 @@ DEPENDENCIES
   ruby-debug
   ruby-debug19
   silent-postgres (~> 0.0.8)
-  simple_states (~> 0.0.6)
+  simple_states (~> 0.0.7)
   unicorn (~> 4.0.0)
   unobtrusive_flash (~> 0.0.2)
   webmock
