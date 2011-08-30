@@ -40,6 +40,7 @@ group :test do
   gem 'mocha'
   gem 'fakeredis',       '~> 0.2.0'
   gem 'webmock'
+  gem 'spork'
 
   platforms :ruby_18 do
     gem 'minitest'
