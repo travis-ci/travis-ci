@@ -9,7 +9,7 @@ module Travis
         end
 
         def matches?(slug, target, language)
-          matches_slug?(slug) || matches_target?(target) || matches_language?(language)
+          matches_slug?(slug) || matches_language?(language) # || matches_target?(target)
         end
 
         def to_s
