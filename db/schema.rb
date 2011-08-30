@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(:version => 20110819232908) do
     t.integer  "status"
     t.datetime "started_at"
     t.datetime "finished_at"
-    t.string   "commit"
     t.string   "agent"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -46,6 +45,8 @@ ActiveRecord::Schema.define(:version => 20110819232908) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "commits", ["commit"], :name => "index_commits_on_commit"
 
   create_table "rails_admin_histories", :force => true do |t|
     t.string   "message"
@@ -98,6 +99,7 @@ ActiveRecord::Schema.define(:version => 20110819232908) do
     t.integer  "commit_id"
     t.integer  "owner_id"
     t.string   "owner_type"
+    t.string   "queue"
     t.string   "type"
     t.string   "state"
     t.string   "number"
