@@ -56,7 +56,7 @@ GEM
     addressable (2.2.6)
     archive-tar-minitar (0.5.2)
     arel (2.0.10)
-    bcrypt-ruby (2.1.4)
+    bcrypt-ruby (3.0.0)
     builder (2.1.2)
     capybara (1.0.1)
       mime-types (>= 1.16)
@@ -79,8 +79,8 @@ GEM
       activerecord
       rake
     database_cleaner (0.6.7)
-    devise (1.4.2)
-      bcrypt-ruby (~> 2.1.2)
+    devise (1.4.3)
+      bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
       warden (~> 1.0.3)
     diff-lcs (1.1.3)
