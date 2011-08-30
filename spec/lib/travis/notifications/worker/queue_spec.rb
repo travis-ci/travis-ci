@@ -22,9 +22,9 @@ describe Travis::Notifications::Worker::Queue do
       rails.matches?('rails/rails', nil, nil).should be_true
     end
 
-    it "returns true when the given target matches" do
-      erlang.matches?(nil, 'erlang', nil).should be_true
-    end
+    # it "returns true when the given target matches" do
+    #   erlang.matches?(nil, 'erlang', nil).should be_true
+    # end
 
     it "returns true when the given language matches" do
       clojure.matches?(nil, nil, 'clojure').should be_true
