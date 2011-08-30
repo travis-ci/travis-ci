@@ -1,10 +1,10 @@
 ENV["RAILS_ENV"] ||= 'test'
 
-begin
-  require 'rubygems'
-  require 'spork'
-rescue LoadError => e
-end
+# begin
+#   require 'rubygems'
+#   require 'spork'
+# rescue LoadError => e
+# end
 
 def load_all(*patterns)
   patterns.each { |pattern| Dir[pattern].sort.each { |path| load File.expand_path(path) } }
@@ -32,7 +32,6 @@ def configure
     c.before :suite do
       DatabaseCleaner.strategy = :truncation
       DatabaseCleaner.clean_with :truncation
-
     end
 
     c.before :each do
