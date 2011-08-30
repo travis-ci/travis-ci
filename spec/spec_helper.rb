@@ -32,7 +32,6 @@ def configure
     c.before :suite do
       DatabaseCleaner.strategy = :truncation
       DatabaseCleaner.clean_with :truncation
-
     end
 
     c.before :each do

@@ -46,7 +46,7 @@ describe 'JSON for websocket events' do
       'id' => repository.id,
       'slug' => 'svenfuchs/minimal',
       'last_build_finished_at' => '2010-11-12T12:30:20Z',
-      'last_build_id' => 2,
+      'last_build_id' => build.id,
       'last_build_number' => '2',
       'last_build_started_at' => '2010-11-12T12:30:00Z',
     }
