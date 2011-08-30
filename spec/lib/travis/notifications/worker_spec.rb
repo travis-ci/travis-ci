@@ -3,7 +3,11 @@ require 'spec_helper'
 describe Travis::Notifications::Worker do
   before do
     Travis.config.notifications = [:worker]
-    Travis.config.queues = [{ :queue => 'rails', :slug => 'rails/rails' }, { :queue => 'erlang', :target => 'erlang' }]
+    Travis.config.queues = [
+      { :queue => 'rails', :slug => 'rails/rails' },
+      { :queue => 'builds', :language => 'clojure' },
+      { :queue => 'erlang', :target => 'erlang', :language => 'erlang' },
+    ]
   end
 
   after do
@@ -14,10 +18,13 @@ describe Travis::Notifications::Worker do
   let(:worker) { Travis::Notifications::Worker.new }
 
   it "queues returns an array of Queues for the config hash" do
-    rails, erlang = Travis::Notifications::Worker.send(:queues)
+    rails, clojure, erlang = Travis::Notifications::Worker.send(:queues)
 
     rails.name.should == 'rails'
     rails.slug.should == 'rails/rails'
+
+    clojure.name.should == 'builds'
+    clojure.language.should == 'clojure'
 
     erlang.name.should == 'erlang'
     erlang.target.should == 'erlang'
@@ -29,12 +36,17 @@ describe Travis::Notifications::Worker do
       worker.send(:queue_for, build).name.should == 'builds'
     end
 
-    it "returns true when slug matches the given configuration hash" do
+    it "returns the queue when slug matches the given configuration hash" do
       build = Factory(:build, :repository => Factory(:repository, :owner_name => 'rails', :name => 'rails'))
       worker.send(:queue_for, build).name.should == 'rails'
     end
 
-    it "returns true when target matches the given configuration hash" do
+    it "returns the queue when target matches the given configuration hash" do
+      build = Factory(:build, :repository => Factory(:repository), :config => { :language => 'clojure' })
+      worker.send(:queue_for, build).name.should == 'builds'
+    end
+
+    it "returns the queue when language matches the given configuration hash" do
       build = Factory(:build, :repository => Factory(:repository), :config => { :target => 'erlang' })
       worker.send(:queue_for, build).name.should == 'erlang'
     end
