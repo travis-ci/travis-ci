@@ -1,11 +1,11 @@
 source :rubygems
 
-gem 'rails',             :git => 'git://github.com/rails/rails', :branch => '3-1-0'
+gem 'rails',             '~> 3.1.0'
 gem 'rake',              '~> 0.9.2'
 gem 'refraction',        '~> 0.2.0'
 gem 'jruby-openssl',     :platforms => :jruby
 
-# storage
+# persistence
 gem 'pg',                '~> 0.11.0'
 gem 'silent-postgres',   '~> 0.0.8'
 gem 'data_migrations',   '~> 0.0.1'
@@ -33,6 +33,7 @@ gem 'newrelic_rpm',      '~> 3.1.0'
 # assets
 gem 'sass'
 gem 'sass-rails',        :git => 'git://github.com/svenfuchs/sass-rails.git'
+gem 'handlebars-rails',  :git => 'git://github.com/svenfuchs/handlebars-rails.git'
 gem 'coffee-script'
 gem 'uglifier'
 gem 'jquery-rails'
@@ -62,7 +63,7 @@ group :development, :test do
 
   platforms :mri_18 do
     # required as linecache uses it but does not have it as a dep
-    gem "require_relative", "~> 1.0.1"
+    gem 'require_relative', '~> 1.0.1'
     gem 'ruby-debug'
   end
 
