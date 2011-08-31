@@ -77,4 +77,3 @@ group :development, :test do
     gem 'ruby-debug19', :platforms => :mri_19
   end
 end
-
