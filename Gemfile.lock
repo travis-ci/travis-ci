@@ -1,11 +1,5 @@
 GIT
-  remote: git://github.com/svenfuchs/handlebars-rails.git
-  revision: 7f8a0eafe185cf934d221703f815f35972b2ec75
-  specs:
-    handlebars-rails (0.9.1)
-
-GIT
-  remote: https://github.com/chriseppstein/compass.git
+  remote: git://github.com/chriseppstein/compass.git
   revision: 22e2458b77519e8eb8463170c1a1fe4bab105f3e
   branch: rails31
   specs:
@@ -15,7 +9,7 @@ GIT
       sass (~> 3.1)
 
 GIT
-  remote: https://github.com/pengwynn/octokit.git
+  remote: git://github.com/pengwynn/octokit.git
   revision: 463e08caa4f940045f7f9e2003bd9dcd427b13c0
   ref: 463e08caa4f940045f7f
   specs:
@@ -26,10 +20,11 @@ GIT
       hashie (~> 1.0.0)
       multi_json (~> 1.0.2)
 
-GEM
-  remote: http://rubygems.org/
+GIT
+  remote: git://github.com/rails/rails
+  revision: 15b75b4a9ed50ddb0a98a1368a0e07e1cbd9fb36
+  ref: 15b75b4a9ed50ddb0a98
   specs:
-    SystemTimer (1.2.3)
     actionmailer (3.1.0)
       actionpack (= 3.1.0)
       mail (~> 2.3.0)
@@ -59,6 +54,32 @@ GEM
       activesupport (= 3.1.0)
     activesupport (3.1.0)
       multi_json (~> 1.0)
+    rails (3.1.0)
+      actionmailer (= 3.1.0)
+      actionpack (= 3.1.0)
+      activerecord (= 3.1.0)
+      activeresource (= 3.1.0)
+      activesupport (= 3.1.0)
+      bundler (~> 1.0)
+      railties (= 3.1.0)
+    railties (3.1.0)
+      actionpack (= 3.1.0)
+      activesupport (= 3.1.0)
+      rack-ssl (~> 1.3.2)
+      rake (>= 0.8.7)
+      rdoc (~> 3.4)
+      thor (~> 0.14.6)
+
+GIT
+  remote: git://github.com/svenfuchs/handlebars-rails.git
+  revision: 7f8a0eafe185cf934d221703f815f35972b2ec75
+  specs:
+    handlebars-rails (0.9.1)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    SystemTimer (1.2.3)
     addressable (2.2.6)
     archive-tar-minitar (0.5.2)
     arel (2.2.1)
@@ -169,21 +190,6 @@ GEM
       rack
     rack-test (0.6.1)
       rack (>= 1.0)
-    rails (3.1.0)
-      actionmailer (= 3.1.0)
-      actionpack (= 3.1.0)
-      activerecord (= 3.1.0)
-      activeresource (= 3.1.0)
-      activesupport (= 3.1.0)
-      bundler (~> 1.0)
-      railties (= 3.1.0)
-    railties (3.1.0)
-      actionpack (= 3.1.0)
-      activesupport (= 3.1.0)
-      rack-ssl (~> 1.3.2)
-      rake (>= 0.8.7)
-      rdoc (~> 3.4)
-      thor (~> 0.14.6)
     raindrops (0.7.0)
     rake (0.9.2)
     rbx-require-relative (0.0.5)
@@ -307,7 +313,7 @@ DEPENDENCIES
   pg (~> 0.11.0)
   pusher (~> 0.8.1)
   rabl (~> 0.3.0)
-  rails (~> 3.1.0)
+  rails!
   rake (~> 0.9.2)
   refraction (~> 0.2.0)
   require_relative (~> 1.0.1)

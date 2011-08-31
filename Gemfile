@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'rails',             '~> 3.1.0'
+gem 'rails',             :git => 'git://github.com/rails/rails', :ref => '15b75b4a9ed50ddb0a98'
 gem 'rake',              '~> 0.9.2'
 gem 'refraction',        '~> 0.2.0'
 gem 'jruby-openssl',     :platforms => :jruby
@@ -27,7 +27,7 @@ gem 'unobtrusive_flash', '~> 0.0.2'
 # apis
 # current oa-oauth release depends on faraday 0.6.1, current octokit on faraday ~> 0.7.3, :git source for oa-oauth confuses heroku :(
 # so we have to wait for an oa-oauth release
-gem 'octokit',           :git => 'https://github.com/pengwynn/octokit.git', :ref => '463e08caa4f940045f7f'
+gem 'octokit',           :git => 'git://github.com/pengwynn/octokit.git', :ref => '463e08caa4f940045f7f'
 gem 'pusher',            '~> 0.8.1'
 gem 'hoptoad_notifier',  '~> 2.4.11'
 gem 'newrelic_rpm',      '~> 3.1.0'
@@ -45,7 +45,7 @@ group :assets do
   gem 'handlebars-rails',  :git => 'git://github.com/svenfuchs/handlebars-rails.git'
   gem 'uglifier'
   gem 'jquery-rails'
-  gem 'compass',           :git => 'https://github.com/chriseppstein/compass.git', :branch => 'rails31'
+  gem 'compass',           :git => 'git://github.com/chriseppstein/compass.git', :branch => 'rails31'
 end
 
 group :test do
