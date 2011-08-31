@@ -10,7 +10,8 @@ class TasksController < ApplicationController
 
   # also responds to PUT /builds/:id legacy route
   def update
-    task.update_attributes(params[:task] || params[:build])
+    @task = Task.find(params[:id], :select => "id")
+    @task.update_attributes(params[:task] || params[:build])
     render :nothing => true
   end
 
