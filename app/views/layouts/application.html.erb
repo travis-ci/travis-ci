@@ -19,21 +19,18 @@
     <meta property="og:description"
           content="Hi I'm Travis. I'm a distributed build server tool for the open source community - currently in early alpha, and I'm looking for your help!"/>
 
-    <%# if Rails.env.jasmine? %>
-      <%#= stylesheet_link_tag 'jasmine' %>
-      <%#= include_javascripts :jasmine %>
-    <%# end %>
-    <%#= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
+    <% if Rails.env.jasmine? %>
+      <%= stylesheet_link_tag 'jasmine' %>
+      <%= javascript_tag :jasmine %>
+    <% end %>
+    <%= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
 
-    <%#= include_javascripts :travis %>
-    <%#= include_javascripts :templates %>
+    <%= stylesheet_link_tag    'application' %>
+    <%= javascript_include_tag 'application' %>
 
-    <%= stylesheet_link_tag    "application" %>
-    <%= javascript_include_tag "application" %>
-
-    <%# if Rails.env.test? %>
-      <%#= include_javascripts :capybara %>
-    <%# end %>
+    <% if Rails.env.test? %>
+      <%= javascript_tag :capybara %>
+    <% end %>
     <%= javascript_tag "var env = '#{Rails.env}';" %>
   </head>
 
