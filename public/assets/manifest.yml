@@ -28,7 +28,7 @@ logos/avarteq.png: logos/avarteq-ae15b2f03092c5712f7fd9c3dcee4687.png
 logos/enterprise-rails.png: logos/enterprise-rails-5a0e002321f70a7d500e6299d11f8c61.png
 logos/postmark.png: logos/postmark-24c16bec23d6888cc5b7e8737bb44653.png
 logos/pusher.png: logos/pusher-008b673d34cc485fc727a07e75fd2785.png
-logos/redistogo-square.png: logos/redistogo-square-724ee095c7f2cdad3a9ac6126fa384ed.png
+logos/railslove.png: logos/railslove-70b8c24d1c48fe675c03c22f69c33129.png
 logos/redistogo.png: logos/redistogo-3ab0057dd28f0269aa28ec6173d22bf3.png
 logos/site5.jpeg: logos/site5-4a5279488601f0d1b76f50d6dc5924d6.jpeg
 logos/thoughtbot.png: logos/thoughtbot-d39aec830cecbd5acd07f0e1af81775a.png
@@ -66,5 +66,5 @@ jquery.tipsy.css: jquery-be11aa44fea06b244df68375d6c01e3e.tipsy.css
 jquery-ui.min.js: jquery-ui-7e33882a28fc84ad0e0e47e46cbf901c.min.js
 jquery.min.js: jquery-8a50feed8d29566738ad005e19fe1c2d.min.js
 app/controllers/application.js: app/controllers/application-7c49500930e2e6291f8699c6fed881d6.js
-application.js: application-6fbf7232672d0d65743c154e399d728d.js
+application.js: application-ceed3d5b20b62ca18637b90e1fc07c79.js
 application.css: application-394c202570efbcab46c2d3102640d581.css
