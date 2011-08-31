@@ -20,12 +20,14 @@ gem 'rabl',              '~> 0.3.0'
 
 # app
 gem 'devise',            '~> 1.4.2'
-gem 'oa-oauth',          :git => 'git://github.com/intridea/omniauth.git', :ref => '4bc762da3beb10e75468' # current release depends on faraday 0.6.1, octokit on faraday ~> 0.7.3
+gem 'oa-oauth',          '~> 0.2.6'
 gem 'simple_states',     '0.0.7'
 gem 'unobtrusive_flash', '~> 0.0.2'
 
 # apis
-gem 'octokit',           '~> 0.6.4'
+# current oa-oauth release depends on faraday 0.6.1, current octokit on faraday ~> 0.7.3, :git source for oa-oauth confuses heroku :(
+# so we have to wait for an oa-oauth release
+gem 'octokit',           :git => 'https://github.com/pengwynn/octokit.git', :ref => '463e08caa4f940045f7f'
 gem 'pusher',            '~> 0.8.1'
 gem 'hoptoad_notifier',  '~> 2.4.11'
 gem 'newrelic_rpm',      '~> 3.1.0'
