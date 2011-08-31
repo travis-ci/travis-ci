@@ -11,7 +11,7 @@ module TravisCi
 
     config.assets.enabled = true
     config.assets.version = '1.0'
-    # config.serve_static_assets = true
+    config.serve_static_assets = true
 
     config.action_controller.page_cache_directory = root.join('tmp/assets')
 
