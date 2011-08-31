@@ -46,7 +46,7 @@ end
 
 RSpec::Matchers.define :serve_status_image do |status|
   match do |request|
-    path = "#{Rails.public_path}/images/status/#{status}.png"
+    path = "#{Rails.root}/app/assets/status/#{status}.png"
     controller.expects(:send_file).with(path, { :type => 'image/png', :disposition => 'inline' }).once
     request.call
   end
@@ -54,14 +54,18 @@ end
 
 RSpec::Matchers.define :have_body_text do |text|
   match do |email|
-    text = text.strip.split("\n").map(&:strip).join("\n")
-    body = email.body.to_s
-
     description { "have the expected body text" }
-    failure_message_for_should { "body does not contain the expected text\n\n--- actual:\n\n#{body}\n\n---- expected:\n\n#{text}" }
-    failure_message_for_should_not { "body should not contain the given text\n\n--- actual:\n\n#{body}\n\n---- not expected:\n\n#{text}" }
 
-    body.include?(text)
+    body = email.parts.last.body.to_s
+    lines = text.split("\n").map(&:strip).inject([]) do |lines, line|
+      lines << "  #{line}" if line.present? && !body.include?(line)
+      lines
+    end
+
+    failure_message_for_should { "The email body was expected to contain the following lines but didn't:\n\n#{lines.join("\n")}\n\nActual body: #{body}" }
+    failure_message_for_should_not { "The email body was expected to not contain the following lines but did:\n\n#{lines.join("\n")}\n\nActual body: #{body}" }
+
+    lines.empty?
   end
 end
 
