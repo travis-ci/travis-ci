@@ -56,8 +56,13 @@ $(document).ready(function() {
   }
 
   $('#search input').keyup(_.debounce(function(e) {
-    Travis.app.repositories.setFilter($(this).val()).fetch()
+    Travis.app.repositories.setFilter($(this).val()).fetch();
   }, 100));
+
+  if($('#service_hooks').length) {
+    var service_hooks = new Travis.Collections.ServiceHooks();
+    new Travis.Views.ServiceHooks.List($('#service_hooks'), service_hooks);
+  }
 
   function toggle_slider() {
     $("#right").toggleClass('minimized');
