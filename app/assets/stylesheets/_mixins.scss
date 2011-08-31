@@ -11,7 +11,7 @@
 }
 
 @mixin spinner {
-  background: url('/images/spinner.gif') no-repeat;
+  background: url('/assets/spinner.gif') no-repeat;
   width: 16px;
   height: 8px;
   @include centered;
@@ -34,7 +34,7 @@
 }
 
 .spinner {
-  background: url('/images/spinner.gif') no-repeat;
+  background: url('/assets/spinner.gif') no-repeat;
   @include spinner;
   width: 20px;
   height: 20px;

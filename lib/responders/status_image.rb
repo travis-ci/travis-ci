@@ -24,7 +24,7 @@ module Responders
       end
 
       def path
-        "#{Rails.public_path}/images/status/#{status}.png"
+        "#{Rails.public_path}/assets/status/#{status}.png"
       end
 
       def status

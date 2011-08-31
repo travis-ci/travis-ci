@@ -5,12 +5,12 @@ Bundler.require(:default, Rails.env) if defined?(Bundler)
 
 module TravisCi
   class Application < Rails::Application
-    config.encoding = "utf-8"
+    config.encoding = 'utf-8'
 
     config.filter_parameters += [:password]
 
-    # config.action_controller.logger = Logger.new(STDOUT)
-    config.serve_static_assets = true
+    config.assets.enabled = true
+    # config.serve_static_assets = true
     config.action_controller.page_cache_directory = root.join('tmp/assets')
 
     config.active_record.default_timezone = :utc
