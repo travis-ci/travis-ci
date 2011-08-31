@@ -99,7 +99,7 @@ GEM
     i18n (0.5.0)
     jammit (0.6.3)
       yui-compressor (>= 0.9.3)
-    json (1.5.3)
+    json (1.5.4)
     json_pure (1.5.4)
       spruz (~> 0.2.8)
     kgio (2.6.0)
