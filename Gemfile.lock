@@ -12,10 +12,11 @@ GIT
       oauth (~> 0.4.0)
       oauth2 (~> 0.5.0)
 
-GEM
-  remote: http://rubygems.org/
+GIT
+  remote: git://github.com/rails/rails
+  revision: 48cdecd1abbb6f4faf7c7339c68a427c4c83302b
+  branch: 3-1-0
   specs:
-    SystemTimer (1.2.3)
     actionmailer (3.1.0.rc8)
       actionpack (= 3.1.0.rc8)
       mail (~> 2.3.0)
@@ -45,6 +46,36 @@ GEM
       activesupport (= 3.1.0.rc8)
     activesupport (3.1.0.rc8)
       multi_json (~> 1.0)
+    rails (3.1.0.rc8)
+      actionmailer (= 3.1.0.rc8)
+      actionpack (= 3.1.0.rc8)
+      activerecord (= 3.1.0.rc8)
+      activeresource (= 3.1.0.rc8)
+      activesupport (= 3.1.0.rc8)
+      bundler (~> 1.0)
+      railties (= 3.1.0.rc8)
+    railties (3.1.0.rc8)
+      actionpack (= 3.1.0.rc8)
+      activesupport (= 3.1.0.rc8)
+      rack-ssl (~> 1.3.2)
+      rake (>= 0.8.7)
+      rdoc (~> 3.4)
+      thor (~> 0.14.6)
+
+GIT
+  remote: https://github.com/chriseppstein/compass.git
+  revision: 22e2458b77519e8eb8463170c1a1fe4bab105f3e
+  branch: rails31
+  specs:
+    compass (0.12.0.alpha.0.22e2458)
+      chunky_png (~> 1.2)
+      fssm (>= 0.2.7)
+      sass (~> 3.1)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    SystemTimer (1.2.3)
     addressable (2.2.6)
     archive-tar-minitar (0.5.2)
     arel (2.2.1)
@@ -59,6 +90,7 @@ GEM
       xpath (~> 0.1.4)
     childprocess (0.2.2)
       ffi (~> 1.0.6)
+    chunky_png (1.2.1)
     clockwork (0.2.4)
     coffee-script (2.2.0)
       coffee-script-source
@@ -88,6 +120,7 @@ GEM
     faraday_middleware (0.7.0)
       faraday (~> 0.7.3)
     ffi (1.0.9)
+    fssm (0.2.7)
     hashie (1.0.0)
     hashr (0.0.14)
     hike (1.2.1)
@@ -148,21 +181,6 @@ GEM
       rack
     rack-test (0.6.1)
       rack (>= 1.0)
-    rails (3.1.0.rc8)
-      actionmailer (= 3.1.0.rc8)
-      actionpack (= 3.1.0.rc8)
-      activerecord (= 3.1.0.rc8)
-      activeresource (= 3.1.0.rc8)
-      activesupport (= 3.1.0.rc8)
-      bundler (~> 1.0)
-      railties (= 3.1.0.rc8)
-    railties (3.1.0.rc8)
-      actionpack (= 3.1.0.rc8)
-      activesupport (= 3.1.0.rc8)
-      rack-ssl (~> 1.3.2)
-      rake (>= 0.8.7)
-      rdoc (~> 3.4)
-      thor (~> 0.14.6)
     raindrops (0.7.0)
     rake (0.9.2)
     rbx-require-relative (0.0.5)
@@ -261,6 +279,7 @@ DEPENDENCIES
   capybara (~> 1.0.0)
   clockwork
   coffee-script
+  compass!
   data_migrations (~> 0.0.1)
   database_cleaner
   devise (~> 1.4.2)
@@ -280,7 +299,7 @@ DEPENDENCIES
   pg (~> 0.11.0)
   pusher (~> 0.8.1)
   rabl (~> 0.3.0)
-  rails (~> 3.1.0.rc8)
+  rails!
   rake (~> 0.9.2)
   refraction (~> 0.2.0)
   require_relative (~> 1.0.1)

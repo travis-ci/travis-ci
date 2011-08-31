@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'rails',             '~> 3.1.0.rc8'
+gem 'rails',             :git => 'git://github.com/rails/rails', :branch => '3-1-0'
 gem 'rake',              '~> 0.9.2'
 gem 'refraction',        '~> 0.2.0'
 gem 'jruby-openssl',     :platforms => :jruby
@@ -32,10 +32,11 @@ gem 'newrelic_rpm',      '~> 3.1.0'
 
 # assets
 gem 'sass'
+gem 'sass-rails',        :git => 'git://github.com/svenfuchs/sass-rails.git'
 gem 'coffee-script'
 gem 'uglifier'
 gem 'jquery-rails'
-# gem 'compass',           '~> 0.11.3'
+gem 'compass',           :git => 'https://github.com/chriseppstein/compass.git', :branch => 'rails31'
 
 # heroku
 gem 'unicorn',           '~> 4.0.0', :platforms => :ruby
