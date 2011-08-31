@@ -322,7 +322,7 @@ DEPENDENCIES
   sass
   sass-rails!
   silent-postgres (~> 0.0.8)
-  simple_states (~> 0.0.7)
+  simple_states (= 0.0.7)
   uglifier
   unicorn (~> 4.0.0)
   unobtrusive_flash (~> 0.0.2)
