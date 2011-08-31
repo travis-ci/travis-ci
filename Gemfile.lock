@@ -19,16 +19,6 @@ GIT
     handlebars-rails (0.9.1)
 
 GIT
-  remote: git://github.com/svenfuchs/sass-rails.git
-  revision: ce2c363880d4eb761bf608a4684ce5db06d4362d
-  specs:
-    sass-rails (3.1.1.alpha.0)
-      actionpack (>= 3.1.0.beta)
-      railties (>= 3.1.0.beta)
-      sass (>= 3.1.4)
-      sprockets (>= 2.0.0.beta.9)
-
-GIT
   remote: https://github.com/chriseppstein/compass.git
   revision: 22e2458b77519e8eb8463170c1a1fe4bab105f3e
   branch: rails31
@@ -87,6 +77,9 @@ GEM
       ffi (~> 1.0.6)
     chunky_png (1.2.1)
     clockwork (0.2.4)
+    coffee-rails (3.1.0)
+      coffee-script (>= 2.2.0)
+      railties (~> 3.1.0.rc1)
     coffee-script (2.2.0)
       coffee-script-source
       execjs
@@ -238,6 +231,10 @@ GEM
       archive-tar-minitar (>= 0.5.2)
     rubyzip (0.9.4)
     sass (3.1.7)
+    sass-rails (3.1.0)
+      actionpack (~> 3.1.0)
+      railties (~> 3.1.0)
+      sass (>= 3.1.4)
     selenium-webdriver (2.5.0)
       childprocess (>= 0.2.1)
       ffi (>= 1.0.7)
@@ -288,7 +285,7 @@ DEPENDENCIES
   SystemTimer (~> 1.2.3)
   capybara (~> 1.0.0)
   clockwork
-  coffee-script
+  coffee-rails (~> 3.1.0)
   compass!
   data_migrations (~> 0.0.1)
   database_cleaner
@@ -320,7 +317,7 @@ DEPENDENCIES
   ruby-debug
   ruby-debug19
   sass
-  sass-rails!
+  sass-rails (~> 3.1.0)
   silent-postgres (~> 0.0.8)
   simple_states (= 0.0.7)
   uglifier
