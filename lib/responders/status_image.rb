@@ -24,7 +24,7 @@ module Responders
       end
 
       def path
-        Rails.root.join("app/assets/images/status/#{status}.png")
+        Rails.root.join("app/assets/status/#{status}.png").to_s
       end
 
       def status

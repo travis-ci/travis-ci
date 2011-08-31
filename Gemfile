@@ -21,7 +21,7 @@ gem 'rabl',              '~> 0.3.0'
 # app
 gem 'devise',            '~> 1.4.2'
 gem 'oa-oauth',          :git => 'git://github.com/intridea/omniauth.git', :ref => '4bc762da3beb10e75468' # current release depends on faraday 0.6.1, octokit on faraday ~> 0.7.3
-gem 'simple_states',     '~> 0.0.7'
+gem 'simple_states',     '0.0.7'
 gem 'unobtrusive_flash', '~> 0.0.2'
 
 # apis
