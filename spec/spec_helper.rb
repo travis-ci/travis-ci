@@ -32,7 +32,6 @@ def configure
     c.before :suite do
       DatabaseCleaner.strategy = :truncation
       DatabaseCleaner.clean_with :truncation
-
     end
 
     c.before :each do
@@ -59,7 +58,8 @@ end
 
 if defined?(Spork)
   Spork.prefork  { configure }
-  # Spork.each_run { load_all '{app,lib}/**/*.rb', '/config/routes.rb' }
+  Spork.each_run { load_all 'lib/**/*.rb', '/config/routes.rb' }
 else
   configure
 end
+

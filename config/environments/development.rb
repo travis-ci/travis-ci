@@ -6,6 +6,8 @@ TravisCi::Application.configure do
   # since you don't have to restart the webserver when you make code changes.
   config.cache_classes = false
 
+  # config.assets.cache_store = false
+
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
 
@@ -26,5 +28,11 @@ TravisCi::Application.configure do
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
+
+  # Don't compress assets
+  config.assets.compress = false
+
+  # Don't concatenate assets
+  config.assets.debug = true
 end
 

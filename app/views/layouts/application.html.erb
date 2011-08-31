@@ -1,37 +1,20 @@
 <!doctype html>
-<!--[if lt IE 7 ]>             <html lang="en" class="ie6"> <![endif]-->
-<!--[if IE 7 ]>                <html lang="en" class="ie7"> <![endif]-->
-<!--[if IE 8 ]>                <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9 ]>                <html lang="en" class="ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>Travis CI - Distributed build platform for the open source community</title>
     <meta name="csrf-token" content="<%= form_authenticity_token %>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="/favicon.ico">
-    
+
     <meta property="og:title" content="Travis CI - Distributed build platform for the open source community"/>
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="http://travis-ci.org/"/>
-    <meta property="og:image" content="http://travis-ci.org/images/twitter.icon.png"/>
+    <meta property="og:image" content="http://travis-ci.org/assets/twitter.icon.png"/>
     <meta property="og:site_name" content="Travis CI"/>
-    <meta property="og:description"
-          content="Hi I'm Travis. I'm a distributed build server tool for the open source community - currently in early alpha, and I'm looking for your help!"/>
-    
-    <% if Rails.env.jasmine? %>
-      <%= stylesheet_link_tag 'jasmine' %>
-      <%= include_javascripts :jasmine %>
-    <% end %>
-    <%= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
+    <meta property="og:description" content="Hi I'm Travis. I'm a distributed build server tool for the open source community - currently in early alpha, and I'm looking for your help!"/>
 
-    <%= include_javascripts :travis %>
-    <%= include_javascripts :templates %>
-
-    <% if Rails.env.test? %>
-      <%= include_javascripts :capybara %>
-    <% end %>
-    <%= javascript_tag "var env = '#{Rails.env}';" %>
+    <%= render :partial => 'layouts/assets' %>
   </head>
 
   <body id="<%= body_id %>">
@@ -57,6 +40,7 @@
     <div id="main">
       <%= yield %>
     </div>
+
     <div id="right" class="maximized">
       <div class="slider"><div class='icon'></div>&nbsp;</div>
       <div class="inner"><div class='wrapper'>
@@ -75,9 +59,7 @@
 
     <div id="flash-messages"></div>
 
-    <a id="github" href="https://github.com/travis-ci/travis-ci" title="Fork me on GitHub">
-      <span>Fork me on GitHub</span>
-    </a>
+    <a id="github" href="https://github.com/travis-ci/travis-ci" title="Fork me on GitHub"><span>Fork me on GitHub</span></a>
 
     <%= javascript_tag "var pusher = new Pusher('#{Pusher.key}');" unless Rails.env.jasmine? %>
 
