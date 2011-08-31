@@ -30,19 +30,21 @@ gem 'pusher',            '~> 0.8.1'
 gem 'hoptoad_notifier',  '~> 2.4.11'
 gem 'newrelic_rpm',      '~> 3.1.0'
 
-# assets
-gem 'sass'
-gem 'sass-rails',        '~> 3.1.0'
-gem 'coffee-rails',      '~> 3.1.0'
-gem 'handlebars-rails',  :git => 'git://github.com/svenfuchs/handlebars-rails.git'
-gem 'uglifier'
-gem 'jquery-rails'
-gem 'compass',           :git => 'https://github.com/chriseppstein/compass.git', :branch => 'rails31'
-
 # heroku
 gem 'unicorn',           '~> 4.0.0', :platforms => :ruby
 gem 'SystemTimer',       '~> 1.2.3', :platforms => :ruby_18
 gem 'clockwork'
+
+# assets
+group :assets do
+  gem 'sass'
+  gem 'sass-rails',        '~> 3.1.0'
+  gem 'coffee-rails',      '~> 3.1.0'
+  gem 'handlebars-rails',  :git => 'git://github.com/svenfuchs/handlebars-rails.git'
+  gem 'uglifier'
+  gem 'jquery-rails'
+  gem 'compass',           :git => 'https://github.com/chriseppstein/compass.git', :branch => 'rails31'
+end
 
 group :test do
   gem 'capybara',        '~> 1.0.0'
