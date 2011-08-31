@@ -73,7 +73,7 @@ caption {
     height: 30px;
     margin: 4px 40px 0 22px;
     text-indent: -9999px;
-    background: url(/images/logo.png) no-repeat;
+    background: url(/assets/logo.png) no-repeat;
   }
   ul {
     list-style-type: none;
@@ -221,7 +221,7 @@ caption {
 #main .summary .number a,
 #main #matrix td:first-child a,
 #main #builds .build td:first-child a {
-  background-image: url(/images/icons/status.yellow.png);
+  background-image: url(/assets/icons/status.yellow.png);
   padding-left: 20px;
   background-repeat: no-repeat;
 }
@@ -229,7 +229,7 @@ caption {
 #main .summary.green .number a,
 #main #matrix .green td:first-child a,
 #main #builds .build.green td:first-child a {
-  background-image: url(/images/icons/status.green.png);
+  background-image: url(/assets/icons/status.green.png);
   color: green;
   padding-left: 20px;
   background-repeat: no-repeat;
@@ -238,7 +238,7 @@ caption {
 #main .summary.red .number a,
 #main #matrix .red td:first-child a,
 #main #builds .build.red td:first-child a {
-  background-image: url(/images/icons/status.red.png);
+  background-image: url(/assets/icons/status.red.png);
   color: #c00;
   padding-left: 20px;
   background-repeat: no-repeat;
@@ -287,10 +287,10 @@ caption {
       background: no-repeat 0px 2px;
       color: #999;
       &.watchers {
-        background-image: url(/images/icons/github-watchers.png);
+        background-image: url(/assets/icons/github-watchers.png);
       }
       &.forks {
-        background-image: url(/images/icons/github-forks.png);
+        background-image: url(/assets/icons/github-forks.png);
       }
     }
   }
@@ -310,7 +310,7 @@ caption {
     text-decoration: none;
     text-align: right;
     color: #999;
-    background: url(/images/icons/github-admin.png) no-repeat right 1px;
+    background: url(/assets/icons/github-admin.png) no-repeat right 1px;
     text-indent: -999px;
     overflow: hidden;
     z-index: 60;
@@ -343,7 +343,7 @@ caption {
     margin-top: 3px;
     text-indent: -99px;
     overflow: hidden;
-    /* background: url(/images/icons/tools-button.png) no-repeat; */
+    /* background: url(/assets/icons/tools-button.png) no-repeat; */
     background: url(data:image/png;base64,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%3D%3D) no-repeat;
     cursor: pointer;
   }
@@ -426,12 +426,12 @@ caption {
     .fold {
       height: 16px;
       overflow: hidden;
-      background: #444 url(/images/icons/log.fold.closed.2.png) no-repeat 99.5% 2px;
+      background: #444 url(/assets/icons/log.fold.closed.2.png) no-repeat 99.5% 2px;
       cursor: pointer;
 
       &.open {
         height: auto;
-        background-image: url(/images/icons/log.fold.open.2.png);
+        background-image: url(/assets/icons/log.fold.open.2.png);
       }
     }
 
@@ -607,7 +607,7 @@ caption {
   }
   #alpha_warning h4 {
     padding-left: 20px;
-    /* background: url(/images/construction.png) no-repeat top left; */
+    /* background: url(/assets/construction.png) no-repeat top left; */
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAQCAYAAAAmlE46AAAACXBIWXMAAAsTAAALEwEAmpwYAAACLUlEQVQoFY1STWsTURQ9d+bNJNOYJmnSNKaIlC5KSpVSNFGzaeuipeBG3bkNlip0LQXB7NwVERd+/Aqhfm2liwraaGrVQtAuikSbalIwmTQzz/tiBTtR8MIb3tx3zrvn3PtISglvEMd6DncAjYYfuFcY0wESXpL6fzKOwWgQOZ1cLKWxyKkNL+6vREyeH9ejZQPSxZ4Rm/hvYv3E3HRlOAXbbqJWeD3NxLveipo3kcsv9hj+Q9mWq8GBDsMKnp7N34t5cR1SJ9ZuZZJHPiZ87ihM9nh082Vf+tWzDHB56U9yB7GnsTnV/+Y2rLeAEQQi34DyLqaYdIB4QGqeyPTrOAuC6gvUEDQT8AtMzhD5/lmxdv1mquFfG2q4q9AaFbiWRN2KoH7y2NBIdjTFxMJv8r5Uop159B9O5i846Vnjc3cXDNlkjETNBuxKVYSLLy6uzNB25jG2WIpsS91dwCnbRjFR3ViAJuCwvj0zhKYRhquzQl0g9OXDNXZQLF3CGVW1XdHVcc6RCEfWH6I35kAMZiEDfSC+VtS24Hu/DO3dUx0+hImxzFsmeYPPBFZ+bGOsVAJ6Q0AXFxFC8AzVa22hugN8KgMDA0A4idVQHBmy7yMlGyjwuVn/yn5qfF+LCdxRnTuq+8Fyf+2tOEABNFn9mCBLu2rGXRPcC1O9D0XkUONQQcoMm0M3rwAvC6bT1ObF80fuSCLKZxq1PRFXUjhSn/1QXtlbe64qXf4uj/8EGPmtIwXAubMAAAAASUVORK5CYII%3D) no-repeat top left;
   }
   #alpha_warning p {
@@ -617,7 +617,7 @@ caption {
   #sponsors h4 {
     margin: 0 -4px 0 0;
     padding-right: 21px;
-    /* background: url(/images/smile.png) no-repeat 1px right; */
+    /* background: url(/assets/smile.png) no-repeat 1px right; */
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAndJREFUeNqkk89LFGEYx7/vzLra7raullAEKxtRZEhFsevBWIgiQTrooYsnu9VR8KL1FwjdOxVFdAgUIcEoNuyQYISEhfmrdV1Bw7U1W11n35n37TuztUVihxoY3mdmnu/n/T7v84zQWuN/LvEnwH4pQnzVoxXalELc/cx4gvEo1zv7r+rCngCKk0y6J6K9MRGJQ/vrqXagizk4+UlYcwNpgrrrOvTYLoCdEh06khw0DnVBB2rhbH+Estah7R1m1cCoOQYhDVhLT2B9HutsuKaHKgCZEvVcMmbz45AyNuHspAH5Dcq2aGCnDFEaojoKs7oZX8evF+ik8XCX/mK4FNruMRr7Q9rPPItiewup4RwfSoBTwqvnDGUB9uYUHGsBgZP9IeWgx9V6ANLaRV0Cijtru0igRBks6YCxMBnTjQvZeAtf5DgIaP8d0ITqMC1vVETJNh9hJcYltLbmGEsvVhadwYLjIFYBsISiV6dj48XQayzOLnvJLqi8WsgsrCP1bLnsjgfGTc1fDhykIYuM/GhJnsDchyyyC6ue0BUspfOYn8kjnghDGAHm+yAtzLta348SRmRu8owRiSIQXEHLhRim3ixi+l2WriSC+wTi8VoEAyZ84dMo5jKQJYxU2pgfFA2EfAolHoaUnIFTmGYDeB5so7J/thEwg5yF8BVknt4o8EiOnu3Ta14JdZ16zZ2w7fkHrO8IzHCCB19P+9rrv+E/iKqGSxywi1h/P+zu3u2Kd43yyiNxmedxN9jUG/MfOAWjinxlw7YcbK3MYnV8IM2db567pUf3/Jmy94U7JL101MZWxdlJUDTBe5T3wPnbf/mZ/uX6LsAAhVKItwNoFMgAAAAASUVORK5CYII%3D) no-repeat 1px right;
   }
   #sponsors div {
@@ -712,7 +712,7 @@ caption {
 }
 
 .list.loading h4 {
-  background: url(/images/spinner.gif) no-repeat 4px right;
+  background: url(/assets/spinner.gif) no-repeat 4px right;
   padding-right: 15px;
 }
 
@@ -908,16 +908,16 @@ ul#tokens {
         height: 20px;
         width: 20px;
         padding-right: 0;
-        background: url('/images/icons/admin.png') no-repeat 3px 4px;
+        background: url('/assets/icons/admin.png') no-repeat 3px 4px;
       }
       .toggle_enabled {
         height: 20px;
         width: 80px;
         margin-left: 10px;
-        background: url('/images/off.png') no-repeat;
+        background: url('/assets/off.png') no-repeat;
         cursor: pointer;
         &.on {
-          background: url('/images/on.png') no-repeat;
+          background: url('/assets/on.png') no-repeat;
         }
       }
     }
