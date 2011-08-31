@@ -12,15 +12,18 @@
     <link rel="icon" type="image/png" href="/favicon.ico">
     <% if Rails.env.jasmine? %>
       <%= stylesheet_link_tag 'jasmine' %>
-      <%= include_javascripts :jasmine %>
+      <%= javascript_tag :jasmine %>
     <% end %>
     <%= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
 
-    <%= include_javascripts :travis %>
-    <%= include_javascripts :templates %>
+    <%= javascript_include_tag 'application' %>
+    <%= javascript_include_tag 'templates' %>
+
+    <%= javascript_tag :travis %>
+    <%= javascript_tag :templates %>
 
     <% if Rails.env.test? %>
-      <%= include_javascripts :capybara %>
+      <%= javascript_tag :capybara %>
     <% end %>
     <%= javascript_tag "var env = '#{Rails.env}';" %>
   </head>
