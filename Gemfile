@@ -32,9 +32,9 @@ gem 'newrelic_rpm',      '~> 3.1.0'
 
 # assets
 gem 'sass'
-gem 'sass-rails',        :git => 'git://github.com/svenfuchs/sass-rails.git'
+gem 'sass-rails',        '~> 3.1.0'
+gem 'coffee-rails',      '~> 3.1.0'
 gem 'handlebars-rails',  :git => 'git://github.com/svenfuchs/handlebars-rails.git'
-gem 'coffee-script'
 gem 'uglifier'
 gem 'jquery-rails'
 gem 'compass',           :git => 'https://github.com/chriseppstein/compass.git', :branch => 'rails31'
