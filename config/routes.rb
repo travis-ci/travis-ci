@@ -39,8 +39,6 @@ TravisCi::Application.routes.draw do
 
   match "/stats" => "statistics#index"
 
-  match "/#{Jammit.package_path}/:package.:extension", :to => 'jammit#package', :as => :jammit, :constraints => { :extension => /.+/ }
-
   # legacy routes used by github service hooks and workers
   post 'builds',         :to => 'requests#create'
   put  'builds/:id',     :to => 'tasks#update'

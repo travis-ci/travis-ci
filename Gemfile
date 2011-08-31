@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'rails',             '~> 3.0.10'
+gem 'rails',             '~> 3.1.0.rc8'
 gem 'rake',              '~> 0.9.2'
 gem 'refraction',        '~> 0.2.0'
 gem 'jruby-openssl',     :platforms => :jruby
@@ -13,6 +13,7 @@ gem 'resque',            '~> 1.17.1'
 gem 'resque-heartbeat',  '~> 0.0.3'
 
 # structures
+gem 'json'
 gem 'yajl-ruby',         '~> 0.8.2'
 gem 'hashr',             '~> 0.0.14'
 gem 'rabl',              '~> 0.3.0'
@@ -30,8 +31,11 @@ gem 'hoptoad_notifier',  '~> 2.4.11'
 gem 'newrelic_rpm',      '~> 3.1.0'
 
 # assets
-gem 'jammit',            '~> 0.6.0'
-gem 'compass',           '~> 0.11.3'
+gem 'sass'
+gem 'coffee-script'
+gem 'uglifier'
+gem 'jquery-rails'
+# gem 'compass',           '~> 0.11.3'
 
 # heroku
 gem 'unicorn',           '~> 4.0.0', :platforms => :ruby
