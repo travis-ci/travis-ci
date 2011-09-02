@@ -1,7 +1,7 @@
 Travis.Views.Build.History.Row = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, 'render', 'setStatus', 'setDuration', 'setFinishedAt', 'setLastBuild', 'setSelected');
-    this.template = Travis.templates['build/history/row'];
+    this.template = Travis.templates['app/templates/build/history/row'];
     if(this.model) {
       this.attachTo(this.model);
     }
