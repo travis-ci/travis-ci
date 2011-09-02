@@ -1,14 +1,4 @@
 GIT
-  remote: git://github.com/chriseppstein/compass.git
-  revision: 22e2458b77519e8eb8463170c1a1fe4bab105f3e
-  branch: rails31
-  specs:
-    compass (0.12.0.alpha.0.22e2458)
-      chunky_png (~> 1.2)
-      fssm (>= 0.2.7)
-      sass (~> 3.1)
-
-GIT
   remote: git://github.com/pengwynn/octokit.git
   revision: 463e08caa4f940045f7f9e2003bd9dcd427b13c0
   ref: 463e08caa4f940045f7f
@@ -104,6 +94,10 @@ GEM
       execjs
     coffee-script-source (1.1.2)
     columnize (0.3.4)
+    compass (0.12.alpha.0)
+      chunky_png (~> 1.2)
+      fssm (>= 0.2.7)
+      sass (~> 3.1)
     crack (0.1.8)
     data_migrations (0.0.1)
       activerecord
@@ -294,7 +288,7 @@ DEPENDENCIES
   capybara (~> 1.0.0)
   clockwork
   coffee-rails (~> 3.1.0)
-  compass!
+  compass (= 0.12.alpha.0)
   data_migrations (~> 0.0.1)
   database_cleaner
   devise (~> 1.4.2)
@@ -324,7 +318,6 @@ DEPENDENCIES
   rspec-rails (~> 2.6.1)
   ruby-debug
   ruby-debug19
-  sass
   sass-rails (~> 3.1.0)
   silent-postgres (~> 0.0.8)
   simple_states (= 0.0.7)

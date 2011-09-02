@@ -39,13 +39,12 @@ gem 'clockwork'
 
 # assets
 group :assets do
-  gem 'sass'
   gem 'sass-rails',        '~> 3.1.0'
   gem 'coffee-rails',      '~> 3.1.0'
   gem 'handlebars-rails',  :git => 'git://github.com/svenfuchs/handlebars-rails.git'
   gem 'uglifier'
   gem 'jquery-rails'
-  gem 'compass',           :git => 'git://github.com/chriseppstein/compass.git', :branch => 'rails31'
+  gem 'compass',           '0.12.alpha.0'
 end
 
 group :test do
