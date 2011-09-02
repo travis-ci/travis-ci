@@ -2,7 +2,7 @@ Travis.Views.Build.Log = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, 'render', 'setLog', 'appendLog');
     _.extend(this, this.options);
-    this.template = Travis.templates['build/log'];
+    this.template = Travis.templates['app/templates/build/log'];
     if(this.model) this.attachTo(this.model);
   },
   detach: function() {
