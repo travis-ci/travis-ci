@@ -54,13 +54,15 @@ group :test do
   gem 'fakeredis',       '~> 0.2.0'
   gem 'webmock'
 
-  gem 'jasmine'
-  gem 'jasmine-headless-webkit'
-
   platforms :ruby_18 do
     gem 'minitest'
     gem 'minitest_tu_shim'
   end
+end
+
+group :test, :jasmine do
+  gem 'jasmine'
+  gem 'jasmine-headless-webkit'
 end
 
 group :development, :test do
