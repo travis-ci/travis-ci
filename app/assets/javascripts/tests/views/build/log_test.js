@@ -4,7 +4,7 @@ describe('Views: the build log view', function() {
     this.selector = '#jasmine_content #log';
     $(this.selector).html('<pre id="log"></pre>');
 
-    this.build = new Travis.Models.Build({ log: 'the build log' });
+    this.build = new Travis.Build({ log: 'the build log' });
     this.log = new Travis.Views.Build.Log({ model: this.build }).render();
   });
 

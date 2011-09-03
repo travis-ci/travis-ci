@@ -1,9 +1,12 @@
-// These are the required files for the Travis frontend, currently a backbone app.
-// The load order is important and has been broken up into individual files
-// to make sure particular js files are loaded first.
+// This is a manifest file that'll be compiled into including all the files listed below.
+// Add new JavaScript/Coffee code in separate files in this directory and they'll automatically
+// be included in the compiled file accessible from http://example.com/assets/application.js
+// It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
+// the compiled file.
 //
-//= require vendor
-//= require templates
+//= require jquery
+//= require_tree ./vendor
 //= require travis
-//= require lib
-//= require mvc
+//= require_tree ./lib
+//= require_tree ./app
+

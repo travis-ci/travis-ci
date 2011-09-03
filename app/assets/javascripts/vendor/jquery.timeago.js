@@ -45,6 +45,12 @@
       }
     },
     distanceInWords: function(date) {
+      if(!date) {
+        return;
+      }
+      if(typeof date == 'string') {
+        date = $.timeago.parse(date);
+      }
       return $.timeago.inWords($.timeago.distance(date));
     },
     inWords: function(distanceMillis) {
@@ -86,7 +92,10 @@
       return $.trim([prefix, words, suffix].join(' '));
     },
     distance: function(date) {
-      return (new Date().getTime() - date.getTime());
+      return (this.now() - date.getTime());
+    },
+    now: function() {
+      return new Date().getTime();
     },
     parse: function(iso8601) {
       var s = $.trim(iso8601);
@@ -128,4 +137,5 @@
   document.createElement('abbr');
   document.createElement('time');
 })(jQuery);
+
 
