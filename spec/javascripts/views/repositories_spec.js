@@ -4,7 +4,7 @@ describe('Views.Repository', function() {
   beforeEach(function() {
     repository = Test.Factory.repositories.travis();
     template = SC.Handlebars.compile(
-      '{{#view SC.View tagName="ul" id="repositories" contentBinding="Travis.repository"}}' +
+      '{{#view SC.View id="repositories" contentBinding="Travis.repository"}}' +
       '  <h1>{{slug}}</h1>' +
       '{{/view}}'
     );
@@ -12,9 +12,8 @@ describe('Views.Repository', function() {
 
   it('works', function() {
     var view = SC.View.create({ template: template });
-    withinRunLoop(function() { view._insertElementLater(function() {}) });
-
-    Travis.set('repository', repository);
+    withinRunLoop(function() { Travis.set('repository', repository); });
+    withinRunLoop(function() { view._insertElementLater(function() {}); });
 
     var html = view.$();
     expect(html).toHaveText(repository.get('slug'));
