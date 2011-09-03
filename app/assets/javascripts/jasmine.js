@@ -1,3 +1,4 @@
-//= require_tree ./spec/javascripts/vendor
-//= require_tree ./spec/javascripts/support
-//= require ./spec/javascripts/spec_helper.js
+//= require jasmine
+//= require_tree ./spec/vendor
+//= require_tree ./spec/support
+//= require ./spec/spec_helper.js
