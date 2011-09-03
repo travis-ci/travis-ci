@@ -12,10 +12,15 @@ describe('Views.Repository', function() {
 
   it('works', function() {
     var view = SC.View.create({ template: template });
+
     withinRunLoop(function() { Travis.set('repository', repository); });
     withinRunLoop(function() { view._insertElementLater(function() {}); });
+    withinRunLoop(function() { Travis.set('repository', repository); });
 
+    var slug = 'travis-ci/travis-ci';
     var html = view.$();
-    expect(html).toHaveText(repository.get('slug'));
+
+    expect(repository.get('slug')).toEqual(slug);
+    expect(html).toHaveText(slug);
   });
 });
