@@ -1,6 +1,6 @@
 describe('Collection:', function() {
   beforeEach(function() {
-    var Model = Travis.Models.Base.extend({
+    var Model = Travis.Base.extend({
       url: '/builds/1'
     });
     var Collection = Travis.Collections.Base.extend({

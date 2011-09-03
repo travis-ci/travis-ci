@@ -28,7 +28,13 @@
       <ul class="tabs">
         <li id="tab_recent" class="active">
           <h5><a href="#">Recent</a></h5>
-          <div class="tab"></div>
+          <div class="tab">
+            <script type="text/x-handlebars">
+              {{#view SC.View tagName="ul" id="repositories"}}
+                <h1>Hello world!</h1>
+              {{/view}}
+            </script>
+          </div>
         </li>
         <li id="your_repos">
           <h5><a class="tool-tip" title="Not yet implemented. We could use your help!">Your Repositories</a></h5>
@@ -61,8 +67,7 @@
 
     <a id="github" href="https://github.com/travis-ci/travis-ci" title="Fork me on GitHub"><span>Fork me on GitHub</span></a>
 
-    <%= javascript_tag "var pusher = new Pusher('#{Pusher.key}');" unless Rails.env.jasmine? %>
-
     <%= render 'layouts/google_analytics' %>
+    <%= javascript_tag "var pusher = new Pusher('#{Pusher.key}');" unless Rails.env.jasmine? %>
   </body>
 </html>

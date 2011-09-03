@@ -1,70 +1,55 @@
-Travis.Models.Repository = Travis.Models.Base.extend({
-  initialize: function() {
-    Travis.Models.Base.prototype.initialize.apply(this, arguments);
-    _.bindAll(this, 'color', 'toJSON');
-    this.builds = this.builds || new Travis.Collections.Builds([], { repository: this });
+Travis.Repository = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, {
+  slug:                SC.Record.attr(String),
+  lastBuildId:         SC.Record.attr(Number, { key: 'last_build_id' }),
+  lastBuildNumber:     SC.Record.attr(String, { key: 'last_build_number' }),
+  lastBuildStatus:     SC.Record.attr(Number, { key: 'last_build_status' }),
+  lastBuildStartedAt:  SC.Record.attr(String, { key: 'last_build_started_at'  }),  // DateTime doesn't seem to work?
+  lastBuildFinishedAt: SC.Record.attr(String, { key: 'last_build_finished_at' }),
+
+  builds: function() {
+    return Travis.Build.byRepositoryId(this.get('id'));
+  }.property(),
+
+  lastBuildDuration: function() {
+    return this.durationFrom(this.get('lastBuildStartedAt'), this.get('lastBuildFinishedAt'));
+  }.property('lastBuildStartedAt', 'lastBuildFinishedAt'),
+
+  select: function() {
+    this.whenReady(function(self) {
+      Travis.Repository.select(self.get('id'))
+    });
   },
-  url: function() {
-    if (this.id) {
-      return '/repositories/' + this.id;
-    } else if (this.get('slug')) {
-      return this.get('slug') + '.json';
-    } else {
-      return '/repositories'
-    }
-  },
-  set: function(attributes) { // TODO rename to update, add unit tests
-    this.builds = this.builds || new Travis.Collections.Builds([], { repository: this });
-    if(attributes.build) this.builds.update(attributes.build);
-    delete attributes.build;
-    Backbone.Model.prototype.set.apply(this, [attributes]);
-    return this;
-  },
+
+  // TODO the following display logic all all seems to belong to a controller or helper module,
+  // but I can't find a way to bind an itemClass to a controller w/ TemplateCollectionView
+
   color: function() {
-    var status = this.get('last_build_status');
-    return status == 0 ? 'green' : status == 1 ? 'red' : null;
+    return this.colorForStatus(this.get('lastBuildStatus'));
+  }.property('lastBuildStatus'),
+
+  formattedLastBuildDuration: function() {
+    return this.readableTime(this.get('lastBuildDuration'));
+  }.property('lastBuildDuration'),
+
+  formattedLastBuildFinishedAt: function() {
+    return this.timeAgoInWords(this.get('lastBuildFinishedAt')) || '-';
+  }.property('lastBuildFinishedAt'),
+
+  cssClasses: function() {
+    return $.compact(['repository', this.get('color'), this.get('selected') ? 'selected' : null]).join(' ');
+  }.property('color', 'selected')
+});
+
+Travis.Repository.reopenClass({
+  resource: 'repositories',
+  latest: function() {
+    return this.all({ orderBy: 'lastBuildFinishedAt DESC' });
   },
-  last_build_duration: function() {
-    return Utils.duration(this.get('last_build_started_at'), this.get('last_build_finished_at'));
-  },
-  toJSON: function(options) {
-    return _.extend(Backbone.Model.prototype.toJSON.apply(this), {
-      color: this.color(),
-      last_build_duration: this.last_build_duration()
+  select: function(id) {
+    this.all().forEach(function(repository) {
+      repository.whenReady(function() {
+        repository.set('selected', repository.get('id') == id);
+      });
     });
   },
 });
-
-Travis.Collections.Repositories = Travis.Collections.Base.extend({
-  model: Travis.Models.Repository,
-  initialize: function(models) {
-    Travis.Collections.Base.prototype.initialize.apply(this, arguments);
-    _.bindAll(this, 'url', 'update', 'setFilter');
-    this.options = {}
-  },
-  setFilter: function(filter) {
-    if (_.any(filter)) {
-      this.options.search = filter;
-    } else {
-      delete this.options.search;
-    }
-    return this;
-  },
-  url: function() {
-    return '/repositories' + Utils.queryString(this.options);
-  },
-  update: function(attributes) {
-    attributes = _.extend(_.clone(attributes), { build: _.clone(attributes.build) });
-    var repository = this.get(attributes.id);
-
-    if (repository) {
-      repository.set(attributes)
-    } else if (_.isEmpty(this.options.search)) {
-      this.add(new Travis.Models.Repository(attributes));
-    }
-  },
-  comparator: function(repository) {
-    return repository.get('last_build_started_at');
-  }
-});
-
