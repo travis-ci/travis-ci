@@ -62,6 +62,7 @@ end
 
 group :test, :jasmine do
   gem 'jasmine'
+  gem 'jasmine-core', '~> 1.1.beta'
   gem 'jasmine-headless-webkit'
 end
 

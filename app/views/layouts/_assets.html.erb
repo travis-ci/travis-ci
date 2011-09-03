@@ -3,7 +3,7 @@
 
 <%= javascript_include_tag :application %>
 <%= javascript_include_tag :capybara if Rails.env.test? %>
-<%= javascript_include_tag :jasmine  if Rails.env.jasmine? %>
+<%= javascript_include_tag :specs    if Rails.env.jasmine? %>
 
 <%= javascript_tag "var env = '#{Rails.env}';" %>
 
