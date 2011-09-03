@@ -74,4 +74,4 @@ src_dir: app/assets/javascripts
 #
 # spec_dir: spec/javascripts
 #
-spec_dir: spec/javascripts
+spec_dir: app/assets/javascripts/spec
