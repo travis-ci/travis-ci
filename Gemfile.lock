@@ -284,6 +284,7 @@ DEPENDENCIES
   hashr (~> 0.0.14)
   hoptoad_notifier (~> 2.4.11)
   jasmine
+  jasmine-core (~> 1.1.beta)
   jasmine-headless-webkit
   jquery-rails
   jruby-openssl
