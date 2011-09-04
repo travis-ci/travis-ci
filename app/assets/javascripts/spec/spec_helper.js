@@ -3,6 +3,7 @@ Test = {};
 beforeEach(function() {
   Travis.Query._cache = {};
   Travis.store = SC.Store.create().from('Travis.DataSource');
+  jasmine.Ajax.useMock();
 });
 
 var withinRunLoop = function(block) {

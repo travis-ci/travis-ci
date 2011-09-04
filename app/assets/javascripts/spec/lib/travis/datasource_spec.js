@@ -5,7 +5,6 @@ describe("Travis.Datasource", function() {
   };
 
   beforeEach(function() {
-    jasmine.Ajax.useMock();
     store  = Travis.store = SC.Store.create().from('Travis.DataSource');
     source = store._getDataSource();
   });

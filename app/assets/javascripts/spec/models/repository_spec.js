@@ -2,7 +2,6 @@ describe('Travis.Repository', function() {
   describe('class methods', function() {
     describe('latest', function() {
       it('requests GET /repositories.json', function() {
-        jasmine.Ajax.useMock();
         Travis.Repository.latest();
         expect(mostRecentAjaxRequest().url).toEqual('/repositories.json');
       });
@@ -44,7 +43,6 @@ describe('Travis.Repository', function() {
 
     describe('associations', function() {
       it('has many builds', function() {
-        jasmine.Ajax.useMock();
         var builds = repository.get('builds');
         mostRecentAjaxRequest().response({ status: 200, responseText: JSON.stringify([{ id: 1, number: '1' }]) });
         expect(builds.objectAt(0).get('number')).toEqual('1');

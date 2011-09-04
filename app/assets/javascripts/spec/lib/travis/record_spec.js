@@ -4,7 +4,6 @@ describe('Travis.Record', function() {
       var data_source;
 
       beforeEach(function() {
-        jasmine.Ajax.useMock();
         data_source = Travis.store._getDataSource();
       });
 
