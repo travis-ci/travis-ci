@@ -12,7 +12,7 @@ describe('Travis.Repository', function() {
     var repository;
 
     beforeEach(function() {
-      repository = Test.Factory.repositories.travis();
+      repository = Test.Factory.Repository.travis();
     });
 
     describe('attributes', function() {
@@ -33,11 +33,11 @@ describe('Travis.Repository', function() {
       });
 
       it('lastBuildStartedAt', function() {
-        expect(repository.get('lastBuildStartedAt')).toEqual('2011-01-01T03:00:10Z');
+        expect(repository.get('lastBuildStartedAt')).toEqual('2011-01-01T01:00:10Z');
       });
 
       it('lastBuildFinishedAt', function() {
-        expect(repository.get('lastBuildFinishedAt')).toEqual('2011-01-01T03:00:20Z');
+        expect(repository.get('lastBuildFinishedAt')).toEqual('2011-01-01T01:00:20Z');
       });
     });
 
@@ -91,7 +91,7 @@ describe('Travis.Repository', function() {
 
         it("returns a human readable time ago string if the last build's finished time is known", function() {
           spyOn($.timeago, 'now').andReturn(new Date('2011/01/01 05:00:00').getTime());
-          expect(repository.get('formattedLastBuildFinishedAt')).toEqual('about an hour ago'); // TODO hmmm, some timezone difference here. is that a problem?
+          expect(repository.get('formattedLastBuildFinishedAt')).toEqual('about 3 hours ago'); // TODO hmmm, some timezone difference here. is that a problem?
         });
       });
 
@@ -132,7 +132,7 @@ describe('Travis.Repository', function() {
         var repositories;
 
         beforeEach(function() {
-          repositories = Test.Factory.repositories.latest();
+          repositories = Test.Factory.Repository.latest();
         });
 
         it('selects the given repository', function() {
