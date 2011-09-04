@@ -17,19 +17,19 @@ Travis.Helpers.Urls = {
 
   urlGithubRepository: function() {
     return 'http://github.com/' + this.getSlug();
-  }.property('commit'),
+  }.property('slug', 'commit'),
 
   urlGithubCommit: function() {
     return 'http://github.com/' + this.getSlug() + '/commit/' + this.get('commit');
-  }.property('commit'),
+  }.property('slug', 'commit'),
 
   urlGithubWatchers: function() {
     return 'http://github.com/' + this.getSlug() + '/watchers';
-  }.property('commit'),
+  }.property('slug', 'commit'),
 
   urlGithubNetwork: function() {
     return 'http://github.com/' + this.getSlug() + '/network';
-  }.property('commit'),
+  }.property('slug', 'commit'),
 
   urlAuthor: function() {
     return 'mailto:' + this.get('author_email');
