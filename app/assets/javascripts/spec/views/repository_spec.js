@@ -1,17 +1,3 @@
-// TODO these should come from the real app templates
-Test.Templates.repository = SC.Handlebars.compile(
-  '{{#view id="repository" contentBinding="Travis.Controllers.repository.content"}}' +
-  '  {{#with content}}' +
-  '    <h3><a {{bindAttr href="urlGithubRepository"}}>{{slug}}</a></h3>' +
-  '    <ul class="github-stats">' +
-  '      <li><a class="watchers" {{bindAttr href="urlGithubWatchers"}}></a></li>' +
-  '      <li><a class="forks" {{bindAttr href="urlGithubNetwork"}}></a></li>' +
-  '    </ul>' +
-  // '    {{view templateName="tabs"}}' +
-  '  {{/with}}' +
-  '{{/view}}'
-);
-
 describe('Views.Repository', function() {
   var repository, view;
 
@@ -19,7 +5,7 @@ describe('Views.Repository', function() {
     $('#main').empty();
 
     repository = Test.Factory.Repository.travis();
-    view = SC.View.create({ template: Test.Templates.repository });
+    view = SC.View.create({ template: SC.TEMPLATES['app/templates/repository'] });
 
     SC.run(function() { view.appendTo('#main'); });
     SC.run(function() { Travis.Controllers.repository.set('content', repository); });

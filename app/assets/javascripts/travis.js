@@ -42,10 +42,10 @@ var Travis = SC.Application.create({
   // }
 });
 
-// SC.ready(function() {
+$('document').ready(function() {
   if(typeof Jasmine !== undefined) Travis.run();
   // Travis.receive('foo', { build: { id: 8, startedAt: '2011-05-23T00:00:00Z', finishedAt: '2011-05-23T00:00:20Z' } })
-// });
+});
 
 Travis.controllers = SC.Object.create({
   repositories: SC.ArrayController.create({

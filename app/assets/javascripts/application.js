@@ -3,4 +3,3 @@
 //= require travis
 //= require_tree ./lib
 //= require_tree ./app
-
