@@ -15,7 +15,6 @@ if(window.env == 'jasmine') {
 
     window.onload = function() {
       jasmineEnv.execute();
-      $('body').append($('<div id="jasmine_content"></div>'));
     };
   })();
 }

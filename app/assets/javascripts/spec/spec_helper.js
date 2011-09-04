@@ -4,6 +4,7 @@ beforeEach(function() {
   Travis.Query._cache = {};
   Travis.store = SC.Store.create().from('Travis.DataSource');
   jasmine.Ajax.useMock();
+  $('#jasmine_content').empty();
 });
 
 var withinRunLoop = function(block) {
@@ -33,4 +34,8 @@ var runsWhen = function(condition, func) {
   waitsFor(condition);
   jasmine.getEnv().currentSpec.runs(func);
 };
+
+$('document').ready(function() {
+  $('body').append($('<div id="jasmine_content"></div>'));
+});
 
