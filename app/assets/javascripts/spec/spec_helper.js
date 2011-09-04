@@ -1,4 +1,9 @@
-Test = {};
+// TODO somehow make this optional
+SC.LOG_BINDINGS = true;
+
+var Test = {
+  Templates: {}
+};
 
 beforeEach(function() {
   Travis.Query._cache = {};
