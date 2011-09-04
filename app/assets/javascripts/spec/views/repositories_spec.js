@@ -1,29 +1,30 @@
 // TODO these should come from the real app templates
-Templates = {
-  repositories: SC.Handlebars.compile(
-    '{{#collection tagName="ul" id="repositories" contentBinding="Travis.Controllers.repositories" itemClassBinding="content.cssClasses"}}' +
-    '  {{#with content}}' +
-    '    <a {{bindAttr href="urlCurrent"}} class="slug">{{slug}}</a>' +
-    '    <a {{bindAttr href="urlLastBuild"}} class="build">#{{lastBuildNumber}}</a>' +
-    '    <p class="summary">' +
-    '      <span class="duration_label">Duration:</span> <abbr class="duration" {{bindAttr title="lastBuildDuration"}}>{{formattedLastBuildDuration}}</abbr>,' +
-    '      <span class="finished_at_label">Finished:</span> <abbr class="finished_at timeago" {{bindAttr title="lastBuildFinishedAt"}}>{{formattedLastBuildFinishedAt}}</abbr>' +
-    '    </p>' +
-    '    <span class="indicator"></span>' +
-    '  {{/with}}' +
-    '{{/collection}}'
-  )
-}
+Test.Templates.repositories = SC.Handlebars.compile(
+  '{{#collection tagName="ul" id="repositories" contentBinding="Travis.Controllers.repositories" itemClassBinding="content.cssClasses"}}' +
+  '  {{#with content}}' +
+  '    <a {{bindAttr href="urlCurrent"}} class="slug">{{slug}}</a>' +
+  '    <a {{bindAttr href="urlLastBuild"}} class="build">#{{lastBuildNumber}}</a>' +
+  '    <p class="summary">' +
+  '      <span class="duration_label">Duration:</span> <abbr class="duration" {{bindAttr title="lastBuildDuration"}}>{{formattedLastBuildDuration}}</abbr>,' +
+  '      <span class="finished_at_label">Finished:</span> <abbr class="finished_at timeago" {{bindAttr title="lastBuildFinishedAt"}}>{{formattedLastBuildFinishedAt}}</abbr>' +
+  '    </p>' +
+  '    <span class="indicator"></span>' +
+  '  {{/with}}' +
+  '{{/collection}}'
+);
 
 describe('Views.Repositories', function() {
   var repositories, view;
 
   beforeEach(function() {
     $('#tab_recent .tab').empty();
+
     repositories = Test.Factory.Repository.latest();
-    view = SC.View.create({ template: Templates['repositories'] });
+    view = SC.View.create({ template: Test.Templates.repositories });
+
     SC.run(function() { view.appendTo('#tab_recent .tab'); });
-    SC.run(function() { Travis.Controllers.repositories.set('content', repositories); });
+    // SC.run(function() { Travis.Controllers.repositories.set('content', repositories); });
+    SC.run(function() { view.childViews[0].set('content', repositories); });
   });
 
   it('lists repositories', function() {
