@@ -12,8 +12,8 @@ describe('Build', function() {
     var repository, build;
 
     beforeEach(function() {
-      repository = Test.Factory.repositories.travis();
-      build = Test.Factory.builds.passing();
+      repository = Test.Factory.Repository.travis();
+      build = Test.Factory.Build.passing();
     });
 
     describe('attributes', function() {
@@ -46,11 +46,11 @@ describe('Build', function() {
       });
 
       it('startedAt', function() {
-        expect(build.get('startedAt')).toEqual('2011-01-01T03:00:10Z');
+        expect(build.get('startedAt')).toEqual('2011-01-01T01:00:10Z');
       });
 
       it('finishedAt', function() {
-        expect(build.get('finishedAt')).toEqual('2011-01-01T03:00:20Z');
+        expect(build.get('finishedAt')).toEqual('2011-01-01T01:00:20Z');
       });
 
       it('result', function() {
@@ -58,7 +58,7 @@ describe('Build', function() {
       });
 
       it('committedAt', function() {
-        expect(build.get('committedAt')).toEqual('2011-01-01T03:00:00Z');
+        expect(build.get('committedAt')).toEqual('2011-01-01T01:00:00Z');
       });
 
       it('committerName', function() {
@@ -165,7 +165,7 @@ describe('Build', function() {
 
         it("returns a human readable time ago string if the build's finished time is known", function() {
           spyOn($.timeago, 'now').andReturn(new Date('2011/01/01 05:00:00').getTime());
-          expect(build.get('formattedFinishedAt')).toEqual('about an hour ago'); // TODO hmmm, some timezone difference here. is that a problem?
+          expect(build.get('formattedFinishedAt')).toEqual('about 3 hours ago'); // TODO hmmm, some timezone difference here. is that a problem?
         });
       });
 
