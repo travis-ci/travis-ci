@@ -1,4 +1,4 @@
-class HandlebarsTemplate < Tilt::Template
+class ScHandlebarsTemplate < Tilt::Template
   def self.default_mime_type
     "application/javascript"
   end
@@ -7,8 +7,8 @@ class HandlebarsTemplate < Tilt::Template
   end
 
   def evaluate(scope, locals, &block)
-    "Handlebars.compile(#{data.to_json})"
+    "SC.TEMPLATES['#{scope.logical_path}'] = SC.Handlebars.compile(#{data.to_json})"
   end
 end
 
-Rails.application.assets.register_engine '.hbs', HandlebarsTemplate
+Rails.application.assets.register_engine 'hjs', ScHandlebarsTemplate
