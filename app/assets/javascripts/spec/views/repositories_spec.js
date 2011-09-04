@@ -1,26 +1,21 @@
-describe('Views.Repository', function() {
-  var template, repository;
+describe('Views.Repositories', function() {
+  var repositories, view;
 
   beforeEach(function() {
-    repository = Test.Factory.repositories.travis();
-    template = SC.Handlebars.compile(
-      '{{#view SC.View id="repositories" contentBinding="Travis.repository"}}' +
-      '  <h1>{{slug}}</h1>' +
-      '{{/view}}'
-    );
+    repositories = Test.Factory.repositories.latest();
+    view = SC.View.create({
+      template: SC.Handlebars.compile(
+        '{{#collection tagName="ul" contentBinding="Travis.Controllers.repositories"}}' +
+        '  <a {{bindAttr href="content.slug"}}>{{content.slug}}</a>' +
+        '{{/collection}}'
+      )
+    });
+    SC.run(function() { view.appendTo('body'); });
   });
 
-  it('works', function() {
-    var view = SC.View.create({ template: template });
-
-    withinRunLoop(function() { Travis.set('repository', repository); });
-    withinRunLoop(function() { view._insertElementLater(function() {}); });
-    withinRunLoop(function() { Travis.set('repository', repository); });
-
-    var slug = 'travis-ci/travis-ci';
-    var html = view.$();
-
-    expect(repository.get('slug')).toEqual(slug);
-    expect(html).toHaveText(slug);
+  it('foo', function() {
+    SC.run(function() { Travis.Controllers.repositories.set('content', repositories); });
+    expect($(view.$('li a')[0])).toHaveText('travis-ci/travis-ci');
+    expect($(view.$('li a')[1])).toHaveText('travis-ci/travis-worker');
   });
 });

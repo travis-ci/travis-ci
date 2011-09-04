@@ -13099,7 +13099,7 @@ var get = SC.get, getPath = SC.getPath, fmt = SC.String.fmt;
         property: property,
         previousContext: ctx,
         isEscaped: options.hash.escaped,
-	tagName: options.hash.tagName || 'span'
+	      tagName: options.hash.tagName || 'span'
       });
 
       var observer, invoker;

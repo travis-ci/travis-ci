@@ -1,3 +1,5 @@
+<%= javascript_tag "var env = '#{Rails.env}';" %>
+
 <%= stylesheet_link_tag    :application %>
 <%= stylesheet_link_tag    :jasmine  if Rails.env.jasmine? %>
 
@@ -5,5 +7,4 @@
 <%= javascript_include_tag :capybara if Rails.env.test? %>
 <%= javascript_include_tag :specs    if Rails.env.jasmine? %>
 
-<%= javascript_tag "var env = '#{Rails.env}';" %>
 

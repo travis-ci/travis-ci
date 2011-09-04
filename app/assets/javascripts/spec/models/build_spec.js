@@ -2,7 +2,6 @@ describe('Build', function() {
   describe('class methods', function() {
     describe('byRepositoryId', function() {
       it('requests GET /repositories.json', function() {
-        jasmine.Ajax.useMock();
         Travis.Build.byRepositoryId(1);
         expect(mostRecentAjaxRequest().url).toEqual('/repositories/1/builds.json?parent_id=');
       });
