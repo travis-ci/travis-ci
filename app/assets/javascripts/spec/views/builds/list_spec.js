@@ -1,7 +1,7 @@
 describe('Views:', function() {
   describe('builds', function() {
     describe('list', function() {
-      var tabs, builds, view;
+      var builds, view;
 
       beforeEach(function() {
         $('#main').empty();
