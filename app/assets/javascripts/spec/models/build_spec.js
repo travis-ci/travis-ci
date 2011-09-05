@@ -170,14 +170,19 @@ describe('Build', function() {
       });
 
       describe('formattedConfig', function() {
-        it('returns an empty string if the config is undefined', function() {
+        it('returns "-" if the config is undefined', function() {
           build.set('config', null);
-          expect(build.get('formattedConfig')).toEqual('');
+          expect(build.get('formattedConfig')).toEqual('-');
         });
 
         it('returns a formatted displayable config string', function() {
           build.set('config', { rvm: ['1.9.2', 'rbx'], gemfile: ['Gemfile.rails-2.3.x', 'Gemfile.rails-3.x'] });
           expect(build.get('formattedConfig')).toEqual('Rvm: 1.9.2, rbx, Gemfile: Gemfile.rails-2.3.x, Gemfile.rails-3.x');
+        });
+
+        it("ignores the .configured key", function() {
+          build.set('config', { '.configured': true });
+          expect(build.get('formattedConfig')).toEqual('-');
         });
       });
     });
