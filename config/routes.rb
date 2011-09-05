@@ -3,6 +3,21 @@ require 'patches/rails_route_set'
 TravisCi::Application.routes.draw do
   root :to => 'home#index'
 
+  resources :repositories, :only => [:index, :show] do
+    resources :builds, :only => [:index, :show]
+  end
+
+  resources :builds,   :only => :show
+  resources :requests, :only => :create
+  resources :tasks,    :only => [:show, :update, :log]
+  resources :jobs,     :only => :index
+  resources :workers,  :only => :index
+
+  resource :profile, :only => :show do
+    get :service_hooks, :to => 'service_hooks#index'
+    put :service_hooks, :to => 'service_hooks#update'
+  end
+
   constraints :owner_name => /[^\/]+/, :name => /[^\/]+/ do
     match ":owner_name/:name.png", :to => 'repositories#show', :format => 'png'
     match ":owner_name/:name.json", :to => 'repositories#show', :format => 'json'
@@ -20,21 +35,6 @@ TravisCi::Application.routes.draw do
 
   as :user do
     get 'users/sign_out', :to => 'devise/sessions#destroy', :as => :destroy_session
-  end
-
-  resources :repositories, :only => [:index, :show] do
-    resources :builds, :only => [:index, :show]
-  end
-
-  resources :builds,   :only => :show
-  resources :requests, :only => :create
-  resources :tasks,    :only => [:show, :update, :log]
-  resources :jobs,     :only => :index
-  resources :workers,  :only => :index
-
-  resource :profile, :only => :show do
-    get :service_hooks, :to => 'service_hooks#index'
-    put :service_hooks, :to => 'service_hooks#update'
   end
 
   match "/stats" => "statistics#index"
