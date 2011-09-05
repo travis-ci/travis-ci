@@ -66,16 +66,13 @@ $.extend(jasmine, {
     var committerUrl = 'mailto:' + build.get('committerEmail');
     var authorUrl    = 'mailto:' + build.get('authorEmail');
 
-    var formattedFinishedAt = build.get('finishedAt') ? $.timeago.distanceInWords(build.get('finishedAt')) : '-';
-    var formattedDuration   = build.get('duration') ? Utils.readableTime(build.get('duration')) : '-';
-
     var expected = {
       '.summary .number':        build.get('number'),
       '.summary .commit-hash a': { text: commit, href: commitUrl },
       '.summary .committer a':   { text: build.get('committerName'), href: committerUrl },
       '.summary .author a':      { text: build.get('authorName'), href: authorUrl },
-      '.summary .duration':      { title: build.get('duration'), text: formattedDuration },
-      '.summary .finished_at':   { title: build.get('finished_at'), text: formattedFinishedAt },
+      '.summary .duration':      { title: build.get('duration'), text: build.get('formattedDuration') },
+      '.summary .finished_at':   { title: build.get('finished_at'), text: build.get('formattedFinishedAt') },
     };
 
     $.each(expected, function(selector, text) {
@@ -83,9 +80,9 @@ $.extend(jasmine, {
     });
 
     var color = build.get('color');
-    if(color && !$('.summary', element).hasClass(color)) {
+    if(color && !$('.summary', element).closest('.build').hasClass(color)) {
       errors.push('expected "' + element.selector + '" to be ' + color + ' but it is not.');
-    } else if(!color && $.any(['red', 'green'], function(color) { return $('.summary', element).hasClass(color) })) {
+    } else if(!color && $.any(['red', 'green'], function(color) { return $('.summary', element).closest('.build').hasClass(color) })) {
       errors.push('expected "' + element.selector + '" not to have a color class but it has.');
     }
 
