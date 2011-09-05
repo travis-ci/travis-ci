@@ -10,7 +10,7 @@ var Travis = SC.Application.create({
   },
   setupRoutes: function() {
     SC.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.Controllers.repository.load('build',   params) });
-    SC.routes.add('!/:owner/:name/builds',     function(params) { Travis.Controllers.repository.load('builds',  params) });
+    SC.routes.add('!/:owner/:name/builds',     function(params) { Travis.Controllers.repository.load('history', params) });
     SC.routes.add('!/:owner/:name',            function(params) { Travis.Controllers.repository.load('current', params) });
     SC.routes.add('',                          function(params) { Travis.Controllers.repository.load('current', params) });
   },

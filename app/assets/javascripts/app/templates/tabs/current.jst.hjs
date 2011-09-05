@@ -1,7 +1,7 @@
 <li id="tab_current">
   <h5><a {{bindAttr href="urlCurrent"}}>Current</a></h5>
   <div class="tab">
-    {{view templateName="app/templates/builds/show" contentBinding="repository.builds.firstObject"}}
+    {{view templateName="app/templates/builds/show"}}
   </div>
 </li>
 

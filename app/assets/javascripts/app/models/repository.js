@@ -12,6 +12,10 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Com
     return Travis.Build.byRepositoryId(this.get('id'));
   }.property(),
 
+  lastBuild: function() {
+    return Travis.Build.find(this.get('lastBuildId'));
+  }.property('lastBuildId'),
+
   lastBuildDuration: function() {
     return this.durationFrom(this.get('lastBuildStartedAt'), this.get('lastBuildFinishedAt'));
   }.property('lastBuildStartedAt', 'lastBuildFinishedAt'),

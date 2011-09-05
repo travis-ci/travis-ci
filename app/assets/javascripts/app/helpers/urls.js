@@ -9,7 +9,7 @@ Travis.Helpers.Urls = {
 
   urlBuild: function() {
     return '#!/' + this.getSlug() + '/builds/' + this.get('id');
-  }.property('slug'),
+  }.property('slug', 'id'),
 
   urlLastBuild: function() {
     return '#!/' + this.getSlug() + '/builds/' + this.get('lastBuildId');
