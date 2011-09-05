@@ -99,6 +99,10 @@ class Build < ActiveRecord::Base
     pending? ? 'yellow' : passed? ? 'green' : 'red'
   end
 
+  def previous_finished_on_branch
+    Build.on_branch(commit.branch).where("finished_at < ?", finished_at).limit(1).last
+  end
+
   protected
 
     def denormalize(*args)
@@ -122,3 +126,4 @@ class Build < ActiveRecord::Base
       end
     end
 end
+
