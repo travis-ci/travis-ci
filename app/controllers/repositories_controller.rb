@@ -18,6 +18,7 @@ class RepositoriesController < ApplicationController
       @repositories ||= begin
         scope = Repository.timeline.recent
         scope = scope.by_owner_name(params[:owner_name]) if params[:owner_name]
+        scope = scope.by_slug(params[:slug])             if params[:slug]
         scope = scope.search(params[:search])            if params[:search].present?
         scope
       end
