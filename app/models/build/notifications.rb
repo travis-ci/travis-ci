@@ -4,8 +4,8 @@ class Build
     def send_email_notifications?
       return false unless emails_enabled? && email_recipients.present?
       # Only send email notifications for a successful build if it's the first build,
-      # the previous finished build failed, or if :verbose mode.
-      (passed? && (!previous_finished || previous_failed? || verbose?)) || failed?
+      # the status has changed (from pass => fail or vice versa), or if :verbose mode.
+      (!previous_finished_on_branch || verbose?) || (passed? && !previous_passed?) || (failed? && previous_passed?)
     end
 
     def email_recipients
@@ -34,8 +34,8 @@ class Build
         notifications.blank? ? false : notifications[:verbose]
       end
 
-      def previous_failed?
-        previous_finished && previous_finished.failed?
+      def previous_passed?
+        previous_finished_on_branch && previous_finished_on_branch.passed?
       end
 
       def default_email_recipients

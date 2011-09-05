@@ -28,29 +28,30 @@ describe Build, 'notifications', ActiveSupport::TestCase do
       build.send_email_notifications?.should be_false
     end
 
-    it 'returns true if this build passed and there are no previous builds' do
-      build = Factory(:successful_build)
-      build.send_email_notifications?.should be_true
+    [%w(successful broken), %w(broken successful)].each do |previous, current|
+      it "returns true if build status is #{current} and previous build status is #{previous}" do
+        previous_build = Factory("#{previous}_build".to_sym)
+        build = Factory("#{current}_build".to_sym, :repository => previous_build.repository)
+        build.send_email_notifications?.should be_true
+      end
     end
 
-    it 'returns true if this build passed and the previous build failed' do
-      broken = Factory(:broken_build)
-      build = Factory(:successful_build, :repository => broken.repository)
-      build.send_email_notifications?.should be_true
-    end
-
-    it 'returns false if both this build and the previous build passed' do
-      successful = Factory(:successful_build)
-      build = Factory(:successful_build, :repository => successful.repository)
-      build.send_email_notifications?.should be_false
+    %w(successful broken).each do |status|
+      it "returns false if both build status and previous build status is #{status}" do
+        previous = Factory("#{status}_build".to_sym)
+        build = Factory("#{status}_build".to_sym, :repository => previous.repository)
+        build.send_email_notifications?.should be_false
+      end
     end
 
     context 'verbose notifications' do
-      it 'returns true if both this build and the previous build passed' do
-        successful = Factory(:successful_build)
-        build = Factory(:successful_build, :repository => successful.repository,
-                        :config => { 'notifications' => { 'verbose' => true }})
-        build.send_email_notifications?.should be_true
+      %w(successful broken).each do |status|
+        it "returns true if both build status and previous build status is #{status}" do
+          previous = Factory("#{status}_build".to_sym)
+          build = Factory("#{status}_build".to_sym, :repository => previous.repository,
+                          :config => { 'notifications' => { 'verbose' => true }})
+          build.send_email_notifications?.should be_true
+        end
       end
     end
   end
