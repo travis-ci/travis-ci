@@ -3,6 +3,9 @@
   <thead>
     <tr>
       <th>Build</th>
+      {{#each build.configDimensions tagName="th"}}
+        {{this}}
+      {{/each}}
       <th>Finished</th>
       <th>Duration</th>
     </tr>
@@ -11,6 +14,9 @@
   {{#collection tagName="tbody" itemClassBinding="content.color" contentBinding="build.matrix"}}
     {{#with content}}
       <td class="number"><a {{bindAttr href="urlBuild"}}>{{number}}</a></td>
+      {{#each configValues tagName="td"}}
+        {{this}}
+      {{/each}}
       <td class="finished_at timeago" {{bindAttr title="finishedAt"}}>{{#if finishedAt}}{{formattedFinishedAt}}{{else}}-{{/if}}</td>
       <td class="duration" {{bindAttr title="duration"}}>{{formattedDuration}}</td>
     {{/with}}

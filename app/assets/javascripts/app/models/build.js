@@ -48,12 +48,12 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
   }.property('startedAt', 'finishedAt'),
 
   configDimensions: function() {
-    return $.map($.keys(this.get('config') || {}), function(value) { return $.camelize(value) });
-  }.property(),
+    return $.map($.keys($.except(this.get('config') || {}, '.configured')), function(value) { return $.camelize(value) });
+  }.property('config'),
 
   configValues: function() {
-    return $.values(this.get('config') || {});
-  }.property(),
+    return $.values($.except(this.get('config') || {}, '.configured'));
+  }.property('config'),
 
   // updateRepository: function() {
   //   var repository = this.get('repository');
