@@ -92,7 +92,28 @@ class Build < ActiveRecord::Base
   end
 
   def status_message
-    pending? ? 'Pending' : passed? ? 'Passed' : 'Failed'
+    return 'Pending' if pending?
+    if prev = previous_finished_on_branch
+      if passed?
+        prev.passed? ? "Passed" : "Fixed"
+      else # if failed?
+        prev.passed? ? "Broken" : "Still Failing"
+      end
+    else
+      passed? ? 'Passed' : 'Failed'
+    end
+  end
+
+  def human_status_message
+    case status_message
+    when "Pending"; "The build is pending."
+    when "Passed"; "The build passed."
+    when "Failed"; "The build failed."
+    when "Fixed"; "The build was fixed."
+    when "Broken"; "The build was broken."
+    when "Still Failing"; "The build is still failing."
+    else status_message
+    end
   end
 
   def color
