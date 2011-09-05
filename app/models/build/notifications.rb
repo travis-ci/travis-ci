@@ -22,11 +22,12 @@ class Build
     protected
 
       def emails_enabled?
-        notifications.blank? ? true : !emails_disabled?
+        return notifications[:email] if notifications.has_key?(:email)
+        # TODO deprecate disabled and disable
+        [:disabled, :disable].each {|key| return !notifications[key] if notifications.has_key?(key) }
+        true
       end
 
-      def emails_disabled?
-        notifications[:email] == false || notifications[:disabled] || notifications[:disable] # TODO deprecate disabled and disable
       end
 
       def verbose?
