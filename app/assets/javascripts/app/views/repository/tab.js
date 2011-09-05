@@ -8,7 +8,7 @@ Travis.Views.Repository.Tab = Backbone.View.extend({
     _.extend(this, this.options);
     _.bindAll(this, 'render', 'attachTo', 'activate', 'deactivate', 'updateTab');
 
-    this.template = Travis.templates['repository/tab_' + this.name];
+    this.template = Travis.templates['app/templates/repository/tab_' + this.name];
   },
   render: function() {
     this.el = $(this.template({}));

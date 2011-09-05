@@ -1,7 +1,7 @@
 Travis.Views.Build.Summary = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, 'render', 'setStatus', 'setDuration', 'setFinishedAt');
-    this.template = Travis.templates['build/summary'];
+    this.template = Travis.templates['app/templates/build/summary'];
     if(this.model) this.attachTo(this.model);
   },
   detach: function() {
