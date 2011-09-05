@@ -11,11 +11,10 @@ module Travis
 
       protected
         def send_irc_notifications(build)
-          build.irc_channels.each {|channel_data| send_notification(channel_data, build) }
+          build.irc_channels.each {|channels| send_notification(*channels, build) }
         end
 
-        def send_notification(channel_data, build)
-          server, port, channel = *channel_data
+        def send_notification(server, port, channel, build)
           commit = build.commit
           build_url = self.build_url(build)
 
