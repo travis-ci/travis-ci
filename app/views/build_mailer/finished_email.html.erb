@@ -1,4 +1,4 @@
-<% content_for :status_message, @build.status_message %>
+<% content_for :status_message, @build.human_status_message %>
 
 Build : #<%= @build.number %><br>
 <br>
@@ -12,3 +12,4 @@ Status : <%= @build.status_message %><br>
 View the changeset : <%= @commit.compare_url %><br>
 <br>
 View the full build log and details : <%= user_repo_build_redirect_url(:user => @build.repository.owner_name, :repository => @build.repository.name, :id => @build.id )%>
+
