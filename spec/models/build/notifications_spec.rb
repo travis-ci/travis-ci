@@ -27,6 +27,33 @@ describe Build, 'notifications', ActiveSupport::TestCase do
       build = Factory(:build, :state => :finished, :config => { :notifications => { :email => false } })
       build.send_email_notifications?.should be_false
     end
+
+    [%w(successful broken), %w(broken successful)].each do |previous, current|
+      it "returns true if build status is #{current} and previous build status is #{previous}" do
+        previous_build = Factory("#{previous}_build".to_sym)
+        build = Factory("#{current}_build".to_sym, :repository => previous_build.repository)
+        build.send_email_notifications?.should be_true
+      end
+    end
+
+    %w(successful broken).each do |status|
+      it "returns false if both build status and previous build status is #{status}" do
+        previous = Factory("#{status}_build".to_sym)
+        build = Factory("#{status}_build".to_sym, :repository => previous.repository)
+        build.send_email_notifications?.should be_false
+      end
+    end
+
+    context 'verbose notifications' do
+      %w(successful broken).each do |status|
+        it "returns true if both build status and previous build status is #{status}" do
+          previous = Factory("#{status}_build".to_sym)
+          build = Factory("#{status}_build".to_sym, :repository => previous.repository,
+                          :config => { 'notifications' => { 'verbose' => true }})
+          build.send_email_notifications?.should be_true
+        end
+      end
+    end
   end
 
   describe :email_recipients do

@@ -1,7 +1,10 @@
 class Build
   module Notifications
     def send_email_notifications?
-      emails_enabled? && email_recipients.present?
+      return false unless emails_enabled? && email_recipients.present?
+      # Only send email notifications for a successful build if it's the first build,
+      # the status has changed (from pass => fail or vice versa), or if :verbose mode.
+      (!previous_finished_on_branch || verbose?) || (passed? && !previous_passed?) || (failed? && previous_passed?)
     end
 
     def email_recipients
@@ -19,17 +22,19 @@ class Build
     protected
 
       def emails_enabled?
-        if notifications.blank?
-          true
-        elsif emails_disabled?
-          false
-        else
-          true
-        end
+        notifications.blank? ? true : !emails_disabled?
       end
 
       def emails_disabled?
         notifications[:email] == false || notifications[:disabled] || notifications[:disable] # TODO deprecate disabled and disable
+      end
+
+      def verbose?
+        notifications.blank? ? false : notifications[:verbose]
+      end
+
+      def previous_passed?
+        previous_finished_on_branch && previous_finished_on_branch.passed?
       end
 
       def default_email_recipients
@@ -42,3 +47,4 @@ class Build
       end
   end
 end
+
