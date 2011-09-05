@@ -19,13 +19,7 @@ class Build
     protected
 
       def emails_enabled?
-        if notifications.blank?
-          true
-        elsif emails_disabled?
-          false
-        else
-          true
-        end
+        notifications.blank? ? true : !emails_disabled?
       end
 
       def emails_disabled?
