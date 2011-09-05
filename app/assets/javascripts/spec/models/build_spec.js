@@ -42,7 +42,7 @@ describe('Build', function() {
       });
 
       it('message', function() {
-        expect(build.get('message')).toEqual('correct the refraction redirect rules');
+        expect(build.get('message')).toEqual('correct rules');
       });
 
       it('startedAt', function() {
@@ -123,6 +123,11 @@ describe('Build', function() {
           build.set('config', { rvm: ['1.9.2', 'rbx'], gemfile: ['Gemfile.rails-2.3.x', 'Gemfile.rails-3.x'] });
           expect(build.get('configDimensions')).toEqual(['Rvm', 'Gemfile']);
         });
+
+        it("ignores the .configured key", function() {
+          build.set('config', { '.configured': true });
+          expect(build.get('configDimensions')).toEqual([]);
+        });
       });
 
       describe('configValues', function() {
@@ -134,6 +139,11 @@ describe('Build', function() {
         it('returns a list of config dimensions for the build matrix table', function() {
           build.set('config', { rvm: ['1.9.2', 'rbx'], gemfile: ['Gemfile.rails-2.3.x', 'Gemfile.rails-3.x'] });
           expect(build.get('configValues')).toEqual([['1.9.2', 'rbx'], ['Gemfile.rails-2.3.x', 'Gemfile.rails-3.x']]);
+        });
+
+        it("ignores the .configured key", function() {
+          build.set('config', { '.configured': true });
+          expect(build.get('configValues')).toEqual([]);
         });
       });
 
