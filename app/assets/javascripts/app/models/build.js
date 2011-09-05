@@ -35,6 +35,10 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
     return Travis.Repository.find(this.get('repositoryId'));
   }.property('repositoryId'),
 
+  isMatrix: function() {
+    return this.get('matrix.length') > 1;
+  }.property('matrix'),
+
   color: function() {
     return this.colorForStatus(this.get('result'));
   }.property('result'),
