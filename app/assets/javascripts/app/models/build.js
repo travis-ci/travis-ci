@@ -86,10 +86,10 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
   }.property('finishedAt'),
 
   formattedConfig: function() {
-    return $.map(this.get('config') || [], function(value, key) {
-      return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value);
-    }).join(', ');
-  }.property('config')
+    var config = $.except(this.get('config') || {}, '.configured');
+    var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
+    return values.length == 0 ? '-' : values.join(', ');
+  }.property('config'),
 });
 
 Travis.Build.reopenClass({
