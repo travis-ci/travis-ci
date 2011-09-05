@@ -2,7 +2,7 @@ Travis.Views.Build.Matrix.Table = Backbone.View.extend({
   initialize: function() {
     _.bindAll(this, 'render', 'attachTo', 'collectionRefreshed', 'buildAdded', '_update', '_prependRow');
     _.extend(this, this.options);
-    this.template = Travis.templates['build/matrix/table'];
+    this.template = Travis.templates['app/templates/build/matrix/table'];
     if(this.builds) this.attachTo(this.builds);
   },
   detach: function() {
