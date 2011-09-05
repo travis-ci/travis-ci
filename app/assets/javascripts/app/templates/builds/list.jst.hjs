@@ -1,0 +1,21 @@
+<table id="builds">
+  <thead>
+    <tr>
+      <th>Build</th>
+      <th>Commit</th>
+      <th>Message</th>
+      <th>Duration</th>
+      <th>Finished</th>
+    </tr>
+  </thead>
+
+  {{#collection tagName="tbody" itemClassBinding="content.color" contentBinding="builds"}}
+    {{#with content}}
+      <td class="number"><a {{bindAttr href="urlBuild"}}>{{number}}</a></td>
+      <td class="commit"><a {{bindAttr href="urlGithubCommit"}}>{{formattedCommit}}</a></td>
+      <td class="message">{{message}}</td>
+      <td class="duration" {{bindAttr title="duration"}}>{{formattedDuration}}</td>
+      <td class="finished_at timeago" {{bindAttr title="finished_at"}}>{{formattedFinishedAt}}</td>
+    {{/with}}
+  {{/collection}}
+</table>

@@ -5,7 +5,11 @@
       <li><a class="watchers" {{bindAttr href="urlGithubWatchers"}}></a></li>
       <li><a class="forks" {{bindAttr href="urlGithubNetwork"}}></a></li>
     </ul>
-    view templateName="tabs"
+    <ul class="tabs">
+      {{view SC.View templateName="app/templates/tabs/current"}}
+      {{view SC.View templateName="app/templates/tabs/history"}}
+      {{view SC.View templateName="app/templates/tabs/build"}}
+    </ul>
   {{/with}}
 {{/view}}
 

@@ -1,0 +1,7 @@
+<li id="tab_builds">
+  <h5><a {{bindAttr href="urlBuilds"}}>Build History</a></h5>
+  <div class="tab">
+    {{view templateName="app/templates/builds/list" contentBinding="Travis.controllers.repository.tabs.builds"}}
+  </div>
+</li>
+

@@ -1,0 +1,12 @@
+<li id="tab_parent">
+  {{#view contentBinding="Travis.controllers.repository.tabs.build*content.parent"}}
+    <h5><a {{bindAttr href="content.urlBuild"}}>Build #{{content.number}}</a></h5>
+  {{/view}}
+</li>
+<li id="tab_build">
+  {{#view contentBinding="Travis.controllers.repository.tabs.build"}}
+    <h5><a {{bindAttr href="content.urlBuild"}}>Build #{{content.number}}</a></h5>
+  {{/view}}
+  <div class="tab">
+  </div>
+</li>
