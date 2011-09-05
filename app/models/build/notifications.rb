@@ -1,7 +1,11 @@
 class Build
   module Notifications
+
     def send_email_notifications?
-      emails_enabled? && email_recipients.present?
+      return false unless emails_enabled? && email_recipients.present?
+      # Only send email notifications for a successful build if it's the first build,
+      # the previous finished build failed, or if :verbose mode.
+      (passed? && (!previous_finished || previous_failed? || verbose?)) || failed?
     end
 
     def email_recipients
@@ -26,6 +30,14 @@ class Build
         notifications[:email] == false || notifications[:disabled] || notifications[:disable] # TODO deprecate disabled and disable
       end
 
+      def verbose?
+        notifications.blank? ? false : notifications[:verbose]
+      end
+
+      def previous_failed?
+        previous_finished && previous_finished.failed?
+      end
+
       def default_email_recipients
         recipients = [commit.committer_email, commit.author_email, repository.owner_email]
         recipients.select(&:present?).join(',').split(',').map(&:strip).uniq.join(',')
@@ -36,3 +48,4 @@ class Build
       end
   end
 end
+
