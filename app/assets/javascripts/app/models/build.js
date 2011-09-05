@@ -75,7 +75,7 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
 
   formattedCommit: function() {
     return (this.get('commit') || '').substr(0, 7) + (this.get('branch') ? ' (%@)'.fmt(this.get('branch')) : '');
-  }.property('commit'),
+  }.property('commit', 'branch'),
 
   formattedDuration: function() {
     return this.readableTime(this.get('duration'));
