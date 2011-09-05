@@ -1,0 +1,40 @@
+{{#view tabBinding="tab" buildBinding="tab.build" class="build" classBinding="tab.build.color"}}
+  {{#with build}}
+    <dl class="summary clearfix">
+      <div class="left">
+        <dt>Build</dt>
+        <dd class="number"><a {{bindAttr href="urlBuild"}}>{{number}}</a></dd>
+        <dt class="finished_at_label">Finished</dt>
+        <dd class="finished_at timeago" {{bindAttr title="finished_at"}}>{{formattedFinishedAt}}</dd>
+        <dt>Duration</dt>
+        <dd class="duration" {{bindAttr title="duration"}}>{{formattedDuration}}</dd>
+      </div>
+
+      <div class="right">
+        <dt>Commit</dt>
+        <dd class="commit-hash"><a {{bindAttr href="urlGithubCommit"}}>{{formattedCommit}}</a></dd>
+        {{#if author_name}}
+          <dt>Author</dt>
+          <dd class="author"><a {{bindAttr href="urlAuthor"}}>{{authorName}}</a></dd>
+        {{/if}}
+        {{#if committer_name}}
+          <dt>Committer</dt>
+          <dd class="committer"><a {{bindAttr href="urlCommitter"}}>{{committerName}}</a></dd>
+        {{/if}}
+      </div>
+
+      <dt>Message</dt>
+      <dd class="commit-message">{{message}}</dd>
+      {{#if config}}
+        <dt>Config</dt>
+        <dd class="config">{{formattedConfig}}</dd>
+      {{/if}}
+    </dl>
+  {{/with}}
+
+  {{#if build.isMatrix}}
+    {{view templateName="app/templates/builds/matrix" contentBinding="build.matrix"}}
+  {{else}}
+    <pre class="log">{{build.formattedLog}}</pre>
+  {{/if}}
+{{/view}}
