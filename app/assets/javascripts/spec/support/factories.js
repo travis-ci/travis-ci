@@ -95,9 +95,31 @@ Test.Factory = {
             compare_url: 'https://github.com/travis-ci/travis-ci/compare/fe64573...3d1e844'
           }
         ]
-      });
-      return Travis.store.find(Travis.Build).objectAt(0);
+      }, 1);
+      return Travis.store.find(Travis.Build, 1);
     },
+  },
+  Job: {
+    all: function() {
+      Travis.store.loadRecord(Travis.Job, { id: 1, number: '',    repository: { slug: 'travis-ci/travis-ci'     } }, 1);
+      Travis.store.loadRecord(Travis.Job, { id: 2, number: '',    repository: { slug: 'travis-ci/travis-worker' } }, 2);
+      Travis.store.loadRecord(Travis.Job, { id: 3, number: '1',   repository: { slug: 'travis-ci/travis-ci'     } }, 3);
+      Travis.store.loadRecord(Travis.Job, { id: 4, number: '2',   repository: { slug: 'travis-ci/travis-worker' } }, 4);
+      Travis.store.loadRecord(Travis.Job, { id: 5, number: '1.1', repository: { slug: 'travis-ci/travis-ci'     } }, 5);
+      Travis.store.loadRecord(Travis.Job, { id: 6, number: '1.2', repository: { slug: 'travis-ci/travis-ci'     } }, 6);
+      Travis.store.loadRecord(Travis.Job, { id: 7, number: '2.1', repository: { slug: 'travis-ci/travis-worker' } }, 7);
+      Travis.store.loadRecord(Travis.Job, { id: 8, number: '2.2', repository: { slug: 'travis-ci/travis-worker' } }, 8);
+      return Travis.store.find(Travis.Job);
+    }
+  },
+  Worker: {
+    all: function() {
+      Travis.store.loadRecord(Travis.Worker, { id: 'ruby1.worker.travis-ci.org:10000:ruby' }, 1);
+      Travis.store.loadRecord(Travis.Worker, { id: 'ruby1.worker.travis-ci.org:10001:ruby' }, 2);
+      Travis.store.loadRecord(Travis.Worker, { id: 'ruby2.worker.travis-ci.org:20000:ruby' }, 3);
+      Travis.store.loadRecord(Travis.Worker, { id: 'ruby2.worker.travis-ci.org:20001:ruby' }, 4);
+      return Travis.store.find(Travis.Worker);
+    }
   }
 }
 

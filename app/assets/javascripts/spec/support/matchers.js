@@ -46,6 +46,14 @@ beforeEach(function() {
       this.message = function() { return errors.join("\n") };
       return errors.length == 0;
     },
+    toMatchList: function(list) {
+      var actual = $.map($('li', this.actual), function(li) { return $(li).text().replace(/\n/g, '').replace(/^\s*|\s(?=\s)|\s*$/g, '').trim(); });
+      var result = SC.compare(actual, list) == 0;
+      if(!result) {
+        this.message = function() { return "expected the list to equal \n  " + SC.inspect(list) + ",\n\n but was: \n  " + SC.inspect(actual) + "\n"; }
+      }
+      return result;
+    },
     toMatchTable: function(table) {
       // table = $.clone(table);
 
