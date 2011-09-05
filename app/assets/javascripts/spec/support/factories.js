@@ -37,10 +37,10 @@ Test.Factory = {
       }, 3);
       return Travis.store.find(Travis.Repository, 3);
     },
-    latest: function() {
+    recent: function() {
       Test.Factory.Repository.travis();
       Test.Factory.Repository.worker();
-      return Travis.Repository.latest();
+      return Travis.Repository.recent();
     }
   },
   Build: {

@@ -1,8 +1,8 @@
 describe('Travis.Repository', function() {
   describe('class methods', function() {
-    describe('latest', function() {
+    describe('recent', function() {
       it('requests GET /repositories.json', function() {
-        Travis.Repository.latest();
+        Travis.Repository.recent();
         expect(mostRecentAjaxRequest().url).toEqual('/repositories.json');
       });
     });
@@ -132,7 +132,7 @@ describe('Travis.Repository', function() {
         var repositories;
 
         beforeEach(function() {
-          repositories = Test.Factory.Repository.latest();
+          repositories = Test.Factory.Repository.recent();
         });
 
         it('selects the given repository', function() {

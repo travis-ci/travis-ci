@@ -3,7 +3,7 @@
 Travis.Controllers = {
   repositories: SC.ArrayController.create({
     load: function() {
-      this.set('content', Travis.Repository.latest());
+      this.set('content', Travis.Repository.recent());
     }
   }),
 
@@ -18,7 +18,7 @@ Travis.Controllers = {
     repositories: function(params) {
       if(!this.get('tab')) return;
       var slug = $.compact([this.getPath('params.owner'), this.getPath('params.name')]).join('/');
-      return slug.length > 0 ? Travis.Repository.bySlug(slug) : Travis.Repository.latest();
+      return slug.length > 0 ? Travis.Repository.bySlug(slug) : Travis.Repository.recent();
     }.property('params'),
 
     tabs: SC.Object.create({
