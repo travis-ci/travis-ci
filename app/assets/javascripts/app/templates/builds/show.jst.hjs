@@ -1,39 +1,37 @@
-{{#view tabBinding="tab" buildBinding="tab.build" class="build" classBinding="tab.build.color"}}
-  {{#with build}}
-    <dl class="summary clearfix">
-      <div class="left">
-        <dt>Build</dt>
-        <dd class="number"><a {{bindAttr href="urlBuild"}}>{{number}}</a></dd>
-        <dt class="finished_at_label">Finished</dt>
-        <dd class="finished_at timeago" {{bindAttr title="finished_at"}}>{{formattedFinishedAt}}</dd>
-        <dt>Duration</dt>
-        <dd class="duration" {{bindAttr title="duration"}}>{{formattedDuration}}</dd>
-      </div>
+{{#view tabBinding="tab" buildBinding="build" class="build" classBinding="build.color"}}
+  <dl class="summary clearfix">
+    <div class="left">
+      <dt>Build</dt>
+      <dd class="number"><a {{bindAttr href="build.urlBuild"}}>{{build.number}}</a></dd>
+      <dt class="finished_at_label">Finished</dt>
+      <dd class="finished_at timeago" {{bindAttr title="build.finished_at"}}>{{build.formattedFinishedAt}}</dd>
+      <dt>Duration</dt>
+      <dd class="duration" {{bindAttr title="build.duration"}}>{{build.formattedDuration}}</dd>
+    </div>
 
-      <div class="right">
-        <dt>Commit</dt>
-        <dd class="commit-hash"><a {{bindAttr href="urlGithubCommit"}}>{{formattedCommit}}</a></dd>
-        {{#if author_name}}
-          <dt>Author</dt>
-          <dd class="author"><a {{bindAttr href="urlAuthor"}}>{{authorName}}</a></dd>
-        {{/if}}
-        {{#if committer_name}}
-          <dt>Committer</dt>
-          <dd class="committer"><a {{bindAttr href="urlCommitter"}}>{{committerName}}</a></dd>
-        {{/if}}
-      </div>
-
-      <dt>Message</dt>
-      <dd class="commit-message">{{message}}</dd>
-      {{#if config}}
-        <dt>Config</dt>
-        <dd class="config">{{formattedConfig}}</dd>
+    <div class="right">
+      <dt>Commit</dt>
+      <dd class="commit-hash"><a {{bindAttr href="build.urlGithubCommit"}}>{{build.formattedCommit}}</a></dd>
+      {{#if author_name}}
+        <dt>Author</dt>
+        <dd class="author"><a {{bindAttr href="build.urlAuthor"}}>{{build.authorName}}</a></dd>
       {{/if}}
-    </dl>
-  {{/with}}
+      {{#if committer_name}}
+        <dt>Committer</dt>
+        <dd class="committer"><a {{bindAttr href="build.urlCommitter"}}>{{build.committerName}}</a></dd>
+      {{/if}}
+    </div>
+
+    <dt>Message</dt>
+    <dd class="commit-message">{{build.message}}</dd>
+    {{#if build.config}}
+      <dt>Config</dt>
+      <dd class="config">{{build.formattedConfig}}</dd>
+    {{/if}}
+  </dl>
 
   {{#if build.isMatrix}}
-    {{view templateName="app/templates/builds/matrix" contentBinding="build"}}
+    {{view templateName="app/templates/builds/matrix" buildBinding="build"}}
   {{else}}
     <pre class="log">{{build.formattedLog}}</pre>
   {{/if}}
