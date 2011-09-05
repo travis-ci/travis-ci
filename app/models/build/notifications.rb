@@ -1,6 +1,5 @@
 class Build
   module Notifications
-
     def send_email_notifications?
       return false unless emails_enabled? && email_recipients.present?
       # Only send email notifications for a successful build if it's the first build,
