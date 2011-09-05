@@ -6,22 +6,15 @@ module Travis
       EVENTS = 'build:finished'
 
       def notify(event, build, *args)
-        send_irc_notifications(build) if send_irc_notifications?(build)
+        send_irc_notifications(build) if build.send_irc_notifications?
       end
 
       protected
-
-        def send_irc_notifications?(build)
-          build.config && build.config[:notifications] && !!build.config[:notifications][:irc]
-        end
-
         def send_irc_notifications(build)
-          config = Array(build.config[:notifications][:irc])
-          config.each { |url| send_notification(url, build) }
+          build.irc_channels.each {|channels| send_notification(*channels, build) }
         end
 
-        def send_notification(url, build)
-          server, port, channel = parse(url)
+        def send_notification(server, port, channel, build)
           commit = build.commit
           build_url = self.build_url(build)
 
@@ -41,12 +34,6 @@ module Travis
           end
         end
 
-        def parse(url)
-          server_and_port, channel = url.split('#')
-          server, port = server_and_port.split(':')
-          [server, port, channel]
-        end
-
         def nick
           Travis.config.irc.try(:nick) || 'travis-ci'
         end
@@ -62,3 +49,4 @@ module Travis
     end
   end
 end
+

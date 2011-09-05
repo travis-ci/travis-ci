@@ -16,7 +16,7 @@ describe 'JSON for webhooks' do
       'id' => build.id,
       'number' => '2',
       'status' => 0,
-      'status_message' => 'Passed',
+      'status_message' => 'Fixed',
       'started_at' => '2010-11-12T12:30:00Z',
       'finished_at' => '2010-11-12T12:30:20Z',
       'commit' => '91d1b7b2a310131fe3f8',
@@ -31,3 +31,4 @@ describe 'JSON for webhooks' do
     }
   end
 end
+
