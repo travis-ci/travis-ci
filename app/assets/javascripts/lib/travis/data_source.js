@@ -1,11 +1,6 @@
 Travis.DataSource = SC.DataSource.extend({
   fetch: function(store, query) {
     var url = query.url || this._urlFor(query.get('recordType'));
-    if(url == '.json') {
-      console.log(query.get('recordType'))
-      console.log(this._urlFor(query.get('recordType')))
-      crash
-    }
 
     $.ajax({ url: url }).done(function(data) {
       store.loadRecords(query.get('recordType'), data); // , this._extractIds(data)

@@ -10,7 +10,7 @@ describe('Views:', function() {
         view = SC.View.create({ template: SC.TEMPLATES['app/templates/repositories/show'] });
 
         SC.run(function() { view.appendTo('#main'); });
-        SC.run(function() { Travis.Controllers.repository.set('content', repository); });
+        SC.run(function() { view.set('repository', repository); });
       });
 
       afterEach(function() {

@@ -1,5 +1,7 @@
 Travis.Repository = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, {
   slug:                SC.Record.attr(String),
+  name:                SC.Record.attr(String, { key: 'name' }),
+  owner:               SC.Record.attr(String, { key: 'owner_name' }),
   lastBuildId:         SC.Record.attr(Number, { key: 'last_build_id' }),
   lastBuildNumber:     SC.Record.attr(String, { key: 'last_build_number' }),
   lastBuildStatus:     SC.Record.attr(Number, { key: 'last_build_status' }),
@@ -44,6 +46,9 @@ Travis.Repository.reopenClass({
   resource: 'repositories',
   latest: function() {
     return this.all({ orderBy: 'lastBuildFinishedAt DESC' });
+  },
+  bySlug: function(slug) {
+    return this.all({ slug: slug });
   },
   select: function(id) {
     this.all().forEach(function(repository) {

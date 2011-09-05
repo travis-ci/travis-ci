@@ -3,33 +3,38 @@ var Travis = SC.Application.create({
 
   store: SC.Store.create().from('Travis.DataSource'),
   run: function() {
-    // $.extend(SC.TEMPLATES, Utils.loadTemplates(SC.Handlebars.compile));
-
-    // SC.routes.add('!/:owner/:repository/builds/:id', function(params) { Travis.controllers.repository.load($.extend(params, { tab: 'build'   })) });
-    // SC.routes.add('!/:owner/:repository/builds',     function(params) { Travis.controllers.repository.load($.extend(params, { tab: 'builds'  })) });
-    // SC.routes.add('!/:owner/:repository',            function(params) { Travis.controllers.repository.load($.extend(params, { tab: 'current' })) });
-    // SC.routes.add('',                                function(params) { Travis.controllers.repository.load($.extend(params, { tab: 'current' })) });
-
-    // Travis.mainPane = SC.TemplatePane.append({
-    //   layerId: 'travis',
-    //   templateName: 'travis'
-    // });
-
-    // Travis.controllers.repositories.load();
+    this.initControllers();
+    this.createViews();
+    this.setupRoutes();
+    this.initEvents();
+  },
+  setupRoutes: function() {
+    SC.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.Controllers.repository.load('build',   params) });
+    SC.routes.add('!/:owner/:name/builds',     function(params) { Travis.Controllers.repository.load('builds',  params) });
+    SC.routes.add('!/:owner/:name',            function(params) { Travis.Controllers.repository.load('current', params) });
+    SC.routes.add('',                          function(params) { Travis.Controllers.repository.load('current', params) });
+  },
+  createViews: function() {
+    SC.View.create({ content: Travis.Controllers.repositories,  template: SC.TEMPLATES['app/templates/repositories/list'] }).appendTo('#tab_recent .tab')
+    SC.View.create({ repository: Travis.Controllers.repository, template: SC.TEMPLATES['app/templates/repositories/show'] }).appendTo('#main')
+  },
+  initControllers: function() {
+    Travis.Controllers.repositories.load();
     // Travis.controllers.workers.load();
     // Travis.controllers.jobs.load();
-
-    // // TODO: This registers an interval that updates the DOM.
-    // // We should update this to just invalidate SproutCore properties so the
-    // // DOM updates automatically.
-    // // Utils.updateTimes();
-
-    // $('.tool-tip').tipsy({ gravity: 'n', fade: true });
-    // $('.fold').live('click', function() { $(this).hasClass('open') ? $(this).removeClass('open') : $(this).addClass('open'); })
-
-    // $('#top .profile').mouseover(function() { $('#top .profile ul').show(); });
-    // $('#top .profile').mouseout(function() { $('#top .profile ul').hide(); });
   },
+  initEvents: function() {
+    // TODO: This registers an interval that updates the DOM.
+    // We should update this to just invalidate SproutCore properties so the
+    // DOM updates automatically.
+    // Utils.updateTimes();
+
+    $('.tool-tip').tipsy({ gravity: 'n', fade: true });
+    $('.fold').live('click', function() { $(this).hasClass('open') ? $(this).removeClass('open') : $(this).addClass('open'); })
+
+    $('#top .profile').mouseover(function() { $('#top .profile ul').show(); });
+    $('#top .profile').mouseout(function() { $('#top .profile ul').hide(); });
+  }
   // receive: function(event, data) {
   //   var build = data.build;
 
@@ -43,23 +48,7 @@ var Travis = SC.Application.create({
 });
 
 $('document').ready(function() {
-  if(typeof Jasmine !== undefined) Travis.run();
+  if(env != 'jasmine') Travis.run();
   // Travis.receive('foo', { build: { id: 8, startedAt: '2011-05-23T00:00:00Z', finishedAt: '2011-05-23T00:00:20Z' } })
 });
 
-Travis.controllers = SC.Object.create({
-  repositories: SC.ArrayController.create({
-    load: function() {
-      this.set('content', Travis.Repository.latest());
-    }
-  })
-});
-
-
-// mostly stolen from http://svarovsky-tomas.com/sproutcore-datasource.html, thanks Tomáš!
-
-
-
-
-// Travis.store = SC.Store.create().from('Travis.DataSource');
-// Travis.controllers.repositories.load();

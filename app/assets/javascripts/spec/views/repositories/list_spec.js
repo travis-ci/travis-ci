@@ -10,7 +10,7 @@ describe('Views:', function() {
         view = SC.View.create({ template: SC.TEMPLATES['app/templates/repositories/list'] });
 
         SC.run(function() { view.appendTo('#tab_recent .tab'); });
-        SC.run(function() { Travis.Controllers.repositories.set('content', repositories); });
+        SC.run(function() { view.set('content', repositories); });
       });
 
       afterEach(function() {

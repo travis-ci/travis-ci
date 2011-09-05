@@ -33,6 +33,10 @@ class Repository < ActiveRecord::Base
       where(:owner_name => owner_name)
     end
 
+    def by_slug(slug)
+      where(:owner_name => slug.split('/').first, :name => slug.split('/').last)
+    end
+
     def search(query)
       where('repositories.name ~* ? OR repositories.owner_name ~* ?', query, query)
     end
