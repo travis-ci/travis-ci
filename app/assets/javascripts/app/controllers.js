@@ -5,5 +5,14 @@ Travis.Controllers = {
     // }
   }),
   repository: SC.Object.create({
+  }),
+  tabs: SC.Object.create({
+    current: SC.Object.create({
+      summaryCssClasses: function() {
+        return $.compact(['summary', 'clearfix', this.getPath('build.color')]).join(' ');
+      }.property('build')
+    }),
+    builds: SC.Object.create({
+    })
   })
 };

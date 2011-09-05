@@ -218,7 +218,7 @@ caption {
 }
 
 #left #repositories li,
-#main .summary .number a,
+#main .build .summary .number a,
 #main #matrix td:first-child a,
 #main #builds .build td:first-child a {
   background-image: url(/assets/icons/status.yellow.png);
@@ -226,7 +226,7 @@ caption {
   background-repeat: no-repeat;
 }
 #left #repositories li.green,
-#main .summary.green .number a,
+#main .build.green .summary .number a,
 #main #matrix .green td:first-child a,
 #main #builds .build.green td:first-child a {
   background-image: url(/assets/icons/status.green.png);
@@ -235,7 +235,7 @@ caption {
   background-repeat: no-repeat;
 }
 #left #repositories li.red,
-#main .summary.red .number a,
+#main .build.red .summary .number a,
 #main #matrix .red td:first-child a,
 #main #builds .build.red td:first-child a {
   background-image: url(/assets/icons/status.red.png);
@@ -260,7 +260,7 @@ caption {
   &.large {
     padding: 60px 100px 30px 440px;
   }
-  .repository {
+  #repository {
     position: relative;
   }
   h3 {

@@ -44,7 +44,12 @@ Test.Factory = {
     }
   },
   Build: {
+    byRepository: function() {
+      Test.Factory.Build.passing();
+      return Test.Factory.Repository.travis().get('builds');
+    },
     passing: function() {
+      Test.Factory.Repository.travis();
       Travis.store.loadRecord(Travis.Build, {
         id: 1,
         repository_id: 1,
@@ -58,7 +63,7 @@ Test.Factory = {
         },
         commit: '4d7621e08e1c34e94ad9',
         branch: 'master',
-        message: 'correct the refraction redirect rules',
+        message: 'correct rules',
         committed_at: '2011-01-01T01:00:00Z',
         committer_name: 'Josh Kalderimis',
         committer_email: 'josh.kalderimis@gmail.com',
@@ -77,7 +82,7 @@ Test.Factory = {
             config: {
              '.configured': 'true'
             },
-            log: 'Using worker: ruby1.worker.travis-ci.org:worker-1\n\n\nDone. Build script exited with: 0\n',
+            log: 'Done. Build script exited with: 0\n',
             parent_id: 123126,
             commit: '3d1e844a359459652268edeeb79ee59bd1709248',
             branch: 'master',
@@ -92,7 +97,7 @@ Test.Factory = {
         ]
       });
       return Travis.store.find(Travis.Build).objectAt(0);
-    }
+    },
   }
 }
 
