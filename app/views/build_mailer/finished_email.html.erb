@@ -5,7 +5,7 @@ Build : #<%= @build.number %><br>
 Duration : <%= build_duration(@build.started_at, @build.finished_at) %><br>
 Commit : <%= @commit.commit[0..7] %> (<%= @commit.branch %>)<br>
 Author : <%= @commit.author_name %><br>
-Message : <%= @commit.message %><br>
+Message : <%= h(@commit.message).gsub("\n", "<br>").html_safe %><br>
 <br>
 Status : <%= @build.status_message %><br>
 <br>
