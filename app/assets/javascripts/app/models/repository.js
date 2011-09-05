@@ -44,7 +44,7 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Com
 
 Travis.Repository.reopenClass({
   resource: 'repositories',
-  latest: function() {
+  recent: function() {
     return this.all({ orderBy: 'lastBuildFinishedAt DESC' });
   },
   bySlug: function(slug) {
