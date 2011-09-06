@@ -17,8 +17,9 @@ var Travis = SC.Application.create({
   },
 
   initControllers: function() {
-    this.left = Travis.Controllers.Repositories.create();
-    this.main = Travis.Controllers.Repository.create();
+    this.left  = Travis.Controllers.Left.create();
+    this.main  = Travis.Controllers.Main.create();
+    this.right = Travis.Controllers.Right.create();
   },
 
   initEvents: function() {

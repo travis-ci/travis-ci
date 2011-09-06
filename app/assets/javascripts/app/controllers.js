@@ -1,14 +1,14 @@
 // SC.LOG_BINDINGS = true;
 
 Travis.Controllers = {
-  Repositories: SC.ArrayController.extend({
+  Left: SC.ArrayController.extend({
     init: function() {
       this.view = SC.View.create({ content: this, template: SC.TEMPLATES['app/templates/repositories/list'] }).appendTo('#tab_recent .tab');
       this.set('content', Travis.Repository.recent());
     }
   }),
 
-  Repository: SC.Object.extend({
+  Main: SC.Object.extend({
     init: function() {
       this.tabs = Travis.Controllers.Tabs.create({ main: this });
       this.view = SC.View.create({ controller: this, template: SC.TEMPLATES['app/templates/repositories/show'] }).appendTo('#main');
@@ -63,5 +63,8 @@ Travis.Controllers = {
     destroy: function() {
       this.get('active') && this.get('active').destroy();
     },
+  }),
+
+  Right: SC.Object.extend({
   })
 };
