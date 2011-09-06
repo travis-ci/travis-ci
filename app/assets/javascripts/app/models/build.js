@@ -68,10 +68,17 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
     var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
     return values.length == 0 ? '-' : values.join(', ');
   }.property('config'),
-
+  // TODO: Add log folding and line numbers here
   formattedLog: function() {
-    return this.get('log'); // fold log etc. here
-  }.property('log'),
+    if (this.get('matrix').objectAt(0) !== undefined)
+      return this.get('matrix').objectAt(0).get('log');
+    else
+      return this.get('log')
+  }.property('matrix', 'log'),
+
+  build: function() {
+    return this.get('matrix').objectAt(0);
+  }.property('build'),
 
   // updateRepository: function() {
   //   var repository = this.get('repository');
