@@ -19,6 +19,21 @@
 //  }
 // });
 
+// applied to the source:
+//
+// see https://github.com/sproutcore/sproutcore20/issues/147
+// and https://github.com/tchak/sproutcore20/commit/b2c622c164dbbc92f5a164622c27b34dde1a3912
+//
+// function xformForArgs(args) {
+//   return function (target, method, params) {
+//     var obj = params[0], keyName = changeKey(params[1]), val;
+//     if (method.length>2) val = SC.getPath(obj, keyName);
+//     // args.unshift(obj, keyName, val);
+//     // method.apply(target, args);
+//     method.apply(target, [obj, keyName, val].concat(args));
+//   }
+// }
+
 SC.ObjectProxy = SC.Object.extend({
   content: null,
   unknownProperty: function(keyName) {
