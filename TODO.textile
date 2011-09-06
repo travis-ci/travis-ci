@@ -1,3 +1,11 @@
+== Sproutcore
+
+- hook up time changes
+
+
+
+== Statemachine
+
 + move Worker to Notification:Worker
 + json for configure tasks
 + make Travis.config a Hashr instance

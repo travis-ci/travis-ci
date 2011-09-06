@@ -8,7 +8,7 @@
     </tr>
   </thead>
 
-  {{#collection tagName="tbody" itemClassBinding="build.color" contentBinding="build.matrix"}}
+  {{#collection tagName="tbody" itemClassBinding="content.color" contentBinding="build.matrix"}}
     <td class="number"><a {{bindAttr href="content.urlBuild"}}>{{content.number}}</a></td>
     <td class="finished_at timeago" {{bindAttr title="content.finishedAt"}}>{{content.formattedFinishedAt}}</td>
     <td class="duration" {{bindAttr title="content.duration"}}>{{content.formattedDuration}}</td>
