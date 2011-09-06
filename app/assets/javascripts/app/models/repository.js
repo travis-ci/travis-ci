@@ -27,7 +27,7 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Com
   },
 
   // TODO the following display logic all all seems to belong to a controller or helper module,
-  // but I can't find a way to bind an itemClass to a controller w/ TemplateCollectionView
+  // but I can't find a way to bind an itemClass to a controller w/ a CollectionView
 
   color: function() {
     return this.colorForStatus(this.get('lastBuildStatus'));
@@ -41,7 +41,7 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Com
     return this.timeAgoInWords(this.get('lastBuildFinishedAt')) || '-';
   }.property('lastBuildFinishedAt'),
 
-  cssClasses: function() {
+  cssClasses: function() { // ugh
     return $.compact(['repository', this.get('color'), this.get('selected') ? 'selected' : null]).join(' ');
   }.property('color', 'selected')
 });

@@ -34,18 +34,18 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
 
   color: function() {
     return this.colorForStatus(this.get('result'));
-  }.property('result'),
+  }.property('status', 'result'),
 
   duration: function() {
     return this.durationFrom(this.get('startedAt'), this.get('finishedAt'));
   }.property('startedAt', 'finishedAt'),
 
   configDimensions: function() {
-    return $.map($.keys($.except(this.get('config') || {}, '.configured')), function(value) { return $.camelize(value) });
+    return $.map($.keys($.only(this.get('config'), 'rvm', 'gemfile', 'env')), function(value) { return $.camelize(value) });
   }.property('config'),
 
   configValues: function() {
-    return $.values($.except(this.get('config') || {}, '.configured'));
+    return $.values($.only(this.get('config'), 'rvm', 'gemfile', 'env'));
   }.property('config'),
 
   // TODO the following display logic all seems to belong to a controller or helper module
@@ -56,14 +56,15 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
 
   formattedDuration: function() {
     return this.readableTime(this.get('duration'));
-  }.property('duration'),
+  }.property('status', 'duration'),
 
   formattedFinishedAt: function() {
     return this.timeAgoInWords(this.get('finishedAt')) || '-';
-  }.property('finishedAt'),
+  }.property('status', 'finishedAt'),
 
   formattedConfig: function() {
-    var config = $.except(this.get('config') || {}, '.configured');
+    if(this.get('isMatrix')) return;
+    var config = $.only(this.get('config'), 'rvm', 'gemfile', 'env');
     var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
     return values.length == 0 ? '-' : values.join(', ');
   }.property('config'),

@@ -12,11 +12,11 @@
     <div class="right">
       <dt>Commit</dt>
       <dd class="commit-hash"><a {{bindAttr href="build.urlGithubCommit"}}>{{build.formattedCommit}}</a></dd>
-      {{#if author_name}}
+      {{#if build.author_name}}
         <dt>Author</dt>
         <dd class="author"><a {{bindAttr href="build.urlAuthor"}}>{{build.authorName}}</a></dd>
       {{/if}}
-      {{#if committer_name}}
+      {{#if build.committer_name}}
         <dt>Committer</dt>
         <dd class="committer"><a {{bindAttr href="build.urlCommitter"}}>{{build.committerName}}</a></dd>
       {{/if}}
@@ -24,7 +24,7 @@
 
     <dt>Message</dt>
     <dd class="commit-message">{{build.message}}</dd>
-    {{#if build.config}}
+    {{#if build.formattedConfig}}
       <dt>Config</dt>
       <dd class="config">{{build.formattedConfig}}</dd>
     {{/if}}

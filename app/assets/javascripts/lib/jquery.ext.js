@@ -90,6 +90,15 @@ $.extend({
     }
     return result;
   },
+  only: function(object) {
+    var keys   = Array.prototype.slice.apply(arguments);
+    var object = (typeof keys[0] == 'object') ? keys.shift() : this;
+    var result = {};
+    for(var key in object) {
+      if(keys.indexOf(key) != -1) result[key] = object[key];
+    }
+    return result;
+  },
   except: function(object) {
     var keys   = Array.prototype.slice.apply(arguments);
     var object = (typeof keys[0] == 'object') ? keys.shift() : this;

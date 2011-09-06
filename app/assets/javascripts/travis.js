@@ -5,11 +5,11 @@ var Travis = SC.Application.create({
 
   run: function() {
     this.initControllers();
-    this.setupRoutes();
+    this.initRoutes();
     this.initEvents();
   },
 
-  setupRoutes: function() {
+  initRoutes: function() {
     SC.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.main.activate('build',   params) });
     SC.routes.add('!/:owner/:name/builds',     function(params) { Travis.main.activate('history', params) });
     SC.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('current', params) });
@@ -17,9 +17,11 @@ var Travis = SC.Application.create({
   },
 
   initControllers: function() {
-    this.left  = Travis.Controllers.Left.create();
-    this.main  = Travis.Controllers.Main.create();
-    this.right = Travis.Controllers.Right.create();
+    this.main = Travis.Controllers.Repository.create();
+    Travis.Controllers.Repositories.create();
+    Travis.Controllers.Workers.create();
+    Travis.Controllers.Jobs.create({ queue: 'builds' });
+    Travis.Controllers.Jobs.create({ queue: 'rails' });
   },
 
   initEvents: function() {
