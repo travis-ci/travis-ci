@@ -1539,7 +1539,6 @@ Handlebars.VM = {
   program: function(fn, data) {
     return function(context, options) {
       options = options || {};
-
       return fn(context, options.data || data);
     };
   },
@@ -3580,8 +3579,10 @@ function xformForArgs(args) {
   return function (target, method, params) {
     var obj = params[0], keyName = changeKey(params[1]), val;
     if (method.length>2) val = SC.getPath(obj, keyName);
-    args.unshift(obj, keyName, val);
-    method.apply(target, args);
+    // https://github.com/tchak/sproutcore20/commit/b2c622c164dbbc92f5a164622c27b34dde1a3912
+    // args.unshift(obj, keyName, val);
+    // method.apply(target, args);
+    method.apply(target, [obj, keyName, val].concat(args));
   }
 }
 
@@ -13152,6 +13153,7 @@ var get = SC.get, getPath = SC.getPath, fmt = SC.String.fmt;
     @returns {String} HTML string
   */
   Handlebars.registerHelper('bind', function(property, fn) {
+    // sc_assert("You cannot bind to an empty property", property);
     sc_assert("You cannot pass more than one argument to the bind helper", arguments.length <= 2);
 
     return bind.call(this, property, fn, false, function(result) {
