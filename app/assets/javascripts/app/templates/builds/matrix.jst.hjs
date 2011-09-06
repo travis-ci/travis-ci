@@ -3,7 +3,7 @@
   <thead>
     <tr>
       <th>Build</th>
-      {{#each build.configKeys itemTagName="th"}}
+      {{#each build.configKeyObjects itemTagName="th"}}
         {{key}}
       {{/each}}
       <th>Finished</th>
@@ -13,7 +13,7 @@
 
   {{#collection tagName="tbody" itemClassBinding="content.color" contentBinding="build.matrix"}}
     <td class="number"><a {{bindAttr href="content.urlBuild"}}>{{content.number}}</a></td>
-    {{#each content.configValues itemTagName="td"}}
+    {{#each content.configValueObjects itemTagName="td"}}
       {{value}}
     {{/each}}
     <td class="finished_at timeago" {{bindAttr title="content.finishedAt"}}>{{content.formattedFinishedAt}}</td>
