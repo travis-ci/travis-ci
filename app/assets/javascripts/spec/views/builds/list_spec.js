@@ -45,8 +45,8 @@ describe('Views:', function() {
         });
 
         it('updates the commit', function() {
-          SC.run(function() { builds.objectAt(0).set('commit', 'abcdefgh'); });
-          expect(view.$('#builds tbody tr:first-child .commit')).toHaveText('abcdefgh (master)');
+          SC.run(function() { builds.objectAt(0).set('commit', 'abcdefg'); });
+          expect(view.$('#builds tbody tr:first-child .commit')).toHaveText('abcdefg (master)');
         });
 
         it('updates the branch', function() {
@@ -56,7 +56,7 @@ describe('Views:', function() {
 
         it('updates the duration', function() {
           SC.run(function() { builds.objectAt(0).set('finishedAt', '2011-01-01T03:00:20Z'); });
-          expect(view.$('#builds tbody tr:first-child .duration')).toHaveText('about 3 hours');
+          expect(view.$('#builds tbody tr:first-child .duration')).toHaveText('2 hrs 10 sec');
         });
 
         it('updates the finished_at time', function() {

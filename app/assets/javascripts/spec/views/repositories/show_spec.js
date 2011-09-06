@@ -1,16 +1,16 @@
 describe('Views:', function() {
   describe('repositories', function() {
     describe('show', function() {
-      var repository, view;
+      var repository, controller, view;
 
       beforeEach(function() {
         $('#main').empty();
 
         repository = Test.Factory.Repository.travis();
-        view = SC.View.create({ template: SC.TEMPLATES['app/templates/repositories/show'] });
+        controller = SC.Object.create({ repository: repository });
+        view = SC.View.create({ controller: controller, template: SC.TEMPLATES['app/templates/repositories/show'] });
 
         SC.run(function() { view.appendTo('#main'); });
-        SC.run(function() { view.set('repository', repository); });
       });
 
       afterEach(function() {

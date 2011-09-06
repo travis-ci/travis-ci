@@ -6,13 +6,10 @@ describe('Views:', function() {
       beforeEach(function() {
         $('#main').empty();
 
-        tabs = Travis.Controllers.tabs;
-        tabs.active = tabs.current;
         build = Test.Factory.Build.passing();
-        view = SC.View.create({ tab: Travis.Controllers.tabs.active, template: SC.TEMPLATES['app/templates/builds/show'] });
+        view = SC.View.create({ build: build, template: SC.TEMPLATES['app/templates/builds/show'] });
 
         SC.run(function() { view.appendTo('#main'); });
-        SC.run(function() { tabs.active.set('build', build); });
       });
 
       afterEach(function() {
@@ -88,14 +85,13 @@ describe('Views:', function() {
 
       describe('with a single-build matrix', function() {
         it('renders the log', function() {
-          SC.run(function() { tabs.active.set('build', build); });
           expect(view.$()).toContain('pre.log')
         });
       });
 
       describe('with a test', function() {
         it('renders the log', function() {
-          SC.run(function() { tabs.active.set('build', build.get('matrix').get('firstObject')); });
+          SC.run(function() { view.set('build', build.get('matrix').get('firstObject')); });
           expect(view.$()).toContain('pre.log')
           expect(view.$('pre.log')).toHaveText('Done. Build script exited with: 0')
         });
