@@ -49,9 +49,9 @@ class Build
       # Set config from either: (email/webhook/etc) if it's a hash, global config, or default value
       def config_with_global_fallback(receiver, key, default)
         if (notifications[receiver] && notifications[receiver].is_a?(Hash) && notifications[receiver].has_key?(key))
-          notifications[receiver][key]
+          notifications[receiver][key].to_sym
         elsif notifications.has_key?(key)
-          notifications[key]
+          notifications[key].to_sym
         else
           default
         end
