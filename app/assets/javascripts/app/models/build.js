@@ -41,13 +41,20 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
   }.property('startedAt', 'finishedAt'),
 
   configKeys: function() {
-    // return $.map($.keys($.only(this.get('config'), 'rvm', 'gemfile', 'env')), function(key) { return $.camelize(key) });
-    return $.map($.keys($.only(this.get('config'), 'rvm', 'gemfile', 'env')), function(key) { return SC.Object.create({ key: $.camelize(key) }) });
+    return $.map($.keys($.only(this.get('config'), 'rvm', 'gemfile', 'env')), function(key) { return $.camelize(key) });
   }.property('config'),
 
   configValues: function() {
-    // return $.values($.only(this.get('config'), 'rvm', 'gemfile', 'env'));
-    return $.map($.values($.only(this.get('config'), 'rvm', 'gemfile', 'env')), function(value) { return SC.Object.create({ value: value }) });
+    return $.values($.only(this.get('config'), 'rvm', 'gemfile', 'env'));
+  }.property('config'),
+
+  // see https://github.com/sproutcore/sproutcore20/issues/160
+  configKeyObjects: function() {
+    return $.map(this.get('configKeys'), function(key) { return SC.Object.create({ key: key }) });
+  }.property('config'),
+
+  configValueObjects: function() {
+    return $.map(this.get('configValues'), function(value) { return SC.Object.create({ value: value }) });
   }.property('config'),
 
   // TODO the following display logic all seems to belong to a controller or helper module
@@ -70,6 +77,7 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
     var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
     return values.length == 0 ? '-' : values.join(', ');
   }.property('config'),
+
   // TODO: Add log folding and line numbers here
   formattedLog: function() {
     if (this.get('matrix').objectAt(0) !== undefined)
