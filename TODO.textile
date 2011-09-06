@@ -1,17 +1,17 @@
 == Sproutcore
 
++ fix matrix
++ figure out call stack error :/
+
 - fix tests for new binding pattern
 - add tests for controller layer
 - add acceptance tests
 
-- fix matrix
 - implement search
 - fix stats and profile pages
 - hook up pusher events
 - test task/script to add some workers and jobs to a local redis
 - hook up time changes
-
-- figure out call stack error :/
 
 
 == Statemachine
