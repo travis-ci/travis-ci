@@ -67,7 +67,7 @@ class Build
       end
 
       def emails_enabled?
-        return notifications[:email] if notifications.has_key?(:email)
+        return !!notifications[:email] if notifications.has_key?(:email)
         # TODO deprecate disabled and disable
         [:disabled, :disable].each {|key| return !notifications[key] if notifications.has_key?(key) }
         true
