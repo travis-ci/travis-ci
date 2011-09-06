@@ -1,5 +1,6 @@
 Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, {
   repositoryId:   SC.Record.attr(Number, { key: 'repository_id' }),
+  parentId:       SC.Record.attr(Number, { key: 'parent_id' }),
   config:         SC.Record.attr(Object),
   state:          SC.Record.attr(String),
   number:         SC.Record.attr(String),
@@ -15,21 +16,13 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
   authorName:     SC.Record.attr(String, { key: 'author_name' }),
   authorEmail:    SC.Record.attr(String, { key: 'author_email' }),
   compareUrl:     SC.Record.attr(String, { key: 'compare_url' }),
+  log:            SC.Record.attr(String),
 
   matrix: SC.Record.toMany('Travis.Build', { nested: true }), // TODO should be Travis.Test!
 
-  // TODO these should be in Travis.Test but I can't get the toMany relation working with that
-  parentId: SC.Record.attr(Number, { key: 'parent_id' }),
-  log:      SC.Record.attr(String),
-
-  build: function() {
+  parent: function() {
     return this.get('parentId') ? Travis.Build.find(this.get('parentId')) : null;
-  }.property(),
-
-  formattedLog: function() {
-    return this.get('log'); // fold log etc. here
-  }.property('log'),
-
+  }.property('parentId', 'status'),
 
   repository: function() {
     return Travis.Repository.find(this.get('repositoryId'));
@@ -55,23 +48,7 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
     return $.values($.except(this.get('config') || {}, '.configured'));
   }.property('config'),
 
-  // updateRepository: function() {
-  //   var repository = this.get('repository');
-  //   if(repository.get('lastBuildStartedAt') < this.get('startedAt') || repository.get('lastBuildFinishedAt') < this.get('finishedAt')) {
-  //     repository.update({
-  //       lastBuildNumber:     this.get('number'),
-  //       lastBuildStatus:     this.get('result'),
-  //       lastBuildStartedAt:  this.get('startedAt'),
-  //       lastBuildFinishedAt: this.get('finishedAt'),
-  //     });
-  //   }
-  // },
-
-  // updateObserver: function() {
-  //   this.updateRepository();
-  // }.observes('startedAt', 'finishedAt', 'result'),
-
-  // // TODO the following display logic all seems to belong to a controller or helper module
+  // TODO the following display logic all seems to belong to a controller or helper module
 
   formattedCommit: function() {
     return (this.get('commit') || '').substr(0, 7) + (this.get('branch') ? ' (%@)'.fmt(this.get('branch')) : '');
@@ -90,11 +67,31 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
     var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
     return values.length == 0 ? '-' : values.join(', ');
   }.property('config'),
+
+  formattedLog: function() {
+    return this.get('log'); // fold log etc. here
+  }.property('log'),
+
+  // updateRepository: function() {
+  //   var repository = this.get('repository');
+  //   if(repository.get('lastBuildStartedAt') < this.get('startedAt') || repository.get('lastBuildFinishedAt') < this.get('finishedAt')) {
+  //     repository.update({
+  //       lastBuildNumber:     this.get('number'),
+  //       lastBuildStatus:     this.get('result'),
+  //       lastBuildStartedAt:  this.get('startedAt'),
+  //       lastBuildFinishedAt: this.get('finishedAt'),
+  //     });
+  //   }
+  // },
+
+  // updateObserver: function() {
+  //   this.updateRepository();
+  // }.observes('startedAt', 'finishedAt', 'result'),
 });
 
 Travis.Build.reopenClass({
   resource: 'builds',
   byRepositoryId: function(id, parameters) {
-    return this.all({ url: '/repositories/%@/builds.json?parent_id='.fmt(id), orderBy: 'number DESC' })
+    return this.all({ url: '/repositories/%@/builds.json?parent_id='.fmt(id), parentId: null, orderBy: 'number DESC' })
   },
 });
