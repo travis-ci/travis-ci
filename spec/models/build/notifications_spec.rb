@@ -27,6 +27,35 @@ describe Build, 'notifications', ActiveSupport::TestCase do
       build = Factory(:build, :state => :finished, :config => { :notifications => { :email => false } })
       build.send_email_notifications?.should be_false
     end
+
+    [%w(successful broken), %w(broken successful)].each do |previous, current|
+      it "returns true if build status is #{current} and previous build status is #{previous}" do
+        previous_build = Factory("#{previous}_build".to_sym)
+        build = Factory("#{current}_build".to_sym, :repository => previous_build.repository)
+        build.send_email_notifications?.should be_true
+      end
+    end
+
+    context 'notification verbosity configuration' do
+      [[%w(broken broken),     {:on_failure => :always}, true],
+       [%w(successful broken), {:on_failure => :always}, true],
+       [%w(broken broken),     {:on_failure => :change}, false],
+       [%w(successful broken), {:on_failure => :change}, true],
+       [%w(successful broken), {:on_failure => :never},  false],
+       [%w(successful successful), {:on_success => :always}, true],
+       [%w(broken successful),     {:on_success => :always}, true],
+       [%w(successful successful), {:on_success => :change}, false],
+       [%w(broken successful),     {:on_success => :change}, true],
+       [%w(broken successful),     {:on_success => :never},  false],
+      ].each do |states, config, outcome|
+        it "returns #{outcome} if previous build was #{states[0]}, current build is #{states[1]}, and config is #{config}" do
+          previous_build = Factory("#{states[0]}_build".to_sym)
+          build = Factory("#{states[1]}_build".to_sym, :repository => previous_build.repository,
+                          :config => { :notifications => config})
+          build.send_email_notifications?.should == outcome
+        end
+      end
+    end
   end
 
   describe :email_recipients do
@@ -81,6 +110,12 @@ describe Build, 'notifications', ActiveSupport::TestCase do
     it 'returns an array of values if the build configuration specifies an array of values' do
       webhooks = %w(http://evome.fr/notifications http://example.com)
       build = Factory(:build, :config => { :notifications => { :webhooks => webhooks } })
+      build.webhooks.should == webhooks
+    end
+
+    it 'returns an array of values if the build configuration specifies the array of values within a config hash' do
+      webhooks = %w(http://evome.fr/notifications http://example.com)
+      build = Factory(:build, :config => { :notifications => { :webhooks => {:urls => webhooks, :on_success => :change} } })
       build.webhooks.should == webhooks
     end
   end

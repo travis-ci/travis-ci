@@ -30,6 +30,13 @@ describe BuildMailer do
       it 'is a multipart email' do
         mail.should be_multipart
       end
+
+      context 'in HTML' do
+        it 'escapes newlines in the commit message' do
+          build.commit.message = "bar\nbaz"
+          mail.body.encoded.should include("bar<br>baz")
+        end
+      end
     end
 
     describe 'for a broken build' do

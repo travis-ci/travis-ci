@@ -1,14 +1,15 @@
-<% content_for :status_message, @build.status_message %>
+<% content_for :status_message, @build.human_status_message %>
 
 Build : #<%= @build.number %><br>
 <br>
 Duration : <%= build_duration(@build.started_at, @build.finished_at) %><br>
 Commit : <%= @commit.commit[0..7] %> (<%= @commit.branch %>)<br>
 Author : <%= @commit.author_name %><br>
-Message : <%= @commit.message %><br>
+Message : <%= h(@commit.message).gsub("\n", "<br>").html_safe %><br>
 <br>
 Status : <%= @build.status_message %><br>
 <br>
 View the changeset : <%= @commit.compare_url %><br>
 <br>
 View the full build log and details : <%= user_repo_build_redirect_url(:user => @build.repository.owner_name, :repository => @build.repository.name, :id => @build.id )%>
+

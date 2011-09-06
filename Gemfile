@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'rails',             :git => 'git://github.com/rails/rails', :ref => '15b75b4a9ed50ddb0a98'
+gem 'rails',             '~> 3.1.0'
 gem 'rake',              '~> 0.9.2'
 gem 'refraction',        '~> 0.2.0'
 gem 'jruby-openssl',     :platforms => :jruby
@@ -39,17 +39,15 @@ gem 'clockwork'
 
 # assets
 group :assets do
-  gem 'sass'
   gem 'sass-rails',        '~> 3.1.0'
   gem 'coffee-rails',      '~> 3.1.0'
-  gem 'handlebars-rails',  :git => 'git://github.com/svenfuchs/handlebars-rails.git'
   gem 'uglifier'
   gem 'jquery-rails'
-  gem 'compass',           :git => 'git://github.com/chriseppstein/compass.git', :branch => 'rails31'
+  gem 'compass',           '0.12.alpha.0'
 end
 
 group :test do
-  gem 'capybara',        '~> 1.0.0'
+  gem 'capybara',        '~> 1.1.0'
   gem 'database_cleaner'
   gem 'factory_girl',    '~> 2.0.3'
   gem 'mocha'
