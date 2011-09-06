@@ -121,7 +121,7 @@ class Build < ActiveRecord::Base
   end
 
   def previous_finished_on_branch
-    Build.on_branch(commit.branch).where("finished_at < ?", finished_at).limit(1).last
+    Build.on_branch(commit.branch).where("builds.repository_id IN (?) AND finished_at < ?", repository_id, finished_at).limit(1).last
   end
 
   protected
