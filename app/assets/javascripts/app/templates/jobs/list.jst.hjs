@@ -1,5 +1,5 @@
 <div id="jobs" class="list">
-  <h4>Queue: {{queue_display}}</h4>
+  <h4>Queue: {{queue}}</h4>
   {{#collection tagName="ul" itemClass="job" contentBinding="jobs"}}
     {{content.repository.slug}}
     {{#if content.number}}

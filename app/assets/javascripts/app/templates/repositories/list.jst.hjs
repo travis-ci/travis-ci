@@ -1,4 +1,4 @@
-{{#collection tagName="ul" id="repositories" contentBinding="content" itemClassBinding="content.cssClasses"}}
+{{#collection tagName="ul" id="repositories" contentBinding="repositories" itemClassBinding="content.cssClasses"}}
   {{#with content}}
     <a {{bindAttr href="urlCurrent"}} class="slug">{{slug}}</a>
     <a {{bindAttr href="urlLastBuild"}} class="build">#{{lastBuildNumber}}</a>
