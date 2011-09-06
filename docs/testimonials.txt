@@ -84,3 +84,6 @@ https://twitter.com/#!/mariovisic/status/106901030087827456 - @mariovisic (Mario
 
 ".@travisci looks pretty cool"
 https://twitter.com/#!/owz/status/107159033500274688 - @owz (Owain)
+
+"really love @travisci especially for its awesome support! it helps ruby community so much"
+http://twitter.com/#!/godfat/status/109366688448909312 - @godfat (Lin Jen-Shin)
