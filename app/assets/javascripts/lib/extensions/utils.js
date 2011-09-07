@@ -166,9 +166,9 @@ var console = {
           window._console.log(arguments)
         }
       }
-      else {
-        window._console.log(arguments)
-      }
+    }
+    else {
+      window._console.log(arguments)
     }
   }
 }
