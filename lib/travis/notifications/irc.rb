@@ -22,7 +22,7 @@ module Travis
           irc(host, nick, :port => port) do |irc|
             channels.each do |channel|
               join(channel)
-              say "[travis-ci] #{build.repository.slug}##{build.number} (#{commit.branch} - #{commit.commit[0, 7]} : #{commit.author_name}): the build has #{build.passed? ? 'passed' : 'failed' }"
+              say "[travis-ci] #{build.repository.slug}##{build.number} (#{commit.branch} - #{commit.commit[0, 7]} : #{commit.author_name}): #{build.human_status_message}"
               say "[travis-ci] Change view : #{commit.compare_url}"
               say "[travis-ci] Build details : #{build_url}"
               leave
