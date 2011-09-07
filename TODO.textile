@@ -4,16 +4,17 @@
 + figure out call stack error :/
 + fix tests for new binding pattern
 + fix tests in jasmine-headless-webkit
++ port log parsing
 
 - add tests for controller layer
 - add acceptance tests
 
-- add log parsing
 - implement search
 - fix stats and profile pages
 - hook up pusher events
 - test task/script to add some workers and jobs to a local redis
 - hook up time changes
+- port service hooks and add specs
 
 
 == Statemachine

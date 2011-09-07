@@ -81,12 +81,14 @@ describe('Views:', function() {
 
       describe('with a single-build matrix', function() {
         it('renders the log', function() {
+          spyOn(Travis.Log, 'filter').andCallFake(function(log) { return log; });
           expect(view.$()).toContain('pre.log')
         });
       });
 
       describe('with a test', function() {
         it('renders the log', function() {
+          spyOn(Travis.Log, 'filter').andCallFake(function(log) { return log; });
           SC.run(function() { view.set('build', build.get('matrix').get('firstObject')); });
           expect(view.$()).toContain('pre.log')
           expect(view.$('pre.log')).toHaveText('Done. Build script exited with: 0')

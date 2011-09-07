@@ -78,12 +78,9 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
     return values.length == 0 ? '-' : values.join(', ');
   }.property('config'),
 
-  // TODO: Add log folding and line numbers here
   formattedLog: function() {
-    if (this.get('matrix').objectAt(0) !== undefined)
-      return this.get('matrix').objectAt(0).get('log');
-    else
-      return this.get('log')
+    var log = this.get('isMatrix') ? this.getPath('matrix.firstObject.log') : this.get('log');
+    return log ? Travis.Log.filter(log) : '';
   }.property('matrix', 'log'),
 
   build: function() {
