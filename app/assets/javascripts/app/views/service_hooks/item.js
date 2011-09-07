@@ -1,9 +1,9 @@
 Travis.Views.ServiceHooks.Item = Backbone.View.extend({
   events: {
-    'click a.toggle_enabled': 'toggleEnabled'
+    'click a.toggle_enabled': 'toggle'
   },
   initialize: function() {
-    _.bindAll(this, 'render', 'toggleEnabled', 'onToggle', 'toggleModelBack');
+    _.bindAll(this, 'render', 'toggle', 'onToggle', 'update', 'isActive');
     this.template = Travis.templates['app/templates/repositories/service_hook'];
   },
   render: function() {
@@ -11,19 +11,23 @@ Travis.Views.ServiceHooks.Item = Backbone.View.extend({
     this.delegateEvents()
     return this;
   },
-  toggleEnabled: function(e) {
+  toggle: function(e) {
     e.preventDefault()
-    this.model.save({ active: !this.model.get('active'), id: -1 }, { success: this.onToggle, error: this.toggleModelBack })
+    this.model.set({ active: !this.isActive() });
+    this.update();
+    this.model.save({ id: -1 }, { error: this.toggleModelBack })
   },
   // We do not receive current model status from server, since we're using 'update' rather than create.
   // So we need to toggle model in previous state ourselves
   toggleModelBack: function(model, resp) {
-    this.model.set({ active: !this.model.get('active') })
+    this.model.set({ active: !this.isActive() });
+    this.update();
   },
-  onToggle: function(model, resp) {
-    if (this.model.get('active'))
-      this.el.find('.toggle_enabled').addClass('on')
-    else
-      this.el.find('.toggle_enabled').removeClass('on')
+  update: function(active) {
+    this.el.find('.toggle_enabled')[this.isActive() ? 'addClass' : 'removeClass']('on')
+  },
+  isActive: function() {
+    var active = this.model.get('active');
+    return active = typeof active == 'boolean' ? active : active[0]; // WTF.
   }
 });
