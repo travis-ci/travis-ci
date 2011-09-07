@@ -21,7 +21,7 @@ gem 'rabl',              '~> 0.3.0'
 # app
 gem 'devise',            '~> 1.4.2'
 gem 'oa-oauth',          '~> 0.2.6'
-gem 'simple_states',     '0.0.8'
+gem 'simple_states',     '0.0.7'
 gem 'unobtrusive_flash', '~> 0.0.2'
 
 # apis
@@ -75,4 +75,3 @@ group :development, :test do
     gem 'ruby-debug19', :platforms => :mri_19
   end
 end
-
