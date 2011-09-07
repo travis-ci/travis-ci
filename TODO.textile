@@ -3,11 +3,12 @@
 + fix matrix
 + figure out call stack error :/
 + fix tests for new binding pattern
++ fix tests in jasmine-headless-webkit
 
-- fix tests in jasmine-headless-webkit
 - add tests for controller layer
 - add acceptance tests
 
+- add log parsing
 - implement search
 - fix stats and profile pages
 - hook up pusher events
