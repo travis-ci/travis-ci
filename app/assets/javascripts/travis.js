@@ -43,16 +43,7 @@ var Travis = SC.Application.create({
 });
 
 $('document').ready(function() {
-  function getEnv() {
-    var environment;
-    try {
-      environment = (env || "jasmine")
-    } catch (e) {
-      environment = "jasmine";
-    }
-    return environment;
-  }
-  if(getEnv() !== 'jasmine') Travis.run();
+  if(window.env !== undefined && window.env !== 'jasmine') Travis.run();
   // Travis.receive('foo', { build: { id: 8, startedAt: '2011-05-23T00:00:00Z', finishedAt: '2011-05-23T00:00:20Z' } })
 });
 
