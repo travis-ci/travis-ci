@@ -1,4 +1,5 @@
-if(window.env == 'jasmine') {
+// don't include if we're running in jasmine-headless-webkit
+if(window.JHW === undefined) {
   var jsApiReporter;
   (function() {
     var jasmineEnv = jasmine.getEnv();
