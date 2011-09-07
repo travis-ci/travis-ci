@@ -40,38 +40,12 @@ describe Travis::Notifications::Irc do
       "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/minimal/builds/#{build.id}",
     ]
 
-    0.upto(3).each { |ix|
+    expected.size.times { |ix|
       irc.output[ix].should == expected[ix]
     }
   end
 
-  it "two irc notifications" do
-    build = Factory(:build, :config => { 'notifications' => { 'irc' => ["irc.freenode.net:1234#travis", "irc.freenode.net#rails"] } })
-
-    expect_irc('irc.freenode.net', { :port => '1234' })
-    expect_irc('irc.freenode.net')
-
-    Travis::Notifications::Irc.new.notify('build:finished', build)
-
-    expected = [
-      'JOIN #travis',
-      '[travis-ci] svenfuchs/minimal#1 (master - 62aae5f : Sven Fuchs): the build has failed',
-      '[travis-ci] Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/minimal/builds/#{build.id}",
-      "PART #travis",
-      "QUIT",
-      'JOIN #rails',
-      '[travis-ci] svenfuchs/minimal#1 (master - 62aae5f : Sven Fuchs): the build has failed',
-      '[travis-ci] Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/minimal/builds/#{build.id}",
-    ]
-
-    0.upto(7).each { |ix|
-      irc.output[ix].should == expected[ix]
-    }
-  end
-
-  it "two irc notifications with notification rules" do
+  it "two irc notifications, using config with notification rules" do
     build = Factory(:build, :config => {
                               'notifications' => {
                                 'irc' => {
@@ -97,7 +71,7 @@ describe Travis::Notifications::Irc do
       "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/minimal/builds/#{build.id}",
     ]
 
-    0.upto(7).each { |ix|
+    expected.size.times { |ix|
       irc.output[ix].should == expected[ix]
     }
   end
