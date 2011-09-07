@@ -1,3 +1,6 @@
+// This seems quite ugly as it is mixed into two models. What's a better
+// approach for url generation helpers in sproutcore?
+
 Travis.Helpers.Urls = {
   urlCurrent: function() {
     return '#!/' + this.get('_slug');

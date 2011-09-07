@@ -8,14 +8,18 @@ Travis.Controllers.Tabs = SC.Object.extend({
   activate: function(tab) {
     this.destroy();
     this.set('active', this.create(tab));
-    this.toggle(tab);
+    this.setVisible(tab);
   },
 
-  toggle: function(tab) {
+  setVisible: function(tab) {
     SC.run.next(function() {
       $('#repository .tabs > li').removeClass('active');
       $('#repository #tab_' + tab).addClass('active');
     });
+  },
+
+  toggleParentTab: function(visible) {
+    $('#tab_parent')[visible ? 'addClass' : 'removeClass']('display');
   },
 
   create: function(name) {
