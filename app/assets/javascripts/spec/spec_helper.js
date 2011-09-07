@@ -1,13 +1,26 @@
 // TODO somehow make this accessible through cli
 // SC.LOG_BINDINGS = true;
 
-var Test = {}
+var Test = {
+  html: '<div id="tab_recent"><div class="tab"></div></div>' +
+    '<div id="main"></div>' +
+    '<div id="workers"></div>' +
+    '<div id="jobs"></div>'
+}
 
 beforeEach(function() {
   Travis.Query._cache = {};
   Travis.store = SC.Store.create().from('Travis.DataSource');
   jasmine.Ajax.useMock();
-  $('#jasmine_content').empty();
+
+  // We add these html elements in the specs so we can look at styled content
+  // when run in the browser. For jasmine-headless-webkit we therefor need to
+  // inject them to the dom.
+  if(window.JHW) $('#jasmine_content').html(Test.html);
+
+  $.each(['#tab_recent .tab', '#main', '#workers', '#jobs'], function(selector) {
+    $(selector).empty();
+  });
 });
 
 var withinRunLoop = function(block) {
