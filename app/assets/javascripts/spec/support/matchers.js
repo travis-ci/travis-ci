@@ -1,14 +1,8 @@
 beforeEach(function() {
   this.addMatchers({
     toMatch: function(pattern) {
-      this.actual = $(this.actual);
       return this.actual.match(pattern);
     },
-
-    // toBeEmpty: function() {
-    //   this.actual = $(this.actual);
-    //   return this.actual.length == 0;
-    // },
 
     toFind: function(selector) {
       this.actual = $(this.actual);
