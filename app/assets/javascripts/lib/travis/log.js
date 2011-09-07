@@ -1,7 +1,11 @@
-Travis.Log = function() {
-};
+Travis.Log = {
+  FOLDS: {
+    bundle:  /(^|<\/div>)(\$ bundle install.*\n+(?:(Fetching|Updating|Using|Installing).*?\n+)*)/gm,
+    migrate: /(^|<\/div>)(\$ (?:bundle exec )?rake [\s\S]*db:migrate[\s\S]*\n+(?:^== +\w+: migrated \(.*\) =+\n+))/gm,
+    schema:  /(^|<\/div>)(\$ (?:bundle exec )?rake db:schema:load[\s\S]*(?:^-- assume_migrated_upto_version[\s\S]*\n))/gm,
+    exec:    /(^|<\/div>)([\/\w]*.rvm\/rubies\/\S*?\/(ruby|rbx|jruby) [\s\S]*)/gm
+  },
 
-$.extend(Travis.Log.prototype, {
   filter: function(log) {
     log = this.stripPaths(log);
     log = this.escapeHtml(log);
@@ -49,17 +53,8 @@ $.extend(Travis.Log.prototype, {
   unfold: function(log) {
     return log.replace(/<div class="fold[^"]*">([\s\S]*?)<\/div>/mg, '$1\n');
   },
-});
-
-$.extend(Travis.Log, {
-  FOLDS: {
-    bundle:  /(^|<\/div>)(\$ bundle install.*\n+(?:(Fetching|Updating|Using|Installing).*?\n+)*)/gm,
-    migrate: /(^|<\/div>)(\$ (?:bundle exec )?rake [\s\S]*db:migrate[\s\S]*\n+(?:^== +\w+: migrated \(.*\) =+\n+))/gm,
-    schema:  /(^|<\/div>)(\$ (?:bundle exec )?rake db:schema:load[\s\S]*(?:^-- assume_migrated_upto_version[\s\S]*\n))/gm,
-    exec:    /(^|<\/div>)([\/\w]*.rvm\/rubies\/\S*?\/(ruby|rbx|jruby) [\s\S]*)/gm
-  },
 
   location: function() { // need something to spy on in tests
     return window.location.hash;
   }
-});
+};
