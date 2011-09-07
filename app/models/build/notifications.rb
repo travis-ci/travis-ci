@@ -37,10 +37,11 @@ class Build
     end
 
     def irc_channels
-      @irc_channels ||= notification_values(:irc, :channels).map do |url|
+      @irc_channels ||= notification_values(:irc, :channels).inject(Hash.new([])) do |servers, url|
         server_and_port, channel = url.split('#')
         server, port = server_and_port.split(':')
-        [server, port, channel]
+        servers[[server, port]] += [channel]
+        servers
       end
     end
 

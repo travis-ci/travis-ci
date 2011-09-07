@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Build, 'notifications', ActiveSupport::TestCase do
-  describe :send_email_notifications? do
+  describe :send_notifications_for? do
     it 'returns true by default' do
       build = Factory(:build)
       build.send_email_notifications?.should be_true
@@ -117,6 +117,20 @@ describe Build, 'notifications', ActiveSupport::TestCase do
       webhooks = %w(http://evome.fr/notifications http://example.com)
       build = Factory(:build, :config => { :notifications => { :webhooks => {:urls => webhooks, :on_success => :change} } })
       build.webhooks.should == webhooks
+    end
+  end
+
+  describe :irc_channels do
+    it 'groups irc channels by host & port, so notifications can be sent with one connection' do
+      build = Factory(:build, :config => { 'notifications' =>
+                                             { 'irc' =>
+                                                ["irc.freenode.net:1234#travis",
+                                                 "irc.freenode.net#rails",
+                                                 "irc.freenode.net:1234#travis-2",
+                                                 "irc.example.com#travis-3"]}})
+      build.irc_channels.should == {["irc.freenode.net", '1234'] => ['travis', 'travis-2'],
+                                    ["irc.freenode.net", nil]    => ['rails'],
+                                    ["irc.example.com",  nil]    => ['travis-3']}
     end
   end
 

@@ -16,8 +16,8 @@ describe Travis::Notifications::Irc do
 
   let(:repository) { Factory(:repository, :owner_email => 'owner@example.com') }
 
-  def expect_irc(host, options = {})
-    IrcClient.expects(:new).once.with(host, 'travis-ci', { :port => nil }.merge(options)).returns(irc)
+  def expect_irc(host, options = {}, count = 1)
+    IrcClient.expects(:new).times(count).with(host, 'travis-ci', { :port => nil }.merge(options)).returns(irc)
   end
 
   it "no irc notifications" do
@@ -45,16 +45,16 @@ describe Travis::Notifications::Irc do
     }
   end
 
-  it "two irc notifications, using config with notification rules" do
+  it "two irc notifications to different hosts, using config with notification rules" do
     build = Factory(:build, :config => {
                               'notifications' => {
                                 'irc' => {
                                   'on_success' => "always",
                                   'channels' =>
-                                      ["irc.freenode.net:1234#travis", "irc.freenode.net#rails"]}}})
+                                      ["irc.freenode.net:1234#travis", "irc.example.com#example"]}}})
 
     expect_irc('irc.freenode.net', { :port => '1234' })
-    expect_irc('irc.freenode.net')
+    expect_irc('irc.example.com')
 
     Travis::Notifications::Irc.new.notify('build:finished', build)
 
@@ -65,7 +65,42 @@ describe Travis::Notifications::Irc do
       "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/minimal/builds/#{build.id}",
       "PART #travis",
       "QUIT",
+      'JOIN #example',
+      '[travis-ci] svenfuchs/minimal#1 (master - 62aae5f : Sven Fuchs): the build has failed',
+      '[travis-ci] Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
+      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/minimal/builds/#{build.id}",
+    ]
+
+    expected.size.times { |ix|
+      irc.output[ix].should == expected[ix]
+    }
+  end
+
+  it "irc notifications to the same host should not disconnect between notifications" do
+    build = Factory(:build, :config => { 'notifications' =>
+                                          { 'irc' =>
+                                             ["irc.freenode.net:6667#travis",
+                                              "irc.freenode.net:6667#rails",
+                                              "irc.example.com#example"]}})
+
+    expect_irc('irc.freenode.net', { :port => '6667' }, 1) # (Only connect once to irc.freenode.net)
+    expect_irc('irc.example.com')
+
+    Travis::Notifications::Irc.new.notify('build:finished', build)
+
+    expected = [
+      'JOIN #travis',
+      '[travis-ci] svenfuchs/minimal#1 (master - 62aae5f : Sven Fuchs): the build has failed',
+      '[travis-ci] Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
+      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/minimal/builds/#{build.id}",
+      "PART #travis",
       'JOIN #rails',
+      '[travis-ci] svenfuchs/minimal#1 (master - 62aae5f : Sven Fuchs): the build has failed',
+      '[travis-ci] Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
+      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/minimal/builds/#{build.id}",
+      "PART #rails",
+      "QUIT",
+      'JOIN #example',
       '[travis-ci] svenfuchs/minimal#1 (master - 62aae5f : Sven Fuchs): the build has failed',
       '[travis-ci] Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
       "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/minimal/builds/#{build.id}",
