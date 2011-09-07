@@ -1,8 +1,6 @@
-<div id="workers" class="list">
-  <h4>Workers</h4>
-  {{#collection tagName="ul" itemClass="worker" contentBinding="workers"}}
-    {{content.name}}
-  {{else}}
-    No workers
-  {{/collection}}
-</div>
+<h4>Workers</h4>
+{{#collection tagName="ul" itemClass="worker" contentBinding="workers"}}
+  {{content.name}}
+{{else}}
+  No workers
+{{/collection}}
