@@ -79,7 +79,7 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
   }.property('config'),
 
   formattedLog: function() {
-    var log = this.get('isMatrix') ? this.getPath('matrix.firstObject.log') : this.get('log');
+    var log = this.get('parentId') ? this.get('log') : this.getPath('matrix.firstObject.log');
     return log ? Travis.Log.filter(log) : '';
   }.property('matrix', 'log'),
 

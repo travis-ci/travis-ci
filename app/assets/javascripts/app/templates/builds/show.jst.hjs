@@ -33,6 +33,6 @@
   {{#if build.isMatrix}}
     {{view templateName="app/templates/builds/matrix" buildBinding="build"}}
   {{else}}
-    <pre class="log">{{build.formattedLog}}</pre>
+    <pre class="log">{{{build.formattedLog}}}</pre>
   {{/if}}
 {{/view}}
