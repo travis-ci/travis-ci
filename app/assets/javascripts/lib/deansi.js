@@ -13,7 +13,7 @@ var Deansi = {
     '35': 'magenta',
     '36': 'cyan',
     '37': 'white',
-    '90': 'black bright',
+    '90': 'grey',
     '91': 'red bright',
     '92': 'green bright',
     '93': 'yellow bright',
@@ -43,8 +43,8 @@ var Deansi = {
   },
   replace_styles: function(string) {
     var pattern = /\[(?:0;)?((?:1|4|30|31|32|33|34|35|36|37|90|40|41|42|43|44|45|46|47|;)+)m(.*?)(?=\[[\d;]*m|$)/gm;
-    return string.replace(pattern, function(match, styles, string) {
-      return '<span class="' + Deansi.to_styles(styles) + '">' + string + '</span>';
+    return string.replace(pattern, function(match, codes, string) {
+      return '<span class="' + Deansi.to_styles(codes) + '">' + string + '</span>';
     });
   },
   remove_closings: function(string) {
@@ -55,8 +55,8 @@ var Deansi = {
     string = string.replace(/^.*\r(?!$)/gm, '');
     return string;
   },
-  to_styles: function(string) {
-    return _.compact(_.map(string.split(';'), function(number) { return Deansi.styles[number]; })).join(' ');
+  to_styles: function(codes) {
+    return $.compact($.map(codes.split(';'), function(code) { return Deansi.styles[code]; })).join(' ');
   },
 };
 
