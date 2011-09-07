@@ -15,6 +15,7 @@ $.extend(jasmine, {
       }
     }
   },
+
   listsRepository: function(element, repository, errors) {
     var element = $(element);
 
@@ -44,6 +45,7 @@ $.extend(jasmine, {
 
     return errors.length == 0;
   },
+
   showsRepository: function(element, repository, errors) {
     var element = $(element);
 
@@ -58,6 +60,7 @@ $.extend(jasmine, {
 
     return errors.length == 0;
   },
+
   showsBuildSummary: function(element, build, errors) {
     var element = $(element);
 
@@ -89,6 +92,7 @@ $.extend(jasmine, {
     this.message = function() { return errors.join("\n"); };
     return errors.length == 0;
   },
+
   showsBuildLog: function(element, log, errors) {
     var actual = $(element).find('.log').text();
     if(actual != log) {
@@ -96,6 +100,7 @@ $.extend(jasmine, {
     }
     return errors.length == 0;
   },
+
   showsActiveTab: function(element, tab, errors) {
     var element = $(element);
     if(!$('#tab_' + tab, element).hasClass('active')) {
@@ -118,26 +123,31 @@ beforeEach(function() {
       });
       return result;
     },
+
     toListRepository: function(repository) {
       var errors  = [];
       this.message = function() { return errors.join("\n"); };
       return jasmine.listsRepository(this.actual, repository, errors);
     },
+
     toShowRepository: function(repository) {
       var errors = [];
       this.message = function() { return errors.join("\n"); };
       return jasmine.showsRepository(this.actual, repository, errors);
     },
+
     toShowBuildSummary: function(build) {
       var errors = [];
       this.message = function() { return errors.join("\n"); };
       return jasmine.showsBuildSummary(this.actual, build, errors);
     },
+
     toShowBuildLog: function(log) {
       var errors = [];
       this.message = function() { return errors.join("\n"); };
       return jasmine.showsBuildLog(this.actual, log, errors);
     },
+
     toShowActiveTab: function(tab) {
       var errors = [];
       this.message = function() { return errors.join("\n"); };
