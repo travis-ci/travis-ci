@@ -113,9 +113,6 @@ GEM
       jasmine-core (~> 1.1.beta)
       multi_json
       rainbow
-    jquery-rails (1.0.13)
-      railties (~> 3.0)
-      thor (~> 0.14)
     json (1.5.4)
     json_pure (1.5.4)
       spruz (~> 0.2.8)
@@ -299,7 +296,6 @@ DEPENDENCIES
   jasmine
   jasmine-core (~> 1.1.beta)
   jasmine-headless-webkit
-  jquery-rails
   jruby-openssl
   json
   minitest
