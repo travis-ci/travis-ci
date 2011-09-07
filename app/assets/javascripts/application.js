@@ -4,5 +4,6 @@
 //
 //= require vendor
 //= require templates
+//= require travis
 //= require lib
 //= require mvc
