@@ -4,14 +4,17 @@ beforeEach(function() {
       this.actual = $(this.actual);
       return this.actual.match(pattern);
     },
+
     // toBeEmpty: function() {
     //   this.actual = $(this.actual);
     //   return this.actual.length == 0;
     // },
+
     toFind: function(selector) {
       this.actual = $(this.actual);
       return this.actual.find(selector).length != 0;
     },
+
     toHaveTexts: function(texts) {
       this.actual = $(this.actual);
       var errors = [];
@@ -24,6 +27,7 @@ beforeEach(function() {
       this.message = function() { return errors.join("\n") };
       return errors.length == 0;
     },
+
     toHaveText: function(text) {
       this.actual = $(this.actual);
       var actual = $.trim($(this.actual).text());
@@ -32,6 +36,7 @@ beforeEach(function() {
       }
       return jasmine.doesMatchText(actual, text);
     },
+
     toHaveDomAttributes: function(attributes) {
       this.actual = $(this.actual);
       var errors = [];
@@ -46,6 +51,7 @@ beforeEach(function() {
       this.message = function() { return errors.join("\n") };
       return errors.length == 0;
     },
+
     toMatchList: function(list) {
       var actual = $.map($('li', this.actual), function(li) { return $(li).text().replace(/\n/g, '').replace(/^\s*|\s(?=\s)|\s*$/g, '').trim(); });
       var result = SC.compare(actual, list) == 0;
@@ -54,30 +60,31 @@ beforeEach(function() {
       }
       return result;
     },
+
     toMatchTable: function(table) {
       // table = $.clone(table);
 
-      this.actual = $(this.actual);
+      var actual = $(this.actual);
       var errors = [];
       var headers = table.shift();
 
       $.each(headers, function(ix, text) {
         var selector = 'thead th:nth-child(' + (ix + 1) + ')';
-        var actual = $.trim($(this.actual).find(selector).text());
-        if(!jasmine.doesMatchText(actual, text)) {
+        var current = $.trim($(actual).find(selector).text());
+        if(!jasmine.doesMatchText(current, text)) {
           errors.push('expected the header ' + ix + ' to have the text "' + text + '", but actually has: "' + actual + '".');
         }
-      }.bind(this));
+      });
 
       $.each(table, function(row, cells) {
         $.each(cells, function(cell, text) {
           var selector = 'tbody tr:nth-child(' + (row + 1) + ') td:nth-child(' + (cell + 1) + ')';
-          var actual = this.actual.find(selector).text();
-          if(!jasmine.doesMatchText(actual, text)) {
+          var current = actual.find(selector).text();
+          if(!jasmine.doesMatchText(current, text)) {
             errors.push('expected the cell "' + headers[cell] + '" in row ' + row + ' to have the text "' + text + '", but actually has: "' + actual + '".');
           }
-        }.bind(this));
-      }.bind(this));
+        });
+      });
 
       this.message = function() { return errors.join("\n"); }
       return errors.length == 0;
