@@ -27,7 +27,7 @@ describe Travis::Notifications::Irc do
   end
 
   it "one irc notification" do
-    build = Factory(:build, :config => { 'notifications' => { 'irc' => "irc.freenode.net:1234#travis" } })
+    build = Factory(:successful_build, :config => { 'notifications' => { 'irc' => "irc.freenode.net:1234#travis" } })
 
     expect_irc('irc.freenode.net', { :port => '1234' })
 
@@ -35,9 +35,9 @@ describe Travis::Notifications::Irc do
 
     expected = [
       'JOIN #travis',
-      '[travis-ci] svenfuchs/minimal#1 (master - 62aae5f : Sven Fuchs): the build has failed',
+      '[travis-ci] svenfuchs/successful_build#1 (master - 62aae5f : Sven Fuchs): The build passed.',
       '[travis-ci] Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/minimal/builds/#{build.id}",
+      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/successful_build/builds/#{build.id}",
     ]
 
     expected.size.times { |ix|
@@ -46,7 +46,7 @@ describe Travis::Notifications::Irc do
   end
 
   it "two irc notifications to different hosts, using config with notification rules" do
-    build = Factory(:build, :config => {
+    build = Factory(:successful_build, :config => {
                               'notifications' => {
                                 'irc' => {
                                   'on_success' => "always",
@@ -60,15 +60,15 @@ describe Travis::Notifications::Irc do
 
     expected = [
       'JOIN #travis',
-      '[travis-ci] svenfuchs/minimal#1 (master - 62aae5f : Sven Fuchs): the build has failed',
+      '[travis-ci] svenfuchs/successful_build#1 (master - 62aae5f : Sven Fuchs): The build passed.',
       '[travis-ci] Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/minimal/builds/#{build.id}",
+      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/successful_build/builds/#{build.id}",
       "PART #travis",
       "QUIT",
       'JOIN #example',
-      '[travis-ci] svenfuchs/minimal#1 (master - 62aae5f : Sven Fuchs): the build has failed',
+      '[travis-ci] svenfuchs/successful_build#1 (master - 62aae5f : Sven Fuchs): The build passed.',
       '[travis-ci] Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/minimal/builds/#{build.id}",
+      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/successful_build/builds/#{build.id}",
     ]
 
     expected.size.times { |ix|
@@ -77,7 +77,7 @@ describe Travis::Notifications::Irc do
   end
 
   it "irc notifications to the same host should not disconnect between notifications" do
-    build = Factory(:build, :config => { 'notifications' =>
+    build = Factory(:broken_build, :config => { 'notifications' =>
                                           { 'irc' =>
                                              ["irc.freenode.net:6667#travis",
                                               "irc.freenode.net:6667#rails",
@@ -90,20 +90,20 @@ describe Travis::Notifications::Irc do
 
     expected = [
       'JOIN #travis',
-      '[travis-ci] svenfuchs/minimal#1 (master - 62aae5f : Sven Fuchs): the build has failed',
+      '[travis-ci] svenfuchs/broken_build#1 (master - 62aae5f : Sven Fuchs): The build failed.',
       '[travis-ci] Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/minimal/builds/#{build.id}",
+      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/broken_build/builds/#{build.id}",
       "PART #travis",
       'JOIN #rails',
-      '[travis-ci] svenfuchs/minimal#1 (master - 62aae5f : Sven Fuchs): the build has failed',
+      '[travis-ci] svenfuchs/broken_build#1 (master - 62aae5f : Sven Fuchs): The build failed.',
       '[travis-ci] Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/minimal/builds/#{build.id}",
+      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/broken_build/builds/#{build.id}",
       "PART #rails",
       "QUIT",
       'JOIN #example',
-      '[travis-ci] svenfuchs/minimal#1 (master - 62aae5f : Sven Fuchs): the build has failed',
+      '[travis-ci] svenfuchs/broken_build#1 (master - 62aae5f : Sven Fuchs): The build failed.',
       '[travis-ci] Change view : https://github.com/svenfuchs/minimal/compare/master...develop',
-      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/minimal/builds/#{build.id}",
+      "[travis-ci] Build details : http://test.travis-ci.org/svenfuchs/broken_build/builds/#{build.id}",
     ]
 
     expected.size.times { |ix|
