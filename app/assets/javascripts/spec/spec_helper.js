@@ -23,6 +23,13 @@ beforeEach(function() {
   });
 });
 
+var createView = function(selector, options) {
+  options.template = SC.TEMPLATES[options.template];
+  var view = SC.View.create(options);
+  SC.run(function() { view.appendTo(selector) });
+  return view;
+};
+
 var withinRunLoop = function(block) {
   SC.RunLoop.begin();
   var result = block();

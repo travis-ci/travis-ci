@@ -7,9 +7,7 @@ describe('Views:', function() {
         spyOn($.timeago, 'now').andReturn(new Date('2011/01/01 05:00:00').getTime());
 
         builds = Test.Factory.Build.byRepository();
-        view = SC.View.create({ builds: builds, template: SC.TEMPLATES['app/templates/builds/list'] });
-
-        SC.run(function() { view.appendTo('#main'); });
+        view = createView('#main', { builds: builds, template: 'app/templates/builds/list' });
       });
 
       afterEach(function() {
