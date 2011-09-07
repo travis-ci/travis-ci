@@ -4,14 +4,12 @@ describe('Views:', function() {
       var builds, view;
 
       beforeEach(function() {
-        $('#main').empty();
         spyOn($.timeago, 'now').andReturn(new Date('2011/01/01 05:00:00').getTime());
 
         builds = Test.Factory.Build.byRepository();
-        view = SC.View.create({ template: SC.TEMPLATES['app/templates/builds/list'] });
+        view = SC.View.create({ builds: builds, template: SC.TEMPLATES['app/templates/builds/list'] });
 
         SC.run(function() { view.appendTo('#main'); });
-        SC.run(function() { view.set('builds', builds); });
       });
 
       afterEach(function() {

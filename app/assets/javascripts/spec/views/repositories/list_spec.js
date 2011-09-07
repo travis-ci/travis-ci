@@ -4,8 +4,6 @@ describe('Views:', function() {
       var repositories, view;
 
       beforeEach(function() {
-        $('#tab_recent .tab').empty();
-
         repositories = Test.Factory.Repository.recent();
         view = SC.View.create({ repositories: repositories, template: SC.TEMPLATES['app/templates/repositories/list'] });
 
