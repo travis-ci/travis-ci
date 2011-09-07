@@ -24,7 +24,7 @@ module Repository::ServiceHooks
       repository.active = active
 
       if repository.valid?
-        Travis::GithubApi.send(active ? :remove_service_hook : :add_service_hook, repository, user)
+        Travis::GithubApi.send(active ? :add_service_hook : :remove_service_hook, repository, user)
         repository.save!
         repository
       else
