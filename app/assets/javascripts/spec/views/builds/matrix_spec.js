@@ -7,9 +7,7 @@ describe('Views:', function() {
         spyOn($.timeago, 'now').andReturn(new Date('2011/01/01 05:00:00').getTime());
 
         build = Test.Factory.Build.passing();
-        view = SC.View.create({ build: build, template: SC.TEMPLATES['app/templates/builds/matrix'] });
-
-        SC.run(function() { view.appendTo('#main'); });
+        view = createView('#main', { build: build, template: 'app/templates/builds/matrix' });
       });
 
       afterEach(function() {

@@ -5,9 +5,7 @@ describe('Views:', function() {
 
       beforeEach(function() {
         build = Test.Factory.Build.passing();
-        view = SC.View.create({ build: build, template: SC.TEMPLATES['app/templates/builds/show'] });
-
-        SC.run(function() { view.appendTo('#main'); });
+        view = createView('#main', { build: build, template: 'app/templates/builds/show' });
       });
 
       afterEach(function() {

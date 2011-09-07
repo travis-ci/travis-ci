@@ -5,9 +5,7 @@ describe('Views:', function() {
 
       beforeEach(function() {
         workers = Test.Factory.Worker.all();
-        view = SC.View.create({ workers: workers, template: SC.TEMPLATES['app/templates/workers/list'] });
-
-        SC.run(function() { view.appendTo('#workers'); });
+        view = createView('#workers', { workers: workers, template: 'app/templates/workers/list' });
       });
 
       afterEach(function() {

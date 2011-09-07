@@ -5,9 +5,7 @@ describe('Views:', function() {
 
       beforeEach(function() {
         repositories = Test.Factory.Repository.recent();
-        view = SC.View.create({ repositories: repositories, template: SC.TEMPLATES['app/templates/repositories/list'] });
-
-        SC.run(function() { view.appendTo('#tab_recent .tab'); });
+        view = createView('#tab_recent .tab', { repositories: repositories, template: 'app/templates/repositories/list' });
       });
 
       afterEach(function() {
