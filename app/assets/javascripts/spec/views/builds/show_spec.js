@@ -4,8 +4,6 @@ describe('Views:', function() {
       var tabs, build, view;
 
       beforeEach(function() {
-        $('#main').empty();
-
         build = Test.Factory.Build.passing();
         view = SC.View.create({ build: build, template: SC.TEMPLATES['app/templates/builds/show'] });
 

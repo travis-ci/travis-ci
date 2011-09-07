@@ -4,8 +4,6 @@ describe('Views:', function() {
       var repository, controller, view;
 
       beforeEach(function() {
-        $('#main').empty();
-
         repository = Test.Factory.Repository.travis();
         controller = SC.Object.create({ repository: repository });
         view = SC.View.create({ controller: controller, template: SC.TEMPLATES['app/templates/repositories/show'] });
