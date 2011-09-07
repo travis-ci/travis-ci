@@ -25,6 +25,6 @@ Travis.Controllers.Repository = SC.Object.extend({
   }.property('params'),
 
   buildObserver: function() {
-    this.getPath('build.parentId') ? $('#tab_parent').addClass('display') : $('#tab_parent').removeClass('display');
+    this.tabs.toggleParentTab(!!this.getPath('build.parentId'));
   }.observes('build.status'),
 });
