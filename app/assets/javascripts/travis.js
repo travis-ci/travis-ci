@@ -4,24 +4,29 @@ var Travis = SC.Application.create({
   store: SC.Store.create().from('Travis.DataSource'),
 
   run: function() {
-    this.initControllers();
-    this.initRoutes();
+    if($('body').attr('id') == 'home') {
+      this.initMain();
+    } else {
+      this.initProfile();
+    }
     this.initEvents();
   },
 
-  initRoutes: function() {
+  initMain: function() {
     SC.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.main.activate('build',   params) });
     SC.routes.add('!/:owner/:name/builds',     function(params) { Travis.main.activate('history', params) });
     SC.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('current', params) });
     SC.routes.add('',                          function(params) { Travis.main.activate('current', params) });
-  },
 
-  initControllers: function() {
     this.main = Travis.Controllers.Repository.create();
     Travis.Controllers.Repositories.create();
     Travis.Controllers.Workers.create();
     Travis.Controllers.Jobs.create({ queue: 'builds' });
     Travis.Controllers.Jobs.create({ queue: 'rails' });
+  },
+
+  initProfile: function() {
+    Travis.Controllers.ServiceHooks.create();
   },
 
   initEvents: function() {
@@ -47,3 +52,8 @@ $('document').ready(function() {
   // Travis.receive('foo', { build: { id: 8, startedAt: '2011-05-23T00:00:00Z', finishedAt: '2011-05-23T00:00:20Z' } })
 });
 
+$.ajaxSetup({
+  beforeSend: function(xhr) {
+    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+  }
+});
