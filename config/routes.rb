@@ -14,8 +14,8 @@ TravisCi::Application.routes.draw do
   resources :workers,  :only => :index
 
   resource :profile, :only => :show do
-    get :service_hooks, :to => 'service_hooks#index'
-    put :service_hooks, :to => 'service_hooks#update'
+    get 'service_hooks',     :to => 'service_hooks#index'
+    put 'service_hooks/:id', :to => 'service_hooks#update'
   end
 
   constraints :owner_name => /[^\/]+/, :name => /[^\/]+/ do

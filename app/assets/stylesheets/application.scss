@@ -870,7 +870,7 @@ ul#tokens {
   @include list-base;
 }
 
-#service_hooks {
+#service_hooks ul {
   @include list-base;
   margin-top: 10px;
   li {
@@ -899,6 +899,7 @@ ul#tokens {
       top: 10px;
       right: 0;
       white-space: nowrap;
+      background: #fff;
       a {
         float: left;
         display: block;
@@ -912,13 +913,13 @@ ul#tokens {
         padding-right: 0;
         background: url('/assets/icons/admin.png') no-repeat 3px 4px;
       }
-      .toggle_enabled {
+      .switch {
         height: 20px;
         width: 80px;
         margin-left: 10px;
         background: url('/assets/off.png') no-repeat;
         cursor: pointer;
-        &.on {
+        &.active {
           background: url('/assets/on.png') no-repeat;
         }
       }
