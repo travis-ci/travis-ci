@@ -1,12 +1,12 @@
 //= require app/controllers/tabs.js
 
-Travis.Controllers.Repositories = SC.Object.extend({
+Travis.Controllers.Repositories = SC.ArrayController.extend({
   tabs: Travis.Controllers.Tabs.create({
     selector: '#left',
     tabs: {
-      'recent': { templateName: 'app/templates/repositories/list', contentBinding: 'controller.recent' },
-      'yours':  { templateName: 'app/templates/repositories/list', contentBinding: 'controller.yours'  },
-      'search': { templateName: 'app/templates/repositories/list', contentBinding: 'controller.search' },
+      'recent': { templateName: 'app/templates/repositories/list', contentBinding: 'controller' },
+      'yours':  { templateName: 'app/templates/repositories/list', contentBinding: 'controller' },
+      'search': { templateName: 'app/templates/repositories/list', contentBinding: 'controller' },
     }
   }),
 
@@ -15,19 +15,20 @@ Travis.Controllers.Repositories = SC.Object.extend({
 
   init: function() {
     this.searchBox.appendTo('#search_box');
-    this.tabs.controller = this;
-    this.tabs.activate('recent');
+    this.tabs.set('controller', this);
   },
 
   recent: function() {
-    return Travis.Repository.recent();
-  }.property(),
+    this.tabs.activate('recent');
+    this.set('content', Travis.Repository.recent())
+  },
 
   search: function() {
-    // return Travis.Repository.search(this.searchBox.value);
-  }.property(),
+    this.tabs.activate('search');
+    this.set('content', Travis.Repository.search(this.searchBox.value));
+  },
 
   searchObserver: function() {
-    this.tabs.activate(this.searchBox.value ? 'search' : 'recent')
+    this[this.searchBox.value ? 'search' : 'recent']();
   }.observes('searchBox.value')
 });
