@@ -2,9 +2,18 @@ Travis.DataSource = SC.DataSource.extend({
   fetch: function(store, query) {
     var url = query.url || this._urlFor(query.get('recordType')) + '.json';
 
-    $.ajax({ url: url, dataType: 'json' }).done(function(data) {
-      store.loadRecords(query.get('recordType'), data); // , this._extractIds(data)
-      store.dataSourceDidFetchQuery(query);
+    $.ajax({
+      url: url,
+      dataType: 'json',
+      success: function(data) {
+        store_keys = store.loadRecords(query.get('recordType'), data); // , this._extractIds(data)
+        if(!query.get('isLocal')) store.loadQueryResults(query, store_keys);
+        store.dataSourceDidFetchQuery(query);
+      },
+      error: function(data, status, response) {
+        // Actually i'm not absolutely sure what to put here
+        store.dataSourceDidError(query);
+      }
     });
 
     return YES;
@@ -15,10 +24,13 @@ Travis.DataSource = SC.DataSource.extend({
     var id   = store.idFor(storeKey);
     var url  = this._urlFor(type, id) + '.json';
 
-    $.ajax({ url: url, dataType: 'json' }).done(function(data, status, response) {
-      if (status == 'success') {
+    $.ajax({
+      url: url,
+      dataType: 'json',
+      success: function(data, status, response) {
         store.loadRecords(store.recordTypeFor(storeKey), data.isEnumerable ? data : [data]);
-      } else {
+      },
+      error: function(data, status, response) {
         store.dataSourceDidError(storeKey, response.get('body'));
       }
     });
