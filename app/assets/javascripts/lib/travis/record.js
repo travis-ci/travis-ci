@@ -42,7 +42,7 @@ Travis.Record.reopenClass({
     return record ? record.whenReady(callback) : record;
   },
 
-  all: function(options) {
-    return Travis.store.find(Travis.Query.cached(this, options || {}));
+  all: function(options, mode) {
+    return Travis.store.find(Travis.Query.cached(this, options || {}, mode));
   },
 });
