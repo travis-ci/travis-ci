@@ -48,12 +48,19 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Com
 
 Travis.Repository.reopenClass({
   resource: 'repositories',
+
   recent: function() {
     return this.all({ orderBy: 'lastBuildFinishedAt DESC' });
   },
+
+  search: function(search) {
+    return Travis.store.find(SC.Query.remote(Travis.Repository, { url: 'repositories.json?search=' + search, orderBy: 'name' }));
+  },
+
   bySlug: function(slug) {
     return this.all({ slug: slug });
   },
+
   select: function(id) {
     this.all().forEach(function(repository) {
       repository.whenReady(function() {

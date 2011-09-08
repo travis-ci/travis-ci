@@ -15,10 +15,6 @@ Travis.Query = SC.Object.extend({
     this.set('options', $.except(options, 'id', 'url', 'orderBy'));
   },
 
-  toScLocalQuery: function() {
-    return SC.Query.local(this.get('recordType'), { conditions: this.conditions(), url: this.url(), orderBy: this.orderBy });
-  },
-
   url: function() {
     return this._url || $.compact([this.path(), this.params()]).join('?')
   },
@@ -43,19 +39,26 @@ Travis.Query = SC.Object.extend({
 
   quote: function(name, value) {
     return typeof value == 'string' ? '"%@"'.fmt(value) : value;
+  },
+
+  toScQuery: function(mode) {
+    // yeah, "local" in SC means something like "try local, then fallback to remote"
+    return SC.Query[mode || 'local'](this.get('recordType'), { conditions: this.conditions(), url: this.url(), orderBy: this.orderBy });
   }
 });
 
 $.extend(Travis.Query, {
   _cache: {},
 
-  cached: function(recordType, options) {
+  cached: function(recordType, options, mode) {
+    var mode = mode || 'local'
     var attributes = { recordType: recordType, options: options };
-    var key = this.key(attributes);
-    return this._cache[key] ? this._cache[key] : this._cache[key] = this.create(attributes).toScLocalQuery();
+    var key = this.key(mode, attributes);
+
+    return this._cache[key] ? this._cache[key] : this._cache[key] = this.create(attributes).toScQuery(mode);
   },
 
-  key: function(attributes) {
-    return this.create(attributes).url();
+  key: function(mode, attributes) {
+    return [mode, this.create(attributes).url()].join(':');
   }
 });

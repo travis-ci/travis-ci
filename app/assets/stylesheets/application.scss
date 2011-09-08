@@ -148,12 +148,12 @@ caption {
   top: 40px;
   width: 400px;
 
-  #search {
+  #search_box {
     height: 90px;
     padding: 30px 20px 0 20px;
     background-color: #e5e8ee;
   }
-  #search input[type=text] {
+  #search_box input[type=text] {
     height: 28px;
     width: 97%;
     padding: 0 0 0 10px;
@@ -165,9 +165,17 @@ caption {
   }
   .tabs {
     margin-top: -29px;
-  }
-  .tabs li:first-child h5 {
-    margin-left: 20px;
+
+    li:first-child h5 {
+      margin-left: 20px;
+    }
+
+    #tab_search {
+      display: none;
+      &.active {
+        display: block;
+      }
+    }
   }
 
   #repositories {
