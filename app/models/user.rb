@@ -38,7 +38,8 @@ class User < ActiveRecord::Base
 
   def github_repositories
     states = Repository.where(:owner_name => login).active_by_name
-    Travis::GithubApi.repositories_for_user(login).each do |repository|
+    Travis::GithubApi.repositories_for_user(login).each_with_index do |repository, ix|
+      repository.uid = [login, ix].join(':')
       repository.active = states[repository.name] || false
     end
   end
