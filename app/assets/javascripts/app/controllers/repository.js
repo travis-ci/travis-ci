@@ -5,7 +5,7 @@ Travis.Controllers.Repository = SC.Object.extend({
       template: SC.TEMPLATES['app/templates/repositories/show']
     });
     view.appendTo('#main');
-    this.tabs = Travis.Controllers.Tabs.create({ main: this });
+    this.tabs = Travis.Controllers.Tabs.create({ controller: this });
   },
 
   activate: function(tab, params) {

@@ -1,4 +1,4 @@
-{{#view id="repository" repositoryBinding="controller.repository"}}
+{{#view id="repository" repositoryBinding="controller.repository" buildBinding="controller.build"}}
   <h3><a {{bindAttr href="repository.urlGithubRepository"}}>{{repository.slug}}</a></h3>
   <ul class="github-stats">
     <li><a class="watchers" {{bindAttr href="repository.urlGithubWatchers"}}></a></li>
@@ -14,12 +14,12 @@
       <div class="tab"></div>
     </li>
     <li id="tab_parent">
-      {{#view parentBinding="Travis.main.build.parent"}}
+      {{#view parentBinding="build.parent"}}
         <h5><a {{bindAttr href="parent.urlBuild"}}>Build #{{parent.number}}</a></h5>
       {{/view}}
     </li>
     <li id="tab_build">
-      {{#view buildBinding="Travis.main.build"}}
+      {{#view buildBinding="build"}}
         <h5><a {{bindAttr href="build.urlBuild"}}>Build #{{build.number}}</a></h5>
       {{/view}}
       <div class="tab">
