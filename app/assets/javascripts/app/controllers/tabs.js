@@ -1,13 +1,16 @@
 Travis.Controllers.Tabs = SC.Object.extend({
   TABS: {
-    'current': { templateName: 'app/templates/builds/show', buildBinding:  'Travis.main.repository.lastBuild' },
-    'history': { templateName: 'app/templates/builds/list', buildsBinding: 'Travis.main.repository.builds' },
-    'build':   { templateName: 'app/templates/builds/show', buildBinding:  'Travis.main.build' },
+    'current': { templateName: 'app/templates/builds/show', buildBinding:  'controller.repository.lastBuild' },
+    'history': { templateName: 'app/templates/builds/list', buildsBinding: 'controller.repository.builds' },
+    'build':   { templateName: 'app/templates/builds/show', buildBinding:  'controller.build' },
   },
 
+  active: 'current',
+
   activate: function(tab) {
+    this.set('active', tab);
     this.destroy();
-    this.set('active', this.create(tab));
+    this.view = this.create(tab).appendTo('#tab_' + tab + ' .tab');
     this.setVisible(tab);
   },
 
@@ -23,10 +26,10 @@ Travis.Controllers.Tabs = SC.Object.extend({
   },
 
   create: function(name) {
-    return SC.View.create(this.TABS[name]).appendTo('#tab_' + name + ' .tab');
+    return SC.View.create($.extend({ controller: this.get('controller') }, this.TABS[name]));
   },
 
   destroy: function() {
-    this.get('active') && this.get('active').destroy();
+    this.view && this.view.destroy();
   },
 });
