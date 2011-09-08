@@ -1,12 +1,4 @@
 Travis.Controllers.Tabs = SC.Object.extend({
-  TABS: {
-    'current': { templateName: 'app/templates/builds/show', buildBinding:  'controller.repository.lastBuild' },
-    'history': { templateName: 'app/templates/builds/list', buildsBinding: 'controller.repository.builds' },
-    'build':   { templateName: 'app/templates/builds/show', buildBinding:  'controller.build' },
-  },
-
-  active: 'current',
-
   activate: function(tab) {
     this.set('active', tab);
     this.destroy();
@@ -15,18 +7,19 @@ Travis.Controllers.Tabs = SC.Object.extend({
   },
 
   setVisible: function(tab) {
+    var selector = this.selector;
     SC.run.next(function() {
-      $('#repository .tabs > li').removeClass('active');
-      $('#repository #tab_' + tab).addClass('active');
+      $('.tabs > li', selector).removeClass('active');
+      $('#tab_' + tab, selector).addClass('active');
     });
   },
 
-  toggleParentTab: function(visible) {
-    $('#tab_parent')[visible ? 'addClass' : 'removeClass']('display');
+  toggle: function(tab, visible) {
+    $('#tab_' + tab)[visible ? 'addClass' : 'removeClass']('display');
   },
 
   create: function(name) {
-    return SC.View.create($.extend({ controller: this.get('controller') }, this.TABS[name]));
+    return SC.View.create($.extend({ controller: this.controller }, this.tabs[name]));
   },
 
   destroy: function() {

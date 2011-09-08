@@ -1,11 +1,23 @@
+//= require app/controllers/tabs.js
+
 Travis.Controllers.Repository = SC.Object.extend({
+  tabs: Travis.Controllers.Tabs.create({
+    selector: '#repository',
+    tabs: {
+      'current': { templateName: 'app/templates/builds/show', buildBinding:  'controller.repository.lastBuild' },
+      'history': { templateName: 'app/templates/builds/list', buildsBinding: 'controller.repository.builds' },
+      'build':   { templateName: 'app/templates/builds/show', buildBinding:  'controller.build' },
+    }
+  }),
+
   init: function() {
+    this.tabs.controller = this;
+
     var view = SC.View.create({
       controller: this,
       template: SC.TEMPLATES['app/templates/repositories/show']
     });
     view.appendTo('#main');
-    this.tabs = Travis.Controllers.Tabs.create({ controller: this });
   },
 
   activate: function(tab, params) {
@@ -25,6 +37,6 @@ Travis.Controllers.Repository = SC.Object.extend({
   }.property('params'),
 
   buildObserver: function() {
-    this.tabs.toggleParentTab(!!this.getPath('build.parentId'));
+    this.tabs.toggle('parent', !!this.getPath('build.parentId'));
   }.observes('build.status'),
 });
