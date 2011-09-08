@@ -42,7 +42,6 @@ Travis.Query = SC.Object.extend({
   },
 
   toScQuery: function(mode) {
-    // yeah, "local" in SC means something like "try local, then fallback to remote"
     return SC.Query[mode || 'local'](this.get('recordType'), { conditions: this.conditions(), url: this.url(), orderBy: this.orderBy });
   }
 });

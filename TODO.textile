@@ -14,10 +14,12 @@
 - test task/script to add some workers and jobs to a local redis
 - add service hook specs
 
-- fix search (fires tens of thousands remote queries)
 - hook up pusher events
 - hook up time changes
 - port small stuff like the sidebar toggle
+
+- debounce/throttle search keyboard events
+- fix search (does not propagate loaded records to the list)
 
 
 == Statemachine
