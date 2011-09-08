@@ -5,7 +5,8 @@ describe('Views:', function() {
 
       beforeEach(function() {
         repositories = Test.Factory.Repository.recent();
-        view = createView('#tab_recent .tab', { repositories: repositories, template: 'app/templates/repositories/list' });
+        var controller = SC.ArrayController.create({ content: repositories });
+        view = createView('#tab_recent .tab', { content: controller, template: 'app/templates/repositories/list' });
       });
 
       afterEach(function() {

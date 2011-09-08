@@ -18,7 +18,7 @@ describe('Travis.Query', function() {
 
     describe('key', function() {
       it('returns a serialized version of the arguments', function() {
-        expect(Travis.Query.key({ recordType: Travis.Repository, options: { id: 1 } })).toEqual('/repositories/1.json');
+        expect(Travis.Query.key('local', { recordType: Travis.Repository, options: { id: 1 } })).toEqual('local:/repositories/1.json');
       });
     });
   });

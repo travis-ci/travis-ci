@@ -1,3 +1,6 @@
+// http://sproutcore-gyan.blogspot.com/2010/05/difference-between-local-remote-queries.html
+// http://svarovsky-tomas.com/sproutcore-datasource.html
+
 Travis.DataSource = SC.DataSource.extend({
   fetch: function(store, query) {
     var url = query.url || this._urlFor(query.get('recordType')) + '.json';
@@ -6,7 +9,7 @@ Travis.DataSource = SC.DataSource.extend({
       url: url,
       dataType: 'json',
       success: function(data) {
-        store_keys = store.loadRecords(query.get('recordType'), data); // , this._extractIds(data)
+        var store_keys = store.loadRecords(query.get('recordType'), data);
         if(!query.get('isLocal')) store.loadQueryResults(query, store_keys);
         store.dataSourceDidFetchQuery(query);
       },
