@@ -17,6 +17,7 @@
 - fix search (fires tens of thousands remote queries)
 - hook up pusher events
 - hook up time changes
+- port small stuff like the sidebar toggle
 
 
 == Statemachine

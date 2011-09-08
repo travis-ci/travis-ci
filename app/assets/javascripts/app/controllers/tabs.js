@@ -1,8 +1,10 @@
 Travis.Controllers.Tabs = SC.Object.extend({
+  views: {
+  },
+
   activate: function(tab) {
-    this.set('active', tab);
-    this.destroy();
-    this.view = this.create(tab).appendTo('#tab_' + tab + ' .tab');
+    if(!this.views[tab]) this.views[tab] = this.create(tab).appendTo('#tab_' + tab + ' .tab');
+    this.active = tab;
     this.setVisible(tab);
   },
 
