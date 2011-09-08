@@ -15,17 +15,18 @@ Travis.Controllers.Repositories = SC.ArrayController.extend({
 
   init: function() {
     this.searchBox.appendTo('#search_box');
-    this.tabs.set('controller', this);
+    this.tabs.controller = this;
+    this.recent();
   },
 
   recent: function() {
-    this.tabs.activate('recent');
     this.set('content', Travis.Repository.recent())
+    this.tabs.activate('recent');
   },
 
   search: function() {
-    this.tabs.activate('search');
     this.set('content', Travis.Repository.search(this.searchBox.value));
+    this.tabs.activate('search');
   },
 
   searchObserver: function() {
