@@ -43,7 +43,7 @@ var Travis = SC.Application.create({
   },
 
   receive: function(event, data) {
-    this.dispatch.receive(event, data);
+    Travis.dispatch.receive(event, data);
   }
 });
 
