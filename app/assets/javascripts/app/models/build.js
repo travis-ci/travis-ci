@@ -16,9 +16,15 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
   authorName:     SC.Record.attr(String, { key: 'author_name' }),
   authorEmail:    SC.Record.attr(String, { key: 'author_email' }),
   compareUrl:     SC.Record.attr(String, { key: 'compare_url' }),
-  log:            SC.Record.attr(String),
+  log:            SC.Record.attr(String, { defaultValue: '' }),
 
   matrix: SC.Record.toMany('Travis.Build', { nested: true }), // TODO should be Travis.Test!
+
+  update: function(attrs) {
+    if(attrs.matrix) attrs.matrix = this._joinMatrixAttributes(attrs.matrix);
+    console.log(attrs.matrix);
+    this._super(attrs);
+  },
 
   parent: function() {
     return this.get('parentId') ? Travis.Build.find(this.get('parentId')) : null;
@@ -91,21 +97,14 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
     return this.get('matrix').objectAt(0);
   }.property('build'),
 
-  // updateRepository: function() {
-  //   var repository = this.get('repository');
-  //   if(repository.get('lastBuildStartedAt') < this.get('startedAt') || repository.get('lastBuildFinishedAt') < this.get('finishedAt')) {
-  //     repository.update({
-  //       lastBuildNumber:     this.get('number'),
-  //       lastBuildStatus:     this.get('result'),
-  //       lastBuildStartedAt:  this.get('startedAt'),
-  //       lastBuildFinishedAt: this.get('finishedAt'),
-  //     });
-  //   }
-  // },
-
-  // updateObserver: function() {
-  //   this.updateRepository();
-  // }.observes('startedAt', 'finishedAt', 'result'),
+  // need to join given attributes with existing attributes because SC.Record.toMany
+  // does not seem to allow partial updates, i.e. would remove existing attributes?
+  _joinMatrixAttributes: function(attrs) {
+    var _this = this;
+    return $.each(attrs, function(ix, row) {
+      attrs[ix] = $.extend(_this.get('matrix').objectAt(ix).get('attributes') || {}, row);
+    });
+  }
 });
 
 Travis.Build.reopenClass({
