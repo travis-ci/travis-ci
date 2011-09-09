@@ -31,11 +31,13 @@ Travis.Helpers.Common = {
   },
 
   _normalizeDateString: function(string) {
-    // TODO i'm not sure why we need to do this. in the chrome console the
-    // Date constructor would take a string like "2011-09-02T15:53:20.927Z"
-    // whereas in unit tests this returns an "invalid date"
-    string = string.replace('T', ' ').replace(/-/g, '/');
-    string = string.replace('Z', '').replace(/\..*$/, '');
+    if(window.JHW) {
+      // TODO i'm not sure why we need to do this. in the chrome console the
+      // Date constructor would take a string like "2011-09-02T15:53:20.927Z"
+      // whereas in unit tests this returns an "invalid date". wtf ...
+      string = string.replace('T', ' ').replace(/-/g, '/');
+      string = string.replace('Z', '').replace(/\..*$/, '');
+    }
     return string;
   }
 }
