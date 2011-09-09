@@ -3,12 +3,13 @@ Travis.Record = SC.Record.extend({
   primaryKey: 'id',
   id: SC.Record.attr(Number),
 
-  update: function(attributes) {
+  update: function(attrs) {
     this.whenReady(function(record) {
-      $.each(attributes, function(key, value) {
-        this.set($.camelize(key, false), value); // TODO should not need to camelize here, should we? otherwise bindings seem to get stuck.
-      }.bind(this));
-    }.bind(this));
+      // TODO should not need to camelize here, should we? otherwise bindings seem to get stuck.
+      $.each(attrs, function(key, value) {
+        if(key != 'id' && key != 'status') record.set($.camelize(key, false), value);
+      });
+    });
     return this;
   },
 
@@ -27,17 +28,27 @@ Travis.Record = SC.Record.extend({
 });
 
 Travis.Record.reopenClass({
-  update: function(id, attributes) {
-    var record = this.find(id);
-    if(record) {
-      record.whenReady(function(record) { record.update(attributes) });
+  exists: function(id) {
+    if(id === undefined) throw('id is undefined');
+    return Travis.store.storeKeyExists(this, id);
+  },
+
+  createOrUpdate: function(attrs) {
+    if(this.exists(attrs.id)) {
+      return this.update(attrs);
     } else {
-      throw('can not find %@ with id: %@'.fmt(this, id));
+      return Travis.store.createRecord(this, attrs);
     }
-    return record;
+  },
+
+  update: function(attrs) {
+    if(attrs.id === undefined) throw('id is undefined');
+    var record = this.find(attrs.id);
+    return record.update(attrs);
   },
 
   find: function(id, callback) {
+    if(id === undefined) throw('id is undefined');
     var record = Travis.store.find(this, id)
     return record ? record.whenReady(callback) : record;
   },

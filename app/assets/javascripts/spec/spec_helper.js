@@ -18,7 +18,7 @@ beforeEach(function() {
   // inject them to the dom.
   if(window.JHW) $('#jasmine_content').html(Test.html);
 
-  $.each(['#tab_recent .tab', '#main', '#workers', '#jobs'], function(selector) {
+  $.each(['#tab_recent .tab', '#main', '#workers', '#jobs'], function(ix, selector) {
     $(selector).empty();
   });
 });

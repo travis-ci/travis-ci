@@ -6,6 +6,16 @@ describe('Build', function() {
         expect(mostRecentAjaxRequest().url).toEqual('/repositories/1/builds.json?parent_id=');
       });
     });
+
+    describe('createOrUpdate', function() {
+      it('calls createOrUpdate for each of the matrix builds, too', function() {
+        var build = Travis.Build.createOrUpdate({ id: 99, number: '1', matrix: [{ id: 2, number: '1.1' }]});
+        build = Travis.Build.find(build.get('id'));
+
+        expect(build.get('number')).toEqual('1');
+        expect(build.getPath('matrix.firstObject.number')).toEqual('1.1');
+      });
+    });
   });
 
   describe('instance', function() {
