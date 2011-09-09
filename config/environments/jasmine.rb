@@ -33,5 +33,7 @@ TravisCi::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
-  config.assets.paths << Jasmine::Core.path.to_s
+  # config.assets.paths << Jasmine::Core.path.to_s
+  config.assets.compress = false
+  config.assets.debug = true
 end
