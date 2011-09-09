@@ -10,7 +10,7 @@ module TravisCi
     config.filter_parameters += [:password]
 
     config.assets.enabled = true
-    config.assets.version = '1.2'
+    config.assets.version = '1.0sc'
     config.serve_static_assets = true
 
     config.action_controller.page_cache_directory = root.join('tmp/assets')
