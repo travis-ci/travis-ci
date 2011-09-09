@@ -17,6 +17,14 @@ Travis.Controllers.Events = SC.Object.extend({
 
   buildFinished: function(data) {
     this.buildRemoved(data);
+    var build = Travis.Build.find(data.build.id);
+
+    if(build.get('status') == SC.Record.READY_CLEAN) {
+      $.each(data.build, function(name, value) {
+        if(name == 'status') name = 'result';
+        if(name != 'id') build.set(name, value);
+      });
+    }
   },
 
   buildStarted: function(data) {
@@ -31,4 +39,3 @@ Travis.Controllers.Events = SC.Object.extend({
     if(test) test.appendLog(data.build._log);
   }
 });
-
