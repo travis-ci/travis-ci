@@ -1,1 +1,0 @@
-String.prototype.repeat=function(a){return Array(a+1).join(this)}
