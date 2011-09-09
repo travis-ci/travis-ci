@@ -32,6 +32,10 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
     return this.getPath('matrix.length') > 1;
   }.property('matrix.status'),
 
+  appendLog: function(log) {
+    this.set('log', this.get('log') + log);
+  },
+
   color: function() {
     return this.colorForStatus(this.get('result'));
   }.property('status', 'result'),

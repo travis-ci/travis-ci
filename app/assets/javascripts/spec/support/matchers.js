@@ -24,7 +24,7 @@ beforeEach(function() {
 
     toHaveText: function(text) {
       this.actual = $(this.actual);
-      var actual = $.trim($(this.actual).text());
+      var actual = $(this.actual).text().replace(/^\s*|\s(?=\s)|\s*$/g, '').trim();
       this.message = function() {
         return 'expected the element ' + this.actual.selector + ' to have the text "' + text +'", but actually has: "' + actual + '".';
       }

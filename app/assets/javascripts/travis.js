@@ -4,11 +4,10 @@ var Travis = SC.Application.create({
   store: SC.Store.create().from('Travis.DataSource'),
 
   run: function() {
-    if($('body').attr('id') == 'home') {
-      this.initMain();
-    } else {
-      this.initProfile();
-    }
+    var action = $('body').attr('id') == 'home' ? 'initMain' : 'initProfile';
+    this[action]();
+
+    this.initPusher();
     this.initEvents();
   },
 
@@ -18,7 +17,9 @@ var Travis = SC.Application.create({
     SC.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('current', params) });
     SC.routes.add('',                          function(params) { Travis.main.activate('current', params) });
 
-    this.main = Travis.Controllers.Repository.create();
+    this.main   = Travis.Controllers.Repository.create();
+    this.events = Travis.Controllers.Events.create();
+
     Travis.Controllers.Repositories.create();
     Travis.Controllers.Workers.create();
     Travis.Controllers.Jobs.create({ queue: 'builds' });
@@ -29,6 +30,11 @@ var Travis = SC.Application.create({
     Travis.Controllers.ServiceHooks.create();
   },
 
+  initPusher: function() {
+    var channels = ['repositories', 'jobs'];
+    $.each(channels, function(ix, channel) { pusher.subscribe(channel).bind_all(Travis.receive); })
+  },
+
   initEvents: function() {
     $('.tool-tip').tipsy({ gravity: 'n', fade: true });
     $('.fold').live('click', function() { $(this).hasClass('open') ? $(this).removeClass('open') : $(this).addClass('open'); })
@@ -37,14 +43,9 @@ var Travis = SC.Application.create({
     $('#top .profile').mouseout(function() { $('#top .profile ul').hide(); });
   },
 
-  // receive: function(event, data) {
-  //   var build = data.build;
-  //   if(build) {
-  //     if(build.status) build.result = build.status; // setting build status doesn't trigger bindings
-  //     Travis.Build.update(build.id, build);
-  //     SC.RunLoop.end()
-  //   }
-  // }
+  receive: function(event, data) {
+    this.events.receive(event, data);
+  }
 });
 
 $('document').ready(function() {
@@ -57,3 +58,7 @@ $.ajaxSetup({
     xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
   }
 });
+
+Pusher.log = function(message) {
+  if (window.console && window.console.log) window.console.log(message);
+};
