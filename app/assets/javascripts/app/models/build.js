@@ -52,11 +52,11 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
   }.property('startedAt', 'finishedAt'),
 
   configKeys: function() {
-    return $.map($.keys($.only(this.get('config'), 'rvm', 'gemfile', 'env')), function(key) { return $.camelize(key) });
+    return $.map($.keys($.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release')), function(key) { return $.camelize(key) });
   }.property('config'),
 
   configValues: function() {
-    return $.values($.only(this.get('config'), 'rvm', 'gemfile', 'env'));
+    return $.values($.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release'));
   }.property('config'),
 
   // see https://github.com/sproutcore/sproutcore20/issues/160
@@ -93,6 +93,11 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
     var log = this.get('parentId') ? this.get('log') : this.getPath('matrix.firstObject.log');
     return log ? Travis.Log.filter(log) : '';
   }.property('matrix', 'log'),
+
+  formattedCompareUrl: function() {
+    var parts = (this.get('compare_url') || '').split('/');
+    return parts[parts.length - 1];
+  }.property('compareUrl'),
 
   build: function() {
     return this.get('matrix').objectAt(0);
