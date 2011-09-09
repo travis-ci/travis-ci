@@ -49,7 +49,7 @@ var Travis = SC.Application.create({
 
 $('document').ready(function() {
   if(window.env !== undefined && window.env !== 'jasmine') Travis.run();
-  Travis.receive('build:queued', { build: { id: 1, number: '11.1' }, repository: { slug: 'travis-ci/travis-ci' } })
+  // Travis.receive('build:queued', { build: { id: 1, number: '11.1' }, repository: { slug: 'travis-ci/travis-ci' } })
 });
 
 $.ajaxSetup({
