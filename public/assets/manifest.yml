@@ -71,5 +71,5 @@ vendor/sproutcore-2.0/browser.js: vendor/sproutcore-2.0/browser-f66cefcaf1571969
 vendor/sproutcore-2.0/routes.js: vendor/sproutcore-2.0/routes-12abd65f39cdce1925f7dd125b0d8717.js
 vendor/sproutcore-2.0.beta.3.js: vendor/sproutcore-2-e82cae709dabdad793942412e3280dca.0.beta.3.js
 jquery.tipsy.css: jquery-072ec37886eb5ea17e7452f2d8513cd4.tipsy.css
-application.js: application-c399e9e2ed13bd81625e775e817a4009.js
+application.js: application-65e665f42ab489cac068e0cca6496ee3.js
 application.css: application-e026780c285298d5124a27734ce73eb2.css
