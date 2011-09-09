@@ -110,6 +110,7 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
 
 Travis.Build.reopenClass({
   resource: 'builds',
+
   byRepositoryId: function(id, parameters) {
     return this.all({ url: '/repositories/%@/builds.json?parent_id='.fmt(id), parentId: null, orderBy: 'number DESC' })
   },

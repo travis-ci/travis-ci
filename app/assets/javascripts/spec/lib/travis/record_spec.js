@@ -35,4 +35,16 @@ describe('Travis.Record', function() {
       });
     });
   });
+
+  describe('instance methods', function() {
+    describe('update', function() {
+      it('sets the given attributes', function() {
+        var repository = Test.Factory.Repository.travis();
+        repository.update({ name: 'bob-the-builder' });
+
+        repository = Travis.Repository.find(repository.get('id'));
+        expect(repository.get('name')).toEqual('bob-the-builder');
+      });
+    });
+  });
 });

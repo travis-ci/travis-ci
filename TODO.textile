@@ -23,6 +23,7 @@
 - debounce/throttle search keyboard events
 - fix search (does not propagate loaded records to the list)
 
+- try https://github.com/antsa/sassy_noise
 
 == Statemachine
 
