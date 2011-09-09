@@ -13,11 +13,11 @@ Travis.Controllers.Repository = SC.Object.extend({
   init: function() {
     this.tabs.controller = this;
 
-    var view = SC.View.create({
+    this.view = SC.View.create({
       controller: this,
       template: SC.TEMPLATES['app/templates/repositories/show']
     });
-    view.appendTo('#main');
+    this.view.appendTo('#main');
   },
 
   activate: function(tab, params) {

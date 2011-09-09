@@ -17,13 +17,12 @@ var Travis = SC.Application.create({
     SC.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('current', params) });
     SC.routes.add('',                          function(params) { Travis.main.activate('current', params) });
 
-    this.main   = Travis.Controllers.Repository.create();
-    this.events = Travis.Controllers.Events.create();
-
-    Travis.Controllers.Repositories.create();
-    Travis.Controllers.Workers.create();
-    Travis.Controllers.Jobs.create({ queue: 'builds' });
-    Travis.Controllers.Jobs.create({ queue: 'rails' });
+    this.main     = Travis.Controllers.Repository.create();
+    this.repositories = Travis.Controllers.Repositories.create();
+    this.workers  = Travis.Controllers.Workers.create();
+    this.builds   = Travis.Controllers.Jobs.create({ queue: 'builds' });
+    this.rails    = Travis.Controllers.Jobs.create({ queue: 'rails' });
+    this.dispatch = Travis.Controllers.Events.create();
   },
 
   initProfile: function() {
@@ -44,13 +43,13 @@ var Travis = SC.Application.create({
   },
 
   receive: function(event, data) {
-    this.events.receive(event, data);
+    this.dispatch.receive(event, data);
   }
 });
 
 $('document').ready(function() {
   if(window.env !== undefined && window.env !== 'jasmine') Travis.run();
-  // Travis.receive('foo', { build: { id: 8, startedAt: '2011-05-23T00:00:00Z', finishedAt: '2011-05-23T00:00:20Z' } })
+  Travis.receive('build:queued', { build: { id: 1, number: '11.1' }, repository: { slug: 'travis-ci/travis-ci' } })
 });
 
 $.ajaxSetup({
