@@ -21,8 +21,8 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
   matrix: SC.Record.toMany('Travis.Build', { nested: true }), // TODO should be Travis.Test!
 
   update: function(attrs) {
-    if(attrs.status) attrs.result = attrs.status
-    if(attrs.matrix) attrs.matrix = this._joinMatrixAttributes(attrs.matrix);
+    if('status' in attrs) attrs.result = attrs.status
+    if('matrix' in attrs) attrs.matrix = this._joinMatrixAttributes(attrs.matrix);
     console.log(attrs)
     this._super(attrs);
   },
