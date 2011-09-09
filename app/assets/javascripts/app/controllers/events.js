@@ -20,8 +20,11 @@ Travis.Controllers.Events = SC.Object.extend({
   },
 
   buildStarted: function(data) {
-    Travis.Repository.createOrUpdate(data.repository);
-    Travis.Build.createOrUpdate(data.build);
+    this.deferLastBuildIdUpdate(data.repository, function() {
+      if(data.repository) var repository = Travis.Repository.createOrUpdate(data.repository);
+      if(data.build) Travis.Build.createOrUpdate(data.build);
+      return repository;
+    });
   },
 
   buildLog: function(data) {
@@ -30,7 +33,20 @@ Travis.Controllers.Events = SC.Object.extend({
   },
 
   buildFinished: function(data) {
-    Travis.Repository.createOrUpdate(data.repository);
-    Travis.Build.createOrUpdate(data.build);
+    this.deferLastBuildIdUpdate(data.repository, function() {
+      if(data.repository) Travis.Repository.createOrUpdate(data.repository);
+      if(data.build) Travis.Build.createOrUpdate(data.build);
+    });
   },
+
+  deferLastBuildIdUpdate: function(attrs, block) {
+    if(attrs && attrs.last_build_id) {
+      var last_build_id = attrs.last_build_id;
+      delete attrs.last_build_id;
+    }
+    var repository = block();
+    if(last_build_id) {
+      repository.set('lastBuildId', last_build_id);
+    }
+  }
 });
