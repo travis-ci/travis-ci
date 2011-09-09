@@ -9,7 +9,7 @@ Travis.Helpers.Common = {
 
   durationFrom: function(started, finished) {
     started  = started  && new Date(this._normalizeDateString(started));
-    finished = finished && new Date(this._normalizeDateString(finished));
+    finished = finished ? new Date(this._normalizeDateString(finished)) : new Date();
     return started && finished ? Math.round((finished - started) / 1000) : 0;
   },
 
