@@ -2,9 +2,6 @@ Travis.Controllers.Events = SC.Object.extend({
   receive: function(event, data) {
     var events = this;
     var action = $.camelize(event.replace(':', '_'), false);
-    if(data.build && data.build.status) {
-      data.build.result = data.build.status;
-    }
     SC.run(function() { events[action](data); });
   },
 
