@@ -101,8 +101,9 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
   // does not seem to allow partial updates, i.e. would remove existing attributes?
   _joinMatrixAttributes: function(attrs) {
     var _this = this;
-    return $.each(attrs, function(ix, row) {
-      attrs[ix] = $.extend(_this.get('matrix').objectAt(ix).get('attributes') || {}, row);
+    return $.each(attrs, function(ix, build) {
+      if(build.status) build.result = build.status;
+      attrs[ix] = $.extend(_this.get('matrix').objectAt(ix).get('attributes') || {}, build);
     });
   }
 });
