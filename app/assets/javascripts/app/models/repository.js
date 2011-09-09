@@ -50,7 +50,7 @@ Travis.Repository.reopenClass({
   resource: 'repositories',
 
   recent: function() {
-    return this.all({ orderBy: 'lastBuildFinishedAt DESC' });
+    return this.all({ orderBy: 'lastBuildStartedAt DESC' });
   },
 
   search: function(search) {
