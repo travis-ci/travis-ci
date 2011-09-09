@@ -12,6 +12,10 @@
     <div class="right">
       <dt>Commit</dt>
       <dd class="commit-hash"><a {{bindAttr href="build.urlGithubCommit"}}>{{build.formattedCommit}}</a></dd>
+      {{#if build.compare_url}}
+        <dt>Compare</dt>
+        <dd class="compare_view"><a {{bindAttr href="build.compareUrl"}}>{{build.formattedCompareUrl}}</a></dd>
+      {{/if}}
       {{#if build.author_name}}
         <dt>Author</dt>
         <dd class="author"><a {{bindAttr href="build.urlAuthor"}}>{{build.authorName}}</a></dd>
