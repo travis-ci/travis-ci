@@ -53,7 +53,8 @@ group :test do
   gem 'fakeredis',       '~> 0.2.0'
   gem 'webmock'
 
-  gem 'jasmine-headless-webkit'
+  # gotta wait for QT 4.7
+  # gem 'jasmine-headless-webkit'
 
   platforms :ruby_18 do
     gem 'minitest'
