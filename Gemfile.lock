@@ -94,6 +94,7 @@ GEM
     faraday_middleware (0.6.5)
       faraday (~> 0.6.0)
     ffi (1.0.9)
+    forgery (0.5.0)
     fssm (0.2.7)
     hashie (1.0.0)
     hashr (0.0.14)
@@ -291,6 +292,7 @@ DEPENDENCIES
   devise (~> 1.4.2)
   factory_girl (~> 2.0.3)
   fakeredis (~> 0.2.0)
+  forgery (~> 0.5.0)
   hashr (~> 0.0.14)
   hoptoad_notifier (~> 2.4.11)
   jasmine
