@@ -28,7 +28,7 @@ describe ServiceHooksController, :webmock => true do
 
     context 'subscribes to a service hook' do
       it 'creates a repository if it does not exist' do
-        put :update, :name => 'minimal', :owner => 'svenfuchs', :active => true
+        put :update, :id => 1, :name => 'minimal', :owner => 'svenfuchs', :active => true
 
         Repository.count.should == 1
         Repository.first.active?.should be_true
@@ -39,7 +39,7 @@ describe ServiceHooksController, :webmock => true do
       it 'updates an existing repository if it exists' do
         repository = Factory(:repository)
 
-        put :update, :name => 'minimal', :owner => 'svenfuchs', :active => true
+        put :update, :id => 1, :name => 'minimal', :owner => 'svenfuchs', :active => true
 
         Repository.count.should == 1
         Repository.first.active?.should be_true
@@ -52,7 +52,7 @@ describe ServiceHooksController, :webmock => true do
       it 'updates an existing repository' do
         repository = Factory(:repository)
 
-        put :update, :name => 'minimal', :owner => 'svenfuchs', :active => false
+        put :update, :id => 1, :name => 'minimal', :owner => 'svenfuchs', :active => false
 
         Repository.first.active?.should be_false
 

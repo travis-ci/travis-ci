@@ -20,6 +20,7 @@ describe 'JSON for websocket events' do
         'last_build_number' => '2',
         'last_build_started_at' => '2010-11-12T12:30:00Z',
         'last_build_finished_at' => '2010-11-12T12:30:20Z',
+        'last_build_status' => 0
       }
     }
   end
