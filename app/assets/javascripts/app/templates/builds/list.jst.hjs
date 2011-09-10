@@ -9,7 +9,7 @@
     </tr>
   </thead>
 
-  {{#collection tagName="tbody" itemClassBinding="content.color" contentBinding="builds"}}
+  {{#collection tagName="tbody" itemClassBinding="content.color" contentBinding="content"}}
       <td class="number"><a {{bindAttr href="content.urlBuild"}}>{{content.number}}</a></td>
       <td class="commit"><a {{bindAttr href="content.urlGithubCommit"}}>{{content.formattedCommit}}</a></td>
       <td class="message">{{content.message}}</td>

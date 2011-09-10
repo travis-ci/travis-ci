@@ -1,4 +1,4 @@
-{{#view tabBinding="tab" buildBinding="build" class="build" classBinding="build.color"}}
+{{#view tabBinding="tab" buildBinding="content" class="build" classBinding="build.color"}}
   <dl class="summary clearfix">
     <div class="left">
       <dt>Build</dt>
