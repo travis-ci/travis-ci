@@ -23,7 +23,6 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
   update: function(attrs) {
     if('status' in attrs) attrs.result = attrs.status
     if('matrix' in attrs) attrs.matrix = this._joinMatrixAttributes(attrs.matrix);
-    console.log(attrs)
     this._super(attrs);
   },
 
