@@ -122,6 +122,6 @@ Travis.Build.reopenClass({
   resource: 'builds',
 
   byRepositoryId: function(id, parameters) {
-    return this.all({ url: '/repositories/%@/builds.json?parent_id='.fmt(id), parentId: null, orderBy: 'number DESC' })
+    return this.all({ url: '/repositories/%@/builds.json?parent_id='.fmt(id), repositoryId: id, parentId: null, orderBy: 'number DESC' })
   },
 });
