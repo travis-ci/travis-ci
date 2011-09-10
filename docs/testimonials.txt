@@ -10,6 +10,9 @@ https://twitter.com/#!/brixen/status/99530377080733696 - @brixen (Brian Ford)
 "@travisci I love what you're doing, keep up the great work" - @rbates (Ryan Bates)
 https://twitter.com/#!/rbates/status/95965074723831809
 
+"I must say, @travisci is amazing. I run "git push" and literally a split-second later I can see it working away." - @rbates (Ryan Bates)
+http://twitter.com/#!/rbates/status/111943017241387008
+
 "@travisci Congrats! Great to see the Ruby community again pushing the boundaries of what is the default for OSS. Travis now is."
 https://twitter.com/#!/josephwilk/status/96168151980576769 - @josephwilk (Joseph Wilk)
 
