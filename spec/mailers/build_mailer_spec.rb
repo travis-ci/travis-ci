@@ -40,6 +40,10 @@ describe BuildMailer do
         it 'inlines css' do
           mail.body.encoded.should include('<div style="')
         end
+
+        it 'should have the "success" css class on alert-message' do
+          mail.body.encoded.should include('<div class="alert-message block-message success"')
+        end
       end
     end
 
@@ -68,6 +72,12 @@ describe BuildMailer do
 
       it 'is a multipart email' do
         mail.should be_multipart
+      end
+
+      context 'in HTML' do
+        it 'should have the "error" css class on alert-message' do
+          mail.body.encoded.should include('<div class="alert-message block-message error"')
+        end
       end
     end
   end
