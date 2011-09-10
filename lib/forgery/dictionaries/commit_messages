@@ -1,0 +1,245 @@
+fix branches config
+let's be less noisy here
+exclude master branch
+do not exclude the master branch
+Merge branch 'master' of github.com:travis-ci/test-project-1
+fake a failing branch
+point status images to staging (even though we don't have ssl enabled there)
+try to exclude something
+test
+enable email notification
+output the current env so we can see what's going on
+disable notifications
+Spec examples: publishing of mandatory messages
+added updated travis
+simplify the matrix a bit
+add a git source to the gemfile
+remove config
+let's send out notifications
+don't use bundler_args: --local
+Ignore this
+change from yajl to multi_json so users can choose the json lib themselves
+remove ree
+let's add some rubies
+set travis notifications
+Merge branch 'master' of github.com:ifesdjeen/travis-ci
+Test against REE again
+Spec example for headers exchange routing
+send out notifications
+Bump version to 1.4.1
+bumped multi_json dependency and yajl dev dep
+ignore .rbc files
+don't use 1.8.6 and 1.9.1 as they're not installed
+This fixes an issue when bundling to a local path (eg. /vendor/bundle).\n\nIf you bundle to a local path bundler is not included in it, so\ncalling \"gem 'bundler'\" will fail.
+Don't install gems in the development group for CI
+disable notifications and remove jruby
+Be sure request.format is not nil (only reproducible in Rails < 3.0.4).
+only use 1.9.2 for now
+use all rubies again
+add 1.8.7
+Now that we instructed bundler to install gems --without development, we can test against ruby-head
+add rubies
+add .travis.yml, disable notifications
+use before_script in .travis.yml
+simplify rvms and disable notifications
+re-add ree
+Working With Exchanges doc guide update: headers exchanges
+remove jruby
+try making things more programmitical so we can more easily run a matrix
+remove ree, rcov doesn't work on ree
+Revert \"Trigger a CI build\"\n\nThis reverts commit e42438227162a1c3ecae5f54fc081b1807379b1d.
+simplify .travis.yml and disable notifications
+simplify rvms and disable notifications
+Edited .travis.yml via GitHub
+disable notifications and remove rbx because it's currently red
+Merge remote-tracking branch 'amqp/master'
+remove 1.8.6 and 1.9.2 because they're currently red
+Update Gemfile to use rake 0.8.7\n\nrake 0.9.x won't be compatible with Cucumber::Rake::Task::ForkedCucumberRunner which uses the RUBY constant, resulting in 'uninitialized constant Cucumber::Rake::Task::ForkedCucumberRunner::RUBY'
+fixed tests
+Merge branch 'master' of github.com:travis-ci/amq-client into for_travis
+Merge branch 'for_travis' of github.com:travis-ci/amqp into for_travis
+added unsupported version
+Make before_build script executable
+colorize section heading and fix exit codes
+Do not test against ruby-head, seems to have issues \\w EventMachine 0.12.10 (but not 1.0.b3) on Linux/AMD64
+Adding missing line to rakefile
+Give slow CI VM more time
+add a Gemfile\n\nruby-warrior requires rspec and cucumber for testing
+ok, we also need rake
+removed unsupported services
+apparently rspec needs to be ~> 1.3.x
+Lets try adding cool.io to the :test group for CI
+try an isolated true/false matrix
+Update Gemfile to use rake 0.8.7\\n\\nrake 0.9.x won't be compatible with Cucumber::Rake::Task::ForkedCucumberRunner which uses the RUBY constant, resulting in 'uninitialized constant Cucumber::Rake::Task::ForkedCucumberRunner::RUBY'
+revert matrix simplification
+Test against 1.8.7-p174, too
+ok, mocha is also required
+add a Gemfile\n\nruby-warrior is using these dependencies for tests, so at least testing on travis-ci will require this
+lets see if this works
+relock bundle
+Merge pull request #1938 from joefiorini/master\n\nMake to_json take a parameter to exclude root
+add rake to the gemspec as it's being used for tests
+add rake to the Gemfile
+travis
+add ivar and gc patches
+add rspec to the Gemfile
+fix merge
+reduce the matrix to 2x5 builds
+don't install ruby-debug19 on travis, linecache19 is taking forever and probably even blocks
+Fix the README again
+Missing templates and json file for repository tests.
+Switch to AMQP::IntAllocator for channel id allocation, closes #83\n\nFor very long running apps that open and close channels aggressively, previous implementation\nthat used monotonically growing number did not work very well. IntAllocator takes released\nidentifiers into account (we currently release when channel is closed and on TCP connection\ninterruption).\n\nIt is a loose port of com.rabbitmq.utilities.IntAllocator on top of\njava.util.BitSet. Not as efficient as the RabbitMQ Java client implementation\nbut is good enough for most cases.\n\nAs soon as we implement AMQP::BitSet#next_set_bit (in Java implementation it\nrelies on java.lang.Long.numberOfTrailingZeros), Java client implementation\ncan be ported basically 1-to-1.\n\nSquashed commit of the following:\n\ncommit 9466f7fe81c2371298e2833f15c44f588e27339b\nAuthor: Michael S. Klishin <michael@novemberain.com>\nDate:   Tue Jun 21 23:21:39 2011 +0400\n\n    Finished AMQP::IntAllocator\n\ncommit 0b44b6fbe29aad91b01a181b871dadb15afc2164\nMerge: 219bfb1 7273d9d\nAuthor: Michael S. Klishin <michael@novemberain.com>\nDate:   Tue Jun 21 19:43:08 2011 +0400\n\n    Merge branch 'master' into smater_channel_id_allocator\n\ncommit 219bfb101d2a244a22eb9720a3d7a745447490fd\nAuthor: Michael S. Klishin <michael@novemberain.com>\nDate:   Tue Jun 21 19:42:20 2011 +0400\n\n    Looks like >>> can be imitated by simply combining >> and Fixnum#abs, Clojure takes this approach\n\ncommit 1a9d6e10595a7d5ad3cdb922844eb68693c25c5a\nAuthor: Michael S. Klishin <michael@novemberain.com>\nDate:   Tue Jun 21 18:29:25 2011 +0400\n\n    More bit twiddling porting. Oh Ruby, why don't you have unsigned right shift operator?\n\ncommit b4d2a1b6a615e51dcf8d023e6e1b0dac36086eae\nAuthor: Michael S. Klishin <michael@novemberain.com>\nDate:   Tue Jun 21 16:45:21 2011 +0400\n\n    BitSet is a WIP\n\ncommit bac25c83ebd23a75a21b58b8cef07e2becd9272f\nAuthor: Michael S. Klishin <michael@novemberain.com>\nDate:   Tue Jun 21 16:44:47 2011 +0400\n\n    Add example that demonstrates round robin using default exchange\n\n    And does not suffer from \"one consumer per queue\" amqp gem (historical) limitation\n\ncommit 792d7abd66877ac8e62ed440c3f8b5932fa33df2\nAuthor: Michael S. Klishin <michael@novemberain.com>\nDate:   Tue Jun 21 04:07:10 2011 +0400\n\n    Initial bits of a smarter channel allocator (ported from the RabbitMQ Java client and java.util.BitSet). References #83.\n\ncommit 67af9368e29d611c8870d32d54539f4b18494cfd\nAuthor: Michael S. Klishin <michael@novemberain.com>\nDate:   Mon Jun 20 23:34:23 2011 +0400\n\n    Semantics of AMQP.channel has changed\n\nSigned-off-by: Michael S. Klishin <michael@novemberain.com>
+Adding unicorns
+added travis
+make ci/travis.rb executable
+Merge pull request #2157 from vijaydev/3-1-stable\n\nAvoid Symbol#to_proc (3-1-stable)
+Adding view
+add .travis.yml
+Added a webhook
+Whoopsie typo
+Home, not welcome
+try using rake 0.8.7
+refactor ci/travis/ci.rb
+create postgres dbs
+use multiline yaml syntax
+Do not try to authenticate with no_input_strategies are empty.
+Merge branch 'master' of github.com:svenfuchs/rails
+build non-isolated first
+added alternative erlang
+Merge pull request #2155 from vijaydev/changelogs\n\nAdding changelog entry for submit helper change which removed object_name_id generation
+try an array for before_scripts
+Home controller introduced
+re-enable 1.9.2
+try splitting the matrix by components
+fix db name
+turn IM off when it's off
+just 1.9.2 for now
+Fixing test
+Merge pull request #2139 from mcmire/issue_2078_master\n\nFix for #2078 (against master)
+comment out pg databases which throw 5 mio errors
+comment out before_script
+some bug hunting
+add a before_script to test timeouts
+try splitting IM/non-IM to the matrix
+Breaking test
+Fixing build
+more damn debugging
+Changed the year of a date used in a test which fails when using 1.8.7 on a 32bit machine (ArgumentError: time out of range)
+Changing view
+other otp libs
+updated versions
+Initial commit
+Adding travis yml file
+Deploy stuff
+reduce the matrix to a single isolated AR build
+ok, results are a hash
+Update changelog with ajax updates to status server
+updated travis
+make matrix env settings less noisy
+fix travis
+add ruby-head
+remove before_script
+simplify the matrix
+now let's actually run some tests
+Merge pull request #2156 from vijaydev/changelogs31\n\nAdding changelog entry for submit helper change (3-1-stable)
+added all option
+it's ruby-head, not head
+getting deps\"
+reduce the matrix to 1x 5 builds
+the adapter is called postgresql
+updated travis yml
+add 1.8.7 back
+more silly annoying debugging
+Merge pull request #2147 from norman/3-1-stable\n\nExplicitly require Active Support dependencies (3-1-stable)
+gotta deactivate pg in the gemfile, too
+update
+step one to a fix
+added proper as deps
+Merge pull request #2160 from joshk/patch-5\n\nChanged the year of a date used in a test which fails when using 1.8.7
+Merge pull request #2148 from norman/master\n\nExplicitly require Active Support dependencies (master)
+updated yml
+Merge pull request #2159 from ogeidix/master\n\nFixed issue #2119: XHR without Accept and Content-Type header gets 500 error
+go, check joshie's stuff
+up
+added travis config
+more debugging :(
+reduce the matrix
+Merge pull request #2146 from dmathieu/blank_binary_encoding\n\nfix String#blank? on binary strings
+crap. now, really re-enable 1.9.2
+damn you!
+re-add ruby-head
+update .travis.yml to use ci/ci_travis.rb
+try a single isolated railties run
+added compile
+add dialyzer
+re-enable the full matrix
+output results
+whitespace
+try branches config
+make sure we compare string with string in translation_for instance method
+re-enable isolated, remove ruby-head
+fix task name
+wip
+some promising fixes
+disable the matrix
+re-added eunit
+Merge pull request #2164 from dmathieu/missing_require\n\nmissing require of string/encoding to have access to encoding_aware?
+lets test everything once, as a test
+added rebar & removed custom build commands
+fffuuuuuuuu
+join build groups
+run isolated and non isolated in each build set
+add compile step
+verbose build
+custom script
+bigdecimal should be typecast to a float on sqlite3. fixes #2162
+use abbreviations and add activemodel
+documents the changes to String#blank? in the AS guide
+trigger excluded branch
+re-add the matrix
+add .travis.yml and ci/ci_travis.rb
+reverse the order of the isolated vs non isolated tests
+re-enable isolated tests
+Removed a test which fails when using 1.8.7 on a 32bit machine (ArgumentError: time out of range)
+no need to sort the values
+custom make
+Merge pull request #2136 from judearasu/guides_branch\n\nnotextile tag in rails guides generator has been placed with ascii quotes
+minor change for xavier
+add travis config and image
+added dialyze
+Fix a warning on GCC 4.5
+Travis-ci testing
+switched build order
+this fixes a brittle test in fixtures_test.rb which fails when you are in a timezone which is ahead of UTC but UTC is in the previous day still.
+Merge pull request #2165 from joshk/fixtures_test_fix\n\nTimezone fixtures test correction
+removed dialyzer
+added a .travis.yml config and travis specific ci script
+As well as Saturdays!
+do not install pg if Travis is bundling the gems, pg will be setup on Travis soon
+don't install ruby-debug if running the test suite on Travis, linecache19 is the main offender, very very slow
+Merge pull request #2154 from vijaydev/better_map\n\nAvoid Symbol#to_proc
+build install
+now using sudo for real install
+added different erlangs
+added target
+added dependencies
+force yes
+remove dialyze step
+force yes part 2
+added travis yml
+added test whitespace
+removed old erlang version
+Copy & paste travis config.\n\nLet me see how this will work...
+Strengthen specs for Float#round
+Testing new notifications configuration
+Test default recipients
+Test defaults
+break it down
+build it up
+take 2
+FAIL
+Fixed
+global
+fail and send always by default
+fix and send by default
+Don't send by default on another passed build
