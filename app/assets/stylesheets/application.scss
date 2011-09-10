@@ -580,12 +580,24 @@ caption {
     white-space: nowrap;
     overflow: hidden;
     margin: 0;
-    ul.nested {
+
+    h5 {
+      font-size: 13px;
+      font-weight: normal;
+      margin: 0px;
+      cursor: pointer;
+    }
+
+    ul {
       margin-top: 0px;
       margin-bottom: 5px;
       padding-left: 10px;
       display: none;
     }
+    &.open ul {
+      display: block;
+    }
+
     &:hover {
       ul.nested {
         display: block;
@@ -963,15 +975,15 @@ ul#tokens {
   z-index: 100;
   top: 0px;
   right: 0px;
-  width: 180px;
-  height: 150px;
+  width: 130px;
+  height: 140px;
   overflow: hidden;
 
   a {
     z-index: 100;
     display: block;
     width: 250px;
-    margin-top: 40px;
+    margin: 40px 0 0 -50px;
     padding: 3px 0;
     border-top: 2px solid #ef9f4c;
     border-bottom: 2px solid #ef9f4c;
