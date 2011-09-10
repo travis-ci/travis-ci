@@ -34,7 +34,11 @@ describe BuildMailer do
       context 'in HTML' do
         it 'escapes newlines in the commit message' do
           build.commit.message = "bar\nbaz"
-          mail.body.encoded.should include("bar<br>baz")
+          mail.body.encoded.should include("bar<br />baz")  # premailer converts <br> to <br />
+        end
+
+        it 'inlines css' do
+          mail.body.encoded.should include('<div style="')
         end
       end
     end
@@ -68,3 +72,4 @@ describe BuildMailer do
     end
   end
 end
+
