@@ -19,9 +19,9 @@ Travis.Record = SC.Record.extend({
     } else if(this.get('status') & SC.Record.READY) {
       callback(this);
     } else {
-      this.addObserver('status', function() {
-        if(this.get('status') & SC.Record.READY) { callback(this); }
-      })
+      // this.addObserver('status', function() {
+      //   if(this.get('status') & SC.Record.READY) { callback(this); }
+      // })
     }
     return this;
   }
