@@ -2,7 +2,7 @@ Travis.Controllers.Events = SC.Object.extend({
   receive: function(event, data) {
     var events = this;
     var action = $.camelize(event.replace(':', '_'), false);
-    SC.run(function() { events[action](data); });
+    events[action](data);
   },
 
   buildQueued: function(data) {
