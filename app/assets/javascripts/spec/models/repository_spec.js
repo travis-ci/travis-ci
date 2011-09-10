@@ -44,7 +44,7 @@ describe('Travis.Repository', function() {
     describe('associations', function() {
       it('has many builds', function() {
         var builds = repository.get('builds');
-        mostRecentAjaxRequest().response({ status: 200, responseText: JSON.stringify([{ id: 1, number: '1' }]) });
+        mostRecentAjaxRequest().response({ status: 200, responseText: JSON.stringify([{ id: 1, number: '1', repository_id: 1 }]) });
         expect(builds.objectAt(0).get('number')).toEqual('1');
       });
     });
@@ -73,9 +73,9 @@ describe('Travis.Repository', function() {
           expect(repository.get('formattedLastBuildDuration')).toEqual('-');
         });
 
-        it("returns a '-' if the last build's finished time is not known", function() {
+        it("returns a human readable duration using the current time if the last build's finished time is not known", function() {
           repository.set('lastBuildFinishedAt', null);
-          expect(repository.get('formattedLastBuildDuration')).toEqual('-');
+          expect(repository.get('formattedLastBuildDuration')).toEqual('more than 24 hrs');
         });
 
         it("returns a human readable duration if the last build's start and finished times are both known", function() {
@@ -86,7 +86,7 @@ describe('Travis.Repository', function() {
       describe('formattedLastBuildFinishedAt', function() {
         it("returns a '-' if the last build's finished time is not known", function() {
           repository.set('lastBuildFinishedAt', null);
-          expect(repository.get('formattedLastBuildDuration')).toEqual('-');
+          expect(repository.get('formattedLastBuildFinishedAt')).toEqual('-');
         });
 
         it("returns a human readable time ago string if the last build's finished time is known", function() {

@@ -7,7 +7,7 @@ describe('Views:', function() {
         spyOn($.timeago, 'now').andReturn(new Date('2011/01/01 05:00:00').getTime());
 
         builds = Test.Factory.Build.byRepository();
-        view = createView('#main', { builds: builds, template: 'app/templates/builds/list' });
+        view = createView('#main', { content: builds, template: 'app/templates/builds/list' });
       });
 
       afterEach(function() {
