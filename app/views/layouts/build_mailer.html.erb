@@ -85,9 +85,7 @@ border-radius: 4px;
                                         <tr>
                                             <td class="headerContent">
 
-												<div class="alert-message block-message <%= yield(:status_message) == "Passed" ? "success" : "error"%>">
-													<%= yield :status_message %>
-												</div>
+                                                <%= yield :header %>
 
                                             </td>
                                         </tr>
@@ -239,3 +237,4 @@ border-radius: 4px;
         </center>
     </body>
 </html>
+
