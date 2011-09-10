@@ -51,7 +51,6 @@ var Travis = SC.Application.create({
 
 $('document').ready(function() {
   if(window.env !== undefined && window.env !== 'jasmine') Travis.run();
-  // Travis.receive('build:queued', { build: { id: 1, number: '11.1' }, repository: { slug: 'travis-ci/travis-ci' } })
 });
 
 $.ajaxSetup({
@@ -61,5 +60,5 @@ $.ajaxSetup({
 });
 
 if (window.console && window.console.log) {
-  Pusher.log = function(message) { window.console.log(arguments); };
+  // Pusher.log = function(message) { window.console.log(arguments); };
 }
