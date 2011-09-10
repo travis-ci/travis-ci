@@ -10,8 +10,11 @@ var EVENTS = {
 describe('Events:', function() {
   var events = Travis.Controllers.Events.create();
   var queue;
+
   var receiveEvent = function(event, ix) {
-    SC.run(function() { events.receive(event, EVENTS[$.compact([event, ix]).join(':')]); });
+    var data = EVENTS[$.compact([event, ix]).join(':')];
+    data = JSON.parse(JSON.stringify(data)); // make sure we pass a clone
+    SC.run(function() { events.receive(event, data); });
   };
 
   beforeEach(function() {
