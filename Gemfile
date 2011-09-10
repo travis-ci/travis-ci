@@ -23,6 +23,7 @@ gem 'devise',            '~> 1.4.2'
 gem 'oa-oauth',          '~> 0.2.6'
 gem 'simple_states',     '0.0.9'
 gem 'unobtrusive_flash', '~> 0.0.2'
+gem 'premailer'
 
 # apis
 # current oa-oauth release depends on faraday 0.6.1, current octokit on faraday ~> 0.7.3, :git source for oa-oauth confuses heroku :(
@@ -79,3 +80,4 @@ group :development, :test do
     gem 'ruby-debug19', :platforms => :mri_19
   end
 end
+

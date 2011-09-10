@@ -72,6 +72,7 @@ GEM
       fssm (>= 0.2.7)
       sass (~> 3.1)
     crack (0.1.8)
+    css_parser (1.1.9)
     data_migrations (0.0.1)
       activerecord
       rake
@@ -102,6 +103,7 @@ GEM
     hoptoad_notifier (2.4.11)
       activesupport
       builder
+    htmlentities (4.3.0)
     i18n (0.6.0)
     jasmine (1.0.2.1)
       json_pure (>= 1.4.3)
@@ -147,6 +149,9 @@ GEM
     orm_adapter (0.0.5)
     pg (0.11.0)
     polyglot (0.3.2)
+    premailer (1.7.1)
+      css_parser (>= 1.1.9)
+      htmlentities (>= 4.0.0)
     pusher (0.8.2)
       crack (~> 0.1.0)
       multi_json (~> 1.0)
@@ -300,6 +305,7 @@ DEPENDENCIES
   oa-oauth (~> 0.2.6)
   octokit!
   pg (~> 0.11.0)
+  premailer
   pusher (~> 0.8.1)
   rabl (~> 0.3.0)
   rails (~> 3.1.0)
