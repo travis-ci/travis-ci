@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :seed_repository, :class => Repository do |f|
+  factory :seed_repository, :class => Repository do
     name                      { Forgery(:repository).name }
     url                       { Forgery(:repository).url }
     owner_name                { Forgery(:repository).owner_name }
@@ -14,7 +14,7 @@ FactoryGirl.define do
     end
   end
 
-  factory :seed_commit, :class => Commit do |f|
+  factory :seed_commit, :class => Commit do
     commit                 { Forgery(:commit).commit }
     branch                 { Forgery(:commit).branch }
     message                { Forgery(:commit).message }
@@ -27,11 +27,12 @@ FactoryGirl.define do
   end
 
 
-  factory :seed_request, :class => Request do |f|
+  factory :seed_request, :class => Request do
     token       'the-token'
   end
 
-  factory :seed_build, :class=> Build do |f|
+  factory :seed_build, :class=> Build do
+    config                 { Forgery(:build).config }
     commit                 { Factory(:seed_commit) }
     started_at             { Forgery(:repository).time }
     finished_at            { Forgery(:repository).time }
@@ -42,7 +43,15 @@ FactoryGirl.define do
         build.repository.send("last_build_#{entry.to_s}=", build.send(entry.to_s))
       end
       build.repository.save
+      build.matrix.each do |task|
+        Task::Test.append_log!(task.id, Forgery(:build).log )
+      end
+      #1.times do
+      #  build.matrix<< Factory(:seed_task, :repository => build.repository, :owner_id => build.id, :owner_type => "Build")
+      #end
       build.request = Factory(:seed_request, :repository => build.repository, :commit => build.commit)
     end
   end
 end
+
+
