@@ -17,12 +17,14 @@ var Travis = SC.Application.create({
     SC.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('current', params) });
     SC.routes.add('',                          function(params) { Travis.main.activate('current', params) });
 
-    this.main     = Travis.Controllers.Repository.create();
-    this.repositories = Travis.Controllers.Repositories.create();
-    this.workers  = Travis.Controllers.Workers.create();
-    this.builds   = Travis.Controllers.Jobs.create({ queue: 'builds' });
-    this.rails    = Travis.Controllers.Jobs.create({ queue: 'rails' });
-    this.dispatch = Travis.Controllers.Events.create();
+    this.main = Travis.Controllers.Repository.create();
+
+    Travis.Controllers.Repositories.create();
+    Travis.Controllers.Workers.create();
+    Travis.Controllers.Jobs.create({ queue: 'builds' });
+    Travis.Controllers.Jobs.create({ queue: 'rails' });
+    Travis.Controllers.Sidebar.create();
+    Travis.Controllers.Events.create();
   },
 
   initProfile: function() {
