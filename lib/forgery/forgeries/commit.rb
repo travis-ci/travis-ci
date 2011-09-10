@@ -18,10 +18,3 @@ class Forgery::Commit < Forgery
     dictionaries[:commit_compare_urls].random
   end
 end
-
-
-class Forgery::Build < Forgery
-  def self.config
-    dictionaries[:build_configs].random
-  end
-end
