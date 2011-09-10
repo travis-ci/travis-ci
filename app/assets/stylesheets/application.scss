@@ -268,7 +268,7 @@ caption {
     opacity: .1;
     min-height: 1000px;
   }
-  &.large {
+  &.maximized {
     padding: 60px 100px 30px 440px;
   }
   #repository {
@@ -652,18 +652,6 @@ caption {
   border-bottom: 1px solid #ccc;
   overflow: visible;
   @include transition(width .5s ease-out);
-  &.maximized {
-    width: 240px;
-  };
-  &.minimized {
-    width: 0px;
-
-    .inner {
-      .wrapper {
-        display: none;
-      }
-    }
-  }
 
   $slider-border-normal: #f2f4f9;
   $slider-border-light: #999;
@@ -673,20 +661,6 @@ caption {
     border-bottom: 1px solid #ccc;
     background-color: #f2f4f9;
 
-    &.toggled {
-      z-index: 50;
-      .icon {
-        border-color: $slider-border-normal $slider-border-light $slider-border-normal $slider-border-normal;
-        border-width: 5px 5px 5px 0;
-      }
-      &:hover {
-        .icon {
-          border-color: $slider-border-hover $slider-border-light $slider-border-hover $slider-border-hover;
-        }
-      }
-      left: -20px;
-      width: 20px;
-    }
     .icon {
       width: 0;
       height: 0;
@@ -716,6 +690,32 @@ caption {
     .wrapper {
       padding: 20px 20px 20px 10px;
       min-width: 190px;
+    }
+  }
+  &.maximized {
+    width: 240px;
+  };
+  &.minimized {
+    width: 0px;
+
+    .slider {
+      width: 20px;
+      left: -21px;
+      z-index: 50;
+      .icon {
+        border-color: $slider-border-normal $slider-border-light $slider-border-normal $slider-border-normal;
+        border-width: 5px 5px 5px 0;
+      }
+      &:hover {
+        .icon {
+          border-color: $slider-border-hover $slider-border-light $slider-border-hover $slider-border-hover;
+        }
+      }
+    }
+    .inner {
+      .wrapper {
+        display: none;
+      }
     }
   }
 
@@ -961,26 +961,31 @@ ul#tokens {
 #github {
   position: absolute;
   z-index: 100;
-  top: 40px;
-  right: -65px;
-  height: 40px;
-  width: 250px;
-  text-decoration: none;
-  @include rotate(45deg);
-  span {
-    position: absolute;
-    left: 0;
+  top: 0px;
+  right: 0px;
+  width: 180px;
+  height: 150px;
+  overflow: hidden;
+
+  a {
+    z-index: 100;
+    display: block;
     width: 250px;
+    margin-top: 40px;
     padding: 3px 0;
+    border-top: 2px solid #ef9f4c;
+    border-bottom: 2px solid #ef9f4c;
+    background: #ef7600;
+
+    color: white;
     text-align: center;
+    text-decoration: none;
     font-size: 13px;
     font-weight: bold;
     letter-spacing: -1px;
     text-shadow: 0 0 10px #522600;
-    border-top: 2px solid #ef9f4c;
-    border-bottom: 2px solid #ef9f4c;
-    color: white;
-    background: #ef7600;
+
+    @include rotate(45deg);
     @include box-shadow(rgba(black, 0.5) 1px 1px 10px, rgba(black, 0.07) 0 0 3px 1px inset);
   }
 }
