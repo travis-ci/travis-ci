@@ -1,10 +1,15 @@
 class Build
   module Notifications
+    def default_notification_rules
+      {:success => {:email => :change, :webhook => :always, :irc => :always},
+       :failure => {:email => :always, :webhook => :always, :irc => :always}}
+    end
+
     def send_notifications_for?(receiver)
       # Filters can be configured for each notification receiver.
       # If receiver rules aren't configured, then fall back to the global rules, and then to the defaults.
-      notify_on_success = config_with_global_fallback(receiver, :on_success, :change)
-      notify_on_failure = config_with_global_fallback(receiver, :on_failure, :always)
+      notify_on_success = config_with_fallbacks(receiver, :on_success, default_notification_rules[:success][receiver])
+      notify_on_failure = config_with_fallbacks(receiver, :on_failure, default_notification_rules[:failure][receiver])
 
       !previous_finished_on_branch ||
       (passed? && (notify_on_success == :always || (notify_on_success == :change && !previous_passed?))) ||
@@ -37,22 +42,26 @@ class Build
     end
 
     def irc_channels
-      @irc_channels ||= notification_values(:irc, :channels).map do |url|
+      @irc_channels ||= notification_values(:irc, :channels).inject(Hash.new([])) do |servers, url|
         server_and_port, channel = url.split('#')
         server, port = server_and_port.split(':')
-        [server, port, channel]
+        servers[[server, port]] += [channel]
+        servers
       end
     end
 
     protected
 
-      # Set config from either: (email/webhook/etc) if it's a hash, global config, or default value
-      def config_with_global_fallback(receiver, key, default)
+      # Fetches config with fallbacks. (notification receiver > global > default)
+      def config_with_fallbacks(receiver, key, default)
         if (notifications[receiver] && notifications[receiver].is_a?(Hash) && notifications[receiver].has_key?(key))
+          # Returns the receiver config if key is present (:notifications => :email => [:on_success])
           notifications[receiver][key].to_sym
         elsif notifications.has_key?(key)
+          # Returns the global config if key is present (:notifications => [:on_success])
           notifications[key].to_sym
         else
+          # Else, returns the given default
           default
         end
       end
