@@ -102,6 +102,11 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
     return this.get('matrix').objectAt(0);
   }.property('build'),
 
+  updateTimes: function() {
+    this.notifyPropertyChange('startedAt');
+    this.notifyPropertyChange('finishedAt');
+  },
+
   // need to join given attributes with existing attributes because SC.Record.toMany
   // does not seem to allow partial updates, i.e. would remove existing attributes?
   _joinMatrixAttributes: function(attrs) {
