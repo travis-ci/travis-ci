@@ -167,9 +167,9 @@ describe('Build', function() {
           expect(build.get('formattedDuration')).toEqual('-');
         });
 
-        it("returns a '-' if the build's finished time is not known", function() {
+        it("returns a human readable duration using the current time if the build's finished time is not known", function() {
           build.set('finishedAt', null);
-          expect(build.get('formattedDuration')).toEqual('-');
+          expect(build.get('formattedDuration')).toEqual('more than 24 hrs');
         });
 
         it("returns a human readable duration if the build's start and finished times are both known", function() {
