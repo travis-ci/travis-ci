@@ -4,9 +4,9 @@ Travis.Controllers.Repository = SC.Object.extend({
   tabs: Travis.Controllers.Tabs.create({
     selector: '#repository',
     tabs: {
-      'current': { templateName: 'app/templates/builds/show', buildBinding:  'controller.repository.lastBuild' },
-      'history': { templateName: 'app/templates/builds/list', buildsBinding: 'controller.repository.builds' },
-      'build':   { templateName: 'app/templates/builds/show', buildBinding:  'controller.build' },
+      'current': { templateName: 'app/templates/builds/show', contentBinding: 'controller.repository.lastBuild' },
+      'history': { templateName: 'app/templates/builds/list', contentBinding: 'controller.repository.builds' },
+      'build':   { templateName: 'app/templates/builds/show', contentBinding: 'controller.build' },
     }
   }),
 
