@@ -43,7 +43,12 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Com
 
   cssClasses: function() { // ugh
     return $.compact(['repository', this.get('color'), this.get('selected') ? 'selected' : null]).join(' ');
-  }.property('color', 'selected')
+  }.property('color', 'selected'),
+
+  updateTimes: function() {
+    this.notifyPropertyChange('lastBuildStartedAt');
+    this.notifyPropertyChange('lastBuildFinishedAt');
+  },
 });
 
 Travis.Repository.reopenClass({
