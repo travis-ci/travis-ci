@@ -1,20 +1,19 @@
 Travis.Controllers.Tabs = SC.Object.extend({
-  views: {
-  },
-
   init: function() {
-    SC.run.later(this.updateTimes.bind(this), 2000);
+    SC.run.later(this.updateTimes.bind(this), 5000);
   },
 
   activate: function(tab) {
-    if(!this.views[tab]) this.views[tab] = this.create(tab).appendTo('#tab_' + tab + ' .tab');
     if (this.active !== tab) {
-      this.active = tab;
-      this.setVisible(tab);
+      this.destroy();
+      this.create(tab);
+      this.setActive(tab);
     }
   },
 
-  setVisible: function(tab) {
+  setActive: function(tab) {
+    this.active = tab;
+
     var selector = this.selector;
     SC.run.next(function() {
       $('.tabs > li', selector).removeClass('active');
@@ -26,8 +25,9 @@ Travis.Controllers.Tabs = SC.Object.extend({
     $('#tab_' + tab)[visible ? 'addClass' : 'removeClass']('display');
   },
 
-  create: function(name) {
-    return SC.View.create($.extend({ controller: this.controller }, this.tabs[name]));
+  create: function(tab) {
+    this.view = SC.View.create($.extend({ controller: this.controller }, this.tabs[tab]));
+    this.view.appendTo('#tab_' + tab + ' .tab');
   },
 
   destroy: function() {
@@ -35,15 +35,14 @@ Travis.Controllers.Tabs = SC.Object.extend({
   },
 
   updateTimes: function() {
-    var view = this.views[this.active];
-    if(view) {
-      var content = view.get('content');
+    if(this.view) {
+      var content = this.view.get('content');
       if(SC.isArray(content)) {
         content.forEach(function(value) { value.updateTimes() });
       } else if(content) {
         content.updateTimes();
       }
     }
-    SC.run.later(this.updateTimes.bind(this), 2000);
+    SC.run.later(this.updateTimes.bind(this), 5000);
   }
 });
