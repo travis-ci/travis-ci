@@ -23,7 +23,8 @@ gem 'devise',            '~> 1.4.2'
 gem 'oa-oauth',          '~> 0.2.6'
 gem 'simple_states',     '0.0.9'
 gem 'unobtrusive_flash', '~> 0.0.2'
-gem 'premailer'
+gem 'premailer',         '~> 1.7.1'
+gem 'nokogiri',          '~> 1.5.0'
 
 # apis
 # current oa-oauth release depends on faraday 0.6.1, current octokit on faraday ~> 0.7.3, :git source for oa-oauth confuses heroku :(
