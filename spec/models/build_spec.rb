@@ -127,5 +127,21 @@ describe Build do
         build.color.should == 'yellow'
       end
     end
+
+    it "finds the previous finished build on the same repository and branch" do
+      repo   = Factory(:repository, :name => "test")
+      commit = Factory(:commit, :branch => "test")
+
+      Factory(:successful_build, :repository => repo, :commit => commit)
+      Factory(:successful_build, :repository => repo, :commit => commit)
+      Factory(:broken_build,     :repository => repo, :commit => commit)
+      Factory(:successful_build, :repository => repo)
+      build = Factory(:successful_build, :repository => repo, :commit => commit)
+      previous = build.previous_finished_on_branch
+      previous.number.should == "3"
+      previous.passed?.should == false
+      build.status_message.should == "Fixed"
+    end
   end
 end
+
