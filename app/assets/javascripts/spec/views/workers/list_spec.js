@@ -12,7 +12,7 @@ describe('Views:', function() {
         view.destroy();
       });
 
-      it('renders an element per record', function() {
+      xit('renders an element per record', function() {
         expect(view.$()).toMatchList([
           'ruby1.worker.travis-ci.org:10000:ruby',
           'ruby1.worker.travis-ci.org:10001:ruby',
