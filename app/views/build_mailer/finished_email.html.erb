@@ -1,4 +1,9 @@
-<% content_for :status_message, @build.human_status_message %>
+<% content_for :header do %>
+	<div class="alert-message block-message <%= @build.passed? ? "success" : "error" %>">
+		<%= @build.human_status_message %>
+	</div>
+<% end %>
+
 
 Build : #<%= @build.number %><br>
 <br>
