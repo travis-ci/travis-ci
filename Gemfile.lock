@@ -302,10 +302,11 @@ DEPENDENCIES
   minitest_tu_shim
   mocha
   newrelic_rpm (~> 3.1.0)
+  nokogiri (~> 1.5.0)
   oa-oauth (~> 0.2.6)
   octokit!
   pg (~> 0.11.0)
-  premailer
+  premailer (~> 1.7.1)
   pusher (~> 0.8.1)
   rabl (~> 0.3.0)
   rails (~> 3.1.0)
