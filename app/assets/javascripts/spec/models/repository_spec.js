@@ -45,7 +45,7 @@ describe('Travis.Repository', function() {
       it('has many builds', function() {
         var builds = repository.get('builds');
         mostRecentAjaxRequest().response({ status: 200, responseText: JSON.stringify([{ id: 1, number: '1', repository_id: 1 }]) });
-        expect(builds.objectAt(0).get('number')).toEqual('1');
+        expect(builds.objectAt(0).get('number')).toEqual(1);
       });
     });
 

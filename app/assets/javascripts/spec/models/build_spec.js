@@ -12,8 +12,8 @@ describe('Build', function() {
         var build = Travis.Build.createOrUpdate({ id: 99, number: '1', matrix: [{ id: 2, number: '1.1' }]});
         build = Travis.Build.find(build.get('id'));
 
-        expect(build.get('number')).toEqual('1');
-        expect(build.getPath('matrix.firstObject.number')).toEqual('1.1');
+        expect(build.get('number')).toEqual(1);
+        expect(build.getPath('matrix.firstObject.number')).toEqual(1.1);
       });
     });
   });
@@ -36,7 +36,7 @@ describe('Build', function() {
       });
 
       it('number', function() {
-        expect(build.get('number')).toEqual('1');
+        expect(build.get('number')).toEqual(1);
       });
 
       it('state', function() {
@@ -94,7 +94,7 @@ describe('Build', function() {
 
     describe('associations', function() {
       it('has many tests as a matrix', function() {
-        expect(build.get('matrix').objectAt(0).get('number')).toEqual('1.1'); // what's a better way to test this? is there something like className in sc 2?
+        expect(build.get('matrix').objectAt(0).get('number')).toEqual(1.1); // what's a better way to test this? is there something like className in sc 2?
       });
 
       it('belongs to a repository', function() {
@@ -155,6 +155,12 @@ describe('Build', function() {
           build.set('config', { '.configured': true });
           expect(build.get('configValues')).toEqual([]);
         });
+      });
+
+      it('appendLog', function() {
+        build.set('log', 'test-1')
+        build.appendLog('test-2')
+        expect(build.get('log')).toEqual('test-1test-2');
       });
 
       it('formattedCommit', function() {

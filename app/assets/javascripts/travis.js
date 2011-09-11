@@ -42,6 +42,8 @@ var Travis = SC.Application.create({
 
     $('#top .profile').mouseover(function() { $('#top .profile ul').show(); });
     $('#top .profile').mouseout(function() { $('#top .profile ul').hide(); });
+
+    $('#workers .group').live('click', function() { $(this).hasClass('open') ? $(this).removeClass('open') : $(this).addClass('open'); })
   },
 
   receive: function(event, data) {
@@ -51,7 +53,6 @@ var Travis = SC.Application.create({
 
 $('document').ready(function() {
   if(window.env !== undefined && window.env !== 'jasmine') Travis.run();
-  // Travis.receive('build:queued', { build: { id: 1, number: '11.1' }, repository: { slug: 'travis-ci/travis-ci' } })
 });
 
 $.ajaxSetup({
@@ -61,5 +62,5 @@ $.ajaxSetup({
 });
 
 if (window.console && window.console.log) {
-  Pusher.log = function(message) { window.console.log(arguments); };
+  // Pusher.log = function(message) { window.console.log(arguments); };
 }
