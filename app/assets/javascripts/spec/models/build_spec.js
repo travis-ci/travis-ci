@@ -157,6 +157,12 @@ describe('Build', function() {
         });
       });
 
+      it('appendLog', function() {
+        build.set('log', 'test-1')
+        build.appendLog('test-2')
+        expect(build.get('log')).toEqual('test-1test-2');
+      });
+
       it('formattedCommit', function() {
         expect(build.get('formattedCommit')).toEqual('4d7621e (master)');
       });
