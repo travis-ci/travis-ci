@@ -8,47 +8,47 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Com
   lastBuildStartedAt:  SC.Record.attr(String, { key: 'last_build_started_at'  }),  // DateTime doesn't seem to work?
   lastBuildFinishedAt: SC.Record.attr(String, { key: 'last_build_finished_at' }),
 
-  builds: function() {
-    return Travis.Build.byRepositoryId(this.get('id'));
-  }.property(),
-
-  lastBuild: function() {
-    return Travis.Build.find(this.get('lastBuildId'));
-  }.property('lastBuildId'),
-
-  lastBuildDuration: function() {
-    return this.durationFrom(this.get('lastBuildStartedAt'), this.get('lastBuildFinishedAt'));
-  }.property('lastBuildStartedAt', 'lastBuildFinishedAt'),
-
   select: function() {
     this.whenReady(function(self) {
       Travis.Repository.select(self.get('id'))
     });
   },
 
+  updateTimes: function() {
+    this.notifyPropertyChange('lastBuildStartedAt');
+    this.notifyPropertyChange('lastBuildFinishedAt');
+  },
+
+  builds: function() {
+    return Travis.Build.byRepositoryId(this.get('id'));
+  }.property().cacheable(),
+
+  lastBuild: function() {
+    return Travis.Build.find(this.get('lastBuildId'));
+  }.property('lastBuildId').cacheable(),
+
+  lastBuildDuration: function() {
+    return this.durationFrom(this.get('lastBuildStartedAt'), this.get('lastBuildFinishedAt'));
+  }.property('lastBuildStartedAt', 'lastBuildFinishedAt').cacheable(),
+
   // TODO the following display logic all all seems to belong to a controller or helper module,
   // but I can't find a way to bind an itemClass to a controller w/ a CollectionView
 
   color: function() {
     return this.colorForStatus(this.get('lastBuildStatus'));
-  }.property('lastBuildStatus'),
+  }.property('lastBuildStatus').cacheable(),
 
   formattedLastBuildDuration: function() {
     return this.readableTime(this.get('lastBuildDuration'));
-  }.property('lastBuildDuration'),
+  }.property('lastBuildDuration').cacheable(),
 
   formattedLastBuildFinishedAt: function() {
     return this.timeAgoInWords(this.get('lastBuildFinishedAt')) || '-';
-  }.property('lastBuildFinishedAt'),
+  }.property('lastBuildFinishedAt').cacheable(),
 
   cssClasses: function() { // ugh
     return $.compact(['repository', this.get('color'), this.get('selected') ? 'selected' : null]).join(' ');
-  }.property('color', 'selected'),
-
-  updateTimes: function() {
-    this.notifyPropertyChange('lastBuildStartedAt');
-    this.notifyPropertyChange('lastBuildFinishedAt');
-  },
+  }.property('color', 'selected').cacheable(),
 });
 
 Travis.Repository.reopenClass({
