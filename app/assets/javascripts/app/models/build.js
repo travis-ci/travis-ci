@@ -107,7 +107,7 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
   formattedLog: function() {
     var log = this.get('parentId') ? this.get('log') : this.getPath('matrix.firstObject.log');
     return log ? Travis.Log.filter(log) : '';
-  }.property('matrix', 'log').cacheable(),
+  }.property('parentId', 'log', 'matrix.firstObject.log').cacheable(),
 
   formattedCompareUrl: function() {
     var parts = (this.get('compare_url') || '').split('/');
