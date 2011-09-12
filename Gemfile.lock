@@ -46,7 +46,7 @@ GEM
     addressable (2.2.6)
     archive-tar-minitar (0.5.2)
     arel (2.2.1)
-    bcrypt-ruby (3.0.0)
+    bcrypt-ruby (3.0.1)
     builder (3.0.0)
     capybara (1.0.1)
       mime-types (>= 1.16)
