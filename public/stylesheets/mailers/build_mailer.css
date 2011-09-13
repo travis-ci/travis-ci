@@ -69,3 +69,15 @@
   border-radius: 4px;
 }
 
+table.build-info th, table.build-info td {
+  line-height: 150%;
+}
+table.build-info th {
+  font-weight: normal;
+  text-align: right;
+  padding: 0 5px;
+}
+table.build-info td {
+  text-align: left;
+}
+
