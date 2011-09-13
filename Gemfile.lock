@@ -17,7 +17,7 @@ GEM
     actionmailer (3.1.0)
       actionpack (= 3.1.0)
       mail (~> 2.3.0)
-    actionmailer_inline_css (1.0.1)
+    actionmailer_inline_css (1.0.3)
       actionmailer (>= 3.0.0)
       nokogiri (>= 1.4.4)
       premailer (>= 1.7.1)
@@ -76,7 +76,8 @@ GEM
       fssm (>= 0.2.7)
       sass (~> 3.1)
     crack (0.1.8)
-    css_parser (1.1.9)
+    css_parser (1.2.5)
+      addressable
     data_migrations (0.0.1)
       activerecord
       rake
@@ -153,7 +154,7 @@ GEM
     orm_adapter (0.0.5)
     pg (0.11.0)
     polyglot (0.3.2)
-    premailer (1.7.1)
+    premailer (1.7.3)
       css_parser (>= 1.1.9)
       htmlentities (>= 4.0.0)
     pusher (0.8.2)
@@ -287,7 +288,7 @@ PLATFORMS
 
 DEPENDENCIES
   SystemTimer (~> 1.2.3)
-  actionmailer_inline_css (~> 1.0.1)
+  actionmailer_inline_css (~> 1.0.3)
   capybara (~> 1.0.0)
   clockwork
   coffee-rails (~> 3.1.0)
