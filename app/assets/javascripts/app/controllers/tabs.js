@@ -1,6 +1,6 @@
 Travis.Controllers.Tabs = SC.Object.extend({
   init: function() {
-    SC.run.later(this.updateTimes.bind(this), 5000);
+    // SC.run.later(this.updateTimes.bind(this), 5000);
   },
 
   activate: function(tab) {
@@ -26,7 +26,7 @@ Travis.Controllers.Tabs = SC.Object.extend({
   },
 
   create: function(tab) {
-    this.view = SC.View.create($.extend({ controller: this.controller }, this.tabs[tab]));
+    this.view = this.views[tab].create({ controller: this.controller });
     this.view.appendTo('#tab_' + tab + ' .tab');
   },
 
@@ -46,3 +46,7 @@ Travis.Controllers.Tabs = SC.Object.extend({
     SC.run.later(this.updateTimes.bind(this), 5000);
   }
 });
+
+
+
+

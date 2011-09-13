@@ -39,8 +39,8 @@ var withinRunLoop = function(block) {
 
 var whenReady = function(object, callback) {
   waitsFor(function() {
-    // var path = object.kindOf(SC.ChildArray) ? 'firstObject.status' : 'status';
-    var path = 'status';
+    // var path = object.kindOf(SC.ChildArray) ? 'firstObject.result' : 'result';
+    var path = 'result';
     return object.getPath(path) & SC.Record.READY;
   });
   runs(function() {

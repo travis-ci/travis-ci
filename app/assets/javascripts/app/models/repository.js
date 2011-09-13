@@ -1,10 +1,10 @@
-Travis.Repository = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, {
+Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
   slug:                SC.Record.attr(String),
   name:                SC.Record.attr(String, { key: 'name' }),
   owner:               SC.Record.attr(String, { key: 'owner_name' }),
   lastBuildId:         SC.Record.attr(Number, { key: 'last_build_id' }),
   lastBuildNumber:     SC.Record.attr(String, { key: 'last_build_number' }),
-  lastBuildStatus:     SC.Record.attr(Number, { key: 'last_build_status' }),
+  lastBuildResult:     SC.Record.attr(Number, { key: 'last_build_result' }),
   lastBuildStartedAt:  SC.Record.attr(String, { key: 'last_build_started_at'  }),  // DateTime doesn't seem to work?
   lastBuildFinishedAt: SC.Record.attr(String, { key: 'last_build_finished_at' }),
 
@@ -20,14 +20,17 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Com
   },
 
   builds: function() {
+    if(window.__DEBUG__) console.log('updating builds on repository ' + this.get('id'));
     return Travis.Build.byRepositoryId(this.get('id'));
   }.property().cacheable(),
 
   lastBuild: function() {
+    if(window.__DEBUG__) console.log('updating lastBuild on repository ' + this.get('id'));
     return Travis.Build.find(this.get('lastBuildId'));
-  }.property('lastBuildId').cacheable(),
+  }.property(),
 
   lastBuildDuration: function() {
+    if(window.__DEBUG__) console.log('updating lastBuildDuration on repository ' + this.get('id'));
     return this.durationFrom(this.get('lastBuildStartedAt'), this.get('lastBuildFinishedAt'));
   }.property('lastBuildStartedAt', 'lastBuildFinishedAt').cacheable(),
 
@@ -35,18 +38,22 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Com
   // but I can't find a way to bind an itemClass to a controller w/ a CollectionView
 
   color: function() {
-    return this.colorForStatus(this.get('lastBuildStatus'));
-  }.property('lastBuildStatus').cacheable(),
+    if(window.__DEBUG__) console.log('updating color on repository ' + this.get('id'));
+    return this.colorForStatus(this.get('lastBuildResult'));
+  }.property('lastBuildResult').cacheable(),
 
   formattedLastBuildDuration: function() {
+    if(window.__DEBUG__) console.log('updating formattedLastBuildDuration on repository ' + this.get('id'));
     return this.readableTime(this.get('lastBuildDuration'));
   }.property('lastBuildDuration').cacheable(),
 
   formattedLastBuildFinishedAt: function() {
+    if(window.__DEBUG__) console.log('updating formattedLastBuildFinishedAt on repository ' + this.get('id'));
     return this.timeAgoInWords(this.get('lastBuildFinishedAt')) || '-';
   }.property('lastBuildFinishedAt').cacheable(),
 
   cssClasses: function() { // ugh
+    if(window.__DEBUG__) console.log('updating cssClasses on repository ' + this.get('id'));
     return $.compact(['repository', this.get('color'), this.get('selected') ? 'selected' : null]).join(' ');
   }.property('color', 'selected').cacheable(),
 });

@@ -1,12 +1,12 @@
 //= require app/controllers/tabs.js
+//= require app/views.js
 
 Travis.Controllers.Repositories = SC.ArrayController.extend({
   tabs: Travis.Controllers.Tabs.create({
     selector: '#left',
-    tabs: {
-      'recent': { templateName: 'app/templates/repositories/list', contentBinding: 'controller' },
-      'yours':  { templateName: 'app/templates/repositories/list', contentBinding: 'controller' },
-      'search': { templateName: 'app/templates/repositories/list', contentBinding: 'controller' },
+    views: {
+      recent: Travis.Views.Repositories.List,
+      search: Travis.Views.Repositories.List
     }
   }),
 

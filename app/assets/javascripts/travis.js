@@ -1,9 +1,17 @@
+// __DEBUG__ = true;
+// SC.LOG_BINDINGS = true;
+
 var Travis = SC.Application.create({
   Controllers: {}, Models: {}, Helpers: {}, Views: {},
 
   store: SC.Store.create().from('Travis.DataSource'),
 
   run: function() {
+
+    // var build = Travis.Build.find(109663);
+    // SC.View.create($.extend({ builds: build.get('matrix') }, { templateName: 'app/templates/builds/matrix', contentBinding: 'builds' })).appendTo('#main')
+    // return
+
     var action = $('body').attr('id') == 'home' ? 'initMain' : 'initProfile';
     this[action]();
 
@@ -12,11 +20,6 @@ var Travis = SC.Application.create({
   },
 
   initMain: function() {
-    SC.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.main.activate('build',   params) });
-    SC.routes.add('!/:owner/:name/builds',     function(params) { Travis.main.activate('history', params) });
-    SC.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('current', params) });
-    SC.routes.add('',                          function(params) { Travis.main.activate('current', params) });
-
     this.dispatch = Travis.Controllers.Events.create();
     this.main = Travis.Controllers.Repository.create();
 
@@ -25,6 +28,11 @@ var Travis = SC.Application.create({
     Travis.Controllers.Jobs.create({ queue: 'builds' });
     Travis.Controllers.Jobs.create({ queue: 'rails' });
     Travis.Controllers.Sidebar.create();
+
+    SC.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.main.activate('build',   params) });
+    SC.routes.add('!/:owner/:name/builds',     function(params) { Travis.main.activate('history', params) });
+    SC.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('current', params) });
+    SC.routes.add('',                          function(params) { Travis.main.activate('current', params) });
   },
 
   initProfile: function() {

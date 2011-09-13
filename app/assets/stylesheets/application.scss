@@ -237,7 +237,7 @@ caption {
   background-repeat: no-repeat;
 }
 #left #repositories li.green,
-#main .build.green .summary .number a,
+#main .green .summary .number a,
 #main #builds .green td:first-child a,
 #main #builds .build.green td:first-child a {
   background-image: url(/assets/icons/status.green.png);
@@ -246,7 +246,7 @@ caption {
   background-repeat: no-repeat;
 }
 #left #repositories li.red,
-#main .build.red .summary .number a,
+#main .red .summary .number a,
 #main #builds .red td:first-child a,
 #main #builds .build.red td:first-child a {
   background-image: url(/assets/icons/status.red.png);
