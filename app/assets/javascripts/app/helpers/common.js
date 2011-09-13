@@ -1,6 +1,6 @@
 Travis.Helpers.Common = {
-  colorForStatus: function(status) {
-    return status == 0 ? 'green' : status == 1 ? 'red' : null;
+  colorForStatus: function(result) {
+    return result == 0 ? 'green' : result == 1 ? 'red' : null;
   },
 
   timeAgoInWords: function(date) {

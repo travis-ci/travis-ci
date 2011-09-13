@@ -1,30 +1,28 @@
 //= require app/controllers/tabs.js
+//= require app/views.js
 
 Travis.Controllers.Repository = SC.Object.extend({
   tabs: Travis.Controllers.Tabs.create({
     selector: '#repository',
-    tabs: {
-      'current': { templateName: 'app/templates/builds/show', contentBinding: 'controller.repository.lastBuild' },
-      'history': { templateName: 'app/templates/builds/list', contentBinding: 'controller.repository.builds' },
-      'build':   { templateName: 'app/templates/builds/show', contentBinding: 'controller.build' },
+    views: {
+      current: Travis.Views.Builds.Current,
+      history: Travis.Views.Builds.List,
+      build:   Travis.Views.Builds.Show,
     }
   }),
 
   init: function() {
     this.tabs.controller = this;
-
-    this.view = SC.View.create({
-      controller: this,
-      template: SC.TEMPLATES['app/templates/repositories/show']
-    });
-    this.view.appendTo('#main');
+    this.view = Travis.Views.Repositories.Show.create({ controller: this }).appendTo('#main');
   },
 
   activate: function(tab, params) {
-    this.tabs.activate(tab);
     this.set('params', params);
+    this.tabs.activate(tab);
   },
 
+  currentBinding:    'repository.lastBuild',
+  buildsBinding:     'repository.builds',
   repositoryBinding: 'repositories.firstObject',
 
   repositories: function() {
@@ -32,11 +30,12 @@ Travis.Controllers.Repository = SC.Object.extend({
     return slug.length > 0 ? Travis.Repository.bySlug(slug) : Travis.Repository.recent();
   }.property('params'),
 
-  build: function() {
-    if(this.getPath('params.id')) return Travis.Build.find(this.getPath('params.id'));
-  }.property('params'),
+  paramsObserver: function() {
+    var id = this.getPath('params.id');
+    if(id) this.set('build', Travis.Build.find(id));
+  }.observes('params'),
 
   buildObserver: function() {
     this.tabs.toggle('parent', !!this.getPath('build.parentId'));
-  }.observes('build.status'),
+  }.observes('build.parentId'),
 });

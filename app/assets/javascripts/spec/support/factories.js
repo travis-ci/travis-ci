@@ -7,7 +7,7 @@ Test.Factory = {
         slug: 'travis-ci/travis-ci',
         last_build_id: '1',
         last_build_number: '1',
-        last_build_status: '0',
+        last_build_result: '0',
         last_build_started_at: '2011-01-01T01:00:10Z',
         last_build_finished_at: '2011-01-01T01:00:20Z'
       }, 1);
@@ -19,7 +19,7 @@ Test.Factory = {
         slug: 'travis-ci/travis-worker',
         last_build_id: '2',
         last_build_number: '2',
-        last_build_status: '0',
+        last_build_result: '0',
         last_build_started_at: '2011-01-01T02:00:10Z',
         last_build_finished_at: '2011-01-01T02:00:20Z'
       }, 2);
@@ -31,7 +31,7 @@ Test.Factory = {
         slug: 'travis-ci/travis-cookbooks',
         last_build_id: '3',
         last_build_number: '3',
-        last_build_status: '0',
+        last_build_result: '0',
         last_build_started_at: '2011-01-01T03:00:10Z',
         last_build_finished_at: '2011-01-01T03:00:20Z'
       }, 3);
@@ -55,7 +55,7 @@ Test.Factory = {
         repository_id: 1,
         number: '1',
         state: 'finished',
-        status: 0,
+        result: 0,
         started_at: '2011-01-01T01:00:10Z',
         finished_at: '2011-01-01T01:00:20Z',
         config: {
@@ -76,7 +76,7 @@ Test.Factory = {
             repository_id: 1,
             number: '1.1',
             state: 'finished',
-            status: 0,
+            result: 0,
             started_at: '2011-01-01T01:00:10Z',
             finished_at: '2011-01-01T01:00:20Z',
             config: {

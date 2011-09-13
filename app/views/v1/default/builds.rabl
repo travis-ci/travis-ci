@@ -1,7 +1,8 @@
 collection(@builds)
 
-attributes :id, :repository_id, :number, :state, :status,
-           :started_at, :finished_at, :config
+attributes :id, :repository_id, :number, :state, :started_at, :finished_at, :config
+
+node(:result) { |build| build.status }
 
 glue :commit do
   extends 'v1/default/commit'

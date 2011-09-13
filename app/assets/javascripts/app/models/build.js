@@ -1,4 +1,4 @@
-Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, {
+Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   repositoryId:   SC.Record.attr(Number, { key: 'repository_id' }),
   parentId:       SC.Record.attr(Number, { key: 'parent_id' }),
   config:         SC.Record.attr(Object),
@@ -7,7 +7,7 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
   commit:         SC.Record.attr(String),
   branch:         SC.Record.attr(String),
   message:        SC.Record.attr(String),
-  result:         SC.Record.attr(Number, { key: 'status' }), // status is reserved by SC
+  result:         SC.Record.attr(Number),
   startedAt:      SC.Record.attr(String, { key: 'started_at' }), // use DateTime?
   finishedAt:     SC.Record.attr(String, { key: 'finished_at' }),
   committedAt:    SC.Record.attr(String, { key: 'committed_at' }),
@@ -21,21 +21,16 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
   matrix: SC.Record.toMany('Travis.Build', { nested: true }), // TODO should be Travis.Test!
 
   parent: function() {
-    //console.log('updating parent on build ' + this.get('id'));
+    if(window.__DEBUG__) console.log('updating parent on build ' + this.get('id'));
     return this.get('parentId') ? Travis.Build.find(this.get('parentId')) : null;
-  }.property('parentId', 'status').cacheable(),
+  }.property('parentId').cacheable(),
 
   repository: function() {
-    //console.log('updating repository on build ' + this.get('id'));
+    if(window.__DEBUG__) console.log('updating repository on build ' + this.get('id'));
     return Travis.Repository.find(this.get('repositoryId'));
-  }.property('repositoryId', 'status').cacheable(),
-
-  build: function() {
-    return this.get('matrix').objectAt(0);
-  }.property('build', 'status').cacheable(),
+  }.property('repositoryId').cacheable(),
 
   update: function(attrs) {
-    if('status' in attrs) attrs.result = attrs.status
     if('matrix' in attrs) attrs.matrix = this._joinMatrixAttributes(attrs.matrix);
     this._super(attrs);
   },
@@ -50,38 +45,40 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
   },
 
   isMatrix: function() {
-    //console.log('updating isMatrix on build ' + this.get('id'));
+    if(window.__DEBUG__) console.log('updating isMatrix on build ' + this.get('id'));
     return this.getPath('matrix.length') > 1;
-  }.property('matrix.status').cacheable(),
+  }.property('matrix').cacheable(),
 
   color: function() {
-    //console.log('updating color on build ' + this.get('id'));
+    if(window.__DEBUG__) console.log('updating color on build ' + this.get('id'));
     return this.colorForStatus(this.get('result'));
-  }.property('status', 'result').cacheable(),
+  }.property('result').cacheable(),
 
   duration: function() {
-    //console.log('updating duration on build ' + this.get('id'));
+    if(window.__DEBUG__) console.log('updating duration on build ' + this.get('id'));
     return this.durationFrom(this.get('startedAt'), this.get('finishedAt'));
   }.property('startedAt', 'finishedAt').cacheable(),
 
   configKeys: function() {
     return $.map($.keys($.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release')), function(key) { return $.camelize(key) });
-  }.property('config').cacheable(),
+  }.property().cacheable(),
 
   configValues: function() {
     return $.values($.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release'));
-  }.property('config').cacheable(),
+  }.property().cacheable(),
 
   // see https://github.com/sproutcore/sproutcore20/issues/160
+  // if i make these depend on 'config' then they would be updated on the matrix view on changes to the
+  // build log attribute :/
   configKeyObjects: function() {
-    //console.log('updating configKeyObjects on build ' + this.get('id'));
+    if(window.__DEBUG__) console.log('updating configKeyObjects on build ' + this.get('id'));
     return $.map(this.get('configKeys'), function(key) { return SC.Object.create({ key: key }) });
-  }.property('config').cacheable(),
+  }.property().cacheable(),
 
   configValueObjects: function() {
-    //console.log('updating configValueObjects on build ' + this.get('id'));
+    if(window.__DEBUG__) console.log('updating configValueObjects on build ' + this.get('id'));
     return $.map(this.get('configValues'), function(value) { return SC.Object.create({ value: value }) });
-  }.property('config').cacheable(),
+  }.property().cacheable(),
 
   // TODO the following display logic all seems to belong to a controller or helper module
 
@@ -91,23 +88,22 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
 
   formattedDuration: function() {
     return this.readableTime(this.get('duration'));
-  }.property('status', 'duration').cacheable(),
+  }.property('duration').cacheable(),
 
   formattedFinishedAt: function() {
     return this.timeAgoInWords(this.get('finishedAt')) || '-';
-  }.property('status', 'finishedAt').cacheable(),
+  }.property('finishedAt').cacheable(),
 
   formattedConfig: function() {
-    if(this.get('isMatrix')) return;
     var config = $.only(this.get('config'), 'rvm', 'gemfile', 'env');
     var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
     return values.length == 0 ? '-' : values.join(', ');
   }.property('config').cacheable(),
 
   formattedLog: function() {
-    var log = this.get('parentId') ? this.get('log') : this.getPath('matrix.firstObject.log');
+    var log = this.get('log');
     return log ? Travis.Log.filter(log) : '';
-  }.property('parentId', 'log', 'matrix.firstObject.log').cacheable(),
+  }.property('log').cacheable(),
 
   formattedCompareUrl: function() {
     var parts = (this.get('compare_url') || '').split('/');
@@ -119,7 +115,6 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, 
   _joinMatrixAttributes: function(attrs) {
     var _this = this;
     return $.each(attrs, function(ix, build) {
-      if(build.status) build.result = build.status;
       attrs[ix] = $.extend(_this.get('matrix').objectAt(ix).get('attributes') || {}, build);
     });
   }
