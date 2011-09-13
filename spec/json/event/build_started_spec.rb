@@ -14,7 +14,7 @@ describe 'JSON for websocket events' do
       'repository_id' => repository.id,
       'number' => '2',
       'config' => { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'] },
-      'status' => 0,
+      'result' => 0,
       'started_at' => '2010-11-12T12:30:00Z',
       'commit' => "91d1b7b2a310131fe3f8",
       'branch' => "master",
@@ -49,7 +49,7 @@ describe 'JSON for websocket events' do
       'last_build_id' => build.id,
       'last_build_number' => '2',
       'last_build_started_at' => '2010-11-12T12:30:00Z',
-      'last_build_status' => 0
+      'last_build_result' => 0
     }
   end
 end

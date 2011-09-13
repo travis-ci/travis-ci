@@ -8,8 +8,8 @@ child build => :build do
 end
 
 child repository => :repository do
-  attributes :id, :last_build_id, :last_build_number, :last_build_started_at, :last_build_finished_at, :last_build_status
+  attributes :id, :last_build_id, :last_build_number, :last_build_started_at, :last_build_finished_at
 
-  node(:last_build_result) { |repository| repository.status }
+  node(:last_build_result) { |repository| repository.last_build_status }
   node(:slug) { |repository| repository.slug }
 end
