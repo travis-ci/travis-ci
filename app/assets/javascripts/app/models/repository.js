@@ -27,7 +27,7 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
   lastBuild: function() {
     if(window.__DEBUG__) console.log('updating lastBuild on repository ' + this.get('id'));
     return Travis.Build.find(this.get('lastBuildId'));
-  }.property(),
+  }.property('lastBuildId'),
 
   lastBuildDuration: function() {
     if(window.__DEBUG__) console.log('updating lastBuildDuration on repository ' + this.get('id'));
