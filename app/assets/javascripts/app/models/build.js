@@ -47,12 +47,22 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   isMatrix: function() {
     if(window.__DEBUG__) console.log('updating isMatrix on build ' + this.get('id'));
     return this.getPath('matrix.length') > 1;
-  }.property('matrix').cacheable(),
+  }.property('matrix.length').cacheable(),
 
   color: function() {
     if(window.__DEBUG__) console.log('updating color on build ' + this.get('id'));
     return this.colorForStatus(this.get('result'));
   }.property('result').cacheable(),
+
+  // matrixObserver: function() {
+  //   if(window.__DEBUG__) console.log('updating isMatrix on build ' + this.get('id'));
+  //   this.set('isMatrix', this.getPath('matrix.length') > 1);
+  // }.observes('matrix.length'),
+
+  // resultObserver: function() {
+  //   if(window.__DEBUG__) console.log('updating color on build ' + this.get('id'));
+  //   this.set('color', this.colorForStatus(this.get('result')));
+  // }.observes('result'),
 
   duration: function() {
     if(window.__DEBUG__) console.log('updating duration on build ' + this.get('id'));

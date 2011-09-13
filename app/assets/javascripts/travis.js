@@ -7,11 +7,6 @@ var Travis = SC.Application.create({
   store: SC.Store.create().from('Travis.DataSource'),
 
   run: function() {
-
-    // var build = Travis.Build.find(109663);
-    // SC.View.create($.extend({ builds: build.get('matrix') }, { templateName: 'app/templates/builds/matrix', contentBinding: 'builds' })).appendTo('#main')
-    // return
-
     var action = $('body').attr('id') == 'home' ? 'initMain' : 'initProfile';
     this[action]();
 
