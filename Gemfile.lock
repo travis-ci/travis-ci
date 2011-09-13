@@ -63,9 +63,9 @@ GEM
       ffi (~> 1.0.6)
     chunky_png (1.2.1)
     clockwork (0.2.4)
-    coffee-rails (3.1.0)
+    coffee-rails (3.1.1)
       coffee-script (>= 2.2.0)
-      railties (~> 3.1.0.rc1)
+      railties (~> 3.1.0)
     coffee-script (2.2.0)
       coffee-script-source
       execjs
