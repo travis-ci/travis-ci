@@ -49,56 +49,56 @@ describe RepositoriesController do
        'last_build_id' => repository.last_build_id,
        'last_build_number' => '1',
        'last_build_started_at' => '2010-11-12T12:30:00Z',
-       'last_build_status' => 1
+       'last_build_result' => 1
       }
     end
 
     context 'with parameter rvm:1.8.7' do
-      it 'returns last build status passing' do
+      it 'returns last build result passing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.8.7'
-        json_response['last_build_status'].should == 0
+        json_response['last_build_result'].should == 0
       end
     end
 
     context 'with parameter rvm:1.9.2' do
-      it 'return last build status failing' do
+      it 'return last build result failing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.9.2'
-        json_response['last_build_status'].should == 1
+        json_response['last_build_result'].should == 1
       end
     end
 
     context 'with parameters rvm:1.8.7 and gemfile:test/Gemfile.rails-2.3.x' do
-      it 'return last build status passing' do
+      it 'return last build result passing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.8.7', :gemfile => 'test/Gemfile.rails-2.3.x'
-        json_response['last_build_status'].should == 0
+        json_response['last_build_result'].should == 0
       end
     end
 
     context 'with parameters rvm:1.9.2 and gemfile:test/Gemfile.rails-3.0.x' do
-      it 'return last build status failing' do
+      it 'return last build result failing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.9.2', :gemfile => 'test/Gemfile.rails-2.3.x'
-        json_response['last_build_status'].should == 1
+        json_response['last_build_result'].should == 1
       end
     end
 
     context 'with parameters rvm:1.8.7, gemfile:test/Gemfile.rails-2.3.x, and env:DB=postgres passed' do
-      it 'return last build status passing' do
+      it 'return last build result passing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.8.7', :gemfile => 'test/Gemfile.rails-2.3.x', :env => 'DB=postgres'
-        json_response['last_build_status'].should == 0
+        json_response['last_build_result'].should == 0
       end
     end
 
     context 'with parameters rvm:1.9.2, gemfile:test/Gemfile.rails-2.3.x, and env:DB=postgres passed' do
-      it 'return last build status failing' do
+      it 'return last build result failing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.9.2', :gemfile => 'test/Gemfile.rails-2.3.x', :env => 'DB=postgres'
-        json_response['last_build_status'].should == 1
+        json_response['last_build_result'].should == 1
       end
     end
 
     context 'with parameters rvm:perl' do
-      it 'return last build status for the parent build' do
+      it 'return last build result for the parent build' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => 'perl'
-        json_response['last_build_status'].should be_nil
+        json_response['last_build_result'].should be_nil
       end
     end
   end
@@ -125,7 +125,7 @@ describe RepositoriesController do
           'slug'                   => { '__content__' => 'sven/travis-ci' },
           'last_build_id'          => { '__content__' => build.id.to_s },
           'last_build_number'      => { '__content__' => '1' },
-          'last_build_status'      => { '__content__' => '1' },
+          'last_build_result'      => { '__content__' => '1' },
           'last_build_started_at'  => { '__content__' => '2010-11-12T12:30:00Z' },
           'last_build_finished_at' => { '__content__' => '2010-11-12T12:30:20Z' },
         }

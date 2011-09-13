@@ -25,4 +25,5 @@ helpers:
 spec_dir: app/assets/javascripts/spec
 
 spec_files:
-  - '**/*[sS]pec.js'
+  # - '**/*[sS]pec.js'
+  - 'lib/travis/log/incremental_spec.js'

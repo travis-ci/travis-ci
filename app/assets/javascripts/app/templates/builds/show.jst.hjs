@@ -1,8 +1,9 @@
-{{#view tabBinding="tab" buildBinding="content" class="build" classBinding="build.color"}}
+<div {{bindAttr class="build.color"}}>
   <dl class="summary clearfix">
     <div class="left">
       <dt>Build</dt>
-      <dd class="number"><a {{bindAttr href="build.urlBuild"}}>{{build.number}}</a></dd>
+
+      <dd class="number"><a {{bindAttr href="urlBuild"}}>{{build.number}}</a></dd>
       <dt class="finished_at_label">Finished</dt>
       <dd class="finished_at timeago" {{bindAttr title="build.finished_at"}}>{{build.formattedFinishedAt}}</dd>
       <dt>Duration</dt>
@@ -11,32 +12,54 @@
 
     <div class="right">
       <dt>Commit</dt>
-      <dd class="commit-hash"><a {{bindAttr href="build.urlGithubCommit"}}>{{build.formattedCommit}}</a></dd>
+      <dd class="commit-hash"><a {{bindAttr href="urlGithubCommit"}}>{{build.formattedCommit}}</a></dd>
       {{#if build.compare_url}}
         <dt>Compare</dt>
         <dd class="compare_view"><a {{bindAttr href="build.compareUrl"}}>{{build.formattedCompareUrl}}</a></dd>
       {{/if}}
       {{#if build.author_name}}
         <dt>Author</dt>
-        <dd class="author"><a {{bindAttr href="build.urlAuthor"}}>{{build.authorName}}</a></dd>
+        <dd class="author"><a {{bindAttr href="urlAuthor"}}>{{build.authorName}}</a></dd>
       {{/if}}
       {{#if build.committer_name}}
         <dt>Committer</dt>
-        <dd class="committer"><a {{bindAttr href="build.urlCommitter"}}>{{build.committerName}}</a></dd>
+        <dd class="committer"><a {{bindAttr href="urlCommitter"}}>{{build.committerName}}</a></dd>
       {{/if}}
     </div>
 
     <dt>Message</dt>
     <dd class="commit-message">{{build.message}}</dd>
-    {{#if build.formattedConfig}}
+
+    {{#unless build.isMatrix}}
       <dt>Config</dt>
       <dd class="config">{{build.formattedConfig}}</dd>
-    {{/if}}
+    {{/unless}}
   </dl>
 
-  {{#if build.isMatrix}}
-    {{view templateName="app/templates/builds/matrix" buildBinding="build"}}
-  {{else}}
+  {{#if build.parentId}}
     <pre class="log">{{{build.formattedLog}}}</pre>
+  {{else}}
+    <table id="builds">
+      <caption>Build Matrix</caption>
+      <thead>
+        <tr>
+          <th>Build</th>
+          {{#each build.configKeyObjects itemTagName="th"}}
+            {{key}}
+          {{/each}}
+          <th>Finished</th>
+          <th>Duration</th>
+        </tr>
+      </thead>
+
+      {{#collection tagName="tbody" contentBinding="build.matrix" itemViewClass="Travis.View" itemClassBinding="content.color"}}
+        <td class="number"><a {{bindAttr href="urlBuild"}}>{{content.number}}</a></td>
+        {{#each content.configValueObjects itemTagName="td"}}
+          {{value}}
+        {{/each}}
+        <td class="finished_at timeago" {{bindAttr title="content.finishedAt"}}>{{content.formattedFinishedAt}}</td>
+        <td class="duration" {{bindAttr title="content.duration"}}>{{content.formattedDuration}}</td>
+      {{/collection}}
+    </table>
   {{/if}}
-{{/view}}
+</div>
