@@ -1,6 +1,6 @@
 object @task
 
-attributes :id, :repository_id, :number, :state, :started_at, :finished_at, :config, :log
+attributes :id, :repository_id, :number, :state, :started_at, :finished_at, :config, :log, :status
 
 node(:result)      { @task.status }
 node(:parent_id)   { @task.owner_id }

@@ -1,6 +1,6 @@
 collection(@builds)
 
-attributes :id, :repository_id, :number, :state, :started_at, :finished_at, :config
+attributes :id, :repository_id, :number, :state, :started_at, :finished_at, :config, :status
 
 node(:result) { |build| build.status }
 
