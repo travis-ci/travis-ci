@@ -17,6 +17,10 @@ GEM
     actionmailer (3.1.0)
       actionpack (= 3.1.0)
       mail (~> 2.3.0)
+    actionmailer_inline_css (1.0.1)
+      actionmailer (>= 3.0.0)
+      nokogiri (>= 1.4.4)
+      premailer (>= 1.7.1)
     actionpack (3.1.0)
       activemodel (= 3.1.0)
       activesupport (= 3.1.0)
@@ -283,6 +287,7 @@ PLATFORMS
 
 DEPENDENCIES
   SystemTimer (~> 1.2.3)
+  actionmailer_inline_css (~> 1.0.1)
   capybara (~> 1.0.0)
   clockwork
   coffee-rails (~> 3.1.0)
@@ -302,11 +307,9 @@ DEPENDENCIES
   minitest_tu_shim
   mocha
   newrelic_rpm (~> 3.1.0)
-  nokogiri (~> 1.5.0)
   oa-oauth (~> 0.2.6)
   octokit!
   pg (~> 0.11.0)
-  premailer (~> 1.7.1)
   pusher (~> 0.8.1)
   rabl (~> 0.3.0)
   rails (~> 3.1.0)
