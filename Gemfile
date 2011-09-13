@@ -68,6 +68,7 @@ group :development, :test do
   gem 'factory_girl',    '~> 2.0.3'
   gem 'forgery', "~> 0.5.0"
   gem 'rspec-rails', '~> 2.6.1'
+  gem 'thin'
 
   platforms :mri_18 do
     # required as linecache uses it but does not have it as a dep
