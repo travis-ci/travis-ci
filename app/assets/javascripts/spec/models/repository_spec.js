@@ -44,7 +44,7 @@ describe('Travis.Repository', function() {
     describe('associations', function() {
       it('has many builds', function() {
         var builds = repository.get('builds');
-        mostRecentAjaxRequest().response({ status: 200, responseText: JSON.stringify([{ id: 1, number: '1', repository_id: 1 }]) });
+        mostRecentAjaxRequest().response({ result: 200, responseText: JSON.stringify([{ id: 1, number: '1', repository_id: 1 }]) });
         expect(builds.objectAt(0).get('number')).toEqual(1);
       });
     });
@@ -61,7 +61,7 @@ describe('Travis.Repository', function() {
           expect(repository.get('color')).toEqual('red');
         });
 
-        it('returns undefined if the last build status is unknown', function() {
+        it('returns undefined if the last build result is unknown', function() {
           repository.set('lastBuildStatus', null);
           expect(repository.get('color')).toEqual(undefined);
         });
@@ -100,7 +100,7 @@ describe('Travis.Repository', function() {
           expect(repository.get('cssClasses').split(' ')).toContain('repository');
         });
 
-        it("returns css classes not including 'green' if the last build status is not known", function() {
+        it("returns css classes not including 'green' if the last build result is not known", function() {
           repository.set('lastBuildStatus', null);
           expect(repository.get('cssClasses').split(' ')).not.toContain('green');
         });

@@ -1,3 +1,6 @@
+// __DEBUG__ = true;
+// SC.LOG_BINDINGS = true;
+
 var Travis = SC.Application.create({
   Controllers: {}, Models: {}, Helpers: {}, Views: {},
 
@@ -12,11 +15,6 @@ var Travis = SC.Application.create({
   },
 
   initMain: function() {
-    SC.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.main.activate('build',   params) });
-    SC.routes.add('!/:owner/:name/builds',     function(params) { Travis.main.activate('history', params) });
-    SC.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('current', params) });
-    SC.routes.add('',                          function(params) { Travis.main.activate('current', params) });
-
     this.dispatch = Travis.Controllers.Events.create();
     this.main = Travis.Controllers.Repository.create();
 
@@ -25,6 +23,11 @@ var Travis = SC.Application.create({
     Travis.Controllers.Jobs.create({ queue: 'builds' });
     Travis.Controllers.Jobs.create({ queue: 'rails' });
     Travis.Controllers.Sidebar.create();
+
+    SC.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.main.activate('build',   params) });
+    SC.routes.add('!/:owner/:name/builds',     function(params) { Travis.main.activate('history', params) });
+    SC.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('current', params) });
+    SC.routes.add('',                          function(params) { Travis.main.activate('current', params) });
   },
 
   initProfile: function() {

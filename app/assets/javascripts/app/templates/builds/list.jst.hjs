@@ -9,9 +9,9 @@
     </tr>
   </thead>
 
-  {{#collection tagName="tbody" itemClassBinding="content.color" contentBinding="content"}}
-      <td class="number"><a {{bindAttr href="content.urlBuild"}}>{{content.number}}</a></td>
-      <td class="commit"><a {{bindAttr href="content.urlGithubCommit"}}>{{content.formattedCommit}}</a></td>
+  {{#collection tagName="tbody" contentBinding="builds" itemViewClass="Travis.View" itemClassBinding="content.color"}}
+      <td class="number"><a {{bindAttr href="urlBuild"}}>{{content.number}}</a></td>
+      <td class="commit"><a {{bindAttr href="urlGithubCommit"}}>{{content.formattedCommit}}</a></td>
       <td class="message">{{content.message}}</td>
       <td class="duration" {{bindAttr title="content.duration"}}>{{content.formattedDuration}}</td>
       <td class="finished_at timeago" {{bindAttr title="content.finished_at"}}>{{content.formattedFinishedAt}}</td>

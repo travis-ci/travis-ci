@@ -117,7 +117,7 @@ describe('Build', function() {
           expect(build.get('color')).toEqual('red');
         });
 
-        it('returns undefined if the last build status is unknown', function() {
+        it('returns undefined if the last build result is unknown', function() {
           build.set('result', null);
           expect(build.get('color')).toEqual(undefined);
         });
