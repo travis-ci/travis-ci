@@ -26,7 +26,8 @@ Travis.Helpers.Urls = {
     // I'm not able to bind the build and repository to the item views of the matrix collection
     // view properly. See templates/builds/show.jst.hjs
     if(this.getPath('parentView.tagName') == 'tbody') {
-      return '#!/' + this.getPath('parentView.parentView.parentView.repository.slug') + '/builds/' + this.getPath('content.id');
+      var slug = this.getPath('parentView.parentView.parentView.repository.slug') || this.getPath('parentView.parentView.repository.slug');
+      return '#!/' + slug + '/builds/' + this.getPath('content.id');
     } else {
       return '#!/' + this.getPath('repository.slug') + '/builds/' + this.getPath('build.id');
     }
