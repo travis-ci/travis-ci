@@ -36,7 +36,9 @@
     {{/unless}}
   </dl>
 
-  {{#if build.isMatrix}}
+  {{#if build.parentId}}
+    <pre class="log">{{{build.formattedLog}}}</pre>
+  {{else}}
     <table id="builds">
       <caption>Build Matrix</caption>
       <thead>
@@ -59,7 +61,5 @@
         <td class="duration" {{bindAttr title="content.duration"}}>{{content.formattedDuration}}</td>
       {{/collection}}
     </table>
-  {{else}}
-    <pre class="log">{{{build.formattedLog}}}</pre>
   {{/if}}
 </div>
