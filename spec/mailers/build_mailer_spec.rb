@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe BuildMailer do
   describe 'finished_email' do
-    let(:mail)  { BuildMailer.finished_email(build) }
+    # Inline CSS interceptor is called before delivery.
+    let(:mail)  { BuildMailer.finished_email(build).deliver }
 
     describe 'for a successful build' do
       let(:build) { Factory(:successful_build) }
