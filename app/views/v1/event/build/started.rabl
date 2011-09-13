@@ -17,7 +17,7 @@ end
 child repository => :repository do
   attributes :id, :last_build_id, :last_build_number, :last_build_started_at, :last_build_finished_at
 
-  node(:last_build_result) { |repository| repository.status }
-  node(:slug) { |repository| repository.slug }
+  node(:last_build_result) { repository.last_build_status }
+  node(:slug) { repository.slug }
 end
 
