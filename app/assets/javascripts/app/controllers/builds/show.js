@@ -8,18 +8,15 @@ Travis.Controllers.Builds.Show = SC.Object.extend({
       controller: this,
       repositoryBinding: 'controller.repository',
       buildBinding: 'controller.build',
+      matrixBinding: 'controller.matrix',
       templateName: 'app/templates/builds/show'
     });
+
+    this.set('matrix', SC.ArrayProxy.create({ parent: this, contentBinding: 'parent.build.matrix' }));
   },
 
-  _renderMatrix: function() {
-    if(!this.matrix && this._isMatrix()) {
-      this.matrix = Travis.Controllers.Builds.Matrix.create({ parent: this });
-    }
-  }.observes('build.status'),
-
-  _isMatrix: function() {
-    var build = this.get('build');
-    return build && (build.get('status') & SC.Record.READY != 0) && !build.get('parentId');
+  destroy: function() {
+    this.view.$().remove();
+    this.view.destroy();
   }
 });
