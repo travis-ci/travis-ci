@@ -101,6 +101,14 @@ describe Build, 'notifications', ActiveSupport::TestCase do
   end
 
   describe :webhooks do
+    it 'should have identical behaviour if a single url is passed as a string or as an array' do
+      webhooks = 'http://evome.fr/notifications'
+      webhooks_array = ['http://evome.fr/notifications']
+      build1 = Factory(:build, :config => { 'notifications' => { 'webhooks' => webhooks } })
+      build2 = Factory(:build, :config => { 'notifications' => { 'webhooks' => webhooks_array } })
+      build1.webhooks.should == build2.webhooks
+    end
+
     it 'returns an array of values if the build configuration specifies a single, comma separated string' do
       webhooks = 'http://evome.fr/notifications, http://example.com'
       build = Factory(:build, :config => { 'notifications' => { 'webhooks' => webhooks } })
