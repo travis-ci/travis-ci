@@ -4,6 +4,8 @@
 var Travis = SC.Application.create({
   Controllers: { Repositories: {}, Builds: {} }, Models: {}, Helpers: {}, Views: {},
 
+  UPDATE_TIMES_INTERVAL: 5000,
+
   store: SC.Store.create().from('Travis.DataSource'),
 
   run: function() {

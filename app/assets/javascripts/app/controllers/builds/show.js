@@ -4,6 +4,8 @@ Travis.Controllers.Builds.Show = SC.Object.extend({
   buildBinding: 'parent.build',
 
   init: function() {
+    SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
+
     this.view = Travis.View.create({
       controller: this,
       repositoryBinding: 'controller.repository',
@@ -18,5 +20,15 @@ Travis.Controllers.Builds.Show = SC.Object.extend({
   destroy: function() {
     this.view.$().remove();
     this.view.destroy();
+  },
+
+  updateTimes: function() {
+    var build  = this.get('build');
+    if(build) build.updateTimes();
+
+    var matrix = this.getPath('build.matrix');
+    if(matrix) $.each(matrix.toArray(), function(ix, build) { build.updateTimes() }.bind(this));
+
+    SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
   }
 });
