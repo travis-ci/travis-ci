@@ -36,7 +36,7 @@
     {{/if}}
   </dl>
 
-  {{#if build.parent_id}}
+  {{#if build.parentId}}
     <pre class="log">{{{log}}}</pre>
   {{else}}
     <table id="builds">
