@@ -23,12 +23,12 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   parent: function() {
     if(window.__DEBUG__) console.log('updating parent on build ' + this.get('id'));
     return this.get('parentId') ? Travis.Build.find(this.get('parentId')) : null;
-  }.property('parentId').cacheable(),
+  }.property('parent_id').cacheable(),
 
   repository: function() {
     if(window.__DEBUG__) console.log('updating repository on build ' + this.get('id'));
     return Travis.Repository.find(this.get('repositoryId'));
-  }.property('repositoryId').cacheable(),
+  }.property('repository_id').cacheable(),
 
   update: function(attrs) {
     if('matrix' in attrs) attrs.matrix = this._joinMatrixAttributes(attrs.matrix);
