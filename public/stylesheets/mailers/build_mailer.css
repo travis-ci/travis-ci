@@ -38,6 +38,7 @@
 
 .block-message {
   margin-bottom: 18px;
+  margin-top: 10px;
   padding: 14px;
   color: #404040;
   color: rgba(0, 0, 0, 0.8);
@@ -67,5 +68,17 @@
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+}
+
+table.build-info th, table.build-info td {
+  line-height: 150%;
+}
+table.build-info th {
+  font-weight: normal;
+  text-align: right;
+  padding: 0 5px;
+}
+table.build-info td {
+  text-align: left;
 }
 
