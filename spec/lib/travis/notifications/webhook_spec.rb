@@ -39,3 +39,4 @@ describe Travis::Notifications::Webhook do
     end
   end
 end
+

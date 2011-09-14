@@ -14,17 +14,17 @@ describe Build, 'notifications', ActiveSupport::TestCase do
     end
 
     it 'returns false if the build has notifications disabled (deprecated api) (disabled => true)' do
-      build = Factory(:build, :state => :finished, :config => { :notifications => { :disabled => true } })
+      build = Factory(:build, :state => :finished, :config => { 'notifications' => { :disabled => true } })
       build.send_email_notifications?.should be_false
     end
 
     it 'returns false if the build has notifications disabled (deprecated api) (disable => true)' do
-      build = Factory(:build, :state => :finished, :config => { :notifications => { :disable => true } })
+      build = Factory(:build, :state => :finished, :config => { 'notifications' => { :disable => true } })
       build.send_email_notifications?.should be_false
     end
 
     it 'returns false if the build has notifications disabled' do
-      build = Factory(:build, :state => :finished, :config => { :notifications => { :email => false } })
+      build = Factory(:build, :state => :finished, :config => { 'notifications' => { :email => false } })
       build.send_email_notifications?.should be_false
     end
 
@@ -37,21 +37,21 @@ describe Build, 'notifications', ActiveSupport::TestCase do
     end
 
     context 'notification verbosity configuration' do
-      [[%w(broken broken),     {:on_failure => :always}, true],
-       [%w(successful broken), {:on_failure => :always}, true],
-       [%w(broken broken),     {:on_failure => :change}, false],
-       [%w(successful broken), {:on_failure => :change}, true],
-       [%w(successful broken), {:on_failure => :never},  false],
-       [%w(successful successful), {:on_success => :always}, true],
-       [%w(broken successful),     {:on_success => :always}, true],
-       [%w(successful successful), {:on_success => :change}, false],
-       [%w(broken successful),     {:on_success => :change}, true],
-       [%w(broken successful),     {:on_success => :never},  false],
+      [[%w(broken broken),     {'on_failure' => 'always'}, true],
+       [%w(successful broken), {'on_failure' => 'always'}, true],
+       [%w(broken broken),     {'on_failure' => 'change'}, false],
+       [%w(successful broken), {'on_failure' => 'change'}, true],
+       [%w(successful broken), {'on_failure' => 'never'},  false],
+       [%w(successful successful), {'on_success' => 'always'}, true],
+       [%w(broken successful),     {'on_success' => 'always'}, true],
+       [%w(successful successful), {'on_success' => 'change'}, false],
+       [%w(broken successful),     {'on_success' => 'change'}, true],
+       [%w(broken successful),     {'on_success' => 'never'},  false],
       ].each do |states, config, outcome|
         it "returns #{outcome} if previous build was #{states[0]}, current build is #{states[1]}, and config is #{config}" do
           previous_build = Factory("#{states[0]}_build".to_sym)
           build = Factory("#{states[1]}_build".to_sym, :repository => previous_build.repository,
-                          :config => { :notifications => config})
+                          :config => { 'notifications' => config})
           build.send_email_notifications?.should == outcome
         end
       end
@@ -83,14 +83,14 @@ describe Build, 'notifications', ActiveSupport::TestCase do
 
     it "equals the recipients specified in the build configuration if any" do
       recipients = %w(recipient-1@email.com recipient-2@email.com)
-      build = Factory(:build, :config => { :notifications => { :recipients => recipients } })
+      build = Factory(:build, :config => { 'notifications' => { 'recipients' => recipients } })
       assert_contains_recipients(build.email_recipients, recipients)
     end
   end
 
   describe :send_webhook_notifications? do
     it 'returns true if the build configuration specifies webhooks' do
-      build = Factory(:build, :config => { :notifications => { :webhooks => ['http://evome.fr/notifications', 'http://example.com/'] } })
+      build = Factory(:build, :config => { 'notifications' => { 'webhooks' => ['http://evome.fr/notifications', 'http://example.com/'] } })
       build.send_webhook_notifications?.should be_true
     end
 
@@ -101,21 +101,30 @@ describe Build, 'notifications', ActiveSupport::TestCase do
   end
 
   describe :webhooks do
+    it 'should have identical behaviour if a single url is passed as a string or as an array' do
+      webhooks = 'http://evome.fr/notifications'
+      webhooks_array = ['http://evome.fr/notifications']
+      build1 = Factory(:build, :config => { 'notifications' => { 'webhooks' => webhooks } })
+      build2 = Factory(:build, :config => { 'notifications' => { 'webhooks' => webhooks_array } })
+      build1.webhooks.should == build2.webhooks
+    end
+
     it 'returns an array of values if the build configuration specifies a single, comma separated string' do
       webhooks = 'http://evome.fr/notifications, http://example.com'
-      build = Factory(:build, :config => { :notifications => { :webhooks => webhooks } })
+      build = Factory(:build, :config => { 'notifications' => { 'webhooks' => webhooks } })
       build.webhooks.should == webhooks.split(' ').map(&:strip)
     end
 
     it 'returns an array of values if the build configuration specifies an array of values' do
       webhooks = %w(http://evome.fr/notifications http://example.com)
-      build = Factory(:build, :config => { :notifications => { :webhooks => webhooks } })
+      build = Factory(:build, :config => { 'notifications' => { 'webhooks' => webhooks } })
       build.webhooks.should == webhooks
     end
 
     it 'returns an array of values if the build configuration specifies the array of values within a config hash' do
       webhooks = %w(http://evome.fr/notifications http://example.com)
-      build = Factory(:build, :config => { :notifications => { :webhooks => {:urls => webhooks, :on_success => :change} } })
+      build = Factory(:build, :config => { 'notifications' => { 'webhooks' =>
+                                              {'urls' => webhooks, 'on_success' => 'change'} } })
       build.webhooks.should == webhooks
     end
   end
