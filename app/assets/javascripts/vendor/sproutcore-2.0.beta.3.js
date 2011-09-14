@@ -8329,7 +8329,7 @@ var RunLoop = SC.Object.extend({
       while (this._queues && (queue = this._queues[queueName])) {
         this._queues[queueName] = null;
 
-        log = SC.LOG_BINDINGS && queueName==='sync';
+        log = SC.LOG_SYNC_QUEUE && queueName==='sync';
         if (log) SC.Logger.log('Begin: Flush Sync Queue');
 
         // the sync phase is to allow property changes to propogate.  don't
@@ -8351,7 +8351,7 @@ var RunLoop = SC.Object.extend({
           queueName = queueNames[idx];
           queue = queues[queueName];
 
-          log = SC.LOG_BINDINGS && queueName==='sync';
+          log = SC.LOG_SYNC_QUEUE && queueName==='sync';
           if (log) SC.Logger.log('Begin: Flush Sync Queue');
 
           if (queueName === 'sync') SC.beginPropertyChanges();
