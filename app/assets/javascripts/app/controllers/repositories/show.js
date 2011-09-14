@@ -42,7 +42,7 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
   _setBuildFromRepository: function() {
     var id = this.getPath('params.id');
     if(!id) this.set('build', this.getPath('repository.lastBuild'));
-  }.observes('repository.lastBuild'),
+  }.observes('params.id', 'repository.lastBuild'),
 
   _setBuildFromId: function() {
     var id = this.getPath('params.id');
