@@ -1,0 +1,25 @@
+<h1>Travis CI</h1>
+
+<p>
+  We run your Open Source projects tests and notify about it.<br />
+  You probably want to know how to <a href="http://about.travis-ci.org/docs/user/getting-started/">Getting Started</a>
+</p>
+
+<p>We manage a lot of languages. Check them out !</p>
+
+<ul>
+  <li><a href="http://about.travis-ci.org/docs/user/languages/ruby/">Ruby</a></li>
+  <li><a href="http://about.travis-ci.org/docs/user/languages/javascript-with-nodejs/">Javascript (with Node.js)</a></li>
+  <li><a href="http://about.travis-ci.org/docs/user/languages/erlang/">Erlang</a></li>
+  <li><a href="http://about.travis-ci.org/docs/user/languages/clojure/">Clojure</a></li>
+</ul>
+
+<p>And it's not all. We're Open Source.</p>
+<ul>
+  <li><a href="https://github.com/travis-ci">Come contribute on GitHub</a></li>
+  <li><a href="http://twitter.com/travisci">Talk with us on Twitter</a></li>
+  <li><a href="irc://irc.freenode.net#travis">Chat with us on IRC</a></li>
+  <li><a href="http://groups.google.com/group/travis-ci">Discuss with us on our mailing list</a></li>
+</ul>
+
+<p>We want to make the world better, and by that, we intend to help developers make nice, helpful and bugless open source projects.</p>

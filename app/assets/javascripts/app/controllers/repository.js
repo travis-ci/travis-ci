@@ -13,10 +13,17 @@ Travis.Controllers.Repository = SC.Object.extend({
 
   init: function() {
     this.tabs.controller = this;
-    this.view = Travis.Views.Repositories.Show.create({ controller: this }).appendTo('#main');
+    this.view = Travis.Views.Repositories.Show.create({ controller: this });
   },
 
   activate: function(tab, params) {
+    if (this.view.state != "inDOM") {
+      // TODO : add an object that removes any controller already present in the page
+      // So we could have several different main views to load.
+      Travis.home.view.remove();
+      this.view.appendTo('#main');
+    }
+
     this.set('params', params);
     this.tabs.activate(tab);
   },
