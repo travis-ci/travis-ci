@@ -54,71 +54,13 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
     return this.colorForStatus(this.get('result'));
   }.property('result').cacheable(),
 
-  // matrixObserver: function() {
-  //   if(window.__DEBUG__) console.log('updating isMatrix on build ' + this.get('id'));
-  //   this.set('isMatrix', this.getPath('matrix.length') > 1);
-  // }.observes('matrix.length'),
-
-  // resultObserver: function() {
-  //   if(window.__DEBUG__) console.log('updating color on build ' + this.get('id'));
-  //   this.set('color', this.colorForStatus(this.get('result')));
-  // }.observes('result'),
-
   duration: function() {
     if(window.__DEBUG__) console.log('updating duration on build ' + this.get('id'));
     return this.durationFrom(this.get('startedAt'), this.get('finishedAt'));
   }.property('startedAt', 'finishedAt').cacheable(),
 
-  configKeys: function() {
-    return $.map($.keys($.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release')), function(key) { return $.camelize(key) });
-  }.property().cacheable(),
-
-  configValues: function() {
-    return $.values($.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release'));
-  }.property().cacheable(),
-
-  // see https://github.com/sproutcore/sproutcore20/issues/160
-  // if i make these depend on 'config' then they would be updated on the matrix view on changes to the
-  // build log attribute :/
-  configKeyObjects: function() {
-    if(window.__DEBUG__) console.log('updating configKeyObjects on build ' + this.get('id'));
-    return $.map(this.get('configKeys'), function(key) { return SC.Object.create({ key: key }) });
-  }.property().cacheable(),
-
-  configValueObjects: function() {
-    if(window.__DEBUG__) console.log('updating configValueObjects on build ' + this.get('id'));
-    return $.map(this.get('configValues'), function(value) { return SC.Object.create({ value: value }) });
-  }.property().cacheable(),
 
   // TODO the following display logic all seems to belong to a controller or helper module
-
-  formattedCommit: function() {
-    return (this.get('commit') || '').substr(0, 7) + (this.get('branch') ? ' (%@)'.fmt(this.get('branch')) : '');
-  }.property('commit', 'branch').cacheable(),
-
-  formattedDuration: function() {
-    return this.readableTime(this.get('duration'));
-  }.property('duration').cacheable(),
-
-  formattedFinishedAt: function() {
-    return this.timeAgoInWords(this.get('finishedAt')) || '-';
-  }.property('finishedAt').cacheable(),
-
-  formattedConfig: function() {
-    var config = $.only(this.get('config'), 'rvm', 'gemfile', 'env');
-    var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
-    return values.length == 0 ? '-' : values.join(', ');
-  }.property('config').cacheable(),
-
-  formattedLog: function() {
-    var log = this.get('log');
-    return log ? Travis.Log.filter(log) : '';
-  }.property('log').cacheable(),
-
-  formattedCompareUrl: function() {
-    var parts = (this.get('compare_url') || '').split('/');
-    return parts[parts.length - 1];
-  }.property('compareUrl').cacheable(),
 
   // need to join given attributes with existing attributes because SC.Record.toMany
   // does not seem to allow partial updates, i.e. would remove existing attributes?

@@ -1,21 +1,26 @@
 //= require app/controllers/tabs.js
 //= require app/views.js
 
-Travis.Controllers.Repositories = SC.ArrayController.extend({
-  tabs: Travis.Controllers.Tabs.create({
-    selector: '#left',
-    views: {
-      recent: Travis.Views.Repositories.List,
-      search: Travis.Views.Repositories.List
-    }
-  }),
+    // List:    Travis.View.extend({ templateName: 'app/templates/repositories/list', repositoriesBinding: 'controller' }),
+    // Show:    Travis.View.extend({ templateName: 'app/templates/repositories/show' })
 
+Travis.Controllers.Repositories.List = SC.ArrayController.extend({
   searchBox: SC.TextField.create({
   }),
 
   init: function() {
+    this.tabs = Travis.Controllers.Tabs.create({
+      selector: '#left',
+      parent: this
+    });
+
+    this.view = Travis.View.create({
+      repositories: this,
+      templateName: 'app/templates/repositories/list'
+    });
+    this.view.appendTo('#left');
+
     this.searchBox.appendTo('#search_box');
-    this.tabs.controller = this;
     this.recent();
   },
 

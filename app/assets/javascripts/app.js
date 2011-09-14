@@ -2,7 +2,7 @@
 // SC.LOG_BINDINGS = true;
 
 var Travis = SC.Application.create({
-  Controllers: {}, Models: {}, Helpers: {}, Views: {},
+  Controllers: { Repositories: {}, Builds: {} }, Models: {}, Helpers: {}, Views: {},
 
   store: SC.Store.create().from('Travis.DataSource'),
 
@@ -15,14 +15,10 @@ var Travis = SC.Application.create({
   },
 
   initMain: function() {
-    this.dispatch = Travis.Controllers.Events.create();
-    this.main = Travis.Controllers.Repository.create();
-
-    Travis.Controllers.Repositories.create();
-    Travis.Controllers.Workers.create();
-    Travis.Controllers.Jobs.create({ queue: 'builds' });
-    Travis.Controllers.Jobs.create({ queue: 'rails' });
-    Travis.Controllers.Sidebar.create();
+    this.events = Travis.Controllers.Events.create();
+    this.main   = Travis.Controllers.Repositories.Show.create();
+    this.left   = Travis.Controllers.Repositories.List.create();
+    this.right  = Travis.Controllers.Sidebar.create();
 
     SC.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.main.activate('build',   params) });
     SC.routes.add('!/:owner/:name/builds',     function(params) { Travis.main.activate('history', params) });
@@ -50,7 +46,7 @@ var Travis = SC.Application.create({
   },
 
   receive: function(event, data) {
-    Travis.dispatch.receive(event, data);
+    Travis.events.receive(event, data);
   }
 });
 

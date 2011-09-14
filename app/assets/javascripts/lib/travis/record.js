@@ -3,6 +3,10 @@ Travis.Record = SC.Record.extend({
   primaryKey: 'id',
   id: SC.Record.attr(Number),
 
+  isReady: function() {
+    return this.get('status') & SC.Record.READY != 0;
+  },
+
   update: function(attrs) {
     this.whenReady(function(record) {
       // TODO should not need to camelize here, should we? otherwise bindings seem to get stuck.
