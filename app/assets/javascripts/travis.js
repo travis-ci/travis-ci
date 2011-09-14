@@ -17,6 +17,7 @@ var Travis = SC.Application.create({
   initMain: function() {
     this.dispatch = Travis.Controllers.Events.create();
     this.main = Travis.Controllers.Repository.create();
+    this.home = Travis.Controllers.Home.create();
 
     Travis.Controllers.Repositories.create();
     Travis.Controllers.Workers.create();
@@ -27,7 +28,7 @@ var Travis = SC.Application.create({
     SC.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.main.activate('build',   params) });
     SC.routes.add('!/:owner/:name/builds',     function(params) { Travis.main.activate('history', params) });
     SC.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('current', params) });
-    SC.routes.add('',                          function(params) { Travis.main.activate('current', params) });
+    SC.routes.add('',                          function(params) { Travis.home.activate(params) });
   },
 
   initProfile: function() {

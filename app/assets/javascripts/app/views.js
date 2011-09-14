@@ -11,6 +11,8 @@ Travis.Views = {
   Repositories: {
     List:    Travis.View.extend({ templateName: 'app/templates/repositories/list', repositoriesBinding: 'controller' }),
     Show:    Travis.View.extend({ templateName: 'app/templates/repositories/show' })
-  }
+  },
+
+  Home: Travis.View.extend({templateName: 'app/templates/home/welcome'})
 }
 
