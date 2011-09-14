@@ -9,6 +9,8 @@ Travis.Controllers.Repositories.List = SC.ArrayController.extend({
   }),
 
   init: function() {
+    SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
+
     this.tabs = Travis.Controllers.Tabs.create({
       selector: '#left',
       parent: this
@@ -36,5 +38,12 @@ Travis.Controllers.Repositories.List = SC.ArrayController.extend({
 
   searchObserver: function() {
     this[this.searchBox.value ? 'search' : 'recent']();
-  }.observes('searchBox.value')
+  }.observes('searchBox.value'),
+
+  updateTimes: function() {
+    var repositories  = this.get('content');
+    if(repositories) repositories.forEach(function(repository) { repository.updateTimes() }.bind(this));
+
+    SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
+  }
 });
