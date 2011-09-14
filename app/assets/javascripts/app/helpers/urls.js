@@ -31,8 +31,7 @@ Travis.Helpers.Urls = {
     } else {
       return '#!/' + this.getPath('repository.slug') + '/builds/' + this.getPath('build.id');
     }
-    // Also, wtf do i have to watch the status here. And what's a better solution?
-  }.property('build.id'),
+  }.property('repository.slug', 'build.id'),
 
   urlLastBuild: function() {
     // OMFG, HAX.
@@ -47,25 +46,33 @@ Travis.Helpers.Urls = {
 
   urlGithubRepository: function() {
     return 'http://github.com/' + this.getPath('repository.slug');
-  }.property('repository', 'build'),
+  }.property('repository.slug'),
 
   urlGithubCommit: function() {
-    return 'http://github.com/' + this.getPath('repository.slug') + '/commit/' + this.getPath('build.commit');
-  }.property('repository', 'build'),
+    // OMFG, HAX.
+    // I'm not able to bind the build and repository to the item views of the matrix collection
+    // view properly. See templates/builds/show.jst.hjs
+    if(this.getPath('parentView.tagName') == 'tbody') {
+      var slug = this.getPath('parentView.parentView.parentView.repository.slug') || this.getPath('parentView.parentView.repository.slug');
+      return '#!/' + slug + '/builds/' + this.getPath('content.id');
+    } else {
+      return 'http://github.com/' + this.getPath('repository.slug') + '/commit/' + this.getPath('build.commit');
+    }
+  }.property('repository.slug', 'build.commit'),
 
   urlGithubWatchers: function() {
     return 'http://github.com/' + this.getPath('repository.slug') + '/watchers';
-  }.property('repository', 'build'),
+  }.property('repository.slug'),
 
   urlGithubNetwork: function() {
     return 'http://github.com/' + this.getPath('repository.slug') + '/network';
-  }.property('repository', 'build'),
+  }.property('repository.slug'),
 
   urlAuthor: function() {
-    return 'mailto:' + this.getPath('build.author_email');
-  }.property('build'),
+    return 'mailto:' + this.getPath('build.authorEmail');
+  }.property('build.authorEmail'),
 
   urlCommitter: function() {
-    return 'mailto:' + this.getPath('build.committer_email');
-  }.property('build'),
+    return 'mailto:' + this.getPath('build.committerEmail');
+  }.property('build.committerEmail'),
 };
