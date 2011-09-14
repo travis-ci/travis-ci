@@ -26,13 +26,6 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
 
   activate: function(tab, params) {
     this.set('params', params);
-
-    if(params.id) {
-      this.set('build', Travis.Build.find(params.id));
-    } else {
-      this.bind('build', 'repository.lastBuild');
-    }
-
     this.tabs.activate(tab);
   },
 
@@ -46,7 +39,17 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
     if(parts.length > 0) return parts.join('/');
   }.property('params'),
 
-  buildObserver: function() {
+  _setBuildFromRepository: function() {
+    var id = this.getPath('params.id');
+    if(!id) this.set('build', this.getPath('repository.lastBuild'));
+  }.observes('repository.lastBuild'),
+
+  _setBuildFromId: function() {
+    var id = this.getPath('params.id');
+    if(id) this.set('build', Travis.Build.find(id));
+  }.observes('params.id'),
+
+  _buildObserver: function() {
     this.tabs.toggle('parent', !!this.getPath('build.parentId'));
-  }.observes('build.parentId'),
+  }.observes('build.parent_id'),
 });

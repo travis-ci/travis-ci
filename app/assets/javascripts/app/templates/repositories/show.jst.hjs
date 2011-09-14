@@ -20,8 +20,7 @@
     </li>
     <li id="tab_build">
       <h5><a {{bindAttr href="urlBuild"}}>Build #{{build.number}}</a></h5>
-      <div class="tab">
-      </div>
+      <div class="tab"> </div>
     </li>
   </ul>
 </div>

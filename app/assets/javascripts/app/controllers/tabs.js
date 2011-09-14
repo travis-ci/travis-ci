@@ -6,8 +6,8 @@ Travis.Controllers.Tabs = SC.Object.extend({
   activate: function(tab) {
     if (this.active !== tab) {
       this.destroy();
-      this.create(tab);
       SC.run.next(function() {
+        this.create(tab);
         this.setActive(tab);
       }.bind(this));
     }
@@ -25,13 +25,14 @@ Travis.Controllers.Tabs = SC.Object.extend({
 
   create: function(tab) {
     if(this.tabs) {
-      this.tab = this.tabs[tab].create({ parent: this.parent });
+      this.tab = this.tabs[tab].create({ parent: this.parent, selector: '#tab_' + tab + ' .tab' });
       this.tab.view.appendTo('#tab_' + tab + ' .tab');
     }
   },
 
   destroy: function() {
-    this.tab && this.tab.view.destroy();
+    this.tab && this.tab.destroy();
+    delete this.tab;
   },
 
   // updateTimes: function() {
