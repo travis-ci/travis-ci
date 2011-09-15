@@ -36,11 +36,11 @@ Travis.Helpers.Build = {
 
   configKeys: function() {
     return $.map($.keys($.only(this.getPath('build.config'), 'rvm', 'gemfile', 'env', 'otp_release')), function(key) { return $.camelize(key) });
-  }.property('build.config').cacheable(),
+  }.property('*build').cacheable(),
 
   configValues: function() {
     return $.values($.only(this.getPath('_build.config'), 'rvm', 'gemfile', 'env', 'otp_release'));
-  }.property('_build.config').cacheable(),
+  }.property('*_build').cacheable(),
 
   // see https://github.com/sproutcore/sproutcore20/issues/160
   // if i make these depend on 'config' then they would be updated on the matrix view on changes to the
