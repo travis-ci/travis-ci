@@ -27,7 +27,7 @@ class BuildsController < ApplicationController
     end
 
     def build
-      @build ||= Build.find(params[:id], :include => [:commit, { :matrix => :commit}] )
+      @build ||= Build.find(params[:id], :include => [:commit, { :matrix => :commit }] )
     rescue ActiveRecord::RecordNotFound
       @task = Task.find(params[:id]) || not_found
     end
