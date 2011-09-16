@@ -289,7 +289,7 @@ GEM
       crack (>= 0.1.7)
     xpath (0.1.4)
       nokogiri (~> 1.3)
-    yajl-ruby (0.8.3)
+    yajl-ruby (1.0.0)
 
 PLATFORMS
   ruby
@@ -339,4 +339,4 @@ DEPENDENCIES
   unicorn (~> 4.0.0)
   unobtrusive_flash (~> 0.0.2)
   webmock
-  yajl-ruby (~> 0.8.2)
+  yajl-ruby (~> 1.0.0)
