@@ -14,11 +14,11 @@ module Travis
         def push(event, object, *args)
           data = args.last.is_a?(Hash) ? args.pop : {}
           data = payload_for(event, object, data)
-          channel(event).trigger(client_event_for(event), data)
+          channel(event, object).trigger(client_event_for(event), data)
         end
 
-        def channel(event)
-          ::Pusher[queue_for(event)]
+        def channel(event, object)
+          ::Pusher[queue_for(event, object)]
         end
 
         def client_event_for(event)
@@ -40,7 +40,15 @@ module Travis
           end
         end
 
-        def queue_for(event)
+        def queue_for(event, object)
+          case event
+          when 'build:queued', 'build:removed'
+            'jobs'
+          when 'build:log'
+            "build:#{object.id}"
+          else
+            'builds'
+          end
           event.starts_with?('task:') ? 'jobs' : 'repositories' # TODO not quite true ...
         end
 
