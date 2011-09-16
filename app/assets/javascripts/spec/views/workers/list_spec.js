@@ -5,7 +5,7 @@ describe('Views:', function() {
 
       beforeEach(function() {
         workers = Test.Factory.Worker.all();
-        view = createView('#workers', { workers: workers, template: 'app/templates/workers/list' });
+        view = createView('#workers', { workers: workers, templateName: 'app/templates/workers/list' });
       });
 
       afterEach(function() {

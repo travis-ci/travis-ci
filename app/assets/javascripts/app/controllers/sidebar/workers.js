@@ -2,7 +2,7 @@ Travis.Controllers.Workers = SC.ArrayController.extend({
   init: function() {
     this.view = SC.View.create({
       content: this,
-      template: SC.TEMPLATES['app/templates/workers/list']
+      templateName: 'app/templates/workers/list'
     })
     this.view.appendTo('#workers');
 

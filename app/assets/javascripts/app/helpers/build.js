@@ -24,9 +24,13 @@ Travis.Helpers.Build = {
   }.property('_build.finished_at').cacheable(),
 
   log: function() {
-    var log = this.getPath('build.log');
+    if(this.getPath('build.parentId')) {
+      var log = this.getPath('build.log');
+    } else {
+      var log = this.getPath('build.matrix.firstObject.log');
+    }
     return log ? Travis.Log.filter(log) : '';
-  }.property('build.log').cacheable(),
+  }.property('build.parent_id', 'build.log').cacheable(),
 
   config: function() {
     var config = $.only(this.getPath('build.config'), 'rvm', 'gemfile', 'env');

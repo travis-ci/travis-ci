@@ -24,8 +24,7 @@ beforeEach(function() {
 });
 
 var createView = function(selector, options) {
-  options.template = SC.TEMPLATES[options.template];
-  var view = SC.View.create(options);
+  var view = Travis.View.create(options);
   SC.run(function() { view.appendTo(selector) });
   return view;
 };
@@ -39,9 +38,7 @@ var withinRunLoop = function(block) {
 
 var whenReady = function(object, callback) {
   waitsFor(function() {
-    // var path = object.kindOf(SC.ChildArray) ? 'firstObject.result' : 'result';
-    var path = 'result';
-    return object.getPath(path) & SC.Record.READY;
+    return object.get('status') & SC.Record.READY;
   });
   runs(function() {
     callback();

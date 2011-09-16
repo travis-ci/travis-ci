@@ -5,7 +5,7 @@ describe('Views:', function() {
 
       beforeEach(function() {
         build = Test.Factory.Build.passing();
-        view = createView('#main', { content: build, template: 'app/templates/builds/show' });
+        view = createView('#main', { repository: build.get('repository'), build: build, templateName: 'app/templates/builds/show' });
       });
 
       afterEach(function() {
@@ -73,9 +73,10 @@ describe('Views:', function() {
           SC.run(function() {
             var attributes = build.get('matrix').objectAt(0).get('attributes');
             Travis.store.loadRecord(Travis.Build, $.merge(attributes, { id: 111, parent_id: build.get('id') }));
-            // build.get('matrix').pushObject(Travis.store.find(Travis.Build, 111));
+            build.get('matrix').pushObject(Travis.store.find(Travis.Build, 111));
           });
-          // TODO can't get the matrix to update here :/
+          // TODO just can't get to actually get the matrix rendered here
+          expect(view.$('#builds')).toExist();
         });
       });
 

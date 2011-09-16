@@ -123,93 +123,10 @@ describe('Build', function() {
         });
       });
 
-      describe('configKeys', function() {
-        it('returns an empty array if the config is undefined', function() {
-          build.set('config', null);
-          expect(build.get('configKeys')).toEqual([]);
-        });
-
-        it('returns a list of config dimensions for the build matrix table', function() {
-          build.set('config', { rvm: ['1.9.2', 'rbx'], gemfile: ['Gemfile.rails-2.3.x', 'Gemfile.rails-3.x'] });
-          expect(build.get('configKeys')).toEqual(['Rvm', 'Gemfile']);
-        });
-
-        it("ignores the .configured key", function() {
-          build.set('config', { '.configured': true });
-          expect(build.get('configKeys')).toEqual([]);
-        });
-      });
-
-      describe('configValues', function() {
-        it('returns an empty array if the config is undefined', function() {
-          build.set('config', null);
-          expect(build.get('configValues')).toEqual([]);
-        });
-
-        it('returns a list of config dimensions for the build matrix table', function() {
-          build.set('config', { rvm: ['1.9.2', 'rbx'], gemfile: ['Gemfile.rails-2.3.x', 'Gemfile.rails-3.x'] });
-          expect(build.get('configValues')).toEqual([['1.9.2', 'rbx'], ['Gemfile.rails-2.3.x', 'Gemfile.rails-3.x']]);
-        });
-
-        it("ignores the .configured key", function() {
-          build.set('config', { '.configured': true });
-          expect(build.get('configValues')).toEqual([]);
-        });
-      });
-
       it('appendLog', function() {
         build.set('log', 'test-1')
         build.appendLog('test-2')
         expect(build.get('log')).toEqual('test-1test-2');
-      });
-
-      it('formattedCommit', function() {
-        expect(build.get('formattedCommit')).toEqual('4d7621e (master)');
-      });
-
-      describe('formattedDuration', function() {
-        it("returns a '-' if the build's start time is not known", function() {
-          build.set('startedAt', null);
-          expect(build.get('formattedDuration')).toEqual('-');
-        });
-
-        it("returns a human readable duration using the current time if the build's finished time is not known", function() {
-          build.set('finishedAt', null);
-          expect(build.get('formattedDuration')).toEqual('more than 24 hrs');
-        });
-
-        it("returns a human readable duration if the build's start and finished times are both known", function() {
-          expect(build.get('formattedDuration')).toEqual('10 sec');
-        });
-      });
-
-      describe('formattedFinishedAt', function() {
-        it("returns a '-' if the build's finished time is not known", function() {
-          build.set('finishedAt', null);
-          expect(build.get('formattedFinishedAt')).toEqual('-');
-        });
-
-        it("returns a human readable time ago string if the build's finished time is known", function() {
-          spyOn($.timeago, 'now').andReturn(new Date('2011/01/01 05:00:00').getTime());
-          expect(build.get('formattedFinishedAt')).toEqual('about 3 hours ago'); // TODO hmmm, some timezone difference here. is that a problem?
-        });
-      });
-
-      describe('formattedConfig', function() {
-        it('returns "-" if the config is undefined', function() {
-          build.set('config', null);
-          expect(build.get('formattedConfig')).toEqual('-');
-        });
-
-        it('returns a formatted displayable config string', function() {
-          build.set('config', { rvm: ['1.9.2', 'rbx'], gemfile: ['Gemfile.rails-2.3.x', 'Gemfile.rails-3.x'] });
-          expect(build.get('formattedConfig')).toEqual('Rvm: 1.9.2, rbx, Gemfile: Gemfile.rails-2.3.x, Gemfile.rails-3.x');
-        });
-
-        it("ignores the .configured key", function() {
-          build.set('config', { '.configured': true });
-          expect(build.get('formattedConfig')).toEqual('-');
-        });
       });
     });
   });

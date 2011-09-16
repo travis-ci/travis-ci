@@ -36,9 +36,9 @@
     {{/if}}
   </dl>
 
-  {{#if build.parent_id}}
-    <pre class="log">{{{log}}}</pre>
-  {{else}}
+  {{#if build.isMatrix}}
     {{view Travis.View templateName="app/templates/builds/matrix" repositoryBinding="repository" buildBinding="build" matrixBinding="matrix"}}
+  {{else}}
+    <pre class="log">{{{log}}}</pre>
   {{/if}}
 </div>

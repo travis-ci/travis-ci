@@ -11,7 +11,7 @@ Travis.Helpers.Urls = {
     } else {
       return '#!/' + this.getPath('repository.slug');
     }
-  }.property('repository'),
+  }.property('content', 'repository'),
 
   urlBuilds: function() {
     return '#!/' + this.getPath('repository.slug') + '/builds';
