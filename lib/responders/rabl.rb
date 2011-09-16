@@ -26,7 +26,7 @@ module Responders
       if schema = known_xml_schema
         render "repositories/show.#{schema}.xml.builder" # TODO port this to rabl
       elsif rabl_format?
-        render :template => template_name
+        render :template => template_name, :locals => { :controller => controller, :params => controller.params }
       else
         super
       end
