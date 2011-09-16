@@ -50,6 +50,15 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
   }.observes('params.id'),
 
   _buildObserver: function() {
-    this.tabs.toggle('parent', !!this.getPath('build.parentId'));
-  }.observes('build.parent_id'),
+    var build = this.get('build');
+    if(build.get('status') & SC.Record.READY && this.getPath('build.matrix.length') == 1) {
+      var build = this.getPath('build.matrix').objectAt(0);
+      this.set('build', build);
+      if(build.get('state') != 'finished') {
+        console.log('subscribe!');
+        pusher.subscribe('build:' + build.get('id')).bind_all(Travis.receive);
+      }
+    }
+    this.tabs.toggle('parent', this.getPath('params.id') && this.getPath('build.parentId'));
+  }.observes('build.status'),
 });

@@ -39,7 +39,7 @@ var Travis = SC.Application.create({
 
   initPusher: function() {
     if(window.pusher) {
-      var channels = ['repositories', 'jobs'];
+      var channels = ['builds', 'jobs'];
       $.each(channels, function(ix, channel) { pusher.subscribe(channel).bind_all(Travis.receive); })
     }
   },
