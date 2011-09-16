@@ -3,7 +3,7 @@ Travis.Controllers.Jobs = SC.ArrayController.extend({
     this.view = SC.View.create({
       jobs: this,
       queue: $.capitalize(this.get('queue')),
-      template: SC.TEMPLATES['app/templates/jobs/list'],
+      templateName: 'app/templates/jobs/list',
       className: 'queue-' + this.get('queue')
     })
     this.view.appendTo('#jobs');

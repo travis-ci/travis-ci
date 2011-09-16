@@ -4,8 +4,8 @@ describe('Views:', function() {
       var jobs, view;
 
       beforeEach(function() {
-        jobs = Test.Factory.Job.all();
-        view = createView('#jobs', { jobs: jobs, template: 'app/templates/jobs/list' });
+        jobs = SC.ArrayProxy.create({ content: Test.Factory.Job.all() });
+        view = createView('#jobs', { jobs: jobs, templateName: 'app/templates/jobs/list' });
       });
 
       afterEach(function() {

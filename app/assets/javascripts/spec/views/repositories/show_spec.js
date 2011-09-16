@@ -5,8 +5,7 @@ describe('Views:', function() {
 
       beforeEach(function() {
         repository = Test.Factory.Repository.travis();
-        controller = SC.Object.create({ repository: repository });
-        view = createView('#main', { controller: controller, template: 'app/templates/repositories/show' });
+        view = createView('#main', { repository: repository, templateName: 'app/templates/repositories/show' });
       });
 
       afterEach(function() {
