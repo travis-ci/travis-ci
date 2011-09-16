@@ -9,14 +9,15 @@ var Travis = SC.Application.create({
   store: SC.Store.create().from('Travis.DataSource'),
 
   run: function() {
-    var action = $('body').attr('id') == 'home' ? 'initMain' : 'initProfile';
-    this[action]();
-
+    var action = $('body').attr('id');
+    if(this[action]) {
+      this[action]();
+    }
     this.initPusher();
     this.initEvents();
   },
 
-  initMain: function() {
+  home: function() {
     this.events = Travis.Controllers.Events.create();
     this.main   = Travis.Controllers.Repositories.Show.create();
     this.left   = Travis.Controllers.Repositories.List.create();
@@ -28,13 +29,19 @@ var Travis = SC.Application.create({
     SC.routes.add('',                          function(params) { Travis.main.activate('current', params) });
   },
 
-  initProfile: function() {
+  profile: function() {
     Travis.Controllers.ServiceHooks.create();
   },
 
+  receive: function(event, data) {
+    Travis.events.receive(event, data);
+  },
+
   initPusher: function() {
-    var channels = ['repositories', 'jobs'];
-    $.each(channels, function(ix, channel) { pusher.subscribe(channel).bind_all(Travis.receive); })
+    if(window.pusher) {
+      var channels = ['repositories', 'jobs'];
+      $.each(channels, function(ix, channel) { pusher.subscribe(channel).bind_all(Travis.receive); })
+    }
   },
 
   initEvents: function() {
@@ -46,10 +53,6 @@ var Travis = SC.Application.create({
 
     $('#workers .group').live('click', function() { $(this).hasClass('open') ? $(this).removeClass('open') : $(this).addClass('open'); })
   },
-
-  receive: function(event, data) {
-    Travis.events.receive(event, data);
-  }
 });
 
 $('document').ready(function() {
