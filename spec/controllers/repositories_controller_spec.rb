@@ -49,6 +49,7 @@ describe RepositoriesController do
        'last_build_id' => repository.last_build_id,
        'last_build_number' => '1',
        'last_build_started_at' => '2010-11-12T12:30:00Z',
+       'last_build_status' => 1,
        'last_build_result' => 1
       }
     end
@@ -122,12 +123,12 @@ describe RepositoriesController do
       xml_response.should == {
         'repository' => {
           'id'                     => { '__content__' => repository.id.to_s },
-          'slug'                   => { '__content__' => 'sven/travis-ci' },
           'last_build_id'          => { '__content__' => build.id.to_s },
           'last_build_number'      => { '__content__' => '1' },
           'last_build_result'      => { '__content__' => '1' },
           'last_build_started_at'  => { '__content__' => '2010-11-12T12:30:00Z' },
           'last_build_finished_at' => { '__content__' => '2010-11-12T12:30:20Z' },
+          'slug'                   => { '__content__' => 'sven/travis-ci' }
         }
       }
     end
