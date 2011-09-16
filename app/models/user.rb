@@ -10,7 +10,12 @@ class User < ActiveRecord::Base
   class << self
     def find_or_create_for_oauth(payload)
       data = user_data_from_oauth(payload)
-      User.find_by_github_id(data['github_id']) || create!(data)
+      if user = User.find_by_github_id(data['github_id']) 
+        user.update_attributes(data)
+        user
+      else
+        create!(data)
+      end
     end
 
     def user_data_from_oauth(payload)
