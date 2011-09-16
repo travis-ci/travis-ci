@@ -1,3 +1,16 @@
+SC.RecordArray.prototype.whenReady = function(callback) {
+    if(!callback) {
+      return this;
+    } else if(this.get('status') & SC.Record.READY) {
+      callback(this);
+    } else {
+      // this.addObserver('status', function() {
+      //   if(this.get('status') & SC.Record.READY) { callback(this); }
+      // })
+    }
+    return this;
+  }
+
 Travis.Record = SC.Record.extend({
   childRecordNamespace: Travis,
   primaryKey: 'id',

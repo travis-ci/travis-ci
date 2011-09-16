@@ -11,6 +11,7 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
     }
   }),
 
+  buildBinding: '_buildProxy.content',
   repositoryBinding: '_repositories.firstObject',
 
   init: function() {
@@ -26,6 +27,12 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
 
   activate: function(tab, params) {
     this.set('params', params);
+
+    if(tab == 'current') {
+      this.set('_buildProxy', SC.Object.create({ parent: this, contentBinding: 'parent.repository.lastBuild' }));
+    } else if(tab == 'build') {
+      this.set('_buildProxy', SC.Object.create({ parent: this, content: Travis.Build.find(params.id) }));
+    }
     this.tabs.activate(tab);
   },
 
@@ -39,26 +46,13 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
     if(parts.length > 0) return parts.join('/');
   }.property('params'),
 
-  _setBuildFromRepository: function() {
-    var id = this.getPath('params.id');
-    if(!id) this.set('build', this.getPath('repository.lastBuild'));
-  }.observes('params.id', 'repository.lastBuild'),
-
-  _setBuildFromId: function() {
-    var id = this.getPath('params.id');
-    if(id) this.set('build', Travis.Build.find(id));
-  }.observes('params.id'),
-
   _buildObserver: function() {
-    var build = this.get('build');
-    if(build.get('status') & SC.Record.READY && this.getPath('build.matrix.length') == 1) {
-      var build = this.getPath('build.matrix').objectAt(0);
-      this.set('build', build);
-      if(build.get('state') != 'finished') {
-        console.log('subscribe!');
-        pusher.subscribe('build-' + build.get('id')).bind_all(Travis.receive);
-      }
-    }
     this.tabs.toggle('parent', this.getPath('params.id') && this.getPath('build.parentId'));
-  }.observes('build.status'),
+  }.observes('build.parent_id'),
+
+  _buildSubscriber: function() {
+    if(this.getPath('build.parentId') && (this.getPath('build.state') != 'finished')) {
+      this.get('build').subscribe();
+    }
+  }.observes('build.parent_id', 'build.state')
 });

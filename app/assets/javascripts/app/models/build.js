@@ -59,8 +59,22 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
     return this.durationFrom(this.get('startedAt'), this.get('finishedAt'));
   }.property('startedAt', 'finishedAt').cacheable(),
 
+  subscribe: function() {
+    var id = this.get('id');
+    if(id && !this._subscribed) {
+      this._subscribed = true;
+      $.ajax({ url: '/builds/%@.json'.fmt(id), dataType: 'json', success: function(data, status, response) {
+          Travis.subscribe('build-' + id);
+          this.set('log', data.log);
+        }.bind(this)
+      });
+    }
+  },
 
-  // TODO the following display logic all seems to belong to a controller or helper module
+  unsubscribe: function() {
+    this._subscribed = false;
+    Travis.subscribe('build-' + this.get('id'));
+  },
 
   // need to join given attributes with existing attributes because SC.Record.toMany
   // does not seem to allow partial updates, i.e. would remove existing attributes?
