@@ -125,9 +125,10 @@ describe RepositoriesController do
           'id'                     => { '__content__' => repository.id.to_s },
           'last_build_id'          => { '__content__' => build.id.to_s },
           'last_build_number'      => { '__content__' => '1' },
-          'last_build_result'      => { '__content__' => '1' },
           'last_build_started_at'  => { '__content__' => '2010-11-12T12:30:00Z' },
           'last_build_finished_at' => { '__content__' => '2010-11-12T12:30:20Z' },
+          "last_build_status"      => { '__content__' => '1' },
+          'last_build_result'      => { '__content__' => '1' },
           'slug'                   => { '__content__' => 'sven/travis-ci' }
         }
       }
