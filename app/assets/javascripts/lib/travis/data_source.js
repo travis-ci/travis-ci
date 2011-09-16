@@ -22,9 +22,8 @@ Travis.DataSource = SC.DataSource.extend({
     return YES;
   },
 
-  retrieveRecord: function(store, storeKey) {
+  retrieveRecord: function(store, storeKey, id) {
     var type = SC.Store.recordTypeFor(storeKey);
-    var id   = store.idFor(storeKey);
     var url  = this._urlFor(type, id) + '.json';
 
     $.ajax({
@@ -57,9 +56,6 @@ Travis.DataSource = SC.DataSource.extend({
 
     return YES;
   },
-
-updateRecordDidComplete: function(response, store, storeKey, id) {
-},
 
   _urlFor: function(recordType, id) {
     return $.compact([recordType.resource, id]).join('/');
