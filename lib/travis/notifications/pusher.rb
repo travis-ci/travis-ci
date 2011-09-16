@@ -45,11 +45,10 @@ module Travis
           when 'build:queued', 'build:removed'
             'jobs'
           when 'build:log'
-            "build:#{object.id}"
+            "build-#{object.id}"
           else
             'builds'
           end
-          event.starts_with?('task:') ? 'jobs' : 'repositories' # TODO not quite true ...
         end
 
         def payload_for(event, object, extra = {})

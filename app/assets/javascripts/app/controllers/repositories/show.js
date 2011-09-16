@@ -56,7 +56,7 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
       this.set('build', build);
       if(build.get('state') != 'finished') {
         console.log('subscribe!');
-        pusher.subscribe('build:' + build.get('id')).bind_all(Travis.receive);
+        pusher.subscribe('build-' + build.get('id')).bind_all(Travis.receive);
       }
     }
     this.tabs.toggle('parent', this.getPath('params.id') && this.getPath('build.parentId'));
