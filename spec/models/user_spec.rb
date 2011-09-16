@@ -3,6 +3,7 @@ require 'spec_helper'
 describe User do
   let (:user)    { FactoryGirl.build(:user) }
   let (:payload) { GITHUB_PAYLOADS[:oauth] }
+  let (:updated_payload) { GITHUB_PAYLOADS[:oauth_updated] }
 
   describe 'find_or_create_for_oauth' do
     def user(payload)
@@ -12,6 +13,11 @@ describe User do
     it 'marks new users as such' do
       user(payload).should be_recently_signed_up
       user(payload).should_not be_recently_signed_up
+    end
+
+    it 'updates changed attributes' do
+      user(payload)
+      user(updated_payload).login.should == 'johnathan'
     end
   end
 
