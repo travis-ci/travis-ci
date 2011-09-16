@@ -7,6 +7,7 @@ var Travis = SC.Application.create({
   UPDATE_TIMES_INTERVAL: 5000,
 
   store: SC.Store.create().from('Travis.DataSource'),
+  channels: [],
 
   run: function() {
     var action = $('body').attr('id');
@@ -37,10 +38,25 @@ var Travis = SC.Application.create({
     Travis.events.receive(event, data);
   },
 
+  subscribe: function(channel) {
+    if(this.channels.indexOf(channel) == -1) {
+      this.channels.push(channel);
+      pusher.subscribe(channel).bind_all(this.receive);
+    }
+  },
+
+  unsubscribe: function(channel) {
+    var ix = this.channels.indexOf(channel);
+    if(ix == -1) {
+      this.channels.splice(ix, 1);
+      pusher.unsubscribe(channel);
+    }
+  },
+
   initPusher: function() {
     if(window.pusher) {
       var channels = ['builds', 'jobs'];
-      $.each(channels, function(ix, channel) { pusher.subscribe(channel).bind_all(Travis.receive); })
+      $.each(channels, function(ix, channel) { this.subscribe(channel); }.bind(this))
     }
   },
 

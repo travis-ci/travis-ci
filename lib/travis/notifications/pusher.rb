@@ -12,9 +12,10 @@ module Travis
       protected
 
         def push(event, object, *args)
-          data = args.last.is_a?(Hash) ? args.pop : {}
-          data = payload_for(event, object, data)
-          channel(event, object).trigger(client_event_for(event), data)
+          data  = args.last.is_a?(Hash) ? args.pop : {}
+          data  = payload_for(event, object, data)
+          event = client_event_for(event)
+          channel(event, object).trigger(event, data)
         end
 
         def channel(event, object)

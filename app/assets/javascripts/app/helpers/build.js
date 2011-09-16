@@ -5,6 +5,10 @@ Travis.Helpers.Build = {
     return this.get('build') || this.get('content');
   }.property('build', 'content'),
 
+  color: function() {
+    return this.getPath('_build.color');
+  }.property('_build.result').cacheable(),
+
   commit: function() {
     var branch = this.getPath('_build.branch');
     return (this.getPath('_build.commit') || '').substr(0, 7) + (branch ? ' (%@)'.fmt(branch) : '');
@@ -24,11 +28,11 @@ Travis.Helpers.Build = {
   }.property('_build.finished_at').cacheable(),
 
   log: function() {
-    if(this.getPath('build.parentId')) {
+    // if(this.getPath('build.parentId')) {
       var log = this.getPath('build.log');
-    } else {
-      var log = this.getPath('build.matrix.firstObject.log');
-    }
+    // } else {
+    //  var log = this.getPath('build.matrix.firstObject.log');
+    // }
     return log ? Travis.Log.filter(log) : '';
   }.property('build.parent_id', 'build.log').cacheable(),
 

@@ -27,7 +27,8 @@ Travis.Controllers.Events = SC.Object.extend({
 
   buildFinished: function(data) {
     this.updateFrom(data);
-    pusher.unsubscribe('build:' + data.build.get('id'));
+    var build = Travis.Build.find(data.build.id);
+    if(build) build.unsubscribe();
   },
 
   updateFrom: function(data) {
