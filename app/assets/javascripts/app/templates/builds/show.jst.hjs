@@ -30,13 +30,13 @@
     <dt>Message</dt>
     <dd class="commit-message">{{build.message}}</dd>
 
-    {{#if build.parentId}}
+    {{#if build.parent_id}}
       <dt>Config</dt>
       <dd class="config">{{config}}</dd>
     {{/if}}
   </dl>
 
-  {{#if build.parentId}}
+  {{#if build.parent_id}}
     <pre class="log">{{{log}}}</pre>
   {{else}}
     {{view Travis.View templateName="app/templates/builds/matrix" repositoryBinding="repository" buildBinding="build" matrixBinding="matrix"}}
