@@ -19,7 +19,7 @@ Travis.Helpers.Urls = {
 
   urlParentBuild: function() {
     return '#!/' + this.getPath('repository.slug') + '/builds/' + this.getPath('build.parentId');
-  }.property('repository', 'build'),
+  }.property('repository.slug', 'build.parent_id'),
 
   urlBuild: function() {
     // OMFG, HAX.
