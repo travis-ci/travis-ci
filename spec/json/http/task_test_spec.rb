@@ -9,24 +9,28 @@ describe 'HTTP API for Task::Test' do
   it 'json' do
     json_for_http(task).should == {
       'id' => task.id,
-      'parent_id' => build.id,
       'repository_id' => repository.id,
       'number' => '2.1',
-      'config' => { 'rvm' => '1.8.7', 'gemfile' => 'test/Gemfile.rails-2.3.x' },
       'state' => 'finished',
-      'result' => 0,
       'started_at' => '2010-11-12T12:30:00Z',
       'finished_at' => '2010-11-12T12:30:20Z',
+      'config' => { 'rvm' => '1.8.7', 'gemfile' => 'test/Gemfile.rails-2.3.x' },
+      'log' => 'minimal log 2',
+      'status' => 0,      
+      'result' => 0,
+      'parent_id' => build.id,
       'commit' => '91d1b7b2a310131fe3f8',
       'branch' => 'master',
-      'compare_url' => 'https://github.com/svenfuchs/minimal/compare/master...develop',
       'message' => 'Bump to 0.0.22',
-      'log' => 'minimal log 2',
       'committed_at' => '2010-11-12T12:25:00Z',
-      'committer_email' => 'svenfuchs@artweb-design.de',
       'committer_name' => 'Sven Fuchs',
+      'committer_email' => 'svenfuchs@artweb-design.de',
       'author_name' => 'Sven Fuchs',
       'author_email' => 'svenfuchs@artweb-design.de',
+      'compare_url' => 'https://github.com/svenfuchs/minimal/compare/master...develop',
     }
   end
 end
+
+
+
