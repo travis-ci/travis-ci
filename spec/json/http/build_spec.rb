@@ -16,7 +16,7 @@ describe 'HTTP API for Build' do
       'started_at' => '2010-11-12T12:30:00Z',
       'finished_at' => '2010-11-12T12:30:20Z',
       'config' => { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'] },
-      'status' => 0,
+      'status' => 0, # still here for backwards compatibility
       'result' => 0,
       'commit' => '91d1b7b2a310131fe3f8',
       'branch' => 'master',

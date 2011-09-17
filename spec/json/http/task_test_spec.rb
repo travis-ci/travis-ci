@@ -16,7 +16,7 @@ describe 'HTTP API for Task::Test' do
       'finished_at' => '2010-11-12T12:30:20Z',
       'config' => { 'rvm' => '1.8.7', 'gemfile' => 'test/Gemfile.rails-2.3.x' },
       'log' => 'minimal log 2',
-      'status' => 0,      
+      'status' => 0, # still here for backwards compatibility  
       'result' => 0,
       'parent_id' => build.id,
       'commit' => '91d1b7b2a310131fe3f8',

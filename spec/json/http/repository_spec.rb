@@ -13,7 +13,7 @@ describe 'HTTP API for Repository' do
       'last_build_number' => build.number.to_i,
       'last_build_started_at' => '2010-11-12T12:30:00Z',
       'last_build_finished_at' => '2010-11-12T12:30:20Z',
-      'last_build_status' => build.status,
+      'last_build_status' => build.status, # still here for backwards compatibility
       'last_build_result' => build.status,
       'slug' => 'svenfuchs/minimal',
     }
