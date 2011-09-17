@@ -70,12 +70,24 @@ describe Travis::Notifications::Pusher do
   end
 
   describe 'queue_for' do
-    it 'returns "jobs" for task events' do
-      receiver.queue_for('task:configure:created').should == 'jobs'
+    it 'returns "jobs" for the event "build:queued"' do
+      receiver.queue_for('build:queued', Factory(:build)).should == 'jobs'
     end
 
-    it 'returns "jobs" for build events' do
-      receiver.queue_for('build:started').should == 'repositories'
+    it 'returns "jobs" for the event "build:removed"' do
+      receiver.queue_for('build:removed', Factory(:build)).should == 'jobs'
+    end
+
+    it 'returns "builds" for the event "build:started"' do
+      receiver.queue_for('build:started', Factory(:build)).should == 'builds'
+    end
+
+    it 'returns "builds" for the event "build:finished"' do
+      receiver.queue_for('build:finished', Factory(:build)).should == 'builds'
+    end
+
+    it 'returns "build-1" for the event "build:log"' do
+      receiver.queue_for('build:log', Factory(:build, :id => 1)).should == 'build-1'
     end
   end
 end
