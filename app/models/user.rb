@@ -10,12 +10,8 @@ class User < ActiveRecord::Base
   class << self
     def find_or_create_for_oauth(payload)
       data = user_data_from_oauth(payload)
-      if user = User.find_by_github_id(data['github_id']) 
-        user.update_attributes(data)
-        user
-      else
-        create!(data)
-      end
+      user = User.find_by_github_id(data['github_id']) 
+      user ? user.sync_github_data(data) : create!(data)
     end
 
     def user_data_from_oauth(payload)
@@ -47,6 +43,11 @@ class User < ActiveRecord::Base
       repository.uid = [login, ix].join(':')
       repository.active = states[repository.name] || false
     end
+  end
+
+  def sync_github_data(data)
+    self.update_attributes(data)
+    self
   end
 
   private
