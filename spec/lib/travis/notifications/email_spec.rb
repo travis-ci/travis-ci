@@ -5,7 +5,7 @@ describe Travis::Notifications::Email do
     Travis.config.notifications = [:email]
   end
 
-  it "finished email" do
+  xit "finished email" do
     started_at  = Time.zone.local(2011, 6, 23, 15, 30, 45)
     finished_at = Time.zone.local(2011, 6, 23, 16, 47, 52)
 
