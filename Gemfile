@@ -73,6 +73,7 @@ group :development, :test do
   platforms :mri_18 do
     # required as linecache uses it but does not have it as a dep
     gem 'require_relative', '~> 1.0.1'
+    gem 'linecache', '<= 0.45'
     gem 'ruby-debug'
   end
 
