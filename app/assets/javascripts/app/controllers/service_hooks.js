@@ -1,6 +1,6 @@
 Travis.Controllers.ServiceHooks = SC.ArrayController.extend({
   init: function() {
-    this.view = SC.View.create({
+    this.view = Travis.View.create({
       service_hooks: this,
       template: SC.TEMPLATES['app/templates/service_hooks/list']
     })
