@@ -119,7 +119,7 @@ GEM
       selenium-webdriver (>= 0.1.3)
     jasmine-core (1.1.0)
     json (1.5.4)
-    json_pure (1.6.0)
+    json_pure (1.6.1)
     kgio (2.6.0)
     linecache (0.45)
     linecache19 (0.5.12)
