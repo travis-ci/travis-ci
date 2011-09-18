@@ -68,6 +68,10 @@ Travis.Helpers.Urls = {
     return 'http://github.com/' + this.getPath('repository.slug') + '/network';
   }.property('repository.slug'),
 
+  urlGithubAdmin: function() {
+    return this.getPath('content.url') + '/admin/hooks#travis_minibucket';
+  }.property('content.slug'),
+
   urlAuthor: function() {
     return 'mailto:' + this.getPath('build.authorEmail');
   }.property('build.authorEmail'),
