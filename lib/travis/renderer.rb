@@ -60,14 +60,19 @@ module Travis
 
       def model_name
         @model_name = begin
-          item = object.is_a?(Array) ? object.first : object
+          item = collection? ? object.first : object
           name = item.class.name.underscore
-          object.is_a?(Array) ? name.pluralize : name
+          collection? ? name.pluralize : name
         end
       end
 
       def raise_template_not_found
         raise "could not find rabl template for #{object.class.name} with #{options.inspect}"
       end
+      
+      def collection?
+        object.is_a?(Array) || (object.is_a?(ActiveRecord::Relation) && object.respond_to?(:slice))
+      end
+      
   end
 end
