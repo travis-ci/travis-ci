@@ -7,5 +7,11 @@ describe ProfilesController do
     sign_in_user user
   end
 
-  it 'should be specified'
+  describe 'GET :show' do
+    it 'renders the profile html page' do
+      get :show
+      response.should be_success
+      response.should render_template("profiles/show")
+    end 
+  end
 end
