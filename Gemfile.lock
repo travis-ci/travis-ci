@@ -61,7 +61,7 @@ GEM
       xpath (~> 0.1.4)
     childprocess (0.2.2)
       ffi (~> 1.0.6)
-    chunky_png (1.2.4)
+    chunky_png (1.2.5)
     clockwork (0.2.4)
     coffee-rails (3.1.1)
       coffee-script (>= 2.2.0)
