@@ -13,14 +13,14 @@ class IrcClient
 
   def initialize(server, nick, options = {})
     @socket = TCPSocket.open(server, options[:port] || 6667)
-    socket.puts "PASSWORD #{password}" if options[:password]
+    socket.puts "PASS #{options[:password]}" if options[:password]
     socket.puts "NICK #{nick}"
     socket.puts "USER #{nick} #{nick} #{nick} :#{nick}"
   end
 
-  def join(channel, password = nil)
+  def join(channel, key = nil)
     self.channel = channel
-    socket.puts "JOIN ##{self.channel} #{password}".strip
+    socket.puts "JOIN ##{self.channel} #{key}".strip
   end
 
   def run(&block)
@@ -28,7 +28,7 @@ class IrcClient
   end
 
   def leave
-    socket.puts "PART #{channel}"
+    socket.puts "PART ##{channel}"
   end
 
   def say(message)
