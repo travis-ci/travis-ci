@@ -65,7 +65,7 @@ end
 
 group :development, :test, :jasmine do
   gem 'rails-dev-tweaks', '~> 0.4.0'
-  gem 'factory_girl',     '~> 2.0.3'
+  gem 'factory_girl',     '~> 2.1.2'
   gem 'forgery',          '~> 0.5.0'
   gem 'rspec-rails',      '~> 2.6.1'
   gem 'thin'
