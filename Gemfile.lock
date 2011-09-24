@@ -92,7 +92,8 @@ GEM
     eventmachine (0.12.10)
     execjs (1.2.8)
       multi_json (~> 1.0)
-    factory_girl (2.0.5)
+    factory_girl (2.1.2)
+      activesupport
     fakeredis (0.2.2)
       redis (~> 2.2.0)
     faraday (0.6.1)
@@ -303,7 +304,7 @@ DEPENDENCIES
   data_migrations (~> 0.0.1)
   database_cleaner
   devise (~> 1.4.2)
-  factory_girl (~> 2.0.3)
+  factory_girl (~> 2.1.2)
   fakeredis (~> 0.2.0)
   forgery (~> 0.5.0)
   hashr (~> 0.0.14)
