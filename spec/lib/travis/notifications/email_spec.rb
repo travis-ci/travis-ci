@@ -36,7 +36,7 @@ View the full build log and details : http://localhost:3000/svenfuchs/minimal/bu
     # Test HTML part
     # -------------------------------------------------
     ['Repository', 'Build', 'Duration', 'Commit', 'Author', 'Message', 'Status'].each do |heading|
-      email.should have_body_text("#{heading} :</th>")
+      email.should have_body_text(heading)
     end
 
     ['1 hour, 17 minutes, and 7 seconds',
