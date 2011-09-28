@@ -17,7 +17,7 @@ GEM
     actionmailer (3.1.0)
       actionpack (= 3.1.0)
       mail (~> 2.3.0)
-    actionmailer_inline_css (1.2.0)
+    actionmailer_inline_css (1.3.0)
       actionmailer (>= 3.0.0)
       nokogiri (>= 1.4.4)
       premailer (>= 1.7.1)
@@ -61,7 +61,7 @@ GEM
       xpath (~> 0.1.4)
     childprocess (0.2.2)
       ffi (~> 1.0.6)
-    chunky_png (1.2.4)
+    chunky_png (1.2.5)
     clockwork (0.2.4)
     coffee-rails (3.1.1)
       coffee-script (>= 2.2.0)
@@ -83,16 +83,17 @@ GEM
       activerecord
       rake
     database_cleaner (0.6.7)
-    devise (1.4.5)
+    devise (1.4.7)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
       warden (~> 1.0.3)
     diff-lcs (1.1.3)
     erubis (2.7.0)
     eventmachine (0.12.10)
-    execjs (1.2.6)
+    execjs (1.2.9)
       multi_json (~> 1.0)
-    factory_girl (2.0.5)
+    factory_girl (2.1.2)
+      activesupport
     fakeredis (0.2.2)
       redis (~> 2.2.0)
     faraday (0.6.1)
@@ -119,10 +120,9 @@ GEM
       selenium-webdriver (>= 0.1.3)
     jasmine-core (1.1.0)
     json (1.5.4)
-    json_pure (1.6.0)
+    json_pure (1.6.1)
     kgio (2.6.0)
-    linecache (0.46)
-      rbx-require-relative (> 0.0.4)
+    linecache (0.45)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
     mail (2.3.0)
@@ -159,7 +159,7 @@ GEM
     premailer (1.7.3)
       css_parser (>= 1.1.9)
       htmlentities (>= 4.0.0)
-    pusher (0.8.2)
+    pusher (0.8.3)
       crack (~> 0.1.0)
       multi_json (~> 1.0)
       ruby-hmac (~> 0.4.0)
@@ -194,7 +194,6 @@ GEM
       thor (~> 0.14.6)
     raindrops (0.7.0)
     rake (0.9.2)
-    rbx-require-relative (0.0.5)
     rdoc (3.9.4)
     redis (2.2.2)
     redis-namespace (1.0.3)
@@ -245,7 +244,7 @@ GEM
       sass (>= 3.1.4)
       sprockets (~> 2.0.0)
       tilt (~> 1.3.2)
-    selenium-webdriver (2.6.0)
+    selenium-webdriver (2.7.0)
       childprocess (>= 0.2.1)
       ffi (>= 1.0.7)
       json_pure
@@ -258,11 +257,11 @@ GEM
       hashr (~> 0.0.10)
     sinatra (1.2.6)
       rack (~> 1.1)
-      tilt (< 2.0, >= 1.2.2)
+      tilt (>= 1.2.2, < 2.0)
     sprockets (2.0.0)
       hike (~> 1.2)
       rack (~> 1.0)
-      tilt (!= 1.3.0, ~> 1.1)
+      tilt (~> 1.1, != 1.3.0)
     thin (1.2.11)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -286,7 +285,7 @@ GEM
     warden (1.0.5)
       rack (>= 1.0)
     webmock (1.7.6)
-      addressable (> 2.2.5, ~> 2.2)
+      addressable (~> 2.2, > 2.2.5)
       crack (>= 0.1.7)
     xpath (0.1.4)
       nokogiri (~> 1.3)
@@ -297,7 +296,7 @@ PLATFORMS
 
 DEPENDENCIES
   SystemTimer (~> 1.2.3)
-  actionmailer_inline_css (~> 1.2.0)
+  actionmailer_inline_css (~> 1.3.0)
   capybara (~> 1.0.0)
   clockwork
   coffee-rails (~> 3.1.0)
@@ -305,7 +304,7 @@ DEPENDENCIES
   data_migrations (~> 0.0.1)
   database_cleaner
   devise (~> 1.4.2)
-  factory_girl (~> 2.0.3)
+  factory_girl (~> 2.1.2)
   fakeredis (~> 0.2.0)
   forgery (~> 0.5.0)
   hashr (~> 0.0.14)
@@ -313,6 +312,7 @@ DEPENDENCIES
   jasmine
   jruby-openssl
   json
+  linecache (<= 0.45)
   minitest
   minitest_tu_shim
   mocha

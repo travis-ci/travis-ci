@@ -23,7 +23,7 @@ gem 'devise',            '~> 1.4.2'
 gem 'oa-oauth',          '~> 0.2.6'
 gem 'simple_states',     '0.0.9'
 gem 'unobtrusive_flash', '~> 0.0.2'
-gem 'actionmailer_inline_css', "~> 1.2.0"
+gem 'actionmailer_inline_css', "~> 1.3.0"
 
 # apis
 # current oa-oauth release depends on faraday 0.6.1, current octokit on faraday ~> 0.7.3, :git source for oa-oauth confuses heroku :(
@@ -63,17 +63,20 @@ group :test do
   end
 end
 
-group :development, :test do
+group :development, :test, :jasmine do
   gem 'rails-dev-tweaks', '~> 0.4.0'
-  gem 'factory_girl',     '~> 2.0.3'
+  gem 'factory_girl',     '~> 2.1.2'
   gem 'forgery',          '~> 0.5.0'
   gem 'rspec-rails',      '~> 2.6.1'
   gem 'thin'
+end
 
+group :development, :test do
   platforms :mri_18 do
     # required as linecache uses it but does not have it as a dep
     gem 'require_relative', '~> 1.0.1'
     gem 'ruby-debug'
+    gem 'linecache', '<= 0.45'
   end
 
   unless RUBY_VERSION == '1.9.3' && RUBY_PLATFORM !~ /darwin/
