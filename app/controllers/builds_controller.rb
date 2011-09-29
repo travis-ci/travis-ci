@@ -1,4 +1,4 @@
-require 'travis'
+require 'responders'
 
 class BuildsController < ApplicationController
   responders :rabl

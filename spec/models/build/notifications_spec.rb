@@ -37,16 +37,16 @@ describe Build, 'notifications', ActiveSupport::TestCase do
     end
 
     context 'notification verbosity configuration' do
-      [[%w(broken broken),     {'on_failure' => 'always'}, true],
-       [%w(successful broken), {'on_failure' => 'always'}, true],
-       [%w(broken broken),     {'on_failure' => 'change'}, false],
-       [%w(successful broken), {'on_failure' => 'change'}, true],
-       [%w(successful broken), {'on_failure' => 'never'},  false],
-       [%w(successful successful), {'on_success' => 'always'}, true],
-       [%w(broken successful),     {'on_success' => 'always'}, true],
-       [%w(successful successful), {'on_success' => 'change'}, false],
-       [%w(broken successful),     {'on_success' => 'change'}, true],
-       [%w(broken successful),     {'on_success' => 'never'},  false],
+      [[%w(broken broken),         { 'on_failure' => 'always' }, true],
+       [%w(successful broken),     { 'on_failure' => 'always' }, true],
+       [%w(broken broken),         { 'on_failure' => 'change' }, false],
+       [%w(successful broken),     { 'on_failure' => 'change' }, true],
+       [%w(successful broken),     { 'on_failure' => 'never'  }, false],
+       [%w(successful successful), { 'on_success' => 'always' }, true],
+       [%w(broken successful),     { 'on_success' => 'always' }, true],
+       [%w(successful successful), { 'on_success' => 'change' }, false],
+       [%w(broken successful),     { 'on_success' => 'change' }, true],
+       [%w(broken successful),     { 'on_success' => 'never'  }, false],
       ].each do |states, config, outcome|
         it "returns #{outcome} if previous build was #{states[0]}, current build is #{states[1]}, and config is #{config}" do
           previous_build = Factory("#{states[0]}_build".to_sym)
