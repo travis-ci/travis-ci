@@ -6,7 +6,7 @@ module Travis
   class Consumer
     autoload :Task, 'travis/consumer/task'
 
-    QUEUE = 'reporting.progress'
+    ROUTING_KEY = 'reporting.jobs'
 
     def self.start
       new.subscribe
@@ -55,7 +55,7 @@ module Travis
       end
 
       def queue
-        @queue ||= channel.queue(QUEUE, :durable => true, :exclusive => false)
+        @queue ||= channel.queue(ROUTING_KEY, :durable => true, :exclusive => false)
       end
   end
 end
