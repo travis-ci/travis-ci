@@ -1,6 +1,7 @@
 namespace :travis do
   desc 'Consume AMQP messages from the worker'
   task :consume_messages do
+    require 'travis'
     Travis::Consumer.start
   end
 
