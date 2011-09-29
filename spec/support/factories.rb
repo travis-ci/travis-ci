@@ -1,3 +1,5 @@
+require 'factory_girl'
+
 FactoryGirl.define do
   factory :repository do |f|
     f.name 'minimal'

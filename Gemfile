@@ -15,7 +15,7 @@ gem 'resque-heartbeat',  '~> 0.0.3'
 # structures
 gem 'json'
 gem 'yajl-ruby',         '~> 1.0.0'
-gem 'hashr',             '~> 0.0.14'
+gem 'hashr',             '~> 0.0.16'
 gem 'rabl',              '~> 0.3.0'
 
 # app
@@ -32,6 +32,7 @@ gem 'octokit',           :git => 'git://github.com/pengwynn/octokit.git', :ref =
 gem 'pusher',            '~> 0.8.1'
 gem 'hoptoad_notifier',  '~> 2.4.11'
 gem 'newrelic_rpm',      '~> 3.1.0'
+gem 'amqp'
 
 # heroku
 gem 'unicorn',           '~> 4.0.0', :platforms => :ruby
