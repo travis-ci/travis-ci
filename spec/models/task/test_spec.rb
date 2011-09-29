@@ -12,16 +12,13 @@ describe ::Task::Test do
   let(:now) { Time.now.tap { |now| Time.stubs(:now).returns(now) } }
 
   describe :update_attributes do
-    let(:started_payload)  { WORKER_PAYLOADS['task:test:started']  }
-    let(:finished_payload) { WORKER_PAYLOADS['task:test:finished'] }
-
     it "starts the task" do
-      first.update_attributes(started_payload['build'])
+      first.update_attributes(WORKER_PAYLOADS['task:test:started'])
       first.should be_started
     end
 
     it "finishes the task" do
-      first.update_attributes(finished_payload['build'])
+      first.update_attributes(WORKER_PAYLOADS['task:test:finished'])
       first.should be_finished
     end
   end

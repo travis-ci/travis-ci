@@ -10,6 +10,11 @@ def load_all(*patterns)
   patterns.each { |pattern| Dir[pattern].sort.each { |path| load File.expand_path(path) } }
 end
 
+def require_all(*patterns)
+  options = patterns.pop
+  patterns.each { |pattern| Dir[pattern].sort.each { |path| require path.gsub(/^#{options[:relative_to]}\//, '') } }
+end
+
 def configure
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
@@ -18,7 +23,7 @@ def configure
   require 'webmock'
   require 'fakeredis'
   require 'factory_girl'
-  load_all 'spec/support/**/*.rb'
+  require_all 'spec/support/**/*.rb', :relative_to => 'spec'
 
   RSpec.configure do |c|
     c.filter_run_excluding :js => true if ENV['CI']

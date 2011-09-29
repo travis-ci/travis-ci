@@ -21,7 +21,10 @@ module Travis
       end
     end
 
-    define  :notifications => [], :queues  => []
+    define  :amqp  => { :host => '127.0.0.1', :prefetch => 1 },
+            :notifications => [],
+            :queues  => []
+
     default :_access => [:key]
 
     def initialize(data = nil, *args)

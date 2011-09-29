@@ -1,3 +1,5 @@
+require 'responders'
+
 class RepositoriesController < ApplicationController
   responders :rabl, :status_image
 
