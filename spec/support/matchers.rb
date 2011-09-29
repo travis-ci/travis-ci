@@ -31,6 +31,7 @@ RSpec::Matchers.define :post_webhooks_on do |event, object, options|
       env[:request_headers]['Authorization'].should == authorization_for(object)
 
       payload = normalize_json(Travis::Notifications::Webhook::Payload.new(object).to_hash)
+      puts payload.to_json
       payload_from(env).keys.sort.should == payload.keys.map(&:to_s).sort
     end
   end

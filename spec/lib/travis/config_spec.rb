@@ -1,6 +1,7 @@
-require 'spec_helper'
+require 'travis'
+require 'mocha'
 
-describe Travis, 'config' do
+describe Travis::Config do
   let(:config) { Travis::Config.new }
 
   after { ENV.delete('travis_config') }
@@ -29,6 +30,14 @@ describe Travis, 'config' do
     it 'queues defaults to []' do
       config.queues.should == []
     end
+
+    it 'ampq.host defaults to "127.0.0.1"' do
+      config.amqp.host.should == '127.0.0.1'
+    end
+
+    it 'ampq.prefetch defaults to 1' do
+      config.amqp.prefetch.should == 1
+    end
   end
 
   describe 'the example config file' do
@@ -52,6 +61,6 @@ describe Travis, 'config' do
 
   it 'deep symbolizes arrays, too' do
     config = Travis::Config.new('queues' => [{ 'slug' => 'rails/rails', 'queue' => 'rails' }])
-    assert_equal ['rails/rails', 'rails'], config.queues.first.values_at(:slug, :queue)
+    config.queues.first.values_at(:slug, :queue).should == ['rails/rails', 'rails']
   end
 end

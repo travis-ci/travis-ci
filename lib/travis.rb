@@ -1,7 +1,6 @@
-require 'responders'
-
 module Travis
   autoload :Config,        'travis/config'
+  autoload :Consumer,      'travis/consumer'
   autoload :GithubApi,     'travis/github_api'
   autoload :Notifications, 'travis/notifications'
   autoload :Renderer,      'travis/renderer'

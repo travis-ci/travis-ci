@@ -14,10 +14,10 @@ feature 'The build process' do
     pusher.should have_message('build:queued') # TODO legacy. should be task:configure:created
     task.should be_queued
 
-    worker.start!(task, 'build' => { 'started_at' => Time.now })
+    worker.start!(task, 'started_at' => Time.now)
     # pusher.should have_message('task:configure:started') # not currently used.
 
-    worker.finish!(task, 'build' => { 'config' => { 'rvm' => ['1.8.7', '1.9.2'] } })
+    worker.finish!(task, 'config' => { 'rvm' => ['1.8.7', '1.9.2'] })
 
     _request.should be_finished
     build.should be_created
@@ -28,7 +28,7 @@ feature 'The build process' do
     api.repositories.should_not include(json_for_http(repository))
 
     while next_task!
-      worker.start!(task, :build => { 'started_at' => Time.now })
+      worker.start!(task, 'started_at' => Time.now)
 
       task.should be_started
       build.should be_started
@@ -38,11 +38,11 @@ feature 'The build process' do
       # api.build(build).should include(json_for_http(build)) # TODO
       # api.task(task).should include(json_for_http(task))    # TODO
 
-      worker.log!(task, :build => { 'log' => 'foo' })
+      worker.log!(task, 'log' => 'foo')
       task.log.should == 'foo'
       pusher.should have_message('build:log', :log => 'foo')
 
-      worker.finish!(task, :build => { 'finished_at' => Time.now, 'status' => 0, 'log' => 'foo bar'})
+      worker.finish!(task, 'finished_at' => Time.now, 'status' => 0, 'log' => 'foo bar')
       task.should be_finished
       pusher.should have_message('build:finished')
       # api.task(task).should include(json_for_http(task)) # TODO
