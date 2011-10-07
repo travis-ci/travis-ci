@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'rails',             '~> 3.1.0'
+gem 'rails',             '~> 3.1.1'
 gem 'rake',              '~> 0.9.2'
 gem 'refraction',        '~> 0.2.0'
 gem 'jruby-openssl',     :platforms => :jruby
