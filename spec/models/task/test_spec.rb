@@ -13,12 +13,12 @@ describe ::Task::Test do
 
   describe :update_attributes do
     it "starts the task" do
-      first.update_attributes(WORKER_PAYLOADS['task:test:started'])
+      first.update_attributes(WORKER_PAYLOADS['job:test:started'])
       first.should be_started
     end
 
     it "finishes the task" do
-      first.update_attributes(WORKER_PAYLOADS['task:test:finished'])
+      first.update_attributes(WORKER_PAYLOADS['job:test:finished'])
       first.should be_finished
     end
   end
