@@ -15,8 +15,8 @@ describe Travis, 'consuming worker messages' do
     Travis.config.notifications = [:pusher]
   end
 
-  describe 'task:configure:finished' do
-    let(:event) { 'task:configure:finished' }
+  describe 'job:configure:finished' do
+    let(:event) { 'job:configure:finished' }
     let(:task)  { request.task }
 
     it "finishes the request's configure task" do
@@ -42,8 +42,8 @@ describe Travis, 'consuming worker messages' do
     end
   end
 
-  describe 'task:test:started' do
-    let(:event) { 'task:test:started' }
+  describe 'job:test:started' do
+    let(:event) { 'job:test:started' }
     let(:task)  { build.matrix.first }
 
     it 'starts the task' do
@@ -58,7 +58,7 @@ describe Travis, 'consuming worker messages' do
   end
 
   describe 'a task log payload' do
-    let(:event) { 'task:test:log' }
+    let(:event) { 'job:test:log' }
     let(:task)  { build.matrix.first }
 
     it "appends the log output to the task's log" do
@@ -67,8 +67,8 @@ describe Travis, 'consuming worker messages' do
     end
   end
 
-  describe 'task:test:finished' do
-    let(:event) { 'task:test:finished' }
+  describe 'job:test:finished' do
+    let(:event) { 'job:test:finished' }
     let(:task)  { build.matrix.first }
 
     it 'finishes a matrix test task' do

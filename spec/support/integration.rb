@@ -39,17 +39,17 @@ module Support
 
       def start!(task, data)
         Resque.pop('builds')
-        consumer.receive(stub(:type => 'task:test:started', :ack => nil), MultiJson.encode(data.merge('id' => task.id))) # TODO should be 'task:configure:started' depending on the task type
+        consumer.receive(stub(:type => 'job:test:started', :ack => nil), MultiJson.encode(data.merge('id' => task.id))) # TODO should be 'task:configure:started' depending on the task type
         task.reload
       end
 
       def finish!(task, data)
-        consumer.receive(stub(:type => 'task:test:finished', :ack => nil), MultiJson.encode(data.merge('id' => task.id)))
+        consumer.receive(stub(:type => 'job:test:finished', :ack => nil), MultiJson.encode(data.merge('id' => task.id)))
         task.reload
       end
 
       def log!(task, data)
-        consumer.receive(stub(:type => 'task:test:log', :ack => nil), MultiJson.encode(data.merge('id' => task.id)))
+        consumer.receive(stub(:type => 'job:test:log', :ack => nil), MultiJson.encode(data.merge('id' => task.id)))
         task.reload
       end
     end
