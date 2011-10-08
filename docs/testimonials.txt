@@ -109,3 +109,11 @@ https://twitter.com/#!/dgeb/status/117705059395059712 - @dgeb (Dan Gebhardt)
 "Having CI is a good start. Crowd sourcing and making your CI public for the world to see takes balls. (cc/ @travisci)"
 https://twitter.com/#!/jtregunna/status/119157380876472320 - @jtregunna (Jeremy Tregunna)
 
+"Anyone else find themselves just staring at the @travisci dashboard?"
+https://twitter.com/#!/TrevorBramble/status/121368617207087105 - @TrevorBramble (Trevor Bramble)
+
+"Wow! I must say that setting up a CI build with @travisci was dead simple. In less than 3 minutes I read the docs & started the first build"
+https://twitter.com/#!/paulyoder/status/121783369217478656 - @paulyoder (Paul Yoder)
+
+"what a amazing idea is @travisci. I'll give a try. continuous integration for the masses."
+http://twitter.com/#!/silveira/status/122441688437362689 - @silveira (Silveira Neto)
