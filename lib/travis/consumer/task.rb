@@ -7,7 +7,7 @@ module Travis
         @payload = payload
 
         case event.to_sym
-        when :'task:test:log'
+        when :'job:test:log'
           handle_log_update
         else
           handle_update
