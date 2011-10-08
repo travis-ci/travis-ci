@@ -63,7 +63,7 @@ $ heroku restart
 
 There you go.
 
-You should now be able to go to http://my-travis.heroku.com and be able to sign in via Github.
+You should now be able to go to http://my-travis.herokuapp.com and be able to sign in via Github.
 
 Please let us know if anything is missing or wrong with these instructions.
 
