@@ -17,11 +17,11 @@ describe Travis::Consumer do
 
   describe 'handler_for' do
     events = %w(
-      task:config:started
-      task:config:finished
-      task:test:started
-      task:test:log
-      task:test:finished
+      job:config:started
+      job:config:finished
+      job:test:started
+      job:test:log
+      job:test:finished
     )
 
     events.each do |event|
