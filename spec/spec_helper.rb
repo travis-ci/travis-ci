@@ -12,12 +12,13 @@ end
 
 def configure
   require File.expand_path("../../config/environment", __FILE__)
-  require 'rspec/rails'
-  require 'patches/rspec_hash_diff'
   require 'capybara/rspec'
-  require 'webmock'
-  require 'fakeredis'
+  require 'database_cleaner'
   require 'factory_girl'
+  require 'fakeredis'
+  require 'patches/rspec_hash_diff'
+  require 'rspec/rails'
+  require 'webmock'
   load_all 'spec/support/**/*.rb'
 
   RSpec.configure do |c|
