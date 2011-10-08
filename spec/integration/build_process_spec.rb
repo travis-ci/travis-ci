@@ -11,11 +11,11 @@ feature 'The build process' do
     ping_from_github!
 
     _request.should be_created
-    pusher.should have_message('build:queued') # TODO legacy. should be task:configure:created
+    pusher.should have_message('build:queued') # TODO legacy. should be job:configure:created
     task.should be_queued
 
     worker.start!(task, 'started_at' => Time.now)
-    # pusher.should have_message('task:configure:started') # not currently used.
+    # pusher.should have_message('job:configure:started') # not currently used.
 
     worker.finish!(task, 'config' => { 'rvm' => ['1.8.7', '1.9.2'] })
 

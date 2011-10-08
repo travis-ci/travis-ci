@@ -35,10 +35,10 @@ module Travis
 
       def handler_for(event)
         case event.to_s
-        when /^task/
+        when /^job/
           Task.new
         else
-          raise "Unknown message type: #{type} (payload: #{payload})"
+          raise "Unknown message type: #{event.inspect}"
         end
       end
 
