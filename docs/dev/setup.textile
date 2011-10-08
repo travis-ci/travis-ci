@@ -10,12 +10,13 @@ $ cp config/travis.example.yml config/travis.yml
 
 h3. 2. Create an app on Heroku
 
-$ heroku create my-travis
+$ heroku create my-travis --stack cedar
 
 h3. 3. Setup addons
 
 $ heroku addons:add redistogo:nano
-$ heroku addons:add sendgrid:free
+$ heroku addons:add sendgrid:starter
+$ heroku addons:add pusher:sandbox
 
 h3. 4. Get the RedisToGo key
 
@@ -29,9 +30,9 @@ redis://redistogo:1234567890abcdefghijklmnopqrstuv@foo.redistogo.com:9999/
 
 h3. 5. Register a pusher account and get the API key
 
-Register an account on http://pusher.com. Go to the API access pane of your Pusher app and copy the configuration values:
+Go to the API access pane of the configuration page for the pusher addon of your application and copy the configuration values:
 
-https://app.pusherapp.com/apps/YOUR_APP_ID/api_access
+https://api.heroku.com/myapps/my-travis/addons/pusher:sandbox
 
 You want the @app_id@, @key@ and @secret@. Copy them to the @pusher@ section of the travis.yml file.
 
