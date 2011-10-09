@@ -15,9 +15,9 @@ describe ServiceHooksController, :webmock => true do
 
       result = json_response
       result.first['name'].should   == 'safemode'
-      result.first['owner'].should  == 'svenfuchs'
+      result.first['owner'].login.should  == 'svenfuchs'
       result.second['name'].should  == 'scriptaculous-sortabletree'
-      result.second['owner'].should == 'svenfuchs'
+      result.second['owner'].login.should == 'svenfuchs'
     end
   end
 
