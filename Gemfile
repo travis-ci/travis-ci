@@ -34,7 +34,7 @@ gem 'hoptoad_notifier',  '~> 2.4.11'
 gem 'newrelic_rpm',      '~> 3.1.0'
 
 # heroku
-gem 'unicorn',           '~> 4.0.0', :platforms => :ruby
+gem 'unicorn',           '~> 4.1.1', :platforms => :ruby
 gem 'SystemTimer',       '~> 1.2.3', :platforms => :ruby_18
 gem 'clockwork'
 
