@@ -64,7 +64,7 @@ group :test do
 end
 
 group :development, :test, :jasmine do
-  gem 'rails-dev-tweaks', '~> 0.4.0'
+  gem 'rails-dev-tweaks', '~> 0.5.1'
   gem 'factory_girl',     '~> 2.1.2'
   gem 'forgery',          '~> 0.5.0'
   gem 'rspec-rails',      '~> 2.6.1'
