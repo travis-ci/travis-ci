@@ -277,7 +277,7 @@ GEM
     uglifier (1.0.3)
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
-    unicorn (4.0.1)
+    unicorn (4.1.1)
       kgio (~> 2.4)
       rack
       raindrops (~> 0.6)
@@ -339,7 +339,7 @@ DEPENDENCIES
   simple_states (= 0.0.9)
   thin
   uglifier
-  unicorn (~> 4.0.0)
+  unicorn (~> 4.1.1)
   unobtrusive_flash (~> 0.0.2)
   webmock
   yajl-ruby (~> 1.0.0)
