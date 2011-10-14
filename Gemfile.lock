@@ -157,7 +157,7 @@ GEM
     premailer (1.7.3)
       css_parser (>= 1.1.9)
       htmlentities (>= 4.0.0)
-    pusher (0.8.3)
+    pusher (0.8.4)
       crack (~> 0.1.0)
       multi_json (~> 1.0)
       ruby-hmac (~> 0.4.0)
