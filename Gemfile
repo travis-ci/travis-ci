@@ -31,7 +31,7 @@ gem 'actionmailer_inline_css', "~> 1.3.0"
 gem 'octokit',           :git => 'git://github.com/pengwynn/octokit.git'
 gem 'pusher',            '~> 0.8.1'
 gem 'hoptoad_notifier',  '~> 2.4.11'
-gem 'newrelic_rpm',      '~> 3.1.0'
+gem 'newrelic_rpm',      '~> 3.2.0'
 
 # heroku
 gem 'unicorn',           '~> 4.1.1', :platforms => :ruby
