@@ -286,7 +286,7 @@ GEM
       rack (>= 1.0.0)
     warden (1.0.6)
       rack (>= 1.0)
-    webmock (1.7.6)
+    webmock (1.7.7)
       addressable (~> 2.2, > 2.2.5)
       crack (>= 0.1.7)
     xpath (0.1.4)
