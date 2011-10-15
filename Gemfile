@@ -61,6 +61,10 @@ group :test do
   end
 end
 
+group :development do
+  gem 'foreman'
+end
+
 group :development, :test, :jasmine do
   gem 'rails-dev-tweaks', '~> 0.5.1'
   gem 'factory_girl',     '~> 2.1.2'
