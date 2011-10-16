@@ -40,6 +40,10 @@ development:
     - worker
   redis:
     url: redis://localhost:6379
+  amqp:
+    vhost: travisci.development
+    username: travisci_server
+    password: travisci_server_password
   pusher:
     app_id: YOUR_PUSHER_APP_ID
     key:    YOUR_PUSHER_KEY
