@@ -24,10 +24,12 @@ module Travis
 
     def receive(message, payload)
       event   = message.type
-      handler = handler_for(message.type)
+      handler = handler_for(event)
       handler.handle(event, decode(payload))
       message.ack
-    # rescue Exception => e
+    rescue Exception => e
+      puts e.message, e.backtrace
+      # message.ack
     #   message.reject(:requeue => false) # how to decide whether to requeue the message?
     end
 
@@ -47,7 +49,7 @@ module Travis
       end
 
       def connection
-        @connection ||= AMQP.start(config)
+        @connection ||= AMQP.start(:host=>"jqnzvgcp.heroku.srs.rabbitmq.com", :port=>11154, :user=>"gnbejyjk", :pass=>"PlVYL1zfG7897ijg", :vhost=>"jqnzvgcp")
       end
 
       def channel
