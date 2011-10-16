@@ -1,8 +1,9 @@
 namespace :travis do
   desc 'Consume AMQP messages from the worker'
-  task :consume_messages do
-    require 'travis'
-    Travis::Consumer.start
+  task :consume_messages => :environment do
+    EventMachine.run do
+      Travis::Consumer.start
+    end
   end
 
   desc "Create an admin user unless a user exists. Set the first User as an admin."
