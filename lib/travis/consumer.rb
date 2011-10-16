@@ -47,7 +47,7 @@ module Travis
       end
 
       def connection
-        @connection ||= AMQP.start(:host => config.host)
+        @connection ||= AMQP.start(config)
       end
 
       def channel
