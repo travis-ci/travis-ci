@@ -30,7 +30,7 @@ gem 'octokit',           '~> 0.6.5'
 gem 'pusher',            '~> 0.8.1'
 gem 'hoptoad_notifier',  '~> 2.4.11'
 gem 'newrelic_rpm',      '~> 3.1.0'
-gem 'amqp'
+gem 'amqp',              '>= 0.8.1'
 
 # heroku
 gem 'unicorn',           '~> 4.0.0', :platforms => :ruby
