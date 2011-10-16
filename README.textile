@@ -65,6 +65,18 @@ To run the whole test suite simply do:
 $ rake spec
 </pre>
 
+h2. Development
+
+Setup is pretty easy. You need to execute 3 commands:
+
+<pre>
+$ bundle
+$ rake travis:setup
+$ foreman start
+</pre>
+
+Application is now up & running on **http://localhost:5000**
+
 h2. Design Iterations
 
 * "Second design Feb 2010":https://skitch.com/svenfuchs/rtfas/travis.2
