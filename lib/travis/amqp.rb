@@ -17,7 +17,7 @@ module Travis
         body = MultiJson.encode(payload)
 
         metadata = {
-          :routing_key => "#{QUEUE}.#{queue}",
+          :routing_key => "#{QUEUE_PREFIX}.#{queue}",
           :persistent => true
         }
 
