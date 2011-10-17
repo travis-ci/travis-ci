@@ -18,7 +18,9 @@ module Travis
 
         metadata = {
           :routing_key => "#{QUEUE_PREFIX}.#{queue}",
-          :persistent => true
+          :persistent  => true,
+          :durable     => true,
+          :auto_delete => false
         }
 
         exchange.publish(body, metadata)
