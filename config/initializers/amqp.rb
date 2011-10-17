@@ -4,17 +4,8 @@
 #
 # See http://rubydoc.info/github/ruby-amqp/amqp/master/file/docs/ConnectingToTheBroker.textile#Using_Ruby_amqp_gem_with_Unicorn
 
-unless ENV["RUNNING_ON_UNICORN"]
-  puts "Not running on Unicorn, connecting to AMQP broker"
+require 'travis'
 
-  require "amqp/utilities/event_loop_helper"
-  AMQP::Utilities::EventLoopHelper.run
-
-  require 'travis'
-  AMQP.start(Travis.config.amqp) do |connection|
-    puts "Connected to AMQP broker"
-    AMQP.channel    = AMQP::Channel.new(connection)
-  end
+unless ENV["RUNNING_ON_UNICORN"] == "true"
+  Travis::Amqp.setup_connection
 end
-
-
