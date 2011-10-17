@@ -6,6 +6,6 @@
 
 require 'travis'
 
-unless ENV["RUNNING_ON_UNICORN"] == "true"
+unless !!ENV["travis_config"] # only heroku has the config loaded in the env
   Travis::Amqp.setup_connection
 end
