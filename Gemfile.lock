@@ -100,7 +100,7 @@ GEM
       rack (>= 1.1.0, < 2)
     faraday_middleware (0.7.0)
       faraday (~> 0.7.3)
-    ffi (1.0.9)
+    ffi (1.0.10)
     forgery (0.5.0)
     fssm (0.2.7)
     hashie (1.1.0)
