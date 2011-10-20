@@ -129,7 +129,7 @@ GEM
       treetop (~> 1.4.8)
     metaclass (0.0.1)
     mime-types (1.16)
-    minitest (2.6.1)
+    minitest (2.6.2)
     minitest_tu_shim (1.3.2)
       minitest (>= 1.6.0)
     mocha (0.10.0)
