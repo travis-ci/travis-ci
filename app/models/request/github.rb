@@ -10,7 +10,7 @@ class Request
       end
 
       def skipped?(commit)
-        commit.message.try(:match, /\[ci ([\w ]*)\]/i) && $1.downcase == 'skip'
+        commit.message.try(:match, /\[ci skip\]/i)
       end
 
       def github_pages?(commit)
