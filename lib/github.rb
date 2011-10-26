@@ -1,5 +1,6 @@
 require 'ostruct'
 require 'core_ext/ostruct/hash_access'
+require 'active_support/json'
 
 # TODO: we need to start using octokit everywhere by now. Or stick to that implementation, depending on team reaction.
 module Github
@@ -28,17 +29,25 @@ module Github
 
   module ServiceHook
     class Payload < OpenStruct
+      attr_reader :payload
+
       def initialize(payload)
-        payload = ActiveSupport::JSON.decode(payload) if payload.is_a?(String)
-        super(payload)
+        @payload = payload
+        super(ActiveSupport::JSON.decode(payload))
       end
 
       def repository
         @repository ||= Repository.new(super)
       end
 
+      def last_commit
+        commits.last
+      end
+
       def commits
-        @commits ||= self['commits'].map { |commit| Commit.new(commit.merge('ref' => ref, 'compare_url' => compare_url), repository) }
+        @commits ||= Array(self['commits']).map do |commit|
+          Commit.new(commit.merge('ref' => ref, 'compare_url' => compare_url), repository)
+        end
       end
 
       def compare_url
