@@ -1,10 +1,7 @@
 require 'spec_helper'
-require 'travis/model/request/payload/github'
 
 describe Travis::Model::Request::Payload::Github do
-  include Travis::Model
-
-  let(:payload) { Request::Payload::Github.new(GITHUB_PAYLOADS['gem-release'], 'token') }
+  let(:payload) { Travis::Model::Request::Payload::Github.new(GITHUB_PAYLOADS['gem-release']) }
 
   describe 'reject?' do
     it 'is true when the repository is private' do

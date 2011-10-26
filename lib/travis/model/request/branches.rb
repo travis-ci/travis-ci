@@ -1,5 +1,5 @@
 module Travis
-  module Model
+  class Model
     class Request
       module Branches
         def branch_included?(branch)

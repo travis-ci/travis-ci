@@ -1,15 +1,9 @@
 require 'core_ext/active_record/base'
 
 class Build < ActiveRecord::Base
-  include Matrix, Notifications, SimpleStates, Travis::Notifications
+  include Matrix, Denormalize
 
   PER_PAGE = 10
-
-  states :created, :started, :finished
-
-  event :start,  :to => :started
-  event :finish, :to => :finished, :if => :matrix_finished?
-  event :all, :after => :denormalize # TODO bug in simple_states. should be able to pass an array
 
   belongs_to :commit
   belongs_to :request
@@ -36,6 +30,10 @@ class Build < ActiveRecord::Base
     def on_branch(branches)
       branches = Array(branches.try(:split, ',')).compact.join(',').split(',')
       joins(:commit).where(branches.present? ? ["commits.branch IN (?)", branches] : [])
+    end
+
+    def previous(build)
+      where("builds.repository_id = ? AND builds.id < ?", build.repository_id, build.id).descending.limit(1).first
     end
 
     def last_finished_on_branch(branches)
@@ -121,32 +119,6 @@ class Build < ActiveRecord::Base
   end
 
   def previous_finished_on_branch
-    Build.on_branch(commit.branch).
-          where("builds.repository_id IN (?) AND builds.id < ?", repository_id, id).
-          descending.limit(1).first
+    Build.on_branch(commit.branch).previous(self)
   end
-
-  protected
-
-    def denormalize(*args)
-      event = args.first # TODO bug in simple_state? getting an error when i add this to the method signature
-      repository.update_attributes!(denormalize_attributes_for(event)) # if denormalize?(event)
-      notify(*args)
-    end
-
-    DENORMALIZE = {
-      :start  => %w(id number status started_at finished_at),
-      :finish => %w(status finished_at)
-    }
-
-    def denormalize?(event)
-      DENORMALIZE.key?(event)
-    end
-
-    def denormalize_attributes_for(event)
-      DENORMALIZE[event].inject({}) do |result, key|
-        result.merge(:"last_build_#{key}" => send(key))
-      end
-    end
 end
-

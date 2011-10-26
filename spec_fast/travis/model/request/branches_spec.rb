@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'travis/model/request/branches'
 
 describe Travis::Model::Request::Branches do
   include Travis::Model::Request::Branches

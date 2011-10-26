@@ -1,17 +1,10 @@
 require 'github'
 
 module Travis
-  module Model
+  class Model
     class Request
       module Payload
         class Github < ::Github::ServiceHook::Payload
-          attr_reader :token
-
-          def initialize(payload, token)
-            super(payload)
-            @token = token
-          end
-
           def attributes
             { :source => source, :payload => payload, :commit => last_commit.to_hash, :token => token }
           end

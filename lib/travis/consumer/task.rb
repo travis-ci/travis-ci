@@ -1,6 +1,6 @@
 module Travis
   class Consumer
-    class Task
+    class Job
       attr_reader :payload
 
       def handle(event, payload)
@@ -17,12 +17,12 @@ module Travis
       protected
 
         def handle_update
-          task = ::Task.find(payload.id)
+          task = Travis::Model::Job.find(payload.id)
           task.update_attributes(payload.to_hash)
         end
 
         def handle_log_update
-          ::Task.append_log!(payload.id, payload.log)
+          Travis::Model::Job.append_log!(payload.id, payload.log)
         end
     end
   end

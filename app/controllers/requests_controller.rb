@@ -1,7 +1,7 @@
 class RequestsController < ApplicationController
   # also responds to POST /builds legacy route
   def create
-    Travis::Models::Request.create(params[:payload], api_token)
+    Travis::Models::Request.create(params[:payload].merge(:token => api_token))
     render :nothing => true
   end
 
