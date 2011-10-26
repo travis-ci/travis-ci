@@ -3,6 +3,6 @@ namespace :travis do
   task :create_admin_user => :environment do
     u = User.first || User.create(:name => 'Admin', :login => 'admin')
     u.is_admin = true
-    u.save(false)
+    u.save(:validate => false)
   end
 end
