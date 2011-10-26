@@ -2,12 +2,12 @@ require 'simple_states'
 require 'active_support/core_ext/module/delegation'
 
 module Travis
-  module Models
+  module Model
     class Request
-      autoload :Branches, 'travis/models/request/branches'
+      autoload :Branches, 'travis/model/request/branches'
 
       module Payload
-        autoload :Github, 'travis/models/request/payload/github'
+        autoload :Github, 'travis/model/request/payload/github'
       end
 
       class << self
