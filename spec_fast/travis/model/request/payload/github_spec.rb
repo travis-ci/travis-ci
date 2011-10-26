@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'travis/models'
+require 'travis/model/request/payload/github'
 
-describe Travis::Models::Request::Payload::Github do
-  include Travis::Models
+describe Travis::Model::Request::Payload::Github do
+  include Travis::Model
 
   let(:payload) { Request::Payload::Github.new(GITHUB_PAYLOADS['gem-release'], 'token') }
 

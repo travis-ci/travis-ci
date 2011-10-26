@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'travis/models'
+require 'travis/model/request'
 
 class Request; end
 
-describe Travis::Models::Request do
-  include Travis::Models
+describe Travis::Model::Request do
+  include Travis::Model
 
   let(:payload) { GITHUB_PAYLOADS['gem-release'] }
   let(:token)   { 'token' }

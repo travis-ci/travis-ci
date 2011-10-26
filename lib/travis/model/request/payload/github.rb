@@ -1,7 +1,7 @@
 require 'github'
 
 module Travis
-  module Models
+  module Model
     class Request
       module Payload
         class Github < ::Github::ServiceHook::Payload
