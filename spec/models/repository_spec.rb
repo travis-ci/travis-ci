@@ -11,15 +11,15 @@ describe Repository do
   end
 
   describe 'class methods' do
-    describe 'find_by_params' do
+    describe 'find_by' do
       let(:minimal) { Factory(:repository) }
 
       it "should find a repository by it's id" do
-        Repository.find_by_params(:id => minimal.id).id.should == minimal.id
+        Repository.find_by(:id => minimal.id).id.should == minimal.id
       end
 
       it "should find a repository by it's name and owner_name" do
-        repository = Repository.find_by_params(:name => minimal.name, :owner_name => minimal.owner_name)
+        repository = Repository.find_by(:name => minimal.name, :owner_name => minimal.owner_name)
         repository.owner_name.should == minimal.owner_name
         repository.name.should == minimal.name
       end

@@ -41,7 +41,7 @@ class Repository < ActiveRecord::Base
       where('repositories.name ~* ? OR repositories.owner_name ~* ?', query, query)
     end
 
-    def find_by_params(params)
+    def find_by(params)
       if id = params[:id] || params[:repository_id]
         self.find(id)
       else

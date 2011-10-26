@@ -19,7 +19,7 @@ class BuildsController < ApplicationController
   protected
 
     def repository
-      @repository ||= Repository.find_by_params(params) || not_found
+      @repository ||= Repository.find_by(params) || not_found
     end
 
     def builds
