@@ -16,7 +16,7 @@ gem 'resque-heartbeat',  '~> 0.0.3'
 gem 'json'
 gem 'yajl-ruby',         '~> 1.0.0'
 gem 'hashr',             '~> 0.0.14'
-gem 'rabl',              '~> 0.3.0'
+gem 'rabl',              '~> 0.5.0'
 
 # app
 gem 'devise',            '~> 1.4.2'
