@@ -1,59 +1,67 @@
-class Job
-  include SimpleStates, Travis::Notifications
+require 'simple_states'
+require 'active_support/core_ext/object/blank'
+require 'active_support/core_ext/hash/except'
 
-  event :all, :after => :notify
+module Travis
+  class Model
+    class Job < Model
+      autoload :Configure, 'travis/model/job/configure'
+      autoload :Tagging,   'travis/model/job/tagging'
+      autoload :Test,      'travis/model/job/test'
 
-  # after_create do
-  #   notify(:create) # TODO this really should be in simple_states, but will probably require some AR hackery
-  # end
-
-  attr_reader :record
-
-  def initialize(record)
-    @record = record
-  end
-
-  def update_attributes(attributes)
-    update_states_from_attributes(attributes)
-    super
-  end
-
-  def append_log!(chars)
-    self.class.update_all(["log = COALESCE(log, '') || ?", chars], ["id = ?", id])
-    notify(:log, :build => { :_log => chars })
-  end
-
-  def propagate(*args)
-    owner.send(*args)
-  end
-
-  def matrix_config?(config)
-    config = config.to_hash.symbolize_keys
-    Build.matrix_keys_for(config).map do |key|
-      self.config[key.to_sym] == config[key] || commit.branch == config[key]
-    end.inject(:&)
-  end
-
-  protected
-
-    # This extracts attributes like :started_at, :finished_at, :config from the
-    # given attributes and triggers state changes based on them. See the respective
-    # `extract_[state]ing_attributes` methods.
-    def update_states_from_attributes(attributes)
-      attributes = (attributes || {}).deep_symbolize_keys
-      [:start, :finish].each do |state|
-        state_attributes = send(:"extract_#{state}ing_attributes", attributes)
-        send(:"#{state}!", state_attributes) if state_attributes.present?
+      class << self
+        def append_log!(id, chars)
+          # TODO using find here (on the base class) would not instantiate the model as an STI model with the given type?
+          task = new(::Job.find(id, :select => [:id, :repository_id, :owner_id, :owner_type, :state], :include => :repository))
+          task.append_log!(chars) unless task.finished?
+        end
       end
-    end
 
-    def extract_starting_attributes(attributes)
-      extract!(attributes, :started_at)
-    end
+      include SimpleStates, Travis::Notifications
 
-    def extract!(hash, *keys)
-      # arrrgh. is there no ruby or activesupport hash method that does this?
-      hash.slice(*keys).tap { |result| hash.except!(*keys) }
+      event :all, :after => :notify
+
+      delegate :config, :log, :state, :state=, :finished?, :to => :record
+
+      def owner
+        @owner ||= owner_class.new(record.owner)
+      end
+
+      def propagate(*args)
+        owner.send(*args)
+      end
+
+      def append_log!(chars)
+        record.append_log!(chars)
+        notify(:log, :build => { :_log => chars })
+      end
+
+      def update_attributes(attributes)
+        update_states(attributes.deep_symbolize_keys)
+        record.update_attributes(attributes)
+      end
+
+      protected
+
+        # extracts attributes like :started_at, :finished_at, :config from the given attributes and triggers
+        # state changes based on them. See the respective `extract_[state]ing_attributes` methods.
+        def update_states(attributes)
+          [:start, :finish].each do |state|
+            state_attributes = send(:"extract_#{state}ing_attributes", attributes)
+            send(:"#{state}!", state_attributes) if state_attributes.present?
+          end
+        end
+
+        def extract_starting_attributes(attributes)
+          extract!(attributes, :started_at)
+        end
+
+        def extract!(hash, *keys)
+          # arrrgh. is there no ruby or activesupport hash method that does this?
+          hash.slice(*keys).tap { |result| hash.except!(*keys) }
+        rescue KeyError
+          {}
+        end
     end
+  end
 end
-

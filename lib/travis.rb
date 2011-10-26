@@ -1,7 +1,7 @@
 module Travis
   autoload :Config,        'travis/config'
   autoload :Consumer,      'travis/consumer'
-  autoload :Models,        'travis/models'
+  autoload :Model,         'travis/model'
   autoload :GithubApi,     'travis/github_api'
   autoload :Notifications, 'travis/notifications'
   autoload :Renderer,      'travis/renderer'
