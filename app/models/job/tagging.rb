@@ -1,4 +1,4 @@
-module Task::Tagging
+module Job::Tagging
   class << self
     def rules
       @@rules ||= YAML.load_file('./config/tagging.yml')
@@ -7,7 +7,7 @@ module Task::Tagging
 
   def add_tags
     subject = log.to_s + config.to_s
-    tags = Task::Tagging.rules.inject([]) do |result, rule|
+    tags = Job::Tagging.rules.inject([]) do |result, rule|
       result << rule['tag'] if subject =~ /#{rule['pattern']}/
       result
     end
