@@ -1,5 +1,6 @@
-# This task is owned by a Build
-class Task::Test < Task
+# This job is owned by a Build
+
+class Job::Test < Job
   include Tagging
 
   states :created, :started, :cloned, :installed, :finished

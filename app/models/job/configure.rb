@@ -1,7 +1,7 @@
-# This task belongs to a Request instances and will configure and validate the
+# This job belongs to a Request instances and will configure and validate the
 # request before it gets to create a Build insatnce.
 
-class Task::Configure < Task
+class Job::Configure < Job
   states :created, :started, :finished
 
   event :start,  :to => :started,  :after => :propagate
