@@ -9,16 +9,12 @@ module Travis
         end
 
         def add_tags
-          subject = log.to_s + config.to_s
+          subject = record.log.to_s + record.config.to_s
           tags = Tagging.rules.inject([]) do |result, rule|
             result << rule['tag'] if subject =~ /#{rule['pattern']}/
             result
           end
-          self.tags = tags.uniq.join(',') if tags.present?
-        end
-
-        def rules
-          rules = read_yml_rules
+          record.tags = tags.uniq.join(',') if tags.present?
         end
       end
     end
