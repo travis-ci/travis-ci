@@ -13,6 +13,7 @@ if Rails.env.development? || Rails.env.jasmine?
     ActiveRecord::Base.connection.execute("TRUNCATE #{table}") if table != "schema_migrations"
   end
 
+  [Repository, Commit, Request, Build].each{ |klass| klass.reset_column_information }
   10.times do
     Factory.create(:seed_repository)
   end
