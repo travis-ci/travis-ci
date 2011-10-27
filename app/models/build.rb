@@ -33,7 +33,7 @@ class Build < ActiveRecord::Base
     end
 
     def previous(build)
-      where("builds.repository_id = ? AND builds.id < ?", build.repository_id, build.id).descending.limit(1).first
+      where("builds.repository_id = ? AND builds.id < ?", build.repository_id, build.id).finished.descending.limit(1).first
     end
 
     def last_finished_on_branch(branches)
@@ -62,6 +62,10 @@ class Build < ActiveRecord::Base
   before_create do
     self.number = repository.builds.next_number
     expand_matrix
+  end
+
+  def previous_on_branch
+    Build.on_branch(commit.branch).previous(self)
   end
 
   def config=(config)
@@ -116,9 +120,5 @@ class Build < ActiveRecord::Base
 
   def color
     pending? ? 'yellow' : passed? ? 'green' : 'red'
-  end
-
-  def previous_finished_on_branch
-    Build.on_branch(commit.branch).previous(self)
   end
 end

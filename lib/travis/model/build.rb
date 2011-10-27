@@ -1,3 +1,5 @@
+require 'simple_states'
+
 module Travis
   class Model
     class Build < Model
@@ -11,7 +13,7 @@ module Travis
       event :finish, :to => :finished, :if => :matrix_finished?
       event :all, :after => :denormalize # TODO bug in simple_states. should be able to pass an array
 
-      delegate :state, :state=, :denormalize, :to => :record
+      delegate :state, :state=, :denormalize, :passed?, :failed?, :to => :record
     end
   end
 end

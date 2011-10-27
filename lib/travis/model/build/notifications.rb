@@ -1,3 +1,5 @@
+require 'active_support/core_ext/object/blank'
+
 module Travis
   class Model
     class Build
@@ -13,7 +15,7 @@ module Travis
           notify_on_success = config_with_fallbacks(receiver, :on_success, default_notification_rules[:success][receiver])
           notify_on_failure = config_with_fallbacks(receiver, :on_failure, default_notification_rules[:failure][receiver])
 
-          !previous_finished_on_branch ||
+          record.previous_on_branch.blank? ||
           (passed? && (notify_on_success == :always || (notify_on_success == :change && !previous_passed?))) ||
           (failed? && (notify_on_failure == :always || (notify_on_failure == :change && previous_passed?)))
         end
@@ -79,13 +81,12 @@ module Travis
 
           def emails_enabled?
             return !!notifications[:email] if notifications.has_key?(:email)
-            # TODO deprecate disabled and disable
-            [:disabled, :disable].each {|key| return !notifications[key] if notifications.has_key?(key) }
+            [:disabled, :disable].each { |key| return !notifications[key] if notifications.has_key?(key) } # TODO deprecate disabled and disable
             true
           end
 
           def previous_passed?
-            previous_finished_on_branch && previous_finished_on_branch.passed?
+            record.previous_on_branch.try(:passed?)
           end
 
           def default_email_recipients
@@ -94,7 +95,7 @@ module Travis
           end
 
           def notifications
-            config.fetch(:notifications, {})
+            (config || {}).fetch(:notifications, {})
           end
       end
     end
