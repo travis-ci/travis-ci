@@ -7,6 +7,8 @@ RSpec.configure do |c|
 end
 
 require 'support/payloads'
+require 'support/matchers'
+
 require 'travis'
 require 'mocha'
 
