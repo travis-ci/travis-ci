@@ -1,7 +1,7 @@
 require 'core_ext/array/flatten_once'
 
 class Build
-  module Matrix
+  module Denormalize
     def denormalize(*args)
       event = args.first # TODO bug in simple_state? getting an error when i add this to the method signature
       record.repository.update_attributes!(denormalize_attributes_for(event)) # if denormalize?(event)
