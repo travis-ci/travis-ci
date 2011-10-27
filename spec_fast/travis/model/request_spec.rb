@@ -4,6 +4,7 @@ class Request
   attr_accessor :state
   def save!; end
   def configure(data); end
+  def commit; @commit ||= stub('commit', :branch => 'master') end
 end
 
 describe Travis::Model::Request do
@@ -28,10 +29,6 @@ describe Travis::Model::Request do
       record.expects(:state=).with(:created)
       Travis::Model::Request.create(payload)
     end
-  end
-
-  describe '#approved?' do
-    xit 'should be specified'
   end
 
   describe 'events' do
@@ -79,6 +76,81 @@ describe Travis::Model::Request do
       it 'saves the record' do
         record.expects(:save!).times(2)
         request.finish!
+      end
+    end
+  end
+
+  describe :approved? do
+    let(:request) { Travis::Model::Request.new(record) }
+
+    describe 'returns true' do
+      it 'if there is no branches option' do
+        request.record.stubs(:config).returns({})
+        request.should be_approved
+      end
+
+      it 'if the branch is included the branches option given as a string' do
+        request.record.stubs(:config).returns(:branches => 'master, develop')
+        request.should be_approved
+      end
+
+      it 'if the branch is included in the branches option given as an array' do
+        request.record.stubs(:config).returns(:branches => ['master', 'develop'])
+        request.should be_approved
+      end
+
+      it 'if the branch is included in the branches :only option given as a string' do
+        request.record.stubs(:config).returns(:branches => { :only => 'master, develop' })
+        request.should be_approved
+      end
+
+      it 'if the branch is included in the branches :only option given as an array' do
+        request.record.stubs(:config).returns(:branches => { :only => ['master', 'develop'] })
+        request.should be_approved
+      end
+
+      it 'if the branch is not included in the branches :except option given as a string' do
+        request.record.stubs(:config).returns(:branches => { :except => 'github-pages, feature-*' })
+        request.should be_approved
+      end
+
+      it 'if the branch is not included in the branches :except option given as an array' do
+        request.record.stubs(:config).returns(:branches => { :except => ['github-pages', 'feature-*'] })
+        request.should be_approved
+      end
+    end
+
+    describe 'returns false' do
+      before(:each) { request.record.commit.stubs(:branch).returns('staging') }
+
+      it 'if the branch is not included the branches option given as a string' do
+        request.record.stubs(:config).returns(:branches => 'master, develop')
+        request.should_not be_approved
+      end
+
+      it 'if the branch is not included in the branches option given as an array' do
+        request.record.stubs(:config).returns(:branches => ['master', 'develop'])
+        request.should_not be_approved
+      end
+
+      it 'if the branch is not included in the branches :only option given as a string' do
+        request.record.stubs(:config).returns(:branches => { :only => 'master, develop' })
+        request.should_not be_approved
+      end
+
+      it 'if the branch is not included in the branches :only option given as an array' do
+        request.record.stubs(:config).returns(:branches => { :only => ['master', 'develop'] })
+        request.should_not be_approved
+      end
+
+      it 'if the branch is included in the branches :except option given as a string' do
+        request.record.stubs(:config).returns(:branches => { :except => 'staging, feature-*' })
+        request.should_not be_approved
+      end
+
+      it 'if the branch is included in the branches :except option given as an array' do
+        request.record.stubs(:config).returns(:branches => { :except => ['staging', 'feature-*'] })
+        request.should_not be_approved
       end
     end
   end

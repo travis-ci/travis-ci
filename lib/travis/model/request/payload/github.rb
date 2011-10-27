@@ -10,10 +10,14 @@ module Travis
           end
 
           def reject?
-            repository.private? || skipped? || github_pages?
+            no_commit? || repository.private? || skipped? || github_pages?
           end
 
           protected
+
+            def no_commit?
+              last_commit.commit.blank?
+            end
 
             def skipped?
               last_commit.message.to_s =~ /\[ci(?: |:)([\w ]*)\]/i && $1.downcase == 'skip'

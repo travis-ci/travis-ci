@@ -28,10 +28,10 @@ module Travis
       event :configure, :to => :configured, :after => :finish
       event :finish,    :to => :finished
 
-      delegate :state, :state=, :configure, :to => :record
+      delegate :state, :state=, :config, :configure, :to => :record
 
       def approved?
-        branch_included?(record.branch) && !branch_excluded?(record.branch)
+        branch_included?(record.commit.branch) && !branch_excluded?(record.commit.branch)
       end
 
       def build
