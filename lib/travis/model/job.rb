@@ -9,14 +9,6 @@ module Travis
       autoload :Tagging,   'travis/model/job/tagging'
       autoload :Test,      'travis/model/job/test'
 
-      class << self
-        def append_log!(id, chars)
-          # TODO using find here (on the base class) would not instantiate the model as an STI model with the given type?
-          job = new(::Job.find(id, :select => [:id, :repository_id, :owner_id, :owner_type, :state], :include => :repository))
-          job.append_log!(chars) unless job.finished?
-        end
-      end
-
       include SimpleStates, Travis::Notifications
 
       event :all, :after => :notify
@@ -29,11 +21,6 @@ module Travis
 
       def propagate(*args)
         owner.send(*args)
-      end
-
-      def append_log!(chars)
-        record.append_log!(chars)
-        notify(:log, :build => { :_log => chars })
       end
 
       def update_attributes(attributes)

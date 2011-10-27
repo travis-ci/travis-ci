@@ -44,7 +44,7 @@ FactoryGirl.define do
       end
       build.repository.save
       build.matrix.each do |job|
-        Task::Test.append_log!(job.id, Forgery(:build).log )
+        Job::Test.append_log!(job.id, Forgery(:build).log )
       end
       #1.times do
       #  build.matrix<< Factory(:seed_job, :repository => build.repository, :owner_id => build.id, :owner_type => "Build")

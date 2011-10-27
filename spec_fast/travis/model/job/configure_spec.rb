@@ -44,6 +44,18 @@ describe Travis::Model::Job::Configure do
         job.owner.expects(:configure).with(config)
         job.finish(config)
       end
+
+      it 'notifies observers' do
+        Travis::Notifications.expects(:dispatch).with('job:configure:started', job)
+        Travis::Notifications.expects(:dispatch).with('job:configure:finished', job, :config => config)
+
+        # TODO
+        # Travis::Notifications.expects(:dispatch).with('request:configured', job, config) # not implemented
+        # Travis::Notifications.expects(:dispatch).with('job:test:created', instance_of(Job::Test)).times(2)
+
+        job.start!
+        job.finish!(:config => config)
+      end
     end
 
     describe 'update_attributes' do

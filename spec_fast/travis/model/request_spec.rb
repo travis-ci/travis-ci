@@ -3,16 +3,32 @@ require 'spec_helper'
 class Request
   attr_accessor :state
   def save!; end
-  def configure(data); end
+  def update_attributes!(*); end
+  def create_build!; end
   def commit; @commit ||= stub('commit', :branch => 'master') end
 end
 
 describe Travis::Model::Request do
   let(:payload) { GITHUB_PAYLOADS['gem-release'] }
   let(:record)  { Request.new }
+  let(:request) { Travis::Model::Request.new(record) }
+  let(:build)   { stub('build', :matrix => [stub('job', :state= => nil)]) }
 
   before :each do
     ::Request.stubs(:create_from).returns(record)
+  end
+
+  describe :create_build do
+    it 'creates the build record' do
+      record.expects(:create_build!).returns(build)
+      request.create_build
+    end
+
+    it 'notifies about a created event for each test job in the build matrix' do
+      record.stubs(:create_build!).returns(build)
+      Travis::Notifications.expects(:dispatch).with('job:test:created', anything).once
+      request.create_build
+    end
   end
 
   describe '.create' do
@@ -32,8 +48,6 @@ describe Travis::Model::Request do
   end
 
   describe 'events' do
-    let(:request) { Travis::Model::Request.create(payload) }
-
     it 'has the state :created when just created' do
       request.state.should == :created
     end
@@ -51,19 +65,48 @@ describe Travis::Model::Request do
     end
 
     describe 'configure!' do
-      before :each do
-        request.stubs(:approved?).returns(true)
-        request.stubs(:build).returns(stub(:matrix => [stub('job', :state= => nil)]))
+      let(:data) { { :rvm => 'rbx' } }
+
+      describe 'with an approved request' do
+        before :each do
+          request.stubs(:approved?).returns(true)
+        end
+
+        it 'changes the state to :finished (because it also finishes the request)' do
+          request.configure!(data)
+          request.state.should == :finished
+        end
+
+        it 'saves the record' do
+          record.expects(:save!).times(2)
+          request.configure!(data)
+        end
+
+        it 'creates the build' do
+          request.expects(:create_build)
+          request.configure!(data)
+        end
       end
 
-      it 'changes the state to :finished (because it also finishes the request)' do
-        request.configure!({ :rvm => 'rbx' })
-        request.state.should == :finished
-      end
+      describe 'with an unapproved request' do
+        before :each do
+          request.stubs(:approved?).returns(false)
+        end
 
-      it 'saves the record' do
-        record.expects(:save!).times(2)
-        request.configure!({ :rvm => 'rbx' })
+        it 'changes the state to :finished (because it also finishes the request)' do
+          request.configure!(data)
+          request.state.should == :finished
+        end
+
+        it 'saves the record' do
+          record.expects(:save!).times(2)
+          request.configure!(data)
+        end
+
+        it 'does not create a build' do
+          request.expects(:create_build).never
+          request.configure!(data)
+        end
       end
     end
 
@@ -81,8 +124,6 @@ describe Travis::Model::Request do
   end
 
   describe :approved? do
-    let(:request) { Travis::Model::Request.new(record) }
-
     describe 'returns true' do
       it 'if there is no branches option' do
         request.record.stubs(:config).returns({})

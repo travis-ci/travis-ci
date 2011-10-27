@@ -25,8 +25,8 @@ describe Travis::Consumer do
     )
 
     events.each do |event|
-      it "returns a Task handler for #{event.inspect}" do
-        consumer.send(:handler_for, event).should be_kind_of(Travis::Consumer::Task)
+      it "returns a Job handler for #{event.inspect}" do
+        consumer.send(:handler_for, event).should be_kind_of(Travis::Consumer::Job)
       end
     end
   end

@@ -6,7 +6,7 @@ describe 'JSON for worker jobs' do
   let(:build) { repository.last_build }
   let(:job) { build.matrix.first }
 
-  it 'Task::Test' do
+  it 'Job::Test' do
     json_for_worker(job).should == {
       'build' => {
         'id' => job.id,

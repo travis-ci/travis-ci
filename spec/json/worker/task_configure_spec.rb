@@ -5,7 +5,7 @@ describe 'JSON for worker jobs' do
   let(:repository) { Scenario.default.first }
   let(:job) { repository.requests.first.job }
 
-  it 'Task::Configure' do
+  it 'Job::Configure' do
     json_for_worker(job, 'queue' => 'builds').should == {
       'build' => {
         'id' => job.id,
