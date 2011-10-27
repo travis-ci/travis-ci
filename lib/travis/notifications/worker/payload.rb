@@ -2,10 +2,10 @@ module Travis
   module Notifications
     class Worker
       class Payload
-        attr_reader :task, :extra
+        attr_reader :job, :extra
 
-        def initialize(task, extra = {})
-          @task, @extra = task, extra
+        def initialize(job, extra = {})
+          @job, @extra = job, extra
         end
 
         def to_hash
@@ -17,11 +17,11 @@ module Travis
         end
 
         def data
-          { :task => task, :repository => task.repository }
+          { :job => job, :repository => job.repository }
         end
 
         def template
-          task.class.name.underscore
+          job.class.name.underscore
         end
       end
     end

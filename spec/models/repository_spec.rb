@@ -66,7 +66,7 @@ describe Repository do
     end
 
     it 'returns 0 (passing) if all specified builds are passing' do
-      build.matrix.each { |task| task.update_attribute(:status, task.config[:rvm] == '1.8.7' ? 0 : 1) }
+      build.matrix.each { |job| job.update_attribute(:status, job.config[:rvm] == '1.8.7' ? 0 : 1) }
       assert_equal 0, repository.last_build_status('rvm' => '1.8.7')
     end
 

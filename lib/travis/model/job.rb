@@ -12,8 +12,8 @@ module Travis
       class << self
         def append_log!(id, chars)
           # TODO using find here (on the base class) would not instantiate the model as an STI model with the given type?
-          task = new(::Job.find(id, :select => [:id, :repository_id, :owner_id, :owner_type, :state], :include => :repository))
-          task.append_log!(chars) unless task.finished?
+          job = new(::Job.find(id, :select => [:id, :repository_id, :owner_id, :owner_type, :state], :include => :repository))
+          job.append_log!(chars) unless job.finished?
         end
       end
 

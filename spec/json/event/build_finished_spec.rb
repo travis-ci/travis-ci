@@ -4,7 +4,6 @@ describe 'JSON for websocket events' do
 
   let(:repository) { Scenario.default.first }
   let(:build) { repository.last_build }
-  let(:task) { build.matrix.first }
 
   it 'build:finished' do
     json_for_pusher('build:finished', build).should == {

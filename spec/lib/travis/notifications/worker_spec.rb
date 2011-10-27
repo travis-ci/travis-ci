@@ -55,13 +55,13 @@ describe Travis::Notifications::Worker do
   describe 'enqueue' do
     it "adds a config job to the given queue" do
       request = Factory(:request)
-      request.task.should be_queued('builds')
+      request.job.should be_queued('builds')
     end
 
     it "adds a test job to the given queue" do
       build = Factory(:build)
-      build.matrix.reverse.each do |task|
-        task.should be_queued('builds')
+      build.matrix.reverse.each do |job|
+        job.should be_queued('builds')
       end
     end
   end

@@ -20,7 +20,7 @@ class Build
     # Return only the child builds whose config matches against as passed hash
     # e.g. build.matrix_for(rvm: '1.8.7', env: 'DB=postgresql')
     def matrix_for(config)
-      config.blank? ? matrix : matrix.select { |task| task.matrix_config?(config) }
+      config.blank? ? matrix : matrix.select { |job| job.matrix_config?(config) }
     end
 
     def matrix_finished?
@@ -44,7 +44,7 @@ class Build
 
       def expand_matrix
         expand_matrix_config(matrix_config.to_a).each_with_index do |row, ix|
-          attributes = self.attributes.slice(*Task.column_names).symbolize_keys
+          attributes = self.attributes.slice(*Job.column_names).symbolize_keys
           attributes.merge!(:number => "#{number}.#{ix + 1}", :config => config.merge(Hash[*row.flatten]), :log => '')
           matrix.build(attributes)
         end

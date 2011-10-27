@@ -17,8 +17,8 @@ module Travis
       protected
 
         def handle_update
-          task = Travis::Model::Job.find(payload.id)
-          task.update_attributes(payload.to_hash)
+          job = Travis::Model::Job.find(payload.id)
+          job.update_attributes(payload.to_hash)
         end
 
         def handle_log_update

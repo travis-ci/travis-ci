@@ -12,19 +12,19 @@ describe ::Task::Test do
   let(:now) { Time.now.tap { |now| Time.stubs(:now).returns(now) } }
 
   describe :update_attributes do
-    it "starts the task" do
+    it "starts the job" do
       first.update_attributes(WORKER_PAYLOADS['job:test:started'])
       first.should be_started
     end
 
-    it "finishes the task" do
+    it "finishes the job" do
       first.update_attributes(WORKER_PAYLOADS['job:test:finished'])
       first.should be_finished
     end
   end
 
   describe :start! do
-    it 'starts the task and propagates to the build' do
+    it 'starts the job and propagates to the build' do
       first.start! :started_at => '2011-01-01 00:00:00 +0200'
 
       first.reload.should be_started
@@ -37,14 +37,14 @@ describe ::Task::Test do
     it 'notifies observers' do
       # TODO this does not test any particular order of messages.
       # should use a "collector" notification receiver and test the actual order.
-      Travis::Notifications.expects(:dispatch).with('task:test:started', first)
+      Travis::Notifications.expects(:dispatch).with('job:test:started', first)
       Travis::Notifications.expects(:dispatch).with('build:started', build)
       first.start!
     end
   end
 
   describe :finish! do
-    it 'finishes the task, sets the status and, when all of the tasks are finished, the build' do
+    it 'finishes the job, sets the status and, when all of the jobs are finished, the build' do
       first.start!
       first.finish!(:status => 0, :finished_at => '2011-01-01 00:00:00 +0200')
 
@@ -65,8 +65,8 @@ describe ::Task::Test do
     end
 
     it 'notifies observers' do
-      Travis::Notifications.expects(:dispatch).with('task:test:started', first)
-      Travis::Notifications.expects(:dispatch).with('task:test:finished', first, :status => 0)
+      Travis::Notifications.expects(:dispatch).with('job:test:started', first)
+      Travis::Notifications.expects(:dispatch).with('job:test:finished', first, :status => 0)
       Travis::Notifications.expects(:dispatch).with('build:started', build)
 
       first.start!

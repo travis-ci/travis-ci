@@ -4,8 +4,8 @@ describe Request do
   let(:request) { Factory(:request).reload }
 
   context 'on creation' do
-    it 'also creates its configure task' do
-      request.task.should be_instance_of(Task::Configure)
+    it 'also creates its configure job' do
+      request.job.should be_instance_of(Task::Configure)
     end
   end
 
@@ -50,21 +50,6 @@ describe Request do
         { :rvm => '1.9.2', :gemfile => 'gemfiles/second_one' }].each do |configuration|
         Task.where("config LIKE '%#{configuration[:rvm]}%#{configuration[:gemfile]}%'").count.should eql 1
       end
-    end
-  end
-
-  describe 'helper methods' do
-    it 'normalize_config normalizes hashes with numerical keys to arrays (required for input coming from rack params)' do
-      actual = request.send(:normalize_config, {
-        'rvm'     => { '0' => '1.8.7', '1' => '1.9.2' },
-        'gemfile' => { '0' => 'gemfiles/rails-2.3.x', '1' => 'gemfiles/rails-3.0.x' },
-        'env'     => { '0' => 'FOO=bar', '1' => 'FOO=baz' }
-      })
-      actual.should == {
-        :rvm     => ['1.8.7', '1.9.2'],
-        :gemfile => ['gemfiles/rails-2.3.x', 'gemfiles/rails-3.0.x'],
-        :env     => ['FOO=bar', 'FOO=baz']
-      }
     end
   end
 end

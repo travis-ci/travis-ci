@@ -4,7 +4,6 @@ describe 'HTTP API for Build' do
 
   let(:repository) { Scenario.default.first }
   let(:build) { repository.last_build }
-  let(:task) { build.matrix.first }
 
   it 'json' do
     json = json_for_http(build)
@@ -29,6 +28,6 @@ describe 'HTTP API for Build' do
       'author_email' => 'svenfuchs@artweb-design.de',
       "compare_url"=>"https://github.com/svenfuchs/minimal/compare/master...develop"
     }
-    json['matrix'].first.should == build.matrix.map { |task| json_for_http(task) }.first
+    json['matrix'].first.should == build.matrix.map { |job| json_for_http(job) }.first
   end
 end

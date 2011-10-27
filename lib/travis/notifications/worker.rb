@@ -4,7 +4,7 @@ module Travis
       autoload :Payload, 'travis/notifications/worker/payload'
       autoload :Queue,   'travis/notifications/worker/queue'
 
-      EVENTS = /task:.*:created/
+      EVENTS = /job:.*:created/
 
       class << self
         def default_queue
@@ -17,28 +17,28 @@ module Travis
           end
         end
 
-        def queue_for(task)
-          slug = task.repository.slug
-          target, language = task.config.values_at(:target, :language)
+        def queue_for(job)
+          slug = job.repository.slug
+          target, language = job.config.values_at(:target, :language)
           queues.detect { |queue| queue.matches?(slug, target, language) } || default_queue
         end
 
-        def payload_for(task, extra)
-          Payload.new(task, extra).to_hash
+        def payload_for(job, extra)
+          Payload.new(job, extra).to_hash
         end
       end
 
       delegate :queue_for, :payload_for, :to => :'self.class'
 
-      def notify(event, task, *args)
-        enqueue(task)
+      def notify(event, job, *args)
+        enqueue(job)
       end
 
       protected
 
-        def enqueue(task)
-          queue   = queue_for(task)
-          payload = payload_for(task, :queue => queue.name)
+        def enqueue(job)
+          queue   = queue_for(job)
+          payload = payload_for(job, :queue => queue.name)
 
           ::Rails.logger.info("Job queued to #{queue.name.inspect}: #{payload.inspect}")
           Resque.enqueue(queue, payload)

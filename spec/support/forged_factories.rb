@@ -43,11 +43,11 @@ FactoryGirl.define do
         build.repository.send("last_build_#{entry.to_s}=", build.send(entry.to_s))
       end
       build.repository.save
-      build.matrix.each do |task|
-        Task::Test.append_log!(task.id, Forgery(:build).log )
+      build.matrix.each do |job|
+        Task::Test.append_log!(job.id, Forgery(:build).log )
       end
       #1.times do
-      #  build.matrix<< Factory(:seed_task, :repository => build.repository, :owner_id => build.id, :owner_type => "Build")
+      #  build.matrix<< Factory(:seed_job, :repository => build.repository, :owner_id => build.id, :owner_type => "Build")
       #end
       build.request = Factory(:seed_request, :repository => build.repository, :commit => build.commit)
     end

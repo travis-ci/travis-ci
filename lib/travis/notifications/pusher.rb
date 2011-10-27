@@ -3,7 +3,7 @@ module Travis
     class Pusher
       autoload :Payload, 'travis/notifications/pusher/payload'
 
-      EVENTS = [/build:.*/, /task:.*:(created|started|log|finished)/]
+      EVENTS = [/build:.*/, /job:.*:(created|started|log|finished)/]
 
       def notify(event, object, *args)
         push(event, object, *args)
@@ -25,16 +25,16 @@ module Travis
         def client_event_for(event)
           # gotta remap a bunch of events here. should get better with sproutcore
           case event
-          when /task:.*:created/
+          when /job:.*:created/
             'build:queued'
-          when 'task:configure:started', # TODO doesn't seem to be sent by the worker, so we notify on finished, too
-               'task:configure:finished'
+          when 'job:configure:started', # TODO doesn't seem to be sent by the worker, so we notify on finished, too
+               'job:configure:finished'
             'build:removed'
-          when 'task:test:started'
+          when 'job:test:started'
             'build:removed'
-          when 'task:test:finished'
+          when 'job:test:finished'
             'build:finished'
-          when 'task:test:log'
+          when 'job:test:log'
             'build:log'
           else
             event
