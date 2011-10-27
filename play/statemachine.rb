@@ -13,7 +13,7 @@ class Build
 
   def initialize
     @state = :created
-    @tasks = [Task::Configure.new(:build => self)]
+    @jobs = [Task::Configure.new(:build => self)]
   end
 
   def start
@@ -33,7 +33,7 @@ class Build
   end
 
   def matrix_finished?
-    matrix.all? { |task| task.finished? }
+    matrix.all? { |job| job.finished? }
   end
 end
 
@@ -77,14 +77,14 @@ class BuildStatesTest < ActiveSupport::TestCase
   end
 
   test "build start" do
-    configure = build.tasks.first
+    configure = build.jobs.first
     configure.start # comes from the worker through a message dispatcher
     assert build.started?
   end
 
   test "build configure" do
     config = { :foo => :bar }
-    configure = build.tasks.first
+    configure = build.jobs.first
     configure.finish(config) # comes from the worker through a message dispatcher
 
     assert configure.finished?
@@ -97,12 +97,12 @@ class BuildStatesTest < ActiveSupport::TestCase
 
   test "build finish" do
     build.state = :configured
-    build.matrix.each do |task|
-      task.state = :started
-      task.finish(:result => 0)
+    build.matrix.each do |job|
+      job.state = :started
+      job.finish(:result => 0)
 
-      assert task.finished?
-      assert_equal 0, task.result
+      assert job.finished?
+      assert_equal 0, job.result
     end
 
     assert build.finished?

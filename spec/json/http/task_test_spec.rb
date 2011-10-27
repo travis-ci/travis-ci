@@ -4,11 +4,11 @@ describe 'HTTP API for Task::Test' do
 
   let(:repository) { Scenario.default.first }
   let(:build) { repository.last_build }
-  let(:task) { build.matrix.first }
+  let(:job) { build.matrix.first }
 
   it 'json' do
-    json_for_http(task).should == {
-      'id' => task.id,
+    json_for_http(job).should == {
+      'id' => job.id,
       'repository_id' => repository.id,
       'number' => '2.1',
       'state' => 'finished',

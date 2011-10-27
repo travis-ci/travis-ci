@@ -1,47 +1,47 @@
 require 'spec_helper'
 
 describe Task::Configure do
-  attr_reader :request, :task
+  attr_reader :request, :job
 
   before do
     @request = Factory(:request)
-    @task = request.task
+    @job = request.job
   end
 
   let(:now) { Time.now.tap { |now| Time.stubs(:now).returns(now) } }
 
   describe :start! do
-    it 'start starts the task and propagates to the request' do
-      task.start!
+    it 'start starts the job and propagates to the request' do
+      job.start!
       request.reload.should be_started
     end
 
     it 'notifies observers' do
-      Travis::Notifications.expects(:dispatch).with('task:configure:started', task)
-      task.start!
+      Travis::Notifications.expects(:dispatch).with('job:configure:started', job)
+      job.start!
     end
   end
 
   describe :finish! do
     let(:config) { { :rvm => ['1.8.7', '1.9.2'] } }
 
-    it 'finishes the task and configures the request' do
-      task.finish!(:config => config)
+    it 'finishes the job and configures the request' do
+      job.finish!(:config => config)
 
       request.reload.should be_finished
       request.config.should == config
 
-      task.should be_finished
+      job.should be_finished
     end
 
     it 'notifies observers' do
-      Travis::Notifications.expects(:dispatch).with('task:configure:started', task)
-      Travis::Notifications.expects(:dispatch).with('task:configure:finished', task, :config => config)
-      # Travis::Notifications.expects(:dispatch).with('request:configured', task, config) # not implemented
-      Travis::Notifications.expects(:dispatch).with('task:test:created', instance_of(Task::Test)).times(2)
+      Travis::Notifications.expects(:dispatch).with('job:configure:started', job)
+      Travis::Notifications.expects(:dispatch).with('job:configure:finished', job, :config => config)
+      # Travis::Notifications.expects(:dispatch).with('request:configured', job, config) # not implemented
+      Travis::Notifications.expects(:dispatch).with('job:test:created', instance_of(Task::Test)).times(2)
 
-      task.start!
-      task.finish!(:config => config)
+      job.start!
+      job.finish!(:config => config)
     end
   end
 end

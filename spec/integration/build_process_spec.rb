@@ -12,40 +12,40 @@ feature 'The build process' do
 
     _request.should be_created
     pusher.should have_message('build:queued') # TODO legacy. should be job:configure:created
-    task.should be_queued
+    job.should be_queued
 
-    worker.start!(task, 'started_at' => Time.now)
+    worker.start!(job, 'started_at' => Time.now)
     # pusher.should have_message('job:configure:started') # not currently used.
 
-    worker.finish!(task, 'config' => { 'rvm' => ['1.8.7', '1.9.2'] })
+    worker.finish!(job, 'config' => { 'rvm' => ['1.8.7', '1.9.2'] })
 
     _request.should be_finished
     build.should be_created
     pusher.should have_message('build:removed')
 
-    task.should_not be_queued
-    build.matrix.each { |task| task.should be_queued }
+    job.should_not be_queued
+    build.matrix.each { |job| job.should be_queued }
     api.repositories.should_not include(json_for_http(repository))
 
-    while next_task!
-      worker.start!(task, 'started_at' => Time.now)
+    while next_job!
+      worker.start!(job, 'started_at' => Time.now)
 
-      task.should be_started
+      job.should be_started
       build.should be_started
       pusher.should have_message('build:started')
 
       api.repositories.should include(json_for_http(repository))
       # api.build(build).should include(json_for_http(build)) # TODO
-      # api.task(task).should include(json_for_http(task))    # TODO
+      # api.job(job).should include(json_for_http(job))    # TODO
 
-      worker.log!(task, 'log' => 'foo')
-      task.log.should == 'foo'
+      worker.log!(job, 'log' => 'foo')
+      job.log.should == 'foo'
       pusher.should have_message('build:log', :log => 'foo')
 
-      worker.finish!(task, 'finished_at' => Time.now, 'status' => 0, 'log' => 'foo bar')
-      task.should be_finished
+      worker.finish!(job, 'finished_at' => Time.now, 'status' => 0, 'log' => 'foo bar')
+      job.should be_finished
       pusher.should have_message('build:finished')
-      # api.task(task).should include(json_for_http(task)) # TODO
+      # api.job(job).should include(json_for_http(job)) # TODO
     end
 
     build.should be_finished

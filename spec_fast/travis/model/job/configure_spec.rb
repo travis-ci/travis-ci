@@ -27,6 +27,11 @@ describe Travis::Model::Job::Configure do
         job.owner.expects(:start)
         job.start
       end
+
+      it 'notifies observers' do
+        Travis::Notifications.expects(:dispatch).with('job:configure:started', job)
+        job.start!
+      end
     end
 
     describe 'finishing the job' do

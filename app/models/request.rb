@@ -8,7 +8,7 @@ class Request < ActiveRecord::Base
     end
   end
 
-  has_one    :task, :as => :owner, :class_name => 'Task::Configure'
+  has_one    :job, :as => :owner, :class_name => 'Job::Configure'
   belongs_to :commit
   belongs_to :repository
   has_many   :builds
@@ -18,10 +18,10 @@ class Request < ActiveRecord::Base
   serialize :config
 
   before_create do
-    self.build_task(:repository => self.repository, :commit => self.commit)
+    self.build_job(:repository => self.repository, :commit => self.commit)
   end
 
-  def configure(data)
+  def create_build!
     builds.create!(:repository => repository, :commit => commit, :config => self.config)
   end
 end

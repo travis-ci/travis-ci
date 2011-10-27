@@ -1,7 +1,17 @@
+require 'responders'
+
 class JobsController < ApplicationController
-  def index
-    respond_to do |format|
-      format.json { render :json => jobs }
-    end
+  responders :rabl
+  respond_to :json
+
+  def show
+    respond_with job
   end
+
+  protected
+
+    def job
+      @job ||= Job.find(params[:id])
+    end
 end
+

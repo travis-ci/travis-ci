@@ -2,7 +2,7 @@ require 'client/spec_helper'
 
 feature 'Queueing and dequeuing builds', %(
   As anybody
-  I want to see which build tasks are queued
+  I want to see which build jobs are queued
 ), :js => true do
 
   # TODO how to make sure these payloads are in sync with the actual app?

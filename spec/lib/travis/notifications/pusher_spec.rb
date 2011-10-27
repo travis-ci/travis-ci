@@ -11,7 +11,7 @@ describe Travis::Notifications::Pusher do
   end
 
   let(:receiver) { Travis::Notifications::Pusher.new }
-  let(:task)     { Factory(:request).task }
+  let(:job)      { Factory(:request).job }
   let(:build)    { Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] }) }
 
   describe 'sends a message to pusher' do
@@ -40,16 +40,16 @@ describe Travis::Notifications::Pusher do
       pusher.should have_message('build:finished', build)
     end
 
-    it 'task:test:started' do
-      Travis::Notifications.dispatch('task:test:started', task)
-      pusher.should have_message('build:removed', task)
+    it 'job:test:started' do
+      Travis::Notifications.dispatch('job:test:started', job)
+      pusher.should have_message('build:removed', job)
     end
 
   end
 
-  describe 'payload_for returns the payload required for client side task events' do
+  describe 'payload_for returns the payload required for client side job events' do
     it 'build:queued' do
-      receiver.payload_for('build:queued', task) == [:build, :repository]
+      receiver.payload_for('build:queued', job) == [:build, :repository]
     end
 
     it 'build:removed' do

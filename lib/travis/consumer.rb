@@ -4,7 +4,7 @@ require 'hashr'
 
 module Travis
   class Consumer
-    autoload :Task, 'travis/consumer/task'
+    autoload :Job, 'travis/consumer/job'
 
     ROUTING_KEY = 'reporting.jobs'
 
@@ -38,7 +38,7 @@ module Travis
       def handler_for(event)
         case event.to_s
         when /^job/
-          Task.new
+          Job.new
         else
           raise "Unknown message type: #{event.inspect}"
         end

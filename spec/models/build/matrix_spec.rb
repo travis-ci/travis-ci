@@ -5,7 +5,7 @@ describe Build, 'matrix' do
   after  { Build.send :protected, :matrix_config, :expand_matrix_config }
 
   describe :matrix_finished? do
-    it 'returns false if at least one task has not finished' do
+    it 'returns false if at least one job has not finished' do
       build = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
       build.matrix[0].update_attributes(:state => :finished)
       build.matrix[1].update_attributes(:state => :started)
@@ -13,7 +13,7 @@ describe Build, 'matrix' do
       build.matrix_finished?.should_not be_true
     end
 
-    it 'returns true if all tasks have finished' do
+    it 'returns true if all jobs have finished' do
       build = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
       build.matrix[0].update_attributes!(:state => :finished)
       build.matrix[1].update_attributes!(:state => :finished)
@@ -23,14 +23,14 @@ describe Build, 'matrix' do
   end
 
   describe :matrix_status do
-    it 'returns 1 if any task has the status 1' do
+    it 'returns 1 if any job has the status 1' do
       build = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
       build.matrix[0].update_attributes!(:status => 1, :state => :finished)
       build.matrix[1].update_attributes!(:status => 0, :state => :finished)
       build.matrix_status.should == 1
     end
 
-    it 'returns 0 if all tasks have the status 0' do
+    it 'returns 0 if all jobs have the status 0' do
       build = Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] })
       build.matrix[0].update_attributes!(:status => 0, :state => :finished)
       build.matrix[1].update_attributes!(:status => 0, :state => :finished)
@@ -175,24 +175,24 @@ describe Build, 'matrix' do
   end
 
   describe :expand_matrix do
-    it 'sets the config to the tasks (no config)' do
+    it 'sets the config to the jobs (no config)' do
       build = Factory(:build, :config => {})
       build.matrix.map(&:config).should == [{}]
     end
 
-    it 'sets the config to the tasks (no matrix config)' do
+    it 'sets the config to the jobs (no matrix config)' do
       build = Factory(:build, :config => no_matrix_config)
       build.matrix.map(&:config).should == [{ :script => 'rake ci' }]
     end
 
-    it 'sets the config to the tasks (single test config)' do
+    it 'sets the config to the jobs (single test config)' do
       build = Factory(:build, :config => single_test_config)
       build.matrix.map(&:config).should == [
         { :script => 'rake ci', :rvm => '1.8.7', :gemfile => 'gemfiles/rails-3.0.6', :env => 'USE_GIT_REPOS=true' }
       ]
     end
 
-    it 'sets the config to the tasks (multiple tests config)' do
+    it 'sets the config to the jobs (multiple tests config)' do
       build = Factory(:build, :config => multiple_tests_config)
       build.matrix.map(&:config).should == [
         { :script => 'rake ci', :rvm => '1.8.7', :gemfile => 'gemfiles/rails-3.0.6',      :env => 'USE_GIT_REPOS=true' },
@@ -216,7 +216,7 @@ describe Build, 'matrix' do
       build.matrix.map(&:commit_id).uniq.should == [build.commit_id]
     end
 
-    it 'adds a sub-build number to the task number' do
+    it 'adds a sub-build number to the job number' do
       build = Factory(:build, :config => multiple_tests_config)
       assert_equal ['1.1', '1.2', '1.3', '1.4'], build.matrix.map(&:number)[0..3]
     end

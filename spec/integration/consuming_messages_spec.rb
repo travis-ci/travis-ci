@@ -7,8 +7,8 @@ describe Travis, 'consuming worker messages' do
 
   let(:message)  { stub(:type => event, :ack => nil) }
 
-  def payload(task)
-    MultiJson.encode(WORKER_PAYLOADS[event].merge('id' => task.id))
+  def payload(job)
+    MultiJson.encode(WORKER_PAYLOADS[event].merge('id' => job.id))
   end
 
   before(:each) do
@@ -17,26 +17,26 @@ describe Travis, 'consuming worker messages' do
 
   describe 'job:configure:finished' do
     let(:event) { 'job:configure:finished' }
-    let(:task)  { request.task }
+    let(:job)  { request.job }
 
-    it "finishes the request's configure task" do
-      consumer.receive(message, payload(task))
-      task.reload.should be_finished
+    it "finishes the request's configure job" do
+      consumer.receive(message, payload(job))
+      job.reload.should be_finished
     end
 
     it 'finishes the request' do
-      consumer.receive(message, payload(task))
+      consumer.receive(message, payload(job))
       request.reload.should be_finished
     end
 
     it 'creates a new build' do
-      reception = lambda { consumer.receive(message, payload(task)) }
+      reception = lambda { consumer.receive(message, payload(job)) }
       reception.should change(Build, :count).by(1)
       request.builds.should_not be_empty
     end
 
-    it "creates the build's matrix test tasks" do
-      reception = lambda { consumer.receive(message, payload(task)) }
+    it "creates the build's matrix test jobs" do
+      reception = lambda { consumer.receive(message, payload(job)) }
       reception.should change(Task::Test, :count).by(2)
       request.builds.first.matrix.should_not be_empty
     end
@@ -44,46 +44,46 @@ describe Travis, 'consuming worker messages' do
 
   describe 'job:test:started' do
     let(:event) { 'job:test:started' }
-    let(:task)  { build.matrix.first }
+    let(:job)  { build.matrix.first }
 
-    it 'starts the task' do
-      consumer.receive(message, payload(task))
-      task.reload.should be_started
+    it 'starts the job' do
+      consumer.receive(message, payload(job))
+      job.reload.should be_started
     end
 
     it 'starts the build' do
-      consumer.receive(message, payload(task))
+      consumer.receive(message, payload(job))
       build.reload.should be_started
     end
   end
 
-  describe 'a task log payload' do
+  describe 'a job log payload' do
     let(:event) { 'job:test:log' }
-    let(:task)  { build.matrix.first }
+    let(:job)  { build.matrix.first }
 
-    it "appends the log output to the task's log" do
-      consumer.receive(message, payload(task))
-      task.reload.log.should == '... appended'
+    it "appends the log output to the job's log" do
+      consumer.receive(message, payload(job))
+      job.reload.log.should == '... appended'
     end
   end
 
   describe 'job:test:finished' do
     let(:event) { 'job:test:finished' }
-    let(:task)  { build.matrix.first }
+    let(:job)  { build.matrix.first }
 
-    it 'finishes a matrix test task' do
-      consumer.receive(message, payload(task))
-      task.reload.should be_finished
+    it 'finishes a matrix test job' do
+      consumer.receive(message, payload(job))
+      job.reload.should be_finished
     end
 
-    it 'but does not finish the build if a task is still pending' do
-      consumer.receive(message, payload(task))
+    it 'but does not finish the build if a job is still pending' do
+      consumer.receive(message, payload(job))
       build.reload.should_not be_finished
     end
 
-    it 'and finishes the build if all tasks are finished' do
-      build.matrix.each do |task|
-        consumer.receive(message, payload(task))
+    it 'and finishes the build if all jobs are finished' do
+      build.matrix.each do |job|
+        consumer.receive(message, payload(job))
       end
       build.reload.should be_finished
     end

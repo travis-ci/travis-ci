@@ -19,7 +19,7 @@ describe RequestsController do
       request = Request.last
       request.should be_created
       request.payload.should == payload
-      request.task.should be_queued
+      request.job.should be_queued
     end
 
     it 'does not create a build record when the branch is gh_pages' do

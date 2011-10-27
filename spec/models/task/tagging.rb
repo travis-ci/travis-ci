@@ -14,7 +14,7 @@ describe Task::Tagging do
   let(:test) { Factory(:build).matrix.first }
 
   describe :add_tags do
-    it 'tags the task according to the rules' do
+    it 'tags the job according to the rules' do
       test.update_attributes! :log => <<-log
         in `block in replace_gem': rake is not part of the bundle. Add it to Gemfile. (Gem::LoadError)
         PGError: FATAL:  database "data_migrations_test" does not exist
