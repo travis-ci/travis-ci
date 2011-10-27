@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe TasksController do
+describe JobsController do
   describe 'GET :show' do
     let(:test)       { Factory(:build).matrix.first.reload }
     let(:repository) { test.repository }

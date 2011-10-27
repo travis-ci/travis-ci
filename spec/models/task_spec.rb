@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ::Task do
+describe ::Job do
   attr_reader :build, :job
 
   let!(:build) { Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] }) }
@@ -14,14 +14,9 @@ describe ::Task do
         "$ bundle install --pa"
       ]
       0.upto(2) do |ix|
-        Task::Test.append_log!(job.id, lines[ix])
+        Job::Test.append_log!(job.id, lines[ix])
         assert_equal lines[0, ix + 1].join, job.reload.log
       end
-    end
-
-    it 'notifies observers' do
-      Travis::Notifications.expects(:dispatch).with('job:test:log', job, :build => { :_log => 'chars' })
-      Task::Test.append_log!(job.id, 'chars')
     end
   end
 end

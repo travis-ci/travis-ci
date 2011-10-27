@@ -4,6 +4,13 @@ module Travis
       class Test < Job
         include Tagging
 
+        class << self
+          def append_log!(id, chars)
+            job = new(::Job.find(id, :select => [:id, :repository_id, :owner_id, :owner_type, :state], :include => :repository))
+            job.append_log!(chars) unless job.finished?
+          end
+        end
+
         states :created, :started, :finished # :cloned, :installed, ...
 
         event :start,  :to => :started, :after => :propagate
@@ -15,6 +22,11 @@ module Travis
 
         def finish(data = {})
           record.status, record.finished_at = *data.values_at(:status, :finished_at)
+        end
+
+        def append_log!(chars)
+          record.append_log!(chars)
+          notify(:log, :build => { :_log => chars })
         end
 
         protected

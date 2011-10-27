@@ -5,9 +5,7 @@ describe Build, 'denormalization' do
 
   describe 'on build:started' do
     before :each do
-      build.matrix.each do |job|
-        job.start!
-      end
+      build.matrix.each { |job| job.denormalize(:start) }
       build.reload
     end
 
@@ -26,10 +24,7 @@ describe Build, 'denormalization' do
 
   describe 'on build:finished' do
     before :each do
-      build.matrix.each do |job|
-        job.start!
-        job.finish!(:status => 0)
-      end
+      build.matrix.each { |job| job.denormalize(:finish, :status => 0) }
       build.reload
     end
 

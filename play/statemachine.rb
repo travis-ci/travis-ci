@@ -13,7 +13,7 @@ class Build
 
   def initialize
     @state = :created
-    @jobs = [Task::Configure.new(:build => self)]
+    @jobs = [Job::Configure.new(:build => self)]
   end
 
   def start
@@ -25,7 +25,7 @@ class Build
   end
 
   def expand_matrix
-    @matrix = [Task::Test.new(:build => self), Task::Test.new(:build => self)]
+    @matrix = [Job::Test.new(:build => self), Job::Test.new(:build => self)]
   end
 
   def finish
@@ -37,7 +37,7 @@ class Build
   end
 end
 
-class Build::Task
+class Build::Job
   states :created, :started, :finished
   event :all, :after => :notify_build
 
@@ -60,10 +60,10 @@ class Build::Task
   end
 end
 
-class Build::Task::Configure < Build::Task
+class Build::Job::Configure < Build::Job
 end
 
-class Build::Task::Test < Build::Task
+class Build::Job::Test < Build::Job
   states :cloned, :installed
 end
 

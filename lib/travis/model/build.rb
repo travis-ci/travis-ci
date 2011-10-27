@@ -11,7 +11,7 @@ module Travis
 
       event :start,  :to => :started
       event :finish, :to => :finished, :if => :matrix_finished?
-      event :all, :after => :denormalize # TODO bug in simple_states. should be able to pass an array
+      event :all, :after => [:denormalize, :notify]
 
       delegate :state, :state=, :denormalize, :matrix_finished?, :passed?, :failed?, :to => :record
     end

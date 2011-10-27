@@ -37,7 +37,7 @@ describe Travis, 'consuming worker messages' do
 
     it "creates the build's matrix test jobs" do
       reception = lambda { consumer.receive(message, payload(job)) }
-      reception.should change(Task::Test, :count).by(2)
+      reception.should change(Job::Test, :count).by(2)
       request.builds.first.matrix.should_not be_empty
     end
   end

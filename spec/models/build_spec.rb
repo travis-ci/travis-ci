@@ -54,22 +54,6 @@ describe Build do
       end
     end
 
-    describe :finish do
-      let(:build) { Factory(:build) }
-
-      it 'sets the given status to the matrix_status if the matrix is finished' do
-        build.stubs(:matrix_finished?).returns(true)
-        build.stubs(:matrix_status).returns(1)
-        build.finish(:status => 0)
-        build.status.should == 1
-      end
-
-      it 'does not set the given status to the build if the matrix is not finished' do
-        build.finish(:status => 0)
-        build.status.should be_nil
-      end
-    end
-
     describe :pending? do
       it 'returns true if the build is finished' do
         build = Factory(:build, :state => :finished)

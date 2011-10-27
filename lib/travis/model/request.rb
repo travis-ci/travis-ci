@@ -34,15 +34,14 @@ module Travis
         branch_included?(record.commit.branch) && !branch_excluded?(record.commit.branch)
       end
 
-      def build
-        @build ||= Build.new(record.build)
+      def configure(data)
+        record.update_attributes!(:config => data)
+        create_build if approved?
       end
 
-      def configure(data)
-        if approved?
-          record.configure(data)
-          build.matrix.each { |job| Job.new(job).notify(:create) }
-        end
+      def create_build
+        build = record.create_build!
+        build.matrix.each { |job| Job::Test.new(job).notify(:create) } if build
       end
     end
   end

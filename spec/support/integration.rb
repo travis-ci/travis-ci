@@ -69,8 +69,8 @@ module Support
     end
 
     def next_job!
-      # Task::Test.where(:state => 'created').first # TODO bug in simple_states?
-      Task::Test.where(:state => nil).first.tap { |job| @job = job if job }
+      # Job::Test.where(:state => 'created').first # TODO bug in simple_states?
+      Job::Test.where(:state => nil).first.tap { |job| @job = job if job }
     end
 
     def job
@@ -82,11 +82,11 @@ module Support
     end
 
     def _request
-      job.is_a?(Task::Configure) ? job.owner : job.owner.request
+      job.is_a?(Job::Configure) ? job.owner : job.owner.request
     end
 
     def build
-      job.is_a?(Task::Configure) ? _request.builds.first : job.owner
+      job.is_a?(Job::Configure) ? _request.builds.first : job.owner
     end
   end
 end

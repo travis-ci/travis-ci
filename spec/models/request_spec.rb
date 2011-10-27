@@ -5,7 +5,7 @@ describe Request do
 
   context 'on creation' do
     it 'also creates its configure job' do
-      request.job.should be_instance_of(Task::Configure)
+      request.job.should be_instance_of(Job::Configure)
     end
   end
 
@@ -42,13 +42,13 @@ describe Request do
 
       lambda {
         request.configure!(:config => { :rvm => [ '1.8.7', '1.9.2' ], :gemfile => [ 'gemfiles/first_one', 'gemfiles/second_one' ] })
-      }.should change(Task, :count).by(4)
+      }.should change(Job, :count).by(4)
 
       [ { :rvm => '1.8.7', :gemfile => 'gemfiles/first_one' },
         { :rvm => '1.8.7', :gemfile => 'gemfiles/second_one' },
         { :rvm => '1.9.2', :gemfile => 'gemfiles/first_one' },
         { :rvm => '1.9.2', :gemfile => 'gemfiles/second_one' }].each do |configuration|
-        Task.where("config LIKE '%#{configuration[:rvm]}%#{configuration[:gemfile]}%'").count.should eql 1
+        Job.where("config LIKE '%#{configuration[:rvm]}%#{configuration[:gemfile]}%'").count.should eql 1
       end
     end
   end
