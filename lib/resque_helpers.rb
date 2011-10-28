@@ -3,7 +3,7 @@ module ResqueHelpers
     def queued_jobs(queue = nil)
       Resque.peek(queue || 'builds', 0, 50).map do |job|
         data = job['args'].last
-        build = data['build'].slice('id', 'number', 'commit')
+        build = data['build'].slice('id', 'number', 'commit', 'queue')
         repository = data['repository'].slice('id', 'slug')
         build.merge('repository' => repository)
       end
