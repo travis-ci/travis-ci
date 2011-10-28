@@ -18,7 +18,7 @@ describe('Events:', function() {
   };
 
   beforeEach(function() {
-    queue = createView('#jobs', { jobs: Travis.Job.all(), template: 'app/templates/jobs/list' });
+    queue = createView('#jobs', { jobs: Travis.Job.all(), templateName: 'app/templates/jobs/list' });
   });
 
   describe('build:queued', function() {
