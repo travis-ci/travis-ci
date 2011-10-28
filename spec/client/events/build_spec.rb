@@ -84,7 +84,7 @@ feature 'Walking through the build process', :js => true do
 
   def send_websocket_messages!
     pusher.messages.each do |message|
-      page.execute_script "Travis.trigger(#{message.first.inspect}, #{message.last.to_json})"
+      dispatch_pusher_command 'jobs', message.first, message.last
       sleep(0.5)
     end
     pusher.messages.clear
@@ -92,14 +92,14 @@ feature 'Walking through the build process', :js => true do
 
   def should_see_job(*jobs)
     jobs.each do |job|
-      should_see job, :within => '#jobs.queue-builds'
+      should_see job, :within => '#jobs .queue-builds'
     end
   end
   alias :should_see_jobs :should_see_job
 
   def should_not_see_job(*jobs)
     jobs.each do |job|
-      should_not_see job, :within => '#jobs.queue-builds'
+      should_not_see job, :within => '#jobs .queue-builds'
     end
   end
   alias :should_not_see_jobs :should_not_see_job
@@ -121,7 +121,7 @@ feature 'Walking through the build process', :js => true do
     attrs.merge!(:text => args.pop) unless args.empty?
 
     attrs.each do |name, value|
-      selector =  '#repositories .repository.selected'
+      selector =  '#repositories .repository'
       selector << ".#{color}" unless color == 'yellow'
       selector << " .#{name}" unless name == :text
       should_see value, :within => selector
