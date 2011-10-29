@@ -1,7 +1,7 @@
 describe('Views:', function() {
   describe('repositories', function() {
     describe('show', function() {
-      var repository, controller, view;
+      var repository, view;
 
       beforeEach(function() {
         repository = Test.Factory.Repository.travis();

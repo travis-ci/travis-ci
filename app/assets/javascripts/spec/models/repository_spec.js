@@ -142,7 +142,7 @@ describe('Travis.Repository', function() {
         });
 
         it('selects the given repository', function() {
-          var repository = repositories.objectAt(0)
+          var repository = repositories.objectAt(0);
           repository.select();
           expect(repository.get('selected')).toBeTruthy();
         });

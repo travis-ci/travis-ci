@@ -17,7 +17,7 @@ $.extend(jasmine, {
   },
 
   listsRepository: function(element, repository, errors) {
-    var element = $(element);
+    element = $(element);
 
     var expected = {
       'a:nth-child(1)': repository.get('slug'),
@@ -47,12 +47,12 @@ $.extend(jasmine, {
   },
 
   showsRepository: function(element, repository, errors) {
-    var element = $(element);
+    element = $(element);
 
     var expected = {
       'h3 a':                    { href: 'http://github.com/' + repository.get('slug'), text: repository.get('slug') },
       '.github-stats .watchers': { href: 'http://github.com/' + repository.get('slug') + '/watchers' },
-      '.github-stats .forks':    { href: 'http://github.com/' + repository.get('slug') + '/network' },
+      '.github-stats .forks':    { href: 'http://github.com/' + repository.get('slug') + '/network' }
     };
     $.each(expected, function(selector, text) {
       jasmine.matchValues(selector, text, errors, element);
@@ -62,7 +62,7 @@ $.extend(jasmine, {
   },
 
   showsBuildSummary: function(element, build, errors) {
-    var element = $(element);
+    element = $(element);
 
     var commit       = build.get('commit').slice(0, 7) + (build.get('branch') ? ' (%@)'.fmt(build.get('branch')) : '');
     var commitUrl    = 'http://github.com/' + build.getPath('repository.slug') + '/commit/' + build.get('commit');
@@ -73,7 +73,7 @@ $.extend(jasmine, {
       '.summary .number':        build.get('number'),
       '.summary .commit-hash a': { text: commit, href: commitUrl },
       '.summary .committer a':   { text: build.get('committerName'), href: committerUrl },
-      '.summary .author a':      { text: build.get('authorName'), href: authorUrl },
+      '.summary .author a':      { text: build.get('authorName'), href: authorUrl }
       // '.summary .duration':      { title: build.get('duration'), text: build.get('formattedDuration') },
       // '.summary .finished_at':   { title: build.get('finished_at'), text: build.get('formattedFinishedAt') },
     };
@@ -105,12 +105,12 @@ $.extend(jasmine, {
   },
 
   showsActiveTab: function(element, tab, errors) {
-    var element = $(element);
+    element = $(element);
     if(!$('#tab_' + tab, element).hasClass('active')) {
       errors.push('expected the tab "' + tab + '" to be active, but it is not.');
     }
     return errors.length == 0;
-  },
+  }
 });
 
 beforeEach(function() {

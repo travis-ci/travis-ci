@@ -124,8 +124,8 @@ describe('Build', function() {
       });
 
       it('appendLog', function() {
-        build.set('log', 'test-1')
-        build.appendLog('test-2')
+        build.set('log', 'test-1');
+        build.appendLog('test-2');
         expect(build.get('log')).toEqual('test-1test-2');
       });
     });

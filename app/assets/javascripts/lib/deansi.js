@@ -28,7 +28,7 @@ var Deansi = {
     '44': 'bg-blue',
     '45': 'bg-magenta',
     '46': 'bg-cyan',
-    '47': 'bg-white',
+    '47': 'bg-white'
   },
   parse: function(string) {
     string = this.replace_escapes(string);
@@ -38,7 +38,7 @@ var Deansi = {
     return string;
   },
   replace_escapes: function(string) {
-    string = string.replace(new RegExp(String.fromCharCode(27) + "\\(B", 'gm'), '')
+    string = string.replace(new RegExp(String.fromCharCode(27) + "\\(B", 'gm'), '');
     return string.replace(new RegExp(String.fromCharCode(27), 'gm'), '');
   },
   replace_styles: function(string) {
@@ -57,6 +57,6 @@ var Deansi = {
   },
   to_styles: function(codes) {
     return $.compact($.map(codes.split(';'), function(code) { return Deansi.styles[code]; })).join(' ');
-  },
+  }
 };
 
