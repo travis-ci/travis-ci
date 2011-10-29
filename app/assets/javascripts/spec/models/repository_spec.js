@@ -96,7 +96,7 @@ describe('Travis.Repository', function() {
         });
 
         it("returns a human readable time ago string if the last build's finished time is known", function() {
-          spyOn($.timeago, 'now').andReturn(new Date('2011/01/01 05:00:00').getTime());
+          spyOn($.timeago, 'now').andReturn(new Date(Date.UTC(2011, 0, 1, 4, 0, 0)).getTime());
           expect(repository.get('formattedLastBuildFinishedAt')).toEqual('about 3 hours ago'); // TODO hmmm, some timezone difference here. is that a problem?
         });
       });

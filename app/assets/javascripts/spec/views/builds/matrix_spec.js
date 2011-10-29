@@ -4,7 +4,7 @@ describe('Views:', function() {
       var tabs, build, view;
 
       beforeEach(function() {
-        spyOn($.timeago, 'now').andReturn(new Date('2011/01/01 05:00:00').getTime());
+        spyOn($.timeago, 'now').andReturn(new Date(Date.UTC(2011, 0, 1, 4, 0, 0)).getTime());
 
         build = Test.Factory.Build.passing();
         view = createView('#main', {
