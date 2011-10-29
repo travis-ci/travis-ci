@@ -1,3 +1,5 @@
+require 'active_record'
+
 class ActiveRecord::Base
   SQL = {
     :floor => {
