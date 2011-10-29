@@ -36,13 +36,31 @@ describe Request::Github do
       commit.committer_email.should == 'svenfuchs@artweb-design.de'
       commit.author_name.should == 'Christopher Floess'
       commit.author_email.should == 'chris@flooose.de'
+      commit.unique.should == true
 
       repository.name.should == 'gem-release'
       repository.owner_name.should == 'svenfuchs'
       repository.owner_email.should == 'svenfuchs@artweb-design.de'
-      repository.owner_name.should == 'svenfuchs'
       repository.url.should == 'http://github.com/svenfuchs/gem-release'
       # request.token.should == 'travis-token'
+    end
+
+    it 'given a valid payload creates a request including its commit on the forked repository', :webmock => true do
+      request = create_request('gem-release-fork').reload
+      repository = request.repository
+      commit = request.commit
+
+      commit.unique.should == false
+    end
+
+    it 'given a valid payload creates a request including its unique commit on the forked repository' do
+      WebMock.stub_request(:get, "http://github.com/api/v2/json/commits/show/svenfuchs/gem-release/9854593").to_return(:status => 404, :body => '{"error":"Not Found"}', :headers => {})
+
+      request = create_request('gem-release-fork-unique').reload
+      repository = request.repository
+      commit = request.commit
+
+      commit.unique.should == true
     end
 
     it 'given a payload for a gh_pages branch does not create a request' do
