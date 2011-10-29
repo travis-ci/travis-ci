@@ -4,8 +4,8 @@ var EVENTS = {
   'build:finished':  { build: { id: 1, finished_at: '2011-11-11T01:00:00Z', result: 1 }, repository: { id: 1,  slug: 'travis-ci/travis-ci' } },
   'build:started:1': { build: { id: 11, repository_id: 1,  number: '11' }, repository: { id: 1,  slug: 'travis-ci/travis-ci' } },
   'build:started:2': { build: { id: 12, repository_id: 12, number: '12' }, repository: { id: 12, slug: 'svenfuchs/minimal'   } },
-  'build:log:1':     { build: { id: 2, _log: 'Foo.' } },
-}
+  'build:log:1':     { build: { id: 2, _log: 'Foo.' } }
+};
 
 describe('Events:', function() {
   var events = Travis.Controllers.Events.create();

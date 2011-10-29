@@ -1,21 +1,21 @@
 describe('Views:', function() {
   describe('builds', function() {
-    var tabs, build, view;
-    
+    var build, view;
+
     beforeEach(function() {
       build = Test.Factory.Build.passing();
     });
-    
+
     describe('show', function() {
-      
+
       beforeEach(function() {
         view = createView('#main', { repository: build.get('repository'), build: build, templateName: 'app/templates/builds/show' });
       });
-      
+
       afterEach(function() {
         view.destroy();
       });
-      
+
       it('shows the current build', function() {
         expect(view.$()).toShowBuildSummary(build);
       });
@@ -84,17 +84,17 @@ describe('Views:', function() {
         });
       });
     });
-    
+
     describe('show with a single-build matrix', function() {
       beforeEach(function() {
         build = build.get('matrix').objectAt(0);
         view = createView('#main', { repository: build.get('repository'), build: build, templateName: 'app/templates/builds/show' });
       });
-      
+
       afterEach(function() {
         view.destroy();
       });
-      
+
       it('renders the log', function() {
         // spyOn(Travis.Log, 'filter').andCallFake(function(log) { return log; });
         expect(view.$('pre.log')).toHaveText('1Done. Build script exited with: 0')

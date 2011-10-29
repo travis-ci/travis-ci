@@ -27,7 +27,7 @@ Travis.Controllers.Repositories.List = SC.ArrayController.extend({
   },
 
   recent: function() {
-    this.set('content', Travis.Repository.recent())
+    this.set('content', Travis.Repository.recent());
     this.tabs.activate('recent');
   },
 

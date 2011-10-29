@@ -21,7 +21,7 @@ describe('Views:', function() {
       it('renders a row per record', function() {
         expect(view.$('#builds')).toMatchTable([
           ['Build', 'Commit',           'Message',       'Duration', 'Finished'],
-          ['1',     '4d7621e (master)', 'correct rules', '10 sec',   'about 3 hours ago'], // TODO add moar builds
+          ['1',     '4d7621e (master)', 'correct rules', '10 sec',   'about 3 hours ago'] // TODO add moar builds
         ]);
       });
 
