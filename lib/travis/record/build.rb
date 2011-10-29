@@ -1,6 +1,11 @@
+require 'active_record'
 require 'core_ext/active_record/base'
+require 'core_ext/hash/deep_symbolize_keys'
 
 class Build < ActiveRecord::Base
+  autoload :Matrix,      'travis/record/build/matrix'
+  autoload :Denormalize, 'travis/record/build/denormalize'
+
   include Matrix, Denormalize
 
   PER_PAGE = 10
@@ -10,7 +15,7 @@ class Build < ActiveRecord::Base
   belongs_to :repository, :autosave => true
   has_many   :matrix, :as => :owner, :order => :id, :class_name => 'Job::Test'
 
-  # validates :repository_id, :commit_id, :request_id, :presence => true
+  validates :repository_id, :commit_id, :request_id, :presence => true
 
   serialize :config
 
@@ -81,6 +86,10 @@ class Build < ActiveRecord::Base
     self.finished_at = data[:finished_at]
   end
 
+  def finished?
+    state == :finished
+  end
+
   def pending?
     !finished?
   end
@@ -93,13 +102,18 @@ class Build < ActiveRecord::Base
     !passed?
   end
 
+  def color
+    pending? ? 'yellow' : passed? ? 'green' : 'red'
+  end
+
   def status_message
-    return 'Pending' if pending?
-    if prev = previous_finished_on_branch
+    if pending?
+      'Pending'
+    elsif prev = previous_on_branch
       if passed?
-        prev.passed? ? "Passed" : "Fixed"
-      else # if failed?
-        prev.passed? ? "Broken" : "Still Failing"
+        prev.passed? ? 'Passed' : 'Fixed'
+      else
+        prev.passed? ? 'Broken' : 'Still Failing'
       end
     else
       passed? ? 'Passed' : 'Failed'
@@ -116,9 +130,5 @@ class Build < ActiveRecord::Base
     when "Still Failing"; "The build is still failing."
     else status_message
     end
-  end
-
-  def color
-    pending? ? 'yellow' : passed? ? 'green' : 'red'
   end
 end

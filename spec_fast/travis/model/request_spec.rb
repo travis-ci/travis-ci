@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class Request
+class RequestMock
   attr_accessor :state
   def save!; end
   def update_attributes!(*); end
@@ -10,7 +10,7 @@ end
 
 describe Travis::Model::Request do
   let(:payload) { GITHUB_PAYLOADS['gem-release'] }
-  let(:record)  { Request.new }
+  let(:record)  { RequestMock.new }
   let(:request) { Travis::Model::Request.new(record) }
   let(:build)   { stub('build', :matrix => [stub('job', :state= => nil)]) }
 
@@ -34,16 +34,16 @@ describe Travis::Model::Request do
   describe '.create' do
     it 'creates a Request record' do
       ::Request.expects(:create_from).returns(record)
-      Travis::Model::Request.create(payload)
+      Travis::Model::Request.create(payload, 'token')
     end
 
     it 'instantiates a new Request with the record' do
-      Travis::Model::Request.create(payload).record.should == record
+      Travis::Model::Request.create(payload, 'token').record.should == record
     end
 
     it 'sets the state :created to the record' do
       record.expects(:state=).with(:created)
-      Travis::Model::Request.create(payload)
+      Travis::Model::Request.create(payload, 'token')
     end
   end
 

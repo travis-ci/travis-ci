@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'support/factories'
 
 describe Build do
   let(:repository) { Factory(:repository) }
@@ -112,7 +113,7 @@ describe Build do
       end
     end
 
-    it "finds the previous finished build on the same repository and branch" do
+    xit "finds the previous finished build on the same repository and branch" do
       repo   = Factory(:repository, :name => "test")
       commit = Factory(:commit, :branch => "test")
 
@@ -128,4 +129,3 @@ describe Build do
     end
   end
 end
-

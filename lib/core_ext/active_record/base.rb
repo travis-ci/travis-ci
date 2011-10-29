@@ -8,7 +8,9 @@ class ActiveRecord::Base
   }
   class << self
     def floor(field)
-      SQL[:floor][configurations[Rails.env]['adapter']] % field
+      env = defined?(Rails) ? Rails.env : ENV['RAILS_ENV'] || 'test'
+      adapter = configurations[env]['adapter']
+      SQL[:floor][adapter] % field
     end
   end
 end

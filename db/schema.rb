@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110911204538) do
+ActiveRecord::Schema.define(:version => 20111027032250) do
 
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
@@ -47,6 +47,27 @@ ActiveRecord::Schema.define(:version => 20110911204538) do
   end
 
   add_index "commits", ["commit"], :name => "index_commits_on_commit"
+
+  create_table "jobs", :force => true do |t|
+    t.integer  "repository_id"
+    t.integer  "commit_id"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "queue"
+    t.string   "type"
+    t.string   "state"
+    t.string   "number"
+    t.text     "config"
+    t.integer  "status"
+    t.text     "log",           :default => ""
+    t.string   "job_id"
+    t.string   "worker"
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "tags"
+  end
 
   create_table "rails_admin_histories", :force => true do |t|
     t.string   "message"
@@ -92,27 +113,6 @@ ActiveRecord::Schema.define(:version => 20110911204538) do
     t.datetime "finished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "tasks", :force => true do |t|
-    t.integer  "repository_id"
-    t.integer  "commit_id"
-    t.integer  "owner_id"
-    t.string   "owner_type"
-    t.string   "queue"
-    t.string   "type"
-    t.string   "state"
-    t.string   "number"
-    t.text     "config"
-    t.integer  "status"
-    t.text     "log",           :default => ""
-    t.string   "job_id"
-    t.string   "worker"
-    t.datetime "started_at"
-    t.datetime "finished_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "tags"
   end
 
   create_table "tokens", :force => true do |t|

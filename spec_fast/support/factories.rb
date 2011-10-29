@@ -1,4 +1,5 @@
 require 'factory_girl'
+require 'support/active_record'
 
 FactoryGirl.define do
   factory :build do |f|
@@ -19,6 +20,12 @@ FactoryGirl.define do
     f.compare_url 'https://github.com/svenfuchs/minimal/compare/master...develop'
   end
 
+  factory :test, :class => 'Job::Test' do |f|
+    f.repository { Factory(:repository) }
+    f.commit     { Factory(:commit) }
+    f.owner      { Factory(:build) }
+  end
+
   factory :request do |f|
     f.repository { Repository.first || Factory(:repository) }
     f.association :commit
@@ -33,36 +40,6 @@ FactoryGirl.define do
     f.last_duration 60
     f.created_at { |r| Time.utc(2011, 01, 30, 5, 25) }
     f.updated_at { |r| r.created_at + 5.minutes }
-  end
-
-  factory :minimal, :parent => :repository do
-  end
-
-  factory :enginex, :class => Repository do |f|
-    f.name 'enginex'
-    f.owner_name 'josevalim'
-    f.last_duration 30
-  end
-
-  factory :running_build, :parent => :build do |f|
-    f.repository { Factory(:repository, :name => 'running_build') }
-    f.state 'started'
-  end
-
-  factory :successful_build, :parent => :build do |f|
-    f.repository { Factory(:repository, :name => 'successful_build', :last_build_status => 0) }
-    f.status 0
-    f.state 'finished'
-    started_at { Time.now }
-    finished_at { Time.now }
-  end
-
-  factory :broken_build, :parent => :build do |f|
-    f.repository { Factory(:repository, :name => 'broken_build', :last_build_status => 1) }
-    f.status 1
-    f.state 'finished'
-    started_at { Time.now }
-    finished_at { Time.now }
   end
 
   factory :user do |f|

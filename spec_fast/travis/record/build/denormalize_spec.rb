@@ -1,11 +1,12 @@
 require 'spec_helper'
+require 'support/factories'
 
 describe Build, 'denormalization' do
   let(:build) { Factory(:build) }
 
   describe 'on build:started' do
     before :each do
-      build.matrix.each { |job| job.denormalize(:start) }
+      build.denormalize(:start)
       build.reload
     end
 
@@ -24,7 +25,7 @@ describe Build, 'denormalization' do
 
   describe 'on build:finished' do
     before :each do
-      build.matrix.each { |job| job.denormalize(:finish, :status => 0) }
+      build.denormalize(:finish, :status => 0)
       build.reload
     end
 

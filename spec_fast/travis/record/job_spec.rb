@@ -1,10 +1,8 @@
 require 'spec_helper'
+require 'support/factories'
 
-describe ::Job do
-  attr_reader :build, :job
-
-  let!(:build) { Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] }) }
-  let!(:job)  { build.matrix.first }
+describe Job do
+  let!(:job)   { Factory(:test) }
 
   context :append_log! do
     it 'appends streamed build log chunks' do
@@ -14,10 +12,9 @@ describe ::Job do
         "$ bundle install --pa"
       ]
       0.upto(2) do |ix|
-        Job::Test.append_log!(job.id, lines[ix])
-        assert_equal lines[0, ix + 1].join, job.reload.log
+        job.append_log!(lines[ix])
+        job.reload.log.should == lines[0, ix + 1].join
       end
     end
   end
 end
-

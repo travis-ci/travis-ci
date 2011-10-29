@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'support/factories'
 
 describe Build, 'matrix' do
   before { Build.send :public, :matrix_config, :expand_matrix_config }
@@ -218,7 +219,7 @@ describe Build, 'matrix' do
 
     it 'adds a sub-build number to the job number' do
       build = Factory(:build, :config => multiple_tests_config)
-      assert_equal ['1.1', '1.2', '1.3', '1.4'], build.matrix.map(&:number)[0..3]
+      build.matrix.map(&:number)[0..3].should == ['1.1', '1.2', '1.3', '1.4']
     end
 
     describe :exclude_matrix_config do
@@ -262,32 +263,31 @@ describe Build, 'matrix' do
   describe 'matrix_for' do
     it 'selects matching builds' do
       build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'], 'env' => ['DB=sqlite3', 'DB=postgresql'] })
-      assert_equal [build.matrix[0]], build.matrix_for({ 'rvm' => '1.8.7', 'env' => 'DB=sqlite3' })
+      build.matrix_for({ 'rvm' => '1.8.7', 'env' => 'DB=sqlite3' }).should == [build.matrix[0]]
     end
 
     it 'does not select builds with non-matching values' do
       build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'], 'env' => ['DB=sqlite3', 'DB=postgresql'] })
-      assert_equal [], build.matrix_for({ 'rvm' => 'nomatch', 'env' => 'DB=sqlite3' })
+      build.matrix_for({ 'rvm' => 'nomatch', 'env' => 'DB=sqlite3' }).should be_empty
     end
 
     it 'does not select builds with non-matching keys' do
       build = Factory(:build, :config => { 'rvm' => ['1.8.7', '1.9.2'], 'env' => ['DB=sqlite3', 'DB=postgresql'] })
-      assert_equal [build.matrix[0], build.matrix[1]], build.matrix_for({ 'rvm' => '1.8.7', 'nomatch' => 'DB=sqlite3' })
+      build.matrix_for({ 'rvm' => '1.8.7', 'nomatch' => 'DB=sqlite3' }).should == [build.matrix[0], build.matrix[1]]
     end
   end
 
   describe 'matrix_keys_for' do
     it 'only selects ENV_KEYS' do
       Build::Matrix::ENV_KEYS.each do |key|
-        assert_equal [key],  Build.matrix_keys_for('invalid key' => 'invalid', key => 'valid')
+        Build.matrix_keys_for('invalid key' => 'invalid', key => 'valid').should == [key]
       end
     end
 
     it 'selects symbolized ENV_KEYS' do
       Build::Matrix::ENV_KEYS.each do |key|
-        assert_equal [key], Build.matrix_keys_for(key => 'valid')
+        Build.matrix_keys_for(key => 'valid').should == [key]
       end
     end
   end
 end
-

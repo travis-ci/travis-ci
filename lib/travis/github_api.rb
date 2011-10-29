@@ -5,27 +5,21 @@ module Travis
     class ServiceHookError < StandardError; end
 
     class << self
-      # an error is thrown if there was a probem subscribing
-      def add_service_hook(repository, user)
-        client = Octokit::Client.new(:oauth_token => user.github_oauth_token)
-        client.subscribe_service_hook(repository.owner_name, repository.name, 'Travis', {
-          :token  => user.tokens.first.token,
-          :user   => user.login,
-          :domain => Travis.config.domain
-        })
+      def add_service_hook(owner_name, name, oauth_token, data)
+        client = Octokit::Client.new(:oauth_token => oauth_token)
+        client.subscribe_service_hook(owner_name, name, 'Travis', data)
       rescue Octokit::UnprocessableEntity => e
-        # we might want to improve this for logging purposes
+        # TODO log these events
         raise ServiceHookError, 'error subscribing to the GitHub push event'
       rescue Octokit::Unauthorized => e
         raise ServiceHookError, 'error authorizing with given GitHub OAuth token'
       end
 
-      # an error is thrown if there was a probem subscribing
       def remove_service_hook(repository, user)
         client = Octokit::Client.new(:oauth_token => user.github_oauth_token)
         client.unsubscribe_service_hook(repository.owner_name, repository.name, 'Travis')
       rescue Octokit::UnprocessableEntity => e
-        # we might want to improve this for logging purposes
+        # TODO log this event
         raise ServiceHookError, 'error unsubscribing from the GitHub push event'
       end
 

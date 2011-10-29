@@ -1,10 +1,11 @@
 require 'uri'
 require 'core_ext/hash/compact'
+require 'active_record'
 
 class Repository < ActiveRecord::Base
-  include ServiceHooks
+  autoload :ServiceHook, 'travis/record/repository/service_hook'
 
-  BRANCH_KEY = :branch
+  include ServiceHook
 
   has_many :requests, :dependent => :delete_all
   has_many :builds, :dependent => :delete_all do
@@ -47,6 +48,10 @@ class Repository < ActiveRecord::Base
       else
         self.where(params.slice(:name, :owner_name)).first
       end
+    end
+
+    def active_by_name
+      Hash[select([:active, :name]).map { |repository| [repository.name, repository.active] }]
     end
   end
 

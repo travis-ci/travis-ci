@@ -11,8 +11,9 @@ module Travis
       end
 
       class << self
-        def create(payload)
-          payload = Payload::Github.new(payload)
+        # TODO move parsing the payload to the caller and merge the token there
+        def create(payload, token)
+          payload = Payload::Github.new(payload, token)
           new(::Request.create_from(payload)) unless payload.reject?
         end
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class Job
+class JobMock
   attr_accessor :state, :tags
 end
 
@@ -21,7 +21,7 @@ describe Travis::Model::Job::Tagging do
     log
   end
 
-  let(:record) { Job.new.tap { |job| job.log = log } }
+  let(:record) { JobMock.new.tap { |job| job.log = log } }
   let(:test)   { Travis::Model::Job::Test.new(record) }
 
   before :each do

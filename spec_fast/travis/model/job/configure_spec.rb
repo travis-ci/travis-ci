@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class Job
+class JobMock
   attr_accessor :state, :config
   def owner; stub('request', :start => nil, :state => nil, :state= => nil) end
   def update_attributes(*); end
@@ -8,7 +8,7 @@ class Job
 end
 
 describe Travis::Model::Job::Configure do
-  let(:record) { Job.new }
+  let(:record) { JobMock.new }
   let(:job)    { Travis::Model::Job::Configure.new(record) }
   let(:config) { { :rvm => 'rbx' } }
 
