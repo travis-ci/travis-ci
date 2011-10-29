@@ -5,6 +5,11 @@ module Travis
     class Request
       module Payload
         class Github < ::Github::ServiceHook::Payload
+          def initialize(data, token)
+            super(data)
+            self.token = token
+          end
+
           def attributes
             { :source => source, :payload => payload, :commit => last_commit.to_hash, :token => token }
           end

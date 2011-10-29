@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-class Build
+class BuildMock
   attr_accessor :state
   def denormalize(*); end
 end
 
 describe Travis::Model::Build do
-  let(:record) { Build.new }
+  let(:record) { BuildMock.new }
   let(:build)  { Travis::Model::Build.new(record) }
 
   before :each do

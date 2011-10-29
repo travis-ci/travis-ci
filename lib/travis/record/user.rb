@@ -1,3 +1,8 @@
+require 'active_record'
+require 'devise'
+require 'devise/orm/active_record'
+require 'devise/api_token_authenticatable'
+
 class User < ActiveRecord::Base
   devise :omniauthable, :api_token_authenticatable
 
@@ -10,11 +15,11 @@ class User < ActiveRecord::Base
   class << self
     def find_or_create_for_oauth(payload)
       data = user_data_from_oauth(payload)
-      user = User.find_by_github_id(data['github_id']) 
-      user ? user.sync_github_data(data) : create!(data)
+      user = User.find_by_github_id(data['github_id'])
+      user ? user.update_attributes(data) && user : create!(data)
     end
 
-    def user_data_from_oauth(payload)
+    def user_data_from_oauth(payload) # TODO move this to a OauthPayload
       {
         'name'  => payload['user_info']['name'],
         'email' => payload['user_info']['email'],
@@ -38,21 +43,19 @@ class User < ActiveRecord::Base
   end
 
   def github_repositories
-    states = Repository.where(:owner_name => login).active_by_name
     Travis::GithubApi.repositories_for_user(login).each_with_index do |repository, ix|
       repository.uid = [login, ix].join(':')
-      repository.active = states[repository.name] || false
+      repository.active = active_repositories[repository.name] || false
     end
-  end
-
-  def sync_github_data(data)
-    self.update_attributes(data)
-    self
   end
 
   private
 
     def create_a_token
       self.tokens.create!
+    end
+
+    def active_repositories
+      @repositories ||= Repository.where(:owner_name => login).active_by_name
     end
 end

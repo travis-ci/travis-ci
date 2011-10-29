@@ -1,4 +1,9 @@
+require 'active_record'
+
 class Job < ActiveRecord::Base
+  autoload :Configure, 'travis/record/job/configure'
+  autoload :Test,      'travis/record/job/test'
+
   belongs_to :repository
   belongs_to :commit
   belongs_to :owner, :polymorphic => true, :autosave => true
@@ -9,6 +14,22 @@ class Job < ActiveRecord::Base
 
   after_initialize do
     self.config = {} if config.nil?
+  end
+
+  def finished?
+    state == :finished
+  end
+
+  def passed?
+    status == 0
+  end
+
+  def failed?
+    status == 1
+  end
+
+  def unknown?
+    status == nil
   end
 
   def append_log!(chars)

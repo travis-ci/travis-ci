@@ -1,3 +1,5 @@
+require 'devise'
+
 class Token < ActiveRecord::Base
   belongs_to :user
 

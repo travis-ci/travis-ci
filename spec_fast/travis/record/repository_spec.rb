@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'support/factories'
 
 describe Repository do
   describe 'validates' do
@@ -41,7 +42,7 @@ describe Repository do
         repository_1 = Factory(:repository, :name => 'repository_1', :last_build_started_at => '2011-11-11')
         repository_2 = Factory(:repository, :name => 'repository_2', :last_build_started_at => '2011-11-12')
 
-        assert_equal 2, Repository.search('ePoS').count
+        Repository.search('ePoS').count.should == 2
       end
     end
   end
@@ -67,17 +68,16 @@ describe Repository do
 
     it 'returns 0 (passing) if all specified builds are passing' do
       build.matrix.each { |job| job.update_attribute(:status, job.config[:rvm] == '1.8.7' ? 0 : 1) }
-      assert_equal 0, repository.last_build_status('rvm' => '1.8.7')
+      repository.last_build_status('rvm' => '1.8.7').should == 0
     end
 
     it 'returns 1 (failing) if at least one specified build is failing' do
       build.matrix.each_with_index { |build, ix| build.update_attribute(:status, ix == 0 ? 1 : 0) }
-      assert_equal 1, repository.last_build_status('rvm' => '1.8.7')
+      repository.last_build_status('rvm' => '1.8.7').should == 1
     end
 
     it 'returns nil when the hash is invalid' do
-      assert_equal nil, repository.last_build_status('foo' => 'bar')
+      repository.last_build_status('foo' => 'bar').should be_nil
     end
   end
 end
-

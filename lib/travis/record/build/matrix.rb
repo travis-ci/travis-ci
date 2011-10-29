@@ -1,4 +1,6 @@
+require 'active_support/concern'
 require 'core_ext/array/flatten_once'
+require 'core_ext/hash/deep_symbolize_keys'
 
 class Build
   module Matrix
@@ -12,7 +14,7 @@ class Build
       end
 
       def matrix_keys_for(config)
-        keys = ENV_KEYS + [Repository::BRANCH_KEY]
+        keys = ENV_KEYS + [:branch]
         keys & config.keys.map(&:to_sym)
       end
     end
@@ -76,10 +78,8 @@ class Build
         exclude_matrix_configs(expanded)
       end
 
-      def exclude_matrix_configs(expanded_matrix)
-        expanded_matrix.reject do |config|
-          exclude_config?(config)
-        end
+      def exclude_matrix_configs(matrix)
+        matrix.reject { |config| exclude_config?(config) }
       end
 
       def exclude_config?(config)

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Travis::Model::Request::Payload::Github do
-  let(:payload) { Travis::Model::Request::Payload::Github.new(GITHUB_PAYLOADS['gem-release']) }
+  let(:payload) { Travis::Model::Request::Payload::Github.new(GITHUB_PAYLOADS['gem-release'], 'token') }
 
   describe 'reject?' do
     it 'is true when the does not contain any commit information' do
