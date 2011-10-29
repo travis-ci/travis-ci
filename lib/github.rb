@@ -1,8 +1,9 @@
 require 'ostruct'
+require 'active_support/core_ext/string/inflections'
 require 'core_ext/ostruct/hash_access'
 require 'active_support/json'
 
-# TODO: we need to start using octokit everywhere by now. Or stick to that implementation, depending on team reaction.
+# TODO: either port this to Octokit or use Hashr instead of OpenStruct
 module Github
   module Api
     class << self
@@ -33,7 +34,8 @@ module Github
 
       def initialize(payload)
         @payload = payload
-        super(ActiveSupport::JSON.decode(payload))
+        payload = ActiveSupport::JSON.decode(payload) if payload.is_a?(String)
+        super(payload)
       end
 
       def repository
