@@ -86,6 +86,17 @@ describe Build, 'notifications', ActiveSupport::TestCase do
       build = Factory(:build, :config => { 'notifications' => { 'recipients' => recipients } })
       assert_contains_recipients(build.email_recipients, recipients)
     end
+    
+    it 'does not contain the author emails if the commit is not unique' do
+      build = Factory(:build, :commit => Factory(:commit, :author_email => 'author-1@email.com,author-2@email.com', :unique => false))
+      assert !build.email_recipients.include?(build.commit.author_email)
+    end
+
+    it 'does not contain the committer emails if the commit is not unique' do
+      build = Factory(:build, :commit => Factory(:commit, :committer_email => 'committer-1@email.com,committer-2@email.com', :unique => false))
+      assert !build.email_recipients.include?(build.commit.committer_email)
+    end
+
   end
 
   describe :send_webhook_notifications? do
