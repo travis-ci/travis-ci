@@ -70,8 +70,8 @@ describe('Helpers', function() {
         });
 
         it("returns a human readable time ago string if the build's finished time is known", function() {
-          spyOn($.timeago, 'now').andReturn(new Date('2011/01/01 05:00:00').getTime());
-          expect(view.get('finishedAt')).toEqual('about 3 hours ago'); // TODO hmmm, some timezone difference here. is that a problem?
+          spyOn($.timeago, 'now').andReturn(new Date(Date.UTC(2011, 0, 1, 4, 0, 0)).getTime());
+          expect(view.get('finishedAt')).toEqual('about 3 hours ago');
         });
       });
 
