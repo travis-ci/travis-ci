@@ -2,15 +2,13 @@ require 'spec_helper'
 require 'irc_client'
 
 describe IrcClient do
-  
-  let(:socket) { stub(:puts => true, :get => true, :eof? => true) }
-  let(:server) { 'irc.freenode.net' }
-  let(:nick) { 'travis_bot' }
-  let(:channel) { 'travis' }
+  let(:socket)   { stub(:puts => true, :get => true, :eof? => true) }
+  let(:server)   { 'irc.freenode.net' }
+  let(:nick)     { 'travis_bot' }
+  let(:channel)  { 'travis' }
   let(:password) { 'secret' }
-  
-  describe 'on initialization' do
 
+  describe 'on initialization' do
     describe 'with no port specified' do
       it 'should open a socket on the server for port 6667' do
         TCPSocket.expects(:open).with(server, 6667).returns socket
@@ -26,7 +24,6 @@ describe IrcClient do
     end
 
     describe 'should connect to the server' do
-
       before do
         @socket = mock
         TCPSocket.stubs(:open).returns @socket
@@ -36,7 +33,7 @@ describe IrcClient do
         @socket.expects(:puts).with("NICK #{nick}")
         @socket.expects(:puts).with("USER #{nick} #{nick} #{nick} :#{nick}")
       end
-      
+
       describe 'without a password' do
         it 'by sending NICK then USER' do
           expect_standard_sequence
@@ -51,13 +48,10 @@ describe IrcClient do
           IrcClient.new(server, nick, :password => password)
         end
       end
-
     end
-
   end
 
   describe 'with connection established' do
-
     let(:socket) { stub(:puts => true) }
     let(:channel_key) { 'mykey' }
 
@@ -66,16 +60,16 @@ describe IrcClient do
       @client = IrcClient.new(server, nick)
     end
 
-    it 'can join a channel' do      
+    it 'can join a channel' do
       socket.expects(:puts).with("JOIN ##{channel}")
-      @client.join(channel)      
+      @client.join(channel)
     end
 
-    it 'can join a channel with a key' do      
+    it 'can join a channel with a key' do
       socket.expects(:puts).with("JOIN ##{channel} mykey")
-      @client.join(channel, 'mykey')      
+      @client.join(channel, 'mykey')
     end
-    
+
     describe 'and channel joined' do
       before(:each) do
         @client.join(channel)
@@ -89,13 +83,13 @@ describe IrcClient do
         @client.say 'hello'
       end
     end
-    
+
     it 'can run a series of commands' do
       socket.expects(:puts).with("JOIN #travis")
       socket.expects(:puts).with("PRIVMSG #travis :hello")
       socket.expects(:puts).with("PRIVMSG #travis :goodbye")
       socket.expects(:puts).with("PART #travis")
-      
+
       @client.run do
         join 'travis'
         say 'hello'
@@ -109,7 +103,5 @@ describe IrcClient do
       socket.expects(:eof?).returns true
       @client.quit
     end
-        
   end
 end
-

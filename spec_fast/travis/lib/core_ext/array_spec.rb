@@ -7,4 +7,3 @@ describe Array, 'extensions' do
     xit 'does not flatten child arrays'
   end
 end
-
