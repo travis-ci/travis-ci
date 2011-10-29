@@ -1,0 +1,21 @@
+{
+  "type": "User",
+  "email": "svenfuchs@artweb-design.de",
+  "bio": null,
+  "public_repos": 84,
+  "public_gists": 77,
+  "html_url": "https://github.com/svenfuchs",
+  "blog": "http://svenfuchs.com",
+  "created_at": "2008-03-04T20:38:09Z",
+  "url": "https://api.github.com/users/svenfuchs",
+  "login": "svenfuchs",
+  "followers": 218,
+  "company": null,
+  "name": "Sven Fuchs",
+  "location": "Germany/Berlin",
+  "hireable": false,
+  "avatar_url": "https://secure.gravatar.com/avatar/402602a60e500e85f2f5dc1ff3648ecb?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png",
+  "id": 2208,
+  "following": 87,
+  "gravatar_id": "402602a60e500e85f2f5dc1ff3648ecb"
+}

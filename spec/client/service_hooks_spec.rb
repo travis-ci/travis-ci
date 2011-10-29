@@ -8,9 +8,7 @@ feature 'Feature name', %(
 
   self.extend WebMock::API
   before(:each) do
-    url  = 'https://github.com/api/v2/json/repos/show/nickname'
-    body = File.open('./spec/fixtures/github/api/v2/json/repos/show/svenfuchs.json').read
-    stub_request(:get, url).to_return(:status => 200, :body => body)
+    Support::GithubApi.mock!
   end
 
   before(:all) do
