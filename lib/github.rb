@@ -41,15 +41,28 @@ module Github
       end
 
       if organization
-        Travis::GithubApi.organization_members(organization['login']).map { |user| user['email'] }.select(&:present?).join(',')
+        organization_emails.join(',')
       else
-        Travis::GithubApi.user(owner_name)['email']
+        user_email
       end
     end
 
     def private?
       self['private']
     end
+    
+    private
+      def organization_members
+        Travis::GithubApi.organization_members(organization['login'])
+      end
+      
+      def organization_emails
+        organization_members.map { |user| user['email'] }.select(&:present?)
+      end
+      
+      def user_email
+        Travis::GithubApi.user(owner_name)['email']
+      end
   end
 
   class Commit < OpenStruct
