@@ -10,7 +10,7 @@ module Support
       https://github.com/api/v2/json/organizations/travis-ci/public_members
     )
 
-    class Request
+    class MockRequest
       attr_reader :url, :filename
 
       def initialize(url)
@@ -39,7 +39,7 @@ module Support
 
     class << self
       def mock!
-        URLS.each { |url| Request.new(url).stub! }
+        URLS.each { |url| MockRequest.new(url).stub! }
       end
     end
 
