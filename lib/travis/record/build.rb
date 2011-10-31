@@ -86,6 +86,10 @@ class Build < ActiveRecord::Base
     self.finished_at = data[:finished_at]
   end
 
+  def started?
+    state == :started
+  end
+
   def finished?
     state == :finished
   end
