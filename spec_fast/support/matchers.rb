@@ -28,7 +28,7 @@ end
 
 RSpec::Matchers.define :deliver_to do |expected|
   match do |email|
-    actual = (email.header[:to].addrs || []).map(&:to_s)
+    actual = (email.to || []).map(&:to_s)
 
     description { "be delivered to #{expected.inspect}" }
     failure_message_for_should { "expected #{email.inspect} to deliver to #{expected.inspect}, but it delivered to #{actual.inspect}" }

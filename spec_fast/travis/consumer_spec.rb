@@ -1,4 +1,4 @@
-require 'travis'
+require 'spec_helper'
 
 describe Travis::Consumer do
   let(:consumer) { Travis::Consumer.new }
@@ -31,5 +31,3 @@ describe Travis::Consumer do
     end
   end
 end
-
-
