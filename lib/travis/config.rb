@@ -22,6 +22,7 @@ module Travis
     end
 
     define  :amqp  => { :host => '127.0.0.1', :prefetch => 1 },
+            :host => 'http://travis-ci.org',
             :notifications => [],
             :queues  => []
 

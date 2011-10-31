@@ -13,7 +13,7 @@ module Travis
       event :finish, :to => :finished, :if => :matrix_finished?
       event :all, :after => [:denormalize, :notify]
 
-      delegate :state, :state=, :denormalize, :matrix_finished?, :passed?, :failed?, :to => :record
+      delegate :state, :state=, :config, :passed?, :failed?, :matrix_finished?, :denormalize, :to => :record
     end
   end
 end

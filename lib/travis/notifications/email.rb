@@ -1,3 +1,5 @@
+require 'net/smtp'
+
 module Travis
   module Notifications
     class Email
@@ -15,11 +17,11 @@ module Travis
         end
 
         def email(object)
-          mailer(object).send(:"#{object.state}_email", object)
+          mailer(object).send(:"#{object.state}_email", object.record, object.email_recipients)
         end
 
         def mailer(object)
-          "#{object.class.name}Mailer".constantize
+          Travis::Mailer.const_get(object.class.name.gsub('Travis::Model::', ''))
         end
     end
   end

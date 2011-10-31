@@ -37,10 +37,10 @@ module Travis
 
       def configure(data)
         record.update_attributes!(:config => data)
-        create_build if approved?
+        create_build! if approved?
       end
 
-      def create_build
+      def create_build!
         build = record.create_build!
         build.matrix.each { |job| Job::Test.new(job).notify(:create) } if build
       end

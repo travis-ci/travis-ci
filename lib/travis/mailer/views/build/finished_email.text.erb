@@ -1,0 +1,16 @@
+<%= title(@build) %>
+<%= '-' * (title(@build).size + 20) %>
+
+Build : #<%= @build.number %>
+
+Duration : <%= duration_in_words(@build.started_at, @build.finished_at) %>
+Commit : <%= @commit.commit[0..7] %> (<%= @commit.branch %>)
+Author : <%= @commit.author_name %>
+Message : <%= @commit.message %>
+
+Status : <%= @build.status_message %>
+
+View the changeset : <%= @commit.compare_url %>
+
+View the full build log and details : <%= repository_build_url(:slug => @build.repository.slug, :id => @build.id) %>
+

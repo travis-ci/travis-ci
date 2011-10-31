@@ -16,6 +16,10 @@ class Job < ActiveRecord::Base
     self.config = {} if config.nil?
   end
 
+  def started?
+    state == :started
+  end
+
   def finished?
     state == :finished
   end

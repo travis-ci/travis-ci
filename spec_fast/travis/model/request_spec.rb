@@ -12,22 +12,22 @@ describe Travis::Model::Request do
   let(:payload) { GITHUB_PAYLOADS['gem-release'] }
   let(:record)  { RequestMock.new }
   let(:request) { Travis::Model::Request.new(record) }
-  let(:build)   { stub('build', :matrix => [stub('job', :state= => nil)]) }
+  let(:build)   { stub('build', :matrix => [stub('job', :state => :created, :state= => nil)]) }
 
   before :each do
     ::Request.stubs(:create_from).returns(record)
   end
 
-  describe :create_build do
+  describe :create_build! do
     it 'creates the build record' do
       record.expects(:create_build!).returns(build)
-      request.create_build
+      request.create_build!
     end
 
     it 'notifies about a created event for each test job in the build matrix' do
       record.stubs(:create_build!).returns(build)
       Travis::Notifications.expects(:dispatch).with('job:test:created', anything).once
-      request.create_build
+      request.create_build!
     end
   end
 
@@ -83,7 +83,7 @@ describe Travis::Model::Request do
         end
 
         it 'creates the build' do
-          request.expects(:create_build)
+          request.expects(:create_build!)
           request.configure!(data)
         end
       end

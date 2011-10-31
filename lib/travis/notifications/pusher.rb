@@ -1,3 +1,5 @@
+require 'pusher'
+
 module Travis
   module Notifications
     class Pusher

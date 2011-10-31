@@ -6,7 +6,7 @@ describe Travis::Model::Build::Notifications do
   let(:config)     { }
   let(:commit)     { stub('commit', :committer_email => 'commiter@email.org', :author_email => 'author@email.org') }
   let(:repository) { stub('repository', :owner_email => 'owner@email.org') }
-  let(:record)     { stub('record', :previous_on_branch => nil)}
+  let(:record)     { stub('record', :previous_on_branch => nil, :commit => commit, :repository => repository)}
 
   describe :send_notifications_for? do
     it 'returns true by default' do
