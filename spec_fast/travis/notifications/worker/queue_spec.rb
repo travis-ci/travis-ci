@@ -1,7 +1,9 @@
 require 'spec_helper'
-require 'support/factories'
+require 'support/active_record'
 
 describe Travis::Notifications::Worker::Queue do
+  include Support::ActiveRecord
+
   def queue(*args)
     Travis::Notifications::Worker::Queue.new(*args)
   end

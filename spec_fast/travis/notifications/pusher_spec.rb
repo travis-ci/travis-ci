@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'support/factories'
+require 'support/active_record'
 require 'support/pusher'
 
 describe Travis::Notifications::Pusher do
-  include Support::Pusher
+  include Support::ActiveRecord, Support::Pusher
 
   before do
     Travis.config.notifications = [:pusher]

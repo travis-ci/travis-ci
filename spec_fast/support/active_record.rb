@@ -2,22 +2,27 @@ require 'active_record'
 require 'pg'
 require 'logger'
 require 'database_cleaner'
+require 'support/factories'
 
 ActiveRecord::Base.logger = Logger.new('log/test.db.log')
 ActiveRecord::Base.configurations = YAML::load(IO.read('config/database.yml'))
 ActiveRecord::Base.establish_connection('test')
 
-RSpec.configure do |c|
-  c.before :suite do
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.clean_with :truncation
-  end
+DatabaseCleaner.strategy = :truncation
+DatabaseCleaner.clean_with :truncation
 
-  c.before :each do
-    DatabaseCleaner.start
-  end
+module Support
+  module ActiveRecord
+    extend ActiveSupport::Concern
 
-  c.after :each do
-    DatabaseCleaner.clean
+    included do
+      before :each do
+        DatabaseCleaner.start
+      end
+
+      after :each do
+        DatabaseCleaner.clean
+      end
+    end
   end
 end

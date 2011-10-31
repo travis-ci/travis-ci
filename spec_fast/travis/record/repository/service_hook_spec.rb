@@ -1,7 +1,9 @@
 require 'spec_helper'
-require 'support/factories'
+require 'support/active_record'
 
-describe Travis::Model::Repository, 'service_hook' do
+describe Repository, 'service_hook' do
+  include Support::ActiveRecord
+
   describe 'set' do
     let(:user)       { stub('user', :login => 'login', :github_oauth_token => 'oauth_token', :tokens => [stub(:token => 'user_token')]) }
     let(:repository) { Factory(:repository, :owner_name => 'svenfuchs', :name => 'minimal') }

@@ -1,8 +1,10 @@
 require 'spec_helper'
 require 'support/payloads'
-require 'support/factories'
+require 'support/active_record'
 
 describe Request do
+  include Support::ActiveRecord
+
   let(:payload)    { Travis::Model::Request::Payload::Github.new(GITHUB_PAYLOADS['gem-release'], 'token') }
   let(:repository) { stub('repository', :id => 1) }
 

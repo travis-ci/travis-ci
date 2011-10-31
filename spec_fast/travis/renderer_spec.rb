@@ -1,7 +1,9 @@
 require 'spec_helper'
-require 'support/factories'
+require 'support/active_record'
 
 describe Travis::Renderer do
+  include Support::ActiveRecord
+
   before do
     Travis::Renderer.send(:public, :template_path)
   end
