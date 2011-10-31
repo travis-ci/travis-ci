@@ -12,7 +12,7 @@ class ServiceHooksController < ApplicationController
   end
 
   def update
-    service_hook.toggle(params[:active], current_user)
+    repository.service_hook.toggle(params[:active], current_user)
     respond_with(repository)
   end
 
@@ -20,10 +20,6 @@ class ServiceHooksController < ApplicationController
 
     def repositories
       @repositories ||= current_user.github_repositories
-    end
-
-    def service_hook
-      @service_hook ||= ServiceHook.new(repository)
     end
 
     def repository
