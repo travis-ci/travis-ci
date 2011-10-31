@@ -1,7 +1,9 @@
 require 'spec_helper'
-require 'support/factories'
+require 'support/active_record'
 
 describe User do
+  include Support::ActiveRecord
+
   let (:user)    { FactoryGirl.build(:user) }
   let (:payload) { GITHUB_PAYLOADS[:oauth] }
   let (:updated_payload) { GITHUB_PAYLOADS[:oauth_updated] }

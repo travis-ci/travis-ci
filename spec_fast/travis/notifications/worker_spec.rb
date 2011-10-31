@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'support/factories'
+require 'support/active_record'
 require 'support/matchers'
 require 'support/redis'
 
 describe Travis::Notifications::Worker do
-  include Support::Redis
+  include Support::ActiveRecord, Support::Redis
 
   before do
     Travis.config.notifications = [:worker]

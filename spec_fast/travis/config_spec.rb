@@ -1,5 +1,4 @@
-require 'travis'
-require 'mocha'
+require 'spec_helper'
 
 describe Travis::Config do
   let(:config) { Travis::Config.new }

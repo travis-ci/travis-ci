@@ -1,7 +1,9 @@
 require 'spec_helper'
-require 'support/factories'
+require 'support/active_record'
 
 describe Build, 'matrix' do
+  include Support::ActiveRecord
+
   before { Build.send :public, :matrix_config, :expand_matrix_config }
   after  { Build.send :protected, :matrix_config, :expand_matrix_config }
 

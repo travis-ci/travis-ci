@@ -1,7 +1,9 @@
 require 'spec_helper'
-require 'support/factories'
+require 'support/active_record'
 
 describe Build do
+  include Support::ActiveRecord
+
   let(:repository) { Factory(:repository) }
 
   describe 'ClassMethods' do

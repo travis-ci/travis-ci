@@ -1,7 +1,9 @@
 require 'spec_helper'
-require 'support/factories'
+require 'support/active_record'
 
 describe Travis::Notifications::Webhook do
+  include Support::ActiveRecord
+
   before do
     Travis.config.notifications = [:webhook]
     stub_http

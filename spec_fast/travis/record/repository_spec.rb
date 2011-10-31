@@ -1,7 +1,9 @@
 require 'spec_helper'
-require 'support/factories'
+require 'support/active_record'
 
 describe Repository do
+  include Support::ActiveRecord
+
   describe 'validates' do
     it 'uniqueness of :owner_name/:name' do
       existing = Factory(:repository)

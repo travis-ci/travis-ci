@@ -1,8 +1,10 @@
 require 'spec_helper'
-require 'support/factories'
+require 'support/active_record'
 require 'support/mocks/irc'
 
 describe Travis::Notifications::Irc do
+  include Support::ActiveRecord
+
   attr_reader :irc
 
   before do

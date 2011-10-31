@@ -1,7 +1,9 @@
 require 'spec_helper'
-require 'support/factories'
+require 'support/active_record'
 
 describe Build, 'denormalization' do
+  include Support::ActiveRecord
+
   let(:build) { Factory(:build) }
 
   describe 'on build:started' do

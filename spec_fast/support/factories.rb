@@ -1,5 +1,4 @@
 require 'factory_girl'
-require 'support/active_record'
 
 FactoryGirl.define do
   factory :build do |f|
