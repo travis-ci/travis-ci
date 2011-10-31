@@ -13,11 +13,15 @@ module Travis
         end
 
         def render(format)
-          Travis::Renderer.send(format, object, :type => :webhook, :template => template)
+          Travis::Renderer.send(format, object, :type => :webhook, :template => template, :base_dir => base_dir)
         end
 
         def template
           object.class.name.underscore
+        end
+
+        def base_dir
+          File.expand_path('../views', __FILE__)
         end
       end
     end

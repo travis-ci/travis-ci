@@ -98,7 +98,7 @@ module Travis
           end
 
           def default_email_recipients
-            recipients = [commit.committer_email, commit.author_email, repository.owner_email]
+            recipients = [record.commit.committer_email, record.commit.author_email, record.repository.owner_email]
             recipients.select(&:present?).join(',').split(',').map(&:strip).uniq.join(',')
           end
 

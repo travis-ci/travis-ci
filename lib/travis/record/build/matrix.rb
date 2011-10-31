@@ -25,7 +25,7 @@ class Build
       config.blank? ? matrix : matrix.select { |job| job.matrix_config?(config) }
     end
 
-    def matrix_finished?
+    def matrix_finished?(*)
       matrix.all?(&:finished?)
     end
 

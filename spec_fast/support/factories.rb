@@ -6,6 +6,7 @@ FactoryGirl.define do
     f.repository { Repository.first || Factory(:repository) }
     f.association :request
     f.association :commit
+    f.number 1
   end
 
   factory :commit do |f|
@@ -47,5 +48,26 @@ FactoryGirl.define do
     f.login 'svenfuchs'
     f.email 'sven@fuchs.com'
     f.tokens { [Token.new] }
+  end
+
+  factory :running_build, :parent => :build do |f|
+    f.repository { Factory(:repository, :name => 'running_build') }
+    f.state :started
+  end
+
+  factory :successful_build, :parent => :build do |f|
+    f.repository { Factory(:repository, :name => 'successful_build', :last_build_status => 0) }
+    f.status 0
+    f.state :finished
+    started_at { Time.now }
+    finished_at { Time.now }
+  end
+
+  factory :broken_build, :parent => :build do |f|
+    f.repository { Factory(:repository, :name => 'broken_build', :last_build_status => 1) }
+    f.status 1
+    f.state :finished
+    started_at { Time.now }
+    finished_at { Time.now }
   end
 end

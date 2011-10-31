@@ -12,7 +12,9 @@ module Travis
       protected
         def send_irc_notifications(build)
           # Notifications to the same host are grouped so that they can be sent with a single connection
-          build.irc_channels.each {|server, channels| send_notifications(*server, channels, build) }
+          build.irc_channels.each do |server, channels|
+            send_notifications(*server, channels, build.record)
+          end
         end
 
         def send_notifications(host, port, channels, build)
@@ -42,12 +44,7 @@ module Travis
         end
 
         def build_url(build)
-          Rails.application.routes.url_helpers.user_repo_build_redirect_url(
-            :user => build.repository.owner_name,
-            :repository => build.repository.name,
-            :id => build.id,
-            :host => Travis.config.domain || 'test.travis-ci.org'
-          )
+          [Travis.config.host, build.repository.owner_name, build.repository.name, 'builds', build.id].join('/')
         end
     end
   end

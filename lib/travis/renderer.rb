@@ -1,3 +1,11 @@
+require 'rabl'
+
+Rabl.configure do |config|
+  config.include_json_root = false
+  config.include_xml_root  = false
+  config.xml_options = { :dasherize => false, :skip_types => true }
+end
+
 module Travis
   class Renderer
     class << self
@@ -14,13 +22,14 @@ module Travis
       end
     end
 
-    attr_reader :format, :object, :options, :version, :type, :template_name
+    attr_reader :format, :object, :options, :base_dir, :version, :type, :template_name
 
     def initialize(format, object, options = {})
       @format, @object, @options = format, object, options
 
-      @version = options.fetch(:version, :v1)
-      @type    = options.fetch(:type, :default)
+      @base_dir = options.fetch(:base_dir, 'app/views')
+      @version  = options.fetch(:version, :v1)
+      @type     = options.fetch(:type, :default)
       @template_name = options.fetch(:template, model_name)
     end
 
@@ -55,7 +64,7 @@ module Travis
       end
 
       def view_path
-        ['app/views', version]
+        [base_dir, version]
       end
 
       def model_name
@@ -69,10 +78,9 @@ module Travis
       def raise_template_not_found
         raise "could not find rabl template for #{object.class.name} with #{options.inspect}"
       end
-      
+
       def collection?
         object.is_a?(Array) || (object.is_a?(ActiveRecord::Relation) && object.respond_to?(:slice))
       end
-      
   end
 end

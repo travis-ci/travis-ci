@@ -1,3 +1,5 @@
+require 'faraday'
+
 module Travis
   module Notifications
     class Webhook
@@ -19,13 +21,13 @@ module Travis
       end
 
       def notify(event, build, *args)
-        send_webhook_notifications(build) if build.send_webhook_notifications?
+        send_webhook_notifications(build.webhooks, build.record) if build.send_webhook_notifications?
       end
 
       protected
 
-        def send_webhook_notifications(build)
-          build.webhooks.each do |webhook|
+        def send_webhook_notifications(targets, build)
+          targets.each do |webhook|
             self.class.http_client.post(webhook) do |req|
               req.body = { :payload => self.class.payload_for(build).to_json }
               req.headers['Authorization'] = authorization(build)

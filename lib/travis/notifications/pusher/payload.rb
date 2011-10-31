@@ -13,7 +13,7 @@ module Travis
         end
 
         def render(format)
-          Travis::Renderer.send(format, data, :type => :event, :template => template).deep_merge(extra)
+          Travis::Renderer.send(format, data, :type => :event, :template => template, :base_dir => base_dir).deep_merge(extra)
         end
 
         def data
@@ -22,6 +22,10 @@ module Travis
 
         def template
           event.to_s.split(':').join('/')
+        end
+
+        def base_dir
+          File.expand_path('../views', __FILE__)
         end
       end
     end

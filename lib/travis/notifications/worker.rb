@@ -1,3 +1,5 @@
+require 'resque'
+
 module Travis
   module Notifications
     class Worker
@@ -31,19 +33,17 @@ module Travis
       delegate :queue_for, :payload_for, :to => :'self.class'
 
       def notify(event, job, *args)
-        enqueue(job)
+        enqueue(job.record)
       end
 
       protected
 
         def enqueue(job)
-          queue   = queue_for(job)
-          payload = payload_for(job, :queue => queue.name)
-
-          ::Rails.logger.info("Job queued to #{queue.name.inspect}: #{payload.inspect}")
-          Resque.enqueue(queue, payload)
-
-          payload
+          queue = queue_for(job)
+          payload_for(job, :queue => queue.name).tap do |payload|
+            # TODO ::Rails.logger.info("Job queued to #{queue.name.inspect}: #{payload.inspect}")
+            Resque.enqueue(queue, payload)
+          end
         end
     end
   end
