@@ -40,3 +40,4 @@ describe Build, 'denormalization' do
     end
   end
 end
+

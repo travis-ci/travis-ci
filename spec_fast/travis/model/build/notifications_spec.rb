@@ -1,12 +1,15 @@
 require 'spec_helper'
 
-describe Travis::Model::Build::Notifications do
-  include Travis::Model::Build::Notifications
+describe Build::Notifications do
+  include Build::Notifications
 
   let(:config)     { }
   let(:commit)     { stub('commit', :committer_email => 'commiter@email.org', :author_email => 'author@email.org') }
   let(:repository) { stub('repository', :owner_email => 'owner@email.org') }
-  let(:record)     { stub('record', :previous_on_branch => nil, :commit => commit, :repository => repository)}
+
+  before(:each) do
+    stubs(:previous_on_branch)
+  end
 
   describe :send_notifications_for? do
     it 'returns true by default' do
@@ -34,26 +37,22 @@ describe Travis::Model::Build::Notifications do
     end
 
     it "returns true if the given build failed and previous build failed" do
-      stubs(:passed? => false, :failed? => true)
-      record.stubs(:previous_on_branch => stub('previous', :passed? => false))
+      stubs(:passed? => false, :failed? => true, :previous_on_branch => stub('previous', :passed? => false))
       send_email_notifications?.should be_true
     end
 
     it "returns true if the given build failed and previous build passed" do
-      stubs(:passed? => false, :failed? => true)
-      record.stubs(:previous_on_branch => stub('previous', :passed? => true))
+      stubs(:passed? => false, :failed? => true, :previous_on_branch => stub('previous', :passed? => true))
       send_email_notifications?.should be_true
     end
 
     it "returns true if the given build passed and previous build failed" do
-      stubs(:passed? => true, :failed? => false)
-      record.stubs(:previous_on_branch => stub('previous', :passed? => false))
+      stubs(:passed? => true, :failed? => false, :previous_on_branch => stub('previous', :passed? => false))
       send_email_notifications?.should be_true
     end
 
     it "returns false if the given build passed and previous build passed" do
-      stubs(:passed? => true, :failed? => false)
-      record.stubs(:previous_on_branch => stub('previous', :passed? => true))
+      stubs(:passed? => true, :failed? => false, :previous_on_branch => stub('previous', :passed? => true))
       send_email_notifications?.should be_false
     end
 
@@ -73,8 +72,7 @@ describe Travis::Model::Build::Notifications do
 
     combinations.each do |previous, current, config, result|
       it "returns #{result} if the previous build #{status[previous]}, the current build #{status[current]} and config is #{config}" do
-        stubs(:config => config, :passed? => current, :failed? => !current)
-        record.stubs(:previous_on_branch => stub('previous', :passed? => previous))
+        stubs(:config => config, :passed? => current, :failed? => !current, :previous_on_branch => stub('previous', :passed? => previous))
         send_email_notifications?.should == result
       end
     end

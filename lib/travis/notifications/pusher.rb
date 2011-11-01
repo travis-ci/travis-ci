@@ -5,7 +5,7 @@ module Travis
     class Pusher
       autoload :Payload, 'travis/notifications/pusher/payload'
 
-      EVENTS = [/build:.*/, /job:.*:(created|started|log|finished)/]
+      EVENTS = [/build:(started|finished)/, /job:.*:(created|started|log|finished)/]
 
       def notify(event, object, *args)
         push(event, object, *args)

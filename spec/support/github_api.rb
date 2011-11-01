@@ -3,6 +3,7 @@ require 'webmock/rspec'
 module Support
   module GithubApi
     URLS = %w(
+      https://api.github.com/users/svenfuchs/repos
       https://github.com/api/v2/json/repos/show/svenfuchs
       http://github.com/api/v2/json/repos/show/svenfuchs/gem-release
       http://github.com/api/v2/json/repos/show/svenfuchs/minimal
@@ -17,7 +18,7 @@ module Support
 
       def initialize(url)
         @url = url
-        @filename = "spec/fixtures/github/#{url.gsub(%r(https?://github.com/), '')}.json"
+        @filename = "spec/fixtures/github/#{url.gsub(%r(https?://(?:api\.)?github.com/), '')}.json"
       end
 
       def stub!

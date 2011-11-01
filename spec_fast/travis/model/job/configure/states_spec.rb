@@ -1,20 +1,23 @@
 require 'spec_helper'
 
-class JobMock
+class ConfigureMock
+  include Module.new { def update_attributes(*); end }
+
+  class << self
+    def name; 'Job::Configure'; end
+    def after_create; end
+  end
+
+  include Job::Configure::States
+
   attr_accessor :state, :config
-  def owner; stub('request', :start => nil, :state => nil, :state= => nil) end
-  def update_attributes(*); end
+  def owner; @owner ||= stub('request', :start => nil, :configure! => nil, :state => nil, :state= => nil) end
   def save!; end
 end
 
-describe Travis::Model::Job::Configure do
-  let(:record) { JobMock.new }
-  let(:job)    { Travis::Model::Job::Configure.new(record) }
+describe Job::Configure::States do
+  let(:job)    { ConfigureMock.new }
   let(:config) { { :rvm => 'rbx' } }
-
-  before :each do
-    job.owner.stubs(:configure)
-  end
 
   describe 'events' do
     describe 'starting the job' do
@@ -41,7 +44,7 @@ describe Travis::Model::Job::Configure do
       end
 
       it 'configures the owner' do
-        job.owner.expects(:configure).with(config)
+        job.owner.expects(:configure!).with(config)
         job.finish(config)
       end
 
@@ -66,8 +69,8 @@ describe Travis::Model::Job::Configure do
           job.update_attributes(attributes)
         end
 
-        it 'updates the record with the given attributes' do
-          job.record.expects(:update_attributes).with(attributes)
+        it 'updates the job with the given attributes' do
+          job.expects(:update_attributes).with(attributes)
           job.update_attributes(attributes)
         end
 

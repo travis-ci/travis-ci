@@ -2,7 +2,9 @@ require 'spec_helper'
 require 'support/webmock'
 require 'github'
 
-describe Github, :webmock => true do
+describe Github do
+  include Support::Webmock
+
   let(:data) { ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release']) }
 
   it 'payload repository' do
@@ -26,7 +28,7 @@ describe Github, :webmock => true do
     repository = Github::Repository.new(:name => 'travis-ci', :owner => 'travis-ci').fetch
     repository.name.should == 'travis-ci'
     repository.owner_name.should == 'travis-ci'
-    repository.owner_email.should == 'fritz.thielemann@gmail.com,hoverlover@gmail.com,jeff@kreeftmeijer.nl,josh.kalderimis@gmail.com,svenfuchs@artweb-design.de'
+    repository.owner_email.split(',').should include('josh.kalderimis@gmail.com')
   end
 
   it 'repository to_hash' do

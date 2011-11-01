@@ -18,18 +18,18 @@ describe Travis::Notifications::Webhook do
 
   it 'sends webhook notifications to the urls given as an array' do
     targets = ['http://evome.fr/notifications', 'http://example.com/']
-    build = Travis::Model::Build.new(Factory(:build, :config => { 'notifications' => { 'webhooks' => targets } }))
+    build = Factory(:build, :config => { 'notifications' => { 'webhooks' => targets } })
     dispatch.should post_webhooks_on('build:finished', build, :to => targets)
   end
 
   it 'sends webhook notifications to a url given as a string' do
     target = 'http://evome.fr/notifications'
-    build = Travis::Model::Build.new(Factory(:build, :config => { 'notifications' => { 'webhooks' => target } }))
+    build = Factory(:build, :config => { 'notifications' => { 'webhooks' => target } })
     dispatch.should post_webhooks_on('build:finished', build, :to => ['http://evome.fr/notifications'])
   end
 
   it 'sends no webhook if the given url is blank' do
-    build = Travis::Model::Build.new(Factory(:build, :config => { 'notifications' => { 'webhooks' => '' } }))
+    build = Factory(:build, :config => { 'notifications' => { 'webhooks' => '' } })
     # No need to assert anything here as Faraday would complain about a request not being stubbed <3
     dispatch.call('build:finished', build)
   end

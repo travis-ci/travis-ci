@@ -1,49 +1,48 @@
-require 'simple_states'
-require 'active_support/core_ext/module/delegation'
+require 'active_record'
 
-module Travis
-  class Model
-    class Request < Model
-      autoload :Branches, 'travis/model/request/branches'
+class Request < ActiveRecord::Base
+  autoload :Branches, 'travis/model/request/branches'
+  autoload :Payload,  'travis/model/request/payload'
+  autoload :States,   'travis/model/request/states'
 
-      module Payload
-        autoload :Github, 'travis/model/request/payload/github'
-      end
+  include States
 
-      class << self
-        # TODO move parsing the payload to the caller and merge the token there
-        def create(payload, token)
-          payload = Payload::Github.new(payload, token)
-          new(::Request.create_from(payload)) unless payload.reject?
-        end
-
-        def find(id)
-          new(::Request.find(id))
-        end
-      end
-
-      include SimpleStates, Branches
-
-      states :created, :started, :finished
-      event :start,     :to => :started
-      event :configure, :to => :configured, :after => :finish
-      event :finish,    :to => :finished
-
-      delegate :state, :state=, :config, :configure, :to => :record
-
-      def approved?
-        branch_included?(record.commit.branch) && !branch_excluded?(record.commit.branch)
-      end
-
-      def configure(data)
-        record.update_attributes!(:config => data)
-        create_build! if approved?
-      end
-
-      def create_build!
-        build = record.create_build!
-        build.matrix.each { |job| Job::Test.new(job).notify(:create) } if build
+  class << self
+    # TODO clean this up
+    def create_from(payload, token)
+      payload = Payload::Github.new(payload, token)
+      unless payload.reject?
+        repository = repository_for(payload.repository)
+        commit = commit_for(payload, repository)
+        repository.requests.create!(payload.attributes.merge(:state => :created, :commit => commit))
       end
     end
+
+    def repository_for(payload)
+      Repository.find_or_create_by_owner_name_and_name(payload.owner_name, payload.name).tap do |repository|
+        repository.update_attributes!(payload.to_hash)
+      end
+    end
+
+    def commit_for(payload, repository)
+      Commit.create!(payload.attributes[:commit].merge(:repository_id => repository.id))
+    end
+  end
+
+  has_one    :job, :as => :owner, :class_name => 'Job::Configure'
+  belongs_to :commit
+  belongs_to :repository
+  has_many   :builds
+
+  validates :repository_id, :commit_id, :presence => true
+
+  serialize :config
+
+  before_create do
+    build_job(:repository => repository, :commit => commit)
+  end
+
+  def create_build!
+    build = builds.create!(:repository => repository, :commit => commit, :config => config)
   end
 end

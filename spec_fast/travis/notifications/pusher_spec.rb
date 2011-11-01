@@ -26,8 +26,8 @@ describe Travis::Notifications::Pusher do
       pusher.should have_message('build:queued', build)
     end
 
-    it 'build:removed' do
-      Travis::Notifications.dispatch('build:removed', build)
+    it 'job:configure:finished' do
+      Travis::Notifications.dispatch('job:configure:finished', build)
       pusher.should have_message('build:removed', build)
     end
 
@@ -37,7 +37,7 @@ describe Travis::Notifications::Pusher do
     end
 
     it 'build:log' do
-      Travis::Notifications.dispatch('build:log', build)
+      Travis::Notifications.dispatch('job:test:log', build)
       pusher.should have_message('build:log', build)
     end
 

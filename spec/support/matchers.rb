@@ -112,16 +112,15 @@ RSpec::Matchers.define :be_queued do |*args|
   match do |job|
     @options = args.last.is_a?(Hash) ? args.pop : {}
     @queue = args.first || @options[:queue] || 'builds'
-    @job = job
-    @expected = job.is_a?(Job) ? Travis::Notifications::Worker.payload_for(@job, :queue => 'builds') : job
-    @actual = job ? job['args'].last.deep_symbolize_keys : nil
+    @expected = job.is_a?(Job) ? Travis::Notifications::Worker.payload_for(job, :queue => 'builds') : job
+    @actual = queued_job ? queued_job['args'].last.deep_symbolize_keys : nil
 
     Resque.pop(@queue) if @options[:pop]
     @actual == @expected
   end
 
-  def job
-    @job ||= Resque.peek(@queue, 0, 50).detect { |job| job['args'].last.deep_symbolize_keys == @expected.deep_symbolize_keys }
+  def queued_job
+    @queued_job ||= Resque.peek(@queue, 0, 50).detect { |job| job['args'].last.deep_symbolize_keys == @expected.deep_symbolize_keys }
   end
 
   def jobs

@@ -17,7 +17,7 @@ module Travis
         end
 
         def email(object)
-          mailer(object).send(:"#{object.state}_email", object.record, object.email_recipients)
+          mailer(object).send(:"#{object.state}_email", object, object.email_recipients)
         end
 
         def mailer(object)

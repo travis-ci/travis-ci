@@ -10,8 +10,9 @@ TravisCi::Application.routes.draw do
   resources :builds,   :only => :show
   resources :requests, :only => :create
   resources :jobs,     :only => [:show, :update, :log]
-  resources :queue,    :only => :index
-  resources :workers,  :only => :index
+
+  match 'queues',      :to => 'queues#index'
+  match 'workers',     :to => 'workers#index'
 
   resource :profile, :only => :show do
     get 'service_hooks',     :to => 'service_hooks#index'

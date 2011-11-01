@@ -21,7 +21,7 @@ module Travis
       end
 
       def notify(event, build, *args)
-        send_webhook_notifications(build.webhooks, build.record) if build.send_webhook_notifications?
+        send_webhook_notifications(build.webhooks, build) if build.send_webhook_notifications?
       end
 
       protected

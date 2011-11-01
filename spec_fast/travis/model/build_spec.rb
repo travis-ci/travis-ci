@@ -1,82 +1,133 @@
 require 'spec_helper'
+require 'support/active_record'
 
-class BuildMock
-  attr_accessor :state
-  def denormalize(*); end
-end
+describe Build do
+  include Support::ActiveRecord
 
-describe Travis::Model::Build do
-  let(:record) { BuildMock.new }
-  let(:build)  { Travis::Model::Build.new(record) }
+  let(:repository) { Factory(:repository) }
 
-  before :each do
-  end
+  describe 'ClassMethods' do
+    it 'recent returns recent builds that at least are started ordered by creation time descending' do
+      Factory(:build, :state => 'finished')
+      Factory(:build, :state => 'started')
+      Factory(:build, :state => 'created')
 
-  describe 'events' do
-    describe 'starting the build' do
-      let(:data) { WORKER_PAYLOADS['job:test:started'] }
-
-      it 'sets the state to :started' do
-        build.start(data)
-        build.state.should == :started
-      end
-
-      it 'denormalizes record attributes' do
-        build.record.expects(:denormalize)
-        build.start(data)
-      end
-
-      it 'notifies observers' do
-        Travis::Notifications.expects(:dispatch).with('build:started', build, data)
-        build.start(data)
-      end
+      Build.recent.all.map(&:state).should == ['started', 'finished']
     end
 
-    describe 'finishing the build' do
-      let(:data) { WORKER_PAYLOADS['job:test:finished'] }
+    it 'was_started returns builds that are either started or finished' do
+      Factory(:build, :state => 'finished')
+      Factory(:build, :state => 'started')
+      Factory(:build, :state => 'created')
 
-      describe 'when the matrix is not finished' do
-        before(:each) do
-          record.stubs(:matrix_finished? => false)
-        end
+      Build.was_started.map(&:state).sort.should == ['finished', 'started']
+    end
 
-        it 'does not change the state' do
-          build.finish(data)
-          build.state.should == :created
-        end
+    it 'on_branch returns builds that are on any of the given branches' do
+      Factory(:build, :commit => Factory(:commit, :branch => 'master'))
+      Factory(:build, :commit => Factory(:commit, :branch => 'develop'))
+      Factory(:build, :commit => Factory(:commit, :branch => 'feature'))
 
-        it 'does not denormalizes record attributes' do
-          build.record.expects(:denormalize).never
-          build.finish(data)
-        end
+      Build.on_branch('master,develop').map(&:commit).map(&:branch).sort.should == ['develop', 'master']
+    end
 
-        it 'does not notify observers' do
-          Travis::Notifications.expects(:dispatch).never
-          build.finish(data)
-        end
-      end
-
-      describe 'when the matrix is finished' do
-        before(:each) do
-          record.stubs(:matrix_finished? => true)
-        end
-
-        it 'sets the state to :finished' do
-          build.finish(data)
-          build.state.should == :finished
-        end
-
-        it 'denormalizes record attributes' do
-          build.record.expects(:denormalize).with(:finish, data)
-          build.finish(data)
-        end
-
-        it 'notifies observers' do
-          Travis::Notifications.expects(:dispatch).with('build:started', build, data)
-          build.start(data)
-        end
+    it 'next_number returns the next build number' do
+      1.upto(3) do |number|
+        Factory(:build, :repository => repository, :number => number)
+        repository.builds.next_number.should == number + 1
       end
     end
   end
-end
 
+  describe 'InstanceMethods' do
+    describe 'config' do
+      it 'defaults to an empty hash' do
+        Build.new.config.should == {}
+      end
+
+      it 'deep_symbolizes keys on write' do
+        build = Factory(:build, :config => { 'foo' => { 'bar' => 'bar' } })
+        build.config[:foo][:bar].should == 'bar'
+      end
+    end
+
+    it 'sets its number to the next build number on creation' do
+      1.upto(3) do |number|
+        Factory(:build).reload.number.should == number.to_s
+      end
+    end
+
+    describe :pending? do
+      it 'returns true if the build is finished' do
+        build = Factory(:build, :state => :finished)
+        build.pending?.should be_false
+      end
+
+      it 'returns true if the build is not finished' do
+        build = Factory(:build, :state => :started)
+        build.pending?.should be_true
+      end
+    end
+
+    describe :passed? do
+      it 'passed? returns true if status is 0' do
+        build = Factory(:build, :status => 0)
+        build.passed?.should be_true
+      end
+
+      it 'passed? returns true if status is 1' do
+        build = Factory(:build, :status => 1)
+        build.passed?.should be_false
+      end
+    end
+
+    describe :status_message do
+      it 'returns "Passed" if the build has passed' do
+        build = Factory(:build, :status => 0, :state => :finished)
+        build.status_message.should == 'Passed'
+      end
+
+      it 'returns "Failed" if the build has failed' do
+        build = Factory(:build, :status => 1, :state => :finished)
+        build.status_message.should == 'Failed'
+      end
+
+      it 'returns "Pending" if the build is pending' do
+        build = Factory(:build, :status => nil, :state => :started)
+        build.status_message.should == 'Pending'
+      end
+    end
+
+    describe :color do
+      it 'returns "green" if the build has passed' do
+        build = Factory(:build, :status => 0, :state => :finished)
+        build.color.should == 'green'
+      end
+
+      it 'returns "red" if the build has failed' do
+        build = Factory(:build, :status => 1, :state => :finished)
+        build.color.should == 'red'
+      end
+
+      it 'returns "yellow" if the build is pending' do
+        build = Factory(:build, :status => nil, :state => :started)
+        build.color.should == 'yellow'
+      end
+    end
+
+    xit "finds the previous finished build on the same repository and branch" do
+      repo   = Factory(:repository, :name => "test")
+      commit = Factory(:commit, :branch => "test")
+
+      Factory(:successful_build, :repository => repo, :commit => commit)
+      Factory(:successful_build, :repository => repo, :commit => commit)
+      Factory(:broken_build,     :repository => repo, :commit => commit)
+      Factory(:successful_build, :repository => repo)
+      build = Factory(:successful_build, :repository => repo, :commit => commit)
+      previous = build.previous_finished_on_branch
+      previous.number.should == "3"
+      previous.passed?.should == false
+      build.status_message.should == "Fixed"
+    end
+  end
+end

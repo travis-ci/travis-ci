@@ -1,14 +1,15 @@
 require 'webmock'
-# require 'webmock/rspec'
-
-Rspec.configure do |c|
-  c.before :each, :webmock => true do
-    Support::GithubApi.mock!
-  end
-end
 
 module Support
-  module GithubApi
+  module Webmock
+    extend ActiveSupport::Concern
+
+    included do
+      before :each do
+        Support::Webmock.mock!
+      end
+    end
+
     URLS = %w(
       https://github.com/api/v2/json/repos/show/svenfuchs
       http://github.com/api/v2/json/repos/show/svenfuchs/gem-release
@@ -19,7 +20,7 @@ module Support
       http://github.com/api/v2/json/user/show/LTe
     )
 
-    class Requst
+    class Request
       attr_reader :url, :filename
 
       def initialize(url)
@@ -48,7 +49,7 @@ module Support
 
     class << self
       def mock!
-        URLS.each { |url| Requst.new(url).stub! }
+        URLS.each { |url| Request.new(url).stub! }
       end
     end
 

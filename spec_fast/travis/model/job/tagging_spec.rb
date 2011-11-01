@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 class JobMock
-  attr_accessor :state, :tags
+  include Job::Tagging
+  attr_accessor :state, :tags, :log, :config
 end
 
-describe Travis::Model::Job::Tagging do
+describe Job::Tagging do
   let(:rules) do
     YAML.load <<-yml
       - tag: rake_not_bundled
@@ -21,17 +22,16 @@ describe Travis::Model::Job::Tagging do
     log
   end
 
-  let(:record) { JobMock.new.tap { |job| job.log = log } }
-  let(:test)   { Travis::Model::Job::Test.new(record) }
+  let(:test) { JobMock.new.tap { |job| job.log = log } }
 
   before :each do
-    Travis::Model::Job::Tagging.stubs(:rules).returns(rules)
+    Job::Tagging.stubs(:rules).returns(rules)
   end
 
   describe :add_tags do
     it 'tags the job according to the rules' do
       test.add_tags
-      record.tags.should == 'rake_not_bundled,database_missing'
+      test.tags.should == 'rake_not_bundled,database_missing'
     end
   end
 end

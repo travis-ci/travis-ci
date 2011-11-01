@@ -80,9 +80,9 @@ RSpec::Matchers.define :post_webhooks_on do |event, object, options|
     $http_stub.post uri.path do |env|
       env[:url].host.should == uri.host
       env[:url].path.should == uri.path
-      env[:request_headers]['Authorization'].should == authorization_for(object.record)
+      env[:request_headers]['Authorization'].should == authorization_for(object)
 
-      payload = normalize_json(Travis::Notifications::Webhook::Payload.new(object.record).to_hash)
+      payload = normalize_json(Travis::Notifications::Webhook::Payload.new(object).to_hash)
       payload_from(env).keys.sort.should == payload.keys.map(&:to_s).sort
     end
   end
