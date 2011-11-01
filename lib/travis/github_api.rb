@@ -5,10 +5,6 @@ module Travis
     class ServiceHookError < StandardError; end
 
     class << self
-      def repository(owner, name)
-        Octokit.repository("#{owner}/#{name}").to_hash
-      end
-
       def organization_members(organization)
         Octokit.organization_members(organization)
       end
