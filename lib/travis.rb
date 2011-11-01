@@ -1,3 +1,4 @@
+autoload :Artifact,   'travis/model/artifact'
 autoload :Build,      'travis/model/build'
 autoload :Commit,     'travis/model/commit'
 autoload :Job,        'travis/model/job'
