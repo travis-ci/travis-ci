@@ -6,6 +6,8 @@ class Job < ActiveRecord::Base
   autoload :States,    'travis/model/job/states'
   autoload :Test,      'travis/model/job/test'
 
+  has_one    :log, :class_name => "Artifact::Log", :conditions => { :type => "Artifact::Log" }
+  has_many   :artifacts
   belongs_to :repository
   belongs_to :commit
   belongs_to :owner, :polymorphic => true, :autosave => true
