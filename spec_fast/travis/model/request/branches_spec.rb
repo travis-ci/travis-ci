@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe Travis::Model::Request::Branches do
-  include Travis::Model::Request::Branches
+describe Request::Branches do
+  include Request::Branches
 
   describe '#branch_included?' do
     it 'returns true if the included branches include the given branch' do

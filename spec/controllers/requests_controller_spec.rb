@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe RequestsController do
   describe 'POST :create' do
-
     let(:user)    { User.create!(:login => 'user').tap { |user| user.tokens.create! } }
     let(:auth)    { ActionController::HttpAuthentication::Basic.encode_credentials(user.login, user.tokens.first.token) }
     let(:payload) { GITHUB_PAYLOADS['gem-release'] }

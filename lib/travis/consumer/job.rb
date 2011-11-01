@@ -16,13 +16,16 @@ module Travis
 
       protected
 
+        def job
+          @job ||= ::Job.find(payload.id)
+        end
+
         def handle_update
-          job = Travis::Model::Job.find(payload.id)
           job.update_attributes(payload.to_hash)
         end
 
         def handle_log_update
-          Travis::Model::Job.append_log!(payload.id, payload.log)
+          ::Job::Test.append_log!(payload.id, payload.log)
         end
     end
   end

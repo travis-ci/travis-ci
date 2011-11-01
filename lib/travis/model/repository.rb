@@ -3,7 +3,7 @@ require 'core_ext/hash/compact'
 require 'active_record'
 
 class Repository < ActiveRecord::Base
-  autoload :ServiceHook, 'travis/record/repository/service_hook'
+  autoload :ServiceHook, 'travis/model/repository/service_hook'
 
   include ServiceHook
 

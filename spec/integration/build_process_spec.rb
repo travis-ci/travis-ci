@@ -48,7 +48,7 @@ feature 'The build process' do
       # api.job(job).should include(json_for_http(job)) # TODO
     end
 
-    build.should be_finished
+    build.reload.should be_finished
     build.status.should == 0
     # api.build(build).should include(json_for_http(build)) # TODO
 

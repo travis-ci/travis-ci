@@ -1,28 +1,31 @@
 require 'spec_helper'
 
-class JobMock
+class TestMock
+  include Module.new {
+    def append_log!(*); end
+    def update_attributes(*); end
+  }
+
+  class << self
+    def name; 'Job::Test'; end
+    def after_create; end
+  end
+
+  include Job::Test::States
+
   attr_accessor :state, :config, :status, :log, :started_at, :finished_at
-  def owner; stub('build', :start => nil, :state => nil, :state= => nil) end
-  def update_attributes(*); end
-  def append_log!(*); end
+  def owner; @owner ||= stub('build', :start => nil, :finish => nil, :state => nil, :state= => nil) end
   def save!; end
   def denormalize(*); end
+  def add_tags(*); end # TODO simple_states needs to be able to take multiple declarations for the same event
 end
 
-describe Travis::Model::Job::Test do
-  let(:record)  { JobMock.new }
-  let(:job)     { Travis::Model::Job::Test.new(record) }
-
-  before(:each) do
-    job.owner.stubs(:start)
-    job.owner.stubs(:finish)
-  end
+describe Job::Test::States do
+  let(:job) { TestMock.new }
 
   describe 'events' do
     describe 'starting the job' do
       let(:data) { WORKER_PAYLOADS['job:test:started'] }
-
-      before(:each) { job.owner.stubs(:start) }
 
       it 'sets the state to :started' do
         job.start(data)
@@ -63,8 +66,8 @@ describe Travis::Model::Job::Test do
       describe 'given starting attributes' do
         let(:data) { WORKER_PAYLOADS['job:test:started'] }
 
-        it 'updates the record with the given attributes' do
-          job.record.expects(:update_attributes).with(data)
+        it 'updates the job with the given attributes' do
+          job.expects(:update_attributes).with(data)
           job.update_attributes(data)
         end
 
@@ -77,8 +80,8 @@ describe Travis::Model::Job::Test do
       describe 'given finishing attributes' do
         let(:data) { WORKER_PAYLOADS['job:test:finished'] }
 
-        it 'updates the record with the given attributes' do
-          job.record.expects(:update_attributes).with(data)
+        it 'updates the job with the given attributes' do
+          job.expects(:update_attributes).with(data)
           job.update_attributes(data)
         end
 
@@ -90,8 +93,8 @@ describe Travis::Model::Job::Test do
     end
 
     describe :append_log! do
-      it 'appends the log to the record' do
-        job.record.expects(:append_log!).with('chars')
+      it 'appends the given chars to the log' do
+        job.expects(:append_log!).with('chars')
         job.append_log!('chars')
       end
 

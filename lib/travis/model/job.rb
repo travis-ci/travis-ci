@@ -1,54 +1,27 @@
-require 'simple_states'
-require 'active_support/core_ext/object/blank'
-require 'active_support/core_ext/hash/except'
+require 'active_record'
 
-module Travis
-  class Model
-    class Job < Model
-      autoload :Configure, 'travis/model/job/configure'
-      autoload :Tagging,   'travis/model/job/tagging'
-      autoload :Test,      'travis/model/job/test'
+class Job < ActiveRecord::Base
+  autoload :Configure, 'travis/model/job/configure'
+  autoload :Tagging,   'travis/model/job/tagging'
+  autoload :States,    'travis/model/job/states'
+  autoload :Test,      'travis/model/job/test'
 
-      include SimpleStates, Travis::Notifications
+  belongs_to :repository
+  belongs_to :commit
+  belongs_to :owner, :polymorphic => true, :autosave => true
 
-      event :all, :after => :notify
+  validates :repository_id, :commit_id, :owner_id, :owner_type, :presence => true
 
-      delegate :config, :log, :state, :state=, :finished?, :to => :record
+  serialize :config
 
-      def owner
-        @owner ||= owner_class.new(record.owner)
-      end
+  after_initialize do
+    self.config = {} if config.nil?
+  end
 
-      def propagate(*args)
-        owner.send(*args)
-      end
-
-      def update_attributes(attributes)
-        update_states(attributes.deep_symbolize_keys)
-        record.update_attributes(attributes)
-      end
-
-      protected
-
-        # extracts attributes like :started_at, :finished_at, :config from the given attributes and triggers
-        # state changes based on them. See the respective `extract_[state]ing_attributes` methods.
-        def update_states(attributes)
-          [:start, :finish].each do |state|
-            state_attributes = send(:"extract_#{state}ing_attributes", attributes)
-            send(:"#{state}!", state_attributes) if state_attributes.present?
-          end
-        end
-
-        def extract_starting_attributes(attributes)
-          extract!(attributes, :started_at)
-        end
-
-        def extract!(hash, *keys)
-          # arrrgh. is there no ruby or activesupport hash method that does this?
-          hash.slice(*keys).tap { |result| hash.except!(*keys) }
-        rescue KeyError
-          {}
-        end
-    end
+  def matrix_config?(config)
+    config = config.to_hash.symbolize_keys
+    Build.matrix_keys_for(config).map do |key|
+      self.config[key.to_sym] == config[key] || commit.branch == config[key]
+    end.inject(:&)
   end
 end

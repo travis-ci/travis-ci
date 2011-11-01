@@ -1,4 +1,4 @@
-ENV["RAILS_ENV"] ||= 'test'
+ENV['RAILS_ENV'] ||= 'test'
 
 def load_all(*patterns)
   patterns.each { |pattern| Dir[pattern].sort.each { |path| load File.expand_path(path) } }
@@ -9,13 +9,14 @@ def require_all(*patterns)
   patterns.each { |pattern| Dir[pattern].sort.each { |path| require path.gsub(/^#{options[:relative_to]}\//, '') } }
 end
 
-require File.expand_path("../../config/environment", __FILE__)
+require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'patches/rspec_hash_diff'
 require 'capybara/rspec'
 require 'webmock'
 require 'fakeredis'
 require 'factory_girl'
+require 'database_cleaner'
 require_all 'spec/support/**/*.rb', :relative_to => 'spec'
 
 RSpec.configure do |c|

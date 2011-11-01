@@ -14,7 +14,6 @@ class Rake::Task
 end
 
 namespace :test do
-
   Rake::Task[:units].abandon
   Rake::Task[:functionals].abandon
   Rake::Task[:integration].abandon
@@ -33,5 +32,4 @@ namespace :test do
     t.libs << "test"
     t.test_files = Dir.glob("test/integration/**/*_test.rb")
   end
-
 end

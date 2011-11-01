@@ -10,7 +10,7 @@ glue @build.commit do
 end
 
 code :repository do
-  Travis::Renderer.hash(@build.repository, :type => :webhook)
+  Travis::Renderer.hash(@build.repository, :type => :webhook, :base_dir => base_dir)
 end
 
 code :matrix do

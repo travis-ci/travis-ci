@@ -13,7 +13,7 @@ module Travis
         def send_irc_notifications(build)
           # Notifications to the same host are grouped so that they can be sent with a single connection
           build.irc_channels.each do |server, channels|
-            send_notifications(*server, channels, build.record)
+            send_notifications(*server, channels, build)
           end
         end
 

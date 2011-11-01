@@ -4,6 +4,6 @@ Travis.Job = Travis.Record.extend({
 });
 
 Travis.Job.reopenClass({
-  resource: 'jobs'
+  resource: 'queues'
 });
 

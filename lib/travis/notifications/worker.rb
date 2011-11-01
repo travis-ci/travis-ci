@@ -33,7 +33,7 @@ module Travis
       delegate :queue_for, :payload_for, :to => :'self.class'
 
       def notify(event, job, *args)
-        enqueue(job.record)
+        enqueue(job)
       end
 
       protected

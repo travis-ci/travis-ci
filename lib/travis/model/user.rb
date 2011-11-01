@@ -46,6 +46,7 @@ class User < ActiveRecord::Base
     Travis::GithubApi.repositories_for_user(login).each_with_index do |repository, ix|
       repository.uid = [login, ix].join(':')
       repository.active = active_repositories[repository.name] || false
+      repository.owner = repository['owner'].login
     end
   end
 
