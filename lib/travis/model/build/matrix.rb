@@ -47,7 +47,7 @@ class Build
       def expand_matrix
         expand_matrix_config(matrix_config.to_a).each_with_index do |row, ix|
           attributes = self.attributes.slice(*Job.column_names).symbolize_keys
-          attributes.merge!(:number => "#{number}.#{ix + 1}", :config => config.merge(Hash[*row.flatten]), :log => '')
+          attributes.merge!(:number => "#{number}.#{ix + 1}", :config => config.merge(Hash[*row.flatten]), :log => Artifact::Log.new)
           matrix.build(attributes)
         end
       end

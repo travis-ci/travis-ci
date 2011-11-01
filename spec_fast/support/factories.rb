@@ -24,6 +24,7 @@ FactoryGirl.define do
     f.repository { Factory(:repository) }
     f.commit     { Factory(:commit) }
     f.owner      { Factory(:build) }
+    f.log        { Factory(:log) }
   end
 
   factory :request do |f|
@@ -68,5 +69,9 @@ FactoryGirl.define do
     f.state :finished
     started_at { Time.now }
     finished_at { Time.now }
+  end
+
+  factory :log, :class => 'Artifact::Log' do |f|
+    f.message '$ bundle install --pa'
   end
 end

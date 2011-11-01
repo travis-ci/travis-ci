@@ -12,7 +12,7 @@ class Job
     end
 
     def append_log!(chars)
-      self.class.update_all(["log = COALESCE(log, '') || ?", chars], ["id = ?", id])
+      log.append(chars)
       super
     end
   end
