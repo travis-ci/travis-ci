@@ -39,7 +39,7 @@ feature 'The build process' do
       # api.job(job).should include(json_for_http(job))    # TODO
 
       worker.log!(job, 'log' => 'foo')
-      job.log.should == 'foo'
+      job.log.message.should eql('foo')
       pusher.should have_message('build:log', :log => 'foo')
 
       worker.finish!(job, 'finished_at' => Time.now, 'status' => 0, 'log' => 'foo bar')

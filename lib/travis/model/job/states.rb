@@ -9,6 +9,9 @@ class Job
     end
 
     def update_attributes(attributes)
+      if message = attributes.delete(:log)
+        log.update_attributes(:message => message)
+      end
       update_states(attributes.deep_symbolize_keys)
       super
     end
