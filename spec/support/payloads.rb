@@ -1,4 +1,126 @@
 GITHUB_PAYLOADS = {
+  "travis-ci" => {
+    "pusher" => {
+      "name" => "svenfuchs",
+      "email" => "svenfuchs@artweb-design.de"
+    },
+    "created" => false,
+    "compare" => "https://github.com/travis-ci/travis-ci/compare/5878605...04beda1",
+    "ref" => "refs/heads/statemachine",
+    "forced" => false,
+    "commits" => [
+      {
+        "modified" => [
+          "lib/travis/renderer.rb",
+          "spec/support/json_helpers.rb",
+          "test/unit/json_test.rb"
+        ],
+        "author" => {
+          "username"=> "svenfuchs",
+          "name" => "Sven Fuchs",
+          "email" => "svenfuchs@artweb-design.de"
+        },
+        "message" => "port json_test to specs and port as_json chaos to rabl templates and Travis::Renderer. tons of templates and duplication but at least it's easier to understand now",
+        "removed" => [
+          "app/views/v1/http/repositories/index.rabl",
+          "app/views/v1/http/repositories.rabl",
+          "app/views/v1/http/tasks/configure.rabl",
+          "app/views/v1/http/builds/show.rabl",
+          "app/views/v1/http/repositories/show.rabl",
+          "app/views/v1/http/tasks/test.rabl",
+          "spec/json/builds_spec.rb",
+          "spec/models/build/json_spec.rb",
+          "spec/models/repository/json_spec.rb",
+          "spec/models/task/json_spec.rb"
+        ],
+        "url" => "https://github.com/travis-ci/travis-ci/commit/46940034d57092134f9807de6d09f2d48fec271a",
+        "timestamp" => "2011-08-06T17:02:28-07:00",
+        "distinct" => true,
+        "added" => [
+          "app/views/v1/default/build.rabl",
+          "app/views/v1/default/commit.rabl",
+          "app/views/v1/default/repositories.rabl",
+          "app/views/v1/default/repository.rabl",
+          "app/views/v1/default/task/configure.rabl",
+          "app/views/v1/default/task/test.rabl",
+          "app/views/v1/event/build_finished/build.rabl",
+          "app/views/v1/event/build_finished/repository.rabl",
+          "app/views/v1/event/build_log/build.rabl",
+          "app/views/v1/event/build_log/repository.rabl",
+          "app/views/v1/event/build_log/task/test.rabl",
+          "app/views/v1/event/build_queued/build.rabl",
+          "app/views/v1/event/build_queued/repository.rabl",
+          "app/views/v1/event/build_started/build.rabl",
+          "app/views/v1/event/build_started/repository.rabl",
+          "app/views/v1/event/build_started/task/test.rabl",
+          "app/views/v1/job/commit.rabl",
+          "app/views/v1/job/repository.rabl",
+          "app/views/v1/job/task/test.rabl",
+          "app/views/v1/webhook/build.rabl",
+          "app/views/v1/webhook/repository.rabl",
+          "spec/json/build_spec.rb",
+          "spec/json/repository_spec.rb",
+          "spec/json/task_spec.rb"
+        ],
+        "id" => "46940034d57092134f9807de6d09f2d48fec271a"
+      },
+      {
+        "modified" => [
+          "app/controllers/builds_controller.rb",
+          "app/models/request.rb",
+          "app/models/task.rb",
+          "lib/travis/worker.rb",
+          "spec/lib/travis/notifications/irc_spec.rb",
+          "spec/spec_helper.rb",
+          "spec/support/github_api.rb",
+          "spec/support/mocks.rb"
+        ],
+        "author" => {
+          "username" => "svenfuchs",
+          "name" => "Sven Fuchs",
+          "email" => "svenfuchs@artweb-design.de"
+        },
+        "message" => "Merge branch 'statemachine' of github.com:travis-ci/travis-ci into statemachine",
+        "removed" => [],
+        "url" => "https://github.com/travis-ci/travis-ci/commit/04beda102abcb37b353e406663535d2bc2c4da5c",
+        "timestamp" => "2011-08-06T17:03:40-07:00",
+        "distinct" => true,
+        "added" => [
+          "spec/controllers/builds_controller_spec.rb",
+          "spec/support/redis_helper.rb"
+        ],
+        "id" => "04beda102abcb37b353e406663535d2bc2c4da5c"
+      }
+    ],
+    "before" => "5878605c3c4c099f33b725f63f09fc8a37b08741",
+    "after" => "04beda102abcb37b353e406663535d2bc2c4da5c",
+    "deleted" => false,
+    "base_ref" => nil,
+    "repository" => {
+      "homepage" => "http://travis-ci.org",
+      "open_issues" => 61,
+      "forks" => 87,
+      "organization" => "travis-ci",
+      "pushed_at" => "2011/08/06 17:03:56 -0700",
+      "has_wiki" => true,
+      "fork" => false,
+      "watchers" => 543,
+      "url" => "https://github.com/travis-ci/travis-ci",
+      "has_issues" => true,
+      "has_downloads" => true,
+      "private" => false,
+      "size" => 828,
+      "created_at" => "2011/02/27 22:30:40 -0800",
+      "owner" => {
+        "name" => "travis-ci",
+        "email" => "contact@travis-ci.org"
+      },
+      "name" => "travis-ci",
+      "language" => "JavaScript",
+      "description" => "A distributed build system for the Ruby community. See also github.com/travis-ci/travis-worker and github.com/travis-ci/travis-cookbooks"
+    }
+  },
+
   "private-repo" => %({
     "repository": {
       "url": "http://github.com/svenfuchs/gem-release",

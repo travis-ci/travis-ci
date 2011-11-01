@@ -15,17 +15,17 @@ describe Github, :webmock => true do
   end
 
   it 'repository owned by a user' do
-    fetched_repository = Github::Repository.new(Travis::GithubApi.repository('svenfuchs', 'gem-release'))
-    fetched_repository.name.should == 'gem-release'
-    fetched_repository.owner_name.should == 'svenfuchs'
-    fetched_repository.owner_email.should == 'svenfuchs@artweb-design.de'
+    repository.name.should == 'gem-release'
+    repository.owner_name.should == 'svenfuchs'
+    repository.owner_email.should == 'svenfuchs@artweb-design.de'
   end
 
   it 'repository owned by an organization' do
-    fetched_repository = Github::Repository.new(Travis::GithubApi.repository('travis-ci', 'travis-ci'))
-    fetched_repository.name.should == 'travis-ci'
-    fetched_repository.owner_name.should == 'travis-ci'
-    fetched_repository.owner_email.should == 'franck@verrot.fr,42@dmathieu.com,fritz.thielemann@gmail.com,fxposter@gmail.com,alexp@coffeenco.de,jeff@kreeftmeijer.nl,jmazzi@gmail.com,josh.kalderimis@gmail.com,michael.s.klishin@gmail.com,nathan.f77@gmail.com,nex.development@gmail.com,me@rubiii.com,sferik@gmail.com,steve@steveklabnik.com,svenfuchs@artweb-design.de,ward@equanimity.nl'
+    payload = Github::ServiceHook::Payload.new(GITHUB_PAYLOADS['travis-ci'])
+    repository = payload.repository
+    repository.name.should == 'travis-ci'
+    repository.owner_name.should == 'travis-ci'
+    repository.owner_email.should == 'franck@verrot.fr,42@dmathieu.com,fritz.thielemann@gmail.com,fxposter@gmail.com,alexp@coffeenco.de,jeff@kreeftmeijer.nl,jmazzi@gmail.com,josh.kalderimis@gmail.com,michael.s.klishin@gmail.com,nathan.f77@gmail.com,nex.development@gmail.com,me@rubiii.com,sferik@gmail.com,steve@steveklabnik.com,svenfuchs@artweb-design.de,ward@equanimity.nl'
   end
 
   it 'repository to_hash' do

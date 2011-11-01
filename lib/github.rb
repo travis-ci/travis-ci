@@ -32,14 +32,10 @@ module Github
     end
 
     def owner_name
-      owner.is_a?(Hash) ? (owner['login'] || owner['name']) : owner
+      owner['name']
     end
 
     def owner_email
-      if owner.is_a?(Hash) && email = owner['email']
-        return email if email
-      end
-
       if organization
         organization_emails.join(',')
       else
@@ -53,7 +49,7 @@ module Github
     
     private
       def organization_members
-        Travis::GithubApi.organization_members(organization['login'])
+        Travis::GithubApi.organization_members(organization)
       end
       
       def organization_emails
@@ -61,7 +57,11 @@ module Github
       end
       
       def user_email
-        Travis::GithubApi.user(owner_name)['email']
+        owner['email'].presence || Travis::GithubApi.user(owner_name)['email']
+      end
+
+      def owner
+        @owner ||= self['owner'].is_a?(Hash) ? self['owner'] : { 'name' => owner }
       end
   end
 

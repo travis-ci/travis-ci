@@ -7,15 +7,8 @@ feature 'Feature name', %(
 ) do
 
   self.extend WebMock::API
-  before(:each) do
-    Support::GithubApi.mock!
-  end
 
-  before(:all) do
-    # It's not clear what exactly capybara have changed so that Rspec includes do not function. But that's not a good approach.
-  end
-
-  scenario 'my repositories', :js => true do
+  scenario 'my repositories', :js => true, :webmock => true do
     mock_omniauth
 
     visit homepage
