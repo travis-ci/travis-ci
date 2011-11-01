@@ -70,7 +70,7 @@ group :development, :test, :jasmine do
   gem 'thin'
 end
 
-group :development, :test do
+group :development do
   platforms :mri_18 do
     # required as linecache uses it but does not have it as a dep
     gem 'require_relative', '~> 1.0.1'
