@@ -74,8 +74,4 @@ FactoryGirl.define do
     started_at { Time.now }
     finished_at { Time.now }
   end
-
-  factory :log, :class => 'Artifact::Log' do |f|
-    f.message '$ bundle install --pa'
-  end
 end

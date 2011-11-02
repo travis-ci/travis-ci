@@ -9,6 +9,7 @@ describe Repository, 'service_hook' do
     let(:repository) { Factory(:repository, :owner_name => 'svenfuchs', :name => 'minimal') }
 
     it 'given true it activates a service hook' do
+      Travis.config.stubs(:domain).returns('test.travis-ci.org')
       Travis::GithubApi.expects(:add_service_hook).with('svenfuchs', 'minimal', 'oauth_token',
         :user   => 'login',
         :token  => 'user_token',
