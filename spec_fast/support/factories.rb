@@ -27,6 +27,10 @@ FactoryGirl.define do
     f.log        { Factory(:log) }
   end
 
+  factory :log, :class => 'Artifact::Log' do |f|
+    f.content '$ bundle install --pa'
+  end
+
   factory :request do |f|
     f.repository { Repository.first || Factory(:repository) }
     f.association :commit
@@ -69,9 +73,5 @@ FactoryGirl.define do
     f.state :finished
     started_at { Time.now }
     finished_at { Time.now }
-  end
-
-  factory :log, :class => 'Artifact::Log' do |f|
-    f.message '$ bundle install --pa'
   end
 end
