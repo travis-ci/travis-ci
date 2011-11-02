@@ -30,7 +30,7 @@ module Travis
     rescue Exception => e
       puts e.message, e.backtrace
       # message.ack
-    #   message.reject(:requeue => false) # how to decide whether to requeue the message?
+      # message.reject(:requeue => false) # how to decide whether to requeue the message?
     end
 
     protected
@@ -49,7 +49,7 @@ module Travis
       end
 
       def connection
-        @connection ||= AMQP.start(:host=>"jqnzvgcp.heroku.srs.rabbitmq.com", :port=>11154, :user=>"gnbejyjk", :pass=>"PlVYL1zfG7897ijg", :vhost=>"jqnzvgcp")
+        @connection ||= AMQP.start(config)
       end
 
       def channel

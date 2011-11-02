@@ -56,7 +56,7 @@ describe Request do
       commit.commit.should == '9854592'
       commit.message.should == 'Bump to 0.0.15'
       commit.branch.should == 'master'
-      commit.committed_at.to_formatted_s.should == '2010-10-27 04:32:37 +0200'
+      commit.committed_at.utc.to_formatted_s.should == '2010-10-27 02:32:37 UTC'
 
       commit.committer_name.should == 'Sven Fuchs'
       commit.committer_email.should == 'svenfuchs@artweb-design.de'

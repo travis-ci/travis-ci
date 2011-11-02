@@ -53,7 +53,7 @@
 
         <div id="alpha_warning" class="box">
           <h4>This stuff is alpha.</h4>
-          <p>Please do <strong>not</strong> consider this a stable service. We're still far from that! More info <a href='https://github.com/travis-ci/travis-ci'>here.</a></p>
+          <p>Please do <strong>not</strong> consider this a stable service. We're still far from that! More info <a href='https://github.com/travis-ci'>here.</a></p>
         </div>
         <%= render :partial => "layouts/about" %>
         <%= render :partial => "layouts/sponsors" %>
@@ -62,7 +62,7 @@
 
     <div id="flash-messages"></div>
 
-    <div id="github"><a href="https://github.com/travis-ci/travis-ci" title="Fork me on GitHub">Fork me on GitHub</a></div>
+    <div id="github"><a href="https://github.com/travis-ci" title="Fork me on GitHub">Fork me on GitHub</a></div>
 
     <%= render 'layouts/google_analytics' %>
     <%= javascript_tag "var pusher = new Pusher('#{Pusher.key}');" unless Rails.env.jasmine? %>
