@@ -1,14 +1,16 @@
+require 'amqp'
+
 module Travis
   module Amqp
-    QUEUE_PREFIX = "builds"
+    QUEUE_PREFIX = 'builds'
 
     class << self
       def setup_connection
-        require "amqp/utilities/event_loop_helper"
+        require 'amqp/utilities/event_loop_helper'
         AMQP::Utilities::EventLoopHelper.run
 
         AMQP.start(Travis.config.amqp) do |connection|
-          Rails.logger.info "Connected to AMQP broker"
+          Rails.logger.info 'Connected to AMQP broker'
           AMQP.channel = AMQP::Channel.new(connection)
         end
       end
