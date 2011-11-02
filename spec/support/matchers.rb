@@ -139,3 +139,27 @@ RSpec::Matchers.define :be_queued do |*args|
       "expected no job with the payload #{@expected.inspect} to be queued in #{@queue.inspect} but it is"
   end
 end
+
+RSpec::Matchers.define :be_published do |*args|
+  match do |job|
+    queue = 'ruby'
+    expected = Travis::Notifications::Worker.payload_for(job, :queue => queue)
+
+    failure_message_for_should do
+      "expected a message with the payload #{expected.inspect} to be published in #{queue.inspect} but none was found. Instead there are the following jobs:\n\n#{messages.inspect}"
+    end
+
+    failure_message_for_should_not do
+      "expected no message with the payload #{expected.inspect} to be published in #{queue.inspect} but it is."
+    end
+
+    messages.detect { |message| message.last == expected }.tap do |message|
+      messages.delete(message)
+    end
+  end
+
+  def messages
+    Travis::Notifications::Worker.amqp.messages
+  end
+end
+

@@ -6,6 +6,5 @@
 
 require 'travis'
 
-unless !!ENV["travis_config"] # only heroku has the config loaded in the env
-  Travis::Amqp.setup_connection
-end
+# only heroku has the config loaded in the env
+Travis::Amqp.setup_connection unless ENV.key?('travis_config')

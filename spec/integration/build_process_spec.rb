@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'support/mocks'
 
 feature 'The build process' do
   include Rack::Test::Methods
@@ -12,7 +13,7 @@ feature 'The build process' do
 
     _request.should be_created
     pusher.should have_message('build:queued') # TODO legacy. should be job:configure:created
-    job.should be_queued
+    job.should be_published
 
     worker.start!(job, 'started_at' => Time.now)
     # pusher.should have_message('job:configure:started') # not currently used.
@@ -23,8 +24,8 @@ feature 'The build process' do
     build.should be_created
     pusher.should have_message('build:removed')
 
-    job.should_not be_queued
-    build.matrix.each { |job| job.should be_queued }
+    job.should_not be_published
+    build.matrix.each { |job| job.should be_published }
     api.repositories.should_not include(json_for_http(repository))
 
     while next_job!
@@ -39,7 +40,7 @@ feature 'The build process' do
       # api.job(job).should include(json_for_http(job))    # TODO
 
       worker.log!(job, 'log' => 'foo')
-      job.log.message.should eql('foo')
+      job.log.content.should eql('foo')
       pusher.should have_message('build:log', :log => 'foo')
 
       worker.finish!(job, 'finished_at' => Time.now, 'status' => 0, 'log' => 'foo bar')
