@@ -37,7 +37,7 @@ GITHUB_PAYLOADS = {
     "commits": [{
       "id":        "9854592",
       "message":   "Bump to 0.0.15",
-      "timestamp": "#{ Time.new(2010, 10, 27, 4, 32, 37).strftime("%Y-%m-%d %H:%M:%S") }",
+      "timestamp": "2010-10-27 04:32:37",
       "committer": {
         "name":  "Sven Fuchs",
         "email": "svenfuchs@artweb-design.de"
