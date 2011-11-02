@@ -1,10 +1,9 @@
 require 'spec_helper'
 require 'support/active_record'
-require 'support/matchers'
 require 'support/redis'
 
 describe Travis::Notifications::Worker do
-  include Support::ActiveRecord, Support::Redis
+  include Support::ActiveRecord
 
   before do
     Travis.config.notifications = [:worker]
@@ -38,7 +37,7 @@ describe Travis::Notifications::Worker do
   describe 'queue_for' do
     it 'returns false when neither slug or target match the given configuration hash' do
       build = Factory(:build)
-      worker.send(:queue_for, build).name.should == 'builds'
+      worker.send(:queue_for, build).name.should == 'ruby'
     end
 
     it 'returns the queue when slug matches the given configuration hash' do
@@ -57,20 +56,23 @@ describe Travis::Notifications::Worker do
     # end
   end
 
-  describe 'enqueue' do
-    it 'adds a config job to the given queue' do
-      job = Factory(:request).job
-      worker.send(:enqueue, job)
-      job.should be_queued('builds')
+  describe 'notify' do
+    let(:job)     { Factory(:request).job }
+    let(:payload) { 'the-payload' }
+
+    before :each do
+      Travis::Notifications::Worker.stubs(:payload_for).returns(payload)
+      Travis::Amqp.stubs(:publish)
     end
 
-    it 'adds a test job to the given queue' do
-      build = Factory(:build)
-      build.matrix.reverse.each do |job|
-        worker.send(:enqueue, job)
-        job.should be_queued('builds')
-      end
+    it 'generates a payload for the given job' do
+      Travis::Notifications::Worker.stubs(:payload_for).with(job, :queue => 'ruby')
+      worker.notify(:start, job)
+    end
+
+    it 'adds the payload to the given queue' do
+      Travis::Amqp.expects(:publish).with('ruby', payload)
+      worker.notify(:start, job)
     end
   end
 end
-

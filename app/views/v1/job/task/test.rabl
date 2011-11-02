@@ -9,5 +9,3 @@ child repository => :repository do
   attributes :id
   node(:slug) { |repository| repository.slug }
 end
-
-

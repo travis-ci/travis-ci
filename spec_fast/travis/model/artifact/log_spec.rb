@@ -5,7 +5,7 @@ describe Artifact::Log do
   include Support::ActiveRecord
 
   describe "#append" do
-    let(:log) { Factory.create(:log, :message => "") }
+    let(:log) { Factory.create(:log, :content => '') }
 
     it "appends streamed build log chunks" do
       lines = [
@@ -15,7 +15,7 @@ describe Artifact::Log do
       ]
       0.upto(2) do |ix|
         log.append(lines[ix])
-        lines[0, ix + 1].join.should eql(log.reload.message)
+        lines[0, ix + 1].join.should eql(log.reload.content)
       end
     end
   end

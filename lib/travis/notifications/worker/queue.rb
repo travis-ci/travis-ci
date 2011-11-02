@@ -12,16 +12,8 @@ module Travis
           matches_slug?(slug) || matches_language?(language) # || matches_target?(target)
         end
 
-        def to_s
-          'Travis::Worker'
-        end
-
         def queue
           name
-        end
-
-        def ==(other)
-          to_s == other.to_s
         end
 
         protected

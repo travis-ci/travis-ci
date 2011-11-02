@@ -63,7 +63,7 @@ describe Travis, 'consuming worker messages' do
 
     it "appends the log output to the job's log" do
       consumer.receive(message, payload(job))
-      job.reload.log.should == '... appended'
+      job.reload.log.content.should == '... appended'
     end
   end
 

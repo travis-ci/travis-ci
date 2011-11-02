@@ -8,6 +8,7 @@ autoload :Token,      'travis/model/token'
 autoload :User,       'travis/model/user'
 
 module Travis
+  autoload :Amqp,          'travis/amqp'
   autoload :Config,        'travis/config'
   autoload :Consumer,      'travis/consumer'
   autoload :GithubApi,     'travis/github_api'

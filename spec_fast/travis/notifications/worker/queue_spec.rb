@@ -12,10 +12,6 @@ describe Travis::Notifications::Worker::Queue do
   let(:erlang)  { queue('erlang', nil, 'erlang', nil) }
   let(:clojure) { queue('builds', nil, nil, 'clojure') }
 
-  it "to_s returns Travis::Worker" do
-    rails.to_s.should == "Travis::Worker"
-  end
-
   it "name still returns the actual class name for custom worker classes" do
     rails.name.should == "rails"
   end
