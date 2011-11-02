@@ -14,7 +14,7 @@
 ActiveRecord::Schema.define(:version => 20111031115207) do
 
   create_table "artifacts", :force => true do |t|
-    t.string   "message"
+    t.string   "content"
     t.integer  "job_id"
     t.string   "type"
     t.datetime "created_at"
