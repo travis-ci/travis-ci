@@ -11,6 +11,7 @@ module Travis
   autoload :Amqp,          'travis/amqp'
   autoload :Config,        'travis/config'
   autoload :Consumer,      'travis/consumer'
+  autoload :Database,      'travis/database'
   autoload :GithubApi,     'travis/github_api'
   autoload :Mailer,        'travis/mailer'
   autoload :Notifications, 'travis/notifications'
