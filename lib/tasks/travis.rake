@@ -1,6 +1,9 @@
 namespace :travis do
   desc 'Consume AMQP messages from the worker'
-  task :consume_messages => :environment do
+  task :consume_messages do
+    require 'eventmachine'
+    require 'travis'
+
     EventMachine.run do
       Travis::Consumer.start
     end
