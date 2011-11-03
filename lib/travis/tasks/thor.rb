@@ -9,7 +9,7 @@ module Travis
       namespace 'travis'
 
       desc 'consume', 'Consume AMQP messages from the worker'
-      method_option :env, :default => 'development'
+      method_option :env, :aliases => '-e', :default => 'development'
       def consume
         Travis::Consumer.start(:env => options['env'])
       end
