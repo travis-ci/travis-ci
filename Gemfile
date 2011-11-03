@@ -2,6 +2,7 @@ source :rubygems
 
 gem 'rails',             '~> 3.1.1'
 gem 'rake',              '~> 0.9.2'
+gem 'thor',              '~> 0.14.6'
 gem 'refraction',        '~> 0.2.0'
 gem 'jruby-openssl',     :platforms => :jruby
 
