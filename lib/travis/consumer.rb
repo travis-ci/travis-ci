@@ -8,8 +8,11 @@ module Travis
 
     ROUTING_KEY = 'reporting.jobs'
 
-    def self.start
-      new.subscribe
+    class << self
+      def start(options = {})
+        Database.connect(options)
+        EventMachine.run { new.subscribe }
+      end
     end
 
     attr_reader :config
