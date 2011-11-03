@@ -1,4 +1,5 @@
 require 'active_record'
+require 'fileutils'
 require 'logger'
 
 module Travis
@@ -15,7 +16,10 @@ module Travis
       end
 
       def logger
-        @logger ||= Logger.new('log/consumer.db.log')
+        @logger ||= begin
+          FileUtils.mkdir_p('log') # TODO log/ is in git but it's not on heroku?
+          Logger.new('log/consumer.db.log')
+        end
       end
 
       def configurations
