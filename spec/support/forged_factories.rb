@@ -38,7 +38,7 @@ FactoryGirl.define do
     finished_at            { Forgery(:repository).time }
     status                 { rand(2) }
 
-    after_create do |build|
+    after_build do |build|
       [ :id, :number, :status, :started_at, :finished_at ].each do |entry|
         build.repository.send("last_build_#{entry.to_s}=", build.send(entry.to_s))
       end

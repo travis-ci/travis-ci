@@ -67,5 +67,5 @@ Travis.DataSource = SC.DataSource.extend({
       delete hash.id;
       return id;
     }, this);
-  },
+  }
 });

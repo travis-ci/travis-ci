@@ -12,15 +12,17 @@ defaults: &defaults
 development:
   <<: *defaults
   database: travis_development
-
-production:
-  <<: *defaults
-  database: travis_production
+  host: localhost
 
 jasmine:
   <<: *defaults
   database: travis_jasmine
 
+production:
+  <<: *defaults
+  database: travis_production
+
 test:
   <<: *defaults
   database: travis_test
+  host: localhost

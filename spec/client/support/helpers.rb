@@ -6,9 +6,10 @@ module Support
 
     def should_see_text(text, options = {})
       with_scope(options[:within]) do
-        wait_until do
-          find :xpath, "//*[contains(text(), '#{text}')]" # why don't we use have_content(text) here?
-        end
+        # wait_until do
+        #   find :xpath, "//*[contains(text(), '#{text}')]" # why don't we use have_content(text) here?
+        # end
+        wait_until { have_content(text) }
       end
     end
     alias :should_see :should_see_text
@@ -21,7 +22,7 @@ module Support
     alias :should_not_see :should_not_see_text
 
     def dispatch_pusher_command(channel, command, params)
-      page.evaluate_script("trigger('#{channel}', '#{command}', '#{params.to_json}' )")
+      page.evaluate_script("trigger('#{channel}', '#{command}', '#{params.to_json}')")
     end
   end
 end
