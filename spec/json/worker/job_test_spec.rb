@@ -10,7 +10,6 @@ describe 'JSON for worker jobs' do
     json_for_worker(job).should == {
       'build' => {
         'id' => job.id,
-        'config' => { 'rvm' => '1.8.7', 'gemfile' => 'test/Gemfile.rails-2.3.x' },
         'number' => '2.1',
         'commit' => '91d1b7b2a310131fe3f8',
         'branch' => 'master'
@@ -18,6 +17,10 @@ describe 'JSON for worker jobs' do
       'repository' => {
         'id' => repository.id,
         'slug' => 'svenfuchs/minimal'
+      },
+      'config' => {
+        'rvm' => '1.8.7',
+        'gemfile' => 'test/Gemfile.rails-2.3.x'
       }
     }
   end
