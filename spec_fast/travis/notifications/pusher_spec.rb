@@ -20,15 +20,26 @@ describe Travis::Notifications::Pusher do
   let(:job)      { Factory(:request).job }
   let(:build)    { Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] }) }
 
+  # TODO these don't actually match the full behaviour, see Notifications::Pusher#client_event_for
   describe 'sends a message to pusher' do
-    it 'build:queued' do
-      Travis::Notifications.dispatch('build:queued', build)
+    before :each do
+      build
+      pusher.messages.clear # because creating the build and job will publish messages, too
+    end
+
+    it 'job:configure:created' do
+      Travis::Notifications.dispatch('job:configure:created', build)
       pusher.should have_message('build:queued', build)
     end
 
     it 'job:configure:finished' do
       Travis::Notifications.dispatch('job:configure:finished', build)
       pusher.should have_message('build:removed', build)
+    end
+
+    it 'job:test:created' do
+      Travis::Notifications.dispatch('job:test:created', build)
+      pusher.should have_message('build:queued', build)
     end
 
     it 'build:started' do
