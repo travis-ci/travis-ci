@@ -21,7 +21,7 @@ gem 'rabl',              '~> 0.3.0'
 # app
 gem 'devise',            '~> 1.4.2'
 gem 'oa-oauth',          '~> 0.3.0'
-gem 'simple_states',     '0.0.9'
+gem 'simple_states',     '0.0.10'
 gem 'unobtrusive_flash', '~> 0.0.2'
 gem 'actionmailer_inline_css', '~> 1.3.0'
 
