@@ -7,7 +7,7 @@ describe("Travis.Log", function() {
                   'Using rake (0.9.2)\n' +
                   'Installing rcov (0.9.9) with native extensions WARNING: rcov-0.9.9 has an invalid nil value for @cert_chain\n\n' +
                   'Using diaspora-client (0.1.0) from git://github.com/diaspora/diaspora-client.git (at master)\n' +
-                  'foo\nbar'
+                  'foo\nbar';
 
         expect(Travis.Log.numberLines(log)).toMatch(Travis.Log.FOLDS['bundle']);
       });
@@ -17,7 +17,7 @@ describe("Travis.Log", function() {
                   'Fetching source index for http://rubygems.org/\n\n' +
                   'Using rake (0.9.2)\n\n' +
                   'Installing rcov (0.9.9) with native extensions WARNING: rcov-0.9.9 has an invalid nil value for @cert_chain\n\n' +
-                  'Using diaspora-client (0.1.0) from git://github.com/diaspora/diaspora-client.git (at master)\n\n'
+                  'Using diaspora-client (0.1.0) from git://github.com/diaspora/diaspora-client.git (at master)\n\n';
 
         expect(Travis.Log.numberLines(log)).toMatch(Travis.Log.FOLDS['bundle']);
       });
@@ -75,7 +75,7 @@ describe("Travis.Log", function() {
                   '-- add_index("aspect_memberships", ["aspect_id"], {:name=>"index_aspect_memberships_on_aspect_id"})\n' +
                   '   -> 0.0444s\n' +
                   '-- assume_migrated_upto_version(20110830170929, "db/migrate")\n' +
-                  '   -> 0.0444s\n'
+                  '   -> 0.0444s\n';
 
         expect(Travis.Log.numberLines(log)).toMatch(Travis.Log.FOLDS['schema']);
       });
@@ -87,7 +87,7 @@ describe("Travis.Log", function() {
                   '-- add_index("aspect_memberships", ["aspect_id"], {:name=>"index_aspect_memberships_on_aspect_id"})\n' +
                   '   -> 0.0444s\n' +
                   '-- assume_migrated_upto_version(20110830170929, "db/migrate")\n' +
-                  '   -> 0.0444s\n'
+                  '   -> 0.0444s\n';
 
         expect(Travis.Log.numberLines(log)).toMatch(Travis.Log.FOLDS['schema']);
       });
@@ -99,7 +99,7 @@ describe("Travis.Log", function() {
                   '-- add_index("aspect_memberships", ["aspect_id"], {:name=>"index_aspect_memberships_on_aspect_id"})\n\n' +
                   '   -> 0.0444s\n' +
                   '-- assume_migrated_upto_version(20110830170929, "db/migrate")\n' +
-                  '   -> 0.0444s\n'
+                  '   -> 0.0444s\n';
 
         expect(Travis.Log.numberLines(log)).toMatch(Travis.Log.FOLDS['schema']);
       });

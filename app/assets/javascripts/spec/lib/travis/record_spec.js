@@ -8,6 +8,7 @@ describe('Travis.Record', function() {
       });
 
       it('calls fetch on the datasource passing a local query', function() {
+        var query;
         spyOn(data_source, 'fetch').andCallFake(function() { query = arguments[1]; });
         Travis.Repository.all();
         expect(query.get('isLocal')).toBeTruthy();

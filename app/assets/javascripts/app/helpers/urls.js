@@ -78,5 +78,5 @@ Travis.Helpers.Urls = {
 
   urlCommitter: function() {
     return 'mailto:' + this.getPath('build.committerEmail');
-  }.property('build.committerEmail'),
+  }.property('build.committerEmail')
 };
