@@ -1,10 +1,14 @@
 describe('Views:', function() {
   describe('builds', function() {
+    var build, view;
+
+    beforeEach(function() {
+      build = Test.Factory.Build.passing();
+    });
+
     describe('show', function() {
-      var tabs, build, view;
 
       beforeEach(function() {
-        build = Test.Factory.Build.passing();
         view = createView('#main', { repository: build.get('repository'), build: build, templateName: 'app/templates/builds/show' });
       });
 
@@ -79,12 +83,21 @@ describe('Views:', function() {
           expect(view.$('#builds')).toExist();
         });
       });
+    });
 
-      describe('with a single-build matrix', function() {
-        it('renders the log', function() {
-          // spyOn(Travis.Log, 'filter').andCallFake(function(log) { return log; });
-          expect(view.$('pre.log')).toHaveText('1Done. Build script exited with: 0')
-        });
+    describe('show with a single-build matrix', function() {
+      beforeEach(function() {
+        build = build.get('matrix').objectAt(0);
+        view = createView('#main', { repository: build.get('repository'), build: build, templateName: 'app/templates/builds/show' });
+      });
+
+      afterEach(function() {
+        view.destroy();
+      });
+
+      it('renders the log', function() {
+        // spyOn(Travis.Log, 'filter').andCallFake(function(log) { return log; });
+        expect(view.$('pre.log')).toHaveText('1Done. Build script exited with: 0')
       });
     });
   });

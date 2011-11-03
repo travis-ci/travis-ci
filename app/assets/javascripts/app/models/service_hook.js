@@ -4,7 +4,7 @@ Travis.ServiceHook = Travis.Record.extend({
   toggle: function() {
     this.writeAttribute('active', !this.get('active'));
     this.commitRecord({ owner: this.get('owner'), name: this.get('name') });
-  },
+  }
 });
 
 Travis.ServiceHook.reopenClass({

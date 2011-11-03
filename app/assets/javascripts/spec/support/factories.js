@@ -97,7 +97,7 @@ Test.Factory = {
         ]
       }, 1);
       return Travis.store.find(Travis.Build, 1);
-    },
+    }
   },
   Job: {
     all: function() {
@@ -121,7 +121,4 @@ Test.Factory = {
       return Travis.store.find(Travis.Worker);
     }
   }
-}
-
-
-
+};

@@ -7,7 +7,7 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
     tabs: {
       current: Travis.Controllers.Builds.Show,
       history: Travis.Controllers.Builds.List,
-      build:   Travis.Controllers.Builds.Show,
+      build:   Travis.Controllers.Builds.Show
     }
   }),
 
