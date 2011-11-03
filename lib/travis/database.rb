@@ -1,6 +1,7 @@
 require 'active_record'
 require 'fileutils'
 require 'logger'
+require 'erb'
 
 module Travis
   module Database
@@ -23,7 +24,7 @@ module Travis
       end
 
       def configurations
-        @configurations ||=  YAML::load(IO.read('config/database.yml'))
+        @configurations ||=  YAML::load(ERB.new(File.read('config/database.yml')).result)
       end
 
       def environment
