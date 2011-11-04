@@ -15,7 +15,11 @@ module Travis
     class << self
       def start(options = {})
         Database.connect(options)
-        EventMachine.run { new.subscribe }
+
+        EventMachine.run do
+          EventMachine.add_periodic_timer(10, &::Worker.method(:prune))
+          new.subscribe
+        end
       end
     end
 

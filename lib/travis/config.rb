@@ -24,7 +24,8 @@ module Travis
     define  :amqp  => { :host => '127.0.0.1', :prefetch => 1 },
             :host => 'http://travis-ci.org',
             :notifications => [],
-            :queues  => []
+            :queues  => [],
+            :workers => { :heartbeat => 10 }
 
     default :_access => [:key]
 
