@@ -26,14 +26,13 @@ module Travis
     end
 
     def receive(message, payload)
-      puts '12345 ... testing log output'
       event   = message.type
       handler = handler_for(event)
       handler.handle(event, decode(payload))
       message.ack
     rescue Exception => e
       puts e.message, e.backtrace
-      # message.ack
+      message.ack
       # message.reject(:requeue => false) # how to decide whether to requeue the message?
     end
 
