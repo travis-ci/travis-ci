@@ -20,6 +20,10 @@ class Job < ActiveRecord::Base
     self.config = {} if config.nil?
   end
 
+  before_create do
+    build_log
+  end
+
   def matrix_config?(config)
     config = config.to_hash.symbolize_keys
     Build.matrix_keys_for(config).map do |key|
