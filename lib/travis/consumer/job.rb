@@ -6,8 +6,7 @@ module Travis
       def handle(event, payload)
         @payload = payload
 
-        # TODO there's no rails anymore
-        # Rails.logger.info "Handling task update with payload : #{payload.inspect}"
+        puts "Handling job event #{event.inspect} with payload : #{payload.inspect}"
 
         case event.to_sym
         when :'job:test:log'
