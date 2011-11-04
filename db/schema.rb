@@ -67,7 +67,6 @@ ActiveRecord::Schema.define(:version => 20111031115207) do
     t.string   "number"
     t.text     "config"
     t.integer  "status"
-    t.text     "log",           :default => ""
     t.string   "job_id"
     t.string   "worker"
     t.datetime "started_at"
