@@ -27,6 +27,11 @@ def configure
   require 'webmock'
   require_all 'spec/support/**/*.rb', :relative_to => 'spec'
 
+  require 'travis/logging'
+  require 'stringio'
+
+  Travis.logger = Logger.new(StringIO.new)
+
   RSpec.configure do |c|
     c.filter_run_excluding :js => true if ENV['CI']
 

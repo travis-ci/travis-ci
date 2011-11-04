@@ -7,6 +7,8 @@ module Travis
     autoload :Worker,  'travis/notifications/worker'
 
     class << self
+      include Logging
+
       def subscriptions
         @subscriptions ||= Array(Travis.config.notifications).inject({}) do |subscriptions, subscriber|
           subscriber = const_get(subscriber.to_s.camelize)
@@ -16,7 +18,10 @@ module Travis
 
       def dispatch(event, *args)
         subscriptions.each do |subscriber, subscription|
-          subscriber.notify(event, *args) if matches?(subscription, event)
+          if matches?(subscription, event)
+            log "notifying #{subscriber.class.name} about #{event.inspect} (#{args.map { |arg| arg.inspect }.join(', ')})"
+            subscriber.notify(event, *args)
+          end
         end
       end
 
