@@ -2,7 +2,7 @@ object @job
 
 attributes :id, :repository_id, :number, :state, :started_at, :finished_at, :config, :status
 
-node(:log)         { @job.log }         unless params[:bare]
+node(:log)         { @job.log.try(:content) || '' } unless params[:bare]
 node(:result)      { @job.status }
 node(:parent_id)   { @job.owner_id }
 node(:started_at)  { @job.started_at }  if @job.started?
