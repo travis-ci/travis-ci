@@ -9,6 +9,11 @@ require 'support/payloads'
 require 'support/matchers'
 
 require 'travis'
+require 'travis/logging'
+require 'stringio'
 require 'mocha'
 
+Travis.logger = Logger.new(StringIO.new)
+
 include Mocha::API
+

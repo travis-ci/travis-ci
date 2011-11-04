@@ -9,9 +9,15 @@ module Travis
     end
   end
 
-  def self.logger
-    @logger ||= Logger.new(STDOUT).tap do |logger|
-      logger.formatter = LogFormatter.new
+  class << self
+    def logger
+      @logger ||= Logger.new(STDOUT).tap do |logger|
+        logger.formatter = LogFormatter.new
+      end
+    end
+
+    def logger=(logger)
+      @logger = logger
     end
   end
 
