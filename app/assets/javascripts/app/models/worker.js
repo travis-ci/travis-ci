@@ -9,7 +9,7 @@ Travis.WorkerGroup = SC.Object.extend({
 
   add: function(worker) {
     this.get('workers').push(worker);
-  },
+  }
 });
 
 Travis.Worker = Travis.Record.extend({

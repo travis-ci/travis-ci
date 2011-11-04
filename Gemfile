@@ -17,7 +17,7 @@ gem 'resque-heartbeat',  '~> 0.0.3'
 gem 'json'
 gem 'yajl-ruby',         '~> 1.0.0'
 gem 'hashr',             '~> 0.0.16'
-gem 'rabl',              '~> 0.3.0'
+gem 'rabl',              '~> 0.5.0'
 
 # app
 gem 'devise',            '~> 1.4.2'
@@ -30,11 +30,11 @@ gem 'actionmailer_inline_css', '~> 1.3.0'
 gem 'octokit',           '~> 0.6.5'
 gem 'pusher',            '~> 0.8.1'
 gem 'hoptoad_notifier',  '~> 2.4.11'
-gem 'newrelic_rpm',      '~> 3.1.0'
+gem 'newrelic_rpm',      '~> 3.2.0'
 gem 'amqp',              '>= 0.8.1'
 
 # heroku
-gem 'unicorn',           '~> 4.0.0', :platforms => :ruby
+gem 'unicorn',           '~> 4.1.1', :platforms => :ruby
 gem 'SystemTimer',       '~> 1.2.3', :platforms => :ruby_18
 gem 'clockwork'
 
@@ -63,11 +63,15 @@ group :test do
   end
 end
 
+group :development do
+  gem 'foreman'
+end
+
 group :development, :test, :jasmine do
-  gem 'rails-dev-tweaks', '~> 0.4.0'
+  gem 'rails-dev-tweaks', '~> 0.5.1'
   gem 'factory_girl',     '~> 2.1.2'
   gem 'forgery',          '~> 0.5.0'
-  gem 'rspec-rails',      '~> 2.6.1'
+  gem 'rspec-rails',      '~> 2.7.0'
   gem 'thin'
 end
 

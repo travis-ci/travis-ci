@@ -3,7 +3,7 @@ describe('Build', function() {
     describe('byRepositoryId', function() {
       it('requests GET /repositories.json', function() {
         Travis.Build.byRepositoryId(1);
-        expect(mostRecentAjaxRequest().url).toEqual('/repositories/1/builds.json?parent_id=');
+        expect(mostRecentAjaxRequest().url).toEqual('/repositories/1/builds.json?parent_id=&bare=true');
       });
     });
 
@@ -124,8 +124,8 @@ describe('Build', function() {
       });
 
       it('appendLog', function() {
-        build.set('log', 'test-1')
-        build.appendLog('test-2')
+        build.set('log', 'test-1');
+        build.appendLog('test-2');
         expect(build.get('log')).toEqual('test-1test-2');
       });
     });
