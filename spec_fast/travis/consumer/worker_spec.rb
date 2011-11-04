@@ -6,17 +6,17 @@ describe Travis::Consumer::Worker do
 
   let(:handler) { Travis::Consumer::Worker.new(:event, Hashr.new(payload)) }
   let(:worker)  { handler.send(:worker) }
-  let(:payload) { { :name => 'worker-1', :hostname => 'ruby-1.worker.travis-ci.org' } }
+  let(:payload) { { :name => 'worker-1', :host => 'ruby-1.worker.travis-ci.org' } }
 
   describe 'worker' do
-    describe 'if a worker with the given name and hostname attributes exists' do
+    describe 'if a worker with the given name and host attributes exists' do
       it 'finds the worker' do
         worker = Worker.create!(payload)
         handler.send(:worker).should == worker
       end
     end
 
-    describe 'if no worker with the given name and hostname attributes exists' do
+    describe 'if no worker with the given name and host attributes exists' do
       it 'creates a new worker' do
         lambda { worker }.should change(Worker, :count).by(1)
       end
@@ -25,8 +25,8 @@ describe Travis::Consumer::Worker do
         worker.name.should == 'worker-1'
       end
 
-      it 'sets the hostname attribute' do
-        worker.hostname.should == 'ruby-1.worker.travis-ci.org'
+      it 'sets the host attribute' do
+        worker.host.should == 'ruby-1.worker.travis-ci.org'
       end
 
       it 'sets the last_seen_at attribute' do
