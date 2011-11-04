@@ -13,11 +13,6 @@ class ApplicationController < ActionController::Base
     end
     helper_method :repositories
 
-    def workers
-      @workers ||= []
-    end
-    helper_method :workers
-
     def jobs
       @jobs ||= []
     end
