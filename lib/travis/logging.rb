@@ -1,5 +1,7 @@
 require 'logger'
 
+STDOUT.sync = true
+
 module Travis
   class LogFormatter < Logger::Formatter
     def call(severity, timestamp, progname, msg)
@@ -19,7 +21,12 @@ module Travis
     end
 
     def log(*args)
-      Travis.logger.info(*args)
+      logger.info(*args)
+      STDOUT.flush
+    end
+
+    def logger
+      Travis.logger
     end
   end
 end
