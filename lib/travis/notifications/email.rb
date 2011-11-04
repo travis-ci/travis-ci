@@ -13,7 +13,7 @@ module Travis
 
         def send_emails(object)
           email(object).deliver
-        rescue Net::SMTPError => e
+        rescue Errno::ECONNREFUSED, Net::SMTPError => e
         end
 
         def email(object)
