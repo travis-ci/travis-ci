@@ -6,12 +6,12 @@ class CreateArtifacts < ActiveRecord::Migration
       t.string  :type
 
       t.timestamps
-    end rescue nil
+    end
 
     migrate_table :jobs, :to => :artifacts do |t|
       t.move :log, :to => :content
       t.set  :type, 'Artifact::Log'
-    end rescue nil
+    end
 
     execute "UPDATE artifacts SET job_id = id" rescue nil
   end
