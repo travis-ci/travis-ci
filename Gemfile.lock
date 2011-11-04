@@ -151,7 +151,7 @@ GEM
       multi_json (~> 1.0.2)
     orm_adapter (0.0.5)
     pg (0.11.0)
-    polyglot (0.3.2)
+    polyglot (0.3.3)
     premailer (1.7.3)
       css_parser (>= 1.1.9)
       htmlentities (>= 4.0.0)
