@@ -20,7 +20,7 @@ module Travis
       protected
 
         def worker
-          @worker ||= ::Worker.find_or_create_by_name_and_hostname(:name => payload.name, :hostname => payload.hostname)
+          @worker ||= ::Worker.find_or_create_by_name_and_host(:name => payload.name, :host => payload.host)
         end
     end
   end

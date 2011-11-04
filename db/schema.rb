@@ -146,11 +146,11 @@ ActiveRecord::Schema.define(:version => 20111104172344) do
 
   create_table "workers", :force => true do |t|
     t.string   "name"
-    t.string   "hostname"
+    t.string   "host"
     t.string   "state"
     t.datetime "last_seen_at"
   end
 
-  add_index "workers", ["name", "hostname"], :name => "index_workers_on_name_and_hostname"
+  add_index "workers", ["name", "host"], :name => "index_workers_on_name_and_host"
 
 end
