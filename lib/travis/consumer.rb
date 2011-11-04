@@ -26,6 +26,7 @@ module Travis
     end
 
     def receive(message, payload)
+      puts '12345 ... testing log output'
       event   = message.type
       handler = handler_for(event)
       handler.handle(event, decode(payload))
