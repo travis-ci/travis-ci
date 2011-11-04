@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'support/active_record'
-require 'support/redis'
 
 describe Travis::Notifications::Worker do
   include Support::ActiveRecord

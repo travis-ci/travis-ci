@@ -21,7 +21,6 @@ def configure
   require 'capybara/rspec'
   require 'database_cleaner'
   require 'factory_girl'
-  require 'fakeredis'
   require 'patches/rspec_hash_diff'
   require 'rspec/rails'
   require 'webmock'
@@ -48,7 +47,6 @@ def configure
 
     c.before :each do
       DatabaseCleaner.start
-      Resque.redis.flushall
       pusher.reset!
 
       Travis.instance_variable_set(:@config, nil)
