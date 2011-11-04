@@ -6,6 +6,8 @@ module Travis
   class Consumer
     autoload :Job, 'travis/consumer/job'
 
+    include Logging
+
     ROUTING_KEY = 'reporting.jobs'
 
     class << self
@@ -26,7 +28,7 @@ module Travis
     end
 
     def receive(message, payload)
-      puts "[#{Thread.current.object_id}] Handling event #{message.type.inspect} with payload : #{payload.inspect}"
+      log "Handling event #{message.type.inspect} with payload : #{payload.inspect}"
       event   = message.type
       handler = handler_for(event)
       handler.handle(event, decode(payload))
