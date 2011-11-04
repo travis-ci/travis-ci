@@ -20,8 +20,20 @@ module Travis
           channel(event, object).trigger(event, data)
         end
 
+        def config
+          @config ||= Travis.config.pusher
+        end
+
+        def pusher
+          @pusher ||= ::Pusher.tap do |pusher|
+            pusher.app_id = config.app_id
+            pusher.key    = config.key
+            pusher.secret = config.secret
+          end
+        end
+
         def channel(event, object)
-          ::Pusher[queue_for(event, object)]
+          pusher[queue_for(event, object)]
         end
 
         def client_event_for(event)
