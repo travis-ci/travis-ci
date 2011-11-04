@@ -1,15 +1,15 @@
 SC.RecordArray.prototype.whenReady = function(callback) {
-    if(!callback) {
-      return this;
-    } else if(this.get('status') & SC.Record.READY) {
-      callback(this);
-    } else {
-      // this.addObserver('status', function() {
-      //   if(this.get('status') & SC.Record.READY) { callback(this); }
-      // })
-    }
+  if(!callback) {
     return this;
+  } else if(this.get('status') & SC.Record.READY) {
+    callback(this);
+  } else {
+    // this.addObserver('status', function() {
+    //   if(this.get('status') & SC.Record.READY) { callback(this); }
+    // })
   }
+  return this;
+};
 
 Travis.Record = SC.Record.extend({
   childRecordNamespace: Travis,
@@ -66,11 +66,11 @@ Travis.Record.reopenClass({
 
   find: function(id, callback) {
     if(id === undefined) throw('id is undefined');
-    var record = Travis.store.find(this, id)
+    var record = Travis.store.find(this, id);
     return record ? record.whenReady(callback) : record;
   },
 
   all: function(options, mode) {
     return Travis.store.find(Travis.Query.cached(this, options || {}, mode));
-  },
+  }
 });

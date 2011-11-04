@@ -55,7 +55,7 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
   cssClasses: function() { // ugh
     if(window.__DEBUG__) console.log('updating cssClasses on repository ' + this.get('id'));
     return $.compact(['repository', this.get('color'), this.get('selected') ? 'selected' : null]).join(' ');
-  }.property('color', 'selected').cacheable(),
+  }.property('color', 'selected').cacheable()
 });
 
 Travis.Repository.reopenClass({
@@ -79,5 +79,5 @@ Travis.Repository.reopenClass({
         repository.set('selected', repository.get('id') == id);
       });
     });
-  },
+  }
 });

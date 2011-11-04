@@ -1,7 +1,7 @@
 describe('Deansi', function() {
   function deansi(string) {
     return Deansi.parse(string);
-  };
+  }
 
   describe('colors', function() {
     var sets = [
@@ -22,7 +22,7 @@ describe('Deansi', function() {
       { ansi: "[35;1m",    class: 'magenta bold'        },
       { ansi: "[36;1m",    class: 'cyan bold'           },
       { ansi: "[37;1m",    class: 'white bold'          },
-      { ansi: "[42;37;1m", class: 'bg-green white bold' },
+      { ansi: "[42;37;1m", class: 'bg-green white bold' }
     ];
 
     it('removes all occurrences of \e(B', function() {
@@ -35,24 +35,24 @@ describe('Deansi', function() {
 
     it('replaces ANSI escape sequences having no closing sequence with a span having the respective css classes', function() {
       $.each(sets, function(ix, set) {
-        source = (set.ansi + 'FOO').repeat(3);
-        expected = ('<span class="' + set.class +'">FOO</span>').repeat(3);
+        var source = (set.ansi + 'FOO').repeat(3);
+        var expected = ('<span class="' + set.class +'">FOO</span>').repeat(3);
         expect(deansi(source)).toEqual(expected);
       });
      });
 
     it('replaces ANSI escape sequences having a closing sequence [m with a span having the respective css classes', function() {
       $.each(sets, function(ix, set) {
-        source = (set.ansi + 'FOO[m').repeat(3);
-        expected = ('<span class="' + set.class +'">FOO</span>').repeat(3);
+        var source = (set.ansi + 'FOO[m').repeat(3);
+        var expected = ('<span class="' + set.class +'">FOO</span>').repeat(3);
         expect(deansi(source)).toEqual(expected);
       });
     });
 
     it('replaces ANSI escape sequences having a closing sequence [0m with a span having the respective css classes', function() {
       $.each(sets, function(ix, set) {
-        source = (set.ansi + 'FOO[0m').repeat(3);
-        expected = ('<span class="' + set.class +'">FOO</span>').repeat(3);
+        var source = (set.ansi + 'FOO[0m').repeat(3);
+        var expected = ('<span class="' + set.class +'">FOO</span>').repeat(3);
         expect(deansi(source)).toEqual(expected);
       });
     });
@@ -67,8 +67,8 @@ describe('Deansi', function() {
         { source: '[31m2 failed[0m, [36m1 skipped[0m, [33m7 undefined[0m, [32m212 passed[0m', result: '<span class="red">2 failed</span>, <span class="cyan">1 skipped</span>, <span class="yellow">7 undefined</span>, <span class="green">212 passed</span>' },
         { source: '[32mUsing /home/vagrant/.rvm/gems/ruby-1.8.7-p334[m' + String.fromCharCode(27) + '(B\r\n', result: '<span class="green">Using /home/vagrant/.rvm/gems/ruby-1.8.7-p334</span>\r\n' },
         { source: '[32mYour bundle is complete! Use `bundle show [gemname]` to see ...[0m\r\n', result: '<span class="green">Your bundle is complete! Use `bundle show [gemname]` to see ...</span>\r\n' },
-        { source: '[31mcucumber features/command_line.feature:176[0m[90m # Scenario: Recompiling a project[0m\r\n', result: '<span class="red">cucumber features/command_line.feature:176</span><span class="grey"> # Scenario: Recompiling a project</span>\r\n' },
-      ]
+        { source: '[31mcucumber features/command_line.feature:176[0m[90m # Scenario: Recompiling a project[0m\r\n', result: '<span class="red">cucumber features/command_line.feature:176</span><span class="grey"> # Scenario: Recompiling a project</span>\r\n' }
+      ];
       $.each(examples, function(ix, example) {
         expect(deansi(example.source)).toEqual(example.result);
       });
@@ -77,32 +77,32 @@ describe('Deansi', function() {
 
   describe('carriage returns', function() {
     it('replaces a line followed by a carriage return', function() {
-      source   = 'remote: Compressing objects: 100% (21/21)   \rremote: Compressing objects: 100% (21/21), done.';
-      expected = 'remote: Compressing objects: 100% (21/21), done.';
+      var source   = 'remote: Compressing objects: 100% (21/21)   \rremote: Compressing objects: 100% (21/21), done.';
+      var expected = 'remote: Compressing objects: 100% (21/21), done.';
       expect(deansi(source)).toEqual(expected);
     });
 
     it('replaces a line followed by an ansii clear line escape sequence and a carriage return', function() {
-      source   = 'remote: Compressing objects: 100% (21/21)   [K\rremote: Compressing objects: 100% (21/21), done.';
-      expected = 'remote: Compressing objects: 100% (21/21), done.';
+      var source   = 'remote: Compressing objects: 100% (21/21)   [K\rremote: Compressing objects: 100% (21/21), done.';
+      var expected = 'remote: Compressing objects: 100% (21/21), done.';
       expect(deansi(source)).toEqual(expected);
     });
 
     it('removes [K sequences preceeding a carriage return', function() {
-      source   = 'remote: Compressing objects: 100% (21/21), done. [K\r';
-      expected = 'remote: Compressing objects: 100% (21/21), done. \r';
+      var source   = 'remote: Compressing objects: 100% (21/21), done. [K\r';
+      var expected = 'remote: Compressing objects: 100% (21/21), done. \r';
       expect(deansi(source)).toEqual(expected);
     });
 
     it('does not replaces a line followed by a carriage return when this is the last character in the string', function() {
-      source   = 'remote: Compressing objects: 100% (21/21)   \r';
-      expected = 'remote: Compressing objects: 100% (21/21)   \r';
+      var source   = 'remote: Compressing objects: 100% (21/21)   \r';
+      var expected = 'remote: Compressing objects: 100% (21/21)   \r';
       expect(deansi(source)).toEqual(expected);
     });
 
     it('does not replace a line followed by a carriage return and a newline', function() {
-      source   = 'remote: Counting objects: 31, done.\r\nremote: Compressing objects: 100% (21/21), done.';
-      expected = 'remote: Counting objects: 31, done.\r\nremote: Compressing objects: 100% (21/21), done.';
+      var source   = 'remote: Counting objects: 31, done.\r\nremote: Compressing objects: 100% (21/21), done.';
+      var expected = 'remote: Counting objects: 31, done.\r\nremote: Compressing objects: 100% (21/21), done.';
       expect(deansi(source)).toEqual(expected);
     });
   });

@@ -3,7 +3,7 @@ Travis.Controllers.Workers = SC.ArrayController.extend({
     this.view = SC.View.create({
       content: this,
       templateName: 'app/templates/workers/list'
-    })
+    });
     this.view.appendTo('#workers');
 
     this.set('workers', Travis.Worker.all());

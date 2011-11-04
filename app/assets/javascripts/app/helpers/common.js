@@ -14,7 +14,7 @@ Travis.Helpers.Common = {
   },
 
   readableTime: function(duration) {
-    var days    = Math.floor(duration / 86400)
+    var days    = Math.floor(duration / 86400);
     var hours   = Math.floor(duration % 86400 / 3600);
     var minutes = Math.floor(duration % 3600 / 60);
     var seconds = duration % 60;
@@ -40,4 +40,4 @@ Travis.Helpers.Common = {
     }
     return string;
   }
-}
+};
