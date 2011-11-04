@@ -13,6 +13,7 @@ module Travis
   autoload :Consumer,      'travis/consumer'
   autoload :Database,      'travis/database'
   autoload :GithubApi,     'travis/github_api'
+  autoload :Logging,       'travis/logging'
   autoload :Mailer,        'travis/mailer'
   autoload :Notifications, 'travis/notifications'
   autoload :Record,        'travis/record'

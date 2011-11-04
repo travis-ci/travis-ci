@@ -1,6 +1,4 @@
 require 'active_record'
-require 'fileutils'
-require 'logger'
 require 'erb'
 
 module Travis
@@ -11,13 +9,9 @@ module Travis
       def connect(options = {})
         @options = options
 
-        ActiveRecord::Base.logger = logger
+        ActiveRecord::Base.logger = Travis.logger
         ActiveRecord::Base.configurations = configurations
         ActiveRecord::Base.establish_connection(environment)
-      end
-
-      def logger
-        @logger ||= Logger.new(STDOUT)
       end
 
       def configurations
