@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111031115207) do
+ActiveRecord::Schema.define(:version => 20111104172344) do
 
   create_table "artifacts", :force => true do |t|
     t.string   "content"
@@ -143,5 +143,14 @@ ActiveRecord::Schema.define(:version => 20111031115207) do
   add_index "users", ["github_id"], :name => "index_users_on_github_id"
   add_index "users", ["github_oauth_token"], :name => "index_users_on_github_oauth_token"
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
+
+  create_table "workers", :force => true do |t|
+    t.string   "name"
+    t.string   "hostname"
+    t.string   "state"
+    t.datetime "last_seen_at"
+  end
+
+  add_index "workers", ["name", "hostname"], :name => "index_workers_on_name_and_hostname"
 
 end

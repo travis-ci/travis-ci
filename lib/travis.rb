@@ -6,6 +6,7 @@ autoload :Repository, 'travis/model/repository'
 autoload :Request,    'travis/model/request'
 autoload :Token,      'travis/model/token'
 autoload :User,       'travis/model/user'
+autoload :Worker,     'travis/model/worker'
 
 module Travis
   autoload :Amqp,          'travis/amqp'

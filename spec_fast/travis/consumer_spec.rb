@@ -2,16 +2,11 @@ require 'spec_helper'
 
 describe Travis::Consumer do
   let(:consumer) { Travis::Consumer.new }
+  let(:payload)  { consumer.send(:decode, '{ "id": 1 }') }
 
   describe 'decode' do
-    let(:payload) { consumer.send(:decode, '{ "id": 1 }') }
-
     it 'decodes a json payload' do
       payload['id'].should == 1
-    end
-
-    it 'returns a Hashr instance' do
-      payload.should be_kind_of(Hashr)
     end
   end
 
@@ -26,7 +21,7 @@ describe Travis::Consumer do
 
     events.each do |event|
       it "returns a Job handler for #{event.inspect}" do
-        consumer.send(:handler_for, event).should be_kind_of(Travis::Consumer::Job)
+        consumer.send(:handler_for, event, payload).should be_kind_of(Travis::Consumer::Job)
       end
     end
   end
