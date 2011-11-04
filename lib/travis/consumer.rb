@@ -29,9 +29,14 @@ module Travis
 
     def receive(message, payload)
       log "Handling event #{message.type.inspect} with payload : #{payload.inspect}"
+
       event   = message.type
       handler = handler_for(event)
-      handler.handle(event, decode(payload))
+
+      ActiveRecord::Base.cache do
+        handler.handle(event, decode(payload))
+      end
+
       message.ack
     rescue Exception => e
       puts e.message, e.backtrace
