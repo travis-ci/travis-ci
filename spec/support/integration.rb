@@ -38,7 +38,6 @@ module Support
       end
 
       def start!(job, data)
-        Resque.pop('builds')
         consumer.receive(stub(:type => 'job:test:started', :ack => nil), MultiJson.encode(data.merge('id' => job.id))) # TODO should be 'job:configure:started' depending on the job type
         job.reload
       end

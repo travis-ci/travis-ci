@@ -1,5 +1,3 @@
-require 'resque_helpers'
-
 class ApplicationController < ActionController::Base
   prepend_view_path 'app/views/v1/default'
 
@@ -16,12 +14,12 @@ class ApplicationController < ActionController::Base
     helper_method :repositories
 
     def workers
-      @workers ||= ResqueHelpers.active_workers
+      @workers ||= []
     end
     helper_method :workers
 
     def jobs
-      @jobs ||= ResqueHelpers.queued_jobs(params[:queue])
+      @jobs ||= []
     end
     helper_method :jobs
 

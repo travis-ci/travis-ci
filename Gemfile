@@ -10,8 +10,6 @@ gem 'jruby-openssl',     :platforms => :jruby
 gem 'pg',                '~> 0.11.0'
 gem 'silent-postgres',   '~> 0.0.8'
 gem 'data_migrations',   '~> 0.0.1'
-gem 'resque',            '~> 1.17.1'
-gem 'resque-heartbeat',  '~> 0.0.3'
 
 # structures
 gem 'json'
@@ -51,7 +49,6 @@ group :test do
   gem 'capybara',        '~> 1.0.0'
   gem 'database_cleaner'
   gem 'mocha'
-  gem 'fakeredis',       '~> 0.2.0'
   gem 'webmock'
 
   # gotta wait for QT 4.7
