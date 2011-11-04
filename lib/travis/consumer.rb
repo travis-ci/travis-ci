@@ -26,7 +26,7 @@ module Travis
     end
 
     def subscribe
-      reporting_queue.subscribe(:ack => true, :blocking => false, &method(:receive))
+      queue.subscribe(:ack => true, &method(:receive))
     end
 
     def receive(message, payload)
