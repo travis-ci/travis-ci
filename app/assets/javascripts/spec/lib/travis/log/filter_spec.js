@@ -2,7 +2,7 @@ describe("Travis.Log", function() {
   describe('stripPaths', function() {
     it('removes the path to the build directory in /tmp', function() {
       var source = 'foo\n/home/vagrant/builds/svenfuchs/rails/activesupport/lib/active_support/core_ext/hash/slice.rb:15';
-      var result = 'foo\nactivesupport/lib/active_support/core_ext/hash/slice.rb:15'
+      var result = 'foo\nactivesupport/lib/active_support/core_ext/hash/slice.rb:15';
       expect(Travis.Log.stripPaths(source)).toEqual(result);
     });
   });
@@ -31,7 +31,7 @@ describe("Travis.Log", function() {
       var result =
         '<p><a href="#!travis-ci/travis-ci/L1" name="#!travis-ci/travis-ci/L1">1</a>foo</p>\n' +
         '<p><a href="#!travis-ci/travis-ci/L2" name="#!travis-ci/travis-ci/L2">2</a>bar</p>\n' +
-        '<p><a href="#!travis-ci/travis-ci/L3" name="#!travis-ci/travis-ci/L3">3</a>baz</p>'
+        '<p><a href="#!travis-ci/travis-ci/L3" name="#!travis-ci/travis-ci/L3">3</a>baz</p>';
 
       expect(Travis.Log.numberLines(source)).toEqual(result);
     });

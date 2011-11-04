@@ -31,8 +31,9 @@ feature 'Queueing and dequeuing builds', %(
 
     dispatch_pusher_command 'jobs', 'build:queued', build_queued_event_info
     dispatch_pusher_command 'jobs', 'build:started', build_queued_event_info
-
     should_see_text 'rails/rails', :within => '#repositories'
+    
+    dispatch_pusher_command 'jobs', 'build:removed', build_queued_event_info
     should_not_see_text 'rails/rails', :within => '#jobs'
   end
 end

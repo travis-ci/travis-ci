@@ -6,7 +6,7 @@ var Test = {
     '<div id="main"></div>' +
     '<div id="workers"></div>' +
     '<div id="jobs"></div>'
-}
+};
 
 beforeEach(function() {
   Travis.Query._cache = {};

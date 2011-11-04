@@ -1,10 +1,10 @@
 describe('Views:', function() {
   describe('builds', function() {
     describe('matrix', function() {
-      var tabs, build, view;
+      var build, view;
 
       beforeEach(function() {
-        spyOn($.timeago, 'now').andReturn(new Date('2011/01/01 05:00:00').getTime());
+        spyOn($.timeago, 'now').andReturn(new Date(Date.UTC(2011, 0, 1, 4, 0, 0)).getTime());
 
         build = Test.Factory.Build.passing();
         view = createView('#main', {
@@ -36,7 +36,7 @@ describe('Views:', function() {
       xit('renders a row per record', function() {
         expect(view.$('#builds')).toMatchTable([
           ['Build', 'Finished',          'Duration'],
-          ['1.1',   'about 3 hours ago', '10 sec'], // TODO add moar builds
+          ['1.1',   'about 3 hours ago', '10 sec'] // TODO add moar builds
         ]);
       });
 

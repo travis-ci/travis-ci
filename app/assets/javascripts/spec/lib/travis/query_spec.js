@@ -6,12 +6,12 @@ describe('Travis.Query', function() {
   describe('class methods', function() {
     describe('cached', function() {
       it('generates a new query unless cached', function() {
-        var query = Travis.Query.cached(Travis.Repository)
+        var query = Travis.Query.cached(Travis.Repository);
         expect(SC.typeOf(query)).toEqual('instance');
       });
 
       it('returns a cached query', function() {
-        cached = function() { return Travis.Query.cached(Travis.Repository) };
+        var cached = function() { return Travis.Query.cached(Travis.Repository) };
         expect(cached()).toEqual(cached());
       });
     });
