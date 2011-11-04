@@ -13,7 +13,8 @@ class CreateArtifacts < ActiveRecord::Migration
       t.set  :type, 'Artifact::Log'
     end
 
-    execute "UPDATE artifacts SET job_id = id" rescue nil
+    execute 'UPDATE artifacts SET job_id = id'
+    execute "select setval('artifacts_id_seq', (select max(id) + 1 from artifacts));"
   end
 
   def self.down
