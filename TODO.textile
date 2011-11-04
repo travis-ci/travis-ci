@@ -1,14 +1,15 @@
 == Standalone AMQP consumer
 
 + ActiveRecord::Base.cache { x }
++ n+1 issue with artifacts
 
 - started_at and duration not updated
 - GET staging.travis-ci.org/queues/16497.json ??
-- n+1 issue with artifacts
 - workers heartbeat/listing
 - queue/jobs listing
 - email connection to postmark failing
 - ActiveSupport notifications for logging
+- make sure we only load the log artifact when absolutely necessary
 
 == Sproutcore
 

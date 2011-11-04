@@ -1,11 +1,7 @@
 module Travis
   class Consumer
-    class Job
-      attr_reader :payload
-
-      def handle(event, payload)
-        @payload = payload
-
+    class Job < Handler
+      def handle
         case event.to_sym
         when :'job:test:log'
           handle_log_update

@@ -4,11 +4,13 @@ require 'hashr'
 
 module Travis
   class Consumer
-    autoload :Job, 'travis/consumer/job'
+    autoload :Handler, 'travis/consumer/handler'
+    autoload :Job,     'travis/consumer/job'
+    autoload :Worker,  'travis/consumer/worker'
 
     include Logging
 
-    ROUTING_KEY = 'reporting.jobs'
+    REPORTING_KEY = 'reporting.jobs'
 
     class << self
       def start(options = {})
@@ -24,17 +26,18 @@ module Travis
     end
 
     def subscribe
-      queue.subscribe(:ack => true, :blocking => false, &method(:receive))
+      reporting_queue.subscribe(:ack => true, :blocking => false, &method(:receive))
     end
 
     def receive(message, payload)
       log "Handling event #{message.type.inspect} with payload : #{payload.inspect}"
 
       event   = message.type
-      handler = handler_for(event)
+      payload = decode(payload)
+      handler = handler_for(event, payload)
 
       ActiveRecord::Base.cache do
-        handler.handle(event, decode(payload))
+        handler.handle
       end
 
       message.ack
@@ -44,19 +47,26 @@ module Travis
       # message.reject(:requeue => false) # how to decide whether to requeue the message?
     end
 
+    def heartbeat(message, payload)
+      log "Heartbeat: #{payload.inspect}"
+      Worker.heartbeat
+    end
+
     protected
 
-      def handler_for(event)
+      def handler_for(event, payload)
         case event.to_s
         when /^job/
-          Job.new
+          Job.new(event, payload)
+        when /^worker/
+          Worker.new(event, payload)
         else
           raise "Unknown message type: #{event.inspect}"
         end
       end
 
       def decode(payload)
-        Hashr.new(MultiJson.decode(payload))
+        MultiJson.decode(payload)
       end
 
       def connection
@@ -68,7 +78,7 @@ module Travis
       end
 
       def queue
-        @queue ||= channel.queue(ROUTING_KEY, :durable => true, :exclusive => false)
+        @queue ||= channel.queue(REPORTING_KEY, :durable => true, :exclusive => false)
       end
   end
 end
