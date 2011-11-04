@@ -9,6 +9,10 @@ class Worker < ActiveRecord::Base
     self.last_seen_at = Time.now
   end
 
+  def full_name
+    [host, name].join(':')
+  end
+
   def ping!
     touch(:last_seen_at)
   end
