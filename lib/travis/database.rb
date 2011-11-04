@@ -17,10 +17,7 @@ module Travis
       end
 
       def logger
-        @logger ||= begin
-          FileUtils.mkdir_p('log') # TODO log/ is in git but it's not on heroku?
-          Logger.new('log/consumer.db.log')
-        end
+        @logger ||= Logger.new(STDOUT)
       end
 
       def configurations
