@@ -5,7 +5,7 @@ STDOUT.sync = true
 module Travis
   class LogFormatter < Logger::Formatter
     def call(severity, timestamp, progname, msg)
-      "[#{Thread.current.object_id}] #{String === msg ? msg : msg.inspect}\n"
+      "#{String === msg ? msg : msg.inspect}\n"
     end
   end
 
