@@ -16,10 +16,25 @@ module Travis
       def start(options = {})
         Database.connect(options)
 
-        EventMachine.run do
-          EventMachine.add_periodic_timer(10, &::Worker.method(:prune))
-          new.subscribe
+        EM.run do
+          prune_workers
+          # cleanup_jobs
+          subscribe
         end
+      end
+
+      def subscribe
+        new.subscribe
+      end
+
+      def prune_workers!
+        interval = Travis.config.workers.prune.interval
+        EM.add_periodic_timer(interval, &::Worker.method(:prune))
+      end
+
+      def cleanup_jobs!
+        interval = Travis.config.jobs.retry.interval
+        EM.add_periodic_timer(interval, &::Job.method(:cleanup))
       end
     end
 

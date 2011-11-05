@@ -1,7 +1,7 @@
 class Worker < ActiveRecord::Base
   class << self
     def prune
-      delete_all(['last_seen_at < ?', Time.now - Travis.config.workers.heartbeat])
+      delete_all(['last_seen_at < ?', Time.now - Travis.config.workers.prune.after])
     end
   end
 

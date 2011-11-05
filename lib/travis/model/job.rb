@@ -1,10 +1,13 @@
 require 'active_record'
 
 class Job < ActiveRecord::Base
-  autoload :Configure, 'travis/model/job/configure'
-  autoload :Tagging,   'travis/model/job/tagging'
-  autoload :States,    'travis/model/job/states'
-  autoload :Test,      'travis/model/job/test'
+  autoload :Configure,  'travis/model/job/configure'
+  autoload :Tagging,    'travis/model/job/tagging'
+  autoload :Requeueing, 'travis/model/job/requeueing'
+  autoload :States,     'travis/model/job/states'
+  autoload :Test,       'travis/model/job/test'
+
+  include Requeueing
 
   has_one    :log, :class_name => "Artifact::Log", :conditions => { :type => "Artifact::Log" }
   has_many   :artifacts

@@ -7,6 +7,10 @@ module Travis
       EVENTS = /job:.*:created/
 
       class << self
+        def enqueue(job)
+          new.enqueue(job)
+        end
+
         def amqp
           @amqp ||= Travis::Amqp
         end
@@ -39,17 +43,16 @@ module Travis
       delegate :amqp, :queue_for, :payload_for, :to => :'self.class'
 
       def notify(event, job, *args)
-        enqueue(queue_for(job).name, job)
+        enqueue(job)
       end
 
-      protected
-
-        def enqueue(queue, job)
-          payload_for(job, :queue => queue).tap do |payload|
-            # TODO ::Rails.logger.info("Job queued to #{queue.name.inspect}: #{payload.inspect}")
-			      amqp.publish(queue, payload)
-          end
+      def enqueue(job)
+        queue = queue_for(job).name
+        payload_for(job, :queue => queue).tap do |payload|
+          # TODO ::Rails.logger.info("Job queued to #{queue.name.inspect}: #{payload.inspect}")
+          amqp.publish(queue, payload)
         end
+      end
     end
   end
 end
