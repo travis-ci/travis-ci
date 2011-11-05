@@ -9,7 +9,7 @@ namespace :heroku do
 
     Bundler.with_clean_env do
       ENV['RUBYOPT'] = nil
-      puts "Reading config/travis.yml and sending config vars to Heroku#{remote} ..."
+      puts "Reading config/travis.yml and sending config vars to Heroku #{remote} ..."
       config = YAML.load_file(Rails.root + 'config/travis.yml')[remote || 'production'] rescue {}
       system("heroku config:add travis_config=#{Shellwords.escape(YAML.dump(config))}#{remote_path}")
       system("heroku restart#{remote_path}")
