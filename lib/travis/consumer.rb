@@ -4,37 +4,16 @@ require 'hashr'
 
 module Travis
   class Consumer
-    autoload :Handler, 'travis/consumer/handler'
-    autoload :Job,     'travis/consumer/job'
-    autoload :Worker,  'travis/consumer/worker'
+    autoload :Job, 'travis/consumer/job'
 
     include Logging
 
-    REPORTING_KEY = 'reporting.jobs'
+    ROUTING_KEY = 'reporting.jobs'
 
     class << self
       def start(options = {})
         Database.connect(options)
-
-        EM.run do
-          prune_workers
-          # cleanup_jobs
-          subscribe
-        end
-      end
-
-      def subscribe
-        new.subscribe
-      end
-
-      def prune_workers!
-        interval = Travis.config.workers.prune.interval
-        EM.add_periodic_timer(interval, &::Worker.method(:prune))
-      end
-
-      def cleanup_jobs!
-        interval = Travis.config.jobs.retry.interval
-        EM.add_periodic_timer(interval, &::Job.method(:cleanup))
+        EventMachine.run { new.subscribe }
       end
     end
 
@@ -45,18 +24,17 @@ module Travis
     end
 
     def subscribe
-      queue.subscribe(:ack => true, &method(:receive))
+      queue.subscribe(:ack => true, :blocking => false, &method(:receive))
     end
 
     def receive(message, payload)
       log "Handling event #{message.type.inspect} with payload : #{payload.inspect}"
 
       event   = message.type
-      payload = decode(payload)
-      handler = handler_for(event, payload)
+      handler = handler_for(event)
 
       ActiveRecord::Base.cache do
-        handler.handle
+        handler.handle(event, decode(payload))
       end
 
       message.ack
@@ -66,26 +44,19 @@ module Travis
       # message.reject(:requeue => false) # how to decide whether to requeue the message?
     end
 
-    def heartbeat(message, payload)
-      log "Heartbeat: #{payload.inspect}"
-      Worker.heartbeat
-    end
-
     protected
 
-      def handler_for(event, payload)
+      def handler_for(event)
         case event.to_s
         when /^job/
-          Job.new(event, payload)
-        when /^worker/
-          Worker.new(event, payload)
+          Job.new
         else
           raise "Unknown message type: #{event.inspect}"
         end
       end
 
       def decode(payload)
-        MultiJson.decode(payload)
+        Hashr.new(MultiJson.decode(payload))
       end
 
       def connection
@@ -97,7 +68,7 @@ module Travis
       end
 
       def queue
-        @queue ||= channel.queue(REPORTING_KEY, :durable => true, :exclusive => false)
+        @queue ||= channel.queue(ROUTING_KEY, :durable => true, :exclusive => false)
       end
   end
 end
