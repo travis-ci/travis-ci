@@ -43,11 +43,11 @@ Travis.Helpers.Build = {
   }.property('build.config').cacheable(),
 
   configKeys: function() {
-    return $.map($.keys($.only(this.getPath('build.config'), 'rvm', 'gemfile', 'env', 'otp_release')), function(key) { return $.camelize(key) });
+    return $.map($.keys($.only(this.getPath('build.config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php')), function(key) { return $.camelize(key) });
   }.property('*build').cacheable(),
 
   configValues: function() {
-    return $.values($.only(this.getPath('_build.config'), 'rvm', 'gemfile', 'env', 'otp_release'));
+    return $.values($.only(this.getPath('_build.config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php'));
   }.property('*_build').cacheable(),
 
   // see https://github.com/sproutcore/sproutcore20/issues/160
