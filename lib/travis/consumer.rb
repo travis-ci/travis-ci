@@ -1,19 +1,41 @@
 require 'amqp'
 require 'multi_json'
 require 'hashr'
+require 'benchmark'
 
 module Travis
   class Consumer
-    autoload :Job, 'travis/consumer/job'
+    autoload :Handler, 'travis/consumer/handler'
+    autoload :Job,     'travis/consumer/job'
+    autoload :Worker,  'travis/consumer/worker'
 
     include Logging
 
-    ROUTING_KEY = 'reporting.jobs'
+    REPORTING_KEY = 'reporting.jobs'
 
     class << self
       def start(options = {})
         Database.connect(options)
-        EventMachine.run { new.subscribe }
+
+        EM.run do
+          prune_workers
+          # cleanup_jobs
+          subscribe
+        end
+      end
+
+      def subscribe
+        new.subscribe
+      end
+
+      def prune_workers!
+        interval = Travis.config.workers.prune.interval
+        EM.add_periodic_timer(interval, &::Worker.method(:prune))
+      end
+
+      def cleanup_jobs!
+        interval = Travis.config.jobs.retry.interval
+        EM.add_periodic_timer(interval, &::Job.method(:cleanup))
       end
     end
 
@@ -24,17 +46,18 @@ module Travis
     end
 
     def subscribe
-      queue.subscribe(:ack => true, :blocking => false, &method(:receive))
+      queue.subscribe(:ack => true, &method(:receive))
     end
 
     def receive(message, payload)
-      log "Handling event #{message.type.inspect} with payload : #{payload.inspect}"
+      log notice("Handling event #{message.type.inspect} with payload : #{payload.inspect}")
 
       event   = message.type
-      handler = handler_for(event)
+      payload = decode(payload)
+      handler = handler_for(event, payload)
 
-      ActiveRecord::Base.cache do
-        handler.handle(event, decode(payload))
+      benchmark_and_cache do
+        handler.handle
       end
 
       message.ack
@@ -44,19 +67,33 @@ module Travis
       # message.reject(:requeue => false) # how to decide whether to requeue the message?
     end
 
+    def heartbeat(message, payload)
+      log notice("Heartbeat: #{payload.inspect}")
+      Worker.heartbeat
+    end
+
     protected
 
-      def handler_for(event)
+      def handler_for(event, payload)
         case event.to_s
         when /^job/
-          Job.new
+          Job.new(event, payload)
+        when /^worker/
+          Worker.new(event, payload)
         else
           raise "Unknown message type: #{event.inspect}"
         end
       end
 
+      def benchmark_and_cache
+        timing = Benchmark.realtime do
+          ActiveRecord::Base.cache { yield }
+        end
+        log notice("Completed #{message.type.inspect} event in #{timing} seconds")
+      end
+
       def decode(payload)
-        Hashr.new(MultiJson.decode(payload))
+        MultiJson.decode(payload)
       end
 
       def connection
@@ -68,7 +105,7 @@ module Travis
       end
 
       def queue
-        @queue ||= channel.queue(ROUTING_KEY, :durable => true, :exclusive => false)
+        @queue ||= channel.queue(REPORTING_KEY, :durable => true, :exclusive => false)
       end
   end
 end

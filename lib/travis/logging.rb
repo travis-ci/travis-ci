@@ -34,5 +34,9 @@ module Travis
     def logger
       Travis.logger
     end
+
+    def notice(message)
+      "\e[33m#{message}\e[0m"
+    end
   end
 end
