@@ -18,7 +18,7 @@ module Travis
         Database.connect(options)
 
         EM.run do
-          prune_workers
+          prune_workers!
           # cleanup_jobs
           subscribe
         end
