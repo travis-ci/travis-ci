@@ -25,7 +25,8 @@ module Travis
             :host => 'http://travis-ci.org',
             :notifications => [],
             :queues  => [],
-            :workers => { :heartbeat => 10 }
+            :workers => { :prune => { :after => 10, :interval => 10 } },
+            :jobs    => { :retry => { :after => 60 * 60 * 2, :max_attempts => 1, :interval => 60 * 5 } }
 
     default :_access => [:key]
 

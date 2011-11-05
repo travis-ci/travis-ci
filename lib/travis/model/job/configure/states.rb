@@ -20,7 +20,7 @@ class Job
         end
 
         def finish(data)
-          self.config = data[:config]
+          self.config = data[:config] if data.key?(:config)
         end
 
         def configure_owner(event, config)

@@ -21,7 +21,7 @@ FactoryGirl.define do
   end
 
   factory :test, :class => 'Job::Test' do |f|
-    f.repository { Factory(:repository) }
+    f.repository { Repository.first || Factory(:repository) }
     f.commit     { Factory(:commit) }
     f.owner      { Factory(:build) }
     f.log        { Factory(:log) }
