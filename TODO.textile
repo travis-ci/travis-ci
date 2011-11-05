@@ -9,6 +9,7 @@
 - GET staging.travis-ci.org/queues/16497.json ??
 - email connection to postmark failing
 
+- Finish unfinished jobs after a timeout of 1 hour and add a note to the log
 - ActiveSupport notifications for logging
 - make sure we only load the log artifact when absolutely necessary
 
