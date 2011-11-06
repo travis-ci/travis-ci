@@ -10,7 +10,7 @@ class ConfigureMock
 
   include Job::Configure::States
 
-  attr_accessor :state, :config
+  attr_accessor :state, :config, :status, :finished_at
   def owner; @owner ||= stub('request', :start => nil, :configure! => nil, :state => nil, :state= => nil) end
   def save!; end
 end
@@ -49,15 +49,17 @@ describe Job::Configure::States do
       end
 
       it 'notifies observers' do
+        data = { :status => 0, :config => config, :finished_at => Time.now }
+
         Travis::Notifications.expects(:dispatch).with('job:configure:started', job)
-        Travis::Notifications.expects(:dispatch).with('job:configure:finished', job, :config => config)
+        Travis::Notifications.expects(:dispatch).with('job:configure:finished', job, data)
 
         # TODO
         # Travis::Notifications.expects(:dispatch).with('request:configured', job, config) # not implemented
         # Travis::Notifications.expects(:dispatch).with('job:test:created', instance_of(Job::Test)).times(2)
 
         job.start!
-        job.finish!(:config => config)
+        job.finish!(data)
       end
     end
 

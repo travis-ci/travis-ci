@@ -25,7 +25,9 @@ class Job
       end
 
       def finish(data = {})
-        self.status, self.finished_at = *data.values_at(:status, :finished_at)
+        [:status, :finished_at].each do |key|
+          send(:"#{key}=", data[key]) if data.key?(key)
+        end
       end
 
       def append_log!(chars)
