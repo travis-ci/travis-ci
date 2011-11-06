@@ -31,6 +31,8 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   }.property('repository_id').cacheable(),
 
   update: function(attrs) {
+    console.log('Travis.Build.update')
+    console.log(this, attrs)
     if('matrix' in attrs) attrs.matrix = this._joinMatrixAttributes(attrs.matrix);
     this._super(attrs);
   },
