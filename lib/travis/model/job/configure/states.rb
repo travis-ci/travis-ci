@@ -20,11 +20,13 @@ class Job
         end
 
         def finish(data)
-          self.config = data[:config] if data.key?(:config)
+          [:config, :status, :finished_at].each do |key|
+            send(:"#{key}=", data[key]) if data.key?(key)
+          end
         end
 
-        def configure_owner(event, config)
-          owner.configure!(config)
+        def configure_owner(event, data)
+          owner.configure!(data)
         end
 
         protected
