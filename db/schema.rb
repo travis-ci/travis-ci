@@ -14,7 +14,7 @@
 ActiveRecord::Schema.define(:version => 20111105171924) do
 
   create_table "artifacts", :force => true do |t|
-    t.string   "content"
+    t.text     "content"
     t.integer  "job_id"
     t.string   "type"
     t.datetime "created_at"
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(:version => 20111105171924) do
     t.integer  "last_duration"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
     t.integer  "last_build_id"
     t.string   "last_build_number"
     t.integer  "last_build_status"
@@ -108,6 +109,7 @@ ActiveRecord::Schema.define(:version => 20111105171924) do
 
   add_index "repositories", ["last_build_started_at"], :name => "index_repositories_on_last_build_started_at"
   add_index "repositories", ["owner_name", "name"], :name => "index_repositories_on_owner_name_and_name"
+  add_index "repositories", ["user_id"], :name => "index_repositories_on_user_id"
 
   create_table "requests", :force => true do |t|
     t.integer  "repository_id"
@@ -134,9 +136,11 @@ ActiveRecord::Schema.define(:version => 20111105171924) do
     t.string   "name"
     t.string   "login"
     t.string   "email"
+    t.integer  "oauth2_uid"
+    t.string   "oauth2_token",       :limit => 149
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_admin",           :default => false
+    t.boolean  "is_admin",                          :default => false
     t.integer  "github_id"
     t.string   "github_oauth_token"
   end
@@ -144,6 +148,7 @@ ActiveRecord::Schema.define(:version => 20111105171924) do
   add_index "users", ["github_id"], :name => "index_users_on_github_id"
   add_index "users", ["github_oauth_token"], :name => "index_users_on_github_oauth_token"
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
+  add_index "users", ["oauth2_uid"], :name => "index_users_on_oauth2_uid", :unique => true
 
   create_table "workers", :force => true do |t|
     t.string   "name"
