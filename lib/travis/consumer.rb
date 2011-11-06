@@ -1,6 +1,7 @@
 require 'amqp'
 require 'multi_json'
 require 'hashr'
+require 'benchmark'
 
 module Travis
   class Consumer
@@ -17,7 +18,7 @@ module Travis
         Database.connect(options)
 
         EM.run do
-          prune_workers
+          prune_workers!
           # cleanup_jobs
           subscribe
         end
@@ -49,13 +50,13 @@ module Travis
     end
 
     def receive(message, payload)
-      log "Handling event #{message.type.inspect} with payload : #{payload.inspect}"
+      log notice("Handling event #{message.type.inspect} with payload : #{payload.inspect}")
 
       event   = message.type
       payload = decode(payload)
       handler = handler_for(event, payload)
 
-      ActiveRecord::Base.cache do
+      benchmark_and_cache do
         handler.handle
       end
 
@@ -67,7 +68,7 @@ module Travis
     end
 
     def heartbeat(message, payload)
-      log "Heartbeat: #{payload.inspect}"
+      log notice("Heartbeat: #{payload.inspect}")
       Worker.heartbeat
     end
 
@@ -82,6 +83,13 @@ module Travis
         else
           raise "Unknown message type: #{event.inspect}"
         end
+      end
+
+      def benchmark_and_cache
+        timing = Benchmark.realtime do
+          ActiveRecord::Base.cache { yield }
+        end
+        log notice("Completed in #{timing.round(4)} seconds")
       end
 
       def decode(payload)
