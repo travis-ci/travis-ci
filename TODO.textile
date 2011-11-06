@@ -3,13 +3,13 @@
 + ActiveRecord::Base.cache { x }
 + n+1 issue with artifacts
 + workers heartbeat/listing
++ Finish unfinished jobs after a timeout of 1 hour and add a note to the log
 
 - queue/jobs listing
 - started_at and duration not updated
 - GET staging.travis-ci.org/queues/16497.json ??
 - email connection to postmark failing
 
-- Finish unfinished jobs after a timeout of 1 hour and add a note to the log
 - ActiveSupport notifications for logging
 - make sure we only load the log artifact when absolutely necessary
 
