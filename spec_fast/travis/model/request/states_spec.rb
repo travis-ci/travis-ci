@@ -10,6 +10,7 @@ class RequestMock
   attr_accessor :state
   def save!; end
   def commit; @commit ||= stub('commit', :branch => 'master') end
+  def attribute_names; %w(id repository_id state source payload) end
 end
 
 describe Request::States do
@@ -173,6 +174,13 @@ describe Request::States do
         request.stubs(:config).returns(:branches => { :except => ['staging', 'feature-*'] })
         request.should_not be_approved
       end
+    end
+  end
+
+  describe 'extract_attributes' do
+    it 'discards values from the given hash that are not attributes' do
+      result = request.send(:extract_attributes, { :state => :finished, :status => 1, 'source' => 'github' })
+      result.should == { :state => :finished, :source => 'github' }
     end
   end
 end
