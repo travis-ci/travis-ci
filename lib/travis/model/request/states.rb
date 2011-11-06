@@ -18,9 +18,15 @@ class Request
       end
 
       def configure(data)
-        update_attributes!(data)
+        update_attributes!(extract_attributes(data))
         create_build! if approved?
       end
+
+      protected
+
+        def extract_attributes(attributes)
+          attributes.symbolize_keys.slice(*attribute_names.map(&:to_sym))
+        end
     end
   end
 end
