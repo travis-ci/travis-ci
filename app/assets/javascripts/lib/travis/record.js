@@ -51,8 +51,6 @@ Travis.Record.reopenClass({
   },
 
   createOrUpdate: function(attrs) {
-    console.log('Travis.Record.createOrUpdate')
-    console.log(attrs)
     if(this.exists(attrs.id)) {
       return this.update(attrs);
     } else {
@@ -63,8 +61,6 @@ Travis.Record.reopenClass({
   update: function(attrs) {
     if(attrs.id === undefined) throw('id is undefined');
     var record = this.find(attrs.id);
-    console.log('Travis.Record.update')
-    console.log(record, attrs)
     return record.update(attrs);
   },
 

@@ -17,8 +17,6 @@ Travis.Controllers.Events = SC.Object.extend({
   },
 
   buildStarted: function(data) {
-    console.log('Controllers.Events.buildStarted')
-    console.log(data)
     this.updateFrom(data);
   },
 
