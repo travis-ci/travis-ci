@@ -18,7 +18,7 @@ module Travis
         Database.connect(options)
 
         EM.run do
-          prune_workers!
+          prune_workers
           # cleanup_jobs
           subscribe
         end
@@ -28,12 +28,12 @@ module Travis
         new.subscribe
       end
 
-      def prune_workers!
+      def prune_workers
         interval = Travis.config.workers.prune.interval
         EM.add_periodic_timer(interval, &::Worker.method(:prune))
       end
 
-      def cleanup_jobs!
+      def cleanup_jobs
         interval = Travis.config.jobs.retry.interval
         EM.add_periodic_timer(interval, &::Job.method(:cleanup))
       end
