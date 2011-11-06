@@ -9,6 +9,7 @@ module Travis
       def connect(options = {})
         @options = options
 
+        ActiveRecord::Base.default_timezone = :utc
         ActiveRecord::Base.logger = Travis.logger
         ActiveRecord::Base.configurations = configurations
         ActiveRecord::Base.establish_connection(environment)
