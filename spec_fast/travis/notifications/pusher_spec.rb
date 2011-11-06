@@ -10,12 +10,6 @@ describe Travis::Notifications::Pusher do
     Travis::Notifications::Pusher.send(:public, :queue_for, :payload_for)
   end
 
-  after do
-    Travis.config.notifications.clear
-    Travis::Notifications.instance_variable_set(:@subscriptions, nil)
-    Travis::Notifications::Pusher.send(:protected, :queue_for, :payload_for)
-  end
-
   let(:receiver) { Travis::Notifications::Pusher.new }
   let(:job)      { Factory(:request).job }
   let(:build)    { Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] }) }

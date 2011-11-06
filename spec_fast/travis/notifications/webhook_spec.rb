@@ -9,11 +9,6 @@ describe Travis::Notifications::Webhook do
     stub_http
   end
 
-  after do
-    Travis.config.notifications.clear
-    Travis::Notifications.instance_variable_set(:@subscriptions, nil)
-  end
-
   let(:dispatch) { lambda { |event, object| Travis::Notifications.dispatch(event, object) } }
 
   it 'sends webhook notifications to the urls given as an array' do

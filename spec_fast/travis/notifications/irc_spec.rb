@@ -13,11 +13,6 @@ describe Travis::Notifications::Irc do
     Travis.config.notifications = [:irc]
   end
 
-  after do
-    Travis.config.notifications.clear
-    Travis::Notifications.instance_variable_set(:@subscriptions, nil)
-  end
-
   let(:repository) { Factory(:repository, :owner_email => 'owner@example.com') }
 
   def expect_irc(host, options = {}, count = 1)

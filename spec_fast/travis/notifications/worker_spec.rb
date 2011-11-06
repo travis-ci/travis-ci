@@ -4,21 +4,15 @@ require 'support/active_record'
 describe Travis::Notifications::Worker do
   include Support::ActiveRecord
 
+  let(:worker) { Travis::Notifications::Worker.new }
+
   before do
-    Travis.config.notifications = [:worker]
     Travis.config.queues = [
       { :queue => 'rails', :slug => 'rails/rails' },
       { :queue => 'builds', :language => 'clojure' },
       { :queue => 'erlang', :target => 'erlang', :language => 'erlang' },
     ]
   end
-
-  after do
-    Travis.config.notifications.clear
-    Travis::Notifications.subscriptions.clear
-  end
-
-  let(:worker) { Travis::Notifications::Worker.new }
 
   it 'queues returns an array of Queues for the config hash' do
     rails, clojure, erlang = Travis::Notifications::Worker.send(:queues)
