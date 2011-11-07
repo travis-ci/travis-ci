@@ -3,9 +3,20 @@ source :rubygems
 gem 'rails',             '~> 3.1.1'
 gem 'rake',              '~> 0.9.2'
 
+# gem 'travis-core', :git => 'git://github.com/travis-ci/travis-core.git'
+gem 'travis-core', :path => '~/Development/projects/travis/travis-core'
+# gem 'pg'
+
 # app
 gem 'refraction',        '~> 0.2.0'
+gem 'devise',            '~> 1.4.2'
+gem 'oa-oauth',          '~> 0.3.0'
 gem 'unobtrusive_flash', '~> 0.0.2'
+
+# structures
+gem 'json'
+gem 'yajl-ruby',         '~> 1.0.0'
+gem 'rabl',              '~> 0.5.0'
 
 # apis
 gem 'hoptoad_notifier',  '~> 2.4.11'
