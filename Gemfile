@@ -3,9 +3,7 @@ source :rubygems
 gem 'rails',             '~> 3.1.1'
 gem 'rake',              '~> 0.9.2'
 
-# gem 'travis-core', :git => 'git://github.com/travis-ci/travis-core.git'
-gem 'travis-core', :path => '~/Development/projects/travis/travis-core'
-# gem 'pg'
+gem 'travis-core', :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine'
 
 # app
 gem 'refraction',        '~> 0.2.0'
