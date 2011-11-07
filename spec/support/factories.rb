@@ -19,6 +19,17 @@ FactoryGirl.define do
     f.compare_url 'https://github.com/svenfuchs/minimal/compare/master...develop'
   end
 
+  factory :test, :class => 'Job::Test' do |f|
+    f.repository { Repository.first || Factory(:repository) }
+    f.commit     { Factory(:commit) }
+    f.owner      { Factory(:build) }
+    f.log        { Factory(:log) }
+  end
+
+  factory :log, :class => 'Artifact::Log' do |f|
+    f.content '$ bundle install --pa'
+  end
+
   factory :request do |f|
     f.repository { Repository.first || Factory(:repository) }
     f.association :commit
