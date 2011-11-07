@@ -1,5 +1,6 @@
-PATH
-  remote: ~/Development/projects/travis/travis-core
+GIT
+  remote: git://github.com/travis-ci/travis-core.git
+  revision: e3360912aef2a8708d4d5e0b5598b33f489af6ba
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.1.1)
