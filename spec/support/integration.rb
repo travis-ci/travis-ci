@@ -68,9 +68,7 @@ module Support
     end
 
     def next_job!
-      # Job::Test.where(:state => :created)  # TODO wtf, these are empty
-      # Job::Test.where(:state => 'created')
-      Job::Test.where(:state => nil).first.tap { |job| @job = job if job }
+      Job::Test.where(:state => :created).first.tap { |job| @job = job if job }
     end
 
     def job
