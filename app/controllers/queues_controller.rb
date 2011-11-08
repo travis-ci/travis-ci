@@ -8,7 +8,7 @@ class QueuesController < ApplicationController
   protected
 
     def jobs
-      queue.jobs.map do |job|
+      Job.where(:queue => params[:queue]).map do |job|
         {
           :id         => job.id,
           :number     => job.number,
@@ -19,17 +19,5 @@ class QueuesController < ApplicationController
           }
         }
       end
-    end
-
-    def queue
-      queues.detect { |queue| queue.name == params[:queue] } || default_queue
-    end
-
-    def queues
-      Travis::Notifications::Worker.queues
-    end
-
-    def default_queue
-      Travis::Notifications::Worker.default_queue
     end
 end

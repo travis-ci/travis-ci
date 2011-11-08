@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Travis, 'consuming worker messages' do
-  let(:consumer) { Travis::Consumer.new }
+  let(:consumer) { Travis::Hub.new }
   let(:request)  { Factory(:request) }
   let(:build)    { Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] }) }
 
