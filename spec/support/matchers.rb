@@ -139,7 +139,7 @@ end
 
 RSpec::Matchers.define :be_published do |*args|
   match do |job|
-    queue = 'ruby'
+    queue = 'builds.common'
     expected = Travis::Notifications::Worker.payload_for(job, :queue => queue)
 
     failure_message_for_should do
