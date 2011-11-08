@@ -37,17 +37,17 @@ Travis.Helpers.Build = {
   }.property('build.parent_id', 'build.log').cacheable(),
 
   config: function() {
-    var config = $.only(this.getPath('build.config'), 'rvm', 'gemfile', 'env');
+    var config = $.only(this.getPath('build.config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js');
     var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
     return values.length == 0 ? '-' : values.join(', ');
   }.property('build.config').cacheable(),
 
   configKeys: function() {
-    return $.map($.keys($.only(this.getPath('build.config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'nodejs')), function(key) { return $.camelize(key) });
+    return $.map($.keys($.only(this.getPath('build.config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js')), function(key) { return $.camelize(key) });
   }.property('*build').cacheable(),
 
   configValues: function() {
-    return $.values($.only(this.getPath('_build.config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'nodejs'));
+    return $.values($.only(this.getPath('_build.config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js'));
   }.property('*_build').cacheable(),
 
   // see https://github.com/sproutcore/sproutcore20/issues/160
