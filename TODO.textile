@@ -9,6 +9,7 @@
 
 - n+1 issue with artifacts (probably on repository/:id/builds.json)
 - email connection to postmark failing
+- move json specs (and maybe other specs) to travis-core
 - ActiveSupport notifications for logging
 - make sure we only load the log artifact when absolutely necessary
 
