@@ -7,7 +7,7 @@ describe QueuesController, :type => :controller do
     get :index, :format => :json, :queue => "ruby"
 
     json = ActiveSupport::JSON.decode(response.body)
-    json.should include({ 'id' => jobs.first.id,  'number' => '3',   'commit' => '62aae5f70ceee39123ef', 'repository' => { 'id' => jobs.first.repository.id,  'slug' => jobs.first.repository.slug  } })
-    json.should include({ 'id' => jobs.second.id, 'number' => '3.1', 'commit' => '62aae5f70ceee39123ef', 'repository' => { 'id' => jobs.second.repository.id, 'slug' => jobs.second.repository.slug } })
+    json.should include({ 'id' => jobs.first.id,  'number' => '3',   'commit' => '62aae5f70ceee39123ef', 'queue' => 'ruby', 'repository' => { 'id' => jobs.first.repository.id,  'slug' => jobs.first.repository.slug  } })
+    json.should include({ 'id' => jobs.second.id, 'number' => '3.1', 'commit' => '62aae5f70ceee39123ef', 'queue' => 'ruby', 'repository' => { 'id' => jobs.second.repository.id, 'slug' => jobs.second.repository.slug } })
   end
 end
