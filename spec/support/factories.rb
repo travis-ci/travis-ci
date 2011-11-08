@@ -24,6 +24,7 @@ FactoryGirl.define do
     f.commit     { Factory(:commit) }
     f.owner      { Factory(:build) }
     f.log        { Factory(:log) }
+    f.queue      "ruby"
   end
 
   factory :log, :class => 'Artifact::Log' do |f|

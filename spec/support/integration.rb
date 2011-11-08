@@ -34,7 +34,7 @@ module Support
 
       def initialize(context)
         @context = context
-        @consumer = Travis::Consumer.new
+        @consumer = Travis::Hub.new
       end
 
       def start!(job, data)
