@@ -8,6 +8,7 @@ class QueuesController < ApplicationController
   protected
 
     def jobs
+      # TODO move to a scope on Job and extract a rabl template
       Job.where(:queue => params[:queue]).map do |job|
         {
           :id         => job.id,
