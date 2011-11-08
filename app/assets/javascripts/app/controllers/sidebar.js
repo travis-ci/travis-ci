@@ -3,7 +3,7 @@ Travis.Controllers.Sidebar = SC.Object.extend({
 
   init: function() {
     Travis.Controllers.Workers.create();
-    Travis.Controllers.Jobs.create({ queue: 'builds' });
+    Travis.Controllers.Jobs.create({ queue: 'ruby'  });
     Travis.Controllers.Jobs.create({ queue: 'rails' });
 
     $(".slider").click(function() { this.toggle(); }.bind(this));
