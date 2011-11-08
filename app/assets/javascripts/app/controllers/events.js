@@ -6,8 +6,7 @@ Travis.Controllers.Events = SC.Object.extend({
   },
 
   buildQueued: function(data) {
-    var queue = data.repository.slug == 'rails/rails' ? 'rails' : 'builds';
-    data = $.extend(data.build, { repository: data.repository, queue: queue });
+    data = $.extend(data.build, { repository: data.repository });
     Travis.Job.createOrUpdate(data);
   },
 
