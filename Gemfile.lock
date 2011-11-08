@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: e3360912aef2a8708d4d5e0b5598b33f489af6ba
+  revision: bc50ed5c14f4584e7d589765b121a02bbbffd72a
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.1.1)
@@ -179,7 +179,7 @@ GEM
       multi_json (~> 1.0.2)
     orm_adapter (0.0.5)
     pg (0.11.0)
-    polyglot (0.3.3)
+    polyglot (0.3.2)
     premailer (1.7.3)
       css_parser (>= 1.1.9)
       htmlentities (>= 4.0.0)
