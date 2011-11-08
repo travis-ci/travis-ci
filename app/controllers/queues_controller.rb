@@ -13,6 +13,7 @@ class QueuesController < ApplicationController
           :id         => job.id,
           :number     => job.number,
           :commit     => job.commit.commit,
+          :queue      => job.queue,
           :repository => {
             :id   => job.repository.id,
             :slug => job.repository.slug
