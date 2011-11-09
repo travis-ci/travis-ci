@@ -14,7 +14,7 @@ gem 'resque-heartbeat',  '~> 0.0.3'
 
 # structures
 gem 'json'
-gem 'yajl-ruby',         '~> 1.0.0'
+gem 'yajl-ruby',         '~> 1.1.0'
 gem 'hashr',             '~> 0.0.14'
 gem 'rabl',              '~> 0.5.0'
 
