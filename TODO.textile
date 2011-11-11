@@ -14,6 +14,9 @@
 - ActiveSupport notifications for logging
 - make sure we only load the log artifact when absolutely necessary
 
+- optimize: https://gist.github.com/7fa474b1256bac72be8b
+
+
 == Sproutcore
 
 + fix matrix
