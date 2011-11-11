@@ -4,6 +4,7 @@ gem 'rails',             '~> 3.1.1'
 gem 'rake',              '~> 0.9.2'
 
 gem 'travis-core', :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine'
+gem 'amqp',              '~> 0.8.3'
 
 # app
 gem 'refraction',        '~> 0.2.0'
@@ -15,6 +16,10 @@ gem 'unobtrusive_flash', '~> 0.0.2'
 gem 'json'
 gem 'yajl-ruby',         '~> 1.0.0'
 gem 'rabl',              '~> 0.5.0'
+
+# db
+gem 'pg',                '~> 0.11.0'
+gem 'silent-postgres',   '~> 0.0.8'
 
 # apis
 gem 'hoptoad_notifier',  '~> 2.4.11'
