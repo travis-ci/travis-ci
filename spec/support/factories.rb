@@ -83,4 +83,11 @@ FactoryGirl.define do
     f.email 'sven@fuchs.com'
     f.tokens { [Token.new] }
   end
+
+  factory :worker do |f|
+    f.name  'worker-1'
+    f.host  'ruby-1.workers.travis-ci.org'
+    f.state :working
+    f.last_seen_at { Time.now }
+  end
 end
