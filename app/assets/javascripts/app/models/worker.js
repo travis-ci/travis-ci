@@ -13,7 +13,6 @@ Travis.WorkerGroup = SC.Object.extend({
 });
 
 Travis.Worker = Travis.Record.extend({
-  id:         SC.Record.attr(String, { key: 'id' }),
   lastSeenAt: SC.Record.attr(String, { key: 'last_seen_at' })
 });
 
