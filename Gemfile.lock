@@ -90,7 +90,7 @@ GEM
     faraday_middleware (0.7.0)
       faraday (~> 0.7.3)
     ffi (1.0.10)
-    foreman (0.26.0)
+    foreman (0.26.1)
       term-ansicolor (~> 1.0.5)
       thor (>= 0.13.6)
     forgery (0.5.0)
