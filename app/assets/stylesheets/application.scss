@@ -581,6 +581,7 @@ caption {
     white-space: nowrap;
     overflow: hidden;
     margin: 0;
+    list-style-type: none;
 
     h5 {
       font-size: 13px;
@@ -590,19 +591,34 @@ caption {
     }
 
     ul {
-      margin-top: 0px;
+      margin-top: 2px;
       margin-bottom: 5px;
-      padding-left: 10px;
+      padding-left: 1px;
       display: none;
     }
     &.open ul {
       display: block;
     }
 
-    &:hover {
-      ul.nested {
-        display: block;
-      }
+    .icon {
+      clear: left;
+      float: left;
+      width: 8px;
+      height: 8px;
+      margin: 6px 6px 0 0;
+      -moz-border-radius: 8px;
+      -webkit-border-radius: 8px;
+      /* background: url(/assets/icons/status.square.gray.png); created, starting, stopping */
+      background: url(/assets/icons/status.square.green.png);
+    }
+    &.waiting .icon {
+      background: url(/assets/icons/status.square.green.png);
+    }
+    &.working .icon {
+      /* background: url(/assets/icons/status.square.yellow.png); */
+    }
+    &.errored .icon {
+      background: url(/assets/icons/status.square.red.png);
     }
   }
   .placeholder,
