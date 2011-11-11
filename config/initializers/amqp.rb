@@ -4,7 +4,11 @@
 #
 # See http://rubydoc.info/github/ruby-amqp/amqp/master/file/docs/ConnectingToTheBroker.textile#Using_Ruby_amqp_gem_with_Unicorn
 
-require 'travis'
+# require 'travis'
 
 # only heroku has the config loaded in the env
-Travis::Amqp.setup_connection unless ENV.key?('travis_config')
+# Travis::Amqp.setup_connection unless ENV.key?('travis_config')
+#
+# Travis::Amqp has changed to a lazy instantiation of the connection object, so I guess that's fine?
+# I.e. Github won't be able to ping before Unicorn has forked, so the connection won't be created
+# before the fork either?
