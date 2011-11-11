@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'HTTP API for Build' do
-
   let(:repository) { Scenario.default.first }
   let(:build) { repository.last_build }
 
