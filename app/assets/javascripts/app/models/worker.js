@@ -3,8 +3,8 @@ Travis.WorkerGroup = SC.Object.extend({
     this.set('workers', []);
   },
 
-  name: function() {
-    return this.getPath('workers.firstObject.name');
+  host: function() {
+    return this.getPath('workers.firstObject.host');
   }.property(),
 
   add: function(worker) {
@@ -13,15 +13,8 @@ Travis.WorkerGroup = SC.Object.extend({
 });
 
 Travis.Worker = Travis.Record.extend({
-  id: SC.Record.attr(String, { key: 'id' }),
-
-  name: function() {
-    return this.get('id').split(':')[0];
-  }.property('id'),
-
-  process: function() {
-    return this.get('id').split(':').slice(1).join(':');
-  }.property('id')
+  id:         SC.Record.attr(String, { key: 'id' }),
+  lastSeenAt: SC.Record.attr(String, { key: 'last_seen_at' })
 });
 
 Travis.Worker.reopenClass({

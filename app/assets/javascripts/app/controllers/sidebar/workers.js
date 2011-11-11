@@ -16,9 +16,9 @@ Travis.Controllers.Workers = SC.ArrayController.extend({
       var workers = this.get('workers') || [];
 
       workers.forEach(function(worker) {
-        var name = worker.get('name');
-        if(!(name in this.groups)) this.groups[name] = Travis.WorkerGroup.create();
-        this.groups[name].add(worker);
+        var host = worker.get('host');
+        if(!(host in this.groups)) this.groups[host] = Travis.WorkerGroup.create();
+        this.groups[host].add(worker);
       }.bind(this));
 
       this.set('content', $.values(this.groups));
