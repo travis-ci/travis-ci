@@ -10,7 +10,7 @@ describe 'Worker' do
   it 'json' do
     json = json_for_http(workers)
     json.should == [{
-      'id' => 'ruby-1.workers.travis-ci.org:worker-1',
+      'id' => workers.first.id,
       'name' => 'worker-1',
       'host' => 'ruby-1.workers.travis-ci.org',
       'state' => 'working',
