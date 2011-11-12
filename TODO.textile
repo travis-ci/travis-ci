@@ -16,6 +16,8 @@
 
 - optimize: https://gist.github.com/7fa474b1256bac72be8b
 
+- wrap hub sql operations in a transaction
+- have the hub respond to SIGTERM and shut down gracefully
 
 == Sproutcore
 
