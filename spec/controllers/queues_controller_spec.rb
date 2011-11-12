@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe QueuesController, :type => :controller do
-  let!(:jobs) { [Factory.create(:test, :number => '3'), Factory.create(:test, :number => '3.1') ] }
+  let!(:jobs) { [FactoryGirl.create(:test, :number => '3'), FactoryGirl.create(:test, :number => '3.1') ] }
 
   it 'index lists all jobs on the queue' do
     get :index, :format => :json, :queue => "ruby"

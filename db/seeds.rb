@@ -15,6 +15,11 @@ if Rails.env.development? || Rails.env.jasmine?
 
   [Repository, Commit, Request, Build].each{ |klass| klass.reset_column_information }
   10.times do
-    Factory.create(:seed_repository)
+    repository = FactoryGirl.create(:seed_repository)
+    3.times do
+      build = FactoryGirl.create(:seed_build, :repository => repository)
+    end
+    repository.last_build_id = repository.last_build.id
+    repository.save
   end
 end
