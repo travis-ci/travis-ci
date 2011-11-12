@@ -73,10 +73,10 @@ Travis.Helpers.Urls = {
   }.property('content.slug'),
 
   urlAuthor: function() {
-    return 'mailto:' + this.getPath('build.authorEmail');
-  }.property('build.authorEmail'),
+    return this.getPath('build.authorMailToEmail');
+  }.property('build.authorMailToEmail'),
 
   urlCommitter: function() {
-    return 'mailto:' + this.getPath('build.committerEmail');
-  }.property('build.committerEmail')
+    return this.getPath('build.committerMailToEmail');
+  }.property('build.committerMailToEmail')
 };

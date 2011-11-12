@@ -66,8 +66,8 @@ $.extend(jasmine, {
 
     var commit       = build.get('commit').slice(0, 7) + (build.get('branch') ? ' (%@)'.fmt(build.get('branch')) : '');
     var commitUrl    = 'http://github.com/' + build.getPath('repository.slug') + '/commit/' + build.get('commit');
-    var committerUrl = 'mailto:' + build.get('committerEmail');
-    var authorUrl    = 'mailto:' + build.get('authorEmail');
+    var committerUrl = build.get('committerMailToEmail');
+    var authorUrl    = build.get('authorMailToEmail');
 
     var expected = {
       '.summary .number':        build.get('number'),
