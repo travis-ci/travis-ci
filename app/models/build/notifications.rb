@@ -1,8 +1,8 @@
 class Build
   module Notifications
     def default_notification_rules
-      {:success => {:email => :change, :webhook => :always, :irc => :always},
-       :failure => {:email => :always, :webhook => :always, :irc => :always}}
+      {:success => {:email => :change, :webhooks => :always, :irc => :always},
+       :failure => {:email => :always, :webhooks => :always, :irc => :always}}
     end
 
     def send_notifications_for?(receiver)
