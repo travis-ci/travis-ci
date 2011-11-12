@@ -33,7 +33,7 @@ Travis.Log = {
     var result = '';
     $.each(log.trim().split('\n'), function (ix, line) {
       var path = Travis.Log.location().replace(/\/L\d+/, '') + '/L' + (ix + 1);
-      result += '<p><a href="%@" name="%@">%@</a>%@</p>\n'.fmt(path, path, (ix + 1), line.trim());
+      result += '<p><a href="%@" name="L%@">%@</a>%@</p>\n'.fmt(path, ix, (ix + 1), line.trim());
     });
     return result.trim();
   },

@@ -34,6 +34,10 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
       this.set('_buildProxy', SC.Object.create({ parent: this, content: Travis.Build.find(params.id) }));
     }
     this.tabs.activate(tab);
+
+    // var line_element = $("a[name='L" + params.line_number + "']")
+    // $(window).scrollTop(line_element.offset().top)
+    // line_element.addClass("highlight")
   },
 
   _repositories: function() {
