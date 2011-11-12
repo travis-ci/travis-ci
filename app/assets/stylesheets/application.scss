@@ -620,6 +620,9 @@ caption {
     &.errored .icon {
       background: url(/assets/icons/status.square.red.png);
     }
+    &.stopped .icon {
+      background: url(/assets/icons/status.square.gray.png);
+    }
   }
   .placeholder,
   .indicator {
