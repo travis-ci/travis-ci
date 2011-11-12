@@ -7,11 +7,6 @@ FactoryGirl.define do
     last_duration             { Forgery(:repository).duration }
     created_at                { Forgery(:repository).time }
     updated_at                { Forgery(:repository).time }
-    after_create do |repository|
-      3.times do
-        Factory.create(:seed_build, :repository => repository)
-      end
-    end
   end
 
   factory :seed_commit, :class => Commit do
@@ -36,20 +31,22 @@ FactoryGirl.define do
     commit                 { Factory(:seed_commit) }
     started_at             { Forgery(:repository).time }
     finished_at            { Forgery(:repository).time }
+    state                  "finished"
     status                 { rand(2) }
 
     after_build do |build|
+      build.request = Factory(:seed_request, :repository => build.repository, :commit => build.commit)
+      build.save
+      build.reload
+
       [ :id, :number, :status, :started_at, :finished_at ].each do |entry|
         build.repository.send("last_build_#{entry.to_s}=", build.send(entry.to_s))
       end
+
       build.repository.save
       build.matrix.each do |job|
-        Job::Test.append_log!(job.id, Forgery(:build).log )
+        job.append_log!(Forgery(:build).log)
       end
-      #1.times do
-      #  build.matrix<< Factory(:seed_job, :repository => build.repository, :owner_id => build.id, :owner_type => "Build")
-      #end
-      build.request = Factory(:seed_request, :repository => build.repository, :commit => build.commit)
     end
   end
 end
