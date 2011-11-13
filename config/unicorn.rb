@@ -6,14 +6,12 @@ timeout 15         # restarts workers that hang for 15 seconds
 preload_app true
 
 before_fork do |server, worker|
-  defined?(ActiveRecord::Base) and
-      ActiveRecord::Base.connection.disconnect!
+  ActiveRecord::Base.connection.disconnect! if defined?(ActiveRecord::Base)
 end
 
 after_fork do |server, worker|
-  defined?(ActiveRecord::Base) and
-      ActiveRecord::Base.establish_connection
+  ActiveRecord::Base.establish_connection if defined?(ActiveRecord::Base)
 
-  # require 'travis'
-  # Travis::Amqp.setup_connection
+  require 'travis'
+  Travis::Amqp.connect
 end
