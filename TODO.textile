@@ -19,6 +19,9 @@
 - wrap hub sql operations in a transaction
 - have the hub respond to SIGTERM and shut down gracefully
 
+- travis-worker: :stop command can not work when a build is running. need a different concept there.
+- travis-worker: after state changes send an extra state update message
+
 == Sproutcore
 
 + fix matrix
