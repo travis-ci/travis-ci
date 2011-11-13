@@ -69,7 +69,7 @@ GEM
     data_migrations (0.0.1)
       activerecord
       rake
-    database_cleaner (0.6.7)
+    database_cleaner (0.7.0)
     devise (1.4.9)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
