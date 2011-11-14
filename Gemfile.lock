@@ -70,10 +70,10 @@ GEM
       activerecord
       rake
     database_cleaner (0.7.0)
-    devise (1.4.9)
+    devise (1.5.0)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
-      warden (~> 1.0.3)
+      warden (~> 1.1)
     diff-lcs (1.1.3)
     erubis (2.7.0)
     eventmachine (0.12.10)
@@ -284,7 +284,7 @@ GEM
     unobtrusive_flash (0.0.2)
     vegas (0.1.8)
       rack (>= 1.0.0)
-    warden (1.0.6)
+    warden (1.1.0)
       rack (>= 1.0)
     webmock (1.7.7)
       addressable (~> 2.2, > 2.2.5)
@@ -305,7 +305,7 @@ DEPENDENCIES
   compass (= 0.12.alpha.0)
   data_migrations (~> 0.0.1)
   database_cleaner
-  devise (~> 1.4.2)
+  devise (~> 1.5.0)
   factory_girl (~> 2.1.2)
   fakeredis (~> 0.2.0)
   foreman
