@@ -20,7 +20,7 @@ gem 'rabl',              '~> 0.5.0'
 
 # app
 gem 'devise',            '~> 1.5.0'
-gem 'oa-oauth',          '~> 0.3.0'
+gem 'omniauth-github',   '~> 1.0.0'
 gem 'simple_states',     '0.0.9'
 gem 'unobtrusive_flash', '~> 0.0.2'
 gem 'actionmailer_inline_css', "~> 1.3.0"
