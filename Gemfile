@@ -46,7 +46,7 @@ end
 
 group :test do
   gem 'jasmine'
-  gem 'capybara',        '~> 1.0.0'
+  gem 'capybara',        '~> 1.1.2'
   gem 'database_cleaner'
   gem 'mocha'
   gem 'fakeredis',       '~> 0.2.0'
