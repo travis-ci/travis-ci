@@ -23,6 +23,7 @@ Travis.DataSource = SC.DataSource.extend({
   },
 
   retrieveRecord: function(store, storeKey, id) {
+    if(id == undefined) id = SC.Store.idFor(storeKey);
     var type = SC.Store.recordTypeFor(storeKey);
     var url  = this._urlFor(type, id) + '.json';
 

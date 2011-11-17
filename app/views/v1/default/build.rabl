@@ -9,5 +9,5 @@ glue :commit do
 end
 
 code :matrix do |build|
-  build.matrix.map { |job| Travis::Renderer.hash(job, :params => @_locals[:params]) }
+  build.matrix.map { |job| Travis::Renderer.hash(job, :params => { :bare => true }) }
 end
