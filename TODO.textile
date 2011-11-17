@@ -6,20 +6,18 @@
 + started_at and duration not updated
 + GET staging.travis-ci.org/queues/16497.json ??
 + queue/jobs listing
++ travis-worker/travis-hub: should clear existing log on job:test:start (for requeued jobs)
++ optimize: https://gist.github.com/7fa474b1256bac72be8b
++ n+1 issue with artifacts (probably on repository/:id/builds.json)
 
-- n+1 issue with artifacts (probably on repository/:id/builds.json)
 - email connection to postmark failing
 - move json specs (and maybe other specs) to travis-core
 - have log levels (so turning logging on/off in production will be easy)
 - ActiveSupport notifications for logging
-- make sure we only load the log artifact when absolutely necessary
-
-- optimize: https://gist.github.com/7fa474b1256bac72be8b
 
 - wrap hub sql operations in a transaction
 - have the hub respond to SIGTERM and shut down gracefully
 
-- travis-worker: :stop command can not work when a build is running. need a different concept there.
 - travis-worker: after state changes send an extra state update message
 
 == Sproutcore
