@@ -47,6 +47,7 @@ end
 
 group :development do
   gem 'foreman'
+  gem 'data_migrations'
 
   platforms :mri_18 do
     # required as linecache uses it but does not have it as a dep
