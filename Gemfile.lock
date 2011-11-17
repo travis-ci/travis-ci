@@ -298,6 +298,7 @@ DEPENDENCIES
   capybara (~> 1.0.0)
   coffee-rails (~> 3.1.0)
   compass (= 0.12.alpha.0)
+  data_migrations
   database_cleaner
   devise (~> 1.4.2)
   factory_girl (~> 2.1.2)
