@@ -10,6 +10,9 @@ http://twitter.com/#!/evanphx/status/118789657109610496 - @evanphx (Evan Phoenix
 "Travis-CI is simply killin it! http://t.co/J8hDzY7 What a terrific resource this will be for Ruby and other communities."
 https://twitter.com/#!/brixen/status/99530377080733696 - @brixen (Brian Ford)
 
+"I have used many CI systems, but Travis is the most awesome one so far!!"
+http://groups.google.com/group/travis-ci/browse_thread/thread/67de924bfa6972cc?pli=1 - @aslak_hellesoy (Aslak Hellesoy)
+
 "@travisci I love what you're doing, keep up the great work" - @rbates (Ryan Bates)
 https://twitter.com/#!/rbates/status/95965074723831809
 
