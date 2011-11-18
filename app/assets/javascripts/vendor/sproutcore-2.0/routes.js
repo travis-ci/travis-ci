@@ -5,6 +5,124 @@
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 
+var get = SC.get, set = SC.set;
+
+/**
+  Wether the browser supports HTML5 history.
+*/
+var supportsHistory = !!(window.history && window.history.pushState);
+
+/**
+  Wether the browser supports the hashchange event.
+*/
+var supportsHashChange = ('onhashchange' in window) && (document.documentMode === undefined || document.documentMode > 7);
+
+/**
+  @class
+
+  Route is a class used internally by SC.routes. The routes defined by your
+  application are stored in a tree structure, and this is the class for the
+  nodes.
+*/
+var Route = SC.Object.extend(
+/** @scope Route.prototype */ {
+
+  target: null,
+
+  method: null,
+
+  staticRoutes: null,
+
+  dynamicRoutes: null,
+
+  wildcardRoutes: null,
+
+  add: function(parts, target, method) {
+    var part, nextRoute;
+
+    // clone the parts array because we are going to alter it
+    parts = SC.copy(parts);
+
+    if (!parts || parts.length === 0) {
+      this.target = target;
+      this.method = method;
+
+    } else {
+      part = parts.shift();
+
+      // there are 3 types of routes
+      switch (part.slice(0, 1)) {
+
+      // 1. dynamic routes
+      case ':':
+        part = part.slice(1, part.length);
+        if (!this.dynamicRoutes) this.dynamicRoutes = {};
+        if (!this.dynamicRoutes[part]) this.dynamicRoutes[part] = this.constructor.create();
+        nextRoute = this.dynamicRoutes[part];
+        break;
+
+      // 2. wildcard routes
+      case '*':
+        part = part.slice(1, part.length);
+        if (!this.wildcardRoutes) this.wildcardRoutes = {};
+        nextRoute = this.wildcardRoutes[part] = this.constructor.create();
+        break;
+
+      // 3. static routes
+      default:
+        if (!this.staticRoutes) this.staticRoutes = {};
+        if (!this.staticRoutes[part]) this.staticRoutes[part] = this.constructor.create();
+        nextRoute = this.staticRoutes[part];
+      }
+
+      // recursively add the rest of the route
+      if (nextRoute) nextRoute.add(parts, target, method);
+    }
+  },
+
+  routeForParts: function(parts, params) {
+    var part, key, route;
+
+    // clone the parts array because we are going to alter it
+    parts = SC.copy(parts);
+
+    // if parts is empty, we are done
+    if (!parts || parts.length === 0) {
+      return this.method ? this : null;
+
+    } else {
+      part = parts.shift();
+
+      // try to match a static route
+      if (this.staticRoutes && this.staticRoutes[part]) {
+        return this.staticRoutes[part].routeForParts(parts, params);
+
+      } else {
+
+        // else, try to match a dynamic route
+        for (key in this.dynamicRoutes) {
+          route = this.dynamicRoutes[key].routeForParts(parts, params);
+          if (route) {
+            params[key] = part;
+            return route;
+          }
+        }
+
+        // else, try to match a wilcard route
+        for (key in this.wildcardRoutes) {
+          parts.unshift(part);
+          params[key] = parts.join('/');
+          return this.wildcardRoutes[key].routeForParts(null, params);
+        }
+
+        // if nothing was found, it means that there is no match
+        return null;
+      }
+    }
+  }
+
+});
+
 /**
   @class
 
@@ -37,21 +155,21 @@
   SC.routes also supports HTML5 history, which uses a '/' instead of a '#'
   in the URLs, so that all your website's URLs are consistent.
 */
-SC.routes = SC.Object.create(
+var routes = SC.routes = SC.Object.create(
   /** @scope SC.routes.prototype */{
 
   /**
-    Set this property to YES if you want to use HTML5 history, if available on
+    Set this property to true if you want to use HTML5 history, if available on
     the browser, instead of the location hash.
 
     HTML 5 history uses the history.pushState method and the window's popstate
     event.
 
-    By default it is NO, so your URLs will look like:
+    By default it is false, so your URLs will look like:
 
         http://domain.tld/my_app#notes/edit/4
 
-    If set to YES and the browser supports pushState(), your URLs will look
+    If set to true and the browser supports pushState(), your URLs will look
     like:
 
         http://domain.tld/my_app/notes/edit/4
@@ -64,7 +182,7 @@ SC.routes = SC.Object.create(
     @property
     @type {Boolean}
   */
-  wantsHistory: NO,
+  wantsHistory: false,
 
   /**
     A read-only boolean indicating whether or not HTML5 history is used. Based
@@ -78,7 +196,7 @@ SC.routes = SC.Object.create(
 
   /**
     The base URI used to resolve routes (which are relative URLs). Only used
-    when usesHistory is equal to YES.
+    when usesHistory is equal to true.
 
     The build tools automatically configure this value if you have the
     html5_history option activated in the Buildfile:
@@ -106,7 +224,7 @@ SC.routes = SC.Object.create(
     @property
     @type {Boolean}
   */
-  _didSetup: NO,
+  _didSetup: false,
 
   /** @private
     Internal representation of the current location hash.
@@ -120,9 +238,16 @@ SC.routes = SC.Object.create(
     Routes are stored in a tree structure, this is the root node.
 
     @property
-    @type {SC.routes._Route}
+    @type {Route}
   */
   _firstRoute: null,
+
+  /** @private
+    An internal reference to the Route class.
+
+    @property
+  */
+  _Route: Route,
 
   /** @private
     Internal method used to extract and merge the parameters of a URL.
@@ -214,26 +339,7 @@ SC.routes = SC.Object.create(
     @type {String}
   */
   location: function(key, value) {
-    this._skipRoute = NO;
-    return this._extractLocation(key, value);
-  }.property(),
-
-  /*
-    Works exactly like 'location' but you usee this property only when
-    you want to just change the location w/out triggering the routes
-  */
-  informLocation: function(key, value){
-    this._skipRoute = YES;
-    // This is a very special case where this property
-    // has a very heavy influence on the 'location' property
-    // this is a case where you might want to use idempotent
-    // but you would take a performance hit because it is possible
-    // call set() multiple time and we don't want to take the extra
-    // cost, so we just invalidate the cached set() value ourselves
-    // you shouldn't do this in your own code unless you REALLY
-    // know what you are doing.
-    var lsk = this.location.lastSetValueKey;
-    if (lsk && this._kvo_cache) this._kvo_cache[lsk] = value;
+    this._skipRoute = false;
     return this._extractLocation(key, value);
   }.property(),
 
@@ -257,7 +363,7 @@ SC.routes = SC.Object.create(
           if (encodedValue.length > 0) {
             encodedValue = '/' + encodedValue;
           }
-          window.history.pushState(null, null, this.get('baseURI') + encodedValue);
+          window.history.pushState(null, null, get(this, 'baseURI') + encodedValue);
         } else {
           window.location.hash = encodedValue;
         }
@@ -280,20 +386,20 @@ SC.routes = SC.Object.create(
     var that;
 
     if (!this._didSetup) {
-      this._didSetup = YES;
+      this._didSetup = true;
 
-      if (this.get('wantsHistory') && SC.platform.supportsHistory) {
-        this.usesHistory = YES;
+      if (get(this, 'wantsHistory') && supportsHistory) {
+        this.usesHistory = true;
 
-        this.popState();
-        SC.Event.add(window, 'popstate', this, this.popState);
+        popState();
+        jQuery(window).bind('popstate', popState);
 
       } else {
-        this.usesHistory = NO;
+        this.usesHistory = false;
 
-        if (SC.platform.supportsHashChange) {
-          this.hashChange();
-          SC.Event.add(window, 'hashchange', this, this.hashChange);
+        if (supportsHashChange) {
+          hashChange();
+          jQuery(window).bind('hashchange', hashChange);
 
         } else {
           // we don't use a SC.Timer because we don't want
@@ -307,47 +413,6 @@ SC.routes = SC.Object.create(
         }
       }
     }
-  },
-
-  /**
-    Event handler for the hashchange event. Called automatically by the browser
-    if it supports the hashchange event, or by our timer if not.
-  */
-  hashChange: function(event) {
-    var loc = window.location.hash;
-
-    // Remove the '#' prefix
-    loc = (loc && loc.length > 0) ? loc.slice(1, loc.length) : '';
-
-    if (!SC.browser.isMozilla) {
-      // because of bug https://bugzilla.mozilla.org/show_bug.cgi?id=483304
-      loc = decodeURI(loc);
-    }
-
-    if (this.get('location') !== loc && !this._skipRoute) {
-      SC.run(this, function() {
-        this.set('location', loc);
-      });
-    }
-    this._skipRoute = false;
-  },
-
-  popState: function(event) {
-    var base = this.get('baseURI'),
-        loc = document.location.href;
-
-    if (loc.slice(0, base.length) === base) {
-
-      // Remove the base prefix and the extra '/'
-      loc = loc.slice(base.length + 1, loc.length);
-
-      if (this.get('location') !== loc && !this._skipRoute) {
-        SC.run(this, function() {
-          this.set('location', loc);
-        });
-      }
-    }
-    this._skipRoute = false;
   },
 
   /**
@@ -374,10 +439,9 @@ SC.routes = SC.Object.create(
   */
   add: function(route, target, method) {
     if (!this._didSetup) {
-      SC.run.schedule('sync', this, this.ping);
+      SC.run.once(this, 'ping');
     }
 
-    // if (method === undefined && SC.typeOf(target) === SC.T_FUNCTION) {
     if (method === undefined && SC.typeOf(target) === 'function') {
       method = target;
       target = null;
@@ -385,7 +449,7 @@ SC.routes = SC.Object.create(
       method = target[method];
     }
 
-    if (!this._firstRoute) this._firstRoute = this._Route.create();
+    if (!this._firstRoute) this._firstRoute = Route.create();
     this._firstRoute.add(route.split('/'), target, method);
 
     return this;
@@ -407,127 +471,75 @@ SC.routes = SC.Object.create(
     handle it (which ends up coming back to here).
   */
   trigger: function() {
-    var firstRoute = this._firstRoute,
-        location = this.get('location'),
+    var location = get(this, 'location'),
         params, route;
 
-    if (firstRoute) {
+    if (this._firstRoute) {
       params = this._extractParametersAndRoute({ route: location });
       location = params.route;
       delete params.route;
       delete params.params;
-      route = firstRoute.routeForParts(location.split('/'), params);
+
+      route = this.getRoute(location, params);
       if (route && route.method) {
         route.method.call(route.target || this, params);
       }
     }
   },
 
-  /**
-    @private
-    @class
-
-    SC.routes._Route is a class used internally by SC.routes. The routes defined by your
-    application are stored in a tree structure, and this is the class for the
-    nodes.
-  */
-  _Route: SC.Object.extend(
-  /** @scope SC.routes._Route.prototype */ {
-
-    target: null,
-
-    method: null,
-
-    staticRoutes: null,
-
-    dynamicRoutes: null,
-
-    wildcardRoutes: null,
-
-    add: function(parts, target, method) {
-      var part, nextRoute;
-
-      // clone the parts array because we are going to alter it
-      parts = Array.prototype.slice.call(parts);
-
-      if (!parts || parts.length === 0) {
-        this.target = target;
-        this.method = method;
-
-      } else {
-        part = parts.shift();
-
-        // there are 3 types of routes
-        switch (part.slice(0, 1)) {
-
-        // 1. dynamic routes
-        case ':':
-          part = part.slice(1, part.length);
-          if (!this.dynamicRoutes) this.dynamicRoutes = {};
-          if (!this.dynamicRoutes[part]) this.dynamicRoutes[part] = this.constructor.create();
-          nextRoute = this.dynamicRoutes[part];
-          break;
-
-        // 2. wildcard routes
-        case '*':
-          part = part.slice(1, part.length);
-          if (!this.wildcardRoutes) this.wildcardRoutes = {};
-          nextRoute = this.wildcardRoutes[part] = this.constructor.create();
-          break;
-
-        // 3. static routes
-        default:
-          if (!this.staticRoutes) this.staticRoutes = {};
-          if (!this.staticRoutes[part]) this.staticRoutes[part] = this.constructor.create();
-          nextRoute = this.staticRoutes[part];
-        }
-
-        // recursively add the rest of the route
-        if (nextRoute) nextRoute.add(parts, target, method);
-      }
-    },
-
-    routeForParts: function(parts, params) {
-      var part, key, route;
-
-      // clone the parts array because we are going to alter it
-      parts = Array.prototype.slice.call(parts);
-
-      // if parts is empty, we are done
-      if (!parts || parts.length === 0) {
-        return this.method ? this : null;
-
-      } else {
-        part = parts.shift();
-
-        // try to match a static route
-        if (this.staticRoutes && this.staticRoutes[part]) {
-          return this.staticRoutes[part].routeForParts(parts, params);
-
-        } else {
-
-          // else, try to match a dynamic route
-          for (key in this.dynamicRoutes) {
-            route = this.dynamicRoutes[key].routeForParts(parts, params);
-            if (route) {
-              params[key] = part;
-              return route;
-            }
-          }
-
-          // else, try to match a wilcard route
-          for (key in this.wildcardRoutes) {
-            parts.unshift(part);
-            params[key] = parts.join('/');
-            return this.wildcardRoutes[key].routeForParts(null, params);
-          }
-
-          // if nothing was found, it means that there is no match
-          return null;
-        }
-      }
+  getRoute: function(route, params) {
+    var firstRoute = this._firstRoute;
+    if (params == null) {
+      params = {}
     }
 
-  })
+    return firstRoute.routeForParts(route.split('/'), params);
+  },
+
+  exists: function(route, params) {
+    route = this.getRoute(route, params);
+    return route != null && route.method != null;
+  }
 
 });
+
+/**
+  Event handler for the hashchange event. Called automatically by the browser
+  if it supports the hashchange event, or by our timer if not.
+*/
+function hashChange(event) {
+  var loc = window.location.hash;
+
+  // Remove the '#' prefix
+  loc = (loc && loc.length > 0) ? loc.slice(1, loc.length) : '';
+
+  if (!jQuery.browser.mozilla) {
+    // because of bug https://bugzilla.mozilla.org/show_bug.cgi?id=483304
+    loc = decodeURI(loc);
+  }
+
+  if (get(routes, 'location') !== loc && !routes._skipRoute) {
+    SC.run.once(function() {
+      set(routes, 'location', loc);
+    });
+  }
+  routes._skipRoute = false;
+}
+
+function popState(event) {
+  var base = get(routes, 'baseURI'),
+      loc = document.location.href;
+
+  if (loc.slice(0, base.length) === base) {
+
+    // Remove the base prefix and the extra '/'
+    loc = loc.slice(base.length + 1, loc.length);
+
+    if (get(routes, 'location') !== loc && !routes._skipRoute) {
+      SC.run.once(function() {
+        set(routes, 'location', loc);
+      });
+    }
+  }
+  routes._skipRoute = false;
+}
