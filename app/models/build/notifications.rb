@@ -87,7 +87,8 @@ class Build
       end
 
       def default_email_recipients
-        recipients = [commit.committer_email, commit.author_email, repository.owner_email]
+        recipients = [repository.owner_email]
+        recipients << [commit.committer_email, commit.author_email] if commit.unique?
         recipients.select(&:present?).join(',').split(',').map(&:strip).uniq.join(',')
       end
 

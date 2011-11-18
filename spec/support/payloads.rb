@@ -51,6 +51,62 @@ GITHUB_PAYLOADS = {
     "compare": "https://github.com/svenfuchs/gem-release/compare/af674bd...9854592"
   }),
 
+  "gem-release-fork" => %({
+    "repository": {
+      "url": "http://github.com/martinciu/gem-release",
+      "name": "gem-release",
+      "owner": {
+        "email": "marcin.ciunelis@gmail.com",
+        "name": "martinciu"
+      },
+      "parent": "svenfuchs/gem-release",
+      "fork": "true"
+    },
+    "commits": [{
+      "id":        "9854592",
+      "message":   "Bump to 0.0.15",
+      "timestamp": "2010-10-27 04:32:37",
+      "committer": {
+        "name":  "Sven Fuchs",
+        "email": "svenfuchs@artweb-design.de"
+      },
+      "author": {
+        "name":  "Christopher Floess",
+        "email": "chris@flooose.de"
+      }
+    }],
+    "ref": "refs/heads/master",
+    "compare": "https://github.com/svenfuchs/gem-release/compare/af674bd...9854592"
+  }),
+
+  "gem-release-fork-unique" => %({
+    "repository": {
+      "url": "http://github.com/martinciu/gem-release",
+      "name": "gem-release",
+      "owner": {
+        "email": "marcin.ciunelis@gmail.com",
+        "name": "martinciu"
+      },
+      "parent": "svenfuchs/gem-release",
+      "fork": "true"
+    },
+    "commits": [{
+      "id":        "9854593",
+      "message":   "Some bugs added",
+      "timestamp": "2011-10-27 04:32:37",
+      "committer": {
+        "name":  "Marcin Ciunelis",
+        "email": "marcin.ciunelis@gmail.com"
+      },
+      "author": {
+        "name":  "Marcin Ciunelis",
+        "email": "marcin.ciunelis@gmail.com"
+      }
+    }],
+    "ref": "refs/heads/master",
+    "compare": "https://github.com/svenfuchs/gem-release/compare/9854592...9854593"
+  }),
+
   "gh-pages-update" => %({
     "repository": {
       "url": "http://github.com/svenfuchs/gem-release",

@@ -10,6 +10,7 @@ module Support
       http://github.com/api/v2/json/user/show/svenfuchs
       http://github.com/api/v2/json/organizations/travis-ci/public_members
       http://github.com/api/v2/json/user/show/LTe
+      http://github.com/api/v2/json/commits/show/svenfuchs/gem-release/9854592
     )
 
     class Requst

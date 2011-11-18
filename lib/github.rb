@@ -19,6 +19,7 @@ module Github
     def fetch
       uri = URI.parse("http://github.com/api/v2/json/#{path}")
       response = Net::HTTP.get_response(uri)
+      return unless response.is_a? Net::HTTPSuccess
       data = ActiveSupport::JSON.decode(response.body)
       key  = self.class.name.demodulize.underscore
       data.replace(data[key]) if data.key?(key)
@@ -38,7 +39,7 @@ module Github
       end
 
       def commits
-        @commits ||= self['commits'].map { |commit| Commit.new(commit.merge('ref' => ref, 'compare_url' => compare_url), repository) }
+        @commits ||= self['commits'].map { |commit| Commit.new(commit.merge('ref' => ref, 'compare_url' => compare_url, :repository => repository)) }
       end
 
       def compare_url
@@ -79,14 +80,18 @@ module Github
     def private?
       self['private']
     end
+
+    def parent
+      self['parent']
+    end
   end
 
   class Commit < OpenStruct
-    ATTR_NAMES = [:commit, :message, :branch, :committed_at, :committer_name, :committer_email, :author_name, :author_email, :compare_url]
+    include Api
+    ATTR_NAMES = [:commit, :message, :branch, :committed_at, :committer_name, :committer_email, :author_name, :author_email, :compare_url, :unique]
 
-    def initialize(data, repository)
+    def initialize(data)
       data['author'] ||= {}
-      data['repository']  = repository
       super(data)
     end
 
@@ -133,6 +138,15 @@ module Github
     def compare_url
       self['compare_url']
     end
+
+    def unique
+      repository.parent.nil? || Commit.fetch(:id => id, :repository => Repository.new(:owner => repository.parent.split("/").first, :name => repository.parent.split("/").last)).nil?
+    end
+  
+    def path
+      "commits/show/#{repository.owner_name}/#{repository.name}/#{id}"
+    end
+    
   end
 
   class Organization < OpenStruct

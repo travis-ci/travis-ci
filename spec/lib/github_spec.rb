@@ -42,7 +42,7 @@ describe Github, :webmock => true do
 
   it 'build' do
     repository = Github::Repository.new(data['repository'])
-    commit = Github::Commit.new(data['commits'].first.merge('ref' => 'refs/heads/master', 'compare_url' => data['compare']), repository)
+    commit = Github::Commit.new(data['commits'].first.merge('ref' => 'refs/heads/master', 'compare_url' => data['compare'], :repository => repository))
 
     commit.commit.should == '9854592'
     commit.branch.should == 'master'
@@ -56,7 +56,7 @@ describe Github, :webmock => true do
 
   it 'build to_hash' do
     repository = Github::Repository.new(data['repository'])
-    commit = Github::Commit.new(data['commits'].first.merge('ref' => 'refs/heads/master', 'compare_url' => data['compare']), repository)
+    commit = Github::Commit.new(data['commits'].first.merge('ref' => 'refs/heads/master', 'compare_url' => data['compare'], :repository => repository))
 
     commit.to_hash.should == {
       :commit => '9854592',
@@ -67,7 +67,8 @@ describe Github, :webmock => true do
       :committer_email => 'svenfuchs@artweb-design.de',
       :author_name => 'Christopher Floess',
       :author_email => 'chris@flooose.de',
-      :compare_url => 'https://github.com/svenfuchs/gem-release/compare/af674bd...9854592'
+      :compare_url => 'https://github.com/svenfuchs/gem-release/compare/af674bd...9854592',
+      :unique => true
     }
   end
 end
