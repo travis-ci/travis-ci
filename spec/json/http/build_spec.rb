@@ -27,6 +27,7 @@ describe 'HTTP API for Build' do
       'author_email' => 'svenfuchs@artweb-design.de',
       "compare_url"=>"https://github.com/svenfuchs/minimal/compare/master...develop"
     }
-    json['matrix'].first.should == build.matrix.map { |job| json_for_http(job) }.first
+
+    json['matrix'].first.should == json_for_http(build.matrix.first).tap { |json| json.delete('log') }
   end
 end
