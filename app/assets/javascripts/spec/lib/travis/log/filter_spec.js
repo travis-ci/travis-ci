@@ -29,9 +29,9 @@ describe("Travis.Log", function() {
 
       var source = Travis.Log.fold('foo\nbar\nbaz');
       var result =
-        '<p><a href="#!travis-ci/travis-ci/L1" name="#!travis-ci/travis-ci/L1">1</a>foo</p>\n' +
-        '<p><a href="#!travis-ci/travis-ci/L2" name="#!travis-ci/travis-ci/L2">2</a>bar</p>\n' +
-        '<p><a href="#!travis-ci/travis-ci/L3" name="#!travis-ci/travis-ci/L3">3</a>baz</p>';
+        '<p><a href="#!travis-ci/travis-ci/L1" id="!travis-ci/travis-ci/L1" name="L1">1</a>foo</p>\n' +
+        '<p><a href="#!travis-ci/travis-ci/L2" id="!travis-ci/travis-ci/L2" name="L2">2</a>bar</p>\n' +
+        '<p><a href="#!travis-ci/travis-ci/L3" id="!travis-ci/travis-ci/L3" name="L3">3</a>baz</p>';
 
       expect(Travis.Log.numberLines(source)).toEqual(result);
     });
