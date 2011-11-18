@@ -2,36 +2,33 @@ require 'spec_helper'
 require 'github'
 
 describe Github, :webmock => true do
-  let(:data) {
-    ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release'])
-  }
-
+  let(:data) { ActiveSupport::JSON.decode(GITHUB_PAYLOADS['gem-release']) }
+  let(:payload) { Github::ServiceHook::Payload.new(data) }
+  let(:repository) { payload.repository }
+  
   it 'payload repository' do
-    payload = Github::ServiceHook::Payload.new(data)
-    payload.repository.name.should == 'gem-release'
+    repository.name.should == 'gem-release'
   end
 
   it 'payload commits' do
-    payload = Github::ServiceHook::Payload.new(data)
     payload.commits.first.commit.should == '9854592'
   end
 
   it 'repository owned by a user' do
-    repository = Github::Repository.new(data['repository']).fetch
     repository.name.should == 'gem-release'
     repository.owner_name.should == 'svenfuchs'
     repository.owner_email.should == 'svenfuchs@artweb-design.de'
   end
 
   it 'repository owned by an organization' do
-    repository = Github::Repository.new(:name => 'travis-ci', :owner => 'travis-ci').fetch
+    payload = Github::ServiceHook::Payload.new(GITHUB_PAYLOADS['travis-ci'])
+    repository = payload.repository
     repository.name.should == 'travis-ci'
     repository.owner_name.should == 'travis-ci'
-    assert_equal 'fritz.thielemann@gmail.com,hoverlover@gmail.com,jeff@kreeftmeijer.nl,josh.kalderimis@gmail.com,svenfuchs@artweb-design.de', repository.owner_email
+    repository.owner_email.should == 'franck@verrot.fr,42@dmathieu.com,fritz.thielemann@gmail.com,fxposter@gmail.com,alexp@coffeenco.de,jeff@kreeftmeijer.nl,jmazzi@gmail.com,josh.kalderimis@gmail.com,michael.s.klishin@gmail.com,nathan.f77@gmail.com,nex.development@gmail.com,me@rubiii.com,sferik@gmail.com,steve@steveklabnik.com,svenfuchs@artweb-design.de,ward@equanimity.nl'
   end
 
   it 'repository to_hash' do
-    repository = Github::Repository.new(data['repository'])
     repository.to_hash.should == {
       :name        => 'gem-release',
       :url         => 'http://github.com/svenfuchs/gem-release',
@@ -41,7 +38,6 @@ describe Github, :webmock => true do
   end
 
   it 'build' do
-    repository = Github::Repository.new(data['repository'])
     commit = Github::Commit.new(data['commits'].first.merge('ref' => 'refs/heads/master', 'compare_url' => data['compare']), repository)
 
     commit.commit.should == '9854592'
@@ -55,7 +51,6 @@ describe Github, :webmock => true do
   end
 
   it 'build to_hash' do
-    repository = Github::Repository.new(data['repository'])
     commit = Github::Commit.new(data['commits'].first.merge('ref' => 'refs/heads/master', 'compare_url' => data['compare']), repository)
 
     commit.to_hash.should == {

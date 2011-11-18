@@ -3,21 +3,19 @@ require 'webmock/rspec'
 module Support
   module GithubApi
     URLS = %w(
+      https://api.github.com/users/svenfuchs
       https://api.github.com/users/svenfuchs/repos
-      http://github.com/api/v2/json/repos/show/svenfuchs/gem-release
-      http://github.com/api/v2/json/repos/show/svenfuchs/minimal
-      http://github.com/api/v2/json/repos/show/travis-ci/travis-ci
-      http://github.com/api/v2/json/user/show/svenfuchs
-      http://github.com/api/v2/json/organizations/travis-ci/public_members
-      http://github.com/api/v2/json/user/show/LTe
+      https://api.github.com/repos/svenfuchs/gem-release
+      https://api.github.com/repos/travis-ci/travis-ci
+      https://github.com/api/v2/json/organizations/travis-ci/public_members
     )
 
-    class Requst
+    class MockRequest
       attr_reader :url, :filename
 
       def initialize(url)
         @url = url
-        @filename = "spec/fixtures/github/#{url.gsub(%r(https?://github.com/), '')}.json"
+        @filename = "spec/fixtures/github/#{url.gsub(%r(https?://(api\.)?github.com/), '')}.json"
       end
 
       def stub!
@@ -41,7 +39,7 @@ module Support
 
     class << self
       def mock!
-        URLS.each { |url| Requst.new(url).stub! }
+        URLS.each { |url| MockRequest.new(url).stub! }
       end
     end
 

@@ -3,29 +3,6 @@ require 'core_ext/ostruct/hash_access'
 
 # TODO: we need to start using octokit everywhere by now. Or stick to that implementation, depending on team reaction.
 module Github
-  module Api
-    class << self
-      def included(base)
-        base.extend(ClassMethods)
-      end
-    end
-
-    module ClassMethods
-      def fetch(data)
-        new(data).fetch
-      end
-    end
-
-    def fetch
-      uri = URI.parse("http://github.com/api/v2/json/#{path}")
-      response = Net::HTTP.get_response(uri)
-      data = ActiveSupport::JSON.decode(response.body)
-      key  = self.class.name.demodulize.underscore
-      data.replace(data[key]) if data.key?(key)
-      self.class.new(data)
-    end
-  end
-
   module ServiceHook
     class Payload < OpenStruct
       def initialize(payload)
@@ -48,8 +25,6 @@ module Github
   end
 
   class Repository < OpenStruct
-    include Api
-
     ATTR_NAMES = [:name, :url, :owner_name, :owner_email]
 
     def to_hash
@@ -57,28 +32,37 @@ module Github
     end
 
     def owner_name
-      owner.is_a?(Hash) ? owner['name'] : owner
+      owner['name']
     end
 
     def owner_email
-      if owner.is_a?(Hash) && email = owner['email']
-        return email if email
-      end
-
       if organization
-        Organization.fetch(:name => organization).member_emails
+        organization_emails.join(',')
       else
-        User.fetch(:name => owner_name).email
+        user_email
       end
-    end
-
-    def path
-      "repos/show/#{owner_name}/#{name}"
     end
 
     def private?
       self['private']
     end
+    
+    private
+      def organization_members
+        Travis::GithubApi.organization_members(organization)
+      end
+      
+      def organization_emails
+        organization_members.map { |user| user['email'] }.select(&:present?)
+      end
+      
+      def user_email
+        owner['email'].presence || Travis::GithubApi.user(owner_name)['email']
+      end
+
+      def owner
+        @owner ||= self['owner'].is_a?(Hash) ? self['owner'] : { 'name' => owner }
+      end
   end
 
   class Commit < OpenStruct
@@ -132,26 +116,6 @@ module Github
 
     def compare_url
       self['compare_url']
-    end
-  end
-
-  class Organization < OpenStruct
-    include Api
-
-    def member_emails
-      users.map { |user| user['email'] }.select(&:present?).join(',')
-    end
-
-    def path
-      "organizations/#{name}/public_members"
-    end
-  end
-
-  class User < OpenStruct
-    include Api
-
-    def path
-      "user/show/#{name}"
     end
   end
 end

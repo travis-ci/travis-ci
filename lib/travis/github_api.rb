@@ -5,6 +5,14 @@ module Travis
     class ServiceHookError < StandardError; end
 
     class << self
+      def organization_members(organization)
+        Octokit.organization_members(organization)
+      end
+
+      def user(name)
+        Octokit.user(name).to_hash
+      end
+      
       # an error is thrown if there was a probem subscribing
       def add_service_hook(repository, user)
         client = Octokit::Client.new(:oauth_token => user.github_oauth_token)
