@@ -11,9 +11,9 @@
 + n+1 issue with artifacts (probably on repository/:id/builds.json)
 + make sure we don't transfer the log unless it's needed
 + email connection to postmark failing
++ ssl issue while sending emails: http://jira.codehaus.org/browse/JRUBY-5529
++ fix nokogiri/css_inliner issue
 
-- ssl issue while sending emails: http://jira.codehaus.org/browse/JRUBY-5529
-- fix nokogiri/css_inliner issue
 - move json specs (and maybe other specs) to travis-core
 - ActiveSupport notifications for logging
 - have log levels (so turning logging on/off in production will be easy)
