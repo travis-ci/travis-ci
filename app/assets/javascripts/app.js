@@ -69,6 +69,13 @@ var Travis = SC.Application.create({
     $('#top .profile').mouseout(function() { $('#top .profile ul').hide(); });
 
     $('#workers .group').live('click', function() { $(this).hasClass('open') ? $(this).removeClass('open') : $(this).addClass('open'); })
+
+    $('li#tab_recent').click(function () {
+      Travis.left.recent();
+    });
+    $('li#tab_search').click(function () {
+      Travis.left.search();
+    });
   }
 });
 
