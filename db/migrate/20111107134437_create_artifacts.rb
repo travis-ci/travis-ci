@@ -1,3 +1,5 @@
+require 'data_migrations'
+
 class CreateArtifacts < ActiveRecord::Migration
   def self.up
     create_table :artifacts do |t|
