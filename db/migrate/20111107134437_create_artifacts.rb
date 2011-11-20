@@ -17,6 +17,8 @@ class CreateArtifacts < ActiveRecord::Migration
 
     execute 'UPDATE artifacts SET job_id = id'
     execute "select setval('artifacts_id_seq', (select max(id) + 1 from artifacts));"
+
+    add_index :artifacts, [:type, :job_id]
   end
 
   def self.down
