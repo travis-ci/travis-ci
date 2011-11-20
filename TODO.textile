@@ -25,6 +25,8 @@
 - travis-worker: remove the "travis-" prefix from worker and vm names
 - travis-worker: after state changes send an extra state update message
 
+- testing: dump the production database and test the migrations
+
 == Sproutcore
 
 + fix matrix
