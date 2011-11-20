@@ -301,7 +301,7 @@ GEM
     unobtrusive_flash (0.0.2)
     warden (1.1.0)
       rack (>= 1.0)
-    webmock (1.7.7)
+    webmock (1.7.8)
       addressable (~> 2.2, > 2.2.5)
       crack (>= 0.1.7)
     xpath (0.1.4)
