@@ -76,6 +76,14 @@ var Travis = SC.Application.create({
     $('li#tab_search').click(function () {
       Travis.left.search();
     });
+  },
+
+  startLoading: function() {
+    $("#main").addClass("loading");
+  },
+
+  stopLoading: function() {
+    $("#main").removeClass("loading");
   }
 });
 
