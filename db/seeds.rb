@@ -6,7 +6,7 @@
 require 'factory_girl'
 require 'forgery'
 Dir["#{Rails.root}/lib/forgery/forgeries/*.rb"].each {|f| require f}
-require "#{Rails.root}/spec/support/forged_factories.rb"
+Dir["#{Rails.root}/spec/support/factories/*.rb"].each {|f| require f}
 
 if Rails.env.development? || Rails.env.jasmine?
   ActiveRecord::Base.connection.tables.each do |table|
@@ -14,12 +14,18 @@ if Rails.env.development? || Rails.env.jasmine?
   end
 
   [Repository, Commit, Request, Build].each{ |klass| klass.reset_column_information }
-  10.times do
-    repository = FactoryGirl.create(:seed_repository)
-    3.times do
-      build = FactoryGirl.create(:seed_build, :repository => repository)
+
+  if Rails.env.jasmine?
+    repository = FactoryGirl.create(:jasmine_repository)
+    FactoryGirl.create(:jasmine_build, :repository => repository)
+  elsif Rails.env.development?
+    10.times do
+      repository = FactoryGirl.create(:seed_repository)
+      3.times do
+        build = FactoryGirl.create(:seed_build, :repository => repository)
+      end
+      repository.last_build_id = repository.last_build.id
+      repository.save
     end
-    repository.last_build_id = repository.last_build.id
-    repository.save
   end
 end
