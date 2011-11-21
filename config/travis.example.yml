@@ -2,7 +2,7 @@
 #
 oauth2: &oauth2
   authorization_server: https://github.com
-  requested_scope: user
+  scope: user
   authorize_path: login/oauth/authorize
   access_token_path: login/oauth/access_token
   user_attributes_path: api/v2/json/user/show
