@@ -159,7 +159,7 @@ GEM
       metaclass (~> 0.0.1)
     multi_json (1.0.3)
     multi_xml (0.4.1)
-    multipart-post (1.1.3)
+    multipart-post (1.1.4)
     newrelic_rpm (3.3.0)
     nokogiri (1.5.0)
     oa-core (0.3.2)
