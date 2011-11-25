@@ -180,7 +180,7 @@ GEM
       faraday_middleware (~> 0.7.0)
       hashie (~> 1.2.0)
       multi_json (~> 1.0.2)
-    omniauth (1.0.0)
+    omniauth (1.0.1)
       hashie (~> 1.2)
       rack
     omniauth-github (1.0.0)
