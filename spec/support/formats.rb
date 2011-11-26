@@ -22,8 +22,8 @@ module Support
       normalize_json(Travis::Notifications::Webhook::Payload.new(object).to_hash)
     end
 
-    def json_for_worker(object, extra = {})
-      normalize_json(Travis::Notifications::Worker::Payload.new(object, extra).to_hash)
+    def json_for_worker(object)
+      normalize_json(Travis::Notifications::Worker::Payload.new(object).to_hash)
     end
 
     # normalizes datetime objects to strings etc. more similar to what the client would see.

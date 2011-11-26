@@ -111,8 +111,8 @@ end
 RSpec::Matchers.define :be_queued do |*args|
   match do |job|
     @options = args.last.is_a?(Hash) ? args.pop : {}
-    @queue = args.first || @options[:queue] || 'builds'
-    @expected = job.is_a?(Job) ? Travis::Notifications::Worker.payload_for(job, :queue => 'builds') : job
+    @queue = args.first || @options[:queue] || 'builds.common'
+    @expected = job.is_a?(Job) ? Travis::Notifications::Worker.payload_for(job, :queue => @queue) : job
     @actual = queued_job ? queued_job['args'].last.deep_symbolize_keys : nil
 
     @actual == @expected
@@ -140,7 +140,7 @@ end
 RSpec::Matchers.define :be_published do |*args|
   match do |job|
     queue = 'builds.common'
-    expected = Travis::Notifications::Worker.payload_for(job, :queue => queue)
+    expected = Travis::Notifications::Worker::Payload.for(job)
 
     failure_message_for_should do
       "expected a message with the payload #{expected.inspect} to be published in #{queue.inspect} but none was found. Instead there are the following jobs:\n\n#{messages.inspect}"
