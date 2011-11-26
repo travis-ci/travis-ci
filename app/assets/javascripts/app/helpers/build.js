@@ -61,5 +61,5 @@ Travis.Helpers.Build = {
   configValueObjects: function() {
     if(window.__DEBUG__) console.log('updating configValueObjects on build ' + this.get('id'));
     return $.map(this.get('configValues'), function(value) { return SC.Object.create({ value: value }) });
-  }.property('configValues').cacheable(),
-}
+  }.property('configValues').cacheable()
+};

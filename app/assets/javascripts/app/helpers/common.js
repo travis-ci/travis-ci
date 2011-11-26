@@ -9,12 +9,12 @@ Travis.Helpers.Common = {
 
   durationFrom: function(started, finished) {
     started  = started  && new Date(this._normalizeDateString(started));
-    finished = finished ? new Date(this._normalizeDateString(finished)) : new Date();
+    finished = finished ? new Date(this._normalizeDateString(finished)) : this._nowUtc();
     return started && finished ? Math.round((finished - started) / 1000) : 0;
   },
 
   readableTime: function(duration) {
-    var days    = Math.floor(duration / 86400)
+    var days    = Math.floor(duration / 86400);
     var hours   = Math.floor(duration % 86400 / 3600);
     var minutes = Math.floor(duration % 3600 / 60);
     var seconds = duration % 60;
@@ -39,5 +39,10 @@ Travis.Helpers.Common = {
       string = string.replace('Z', '').replace(/\..*$/, '');
     }
     return string;
+  },
+
+  _nowUtc: function() {
+    var now = new Date();
+    return Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
   }
-}
+};

@@ -22,19 +22,19 @@ feature 'Walking through the build process', :js => true do
 
     ping_from_github!
     should_see_job 'svenfuchs/gem-release' # TODO should see 'svenfuchs/gem-release *'
-    should_have_job 'task:configure'
+    should_have_job 'job:configure'
 
-    receive_from_worker! 'task:configure:started'
+    receive_from_worker! 'job:configure:started'
     should_not_see_job 'svenfuchs/gem-release'
 
-    receive_from_worker! 'task:configure:finished'
+    receive_from_worker! 'job:configure:finished'
     should_see_jobs 'svenfuchs/gem-release #1.1', 'svenfuchs/gem-release #1.2'
-    should_have_jobs 'task:test:1', 'task:test:2'
+    should_have_jobs 'job:test:1', 'job:test:2'
 
     2.upto(3) do |id|
       number = "1.#{id - 1}"
 
-      receive_from_worker! 'task:test:started', :to => "builds/#{id}"
+      receive_from_worker! 'job:test:started', :to => "builds/#{id}"
       click_link 'Current'
 
       should_not_see_job "svenfuchs/gem-release #{number}"
@@ -42,12 +42,12 @@ feature 'Walking through the build process', :js => true do
       should_see_matrix '1.1', '1.2', :tab => 'current'
 
       1.upto(3) do |num|
-        receive_from_worker! "task:test:log:#{num}", :to => "builds/#{id}/log"
+        receive_from_worker! "job:test:log:#{num}", :to => "builds/#{id}/log"
       end
       click_link number
       should_see_log 'the full log' unless @send_websocket_messages # TODO why the heck do these not get appended to the log elements
 
-      receive_from_worker! 'task:test:finished', :to => "builds/#{id}"
+      receive_from_worker! 'job:test:finished', :to => "builds/#{id}"
       click_link number
     end
 
@@ -73,7 +73,7 @@ feature 'Walking through the build process', :js => true do
   end
 
   def receive_from_worker!(event, options = { :reload_path => false })
-    put options[:to] || 'builds/1', WORKER_PAYLOADS[event] # legacy route. should be tasks/1 in future
+    put options[:to] || 'builds/1', WORKER_PAYLOADS[event] # legacy route. should be jobs/1 in future
     after_receive_message!
   end
 
@@ -84,7 +84,7 @@ feature 'Walking through the build process', :js => true do
 
   def send_websocket_messages!
     pusher.messages.each do |message|
-      page.execute_script "Travis.trigger(#{message.first.inspect}, #{message.last.to_json})"
+      dispatch_pusher_command 'jobs', message.first, message.last
       sleep(0.5)
     end
     pusher.messages.clear
@@ -92,14 +92,14 @@ feature 'Walking through the build process', :js => true do
 
   def should_see_job(*jobs)
     jobs.each do |job|
-      should_see job, :within => '#jobs.queue-builds'
+      should_see job, :within => '#jobs .queue-builds'
     end
   end
   alias :should_see_jobs :should_see_job
 
   def should_not_see_job(*jobs)
     jobs.each do |job|
-      should_not_see job, :within => '#jobs.queue-builds'
+      should_not_see job, :within => '#jobs .queue-builds'
     end
   end
   alias :should_not_see_jobs :should_not_see_job
@@ -121,7 +121,7 @@ feature 'Walking through the build process', :js => true do
     attrs.merge!(:text => args.pop) unless args.empty?
 
     attrs.each do |name, value|
-      selector =  '#repositories .repository.selected'
+      selector =  '#repositories .repository'
       selector << ".#{color}" unless color == 'yellow'
       selector << " .#{name}" unless name == :text
       should_see value, :within => selector

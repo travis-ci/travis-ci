@@ -10,15 +10,26 @@ def load_all(*patterns)
   patterns.each { |pattern| Dir[pattern].sort.each { |path| load File.expand_path(path) } }
 end
 
+def require_all(*patterns)
+  options = patterns.pop
+  patterns.each { |pattern| Dir[pattern].sort.each { |path| require path.gsub(/^#{options[:relative_to]}\//, '') } }
+end
+
 def configure
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
-  require 'patches/rspec_hash_diff'
   require 'capybara/rspec'
-  require 'webmock'
-  require 'fakeredis'
+  require 'database_cleaner'
   require 'factory_girl'
-  load_all 'spec/support/**/*.rb'
+  require 'patches/rspec_hash_diff'
+  require 'rspec/rails'
+  require 'webmock'
+  require_all 'spec/support/**/*.rb', :relative_to => 'spec'
+
+  require 'travis/logging'
+  require 'stringio'
+
+  Travis.logger = Logger.new(StringIO.new)
 
   RSpec.configure do |c|
     c.filter_run_excluding :js => true if ENV['CI']
@@ -36,12 +47,12 @@ def configure
 
     c.before :each do
       DatabaseCleaner.start
-      Resque.redis.flushall
       pusher.reset!
 
       Travis.instance_variable_set(:@config, nil)
       Travis::Notifications.instance_variable_set(:@subscriptions, nil)
       Travis::Notifications::Worker.instance_variable_set(:@queues, nil)
+      Travis::Notifications::Worker.amqp = Support::Mocks::Amqp.new
     end
 
     c.before :each, :webmock => true do
@@ -62,4 +73,3 @@ if defined?(Spork)
 else
   configure
 end
-

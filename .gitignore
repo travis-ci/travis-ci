@@ -15,3 +15,4 @@ vendor/htmlunit
 .DS_Store
 *~
 \#*
+.rbx/*

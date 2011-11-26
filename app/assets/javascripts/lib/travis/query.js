@@ -26,7 +26,7 @@ Travis.Query = SC.Object.extend({
   params: function() {
     var params = $.map(this.get('options') || {}, function(value, name) {
       return '%@=%@'.fmt(name, encodeURIComponent(value));
-    })
+    });
     if(params.length > 0) return params.join('&');
   },
 
@@ -50,7 +50,7 @@ $.extend(Travis.Query, {
   _cache: {},
 
   cached: function(recordType, options, mode) {
-    var mode = mode || 'local'
+    var mode = mode || 'local';
     var attributes = { recordType: recordType, options: options };
     var key = this.key(mode, attributes);
 

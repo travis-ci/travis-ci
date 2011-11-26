@@ -1,3 +1,5 @@
+require 'responders'
+
 class RepositoriesController < ApplicationController
   responders :rabl, :status_image
 
@@ -25,7 +27,7 @@ class RepositoriesController < ApplicationController
     end
 
     def repository
-      @repository ||= Repository.find_by_params(params).tap do |repository|
+      @repository ||= Repository.find_by(params).tap do |repository|
         not_found unless repository || params[:format] == 'png'
       end
     end

@@ -16,7 +16,7 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   authorName:     SC.Record.attr(String, { key: 'author_name' }),
   authorEmail:    SC.Record.attr(String, { key: 'author_email' }),
   compareUrl:     SC.Record.attr(String, { key: 'compare_url' }),
-  log:            SC.Record.attr(String, { defaultValue: '' }),
+  log:            SC.Record.attr(String),
 
   matrix: SC.Record.toMany('Travis.Build', { nested: true }), // TODO should be Travis.Test!
 
@@ -90,6 +90,6 @@ Travis.Build.reopenClass({
   resource: 'builds',
 
   byRepositoryId: function(id, parameters) {
-    return this.all({ url: '/repositories/%@/builds.json?parent_id=&bare=true'.fmt(id), repositoryId: id, parentId: null, orderBy: 'number DESC' })
-  },
+    return this.all({ url: '/repositories/%@/builds.json?parent_id=&bare=true'.fmt(id), repositoryId: id, parentId: null, orderBy: 'number DESC' });
+  }
 });

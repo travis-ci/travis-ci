@@ -1,5 +1,3 @@
-require 'resque_helpers'
-
 class ApplicationController < ActionController::Base
   prepend_view_path 'app/views/v1/default'
 
@@ -14,16 +12,6 @@ class ApplicationController < ActionController::Base
       @repositories ||= Repository.timeline
     end
     helper_method :repositories
-
-    def workers
-      @workers ||= ResqueHelpers.active_workers
-    end
-    helper_method :workers
-
-    def jobs
-      @jobs ||= ResqueHelpers.queued_jobs(params[:queue])
-    end
-    helper_method :jobs
 
     def set_gitsha_header
       headers['X-GIT_SHA'] = ENV['GIT_SHA'] if ENV['GIT_SHA']

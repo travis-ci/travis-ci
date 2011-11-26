@@ -1,3 +1,6 @@
+$: << 'lib' unless $:.include?('lib')
+require 'travis/model/repository'
+
 class RepositoriesDenormalizeLastBuildAttributes < ActiveRecord::Migration
   def self.up
     change_table :repositories do |t|

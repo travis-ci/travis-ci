@@ -19,8 +19,8 @@ module Scenario
               :committer_email => 'svenfuchs@artweb-design.de',
               :committed_at => '2010-11-12 11:50:00',
             },
-            :tasks => [
-              { :log => 'minimal log 1' }
+            :jobs => [
+              { :log => Artifact::Log.new(:content => 'minimal log 1') }
             ]
 
       build :repository => minimal,
@@ -39,8 +39,8 @@ module Scenario
               :committer_email => 'svenfuchs@artweb-design.de',
               :committed_at => '2010-11-12 12:25:00',
             },
-            :tasks => [
-              { :log => 'minimal log 2' }
+            :jobs => [
+              { :log => Artifact::Log.new(:content => 'minimal log 2') }
             ]
 
       build :repository => minimal,
@@ -59,11 +59,11 @@ module Scenario
               :committer_name => 'Sven Fuchs',
               :committer_email => 'svenfuchs@artweb-design.de',
             },
-            :tasks => [
-              { :log => 'minimal log 3.1' },
-              { :log => 'minimal log 3.2' },
-              { :log => 'minimal log 3.3' },
-              { :log => 'minimal log 3.4' }
+            :jobs => [
+              { :log => Artifact::Log.new(:content => 'minimal log 3.1') },
+              { :log => Artifact::Log.new(:content => 'minimal log 3.2') },
+              { :log => Artifact::Log.new(:content => 'minimal log 3.3') },
+              { :log => Artifact::Log.new(:content => 'minimal log 3.4') }
             ]
 
       build :repository => enginex,
@@ -83,8 +83,8 @@ module Scenario
               :committer_email => 'jose@email.com',
               :committed_at => '2010-11-11 11:55:00',
             },
-            :tasks => [
-              { :log => 'enginex log 1' }
+            :jobs => [
+              { :log => Artifact::Log.new(:content => 'enginex log 1') }
             ]
 
       [minimal, enginex]
@@ -96,12 +96,12 @@ module Scenario
 
     def build(attributes)
       commit = attributes.delete(:commit)
-      tasks  = attributes.delete(:tasks)
+      jobs  = attributes.delete(:jobs)
       commit = Factory(:commit, commit)
 
       build  = Factory(:build, attributes.merge(:commit => commit))
-      build.matrix.each_with_index do |task, ix|
-        task.update_attributes!(tasks[ix])
+      build.matrix.each_with_index do |job, ix|
+        job.update_attributes!(jobs[ix])
       end
 
       if build.finished?

@@ -27,7 +27,7 @@ beforeEach(function() {
       var actual = $(this.actual).text().replace(/^\s*|\s(?=\s)|\s*$/g, '').trim();
       this.message = function() {
         return 'expected the element ' + this.actual.selector + ' to have the text "' + text +'", but actually has: "' + actual + '".';
-      }
+      };
       return jasmine.doesMatchText(actual, text);
     },
 
@@ -37,7 +37,7 @@ beforeEach(function() {
       _.each(attributes, function(attributes, selector) {
         _.each(attributes, function(value, name) {
           var actual = $.trim($(this.actual).find(selector).attr(name));
-          if(typeof text == 'function' ? !actual.test(value) :  actual != value) {
+          if(typeof actual == 'function' ? !actual.test(value) :  actual != value) {
             errors.push('expected the element ' + selector + ' to have the attribute ' + name + '=' + value +', but actually has: "' + actual + '".');
           }
         }.bind(this));
@@ -80,9 +80,9 @@ beforeEach(function() {
         });
       });
 
-      this.message = function() { return errors.join("\n"); }
+      this.message = function() { return errors.join("\n"); };
       return errors.length == 0;
-    },
+    }
   });
 });
 
@@ -94,7 +94,4 @@ jasmine.doesMatchText = function (lft, rgt) {
   } else {
     return lft == rgt;
   }
-}
-
-
-
+};

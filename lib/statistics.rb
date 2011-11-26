@@ -19,12 +19,12 @@ class Statistics
     end
 
     def daily_tests_counts
-      tests = Task.
+      tests = Job.
                 select(['date(created_at) AS created_at_date', 'count(created_at) AS test_count']).
                 group('created_at_date').
                 order('created_at_date').
                 where(['created_at > ?', 28.days.ago]).
-                where(['type = ?', 'Task::Test'])
+                where(['type = ?', 'Job::Test'])
 
       tests.map do |b|
         {

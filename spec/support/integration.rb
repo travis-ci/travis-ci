@@ -21,35 +21,35 @@ module Support
         json_response
       end
 
-      def task(task)
-        context.get "/tasks/#{task.id}", :format => :json
+      def job(job)
+        context.get "/jobs/#{job.id}", :format => :json
         json_response
       end
     end
 
     class Worker
-      attr_reader :context
+      include Mocha::API
 
-      delegate :put, :to => :context
+      attr_reader :context, :consumer
 
       def initialize(context)
         @context = context
+        @consumer = Travis::Hub.new
       end
 
-      def start!(task, data)
-        Resque.pop('builds')
-        put "/builds/#{task.id}", data
-        task.reload
+      def start!(job, data)
+        consumer.receive(stub(:type => 'job:test:started', :ack => nil), MultiJson.encode(data.merge('id' => job.id))) # TODO should be 'job:configure:started' depending on the job type
+        job.reload
       end
 
-      def finish!(task, data)
-        put "/builds/#{task.id}", data
-        task.reload
+      def finish!(job, data)
+        consumer.receive(stub(:type => 'job:test:finished', :ack => nil), MultiJson.encode(data.merge('id' => job.id)))
+        job.reload
       end
 
-      def log!(task, data)
-        put "/builds/#{task.id}/log", data
-        task.reload
+      def log!(job, data)
+        consumer.receive(stub(:type => 'job:test:log', :ack => nil), MultiJson.encode(data.merge('id' => job.id)))
+        job.reload
       end
     end
 
@@ -64,16 +64,15 @@ module Support
     def ping_from_github!
       authorize 'test', 'test'
       post '/builds', :payload => GITHUB_PAYLOADS['gem-release']
-      @task = Request.first.task
+      @job = Request.first.job
     end
 
-    def next_task!
-      # Task::Test.where(:state => 'created').first # TODO bug in simple_states?
-      Task::Test.where(:state => nil).first.tap { |task| @task = task if task }
+    def next_job!
+      Job::Test.where(:state => :created).first.tap { |job| @job = job if job }
     end
 
-    def task
-      @task
+    def job
+      @job
     end
 
     def repository
@@ -81,11 +80,11 @@ module Support
     end
 
     def _request
-      task.is_a?(Task::Configure) ? task.owner : task.owner.request
+      job.is_a?(Job::Configure) ? job.owner : job.owner.request
     end
 
     def build
-      task.is_a?(Task::Configure) ? _request.builds.first : task.owner
+      job.is_a?(Job::Configure) ? _request.builds.first : job.owner
     end
   end
 end
