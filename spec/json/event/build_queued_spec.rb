@@ -4,13 +4,16 @@ describe 'JSON for websocket events' do
 
   let(:repository) { Scenario.default.first }
   let(:build) { repository.last_build }
-  let(:task) { build.matrix.first }
+  let(:job) { build.matrix.first }
 
   it 'build:queued' do
-    json_for_pusher('build:queued', task).should == {
+    job.update_attributes!(:queue => 'builds.common')
+
+    json_for_pusher('build:queued', job).should == {
      'build' => {
-       'id' => task.id,
-       'number' => '2.1'
+       'id' => job.id,
+       'number' => '2.1',
+       'queue' => 'builds.common'
       },
       'repository' => {
         'id' => repository.id,

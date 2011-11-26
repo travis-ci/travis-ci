@@ -4,7 +4,6 @@ describe 'HTTP API for Repository' do
 
   let(:repository) { Scenario.default.first }
   let(:build) { repository.last_build }
-  let(:task) { build.matrix.first }
 
   it 'json' do
     json_for_http(repository).should == {

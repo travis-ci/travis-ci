@@ -42,9 +42,9 @@ describe('Travis.Repository', function() {
     });
 
     describe('associations', function() {
-      it('requests GET /repositories/1/builds.json?parent_id=', function() {
+      it('requests GET /repositories/1/builds.json?parent_id=&bare=true', function() {
         repository.get('builds');
-        expect(mostRecentAjaxRequest().url).toEqual('/repositories/1/builds.json?parent_id=');
+        expect(mostRecentAjaxRequest().url).toEqual('/repositories/1/builds.json?parent_id=&bare=true');
       });
 
       // TODO no idea why this suddenly errors
@@ -96,7 +96,7 @@ describe('Travis.Repository', function() {
         });
 
         it("returns a human readable time ago string if the last build's finished time is known", function() {
-          spyOn($.timeago, 'now').andReturn(new Date('2011/01/01 05:00:00').getTime());
+          spyOn($.timeago, 'now').andReturn(new Date(Date.UTC(2011, 0, 1, 4, 0, 0)).getTime());
           expect(repository.get('formattedLastBuildFinishedAt')).toEqual('about 3 hours ago'); // TODO hmmm, some timezone difference here. is that a problem?
         });
       });
@@ -142,7 +142,7 @@ describe('Travis.Repository', function() {
         });
 
         it('selects the given repository', function() {
-          var repository = repositories.objectAt(0)
+          var repository = repositories.objectAt(0);
           repository.select();
           expect(repository.get('selected')).toBeTruthy();
         });

@@ -1,3 +1,32 @@
+== Standalone AMQP consumer
+
++ ActiveRecord::Base.cache { x }
++ workers heartbeat/listing
++ Finish unfinished jobs after a timeout of 1 hour and add a note to the log
++ started_at and duration not updated
++ GET staging.travis-ci.org/queues/16497.json ??
++ queue/jobs listing
++ travis-worker/travis-hub: should clear existing log on job:test:start (for requeued jobs)
++ optimize: https://gist.github.com/7fa474b1256bac72be8b
++ n+1 issue with artifacts (probably on repository/:id/builds.json)
++ make sure we don't transfer the log unless it's needed
++ email connection to postmark failing
++ ssl issue while sending emails: http://jira.codehaus.org/browse/JRUBY-5529
++ fix nokogiri/css_inliner issue
+
+- move json specs (and maybe other specs) to travis-core
+- ActiveSupport notifications for logging
+- have log levels (so turning logging on/off in production will be easy)
+- have the hub respond to SIGTERM and shut down gracefully
+- wrap hub sql operations in a transaction (not sure, this will be super complicated to do)
+
+- travis-worker: add the last log line to status
+- travis-worker: add all of the status report to the heartbeat
+- travis-worker: remove the "travis-" prefix from worker and vm names
+- travis-worker: after state changes send an extra state update message
+
+- testing: dump the production database and test the migrations
+
 == Sproutcore
 
 + fix matrix
@@ -66,4 +95,5 @@ a990b6f1	joshk	notifications fix + test : second attempt, this time with less br
 # Commits to have triple-checked by their authors
 
 cbfc4f37	joelmahoney	Make status PNG response match the JSON/XML API responses
+
 

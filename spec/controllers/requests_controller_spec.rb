@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe RequestsController do
   describe 'POST :create' do
-
     let(:user)    { User.create!(:login => 'user').tap { |user| user.tokens.create! } }
     let(:auth)    { ActionController::HttpAuthentication::Basic.encode_credentials(user.login, user.tokens.first.token) }
     let(:payload) { GITHUB_PAYLOADS['gem-release'] }
@@ -19,7 +18,7 @@ describe RequestsController do
       request = Request.last
       request.should be_created
       request.payload.should == payload
-      request.task.should be_queued
+      request.job.should be_published
     end
 
     it 'does not create a build record when the branch is gh_pages' do

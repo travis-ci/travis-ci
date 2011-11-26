@@ -3,8 +3,9 @@ Travis.Controllers.Sidebar = SC.Object.extend({
 
   init: function() {
     Travis.Controllers.Workers.create();
-    Travis.Controllers.Jobs.create({ queue: 'builds' });
-    Travis.Controllers.Jobs.create({ queue: 'rails' });
+    Travis.Controllers.Jobs.create({ queue: 'builds.common'  });
+    Travis.Controllers.Jobs.create({ queue: 'builds.rails' });
+    Travis.Controllers.Jobs.create({ queue: 'builds.erlang' });
 
     $(".slider").click(function() { this.toggle(); }.bind(this));
     if($.cookie(this.cookie) === 'true') { this.minimize(); }

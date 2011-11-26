@@ -1,4 +1,4 @@
-require 'travis'
+require 'responders'
 
 class BuildsController < ApplicationController
   responders :rabl
@@ -19,7 +19,7 @@ class BuildsController < ApplicationController
   protected
 
     def repository
-      @repository ||= Repository.find_by_params(params) || not_found
+      @repository ||= Repository.find_by(params) || not_found
     end
 
     def builds
@@ -27,8 +27,8 @@ class BuildsController < ApplicationController
     end
 
     def build
-      @build ||= Build.find(params[:id], :include => [:commit, { :matrix => :commit }] )
+      @build ||= Build.find(params[:id], :include => [:commit, { :matrix => [:commit, :log] }] )
     rescue ActiveRecord::RecordNotFound
-      @task = Task.find(params[:id]) || not_found
+      @job = Job.find(params[:id]) || not_found
     end
 end

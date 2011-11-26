@@ -12,7 +12,7 @@ class ServiceHooksController < ApplicationController
   end
 
   def update
-    repository.service_hook.toggle(params[:active], current_user)
+    repository.service_hook.set(params[:active], current_user)
     respond_with(repository)
   end
 

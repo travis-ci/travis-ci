@@ -8,5 +8,5 @@ Travis.Test = Travis.Record.extend(Travis.Helpers.Urls, Travis.Helpers.Common, T
 
   formattedLog: function() {
     return this.get('log'); // fold log etc. here
-  }.property('log'),
+  }.property('log')
 });

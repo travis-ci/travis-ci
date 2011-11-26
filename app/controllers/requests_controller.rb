@@ -1,7 +1,7 @@
 class RequestsController < ApplicationController
   # also responds to POST /builds legacy route
   def create
-    Request.create_from_github_payload(params[:payload], api_token)
+    Request.create_from(params[:payload], api_token)
     render :nothing => true
   end
 

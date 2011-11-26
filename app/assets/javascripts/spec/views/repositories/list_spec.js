@@ -30,7 +30,7 @@ describe('Views:', function() {
 
       describe('when a new repository is pushed to the collection', function() {
         it('adds a list item to the top', function() {
-          SC.run(function() { cookbooks = Test.Factory.Repository.cookbooks() });
+          SC.run(function() { Test.Factory.Repository.cookbooks() });
           expect(view.$('li:first-child a.slug')).toHaveText('travis-ci/travis-cookbooks');
         });
       });

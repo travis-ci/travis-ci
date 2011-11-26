@@ -1,83 +1,55 @@
 source :rubygems
 
-gem 'rails',             '~> 3.1.0'
-gem 'rake',              '~> 0.9.2'
-gem 'refraction',        '~> 0.2.0'
-gem 'jruby-openssl',     :platforms => :jruby
+gem 'rails',                '~> 3.1.2'
+gem 'rake',                 '~> 0.9.2.2'
 
-# persistence
-gem 'pg',                '~> 0.11.0'
-gem 'silent-postgres',   '~> 0.0.8'
-gem 'data_migrations',   '~> 0.0.1'
-gem 'resque',            '~> 1.17.1'
-gem 'resque-heartbeat',  '~> 0.0.3'
-
-# structures
-gem 'json'
-gem 'yajl-ruby',         '~> 1.0.0'
-gem 'hashr',             '~> 0.0.14'
-gem 'rabl',              '~> 0.3.0'
+gem 'travis-core', :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine'
+gem 'amqp',                 '~> 0.8.3'
+#
+# TODO remove this once pusher > 0.8.4 has been released. should be in travis-core's gemspec
+gem 'pusher', :git => 'https://github.com/juno/pusher-gem.git', :ref => 'd025ccb'
 
 # app
-gem 'devise',            '~> 1.4.2'
-gem 'oa-oauth',          '~> 0.2.6'
-gem 'simple_states',     '0.0.9'
-gem 'unobtrusive_flash', '~> 0.0.2'
-gem 'actionmailer_inline_css', "~> 1.3.0"
+gem 'refraction',           '~> 0.2.0'
+gem 'devise',               '~> 1.5.0'
+gem 'omniauth-github',      '~> 1.0.0'
+gem 'unobtrusive_flash',    '~> 0.0.2'
+
+# structures
+gem 'json',                 '~> 1.5.4'
+gem 'yajl-ruby',            '~> 1.1.0'
+gem 'rabl',                 '~> 0.5.1'
+
+# db
+gem 'pg',                   '~> 0.11.0'
+gem 'silent-postgres',      '~> 0.0.8'
 
 # apis
-# current oa-oauth release depends on faraday 0.6.1, current octokit on faraday ~> 0.7.3, :git source for oa-oauth confuses heroku :(
-# so we have to wait for an oa-oauth release
-gem 'octokit',           :git => 'git://github.com/pengwynn/octokit.git', :ref => '463e08caa4f940045f7f'
-gem 'pusher',            '~> 0.8.1'
-gem 'hoptoad_notifier',  '~> 2.4.11'
-gem 'newrelic_rpm',      '~> 3.1.0'
+gem 'hoptoad_notifier',     '~> 2.4.11'
+gem 'newrelic_rpm',         '~> 3.3.0'
 
 # heroku
-gem 'unicorn',           '~> 4.0.0', :platforms => :ruby
-gem 'SystemTimer',       '~> 1.2.3', :platforms => :ruby_18
-gem 'clockwork'
+gem 'unicorn',              '~> 4.1.1'
 
 # assets
 group :assets do
-  gem 'sass-rails',        '~> 3.1.0'
-  gem 'coffee-rails',      '~> 3.1.0'
-  gem 'uglifier'
-  gem 'compass',           '0.12.alpha.0'
-end
-
-group :test do
-  gem 'jasmine'
-  gem 'capybara',        '~> 1.0.0'
-  gem 'database_cleaner'
-  gem 'mocha'
-  gem 'fakeredis',       '~> 0.2.0'
-  gem 'webmock'
-
-  # gotta wait for QT 4.7
-  # gem 'jasmine-headless-webkit'
-
-  platforms :ruby_18 do
-    gem 'minitest'
-    gem 'minitest_tu_shim'
-  end
+  gem 'sass-rails',         '~> 3.1.5'
+  gem 'coffee-rails',       '~> 3.1.1'
+  gem 'uglifier',           '~> 1.1.0'
+  gem 'compass',            '0.12.alpha.0'
 end
 
 group :development, :test, :jasmine do
-  gem 'rails-dev-tweaks', '~> 0.4.0'
-  gem 'factory_girl',     '~> 2.1.2'
-  gem 'forgery',          '~> 0.5.0'
-  gem 'rspec-rails',      '~> 2.6.1'
-  gem 'thin'
+  gem 'rails-dev-tweaks',   '~> 0.5.1'
+  gem 'factory_girl',       '~> 2.1.2'
+  gem 'forgery',            '~> 0.5.0'
+  gem 'rspec-rails',        '~> 2.7.0'
+  gem 'thin',               '~> 1.3.1'
 end
 
-group :development, :test do
-  platforms :mri_18 do
-    # required as linecache uses it but does not have it as a dep
-    gem 'require_relative', '~> 1.0.1'
-    gem 'ruby-debug'
-    gem 'linecache', '<= 0.45'
-  end
+group :development do
+  gem 'foreman',            '~> 0.26.1'
+  gem 'data_migrations',    '~> 0.0.1'
 
   unless RUBY_VERSION == '1.9.3' && RUBY_PLATFORM !~ /darwin/
     # will need to install ruby-debug19 manually:
@@ -86,3 +58,13 @@ group :development, :test do
   end
 end
 
+group :test do
+  gem 'jasmine',           '~> 1.1.2'
+  gem 'capybara',          '~> 1.0.0'
+  gem 'database_cleaner',  '~> 0.7.0'
+  gem 'mocha',             '~> 0.10.0'
+  gem 'webmock',           '~> 1.7.7'
+
+  # gotta wait for QT 4.7
+  # gem 'jasmine-headless-webkit'
+end

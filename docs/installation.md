@@ -1,6 +1,6 @@
 ** extracted from the readme and outdated **
 
-h2. Installation
+## Installation
 
 To install your own instance of Travis you need to supply various configuration settings:
 

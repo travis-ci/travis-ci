@@ -4,7 +4,7 @@ describe 'JSON for websocket events' do
 
   let(:repository) { Scenario.default.first }
   let(:build) { repository.last_build }
-  let(:task) { build.matrix.first }
+  let(:job) { build.matrix.first }
 
   it 'build:started' do
     data = json_for_pusher('build:started', build)
@@ -27,7 +27,7 @@ describe 'JSON for websocket events' do
       'compare_url' => "https://github.com/svenfuchs/minimal/compare/master...develop",
     }
     data['build']['matrix'].first.should == {
-      'id' => task.id,
+      'id' => job.id,
       'repository_id' => repository.id,
       'parent_id' => build.id,
       'number' => '2.1',

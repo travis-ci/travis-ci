@@ -109,23 +109,19 @@ RSpec::Matchers.define :have_message do |event|
 end
 
 RSpec::Matchers.define :be_queued do |*args|
-  match do |task|
+  match do |job|
     @options = args.last.is_a?(Hash) ? args.pop : {}
     @queue = args.first || @options[:queue] || 'builds'
-    @task = task
-    @expected = task.is_a?(Task) ? Travis::Notifications::Worker.payload_for(@task, :queue => 'builds') : task
-    @actual = job ? job['args'].last.deep_symbolize_keys : nil
+    @expected = job.is_a?(Job) ? Travis::Notifications::Worker.payload_for(job, :queue => 'builds') : job
+    @actual = queued_job ? queued_job['args'].last.deep_symbolize_keys : nil
 
-    Resque.pop(@queue) if @options[:pop]
     @actual == @expected
   end
 
-  def job
-    @job ||= Resque.peek(@queue, 0, 50).detect { |job| job['args'].last.deep_symbolize_keys == @expected.deep_symbolize_keys }
+  def queued_job
   end
 
   def jobs
-    Resque.peek(@queue, 0, 50).map { |job| job.inspect }.join("\n")
   end
 
   failure_message_for_should do
@@ -140,3 +136,27 @@ RSpec::Matchers.define :be_queued do |*args|
       "expected no job with the payload #{@expected.inspect} to be queued in #{@queue.inspect} but it is"
   end
 end
+
+RSpec::Matchers.define :be_published do |*args|
+  match do |job|
+    queue = 'builds.common'
+    expected = Travis::Notifications::Worker.payload_for(job, :queue => queue)
+
+    failure_message_for_should do
+      "expected a message with the payload #{expected.inspect} to be published in #{queue.inspect} but none was found. Instead there are the following jobs:\n\n#{messages.inspect}"
+    end
+
+    failure_message_for_should_not do
+      "expected no message with the payload #{expected.inspect} to be published in #{queue.inspect} but it is."
+    end
+
+    messages.detect { |message| message.last == expected }.tap do |message|
+      messages.delete(message)
+    end
+  end
+
+  def messages
+    Travis::Notifications::Worker.amqp.messages
+  end
+end
+

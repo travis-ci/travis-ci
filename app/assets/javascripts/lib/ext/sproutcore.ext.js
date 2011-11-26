@@ -37,7 +37,7 @@
 SC.ObjectProxy = SC.Object.extend({
   content: null,
   unknownProperty: function(keyName) {
-    console.log(keyName)
+    console.log(keyName);
     this.addProxiedProperty(keyName);
     SC.defineProperty(this, keyName, SC.computed(function() {
       return this.getPath('content.' + keyName);

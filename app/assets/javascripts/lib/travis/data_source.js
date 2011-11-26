@@ -5,15 +5,20 @@ Travis.DataSource = SC.DataSource.extend({
   fetch: function(store, query) {
     var url = query.url || this._urlFor(query.get('recordType')) + '.json';
 
+    Travis.startLoading();
+
     $.ajax({
       url: url,
       dataType: 'json',
       success: function(data) {
+        Travis.stopLoading();
+        $("#main").removeClass("loading");
         var store_keys = store.loadRecords(query.get('recordType'), data);
         if(!query.get('isLocal')) store.loadQueryResults(query, store_keys);
         store.dataSourceDidFetchQuery(query);
       },
       error: function(data, status, response) {
+        Travis.stopLoading();
         // Actually i'm not absolutely sure what to put here
         store.dataSourceDidError(query);
       }
@@ -23,6 +28,7 @@ Travis.DataSource = SC.DataSource.extend({
   },
 
   retrieveRecord: function(store, storeKey, id) {
+    if(id == undefined) id = SC.Store.idFor(storeKey);
     var type = SC.Store.recordTypeFor(storeKey);
     var url  = this._urlFor(type, id) + '.json';
 
@@ -67,5 +73,5 @@ Travis.DataSource = SC.DataSource.extend({
       delete hash.id;
       return id;
     }, this);
-  },
+  }
 });

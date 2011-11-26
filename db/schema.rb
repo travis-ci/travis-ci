@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110911204538) do
+ActiveRecord::Schema.define(:version => 20111107134440) do
+
+  create_table "artifacts", :force => true do |t|
+    t.text     "content"
+    t.integer  "job_id"
+    t.string   "type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "artifacts", ["type", "job_id"], :name => "index_artifacts_on_type_and_job_id"
 
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
@@ -48,18 +58,26 @@ ActiveRecord::Schema.define(:version => 20110911204538) do
 
   add_index "commits", ["commit"], :name => "index_commits_on_commit"
 
-  create_table "rails_admin_histories", :force => true do |t|
-    t.string   "message"
-    t.string   "username"
-    t.integer  "item"
-    t.string   "table"
-    t.integer  "month",      :limit => 2
-    t.integer  "year",       :limit => 8
+  create_table "jobs", :force => true do |t|
+    t.integer  "repository_id"
+    t.integer  "commit_id"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "queue"
+    t.string   "type"
+    t.string   "state"
+    t.string   "number"
+    t.text     "config"
+    t.integer  "status"
+    t.string   "job_id"
+    t.string   "worker"
+    t.datetime "started_at"
+    t.datetime "finished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "tags"
+    t.integer  "retries",       :default => 0
   end
-
-  add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_histories_on_item_and_table_and_month_and_year"
 
   create_table "repositories", :force => true do |t|
     t.string   "name"
@@ -67,6 +85,7 @@ ActiveRecord::Schema.define(:version => 20110911204538) do
     t.integer  "last_duration"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
     t.integer  "last_build_id"
     t.string   "last_build_number"
     t.integer  "last_build_status"
@@ -79,6 +98,7 @@ ActiveRecord::Schema.define(:version => 20110911204538) do
 
   add_index "repositories", ["last_build_started_at"], :name => "index_repositories_on_last_build_started_at"
   add_index "repositories", ["owner_name", "name"], :name => "index_repositories_on_owner_name_and_name"
+  add_index "repositories", ["user_id"], :name => "index_repositories_on_user_id"
 
   create_table "requests", :force => true do |t|
     t.integer  "repository_id"
@@ -94,27 +114,6 @@ ActiveRecord::Schema.define(:version => 20110911204538) do
     t.datetime "updated_at"
   end
 
-  create_table "tasks", :force => true do |t|
-    t.integer  "repository_id"
-    t.integer  "commit_id"
-    t.integer  "owner_id"
-    t.string   "owner_type"
-    t.string   "queue"
-    t.string   "type"
-    t.string   "state"
-    t.string   "number"
-    t.text     "config"
-    t.integer  "status"
-    t.text     "log",           :default => ""
-    t.string   "job_id"
-    t.string   "worker"
-    t.datetime "started_at"
-    t.datetime "finished_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "tags"
-  end
-
   create_table "tokens", :force => true do |t|
     t.integer  "user_id"
     t.string   "token"
@@ -126,9 +125,11 @@ ActiveRecord::Schema.define(:version => 20110911204538) do
     t.string   "name"
     t.string   "login"
     t.string   "email"
+    t.integer  "oauth2_uid"
+    t.string   "oauth2_token",       :limit => 149
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_admin",           :default => false
+    t.boolean  "is_admin",                          :default => false
     t.integer  "github_id"
     t.string   "github_oauth_token"
   end
@@ -136,5 +137,15 @@ ActiveRecord::Schema.define(:version => 20110911204538) do
   add_index "users", ["github_id"], :name => "index_users_on_github_id"
   add_index "users", ["github_oauth_token"], :name => "index_users_on_github_oauth_token"
   add_index "users", ["login"], :name => "index_users_on_login", :unique => true
+  add_index "users", ["oauth2_uid"], :name => "index_users_on_oauth2_uid", :unique => true
+
+  create_table "workers", :force => true do |t|
+    t.string   "name"
+    t.string   "host"
+    t.string   "state"
+    t.datetime "last_seen_at"
+  end
+
+  add_index "workers", ["name", "host"], :name => "index_workers_on_name_and_host"
 
 end
