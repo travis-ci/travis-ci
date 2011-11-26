@@ -37,7 +37,7 @@ Travis.Helpers.Build = {
   }.property('build.parent_id', 'build.log').cacheable(),
 
   config: function() {
-    var config = $.only(this.getPath('build.config'), 'rvm', 'gemfile', 'env');
+    var config = $.only(this.getPath('build.config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js');
     var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
     return values.length == 0 ? '-' : values.join(', ');
   }.property('build.config').cacheable(),
