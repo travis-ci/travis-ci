@@ -14,6 +14,14 @@
 + ssl issue while sending emails: http://jira.codehaus.org/browse/JRUBY-5529
 + fix nokogiri/css_inliner issue
 
+- undefined method `try' for nil:NilClass in app:79
+- NoMethodError: undefined method `deep_symbolize_keys' for #<Array:0x50b70f41>
+      initialize at /home/travis/.rvm/gems/jruby-head/gems/hashr-0.0.17/lib/hashr.rb:39
+
+- rabbitmq message rate stats
+
+- clean up stalled jobs from the db
+
 - move json specs (and maybe other specs) to travis-core
 - ActiveSupport notifications for logging
 - have log levels (so turning logging on/off in production will be easy)
