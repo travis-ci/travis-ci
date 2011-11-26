@@ -35,6 +35,11 @@
 
 - testing: dump the production database and test the migrations
 
+- travis-hub: should read the db config from the (heroku) env var if present
+
+- travis-core: all config jobs get pushed to builds.common. is that what we want?
+
+
 == Sproutcore
 
 + fix matrix
