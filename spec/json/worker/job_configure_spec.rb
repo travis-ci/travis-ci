@@ -6,7 +6,7 @@ describe 'JSON for worker jobs' do
   let(:job) { repository.requests.first.job }
 
   it 'Job::Configure' do
-    json_for_worker(job, 'queue' => 'builds').should == {
+    json_for_worker(job).should == {
       'build' => {
         'id' => job.id,
         'commit' => '62aae5f70ceee39123ef',
@@ -16,7 +16,7 @@ describe 'JSON for worker jobs' do
         'id' => repository.id,
         'slug' => 'svenfuchs/minimal'
       },
-      'queue' => 'builds'
+      'queue' => 'builds.common'
     }
   end
 end

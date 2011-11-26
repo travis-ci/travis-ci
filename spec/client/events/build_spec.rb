@@ -22,7 +22,7 @@ feature 'Walking through the build process', :js => true do
 
     ping_from_github!
     should_see_job 'svenfuchs/gem-release' # TODO should see 'svenfuchs/gem-release *'
-    should_have_job 'job:configure'
+    # should_have_job 'job:configure'
 
     receive_from_worker! 'job:configure:started'
     should_not_see_job 'svenfuchs/gem-release'
@@ -92,7 +92,7 @@ feature 'Walking through the build process', :js => true do
 
   def should_see_job(*jobs)
     jobs.each do |job|
-      should_see job, :within => '#jobs .queue-builds'
+      should_see job, :within => '#jobs .queue-builds_common'
     end
   end
   alias :should_see_jobs :should_see_job
@@ -106,7 +106,7 @@ feature 'Walking through the build process', :js => true do
 
   def should_have_job(*jobs)
     jobs.each do |job|
-      QUEUE_PAYLOADS[job].should be_queued(:queue => 'builds', :pop => true)
+      QUEUE_PAYLOADS[job].should be_published(:queue => 'builds.common', :pop => true)
     end
   end
   alias :should_have_jobs :should_have_job

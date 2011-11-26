@@ -21,7 +21,8 @@ describe 'JSON for worker jobs' do
       'config' => {
         'rvm' => '1.8.7',
         'gemfile' => 'test/Gemfile.rails-2.3.x'
-      }
+      },
+      'queue' => 'builds.common'
     }
   end
 end
