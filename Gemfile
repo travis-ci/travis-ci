@@ -3,7 +3,7 @@ source :rubygems
 gem 'rails',                '~> 3.1.2'
 gem 'rake',                 '~> 0.9.2.2'
 
-gem 'travis-core', :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine'
+gem 'travis-core', :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine', :ref => 'fac2807cd9d3f9cc90d1af4f2c0e92de4f96e357'
 gem 'amqp',                 '~> 0.8.3'
 #
 # TODO remove this once pusher > 0.8.4 has been released. should be in travis-core's gemspec
