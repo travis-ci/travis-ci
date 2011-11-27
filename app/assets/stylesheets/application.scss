@@ -359,18 +359,15 @@ caption {
   .tabs li {
     white-space: nowrap;
   }
-  .tabs li:not(.active) {
-    display: none;
-  }
   .tab {
     padding-left: 12px;
   }
   #tab_parent {
     display: none;
   }
-//  #tab_build:not(.active) {
-//    display: none;
-//  }
+  #tab_build:not(.active), #tab_search:not(.active) {
+    display: none;
+  }
   .tools {
     display: block;
     float: right;
