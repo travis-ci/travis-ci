@@ -6,7 +6,7 @@ namespace :travis do
 
   namespace :setup do
     desc "Setup database stuff"
-    task :db => ["environment", "config", "db:drop", "db:create", "db:migrate", "environment", "db:seed"]
+    task :db => ["db:drop", "db:create", "db:migrate", "environment", "db:seed"]
 
     desc "Copy sample config files"
     task :config do
