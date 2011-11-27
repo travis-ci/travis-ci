@@ -9,7 +9,7 @@ namespace :travis do
     task :db => ["environment", "config", "db:drop", "db:create", "db:migrate", "environment", "db:seed"]
 
     desc "Copy sample config files"
-    task "config" do
+    task :config do
       ["database", "travis"].each do |file|
         config = Rails.root.join("config", "#{file}.yml")
         FileUtils.cp(config.to_s.gsub(".yml", ".example.yml"), config)
