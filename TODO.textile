@@ -18,6 +18,7 @@
 + travis-worker: make vagrant work without bundle exec (i.e. require bundle/setup in Vagrantfile?)
 
 - travis-ci: fix the stats page and write tests for that code
+- travis-ci: add tests for github login that protect against changes in oauth etc
 - rabbitmq message rate stats
 
 - clean up stalled jobs from the db
