@@ -64,6 +64,10 @@ Travis.Repository.reopenClass({
   recent: function() {
     return this.all({ orderBy: 'lastBuildStartedAt DESC' });
   },
+  
+  owned_by: function(githubId) {
+    return Travis.store.find(SC.Query.remote(Travis.Repository, { url: 'repositories.json?owner_name=' + githubId, orderBy: 'name' }));
+  },
 
   search: function(search) {
     return Travis.store.find(SC.Query.remote(Travis.Repository, { url: 'repositories.json?search=' + search, orderBy: 'name' }));
