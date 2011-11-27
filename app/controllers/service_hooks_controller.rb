@@ -23,7 +23,7 @@ class ServiceHooksController < ApplicationController
     end
 
     def repository
-      @repository ||= Repository.find_or_create_by_owner_name_and_name(params[:owner], params[:name])
+      @repository ||= Repository.find_or_create_by_owner_name_and_name(params[:owner_name], params[:name])
     end
 end
 

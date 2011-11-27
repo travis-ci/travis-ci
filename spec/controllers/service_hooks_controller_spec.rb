@@ -15,9 +15,9 @@ describe ServiceHooksController, :webmock => true do
 
       result = json_response
       result.first['name'].should   == 'safemode'
-      result.first['owner'].should  == 'svenfuchs'
+      result.first['owner_name'].should  == 'svenfuchs'
       result.second['name'].should  == 'scriptaculous-sortabletree'
-      result.second['owner'].should == 'svenfuchs'
+      result.second['owner_name'].should == 'svenfuchs'
     end
   end
 
@@ -28,7 +28,7 @@ describe ServiceHooksController, :webmock => true do
 
     context 'subscribes to a service hook' do
       it 'creates a repository if it does not exist' do
-        put :update, :id => 1, :name => 'minimal', :owner => 'svenfuchs', :active => true
+        put :update, :id => 1, :name => 'minimal', :owner_name => 'svenfuchs', :active => true
 
         Repository.count.should == 1
         Repository.first.active?.should be_true
@@ -39,7 +39,7 @@ describe ServiceHooksController, :webmock => true do
       it 'updates an existing repository if it exists' do
         repository = Factory(:repository)
 
-        put :update, :id => 1, :name => 'minimal', :owner => 'svenfuchs', :active => true
+        put :update, :id => 1, :name => 'minimal', :owner_name => 'svenfuchs', :active => true
 
         Repository.count.should == 1
         Repository.first.active?.should be_true
@@ -52,7 +52,7 @@ describe ServiceHooksController, :webmock => true do
       it 'updates an existing repository' do
         repository = Factory(:repository)
 
-        put :update, :id => 1, :name => 'minimal', :owner => 'svenfuchs', :active => false
+        put :update, :id => 1, :name => 'minimal', :owner_name => 'svenfuchs', :active => false
 
         Repository.first.active?.should be_false
 
