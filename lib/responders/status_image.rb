@@ -19,7 +19,7 @@ module Responders
       end
 
       def send_status_image
-        headers['Expires'] = CGI.rfc1123_date(Time.now)
+        headers['Expires'] = CGI.rfc1123_date(Time.now.utc)
         send_file(path, :type => 'image/png', :disposition => 'inline')
       end
 

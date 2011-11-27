@@ -18,7 +18,7 @@
 #     pusher.should have_message('build:queued') # TODO legacy. should be job:configure:created
 #     job.should be_published
 #
-#     worker.start!(job, 'started_at' => Time.now)
+#     worker.start!(job, 'started_at' => Time.now.utc)
 #     # pusher.should have_message('job:configure:started') # not currently used.
 #
 #     worker.finish!(job, 'config' => { 'rvm' => ['1.8.7', '1.9.2'] })
@@ -32,7 +32,7 @@
 #     api.repositories.should_not include(json_for_http(repository))
 #
 #     while next_job!
-#       worker.start!(job, 'started_at' => Time.now)
+#       worker.start!(job, 'started_at' => Time.now.utc)
 #
 #       job.should be_started
 #       build.should be_started
@@ -46,7 +46,7 @@
 #       job.log.content.should eql('foo')
 #       pusher.should have_message('build:log', :log => 'foo')
 #
-#       worker.finish!(job, 'finished_at' => Time.now, 'status' => 0, 'log' => 'foo bar')
+#       worker.finish!(job, 'finished_at' => Time.now.utc, 'status' => 0, 'log' => 'foo bar')
 #       job.should be_finished
 #       pusher.should have_message('build:finished')
 #       # api.job(job).should include(json_for_http(job)) # TODO

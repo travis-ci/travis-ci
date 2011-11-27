@@ -65,16 +65,16 @@ FactoryGirl.define do
     f.repository { Factory(:repository, :name => 'successful_build', :last_build_status => 0) }
     f.status 0
     f.state 'finished'
-    started_at { Time.now }
-    finished_at { Time.now }
+    started_at { Time.now.utc }
+    finished_at { Time.now.utc }
   end
 
   factory :broken_build, :parent => :build do |f|
     f.repository { Factory(:repository, :name => 'broken_build', :last_build_status => 1) }
     f.status 1
     f.state 'finished'
-    started_at { Time.now }
-    finished_at { Time.now }
+    started_at { Time.now.utc }
+    finished_at { Time.now.utc }
   end
 
   factory :user do |f|
@@ -88,6 +88,6 @@ FactoryGirl.define do
     f.name  'worker-1'
     f.host  'ruby-1.workers.travis-ci.org'
     f.state :working
-    f.last_seen_at { Time.now }
+    f.last_seen_at { Time.now.utc }
   end
 end
