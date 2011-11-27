@@ -8,7 +8,7 @@ class ServiceHooksController < ApplicationController
   respond_to :json
 
   def index
-    respond_with(repositories)
+    respond_with(service_hooks)
   end
 
   def update
@@ -18,8 +18,8 @@ class ServiceHooksController < ApplicationController
 
   private
 
-    def repositories
-      @repositories ||= current_user.github_repositories
+    def service_hooks
+      @service_hooks ||= current_user.github_service_hooks
     end
 
     def repository
