@@ -30,6 +30,11 @@ Travis.Controllers.Repositories.List = SC.ArrayController.extend({
     this.set('content', Travis.Repository.recent());
     this.tabs.activate('recent');
   },
+  
+  owned_by: function(githubId) {
+    this.set('content', Travis.Repository.owned_by(githubId));
+    this.tabs.activate('my_repositories');
+  },
 
   search: function() {
     this.set('content', Travis.Repository.search(this.searchBox.value));

@@ -7,3 +7,8 @@
   </p>
   <span class="indicator"></span>
 {{/collection}}
+
+{{^collection contentBinding="repositories" id="no_repositories"}}
+  <p>There are no repositories</p>
+	<p class="small"><a href="/profile">Add your repositories to Travis CI</a></p>
+{{/collection}}

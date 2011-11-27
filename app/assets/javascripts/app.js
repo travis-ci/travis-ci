@@ -73,6 +73,9 @@ var Travis = SC.Application.create({
     $('li#tab_recent').click(function () {
       Travis.left.recent();
     });
+    $('li#tab_my_repositories').click(function() {
+      Travis.left.owned_by($(this).data('github-id'));
+    });
     $('li#tab_search').click(function () {
       Travis.left.search();
     });
