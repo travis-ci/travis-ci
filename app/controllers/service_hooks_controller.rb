@@ -12,7 +12,7 @@ class ServiceHooksController < ApplicationController
   end
 
   def update
-    repository.service_hook.set(params[:active], current_user)
+    repository.service_hook.set(params[:active] == 'true', current_user)
     respond_with(repository)
   end
 
@@ -26,4 +26,3 @@ class ServiceHooksController < ApplicationController
       @repository ||= Repository.find_or_create_by_owner_name_and_name(params[:owner_name], params[:name])
     end
 end
-
