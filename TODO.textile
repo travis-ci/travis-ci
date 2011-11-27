@@ -13,14 +13,26 @@
 + email connection to postmark failing
 + ssl issue while sending emails: http://jira.codehaus.org/browse/JRUBY-5529
 + fix nokogiri/css_inliner issue
++ testing: dump the production database and test the migrations
++ travis-worker: undefined method `try' for nil:NilClass in app:79
++ travis-worker: make vagrant work without bundle exec (i.e. require bundle/setup in Vagrantfile?)
 
-- undefined method `try' for nil:NilClass in app:79
-- NoMethodError: undefined method `deep_symbolize_keys' for #<Array:0x50b70f41>
-      initialize at /home/travis/.rvm/gems/jruby-head/gems/hashr-0.0.17/lib/hashr.rb:39
-
+- travis-ci: fix the stats page and write tests for that code
 - rabbitmq message rate stats
 
 - clean up stalled jobs from the db
+
+- travis-hub: should read the db config from the (heroku) env var if present
+
+- travis-worker: NoMethodError: undefined method `deep_symbolize_keys' for #<Array:0x50b70f41>
+      initialize at /home/travis/.rvm/gems/jruby-head/gems/hashr-0.0.17/lib/hashr.rb:39
+
+- travis-worker: add the last log line to status
+- travis-worker: add all of the status report to the heartbeat
+- travis-worker: remove the "travis-" prefix from worker and vm names
+- travis-worker: after state changes send an extra state update message
+
+- travis-core: all config jobs get pushed to builds.common. is that what we want?
 
 - move json specs (and maybe other specs) to travis-core
 - ActiveSupport notifications for logging
@@ -28,16 +40,12 @@
 - have the hub respond to SIGTERM and shut down gracefully
 - wrap hub sql operations in a transaction (not sure, this will be super complicated to do)
 
-- travis-worker: add the last log line to status
-- travis-worker: add all of the status report to the heartbeat
-- travis-worker: remove the "travis-" prefix from worker and vm names
-- travis-worker: after state changes send an extra state update message
 
-- testing: dump the production database and test the migrations
-
-- travis-hub: should read the db config from the (heroku) env var if present
-
-- travis-core: all config jobs get pushed to builds.common. is that what we want?
+- inacceptably slow builds:
+    http://travis-ci.org/#!/travis-ci/travis-core/builds/345890
+    => Finished in 150.82 seconds
+    the same build locally:
+    => Finished in 21.5 seconds
 
 
 == Sproutcore
