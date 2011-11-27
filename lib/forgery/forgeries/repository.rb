@@ -11,7 +11,7 @@ class Forgery::Repository < Forgery
   def self.name
     dictionaries[:repository_names].random
   end
-  def self.time from = 0.0, to = ::Time.now
+  def self.time from = 0.0, to = ::Time.now.utc
     ::Time.at(from + rand * (to.to_f - from.to_f))
   end
   def self.duration
