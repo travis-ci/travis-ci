@@ -67,12 +67,37 @@ $ rake spec
 
 h2. Development
 
-Setup is pretty easy. You need to execute 3 commands:
+Setup is pretty easy. You need to execute 4 steps:
 
 <pre>
 $ bundle
-$ rake travis:setup
-$ foreman start
+$ bundle exec rake travis:setup:config
+</pre>
+
+This will create two files: <code>./config/travis.yml</code> and <code>./config/database.yml</code>. Edit these files according to your local configuration.
+
+BTravis CI is configured to authenticate with OAuth and github. You'll need to "register your application with github":https://github.com/account/applications/new (even if it's only for local development) and complete all the required fields in <code>./config/travis.yml</code> for your ID and secret.
+
+Next, tell Travis to configure the database:
+
+<pre>
+$ bundle exec rake travis:setup
+</pre>
+
+And finally start the server:
+
+<pre>
+$ bundle exec foreman start
+</pre>
+
+Note that you always start the server using <code>foreman</code>, not <code>unicorn</code> or <code>webrick</code>
+
+Travis CI is now up & running on **http://localhost:5000**
+
+You can also create a default admin user (optional):
+
+<pre>
+$ rake travis:create_admin_user
 </pre>
 
 Application is now up & running on **http://localhost:5000**
