@@ -20,14 +20,16 @@
 + ActiveSupport notifications for logging
 + have log levels (so turning logging on/off in production will be easy)
 + travis-worker: thor travis:worker:set (config var)
++ travis-boxes: make sure rails uses tmpfs for mysql
++ travis-ci: fix the stats page
 
 - rabbitmq message rate stats
 
-- travis-boxes: make sure rails uses tmpfs for mysql
+- travis-ci: add specs for github login that protect against changes in oauth etc
+- travis-ci: add write specs for stats
+- travis-ci: move json specs (and maybe other specs) to travis-core
 
-- travis-ci: fix the stats page and write tests for that code
-- travis-ci: add tests for github login that protect against changes in oauth etc
-
+- travis-hub: truncate the log on job:test:start
 - travis-hub: clean up stalled jobs from the db
 - travis-hub: consolidate logging to use travis-support/logging
 - travis-hub: have the hub respond to SIGTERM and shut down gracefully
@@ -40,8 +42,8 @@
 - travis-worker: remove the "travis-" prefix from worker and vm names
 - travis-worker/hub: make heartbeat message per machine, not worker
 
-- travis-core: all config jobs get pushed to builds.common. is that what we want?
-- travis-core: move json specs (and maybe other specs) from travis-ci
+- travis-core: make workers regular state machines, send pusher notifications on all state changes, send irc notifications on errors
+- travis-core: all config jobs get pushed to builds.common. use a builds.config queue instead that is shared by all workers
 
 
 - performance: builds seem inacceptably slow:
