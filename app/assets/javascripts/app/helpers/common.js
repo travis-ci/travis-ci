@@ -8,8 +8,8 @@ Travis.Helpers.Common = {
   },
 
   durationFrom: function(started, finished) {
-    started  = started  && new Date(this._normalizeDateString(started));
-    finished = finished ? new Date(this._normalizeDateString(finished)) : this._nowUtc();
+    started  = started  && new Date(this._normalizeDateString(started)).getTime();
+    finished = finished ? new Date(this._normalizeDateString(finished)).getTime() : this._nowUtc();
     return started && finished ? Math.round((finished - started) / 1000) : 0;
   },
 
