@@ -39,7 +39,22 @@ Travis.Log = {
   },
 
   deansi: function(log) {
-    return Deansi.parse(log);
+    var ansi = ansiparse(log),
+        text = '';
+
+    ansi.forEach(function (part) {
+      var classes = [];
+
+      part.foreground && classes.push(part.foreground);
+      part.background && classes.push('bg-' + part.background);
+      part.bold       && classes.push('bold');
+      part.italic     && classes.push('italic');
+
+      text += classes.length
+            ? ('<span class="' + classes.join(' ') + '">' + part.text + '</span>')
+            : part.text;
+    });
+    return text;
   },
 
   fold: function(log) {
