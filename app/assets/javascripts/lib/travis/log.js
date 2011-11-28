@@ -50,7 +50,9 @@ Travis.Log = {
       part.bold       && classes.push('bold');
       part.italic     && classes.push('italic');
 
-      text += '<span class="' + classes.join(' ') + '">' + part.text + '</span>';
+      text += classes.length
+            ? ('<span class="' + classes.join(' ') + '">' + part.text + '</span>')
+            : part.text;
     });
     return text;
   },
