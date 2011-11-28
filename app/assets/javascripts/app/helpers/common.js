@@ -8,8 +8,8 @@ Travis.Helpers.Common = {
   },
 
   durationFrom: function(started, finished) {
-    started  = started  && new Date(this._normalizeDateString(started));
-    finished = finished ? new Date(this._normalizeDateString(finished)) : this._nowUtc();
+    started  = started  && new Date(this._normalizeDateString(started)).getTime();
+    finished = finished ? new Date(this._normalizeDateString(finished)).getTime() : this._nowUtc();
     return started && finished ? Math.round((finished - started) / 1000) : 0;
   },
 
@@ -23,7 +23,8 @@ Travis.Helpers.Common = {
       return 'more than 24 hrs';
     } else {
       var result = [];
-      if(hours   > 0) { result.push(hours + ' hrs'); }
+      if(hours  == 1) { result.push(hours + ' hr'); }
+      if(hours   > 1) { result.push(hours + ' hrs'); }
       if(minutes > 0) { result.push(minutes + ' min'); }
       if(seconds > 0) { result.push(seconds + ' sec'); }
       return result.length > 0 ? result.join(' ') : '-';
