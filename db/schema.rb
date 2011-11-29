@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111128235043) do
+ActiveRecord::Schema.define(:version => 20111129014329) do
 
   create_table "artifacts", :force => true do |t|
     t.text     "content"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20111128235043) do
   end
 
   add_index "jobs", ["queue", "state"], :name => "index_jobs_on_queue_and_state"
+  add_index "jobs", ["repository_id"], :name => "index_jobs_on_repository_id"
 
   create_table "repositories", :force => true do |t|
     t.string   "name"
