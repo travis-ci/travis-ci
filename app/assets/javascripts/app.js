@@ -56,7 +56,7 @@ var Travis = SC.Application.create({
 
   initPusher: function() {
     if(window.pusher) {
-      var channels = ['builds', 'jobs'];
+      var channels = ['builds', 'jobs', 'workers'];
       $.each(channels, function(ix, channel) { this.subscribe(channel); }.bind(this))
     }
   },

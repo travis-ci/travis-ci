@@ -30,6 +30,23 @@ Travis.Controllers.Events = SC.Object.extend({
     if(build) build.unsubscribe();
   },
 
+  workerAdded: function(data) {
+    Travis.Worker.createOrUpdate(data);
+  },
+
+  workerCreated: function(data) {
+    Travis.Worker.createOrUpdate(data);
+  },
+
+  workerUpdated: function(data) {
+    Travis.Worker.createOrUpdate(data);
+  },
+
+  workerRemoved: function(data) {
+    var worker = Travis.Worker.find(data.id);
+    if(worker) worker.whenReady(function(worker) { worker.destroy() });
+  },
+
   updateFrom: function(data) {
     this.deferLastBuildIdUpdate(data.repository, function() {
       if(data.repository) var repository = Travis.Repository.createOrUpdate(data.repository);
