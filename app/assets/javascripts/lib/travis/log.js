@@ -39,6 +39,13 @@ Travis.Log = {
   },
 
   deansi: function(log) {
+    //
+    // Following replaces ANSI sequences responsible for erasing lines and
+    // carret returns. Lack of those causes progress bars and such to fail
+    // miserably.
+    //
+    log = log.replace(/\033\[K\r/, "\r").replace(/^.*\r(?!$)/gm, '');
+
     var ansi = ansiparse(log),
         text = '';
 
