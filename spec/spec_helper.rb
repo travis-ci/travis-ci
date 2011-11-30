@@ -52,7 +52,7 @@ def configure
       Travis.instance_variable_set(:@config, nil)
       Travis::Notifications.instance_variable_set(:@subscriptions, nil)
       Travis::Notifications::Worker.instance_variable_set(:@queues, nil)
-      Travis::Notifications::Worker.amqp = Support::Mocks::Amqp.new
+      # Travis::Notifications::Worker.amqp = Support::Mocks::Amqp.new
     end
 
     c.before :each, :webmock => true do

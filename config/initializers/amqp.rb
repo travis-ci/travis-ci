@@ -1,3 +1,9 @@
+require 'travis'
+require 'travis/support'
+
+Travis::Amqp.config = Travis.config.amqp
+
+
 # This initialize sets up AMQP connection for cases like specs
 # or scripts. When we are running on Unicorn, it MUST happen
 # after Unicorn forks off workers so we do it in the respective hook.
