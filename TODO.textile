@@ -24,20 +24,17 @@
 + travis-ci: fix the stats page
 + travis-worker/hub: make heartbeat message per machine, not worker
 + travis-worker: add all of the status report to the heartbeat
-- rabbitmq message rate stats
++ travis-hub: truncate the log on job:test:start
 
-- travis-ci: add specs for github login that protect against changes in oauth etc
-- travis-ci: add write specs for stats
-- travis-ci: move json specs (and maybe other specs) to travis-core
+- rabbitmq message rate stats
 
 - travis-ci: add additional worker status infos to json and display the current build in the client
 - travis-ci: add tests for stats
 - travis-ci: add tests for github login that protect against changes in oauth etc
+- travis-ci: move json specs (and maybe other specs) to travis-core
 - travis-ci: ability to publish temporary messages from cli to web (persistent and through pusher), like "workers are going down for upgrade"
 
 - travis-hub: re-enqueue and clean up stalled jobs
-- travis-hub: truncate the log on job:test:start
-- travis-hub: clean up stalled jobs from the db
 - travis-hub: consolidate logging to use travis-support/logging
 - travis-hub: have the hub respond to SIGTERM and shut down gracefully
 - travis-hub: wrap hub sql operations in a transaction (not sure, this will be super complicated to do)
