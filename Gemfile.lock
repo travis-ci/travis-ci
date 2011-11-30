@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: d3664c724bdf5e61e25b1fff6482b4ec747db7cb
+  revision: d98932ba01a2d230884e2033a7880c5771c308f2
   specs:
     travis-core (0.0.1)
       actionmailer_inline_css (~> 1.3.0)
@@ -20,7 +20,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-support.git
-  revision: e2b3bf0ec40782949aa0706f91275dfe7a032306
+  revision: 6c21a2ab8f07e4d32e6f2b4e717e05edeca98572
   specs:
     travis-support (0.0.1)
 
@@ -112,7 +112,7 @@ GEM
       activerecord
       rake
     database_cleaner (0.7.0)
-    devise (1.5.1)
+    devise (1.5.2)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
       warden (~> 1.1)
@@ -142,7 +142,7 @@ GEM
       activesupport
       builder
     hpricot (0.8.5)
-    htmlentities (4.3.0)
+    htmlentities (4.3.1)
     i18n (0.6.0)
     jasmine (1.1.2)
       jasmine-core (>= 1.1.0)
