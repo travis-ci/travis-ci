@@ -26,7 +26,7 @@ def configure
   require 'webmock'
   require_all 'spec/support/**/*.rb', :relative_to => 'spec'
 
-  require 'travis/logging'
+  require 'travis/support'
   require 'stringio'
 
   Travis.logger = Logger.new(StringIO.new)
