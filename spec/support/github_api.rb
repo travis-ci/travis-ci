@@ -3,7 +3,7 @@ require 'webmock/rspec'
 module Support
   module GithubApi
     URLS = %w(
-      https://api.github.com/users/svenfuchs/repos
+      https://api.github.com/users/svenfuchs/repos?page_size=100
       https://github.com/api/v2/json/repos/show/svenfuchs
       http://github.com/api/v2/json/repos/show/svenfuchs/gem-release
       http://github.com/api/v2/json/repos/show/svenfuchs/minimal
