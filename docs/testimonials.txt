@@ -31,6 +31,9 @@ https://twitter.com/#!/josevalim/status/97338403816873985 - @josevalim (José Va
 "If you haven't tried yet, do put your project on @travisci. Awesome app with many nice people behind it."
 http://twitter.com/#!/seancribbs/status/103096406583152640 - @seancribbs (Sean Cribbs)
 
+"I'm sure there was life before @travisci, but I choose to ignore it. RELATED: Why is your OSS _not_ on Travis? http://travis-ci.org/"
+https://twitter.com/#!/j3/status/141919224087068673 - @j3 - Jeff Casimir
+
 "After Github I think this is the second best free service I have ever seen!"
 irc.freenode.net#travis - @robertodecurnex (Roberto Decurnex)
 
