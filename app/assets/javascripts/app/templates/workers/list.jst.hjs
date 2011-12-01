@@ -3,11 +3,7 @@
   <h5>{{content.host}}</h5>
   {{#collection tagName="ul" itemClass="worker" itemClassBinding="content.state" contentBinding="content.workers"}}
     <div class="icon"></div>
-    {{#if content.payload}}
-      <a {{bindAttr href="content.buildUrl"}} {{bindAttr title="content.lastSeenAt"}}>{{content.display}}</a>
-    {{else}}
-      <span {{bindAttr title="content.lastSeenAt"}}>{{content.display}}</span>
-    {{/if}}
+    <span {{bindAttr title="content.lastSeenAt"}}>{{content.display}}</span>
   {{/collection}}
 {{else}}
   No workers
