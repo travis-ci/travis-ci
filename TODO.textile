@@ -31,10 +31,10 @@
 + travis-worker: after state changes send an extra state update message
 + travis-core: make workers regular state machines, send pusher notifications on all state changes, send irc notifications on errors
 + travis-ci: add additional worker status infos to json
++ travis-ci: display the current build in the client
 
 - rabbitmq message rate stats
 
-- travis-ci: display the current build in the client
 - travis-ci: ability to publish temporary messages from cli to web (persistent and through pusher), like "workers are going down for upgrade"
 - travis-ci: add tests for stats
 - travis-ci: add tests for github login that protect against changes in oauth etc
