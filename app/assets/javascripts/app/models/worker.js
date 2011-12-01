@@ -26,7 +26,7 @@ Travis.Worker = Travis.Record.extend({
 
     if(state == 'working' && payload != undefined) {
       var repository = payload.repository ? $.truncate(payload.repository.slug, 18) : undefined;
-      var number = payload.build ? ' #' + payload.build.number : '';
+      var number = payload.build && payload.build.number ? ' #' + payload.build.number : '';
       var state = repository ? repository + number : state;
     }
 
