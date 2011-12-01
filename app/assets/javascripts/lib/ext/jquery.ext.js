@@ -127,5 +127,8 @@ $.extend({
 			}
 		}
 		return ret.concat.apply([], ret);
-	}
+	},
+  truncate: function(string, length) {
+    return string.length > length ? string.trim().substring(0, length) + '...' : string;
+  }
 });
