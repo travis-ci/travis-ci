@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111129022625) do
+ActiveRecord::Schema.define(:version => 20111201113500) do
 
   create_table "artifacts", :force => true do |t|
     t.text     "content"
@@ -143,6 +143,8 @@ ActiveRecord::Schema.define(:version => 20111129022625) do
     t.string   "host"
     t.string   "state"
     t.datetime "last_seen_at"
+    t.text     "payload"
+    t.text     "last_error"
   end
 
   add_index "workers", ["name", "host"], :name => "index_workers_on_name_and_host"
