@@ -32,13 +32,14 @@
 + travis-core: make workers regular state machines, send pusher notifications on all state changes, send irc notifications on errors
 + travis-ci: add additional worker status infos to json
 + travis-ci: display the current build in the client
++ travis-core: all config jobs get pushed to builds.common. use a builds.config queue instead that is shared by all workers
++ travis-ci: move json specs (and maybe other specs) to travis-core
 
 - rabbitmq message rate stats
 
-- travis-ci: ability to publish temporary messages from cli to web (persistent and through pusher), like "workers are going down for upgrade"
 - travis-ci: add tests for stats
 - travis-ci: add tests for github login that protect against changes in oauth etc
-- travis-ci: move json specs (and maybe other specs) to travis-core
+- travis-ci: ability to publish temporary messages from cli to web (persistent and through pusher), like "workers are going down for upgrade"
 
 - travis-hub: re-enqueue and clean up stalled jobs
 - travis-hub: have the hub respond to SIGTERM and shut down gracefully
@@ -47,8 +48,6 @@
 - travis-worker: make command messages expire after 2 sec or so
 - travis-worker: change the naming scheme to railslove.travis-ci.org:ruby-1:worker-1
 - travis-worker: add the last log line to status
-
-- travis-core: all config jobs get pushed to builds.common. use a builds.config queue instead that is shared by all workers
 
 - performance: builds seem inacceptably slow:
     http://travis-ci.org/#!/travis-ci/travis-core/builds/345890
