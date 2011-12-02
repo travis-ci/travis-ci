@@ -5,6 +5,8 @@
 - pretest github pull reqests
 - archive logs
 - 1-n worker to vms
+- worker dashboard (add the last log line to status reports)
+- user/pusher notifications about maintenance etc
 
 == Standalone AMQP consumer
 
@@ -45,7 +47,6 @@
 
 - travis-ci: add tests for stats
 - travis-ci: add tests for github login that protect against changes in oauth etc
-- travis-ci: ability to publish temporary messages from cli to web (persistent and through pusher), like "workers are going down for upgrade"
 
 - travis-hub: re-enqueue and clean up stalled jobs
 - travis-hub: have the hub respond to SIGTERM and shut down gracefully
@@ -53,13 +54,6 @@
 - travis-worker: remote worker maintenance
 - travis-worker: make command messages expire after 2 sec or so
 - travis-worker: change the naming scheme to railslove.travis-ci.org:ruby-1:worker-1
-- travis-worker: add the last log line to status
-
-- performance: builds seem inacceptably slow:
-    http://travis-ci.org/#!/travis-ci/travis-core/builds/345890
-    => Finished in 150.82 seconds
-    the same build locally:
-    => Finished in 21.5 seconds
 
 
 == Sproutcore
