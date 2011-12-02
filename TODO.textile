@@ -1,3 +1,11 @@
+== Next
+
+- automate backups
+- rabbitmq message rate stats
+- pretest github pull reqests
+- archive logs
+- 1-n worker to vms
+
 == Standalone AMQP consumer
 
 + ActiveRecord::Base.cache { x }
@@ -34,8 +42,6 @@
 + travis-ci: display the current build in the client
 + travis-core: all config jobs get pushed to builds.common. use a builds.config queue instead that is shared by all workers
 + travis-ci: move json specs (and maybe other specs) to travis-core
-
-- rabbitmq message rate stats
 
 - travis-ci: add tests for stats
 - travis-ci: add tests for github login that protect against changes in oauth etc
