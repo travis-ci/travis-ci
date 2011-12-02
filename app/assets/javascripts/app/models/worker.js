@@ -15,13 +15,13 @@ Travis.WorkerGroup = SC.Object.extend({
 Travis.Worker = Travis.Record.extend({
   lastSeenAt: SC.Record.attr(String, { key: 'last_seen_at' }),
 
-  working: function() {
-    return this.get('state') == 'working';
-  }.property,
+  isTesting: function() {
+    return this.get('state') == 'working' && !!this.getPath('payload.config');
+  }.property('state', 'config'),
 
   number: function() {
     return this.get('name').match(/\d+$/)[0];
-  }.property(),
+  }.property('name'),
 
   display: function() {
     var name = this.get('name').replace('travis-', '');
@@ -35,11 +35,11 @@ Travis.Worker = Travis.Record.extend({
     }
 
     return name + ': ' + state;
-  }.property(),
+  }.property('state'),
 
   buildUrl: function() {
     return '#!/' + this.getPath('payload.repository.slug') + '/builds/' + this.getPath('payload.build.id');
-  }.property()
+  }.property('state', 'payload')
 });
 
 Travis.Worker.reopenClass({
