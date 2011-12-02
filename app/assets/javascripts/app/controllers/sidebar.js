@@ -3,6 +3,7 @@ Travis.Controllers.Sidebar = SC.Object.extend({
 
   init: function() {
     Travis.Controllers.Workers.create();
+    Travis.Controllers.Jobs.create({ queue: 'builds.config'  });
     Travis.Controllers.Jobs.create({ queue: 'builds.common'  });
     Travis.Controllers.Jobs.create({ queue: 'builds.node_js' });
     Travis.Controllers.Jobs.create({ queue: 'builds.php' });
