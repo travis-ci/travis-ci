@@ -8,6 +8,10 @@
 - worker dashboard (add the last log line to status reports)
 - user/pusher notifications about maintenance etc
 
+- add logs to builds and add status/result messages to the build log about email/irc/webhook notifications
+
+- rename build.status to build.result internally
+
 == Standalone AMQP consumer
 
 + ActiveRecord::Base.cache { x }
