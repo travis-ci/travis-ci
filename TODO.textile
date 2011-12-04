@@ -7,6 +7,9 @@
 - 1-n worker to vms
 - worker dashboard (add the last log line to status reports)
 - user/pusher notifications about maintenance etc
+- "New repositories" tab
+- add the repo description and language below the repo title (client)
+- add a language icon to the repo sidebar
 
 - add logs to builds and add status/result messages to the build log about email/irc/webhook notifications
 
@@ -51,7 +54,10 @@
 
 - travis-ci: add tests for stats
 - travis-ci: add tests for github login that protect against changes in oauth etc
+- travis-ci/travis-core: try https://github.com/collectiveidea/json_spec for json specs
 
+- fix webhook notifications!! (notify @ddollar)
+- travis-hub: improve logging for async/notification stuff
 - travis-hub: re-enqueue and clean up stalled jobs
 - travis-hub: have the hub respond to SIGTERM and shut down gracefully
 
@@ -59,6 +65,10 @@
 - travis-worker: make command messages expire after 2 sec or so
 - travis-worker: change the naming scheme to railslove.travis-ci.org:ruby-1:worker-1
 
+- travis-build: close stdin so tests waiting for stdin raise (see https://gist.github.com/1425072)
+- travis-build: protect against http://blog.stefan-weigand.de/2008/09/23/syntax-error-bad-fd-number/
+
+- travis-support: move all core_ext to travis-support and add specs
 
 == Sproutcore
 

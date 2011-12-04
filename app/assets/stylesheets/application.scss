@@ -304,6 +304,14 @@ caption {
     color: #666;
     text-decoration: underline;
   }
+  .description, .language {
+    font-weight: normal;
+    font-size: 13px;
+    color: #999;
+  }
+  .language {
+    padding-right: 5px;
+  }
   .github-stats {
     position: absolute;
     top: 0;
