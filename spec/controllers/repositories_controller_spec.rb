@@ -43,14 +43,16 @@ describe RepositoriesController do
       get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json'
 
       ActiveSupport::JSON.decode(response.body).should == {
-       'id' => repository.id,
-       'slug' => 'sven/travis-ci',
-       'last_build_finished_at' => '2010-11-12T12:30:20Z',
-       'last_build_id' => repository.last_build_id,
-       'last_build_number' => '1',
-       'last_build_started_at' => '2010-11-12T12:30:00Z',
-       'last_build_result' => 1,
-       'last_build_status' => 1
+        'id' => repository.id,
+        'slug' => 'sven/travis-ci',
+        'description' => nil,
+        'last_build_finished_at' => '2010-11-12T12:30:20Z',
+        'last_build_id' => repository.last_build_id,
+        'last_build_number' => '1',
+        'last_build_started_at' => '2010-11-12T12:30:00Z',
+        'last_build_result' => 1,
+        'last_build_status' => 1,
+        'last_build_language' => nil,
       }
     end
 
@@ -129,7 +131,9 @@ describe RepositoriesController do
           'last_build_finished_at' => { '__content__' => '2010-11-12T12:30:20Z' },
           "last_build_status"      => { '__content__' => '1' },
           'last_build_result'      => { '__content__' => '1' },
-          'slug'                   => { '__content__' => 'sven/travis-ci' }
+          'last_build_language'    => { 'nil' => 'true'},
+          'slug'                   => { '__content__' => 'sven/travis-ci' },
+          'description'            => { 'nil' => 'true'},
         }
       }
     end
