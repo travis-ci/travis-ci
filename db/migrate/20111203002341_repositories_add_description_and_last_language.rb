@@ -10,14 +10,6 @@ class RepositoriesAddDescriptionAndLastLanguage < ActiveRecord::Migration
     change_table :builds do |t|
       t.string :language
     end
-
-    Build.all.each do |build|
-      build.update_attribute(:language, build.config[:language] || 'ruby')
-    end
-
-    Repository.all.each do |repository|
-      repository.update_attribute(:last_build_language, repository.last_build.try(:language) || 'ruby')
-    end
   end
 
   def down
