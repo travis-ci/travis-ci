@@ -64,10 +64,10 @@ ansiparse = function (str) {
         // TODO: DRY.
         //
         ansiState.forEach(function (ansiCode) {
-          if ((30 <= ansiCode) && (ansiCode <= 37)) {
+          if (ansiparse.foregroundColors[ansiCode]) {
             state.foreground = ansiparse.foregroundColors[ansiCode];
           }
-          else if ((40 <= ansiCode) && (ansiCode <= 47)) {
+          else if (ansiparse.backgroundColors[ansiCode]) {
             state.background = ansiparse.backgroundColors[ansiCode];
           }
           else if (ansiCode == 39) {
@@ -76,14 +76,8 @@ ansiparse = function (str) {
           else if (ansiCode == 49) {
             delete state.background;
           }
-          else if (ansiCode == 1) {
-            state.bold = true;
-          }
-          else if (ansiCode == 3) {
-            state.italic = true;
-          }
-          else if (ansiCode == 4) {
-            state.underline = true;
+          else if (ansiparse.styles[ansiCode]) {
+            state[ansiparse.styles[ansiCode]] = true;
           }
           else if (ansiCode == 22) {
             state.bold = false;
@@ -135,7 +129,8 @@ ansiparse.foregroundColors = {
   '34': 'blue',
   '35': 'magenta',
   '36': 'cyan',
-  '37': 'white'
+  '37': 'white',
+  '90': 'grey'
 };
 
 ansiparse.backgroundColors = {
@@ -147,6 +142,12 @@ ansiparse.backgroundColors = {
   '45': 'magenta',
   '46': 'cyan',
   '47': 'white'
+};
+
+ansiparse.styles = {
+  '1': 'bold',
+  '3': 'italic',
+  '4': 'underline'
 };
 
 if (typeof module == "object" && typeof window == "undefined") {
