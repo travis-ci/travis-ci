@@ -18,8 +18,7 @@ module Github
   end
 end
 
-# Repository.where(:description => nil).each do |r|
-Repository.all.each do |r|
+Repository.where(:description => nil).each do |r|
   begin
     repository = Github::Repository.fetch(:owner => r.owner_name, :name => r.name)
     puts "#{r.owner_name}/#{r.name}: #{repository.description}"
@@ -29,5 +28,13 @@ Repository.all.each do |r|
     puts
     retry
   end
+end
+
+Build.where(:language => nil).each do |build|
+  build.update_attribute(:language, build.config[:language] || 'ruby')
+end
+
+Repository.where(:last_build_language => nil).each do |repository|
+  repository.update_attribute(:last_build_language, repository.last_build.try(:language) || 'ruby')
 end
 
