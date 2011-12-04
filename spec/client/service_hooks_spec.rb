@@ -1,7 +1,7 @@
 require 'client/spec_helper'
 require 'webmock/rspec'
 
-feature 'Feature name', %(
+feature 'Service hooks', %(
   As a registered user
   I want to review my repositories and easily turn service hooks on and off
 ) do
