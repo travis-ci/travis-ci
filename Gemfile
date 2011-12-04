@@ -17,13 +17,13 @@ gem 'omniauth-github',      '~> 1.0.0'
 gem 'unobtrusive_flash',    '~> 0.0.2'
 
 # structures
-gem 'json',                 '~> 1.5.4'
+gem 'json',                 '~> 1.6.3'
 gem 'yajl-ruby',            '~> 1.1.0'
 gem 'rabl',                 '~> 0.5.1'
 
 # db
 gem 'pg',                   '~> 0.11.0'
-gem 'silent-postgres',      '~> 0.0.8'
+gem 'silent-postgres',      '~> 0.1.1'
 
 # apis
 gem 'hoptoad_notifier',     '~> 2.4.11'
@@ -37,12 +37,12 @@ group :assets do
   gem 'sass-rails',         '~> 3.1.5'
   gem 'coffee-rails',       '~> 3.1.1'
   gem 'uglifier',           '~> 1.1.0'
-  gem 'compass',            '0.12.alpha.0'
+  gem 'compass',            '0.12.alpha.2'
 end
 
 group :development, :test, :jasmine do
   gem 'rails-dev-tweaks',   '~> 0.5.1'
-  gem 'factory_girl',       '~> 2.1.2'
+  gem 'factory_girl',       '~> 2.3.2'
   gem 'forgery',            '~> 0.5.0'
   gem 'rspec-rails',        '~> 2.7.0'
   gem 'thin',               '~> 1.3.1'
@@ -61,7 +61,7 @@ end
 
 group :test do
   gem 'jasmine',           '~> 1.1.2'
-  gem 'capybara',          '~> 1.0.0'
+  gem 'capybara',          '~> 1.1.2'
   gem 'database_cleaner',  '~> 0.7.0'
   gem 'mocha',             '~> 0.10.0'
   gem 'webmock',           '~> 1.7.7'
