@@ -1,7 +1,11 @@
 <div id="repository">
-  <h3><a {{bindAttr href="urlGithubRepository"}}>{{repository.slug}}</a></h3>
+  <h3>
+    <a {{bindAttr href="urlGithubRepository"}}>{{repository.slug}}</a>
+  </h3>
+  <p class="description">{{repository.description}}</p>
 
   <ul class="github-stats">
+    <li class="language">{{repository.last_build_language}}</li>
     <li><a class="watchers" {{bindAttr href="urlGithubWatchers"}}></a></li>
     <li><a class="forks" {{bindAttr href="urlGithubNetwork"}}></a></li>
   </ul>
