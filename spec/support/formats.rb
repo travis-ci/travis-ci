@@ -15,15 +15,15 @@ module Support
     end
 
     def json_for_pusher(event, object)
-      normalize_json(Travis::Notifications::Pusher::Payload.new(event, object).to_hash)
+      normalize_json(Travis::Notifications::Handler::Pusher::Payload.new(event, object).to_hash)
     end
 
     def json_for_webhook(object)
-      normalize_json(Travis::Notifications::Webhook::Payload.new(object).to_hash)
+      normalize_json(Travis::Notifications::Handler::Webhook::Payload.new(object).to_hash)
     end
 
     def json_for_worker(object)
-      normalize_json(Travis::Notifications::Worker::Payload.new(object).to_hash)
+      normalize_json(Travis::Notifications::Handler::Worker::Payload.new(object).to_hash)
     end
 
     # normalizes datetime objects to strings etc. more similar to what the client would see.
