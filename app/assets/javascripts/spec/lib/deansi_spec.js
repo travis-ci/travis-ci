@@ -1,29 +1,33 @@
-describe('Deansi', function() {
+describe('Travis.Log.deansi', function() {
   function deansi(string) {
-    return Deansi.parse(string);
+    return Travis.Log.deansi(string);
   }
 
   describe('colors', function() {
     var sets = [
-      { ansi: "[30m",      class: 'black'               },
-      { ansi: "[31m",      class: 'red'                 },
-      { ansi: "[32m",      class: 'green'               },
-      { ansi: "[33m",      class: 'yellow'              },
-      { ansi: "[34m",      class: 'blue'                },
-      { ansi: "[35m",      class: 'magenta'             },
-      { ansi: "[36m",      class: 'cyan'                },
-      { ansi: "[37m",      class: 'white'               },
-      { ansi: "[90m",      class: 'grey'                },
-      { ansi: "[30;1m",    class: 'black bold'          },
-      { ansi: "[31;1m",    class: 'red bold'            },
-      { ansi: "[32;1m",    class: 'green bold'          },
-      { ansi: "[34;1m",    class: 'blue bold'           },
-      { ansi: "[33;1m",    class: 'yellow bold'         },
-      { ansi: "[35;1m",    class: 'magenta bold'        },
-      { ansi: "[36;1m",    class: 'cyan bold'           },
-      { ansi: "[37;1m",    class: 'white bold'          },
-      { ansi: "[42;37;1m", class: 'bg-green white bold' }
+      { ansi: "30",      class: 'black'               },
+      { ansi: "31",      class: 'red'                 },
+      { ansi: "32",      class: 'green'               },
+      { ansi: "33",      class: 'yellow'              },
+      { ansi: "34",      class: 'blue'                },
+      { ansi: "35",      class: 'magenta'             },
+      { ansi: "36",      class: 'cyan'                },
+      { ansi: "37",      class: 'white'               },
+      { ansi: "90",      class: 'grey'                },
+      { ansi: "30;1",    class: 'black bold'          },
+      { ansi: "31;1",    class: 'red bold'            },
+      { ansi: "32;1",    class: 'green bold'          },
+      { ansi: "34;1",    class: 'blue bold'           },
+      { ansi: "33;1",    class: 'yellow bold'         },
+      { ansi: "35;1",    class: 'magenta bold'        },
+      { ansi: "36;1",    class: 'cyan bold'           },
+      { ansi: "37;1",    class: 'white bold'          },
+      { ansi: "42;37;1", class: 'white bg-green bold' }
     ];
+
+    sets = sets.map(function (set) {
+      return { ansi: "\033[" + set.ansi + 'm', class: set.class };
+    });
 
     it('removes all occurrences of \e(B', function() {
       expect(deansi(String.fromCharCode(27) + '(Bfoo' + String.fromCharCode(27) + '(Bbar')).toEqual('foobar');
@@ -43,7 +47,7 @@ describe('Deansi', function() {
 
     it('replaces ANSI escape sequences having a closing sequence [m with a span having the respective css classes', function() {
       $.each(sets, function(ix, set) {
-        var source = (set.ansi + 'FOO[m').repeat(3);
+        var source = (set.ansi + 'FOO\033[m').repeat(3);
         var expected = ('<span class="' + set.class +'">FOO</span>').repeat(3);
         expect(deansi(source)).toEqual(expected);
       });
@@ -51,7 +55,7 @@ describe('Deansi', function() {
 
     it('replaces ANSI escape sequences having a closing sequence [0m with a span having the respective css classes', function() {
       $.each(sets, function(ix, set) {
-        var source = (set.ansi + 'FOO[0m').repeat(3);
+        var source = (set.ansi + 'FOO\033[0m').repeat(3);
         var expected = ('<span class="' + set.class +'">FOO</span>').repeat(3);
         expect(deansi(source)).toEqual(expected);
       });
@@ -59,15 +63,15 @@ describe('Deansi', function() {
 
     it('replaces ANSI escape sequence (real examples)', function() {
       var examples = [
-        { source: '[42;37;1mPassed[0m', result: '<span class="bg-green white bold">Passed</span>' },
-        { source: '[0;33;40mFailure',   result: '<span class="yellow bg-black">Failure</span>'    },
-        { source: '[0;37;40mSuccess',   result: '<span class="white bg-black">Success</span>'     },
-        { source: '[32m.[0m[31mF[0m',   result: '<span class="green">.</span><span class="red">F</span>' },
-        { source: '[31m2 failed[0m, [33m2 undefined[0m, [32m35 passed[0m', result: '<span class="red">2 failed</span>, <span class="yellow">2 undefined</span>, <span class="green">35 passed</span>' },
-        { source: '[31m2 failed[0m, [36m1 skipped[0m, [33m7 undefined[0m, [32m212 passed[0m', result: '<span class="red">2 failed</span>, <span class="cyan">1 skipped</span>, <span class="yellow">7 undefined</span>, <span class="green">212 passed</span>' },
-        { source: '[32mUsing /home/vagrant/.rvm/gems/ruby-1.8.7-p334[m' + String.fromCharCode(27) + '(B\r\n', result: '<span class="green">Using /home/vagrant/.rvm/gems/ruby-1.8.7-p334</span>\r\n' },
-        { source: '[32mYour bundle is complete! Use `bundle show [gemname]` to see ...[0m\r\n', result: '<span class="green">Your bundle is complete! Use `bundle show [gemname]` to see ...</span>\r\n' },
-        { source: '[31mcucumber features/command_line.feature:176[0m[90m # Scenario: Recompiling a project[0m\r\n', result: '<span class="red">cucumber features/command_line.feature:176</span><span class="grey"> # Scenario: Recompiling a project</span>\r\n' }
+        { source: '\033[42;37;1mPassed\033[0m',       result: '<span class="white bg-green bold">Passed</span>' },
+        { source: '\033[0;33;40mFailure',             result: '<span class="yellow bg-black">Failure</span>'    },
+        { source: '\033[0;37;40mSuccess',             result: '<span class="white bg-black">Success</span>'     },
+        { source: '\033[32m.\033[0m\033[31mF\033[0m', result: '<span class="green">.</span><span class="red">F</span>' },
+        { source: '\033[31m2 failed\033[0m, \033[33m2 undefined\033[0m, \033[32m35 passed\033[0m', result: '<span class="red">2 failed</span>, <span class="yellow">2 undefined</span>, <span class="green">35 passed</span>' },
+        { source: '\033[31m2 failed\033[0m, \033[36m1 skipped\033[0m, \033[33m7 undefined\033[0m, \033[32m212 passed\033[0m', result: '<span class="red">2 failed</span>, <span class="cyan">1 skipped</span>, <span class="yellow">7 undefined</span>, <span class="green">212 passed</span>' },
+        { source: '\033[32mUsing /home/vagrant/.rvm/gems/ruby-1.8.7-p334\033[m' + String.fromCharCode(27) + '(B\r\n', result: '<span class="green">Using /home/vagrant/.rvm/gems/ruby-1.8.7-p334</span>\r\n' },
+        { source: '\033[32mYour bundle is complete! Use `bundle show [gemname]` to see ...\033[0m\r\n', result: '<span class="green">Your bundle is complete! Use `bundle show [gemname]` to see ...</span>\r\n' },
+        { source: '\033[31mcucumber features/command_line.feature:176\033[0m\033[90m # Scenario: Recompiling a project\033[0m\r\n', result: '<span class="red">cucumber features/command_line.feature:176</span><span class="grey"> # Scenario: Recompiling a project</span>\r\n' }
       ];
       $.each(examples, function(ix, example) {
         expect(deansi(example.source)).toEqual(example.result);
@@ -83,13 +87,13 @@ describe('Deansi', function() {
     });
 
     it('replaces a line followed by an ansii clear line escape sequence and a carriage return', function() {
-      var source   = 'remote: Compressing objects: 100% (21/21)   [K\rremote: Compressing objects: 100% (21/21), done.';
+      var source   = 'remote: Compressing objects: 98% (20/21)   \033[K\rremote: Compressing objects: 100% (21/21), done.';
       var expected = 'remote: Compressing objects: 100% (21/21), done.';
       expect(deansi(source)).toEqual(expected);
     });
 
     it('removes [K sequences preceeding a carriage return', function() {
-      var source   = 'remote: Compressing objects: 100% (21/21), done. [K\r';
+      var source   = 'remote: Compressing objects: 100% (21/21), done. \033[K\r';
       var expected = 'remote: Compressing objects: 100% (21/21), done. \r';
       expect(deansi(source)).toEqual(expected);
     });
