@@ -11,17 +11,15 @@ Travis.Controllers.Workers = SC.ArrayProxy.extend({
   },
 
   workersObserver: function() {
-    // if(this.getPath('workers.length') && this.groups === undefined) { // why the heck can't i just return an array here
-      this.groups = {};
-      var workers = this.get('workers') || [];
+    this.groups = {};
+    var workers = this.get('workers') || [];
 
-      workers.forEach(function(worker) {
-        var host = worker.get('host');
-        if(!(host in this.groups)) this.groups[host] = Travis.WorkerGroup.create();
-        this.groups[host].add(worker);
-      }.bind(this));
+    workers.forEach(function(worker) {
+      var host = worker.get('host');
+      if(!(host in this.groups)) this.groups[host] = Travis.WorkerGroup.create();
+      this.groups[host].add(worker);
+    }.bind(this));
 
-      this.set('content', $.values(this.groups));
-    // }
+    this.set('content', $.values(this.groups));
   }.observes('workers.length')
 });
