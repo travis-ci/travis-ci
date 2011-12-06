@@ -30,7 +30,7 @@ RSpec::Matchers.define :post_webhooks_on do |event, object, options|
       env[:url].path.should == uri.path
       env[:request_headers]['Authorization'].should == authorization_for(object)
 
-      payload = normalize_json(Travis::Notifications::Webhook::Payload.new(object).to_hash)
+      payload = normalize_json(Travis::Handler::Notifications::Webhook::Payload.new(object).to_hash)
       payload_from(env).keys.sort.should == payload.keys.map(&:to_s).sort
     end
   end
@@ -40,7 +40,7 @@ RSpec::Matchers.define :post_webhooks_on do |event, object, options|
   end
 
   def authorization_for(object)
-    Travis::Notifications::Webhook.new.send(:authorization, object)
+    Travis::Notifications::Handler::Webhook.new.send(:authorization, object)
   end
 end
 
@@ -112,7 +112,7 @@ RSpec::Matchers.define :be_queued do |*args|
   match do |job|
     @options = args.last.is_a?(Hash) ? args.pop : {}
     @queue = args.first || @options[:queue] || 'builds.common'
-    @expected = job.is_a?(Job) ? Travis::Notifications::Worker.payload_for(job, :queue => @queue) : job
+    @expected = job.is_a?(Job) ? Travis::Notifications::Handler::Worker.payload_for(job, :queue => @queue) : job
     @actual = queued_job ? queued_job['args'].last.deep_symbolize_keys : nil
 
     @actual == @expected
@@ -140,7 +140,7 @@ end
 RSpec::Matchers.define :be_published do |*args|
   match do |job|
     queue = 'builds.common'
-    expected = Travis::Notifications::Worker::Payload.for(job)
+    expected = Travis::Notifications::Handler::Worker::Payload.for(job)
 
     failure_message_for_should do
       "expected a message with the payload #{expected.inspect} to be published in #{queue.inspect} but none was found. Instead there are the following jobs:\n\n#{messages.inspect}"
@@ -156,7 +156,7 @@ RSpec::Matchers.define :be_published do |*args|
   end
 
   def messages
-    Travis::Notifications::Worker.amqp.messages
+    Travis::Notifications::Handler::Worker.amqp.messages
   end
 end
 
