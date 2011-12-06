@@ -1,11 +1,12 @@
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: f60ce4c663bca2c7c542f8eef393e85f7f6c2086
+  revision: 6ded53a8c7533f5f108ec89fc2b0ff21980b58ea
   specs:
     travis-core (0.0.1)
       actionmailer_inline_css (~> 1.4.0)
       data_migrations (~> 0.0.1)
       devise (~> 1.5.0)
+      girl_friday
       hashr (~> 0.0.19)
       hpricot (~> 0.8.4)
       oa-oauth (~> 0.3.2)
@@ -20,7 +21,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-support.git
-  revision: a8e60bf16ea0ecd08e7e5fa6bc40750de48013ff
+  revision: 5100a69915bbea2fe1543648def7fb614102eb0a
   specs:
     travis-support (0.0.1)
 
@@ -104,6 +105,7 @@ GEM
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
       sass (~> 3.1)
+    connection_pool (0.1.0)
     crack (0.3.1)
     css_parser (1.2.5)
       addressable
@@ -135,6 +137,8 @@ GEM
       thor (>= 0.13.6)
     forgery (0.5.0)
     fssm (0.2.7)
+    girl_friday (0.9.7)
+      connection_pool (~> 0.1.0)
     hashie (1.2.0)
     hashr (0.0.19)
     hike (1.2.1)
