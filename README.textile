@@ -17,27 +17,22 @@ h2. User Documentation
 * "Build Configuration":http://about.travis-ci.org/docs/user/build-configuration
 * "Status Images":http://about.travis-ci.org/docs/user/status-images
 
-h2. Developer Documentation
-
-* "The worker":http://about.travis-ci.org/docs/dev/worker/
-
-h2. Other sources
-
-* "Travis CI":http://bostonrb.org/presentations/travis-ci - Video: Presentation at Boston.rb ("Jeremy Weisskotten":https://twitter.com/#!/doctorzaius)
-* "Travis - a distributed build server tool for the Ruby community":http://svenfuchs.com/2011/2/5/travis-a-distributed-build-server-tool-for-the-ruby-community - Introductory blog post about the original idea ("Sven Fuchs":http://svenfuchs.com)
 
 h2. Overview
 
-Travis consists of four main parts:
+Travis consists of several parts:
 
-* A "Backbone.js":http://documentcloud.github.com/backbone single-page application that runs client side.
+* A Sprout Core-based single-page application that runs client side.
 * A Rails 3 application that serves to the in-browser application and takes pings from Github.
-* A "Resque":https://github.com/defunkt/resque worker for running a project's test suite remotely.
+* An "AMQP":http://bit.ly/amqp-model-explained worker for running a project's test suite remotely.
 * A websocket server (we use "Pusher":http://pusher.com) for tailing build results to the browser.
+* An AMQP application that collects build reports, workers state, propagates them to Pusher, delivers notifications and so on.
+* Tools that provision CI environment (to provide databases, RabbitMQ, Rubies/JDK/Node.js versions do so on) and build VM images.
 
-!https://github.com/travis-ci/travis-ci/raw/master/docs/travis.spike-3.png!
+All these applications, tools and libraries are hosted under [Travis CI github organization](https://github.com/travis-ci).
 
-You can also watch this (quite old, but still valid) screencast to get an idea: "1:20 quick demo screencast (spike 2)":http://www.youtube.com/watch?v=mNOwCJhjWAw
+You can also watch this (old but still valid) screencast to get an idea: "1:20 quick demo screencast (spike 2)":http://www.youtube.com/watch?v=mNOwCJhjWAw
+
 
 h2. Goals
 
@@ -108,17 +103,20 @@ h2. Design Iterations
 * "First design Jan 2010":https://skitch.com/svenfuchs/rtms3/travis-design-1-2010-02
 * Initial mockups of "index":https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/main.png and "details":https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/build_details.png
 
-h2. First spike
 
-My first spike was using Nanite for running workers.
+h2. Developer Documentation
 
-* "1:36 quick demo screencast (spike 1)":http://www.youtube.com/watch?v=qdTV-b6BJHA
-* "Architecture diagram (spike 1)":https://github.com/travis-ci/travis-ci/raw/master/docs/travis.spike-1.png
+* "The worker":http://about.travis-ci.org/docs/dev/worker/
+
+h2. Other sources
+
+* "Travis CI":http://bostonrb.org/presentations/travis-ci - Video: Presentation at Boston.rb ("Jeremy Weisskotten":https://twitter.com/#!/doctorzaius)
+* "Travis - a distributed build server tool for the Ruby community":http://svenfuchs.com/2011/2/5/travis-a-distributed-build-server-tool-for-the-ruby-community - Introductory blog post about the original idea ("Sven Fuchs":http://svenfuchs.com)
 
 
 h2. Requirements
 
-* Ruby 1.8.7 or Ruby 1.9.2 (Ruby 1.9.1 is not supported)
+* Ruby 1.9.2 (Ruby 1.9.1 is not supported)
 * PostgreSQL for the pg gem
-
-
+* RabbitMQ
+* VirtualBox 4.1
