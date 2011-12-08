@@ -24,12 +24,12 @@ Travis consists of several parts:
 
 * A Sprout Core-based single-page application that runs client side.
 * A Rails 3 application that serves to the in-browser application and takes pings from Github.
-* An "AMQP":http://bit.ly/amqp-model-explained worker for running a project's test suite remotely.
+* A JRuby-based "AMQP":http://bit.ly/amqp-model-explained worker for running a project's test suite in snapshotted virtual machines.
 * A websocket server (we use "Pusher":http://pusher.com) for tailing build results to the browser.
-* An AMQP application that collects build reports, workers state, propagates them to Pusher, delivers notifications and so on.
-* Tools that provision CI environment (to provide databases, RabbitMQ, Rubies/JDK/Node.js versions do so on) and build VM images.
+* A JRuby-based AMQP daemon that collects build reports, workers state, propagates them to Pusher, delivers notifications and so on.
+* Tools that provision CI environment (to provide databases, RabbitMQ, Rubies/JDK/Node.js versions and so on) and build VM images.
 
-All these applications, tools and libraries are hosted under [Travis CI github organization](https://github.com/travis-ci).
+All these applications, tools and libraries are hosted under "Travis CI github organization":https://github.com/travis-ci.
 
 You can also watch this (old but still valid) screencast to get an idea: "1:20 quick demo screencast (spike 2)":http://www.youtube.com/watch?v=mNOwCJhjWAw
 
@@ -37,12 +37,13 @@ You can also watch this (old but still valid) screencast to get an idea: "1:20 q
 h2. Goals
 
 With Travis CI our vision is to become for builds (i.e. tests, for starters) what rubygems.org is for gems.
+Our goal is to build a rock solid, but dead-easy to use open-source continuous integration service for the open source community.
 
-Our goal is to build a rock solid, but dead-easy to use open-source continuous integration service for the Ruby community.
+We try to follow the 80/20 for requirements. I.e. we focus on the most common use cases.
 
-We try to follow the 80/20 for requirements. I.e. we focus on the most common use cases for testing Ruby Gems.
+Travis CI does **not** currently support closed in-house installations, although we know of people doing this.
+Ask on the "IRC channel":irc://irc.freenode.net#travis for more information.
 
-Travis CI does **not** currently support closed in-house installations, although we know of people working on this. Ask on the "IRC channel":irc://irc.freenode.net#travis for more information.
 
 h2. Running the tests
 
