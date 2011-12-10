@@ -3,16 +3,34 @@
 - automate backups
 - rabbitmq message rate stats
 - pretest github pull reqests
-- 1-n worker to vms
 - worker dashboard (add the last log line to status reports)
 - user/pusher notifications about maintenance etc
-- "New repositories" tab
-- add the repo description and language below the repo title (client)
-- add a language icon to the repo sidebar
-
 - add logs to builds and add status/result messages to the build log about email/irc/webhook notifications
+- add a language to the repo sidebar and main area (?)
+- "New repositories" tab
 
-- rename build.status to build.result internally
+- travis-ci: actually purge archived builds
+- travis-ci: add tests for stats
+- travis-ci: add tests for github login that protect against changes in oauth etc
+
+- travis-core: add $ thor travis:deploy and automatically add a git tag or update the production branch
+- travis-core: add $ thor travis:config:sync to sync the current config with the keychain in heroku:config rake task
+- travis-core: move the heroku rake task to thor
+- travis-core: fix webhook notifications when using https
+- travis-core: rename build.status to build.result internally
+
+- travis-hub: join worker update queries per message
+- travis-hub: re-enqueue and clean up stalled jobs
+- travis-hub: have the hub respond to SIGTERM and shut down gracefully
+
+- travis-worker: remote worker maintenance
+- travis-worker: make command messages expire after 2 sec or so
+- travis-worker: change the naming scheme to railslove.travis-ci.org:ruby-1:worker-1
+- travis-worker: 1-n worker to vms
+
+- travis-build: close stdin so tests waiting for stdin raise (see https://gist.github.com/1425072)
+- travis-build: protect against http://blog.stefan-weigand.de/2008/09/23/syntax-error-bad-fd-number/
+
 
 == Standalone AMQP consumer
 
@@ -53,23 +71,10 @@
 + travis-hub: improve logging for async/notification stuff
 + travis-core: add an archive notification that pushes builds to an external json db on build:finished
 + travis-support: move all core_ext to travis-support
++ travis-support: add specs to remaining core_exts
++ travis-core: use after_commit :on => :create
++ travis-ci: pass build description and language on build:started
 
-- travis-ci: actually archive builds
-- travis-ci: add tests for stats
-- travis-ci: add tests for github login that protect against changes in oauth etc
-
-- fix webhook notifications!! (notify @ddollar)
-- travis-hub: re-enqueue and clean up stalled jobs
-- travis-hub: have the hub respond to SIGTERM and shut down gracefully
-
-- travis-worker: remote worker maintenance
-- travis-worker: make command messages expire after 2 sec or so
-- travis-worker: change the naming scheme to railslove.travis-ci.org:ruby-1:worker-1
-
-- travis-build: close stdin so tests waiting for stdin raise (see https://gist.github.com/1425072)
-- travis-build: protect against http://blog.stefan-weigand.de/2008/09/23/syntax-error-bad-fd-number/
-
-- travis-support: add specs to remaining core_exts
 
 == Sproutcore
 
