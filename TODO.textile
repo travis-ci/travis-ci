@@ -1,5 +1,9 @@
 == Next
 
++ travis-cli: add $ thor travis:deploy and automatically add a git tag or update the production branch
++ travis-cli: add $ thor travis:config:sync to sync the current config with the keychain in heroku:config rake task
++ travis-cli: move the heroku rake task to thor
+
 - automate backups
 - rabbitmq message rate stats
 - pretest github pull reqests
@@ -10,12 +14,10 @@
 - "New repositories" tab
 
 - travis-ci: actually purge archived builds
+- travis-ci: calculate build duration from matrix.sum(&:duration) or similar
 - travis-ci: add tests for stats
 - travis-ci: add tests for github login that protect against changes in oauth etc
 
-- travis-core: add $ thor travis:deploy and automatically add a git tag or update the production branch
-- travis-core: add $ thor travis:config:sync to sync the current config with the keychain in heroku:config rake task
-- travis-core: move the heroku rake task to thor
 - travis-core: fix webhook notifications when using https
 - travis-core: rename build.status to build.result internally
 
@@ -120,11 +122,9 @@
 + move actions from builds_controller to tasks_controller and use routes to keep the /builds url
 + add data migrations
 + fix n+1 queries: https://gist.github.com/058e40dc43b3eb5ac64c
++ the worker doesn't seem to notify about task:configure:started
 
-- the worker doesn't seem to notify about task:configure:started
-- calculate build duration from matrix.sum(&:duration) or similar
-
-- later: make payload instances Hashrs and rewrite lib/github
+- rewrite lib/github to use Hashr instead of ostruct
 
 # Api changes
 
