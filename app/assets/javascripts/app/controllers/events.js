@@ -11,22 +11,24 @@ Travis.Controllers.Events = SC.Object.extend({
 
   jobStarted: function(data) {
     var job = Travis.Job.find(data.id);
-    if(job) job.whenReady(function(job) {
+    if(job) {
       job.update($.extend(data, { state: 'started' }));
-    });
+    };
   },
 
   jobLog: function(data) {
     var job = Travis.Job.find(data.id);
-    if(job) job.whenReady(function(job) { job.appendLog(data._log); });
+    if(job) job.whenReady(function(job) {
+      job.appendLog(data._log);
+    });
   },
 
   jobFinished: function(data) {
     var job = Travis.Job.find(data.id);
-    if(job) job.whenReady(function(job) {
+    if(job) {
       job.update($.extend(data, { state: 'finished' }));
-      job.unsubscribe();
-    });
+      job.unsubscribe(); // TODO make Job listen to it's state and unsubscribe on finished
+    };
   },
 
   buildStarted: function(data) {
