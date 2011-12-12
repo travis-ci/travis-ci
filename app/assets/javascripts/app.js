@@ -51,7 +51,7 @@ var Travis = SC.Application.create({
     var ix = this.channels.indexOf(channel);
     if(ix == -1) {
       this.channels.splice(ix, 1);
-      if(window.pusher)pusher.unsubscribe(channel);
+      if(window.pusher) pusher.unsubscribe(channel);
     }
   },
 

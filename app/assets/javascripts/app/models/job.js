@@ -1,6 +1,6 @@
 Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
   repositoryId:   SC.Record.attr(Number, { key: 'repository_id' }),
-  buildId:        SC.Record.attr(Number, { key: 'build_id' }), // TODO rename in json payload
+  buildId:        SC.Record.attr(Number, { key: 'build_id' }),
   config:         SC.Record.attr(Object),
   state:          SC.Record.attr(String),
   number:         SC.Record.attr(Number),
@@ -20,8 +20,16 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
 
   build: function() {
     if(window.__DEBUG__) console.log('updating build on job ' + this.get('id'));
-    return this.get('buildId') ? Travis.Build.find(this.get('buildId')) : null;
+    return Travis.Build.find(this.get('buildId'));
   }.property('build_id').cacheable(),
+
+  update: function(attrs) {
+    this.get('build').whenReady(function(build) {
+      var job = build.get('matrix').find(function(a) { return a.get('id') == this.get('id') });
+      if(job) { job.update(attrs); }
+    });
+    this._super(attrs);
+  },
 
   repository: function() {
     if(window.__DEBUG__) console.log('updating repository on job ' + this.get('id'));
