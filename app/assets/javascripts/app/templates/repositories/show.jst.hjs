@@ -19,12 +19,13 @@
       <h5><a {{bindAttr href="urlBuilds"}}>Build History</a></h5>
       <div class="tab"></div>
     </li>
-    <li id="tab_parent">
-      <h5><a {{bindAttr href="urlParentBuild"}}>Build #{{build.parent.number}}</a></h5>
-    </li>
     <li id="tab_build">
       <h5><a {{bindAttr href="urlBuild"}}>Build #{{build.number}}</a></h5>
-      <div class="tab"> </div>
+      <div class="tab"></div>
+    </li>
+    <li id="tab_job">
+      <h5><a {{bindAttr href="urlJob"}}>Build #{{job.number}}</a></h5>
+      <div class="tab"></div>
     </li>
   </ul>
 </div>

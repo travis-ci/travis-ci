@@ -4,7 +4,7 @@ attributes :id, :repository_id, :number, :state, :started_at, :finished_at, :con
 
 node(:log)         { @job.log.try(:content) || '' } unless params[:bare]
 node(:result)      { @job.status }
-node(:parent_id)   { @job.owner_id }
+node(:build_id)    { @job.owner_id }
 node(:started_at)  { @job.started_at }  if @job.started?
 node(:finished_at) { @job.finished_at } if @job.finished?
 

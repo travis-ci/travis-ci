@@ -5,29 +5,36 @@ Travis.Controllers.Events = SC.Object.extend({
     events[action](data);
   },
 
-  buildQueued: function(data) {
-    data = $.extend(data.build, { repository: data.repository });
-    Travis.Job.createOrUpdate(data);
+  jobCreated: function(data) {
+    Travis.Job.createOrUpdate($.extend(data, { state: 'created' }));
   },
 
-  buildRemoved: function(data) {
-    var job = Travis.Job.find(data.build.id);
-    if(job) job.whenReady(function(job) { job.destroy() });
+  jobStarted: function(data) {
+    var job = Travis.Job.find(data.id);
+    if(job) job.whenReady(function(job) {
+      job.update($.extend(data, { state: 'started' }));
+    });
+  },
+
+  jobLog: function(data) {
+    var job = Travis.Job.find(data.id);
+    if(job) job.whenReady(function(job) { job.appendLog(data._log); });
+  },
+
+  jobFinished: function(data) {
+    var job = Travis.Job.find(data.id);
+    if(job) job.whenReady(function(job) {
+      job.update($.extend(data, { state: 'finished' }));
+      job.unsubscribe();
+    });
   },
 
   buildStarted: function(data) {
     this.updateFrom(data);
   },
 
-  buildLog: function(data) {
-    var test = Travis.Build.find(data.build.id);
-    if(test) test.whenReady(function(test) { test.appendLog(data.build._log); });
-  },
-
   buildFinished: function(data) {
     this.updateFrom(data);
-    var build = Travis.Build.find(data.build.id);
-    if(build) build.unsubscribe();
   },
 
   workerAdded: function(data) {
@@ -48,21 +55,7 @@ Travis.Controllers.Events = SC.Object.extend({
   },
 
   updateFrom: function(data) {
-    this.deferLastBuildIdUpdate(data.repository, function() {
-      if(data.repository) var repository = Travis.Repository.createOrUpdate(data.repository);
-      if(data.build) Travis.Build.createOrUpdate(data.build);
-      return repository;
-    });
-  },
-
-  deferLastBuildIdUpdate: function(attrs, block) {
-    if(attrs && attrs.last_build_id) {
-      var last_build_id = attrs.last_build_id;
-      delete attrs.last_build_id;
-    }
-    var repository = block();
-    if(last_build_id) {
-      repository.set('lastBuildId', last_build_id);
-    }
+    if(data.repository) Travis.Repository.createOrUpdate(data.repository);
+    if(data.build) Travis.Build.createOrUpdate(data.build);
   }
 });

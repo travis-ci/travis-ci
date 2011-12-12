@@ -1,6 +1,5 @@
 Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   repositoryId:   SC.Record.attr(Number, { key: 'repository_id' }),
-  parentId:       SC.Record.attr(Number, { key: 'parent_id' }),
   config:         SC.Record.attr(Object),
   state:          SC.Record.attr(String),
   number:         SC.Record.attr(Number),
@@ -18,12 +17,7 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   compareUrl:     SC.Record.attr(String, { key: 'compare_url' }),
   log:            SC.Record.attr(String),
 
-  matrix: SC.Record.toMany('Travis.Build', { nested: true }), // TODO should be Travis.Test!
-
-  parent: function() {
-    if(window.__DEBUG__) console.log('updating parent on build ' + this.get('id'));
-    return this.get('parentId') ? Travis.Build.find(this.get('parentId')) : null;
-  }.property('parent_id').cacheable(),
+  matrix: SC.Record.toMany('Travis.Job', { nested: true }),
 
   repository: function() {
     if(window.__DEBUG__) console.log('updating repository on build ' + this.get('id'));
@@ -33,10 +27,6 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   update: function(attrs) {
     if('matrix' in attrs) attrs.matrix = this._joinMatrixAttributes(attrs.matrix);
     this._super(attrs);
-  },
-
-  appendLog: function(log) {
-    this.set('log', this.get('log') + log);
   },
 
   updateTimes: function() {
@@ -57,31 +47,15 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   duration: function() {
     if(window.__DEBUG__) console.log('updating duration on build ' + this.get('id'));
     return this.durationFrom(this.get('startedAt'), this.get('finishedAt'));
-  }.property('startedAt', 'finishedAt').cacheable(),
-
-  subscribe: function() {
-    var id = this.get('id');
-    if(id && !this._subscribed) {
-      this._subscribed = true;
-      $.ajax({ url: '/builds/%@.json'.fmt(id), dataType: 'json', success: function(data, status, response) {
-          Travis.subscribe('build-' + id);
-          this.set('log', data.log);
-        }.bind(this)
-      });
-    }
-  },
-
-  unsubscribe: function() {
-    this._subscribed = false;
-    Travis.subscribe('build-' + this.get('id'));
-  },
+  }.property('started_at', 'finished_at'),
 
   // need to join given attributes with existing attributes because SC.Record.toMany
   // does not seem to allow partial updates, i.e. would remove existing attributes?
   _joinMatrixAttributes: function(attrs) {
     var _this = this;
-    return $.each(attrs, function(ix, build) {
-      attrs[ix] = $.extend(_this.get('matrix').objectAt(ix).get('attributes') || {}, build);
+    return $.each(attrs, function(ix, job) {
+      var _job = _this.get('matrix').objectAt(ix);
+      if(_job) attrs[ix] = $.extend(_job.get('attributes') || {}, job);
     });
   }
 });
@@ -90,6 +64,6 @@ Travis.Build.reopenClass({
   resource: 'builds',
 
   byRepositoryId: function(id, parameters) {
-    return this.all({ url: '/repositories/%@/builds.json?parent_id=&bare=true'.fmt(id), repositoryId: id, parentId: null, orderBy: 'number DESC' });
+    return this.all({ url: '/repositories/%@/builds.json?bare=true'.fmt(id), repositoryId: id, orderBy: 'number DESC' });
   }
 });
