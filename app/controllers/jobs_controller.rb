@@ -16,18 +16,6 @@ class JobsController < ApplicationController
 
     def jobs
       @jobs ||= Job.queued.where(:queue => params[:queue])
-      # .map do |job|
-      #   {
-      #     :id         => job.id,
-      #     :number     => job.number,
-      #     :commit     => job.commit.commit,
-      #     :queue      => job.queue,
-      #     :repository => {
-      #       :id   => job.repository.id,
-      #       :slug => job.repository.slug
-      #     }
-      #   }
-      # end
     end
 
     def job
