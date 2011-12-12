@@ -21,37 +21,58 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
   },
 
   builds: function() {
-    if(window.__DEBUG__) console.log('updating builds on repository ' + this.get('id'));
     return Travis.Build.byRepositoryId(this.get('id'));
   }.property().cacheable(),
 
   lastBuild: function() {
-    if(window.__DEBUG__) console.log('updating lastBuild on repository ' + this.get('id'));
     return Travis.Build.find(this.get('lastBuildId'));
   }.property('last_build_id'),
 
-  // TODO the following display logic all all seems to belong to a controller or helper module,
-  // but I can't find a way to bind an itemClass to a controller w/ a CollectionView
+  // VIEW HELPERS
 
   color: function() {
-    if(window.__DEBUG__) console.log('updating color on repository ' + this.get('id'));
     return this.colorForStatus(this.get('lastBuildResult'));
   }.property('last_build_result').cacheable(),
 
   formattedLastBuildDuration: function() {
-    if(window.__DEBUG__) console.log('updating formattedLastBuildDuration on repository ' + this.get('id'));
     return this.readableTime(this.get('lastBuildDuration'));
   }.property('lastBuildDuration').cacheable(),
 
   formattedLastBuildFinishedAt: function() {
-    if(window.__DEBUG__) console.log('updating formattedLastBuildFinishedAt on repository ' + this.get('id'));
     return this.timeAgoInWords(this.get('lastBuildFinishedAt')) || '-';
   }.property('lastBuildFinishedAt').cacheable(),
 
   cssClasses: function() { // ugh
-    if(window.__DEBUG__) console.log('updating cssClasses on repository ' + this.get('id'));
     return $.compact(['repository', this.get('color'), this.get('selected') ? 'selected' : null]).join(' ');
-  }.property('color', 'selected').cacheable()
+  }.property('color', 'selected').cacheable(),
+
+  urlCurrent: function() {
+    return '#!/' + this.getPath('slug');
+  }.property('slug').cacheable(),
+
+  urlBuilds: function() {
+    return '#!/' + this.get('slug') + '/builds';
+  }.property('slug').cacheable(),
+
+  urlLastBuild: function() {
+    return '#!/' + this.get('slug') + '/builds/' + this.get('lastBuildId');
+  }.property('last_build_id').cacheable(),
+
+  urlGithub: function() {
+    return 'http://github.com/' + this.get('slug');
+  }.property('slug').cacheable(),
+
+  urlGithubWatchers: function() {
+    return 'http://github.com/' + this.get('slug') + '/watchers';
+  }.property('slug').cacheable(),
+
+  urlGithubNetwork: function() {
+    return 'http://github.com/' + this.get('slug') + '/network';
+  }.property('slug').cacheable(),
+
+  urlGithubAdmin: function() {
+    return this.get('url') + '/admin/hooks#travis_minibucket';
+  }.property('slug').cacheable(),
 });
 
 Travis.Repository.reopenClass({

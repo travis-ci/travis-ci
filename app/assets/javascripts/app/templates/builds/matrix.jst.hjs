@@ -1,27 +1,23 @@
 <style>
   /* FIXME */
   #main .tabs .tab th th {
-    display: none;
+    /* display: none; */
   }
 </style>
 
 <table id="builds">
   <caption>Build Matrix</caption>
   <thead>
-    <tr>
-      <th>Build</th>
-      <th>Duration</th>
-      <th>Finished</th>
-      {{#each configKeyObjects itemTagName="th"}}
-        {{key}}
-      {{/each}}
-    </tr>
+    {{#collection tagName="tr" contentBinding="content.formattedMatrixHeaders" itemTagName="th"}}
+      {{content}}
+    {{/collection}}
+  </thead>
 
   {{#collection tagName="tbody" contentBinding="matrix" itemViewClass="Travis.View" itemClassBinding="content.color"}}
-    <td class="number"><a {{bindAttr href="urlJob"}}>{{content.number}}</a></td>
+    <td class="number"><a {{bindAttr href="content.url"}}>{{content.number}}</a></td>
     <td class="duration" {{bindAttr title="content.duration"}}>{{duration}}</td>
     <td class="finished_at timeago" {{bindAttr title="content.finishedAt"}}>{{finishedAt}}</td>
-    {{#each configValueObjects itemTagName="td"}}
+    {{#each content.formattedConfigValues itemTagName="td"}}
       {{value}}
     {{/each}}
   {{/collection}}

@@ -3,7 +3,7 @@
     <div class="left">
       <dt>Build</dt>
 
-      <dd class="number"><a {{bindAttr href="urlBuild"}}>{{content.number}}</a></dd>
+      <dd class="number"><a {{bindAttr href="content.build.url"}}>{{content.number}}</a></dd>
       <dt class="finished_at_label">Finished</dt>
       <dd class="finished_at timeago" {{bindAttr title="content.finished_at"}}>{{finishedAt}}</dd>
       <dt>Duration</dt>
@@ -12,18 +12,18 @@
 
     <div class="right">
       <dt>Commit</dt>
-      <dd class="commit-hash"><a {{bindAttr href="urlGithubCommit"}}>{{commit}}</a></dd>
+      <dd class="commit-hash"><a {{bindAttr href="content.build.urlGithubCommit"}}>{{commit}}</a></dd>
       {{#if content.compare_url}}
         <dt>Compare</dt>
         <dd class="compare_view"><a {{bindAttr href="content.compareUrl"}}>{{compareUrl}}</a></dd>
       {{/if}}
       {{#if content.author_name}}
         <dt>Author</dt>
-        <dd class="author"><a {{bindAttr href="urlAuthor"}}>{{content.authorName}}</a></dd>
+        <dd class="author"><a {{bindAttr href="content.build.urlAuthor"}}>{{content.authorName}}</a></dd>
       {{/if}}
       {{#if content.committer_name}}
         <dt>Committer</dt>
-        <dd class="committer"><a {{bindAttr href="urlCommitter"}}>{{content.committerName}}</a></dd>
+        <dd class="committer"><a {{bindAttr href="content.build.urlCommitter"}}>{{content.committerName}}</a></dd>
       {{/if}}
     </div>
 

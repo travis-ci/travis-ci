@@ -31,22 +31,4 @@ Travis.Helpers.Build = {
     var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
     return values.length == 0 ? '-' : values.join(', ');
   }.property('content.config').cacheable(),
-
-  configKeys: function() {
-    return $.map($.keys($.only(this.getPath('content.config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js')), function(key) { return $.camelize(key) });
-  }.property(),
-
-  configValues: function() {
-    return $.values($.only(this.getPath('content.config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js'));
-  }.property(),
-
-  configKeyObjects: function() {
-    if(window.__DEBUG__) console.log('updating configKeyObjects on build/job ' + this.get('id'));
-    return $.map(this.get('configKeys'), function(key) { return SC.Object.create({ key: key }) });
-  }.property('content.config').cacheable(),
-
-  configValueObjects: function() {
-    if(window.__DEBUG__) console.log('updating configValueObjects on build/job ' + this.get('id'));
-    return $.map(this.get('configValues'), function(value) { return SC.Object.create({ value: value }) });
-  }.property('content.config').cacheable()
 };
