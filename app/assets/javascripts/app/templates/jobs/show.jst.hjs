@@ -7,7 +7,7 @@
       <dt class="finished_at_label">Finished</dt>
       <dd class="finished_at timeago" {{bindAttr title="content.finished_at"}}>{{finishedAt}}</dd>
       <dt>Duration</dt>
-      <dd class="duration" {{bindAttr title="content.duration"}}>{{duration}}</dd>
+      <dd class="duration" {{bindAttr title="job.duration"}}>{{duration}}</dd>
     </div>
 
     <div class="right">
@@ -29,12 +29,10 @@
 
     <dt>Message</dt>
     <dd class="commit-message">{{content.message}}</dd>
-
-    {{#if content.parent_id}}
-      <dt>Config</dt>
-      <dd class="config">{{config}}</dd>
-    {{/if}}
+    <dt>Config</dt>
+    <dd class="config">{{config}}</dd>
   </dl>
 
-  {{view Travis.View templateName="app/templates/builds/matrix" repositoryBinding="repository" contentBinding="content" matrixBinding="matrix"}}
+  <pre class="log">{{{log}}}</pre>
 </div>
+

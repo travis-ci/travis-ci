@@ -17,9 +17,9 @@ Travis.Helpers.Urls = {
     return '#!/' + this.getPath('repository.slug') + '/builds';
   }.property('repository'),
 
-  urlParentBuild: function() {
-    return '#!/' + this.getPath('repository.slug') + '/builds/' + this.getPath('build.parentId');
-  }.property('repository.slug', 'build.parent_id'),
+  // urlParentBuild: function() {
+  //   return '#!/' + this.getPath('repository.slug') + '/builds/' + this.getPath('build.parentId');
+  // }.property('repository.slug', 'build.parent_id'),
 
   urlBuild: function() {
     // OMFG, HAX.
@@ -29,7 +29,20 @@ Travis.Helpers.Urls = {
       var slug = this.getPath('parentView.parentView.parentView.repository.slug') || this.getPath('parentView.parentView.repository.slug');
       return '#!/' + slug + '/builds/' + this.getPath('content.id');
     } else {
-      return '#!/' + this.getPath('repository.slug') + '/builds/' + this.getPath('build.id');
+      var id = this.getPath('build.id') || this.getPath('content.id');
+      return '#!/' + this.getPath('repository.slug') + '/builds/' + id;
+    }
+  }.property('repository.slug', 'build.id', 'content.id'),
+
+  urlJob: function() {
+    // OMFG, HAX.
+    // I'm not able to bind the build and repository to the item views of the matrix collection
+    // view properly. See templates/builds/show.jst.hjs
+    if(this.getPath('parentView.tagName') == 'tbody') {
+      var slug = this.getPath('parentView.parentView.parentView.repository.slug') || this.getPath('parentView.parentView.repository.slug');
+      return '#!/' + slug + '/jobs/' + this.getPath('content.id');
+    } else {
+      return '#!/' + this.getPath('repository.slug') + '/jobs/' + this.getPath('job.id');
     }
   }.property('repository.slug', 'build.id'),
 
@@ -42,7 +55,7 @@ Travis.Helpers.Urls = {
     } else {
       return '#!/' + this.getPath('repository.slug') + '/builds/' + this.getPath('repository.lastBuildId');
     }
-  }.property('repository'),
+  }.property('repository.lastBuildId', 'content.lastBuildId'),
 
   urlGithubRepository: function() {
     return 'http://github.com/' + this.getPath('repository.slug');

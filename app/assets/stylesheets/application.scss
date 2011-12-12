@@ -370,10 +370,7 @@ caption {
   .tab {
     padding-left: 12px;
   }
-  #tab_parent {
-    display: none;
-  }
-  #tab_build:not(.active), #tab_search:not(.active) {
+  #tab_build:not(.active), #tab_job:not(.active), #tab_search:not(.active) {
     display: none;
   }
   .tools {

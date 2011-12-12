@@ -1,17 +1,6 @@
 <style>
-
-  /*
-     FIXME
-
-     For some reason the th elements from the first #each helper below are displayed
-     *above* the table in an extra div element.
-
-     And so are the TD elements from the second helper when a new build comes in, i.e
-     when the bound build changes to another record.
-
-  */
-
-  #main .tabs .tab span.sc-view div.sc-view > div.sc-view {
+  /* FIXME */
+  #main .tabs .tab th th {
     display: none;
   }
 </style>
@@ -29,7 +18,7 @@
     </tr>
 
   {{#collection tagName="tbody" contentBinding="matrix" itemViewClass="Travis.View" itemClassBinding="content.color"}}
-    <td class="number"><a {{bindAttr href="urlBuild"}}>{{content.number}}</a></td>
+    <td class="number"><a {{bindAttr href="urlJob"}}>{{content.number}}</a></td>
     <td class="duration" {{bindAttr title="content.duration"}}>{{duration}}</td>
     <td class="finished_at timeago" {{bindAttr title="content.finishedAt"}}>{{finishedAt}}</td>
     {{#each configValueObjects itemTagName="td"}}

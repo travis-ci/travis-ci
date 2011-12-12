@@ -18,7 +18,7 @@ Travis.Record = SC.Record.extend({
 
   isReady: function() {
     return this.get('status') & SC.Record.READY != 0;
-  },
+  }, //.property(),
 
   update: function(attrs) {
     this.whenReady(function(record) {
