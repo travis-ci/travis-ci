@@ -68,6 +68,17 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
     this._subscribed = false;
     Travis.subscribe('job-' + this.get('id'));
   },
+
+  // VIEW HELPERS
+
+  formattedConfigValues: function() {
+    var values = $.values($.only(this.getPath('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js'));
+    return $.map(values, function(value) { return SC.Object.create({ value: value }) });
+  }.property().cacheable(),
+
+  url: function() {
+    return '#!/' + this.getPath('repository.slug') + '/jobs/' + this.get('id');
+  }.property('repository.slug', 'id').cacheable(),
 });
 
 Travis.Job.reopenClass({

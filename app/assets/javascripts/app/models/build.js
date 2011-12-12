@@ -21,7 +21,6 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   matrix: SC.Record.toMany('Travis.Job', { nested: true }),
 
   repository: function() {
-    if(window.__DEBUG__) console.log('updating repository on build ' + this.get('id'));
     return Travis.Repository.find(this.get('repositoryId'));
   }.property('repository_id').cacheable(),
 
@@ -36,12 +35,10 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   },
 
   isMatrix: function() {
-    if(window.__DEBUG__) console.log('updating isMatrix on build ' + this.get('id'));
     return this.getPath('matrix.length') > 1;
   }.property('matrix.length').cacheable(),
 
   color: function() {
-    if(window.__DEBUG__) console.log('updating color on build ' + this.get('id'));
     return this.colorForStatus(this.get('result'));
   }.property('result').cacheable(),
 
@@ -53,7 +50,32 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
       var _job = _this.get('matrix').objectAt(ix);
       if(_job) attrs[ix] = $.extend(_job.get('attributes') || {}, job);
     });
-  }
+  },
+
+  // VIEW HELPERS
+
+  formattedMatrixHeaders: function() {
+    var keys = $.keys($.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js'));
+    return $.map(['Build', 'Duration', 'Finished'].concat(keys), function(key) { return $.camelize(key) });
+  }.property('config').cacheable(),
+
+  url: function() {
+    return '#!/' + this.getPath('repository.slug') + '/builds/' + this.get('id');
+  }.property('repository.slug', 'id').cacheable(),
+
+  urlAuthor: function() {
+    this.get('authorEmail')
+    return 'mailto:' + this.get('authorEmail');
+  }.property('author_email').cacheable(),
+
+  urlCommitter: function() {
+    return 'mailto:' + this.get('committerEmail');
+  }.property('committer_email').cacheable(),
+
+  urlGithubCommit: function() {
+    return 'http://github.com/' + this.getPath('repository.slug') + '/commit/' + this.get('commit');
+  }.property('repository.slug', 'commit').cacheable(),
+
 });
 
 Travis.Build.reopenClass({
