@@ -16,6 +16,7 @@ describe 'HTTP API for Repository' do
       'last_build_status' => build.status, # still here for backwards compatibility
       'last_build_result' => build.status,
       'last_build_language' => nil,
+      'last_build_duration' => nil,
       'slug' => 'svenfuchs/minimal',
     }
   end

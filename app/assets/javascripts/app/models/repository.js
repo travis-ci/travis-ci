@@ -5,6 +5,7 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
   lastBuildId:         SC.Record.attr(Number, { key: 'last_build_id' }),
   lastBuildNumber:     SC.Record.attr(String, { key: 'last_build_number' }),
   lastBuildResult:     SC.Record.attr(Number, { key: 'last_build_result' }),
+  lastBuildDuration:   SC.Record.attr(Number, { key: 'last_build_duration' }),
   lastBuildStartedAt:  SC.Record.attr(String, { key: 'last_build_started_at'  }),  // DateTime doesn't seem to work?
   lastBuildFinishedAt: SC.Record.attr(String, { key: 'last_build_finished_at' }),
 
@@ -27,12 +28,7 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
   lastBuild: function() {
     if(window.__DEBUG__) console.log('updating lastBuild on repository ' + this.get('id'));
     return Travis.Build.find(this.get('lastBuildId'));
-  }.property('lastBuildId'),
-
-  lastBuildDuration: function() {
-    if(window.__DEBUG__) console.log('updating lastBuildDuration on repository ' + this.get('id'));
-    return this.durationFrom(this.get('lastBuildStartedAt'), this.get('lastBuildFinishedAt'));
-  }.property('lastBuildStartedAt', 'lastBuildFinishedAt').cacheable(),
+  }.property('last_build_id'),
 
   // TODO the following display logic all all seems to belong to a controller or helper module,
   // but I can't find a way to bind an itemClass to a controller w/ a CollectionView
@@ -40,7 +36,7 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
   color: function() {
     if(window.__DEBUG__) console.log('updating color on repository ' + this.get('id'));
     return this.colorForStatus(this.get('lastBuildResult'));
-  }.property('lastBuildResult').cacheable(),
+  }.property('last_build_result').cacheable(),
 
   formattedLastBuildDuration: function() {
     if(window.__DEBUG__) console.log('updating formattedLastBuildDuration on repository ' + this.get('id'));
@@ -64,7 +60,7 @@ Travis.Repository.reopenClass({
   recent: function() {
     return this.all({ orderBy: 'lastBuildStartedAt DESC' });
   },
-  
+
   owned_by: function(githubId) {
     return Travis.store.find(SC.Query.remote(Travis.Repository, { url: 'repositories.json?owner_name=' + githubId, orderBy: 'name' }));
   },

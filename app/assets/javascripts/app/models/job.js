@@ -24,7 +24,8 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
   }.property('build_id').cacheable(),
 
   update: function(attrs) {
-    this.get('build').whenReady(function(build) {
+    var build = this.get('build');
+    if(build) build.whenReady(function(build) {
       var job = build.get('matrix').find(function(a) { return a.get('id') == this.get('id') });
       if(job) { job.update(attrs); }
     });

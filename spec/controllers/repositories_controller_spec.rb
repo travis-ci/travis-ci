@@ -53,6 +53,7 @@ describe RepositoriesController do
         'last_build_result' => 1,
         'last_build_status' => 1,
         'last_build_language' => nil,
+        'last_build_duration' => 160,
       }
     end
 
@@ -132,6 +133,7 @@ describe RepositoriesController do
           "last_build_status"      => { '__content__' => '1' },
           'last_build_result'      => { '__content__' => '1' },
           'last_build_language'    => { 'nil' => 'true'},
+          'last_build_duration'    => { '__content__' => '160' },
           'slug'                   => { '__content__' => 'sven/travis-ci' },
           'description'            => { 'nil' => 'true'},
         }

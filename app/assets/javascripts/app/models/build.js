@@ -7,6 +7,7 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   branch:         SC.Record.attr(String),
   message:        SC.Record.attr(String),
   result:         SC.Record.attr(Number),
+  duration:       SC.Record.attr(Number),
   startedAt:      SC.Record.attr(String, { key: 'started_at' }), // use DateTime?
   finishedAt:     SC.Record.attr(String, { key: 'finished_at' }),
   committedAt:    SC.Record.attr(String, { key: 'committed_at' }),
@@ -43,11 +44,6 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
     if(window.__DEBUG__) console.log('updating color on build ' + this.get('id'));
     return this.colorForStatus(this.get('result'));
   }.property('result').cacheable(),
-
-  duration: function() {
-    if(window.__DEBUG__) console.log('updating duration on build ' + this.get('id'));
-    return this.durationFrom(this.get('startedAt'), this.get('finishedAt'));
-  }.property('started_at', 'finished_at'),
 
   // need to join given attributes with existing attributes because SC.Record.toMany
   // does not seem to allow partial updates, i.e. would remove existing attributes?
