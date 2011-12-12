@@ -8,7 +8,7 @@ gem 'travis-core', :git => 'git://github.com/travis-ci/travis-core.git', :requir
 
 # TODO remove this once pusher has removed the crack dependency. should be in travis-core's gemspec
 gem 'pusher', :git => 'https://github.com/juno/pusher-gem.git', :ref => 'd025ccb'
-gem 'amqp',                 '~> 0.8.3'
+gem 'amqp',                 '~> 0.8.4'
 
 # app
 gem 'refraction',           '~> 0.2.0'
