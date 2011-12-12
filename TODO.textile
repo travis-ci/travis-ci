@@ -3,6 +3,8 @@
 + travis-cli: add $ thor travis:deploy and automatically add a git tag or update the production branch
 + travis-cli: add $ thor travis:config:sync to sync the current config with the keychain in heroku:config rake task
 + travis-cli: move the heroku rake task to thor
++ travis-ci: use #!/[:slug]/jobs/:id for jobs
++ travis-ci: change pusher events and payloads to be more symetric with worker reporting events
 
 - automate backups
 - rabbitmq message rate stats

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111203221720) do
+ActiveRecord::Schema.define(:version => 20111212112411) do
 
   create_table "artifacts", :force => true do |t|
     t.text     "content"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20111203221720) do
     t.string   "state"
     t.string   "language"
     t.datetime "archived_at"
+    t.integer  "duration"
   end
 
   add_index "builds", ["repository_id"], :name => "index_builds_on_repository_id"
@@ -102,6 +103,7 @@ ActiveRecord::Schema.define(:version => 20111203221720) do
     t.boolean  "active"
     t.text     "description"
     t.string   "last_build_language"
+    t.integer  "last_build_duration"
   end
 
   add_index "repositories", ["last_build_started_at"], :name => "index_repositories_on_last_build_started_at"
