@@ -27,7 +27,7 @@ Travis.Controllers.Builds.Show = SC.Object.extend({
     if(build) build.updateTimes();
 
     var matrix = this.getPath('build.matrix');
-    if(matrix) $.each(matrix.toArray(), function(ix, build) { build.updateTimes() }.bind(this));
+    if(matrix) $.each(matrix.toArray(), function(ix, job) { job.updateTimes() }.bind(this));
 
     SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
   },

@@ -1,6 +1,5 @@
 Travis.Controllers.Jobs.Show = SC.Object.extend({
   jobBinding: 'parent.job',
-  // buildBinding: 'parent.build',
   repositoryBinding: 'parent.repository',
 
   init: function() {
@@ -44,7 +43,6 @@ Travis.Controllers.Jobs.Show = SC.Object.extend({
   updateTimes: function() {
     var build  = this.get('build');
     if(build) build.updateTimes();
-
     SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
   },
 

@@ -22,7 +22,6 @@ Travis.Controllers.Builds.List = SC.ArrayProxy.extend({
   updateTimes: function() {
     var builds  = this.get('builds');
     if(builds) $.each(builds, function(ix, build) { build.updateTimes() }.bind(this));
-
     SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
   }
 });
