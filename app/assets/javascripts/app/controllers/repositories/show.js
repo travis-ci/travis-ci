@@ -52,4 +52,15 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
     var parts = $.compact([this.getPath('params.owner'), this.getPath('params.name')]);
     if(parts.length > 0) return parts.join('/');
   }.property('params'),
+
+  _updateGithubStats: function() {
+    if(window.__TESTING__) return
+    var repository = this.get('repository');
+    if(repository) $.getJSON('http://github.com/api/v2/json/repos/show/' + repository.get('slug') + '?callback=?', function(data) {
+      var element = $('.github-stats');
+      element.find('.watchers').attr('href', repository.get('urlGithubWatchers')).text(data.repository.watchers);
+      element.find('.forks').attr('href',repository.get('urlGithubNetwork')).text(data.repository.forks);
+      element.find('.github-admin').attr('href', repository.get('urlGithubAdmin'));
+    });
+  }.observes('repository.slug')
 });
