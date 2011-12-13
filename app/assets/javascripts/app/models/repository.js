@@ -1,13 +1,13 @@
 Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
-  slug:                SC.Record.attr(String),
-  name:                SC.Record.attr(String, { key: 'name' }),
-  owner:               SC.Record.attr(String, { key: 'owner_name' }),
-  lastBuildId:         SC.Record.attr(Number, { key: 'last_build_id' }),
-  lastBuildNumber:     SC.Record.attr(String, { key: 'last_build_number' }),
-  lastBuildResult:     SC.Record.attr(Number, { key: 'last_build_result' }),
-  lastBuildDuration:   SC.Record.attr(Number, { key: 'last_build_duration' }),
-  lastBuildStartedAt:  SC.Record.attr(String, { key: 'last_build_started_at'  }),  // DateTime doesn't seem to work?
-  lastBuildFinishedAt: SC.Record.attr(String, { key: 'last_build_finished_at' }),
+  slug:                   SC.Record.attr(String),
+  name:                   SC.Record.attr(String),
+  owner:                  SC.Record.attr(String),
+  last_build_id:          SC.Record.attr(Number),
+  last_build_number:      SC.Record.attr(String),
+  last_build_result:      SC.Record.attr(Number),
+  last_build_duration:    SC.Record.attr(Number),
+  last_build_started_at:  SC.Record.attr(String),  // DateTime doesn't seem to work?
+  last_build_finished_at: SC.Record.attr(String),
 
   select: function() {
     this.whenReady(function(self) {
@@ -16,8 +16,8 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
   },
 
   updateTimes: function() {
-    this.notifyPropertyChange('lastBuildStartedAt');
-    this.notifyPropertyChange('lastBuildFinishedAt');
+    this.notifyPropertyChange('last_build_duration');
+    this.notifyPropertyChange('last_build_finished_at');
   },
 
   builds: function() {
@@ -25,22 +25,24 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
   }.property().cacheable(),
 
   lastBuild: function() {
-    return Travis.Build.find(this.get('lastBuildId'));
+    return Travis.Build.find(this.get('last_build_id'));
   }.property('last_build_id'),
 
   // VIEW HELPERS
 
   color: function() {
-    return this.colorForStatus(this.get('lastBuildResult'));
+    return this.colorForResult(this.get('last_build_result'));
   }.property('last_build_result').cacheable(),
 
   formattedLastBuildDuration: function() {
-    return this.readableTime(this.get('lastBuildDuration'));
-  }.property('lastBuildDuration').cacheable(),
+    var duration = this.get('last_build_duration');
+    if(!duration) this.durationFrom(this.get('started_at'), this.get('finished_at'));
+    return this.readableTime(duration);
+  }.property('last_build_duration'),
 
   formattedLastBuildFinishedAt: function() {
-    return this.timeAgoInWords(this.get('lastBuildFinishedAt')) || '-';
-  }.property('lastBuildFinishedAt').cacheable(),
+    return this.timeAgoInWords(this.get('last_build_finished_at')) || '-';
+  }.property('last_build_finished_at'),
 
   cssClasses: function() { // ugh
     return $.compact(['repository', this.get('color'), this.get('selected') ? 'selected' : null]).join(' ');
@@ -55,7 +57,7 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
   }.property('slug').cacheable(),
 
   urlLastBuild: function() {
-    return '#!/' + this.get('slug') + '/builds/' + this.get('lastBuildId');
+    return '#!/' + this.get('slug') + '/builds/' + this.get('last_build_id');
   }.property('last_build_id').cacheable(),
 
   urlGithub: function() {
@@ -79,7 +81,7 @@ Travis.Repository.reopenClass({
   resource: 'repositories',
 
   recent: function() {
-    return this.all({ orderBy: 'lastBuildStartedAt DESC' });
+    return this.all({ orderBy: 'last_build_started_at DESC' });
   },
 
   owned_by: function(githubId) {

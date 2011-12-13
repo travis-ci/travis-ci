@@ -1,4 +1,3 @@
-//= require app/helpers/build
-
-Travis.View = SC.View.extend(Travis.Helpers.Build);
+// TODO can be removed
+Travis.View = SC.View.extend();
 

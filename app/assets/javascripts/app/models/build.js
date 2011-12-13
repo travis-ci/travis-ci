@@ -1,27 +1,27 @@
 Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
-  repositoryId:   SC.Record.attr(Number, { key: 'repository_id' }),
-  config:         SC.Record.attr(Object),
-  state:          SC.Record.attr(String),
-  number:         SC.Record.attr(Number),
-  commit:         SC.Record.attr(String),
-  branch:         SC.Record.attr(String),
-  message:        SC.Record.attr(String),
-  result:         SC.Record.attr(Number),
-  duration:       SC.Record.attr(Number),
-  startedAt:      SC.Record.attr(String, { key: 'started_at' }), // use DateTime?
-  finishedAt:     SC.Record.attr(String, { key: 'finished_at' }),
-  committedAt:    SC.Record.attr(String, { key: 'committed_at' }),
-  committerName:  SC.Record.attr(String, { key: 'committer_name' }),
-  committerEmail: SC.Record.attr(String, { key: 'committer_email' }),
-  authorName:     SC.Record.attr(String, { key: 'author_name' }),
-  authorEmail:    SC.Record.attr(String, { key: 'author_email' }),
-  compareUrl:     SC.Record.attr(String, { key: 'compare_url' }),
-  log:            SC.Record.attr(String),
+  repository_id:   SC.Record.attr(Number),
+  config:          SC.Record.attr(Object),
+  state:           SC.Record.attr(String),
+  number:          SC.Record.attr(Number),
+  commit:          SC.Record.attr(String),
+  branch:          SC.Record.attr(String),
+  message:         SC.Record.attr(String),
+  result:          SC.Record.attr(Number),
+  duration:        SC.Record.attr(Number),
+  started_at:      SC.Record.attr(String), // use DateTime?
+  finished_at:     SC.Record.attr(String),
+  committed_at:    SC.Record.attr(String),
+  committer_name:  SC.Record.attr(String),
+  committer_email: SC.Record.attr(String),
+  author_name:     SC.Record.attr(String),
+  author_email:    SC.Record.attr(String),
+  compare_url:     SC.Record.attr(String),
+  log:             SC.Record.attr(String),
 
   matrix: SC.Record.toMany('Travis.Job', { nested: true }),
 
   repository: function() {
-    return Travis.Repository.find(this.get('repositoryId'));
+    if(this.get('repository_id')) return Travis.Repository.find(this.get('repository_id'));
   }.property('repository_id').cacheable(),
 
   update: function(attrs) {
@@ -30,8 +30,8 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   },
 
   updateTimes: function() {
-    this.notifyPropertyChange('startedAt');
-    this.notifyPropertyChange('finishedAt');
+    this.notifyPropertyChange('duration');
+    this.notifyPropertyChange('finished_at');
   },
 
   isMatrix: function() {
@@ -39,10 +39,10 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   }.property('matrix.length').cacheable(),
 
   color: function() {
-    return this.colorForStatus(this.get('result'));
+    return this.colorForResult(this.get('result'));
   }.property('result').cacheable(),
 
-  // need to join given attributes with existing attributes because SC.Record.toMany
+  // We need to join given attributes with existing attributes because SC.Record.toMany
   // does not seem to allow partial updates, i.e. would remove existing attributes?
   _joinMatrixAttributes: function(attrs) {
     var _this = this;
@@ -54,6 +54,26 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
 
   // VIEW HELPERS
 
+  formattedDuration: function() {
+    var duration = this.get('duration');
+    if(!duration) duration = this.durationFrom(this.get('started_at'), this.get('finished_at'));
+    return this.readableTime(duration);
+  }.property('duration', 'started_at', 'finished_at'),
+
+  formattedFinishedAt: function() {
+    return this.timeAgoInWords(this.get('finished_at')) || '-';
+  }.property('finished_at').cacheable(),
+
+  formattedCommit: function() {
+    var branch = this.get('branch');
+    return (this.get('commit') || '').substr(0, 7) + (branch ? ' (%@)'.fmt(branch) : '');
+  }.property('commit', 'branch').cacheable(),
+
+  formattedCompareUrl: function() {
+    var parts = (this.get('compare_url') || '').split('/');
+    return parts[parts.length - 1];
+  }.property('compare_url').cacheable(),
+
   formattedMatrixHeaders: function() {
     var keys = $.keys($.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js'));
     return $.map(['Build', 'Duration', 'Finished'].concat(keys), function(key) { return $.camelize(key) });
@@ -61,7 +81,7 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
 
   url: function() {
     return '#!/' + this.getPath('repository.slug') + '/builds/' + this.get('id');
-  }.property('repository.slug', 'id').cacheable(),
+  }.property('repository.status', 'id'),
 
   urlAuthor: function() {
     this.get('authorEmail')
@@ -82,6 +102,6 @@ Travis.Build.reopenClass({
   resource: 'builds',
 
   byRepositoryId: function(id, parameters) {
-    return this.all({ url: '/repositories/%@/builds.json?bare=true'.fmt(id), repositoryId: id, orderBy: 'number DESC' });
+    return this.all({ url: '/repositories/%@/builds.json?bare=true'.fmt(id), repository_id: id, orderBy: 'number DESC' });
   }
 });

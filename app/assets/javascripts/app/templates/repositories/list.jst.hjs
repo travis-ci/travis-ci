@@ -1,9 +1,9 @@
 {{#collection tagName="ul" id="repositories" contentBinding="repositories" itemViewClass="Travis.View" itemClassBinding="content.cssClasses"}}
   <a {{bindAttr href="content.urlCurrent"}} class="slug">{{content.slug}}</a>
-  <a {{bindAttr href="content.urlLastBuild"}} class="build">#{{content.lastBuildNumber}}</a>
+  <a {{bindAttr href="content.urlLastBuild"}} class="build">#{{content.last_build_number}}</a>
   <p class="summary">
-    <span class="duration_label">Duration:</span> <abbr class="duration" {{bindAttr title="content.lastBuildDuration"}}>{{content.formattedLastBuildDuration}}</abbr>,
-    <span class="finished_at_label">Finished:</span> <abbr class="finished_at timeago" {{bindAttr title="content.lastBuildFinishedAt"}}>{{content.formattedLastBuildFinishedAt}}</abbr>
+    <span class="duration_label">Duration:</span> <abbr class="duration" {{bindAttr title="content.last_build_duration"}}>{{content.formattedLastBuildDuration}}</abbr>,
+    <span class="finished_at_label">Finished:</span> <abbr class="finished_at timeago" {{bindAttr title="content.last_build_finished_at"}}>{{content.formattedLastBuildFinishedAt}}</abbr>
   </p>
   <span class="indicator"></span>
 {{/collection}}

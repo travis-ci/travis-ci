@@ -1,26 +1,26 @@
 Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
-  repositoryId:   SC.Record.attr(Number, { key: 'repository_id' }),
-  buildId:        SC.Record.attr(Number, { key: 'build_id' }),
-  config:         SC.Record.attr(Object),
-  state:          SC.Record.attr(String),
-  number:         SC.Record.attr(Number),
-  commit:         SC.Record.attr(String),
-  branch:         SC.Record.attr(String),
-  message:        SC.Record.attr(String),
-  result:         SC.Record.attr(Number),
-  startedAt:      SC.Record.attr(String, { key: 'started_at' }), // use DateTime?
-  finishedAt:     SC.Record.attr(String, { key: 'finished_at' }),
-  committedAt:    SC.Record.attr(String, { key: 'committed_at' }),
-  committerName:  SC.Record.attr(String, { key: 'committer_name' }),
-  committerEmail: SC.Record.attr(String, { key: 'committer_email' }),
-  authorName:     SC.Record.attr(String, { key: 'author_name' }),
-  authorEmail:    SC.Record.attr(String, { key: 'author_email' }),
-  compareUrl:     SC.Record.attr(String, { key: 'compare_url' }),
-  log:            SC.Record.attr(String),
+  repository_id:   SC.Record.attr(Number),
+  build_id:        SC.Record.attr(Number),
+  config:          SC.Record.attr(Object),
+  state:           SC.Record.attr(String),
+  number:          SC.Record.attr(Number),
+  commit:          SC.Record.attr(String),
+  branch:          SC.Record.attr(String),
+  message:         SC.Record.attr(String),
+  result:          SC.Record.attr(Number),
+  started_at:      SC.Record.attr(String), // use DateTime?
+  finished_at:     SC.Record.attr(String),
+  committed_at:    SC.Record.attr(String),
+  committer_name:  SC.Record.attr(String),
+  committer_email: SC.Record.attr(String),
+  author_name:     SC.Record.attr(String),
+  author_email:    SC.Record.attr(String),
+  compare_url:     SC.Record.attr(String),
+  log:             SC.Record.attr(String),
 
   build: function() {
     if(window.__DEBUG__) console.log('updating build on job ' + this.get('id'));
-    return Travis.Build.find(this.get('buildId'));
+    return Travis.Build.find(this.get('build_id'));
   }.property('build_id').cacheable(),
 
   update: function(attrs) {
@@ -33,8 +33,7 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
   },
 
   repository: function() {
-    if(window.__DEBUG__) console.log('updating repository on job ' + this.get('id'));
-    return Travis.Repository.find(this.get('repositoryId'));
+    return Travis.Repository.find(this.get('repository_id'));
   }.property('repository_id').cacheable(),
 
   appendLog: function(log) {
@@ -42,19 +41,17 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
   },
 
   updateTimes: function() {
-    this.notifyPropertyChange('startedAt');
-    this.notifyPropertyChange('finishedAt');
+    this.notifyPropertyChange('duration');
+    this.notifyPropertyChange('finished_at');
   },
 
   color: function() {
-    if(window.__DEBUG__) console.log('updating color on job ' + this.get('id'));
-    return this.colorForStatus(this.get('result'));
+    return this.colorForResult(this.get('result'));
   }.property('result').cacheable(),
 
   duration: function() {
-    if(window.__DEBUG__) console.log('updating duration on job ' + this.get('id'));
-    return this.durationFrom(this.get('startedAt'), this.get('finishedAt'));
-  }.property('started_at', 'finished_at').cacheable(),
+    return this.durationFrom(this.get('started_at'), this.get('finished_at'));
+  }.property('finished_at'),
 
   subscribe: function() {
     var id = this.get('id');
@@ -71,14 +68,43 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
 
   // VIEW HELPERS
 
+  formattedDuration: function() {
+    return this.readableTime(this.get('duration'));
+  }.property('duration'),
+
+  formattedFinishedAt: function() {
+    return this.timeAgoInWords(this.get('finished_at')) || '-';
+  }.property('finished_at').cacheable(),
+
+  formattedCommit: function() {
+    var branch = this.get('branch');
+    return (this.get('commit') || '').substr(0, 7) + (branch ? ' (%@)'.fmt(branch) : '');
+  }.property('commit', 'branch').cacheable(),
+
+  formattedCompareUrl: function() {
+    var parts = (this.get('compare_url') || '').split('/');
+    return parts[parts.length - 1];
+  }.property('compare_url').cacheable(),
+
+  formattedConfig: function() {
+    var config = $.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js');
+    var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
+    return values.length == 0 ? '-' : values.join(', ');
+  }.property('config').cacheable(),
+
   formattedConfigValues: function() {
     var values = $.values($.only(this.getPath('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js'));
     return $.map(values, function(value) { return SC.Object.create({ value: value }) });
   }.property().cacheable(),
 
+  formattedLog: function() {
+    var log = this.getPath('log');
+    return log ? Travis.Log.filter(log) : '';
+  }.property('log').cacheable(),
+
   url: function() {
     return '#!/' + this.getPath('repository.slug') + '/jobs/' + this.get('id');
-  }.property('repository.slug', 'id').cacheable(),
+  }.property('repository', 'id'),
 });
 
 Travis.Job.reopenClass({

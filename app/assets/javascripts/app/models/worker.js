@@ -13,8 +13,6 @@ Travis.WorkerGroup = SC.Object.extend({
 });
 
 Travis.Worker = Travis.Record.extend({
-  lastSeenAt: SC.Record.attr(String, { key: 'last_seen_at' }),
-
   isTesting: function() {
     return this.get('state') == 'working' && !!this.getPath('payload.config');
   }.property('state', 'config'),
