@@ -1598,26 +1598,26 @@ Handlebars.template = Handlebars.VM.template;
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Metal
+// Project:  Ember Metal
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals ENV sc_assert */
+/*globals ENV ember_assert */
 
-if ('undefined' === typeof SC) {
+if ('undefined' === typeof Ember) {
 /**
   @namespace
-  @name SC
-  @version 2.0.beta.3
+  @name Ember
+  @version 0.9
 
-  All SproutCore methods and functions are defined inside of this namespace.
+  All Ember methods and functions are defined inside of this namespace.
   You generally should not add new properties to this namespace as it may be
-  overwritten by future versions of SproutCore.
+  overwritten by future versions of Ember.
 
-  You can also use the shorthand "SC" instead of "SproutCore".
+  You can also use the shorthand "Em" instead of "Ember".
 
-  SproutCore-Runtime is a framework that provides core functions for
-  SproutCore including cross-platform functions, support for property
+  Ember-Runtime is a framework that provides core functions for
+  Ember including cross-platform functions, support for property
   observing and objects. Its focus is on small size and performance. You can
   use this in place of or along-side other cross-platform libraries such as
   jQuery.
@@ -1625,11 +1625,11 @@ if ('undefined' === typeof SC) {
   The core Runtime framework is based on the jQuery API with a number of
   performance optimizations.
 */
-SC = {};
+Ember = {};
 
 // aliases needed to keep minifiers from removing the global context
 if ('undefined' !== typeof window) {
-  window.SC = window.SproutCore = SproutCore = SC;
+  window.SC = window.SproutCore = window.Em = window.Ember = SC = SproutCore = Em = Ember;
 }
 
 }
@@ -1637,10 +1637,10 @@ if ('undefined' !== typeof window) {
 /**
   @static
   @type String
-  @default '2.0.beta.3'
+  @default '0.9'
   @constant
 */
-SC.VERSION = '2.0.beta.3';
+Ember.VERSION = '0.9';
 
 /**
   @static
@@ -1648,10 +1648,10 @@ SC.VERSION = '2.0.beta.3';
   @constant
 
   Standard environmental variables.  You can define these in a global `ENV`
-  variable before loading SproutCore to control various configuration
+  variable before loading Ember to control various configuration
   settings.
 */
-SC.ENV = 'undefined' === typeof ENV ? {} : ENV;
+Ember.ENV = 'undefined' === typeof ENV ? {} : ENV;
 
 /**
   Empty function.  Useful for some operations.
@@ -1659,11 +1659,11 @@ SC.ENV = 'undefined' === typeof ENV ? {} : ENV;
   @returns {Object}
   @private
 */
-SC.K = function() { return this; };
+Ember.K = function() { return this; };
 
 /**
   Define an assertion that will throw an exception if the condition is not
-  met.  SproutCore build tools will remove any calls to sc_assert() when
+  met.  Ember build tools will remove any calls to ember_assert() when
   doing a production build.
 
   ## Examples
@@ -1671,13 +1671,13 @@ SC.K = function() { return this; };
       #js:
 
       // pass a simple Boolean value
-      sc_assert('must pass a valid object', !!obj);
+      ember_assert('must pass a valid object', !!obj);
 
       // pass a function.  If the function returns false the assertion fails
       // any other return value (including void) will pass.
-      sc_assert('a passed record must have a firstName', function() {
-        if (obj instanceof SC.Record) {
-          return !SC.empty(obj.firstName);
+      ember_assert('a passed record must have a firstName', function() {
+        if (obj instanceof Ember.Record) {
+          return !Ember.empty(obj.firstName);
         }
       });
 
@@ -1692,13 +1692,13 @@ SC.K = function() { return this; };
     will be executed.  If the function returns false an exception will be
     thrown.
 */
-window.sc_assert = function sc_assert(desc, test) {
+window.ember_assert = function ember_assert(desc, test) {
   if ('function' === typeof test) test = test()!==false;
   if (!test) throw new Error("assertion failed: "+desc);
 };
 
-//if ('undefined' === typeof sc_require) sc_require = SC.K;
-if ('undefined' === typeof require) require = SC.K;
+//if ('undefined' === typeof ember_require) ember_require = Ember.K;
+if ('undefined' === typeof require) require = Ember.K;
 
 // ..........................................................
 // LOGGER
@@ -1707,27 +1707,27 @@ if ('undefined' === typeof require) require = SC.K;
 /**
   @class
 
-  Inside SproutCore-Metal, simply uses the window.console object.
+  Inside Ember-Metal, simply uses the window.console object.
   Override this to provide more robust logging functionality.
 */
-SC.Logger = window.console || { log: SC.K, warn: SC.K, error: SC.K };
+Ember.Logger = window.console || { log: Ember.K, warn: Ember.K, error: Ember.K };
 
 })({});
 
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Metal
+// Project:  Ember Metal
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals sc_assert */
+/*globals ember_assert */
 /**
   @class
 
   Platform specific methods and feature detectors needed by the framework.
 */
-var platform = SC.platform = {} ;
+var platform = Ember.platform = {} ;
 
 /**
   Identical to Object.create().  Implements if not available natively.
@@ -1844,7 +1844,7 @@ if (!platform.defineProperty) {
   platform.hasPropertyAccessors = false;
 
   platform.defineProperty = function(obj, keyName, desc) {
-    sc_assert("property descriptor cannot have `get` or `set` on this platform", !desc.get && !desc.set);
+    ember_assert("property descriptor cannot have `get` or `set` on this platform", !desc.get && !desc.set);
     obj[keyName] = desc.value;
   };
 
@@ -1856,7 +1856,7 @@ if (!platform.defineProperty) {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Metal
+// Project:  Ember Metal
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -1865,7 +1865,7 @@ if (!platform.defineProperty) {
 //
 
 // Used for guid generation...
-var GUID_KEY = '__sc'+ (+ new Date());
+var GUID_KEY = '__ember'+ (+ new Date());
 var uuid, numberCache, stringCache;
 
 uuid         = 0;
@@ -1878,8 +1878,8 @@ var GUID_DESC = {
   enumerable: false
 };
 
-var o_defineProperty = SC.platform.defineProperty;
-var o_create = SC.platform.create;
+var o_defineProperty = Ember.platform.defineProperty;
+var o_create = Ember.platform.create;
 
 /**
   @private
@@ -1894,14 +1894,14 @@ var o_create = SC.platform.create;
   On browsers that support it, these properties are added with enumeration
   disabled so they won't show up when you iterate over your properties.
 */
-SC.GUID_KEY = GUID_KEY;
+Ember.GUID_KEY = GUID_KEY;
 
 /**
   @private
 
   Generates a new guid, optionally saving the guid to the object that you
   pass in.  You will rarely need to use this method.  Instead you should
-  call SC.guidFor(obj), which return an existing guid if available.
+  call Ember.guidFor(obj), which return an existing guid if available.
 
   @param {Object} obj
     Optional object the guid will be used for.  If passed in, the guid will
@@ -1916,8 +1916,8 @@ SC.GUID_KEY = GUID_KEY;
 
   @returns {String} the guid
 */
-SC.generateGuid = function(obj, prefix) {
-  if (!prefix) prefix = 'sc';
+Ember.generateGuid = function(obj, prefix) {
+  if (!prefix) prefix = 'ember';
   var ret = (prefix + (uuid++));
   if (obj) {
     GUID_DESC.value = ret;
@@ -1933,7 +1933,7 @@ SC.generateGuid = function(obj, prefix) {
 
   Returns a unique id for the object.  If the object does not yet have
   a guid, one will be assigned to it.  You can call this on any object,
-  SC.Object-based or not, but be aware that it will add a _guid property.
+  Ember.Object-based or not, but be aware that it will add a _guid property.
 
   You can also use this method on DOM Element objects.
 
@@ -1941,7 +1941,7 @@ SC.generateGuid = function(obj, prefix) {
   @param obj {Object} any object, string, number, Element, or primitive
   @returns {String} the unique guid for this instance.
 */
-SC.guidFor = function(obj) {
+Ember.guidFor = function(obj) {
 
   // special cases where we don't want to add a key to object
   if (obj === undefined) return "(undefined)";
@@ -1969,7 +1969,7 @@ SC.guidFor = function(obj) {
       if (obj[GUID_KEY]) return obj[GUID_KEY];
       if (obj === Object) return '(Object)';
       if (obj === Array)  return '(Array)';
-      return SC.generateGuid(obj, 'sc');
+      return Ember.generateGuid(obj, 'ember');
   }
 };
 
@@ -1985,7 +1985,7 @@ var META_DESC = {
   value: null
 };
 
-var META_KEY = SC.GUID_KEY+'_meta';
+var META_KEY = Ember.GUID_KEY+'_meta';
 
 /**
   The key used to store meta information on object for property observing.
@@ -1993,7 +1993,7 @@ var META_KEY = SC.GUID_KEY+'_meta';
   @static
   @property
 */
-SC.META_KEY = META_KEY;
+Ember.META_KEY = META_KEY;
 
 // Placeholder for non-writable metas.
 var EMPTY_META = {
@@ -2024,9 +2024,9 @@ if (Object.freeze) Object.freeze(EMPTY_META);
 
   @returns {Hash}
 */
-SC.meta = function meta(obj, writable) {
+Ember.meta = function meta(obj, writable) {
 
-  sc_assert("You must pass an object to SC.meta. This was probably called from SproutCore internals, so you probably called a SproutCore method with undefined that was expecting an object", obj != undefined);
+  ember_assert("You must pass an object to Ember.meta. This was probably called from Ember internals, so you probably called a Ember method with undefined that was expecting an object", obj != undefined);
 
   var ret = obj[META_KEY];
   if (writable===false) return ret || EMPTY_META;
@@ -2057,13 +2057,13 @@ SC.meta = function meta(obj, writable) {
   return ret;
 };
 
-SC.getMeta = function getMeta(obj, property) {
-  var meta = SC.meta(obj, false);
+Ember.getMeta = function getMeta(obj, property) {
+  var meta = Ember.meta(obj, false);
   return meta[property];
 };
 
-SC.setMeta = function setMeta(obj, property, value) {
-  var meta = SC.meta(obj, true);
+Ember.setMeta = function setMeta(obj, property, value) {
+  var meta = Ember.meta(obj, true);
   meta[property] = value;
   return value;
 };
@@ -2081,7 +2081,7 @@ SC.setMeta = function setMeta(obj, property, value) {
 
   This method allows extensions to deeply clone a series of nested hashes or
   other complex objects. For instance, the event system might pass
-  ['listeners', 'foo:change', 'sc157'] to `prepareMetaPath`, which will
+  ['listeners', 'foo:change', 'ember157'] to `prepareMetaPath`, which will
   walk down the keys provided.
 
   For each key, if the key does not exist, it is created. If it already
@@ -2098,8 +2098,8 @@ SC.setMeta = function setMeta(obj, property, value) {
     (or meta property) if one does not already exist or if it's
     shared with its constructor
 */
-SC.metaPath = function(obj, path, writable) {
-  var meta = SC.meta(obj, writable), keyName, value;
+Ember.metaPath = function(obj, path, writable) {
+  var meta = Ember.meta(obj, writable), keyName, value;
 
   for (var i=0, l=path.length; i<l; i++) {
     keyName = path[i];
@@ -2107,11 +2107,11 @@ SC.metaPath = function(obj, path, writable) {
 
     if (!value) {
       if (!writable) { return undefined; }
-      value = meta[keyName] = { __sc_source__: obj };
-    } else if (value.__sc_source__ !== obj) {
+      value = meta[keyName] = { __ember_source__: obj };
+    } else if (value.__ember_source__ !== obj) {
       if (!writable) { return undefined; }
       value = meta[keyName] = o_create(value);
-      value.__sc_source__ = obj;
+      value.__ember_source__ = obj;
     }
 
     meta = value;
@@ -2135,7 +2135,7 @@ SC.metaPath = function(obj, path, writable) {
 
   @returns {Function} wrapped function.
 */
-SC.wrap = function(func, superFunc) {
+Ember.wrap = function(func, superFunc) {
 
   function K() {}
 
@@ -2156,22 +2156,22 @@ SC.wrap = function(func, superFunc) {
 
   Returns YES if the passed object is an array or Array-like.
 
-  SproutCore Array Protocol:
+  Ember Array Protocol:
 
     - the object has an objectAt property
     - the object is a native Array
     - the object is an Object, and has a length property
 
-  Unlike SC.typeOf this method returns true even if the passed object is
-  not formally array but appears to be array-like (i.e. implements SC.Array)
+  Unlike Ember.typeOf this method returns true even if the passed object is
+  not formally array but appears to be array-like (i.e. implements Ember.Array)
 
   @param {Object} obj The object to test
   @returns {Boolean}
 */
-SC.isArray = function(obj) {
+Ember.isArray = function(obj) {
   if (!obj || obj.setInterval) { return false; }
   if (Array.isArray && Array.isArray(obj)) { return true; }
-  if (SC.Array && SC.Array.detect(obj)) { return true; }
+  if (Ember.Array && Ember.Array.detect(obj)) { return true; }
   if ((obj.length !== undefined) && 'object'===typeof obj) { return true; }
   return false;
 };
@@ -2184,9 +2184,9 @@ SC.isArray = function(obj) {
   @param {Object} obj the object
   @returns {Array}
 */
-SC.makeArray = function(obj) {
+Ember.makeArray = function(obj) {
   if (obj==null) return [];
-  return SC.isArray(obj) ? obj : [obj];
+  return Ember.isArray(obj) ? obj : [obj];
 };
 
 
@@ -2196,15 +2196,15 @@ SC.makeArray = function(obj) {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Metal
+// Project:  Ember Metal
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals sc_assert */
-var USE_ACCESSORS = SC.platform.hasPropertyAccessors && SC.ENV.USE_ACCESSORS;
-SC.USE_ACCESSORS = !!USE_ACCESSORS;
+/*globals ember_assert */
+var USE_ACCESSORS = Ember.platform.hasPropertyAccessors && Ember.ENV.USE_ACCESSORS;
+Ember.USE_ACCESSORS = !!USE_ACCESSORS;
 
-var meta = SC.meta;
+var meta = Ember.meta;
 
 // ..........................................................
 // GET AND SET
@@ -2218,7 +2218,7 @@ var get, set;
 get = function get(obj, keyName) {
   if (keyName === undefined && 'string' === typeof obj) {
     keyName = obj;
-    obj = SC;
+    obj = Ember;
   }
 
   if (!obj) return undefined;
@@ -2249,10 +2249,10 @@ if (!USE_ACCESSORS) {
   get = function(obj, keyName) {
     if (keyName === undefined && 'string' === typeof obj) {
       keyName = obj;
-      obj = SC;
+      obj = Ember;
     }
 
-    sc_assert("You need to provide an object and key to `get`.", !!obj && keyName);
+    ember_assert("You need to provide an object and key to `get`.", !!obj && keyName);
 
     if (!obj) return undefined;
     var desc = meta(obj, false).descs[keyName];
@@ -2261,7 +2261,7 @@ if (!USE_ACCESSORS) {
   };
 
   set = function(obj, keyName, value) {
-    sc_assert("You need to provide an object and key to `set`.", !!obj && keyName !== undefined);
+    ember_assert("You need to provide an object and key to `set`.", !!obj && keyName !== undefined);
     var desc = meta(obj, false).descs[keyName];
     if (desc) desc.set(obj, keyName, value);
     else o_set(obj, keyName, value);
@@ -2298,7 +2298,7 @@ if (!USE_ACCESSORS) {
 
   @returns {Object} the property value or null.
 */
-SC.get = get;
+Ember.get = get;
 
 /**
   @function
@@ -2329,14 +2329,14 @@ SC.get = get;
 
   @returns {Object} the passed value.
 */
-SC.set = set;
+Ember.set = set;
 
 // ..........................................................
 // PATHS
 //
 
 function normalizePath(path) {
-  sc_assert('must pass non-empty string to normalizePath()', path && path!=='');
+  ember_assert('must pass non-empty string to normalizePath()', path && path!=='');
 
   if (path==='*') return path; //special case...
   var first = path.charAt(0);
@@ -2422,7 +2422,7 @@ function normalizeTuple(target, path) {
   @param {String} path path to normalize
   @returns {String} normalized path
 */
-SC.normalizePath = normalizePath;
+Ember.normalizePath = normalizePath;
 
 /**
   @private
@@ -2440,13 +2440,13 @@ SC.normalizePath = normalizePath;
 
   @returns {Array} a temporary array with the normalized target/path pair.
 */
-SC.normalizeTuple = function(target, path) {
+Ember.normalizeTuple = function(target, path) {
   return normalizeTuple(target, normalizePath(path));
 };
 
-SC.normalizeTuple.primitive = normalizeTuple;
+Ember.normalizeTuple.primitive = normalizeTuple;
 
-SC.getPath = function(root, path) {
+Ember.getPath = function(root, path) {
   var hasThis, hasStar, isGlobal;
 
   if (!path && 'string'===typeof root) {
@@ -2458,7 +2458,7 @@ SC.getPath = function(root, path) {
 
   // If there is no root and path is a key name, return that
   // property from the global object.
-  // E.g. getPath('SC') -> SC
+  // E.g. getPath('Ember') -> Ember
   if (root === null && !hasStar && path.indexOf('.') < 0) { return get(window, path); }
 
   // detect complicated paths and normalize them
@@ -2474,7 +2474,7 @@ SC.getPath = function(root, path) {
   return getPath(root, path);
 };
 
-SC.setPath = function(root, path, value, tolerant) {
+Ember.setPath = function(root, path, value, tolerant) {
   var keyName;
 
   if (arguments.length===2 && 'string' === typeof root) {
@@ -2496,7 +2496,7 @@ SC.setPath = function(root, path, value, tolerant) {
     if (!HAS_THIS.test(path) && IS_GLOBAL_SET.test(path) && path.indexOf('.')<0) {
       root = window[path]; // special case only works during set...
     } else if (path !== 'this') {
-      root = SC.getPath(root, path);
+      root = Ember.getPath(root, path);
     }
 
   } else {
@@ -2513,24 +2513,24 @@ SC.setPath = function(root, path, value, tolerant) {
     else { throw new Error('Object in path '+path+' could not be found or was destroyed.'); }
   }
 
-  return SC.set(root, keyName, value);
+  return Ember.set(root, keyName, value);
 };
 
 /**
-  Error-tolerant form of SC.setPath. Will not blow up if any part of the
+  Error-tolerant form of Ember.setPath. Will not blow up if any part of the
   chain is undefined, null, or destroyed.
 
   This is primarily used when syncing bindings, which may try to update after
   an object has been destroyed.
 */
-SC.trySetPath = function(root, path, value) {
+Ember.trySetPath = function(root, path, value) {
   if (arguments.length===2 && 'string' === typeof root) {
     value = path;
     path = root;
     root = null;
   }
 
-  return SC.setPath(root, path, value, true);
+  return Ember.setPath(root, path, value, true);
 };
 
 /**
@@ -2540,7 +2540,7 @@ SC.trySetPath = function(root, path, value) {
   @param {String} path
   @returns Boolean
 */
-SC.isGlobalPath = function(path) {
+Ember.isGlobalPath = function(path) {
   return !HAS_THIS.test(path) && IS_GLOBAL.test(path);
 }
 
@@ -2616,15 +2616,15 @@ if (!Array.prototype.indexOf) {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Metal
+// Project:  Ember Metal
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals sc_assert */
+/*globals ember_assert */
 var AFTER_OBSERVERS = ':change';
 var BEFORE_OBSERVERS = ':before';
-var guidFor = SC.guidFor;
-var normalizePath = SC.normalizePath;
+var guidFor = Ember.guidFor;
+var normalizePath = Ember.normalizePath;
 
 var suspended = 0;
 var array_Slice = Array.prototype.slice;
@@ -2635,7 +2635,7 @@ var ObserverSet = function(iterateable) {
 }
 
 ObserverSet.prototype.add = function(target, name) {
-  var set = this.set, guid = SC.guidFor(target), array;
+  var set = this.set, guid = Ember.guidFor(target), array;
 
   if (!set[guid]) { set[guid] = {}; }
   set[guid][name] = true;
@@ -2645,7 +2645,7 @@ ObserverSet.prototype.add = function(target, name) {
 };
 
 ObserverSet.prototype.contains = function(target, name) {
-  var set = this.set, guid = SC.guidFor(target), nameSet = set[guid];
+  var set = this.set, guid = Ember.guidFor(target), nameSet = set[guid];
   return nameSet && nameSet[name];
 };
 
@@ -2674,7 +2674,7 @@ function notifyObservers(obj, eventName, forceNotification) {
     }
 
   } else {
-    SC.sendEvent(obj, eventName);
+    Ember.sendEvent(obj, eventName);
   }
 }
 
@@ -2682,15 +2682,15 @@ function flushObserverQueue() {
   beforeObserverSet.empty();
 
   if (!queue || queue.array.length===0) return ;
-  queue.forEach(function(target, event){ SC.sendEvent(target, event); });
+  queue.forEach(function(target, event){ Ember.sendEvent(target, event); });
 }
 
-SC.beginPropertyChanges = function() {
+Ember.beginPropertyChanges = function() {
   suspended++;
   return this;
 };
 
-SC.endPropertyChanges = function() {
+Ember.endPropertyChanges = function() {
   suspended--;
   if (suspended<=0) flushObserverQueue();
 };
@@ -2699,17 +2699,17 @@ SC.endPropertyChanges = function() {
   Make a series of property changes together in an
   exception-safe way.
 
-      SC.changeProperties(function() {
+      Ember.changeProperties(function() {
         obj1.set('foo', mayBlowUpWhenSet);
         obj2.set('bar', baz);
       });
 */
-SC.changeProperties = function(cb){
-  SC.beginPropertyChanges();
+Ember.changeProperties = function(cb){
+  Ember.beginPropertyChanges();
   try {
     cb()
   } finally {
-    SC.endPropertyChanges();
+    Ember.endPropertyChanges();
   }
 }
 
@@ -2733,7 +2733,7 @@ function xformForArgs(args) {
   return function (target, method, params) {
     var obj = params[0], keyName = changeKey(params[1]), val;
     var copy_args = args.slice();
-    if (method.length>2) val = SC.getPath(obj, keyName);
+    if (method.length>2) val = Ember.getPath(obj, keyName);
     copy_args.unshift(obj, keyName, val);
     method.apply(target, copy_args);
   }
@@ -2743,11 +2743,11 @@ var xformChange = xformForArgs([]);
 
 function xformBefore(target, method, params) {
   var obj = params[0], keyName = beforeKey(params[1]), val;
-  if (method.length>2) val = SC.getPath(obj, keyName);
+  if (method.length>2) val = Ember.getPath(obj, keyName);
   method.call(target, obj, keyName, val);
 }
 
-SC.addObserver = function(obj, path, target, method) {
+Ember.addObserver = function(obj, path, target, method) {
   path = normalizePath(path);
 
   var xform;
@@ -2757,49 +2757,49 @@ SC.addObserver = function(obj, path, target, method) {
   } else {
     xform = xformChange;
   }
-  SC.addListener(obj, changeEvent(path), target, method, xform);
-  SC.watch(obj, path);
+  Ember.addListener(obj, changeEvent(path), target, method, xform);
+  Ember.watch(obj, path);
   return this;
 };
 
 /** @private */
-SC.observersFor = function(obj, path) {
-  return SC.listenersFor(obj, changeEvent(path));
+Ember.observersFor = function(obj, path) {
+  return Ember.listenersFor(obj, changeEvent(path));
 };
 
-SC.removeObserver = function(obj, path, target, method) {
+Ember.removeObserver = function(obj, path, target, method) {
   path = normalizePath(path);
-  SC.unwatch(obj, path);
-  SC.removeListener(obj, changeEvent(path), target, method);
+  Ember.unwatch(obj, path);
+  Ember.removeListener(obj, changeEvent(path), target, method);
   return this;
 };
 
-SC.addBeforeObserver = function(obj, path, target, method) {
+Ember.addBeforeObserver = function(obj, path, target, method) {
   path = normalizePath(path);
-  SC.addListener(obj, beforeEvent(path), target, method, xformBefore);
-  SC.watch(obj, path);
-  return this;
-};
-
-/** @private */
-SC.beforeObserversFor = function(obj, path) {
-  return SC.listenersFor(obj, beforeEvent(path));
-};
-
-SC.removeBeforeObserver = function(obj, path, target, method) {
-  path = normalizePath(path);
-  SC.unwatch(obj, path);
-  SC.removeListener(obj, beforeEvent(path), target, method);
+  Ember.addListener(obj, beforeEvent(path), target, method, xformBefore);
+  Ember.watch(obj, path);
   return this;
 };
 
 /** @private */
-SC.notifyObservers = function(obj, keyName) {
+Ember.beforeObserversFor = function(obj, path) {
+  return Ember.listenersFor(obj, beforeEvent(path));
+};
+
+Ember.removeBeforeObserver = function(obj, path, target, method) {
+  path = normalizePath(path);
+  Ember.unwatch(obj, path);
+  Ember.removeListener(obj, beforeEvent(path), target, method);
+  return this;
+};
+
+/** @private */
+Ember.notifyObservers = function(obj, keyName) {
   notifyObservers(obj, changeEvent(keyName));
 };
 
 /** @private */
-SC.notifyBeforeObservers = function(obj, keyName) {
+Ember.notifyBeforeObservers = function(obj, keyName) {
   var guid, set, forceNotification = false;
 
   if (suspended) {
@@ -2820,17 +2820,17 @@ SC.notifyBeforeObservers = function(obj, keyName) {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Metal
+// Project:  Ember Metal
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals sc_assert */
-var USE_ACCESSORS = SC.USE_ACCESSORS;
-var GUID_KEY = SC.GUID_KEY;
-var META_KEY = SC.META_KEY;
-var meta = SC.meta;
-var o_create = SC.platform.create;
-var o_defineProperty = SC.platform.defineProperty;
+/*globals ember_assert */
+var USE_ACCESSORS = Ember.USE_ACCESSORS;
+var GUID_KEY = Ember.GUID_KEY;
+var META_KEY = Ember.META_KEY;
+var meta = Ember.meta;
+var o_create = Ember.platform.create;
+var o_defineProperty = Ember.platform.defineProperty;
 var SIMPLE_PROPERTY, WATCHED_PROPERTY;
 
 // ..........................................................
@@ -2853,7 +2853,7 @@ var SIMPLE_DESC = {
 
   You generally won't need to create or subclass this directly.
 */
-var Dc = SC.Descriptor = function() {};
+var Dc = Ember.Descriptor = function() {};
 
 var setup = Dc.setup = function(obj, keyName, value) {
   SIMPLE_DESC.value = value;
@@ -2861,7 +2861,7 @@ var setup = Dc.setup = function(obj, keyName, value) {
   SIMPLE_DESC.value = null;
 };
 
-var Dp = SC.Descriptor.prototype;
+var Dp = Ember.Descriptor.prototype;
 
 /**
   Called whenever we want to set the property value.  Should set the value
@@ -2952,27 +2952,27 @@ Dp.val = function(obj, keyName) {
 
 // if accessors are disabled for the app then this will act as a guard when
 // testing on browsers that do support accessors.  It will throw an exception
-// if you do foo.bar instead of SC.get(foo, 'bar')
+// if you do foo.bar instead of Ember.get(foo, 'bar')
 
-// The exception to this is that any objects managed by SC but not a descendant
-// of SC.Object will not throw an exception, instead failing silently. This
+// The exception to this is that any objects managed by Ember but not a descendant
+// of Ember.Object will not throw an exception, instead failing silently. This
 // prevent errors with other libraries that may attempt to access special
 // properties on standard objects like Array. Usually this happens when copying
 // an object by looping over all properties.
 
 if (!USE_ACCESSORS) {
-  SC.Descriptor.MUST_USE_GETTER = function() {
-    if (this instanceof SC.Object) {
-      sc_assert('Must use SC.get() to access this property', false);
+  Ember.Descriptor.MUST_USE_GETTER = function() {
+    if (this instanceof Ember.Object) {
+      ember_assert('Must use Ember.get() to access this property', false);
     }
   };
 
-  SC.Descriptor.MUST_USE_SETTER = function() {
-    if (this instanceof SC.Object) {
+  Ember.Descriptor.MUST_USE_SETTER = function() {
+    if (this instanceof Ember.Object) {
       if (this.isDestroyed) {
-        sc_assert('You cannot set observed properties on destroyed objects', false);
+        ember_assert('You cannot set observed properties on destroyed objects', false);
       } else {
-        sc_assert('Must use SC.set() to access this property', false);
+        ember_assert('Must use Ember.set() to access this property', false);
       }
     }
   };
@@ -2981,7 +2981,7 @@ if (!USE_ACCESSORS) {
 var WATCHED_DESC = {
   configurable: true,
   enumerable:   true,
-  set: SC.Descriptor.MUST_USE_SETTER
+  set: Ember.Descriptor.MUST_USE_SETTER
 };
 
 function w_get(obj, keyName, values) {
@@ -2999,9 +2999,9 @@ function w_set(obj, keyName, value) {
   var m = meta(obj), watching;
 
   watching = m.watching[keyName]>0 && value!==m.values[keyName];
-  if (watching) SC.propertyWillChange(obj, keyName);
+  if (watching) Ember.propertyWillChange(obj, keyName);
   m.values[keyName] = value;
-  if (watching) SC.propertyDidChange(obj, keyName);
+  if (watching) Ember.propertyDidChange(obj, keyName);
   return value;
 }
 
@@ -3032,9 +3032,9 @@ function mkWatchedSetter(keyName) {
 
   Private version of simple property that invokes property change callbacks.
 */
-WATCHED_PROPERTY = new SC.Descriptor();
+WATCHED_PROPERTY = new Ember.Descriptor();
 
-if (SC.platform.hasPropertyAccessors) {
+if (Ember.platform.hasPropertyAccessors) {
   WATCHED_PROPERTY.get = w_get ;
   WATCHED_PROPERTY.set = w_set ;
 
@@ -3070,9 +3070,9 @@ if (SC.platform.hasPropertyAccessors) {
     var m = meta(obj), watching;
 
     watching = m.watching[keyName]>0 && value!==obj[keyName];
-    if (watching) SC.propertyWillChange(obj, keyName);
+    if (watching) Ember.propertyWillChange(obj, keyName);
     obj[keyName] = value;
-    if (watching) SC.propertyDidChange(obj, keyName);
+    if (watching) Ember.propertyDidChange(obj, keyName);
     return value;
   };
 
@@ -3080,13 +3080,13 @@ if (SC.platform.hasPropertyAccessors) {
 
 /**
   The default descriptor for simple properties.  Pass as the third argument
-  to SC.defineProperty() along with a value to set a simple value.
+  to Ember.defineProperty() along with a value to set a simple value.
 
   @static
-  @default SC.Descriptor
+  @default Ember.Descriptor
 */
-SC.SIMPLE_PROPERTY = new SC.Descriptor();
-SIMPLE_PROPERTY = SC.SIMPLE_PROPERTY;
+Ember.SIMPLE_PROPERTY = new Ember.Descriptor();
+SIMPLE_PROPERTY = Ember.SIMPLE_PROPERTY;
 
 SIMPLE_PROPERTY.unwatched = WATCHED_PROPERTY.unwatched = SIMPLE_PROPERTY;
 SIMPLE_PROPERTY.watched   = WATCHED_PROPERTY.watched   = WATCHED_PROPERTY;
@@ -3105,7 +3105,7 @@ function hasDesc(descs, keyName) {
   @private
 
   NOTE: This is a low-level method used by other parts of the API.  You almost
-  never want to call this method directly.  Instead you should use SC.mixin()
+  never want to call this method directly.  Instead you should use Ember.mixin()
   to define new properties.
 
   Defines a property on an object.  This method works much like the ES5
@@ -3113,14 +3113,14 @@ function hasDesc(descs, keyName) {
   properties and other special descriptors.
 
   Normally this method takes only three parameters.  However if you pass an
-  instance of SC.Descriptor as the third param then you can pass an optional
+  instance of Ember.Descriptor as the third param then you can pass an optional
   value as the fourth parameter.  This is often more efficient than creating
   new descriptor hashes for each property.
 
   ## Examples
 
       // ES5 compatible mode
-      SC.defineProperty(contact, 'firstName', {
+      Ember.defineProperty(contact, 'firstName', {
         writable: true,
         configurable: false,
         enumerable: true,
@@ -3128,14 +3128,14 @@ function hasDesc(descs, keyName) {
       });
 
       // define a simple property
-      SC.defineProperty(contact, 'lastName', SC.SIMPLE_PROPERTY, 'Jolley');
+      Ember.defineProperty(contact, 'lastName', Ember.SIMPLE_PROPERTY, 'Jolley');
 
       // define a computed property
-      SC.defineProperty(contact, 'fullName', SC.computed(function() {
+      Ember.defineProperty(contact, 'fullName', Ember.computed(function() {
         return this.firstName+' '+this.lastName;
       }).property('firstName', 'lastName').cacheable());
 */
-SC.defineProperty = function(obj, keyName, desc, val) {
+Ember.defineProperty = function(obj, keyName, desc, val) {
   var m = meta(obj, false), descs = m.descs, watching = m.watching[keyName]>0;
 
   if (val === undefined) {
@@ -3146,7 +3146,7 @@ SC.defineProperty = function(obj, keyName, desc, val) {
 
   if (!desc) desc = SIMPLE_PROPERTY;
 
-  if (desc instanceof SC.Descriptor) {
+  if (desc instanceof Ember.Descriptor) {
     m = meta(obj, true);
     descs = m.descs;
 
@@ -3177,10 +3177,10 @@ SC.defineProperty = function(obj, keyName, desc, val) {
 
   @returns {Object} the newly created object
 */
-SC.create = function(obj, props) {
+Ember.create = function(obj, props) {
   var ret = o_create(obj, props);
-  if (GUID_KEY in ret) SC.generateGuid(ret, 'sc');
-  if (META_KEY in ret) SC.rewatch(ret); // setup watch chains if needed.
+  if (GUID_KEY in ret) Ember.generateGuid(ret, 'ember');
+  if (META_KEY in ret) Ember.rewatch(ret); // setup watch chains if needed.
   return ret;
 };
 
@@ -3188,7 +3188,7 @@ SC.create = function(obj, props) {
   @private
 
   Creates a new object using the passed object as its prototype.  This method
-  acts like `SC.create()` in every way except that bindings, observers, and
+  acts like `Ember.create()` in every way except that bindings, observers, and
   computed properties will be activated on the object.
 
   The purpose of this method is to build an object for use in a prototype
@@ -3209,11 +3209,11 @@ SC.create = function(obj, props) {
 
   @returns {Object} new object
 */
-SC.createPrototype = function(obj, props) {
+Ember.createPrototype = function(obj, props) {
   var ret = o_create(obj, props);
   meta(ret, true).proto = ret;
-  if (GUID_KEY in ret) SC.generateGuid(ret, 'sc');
-  if (META_KEY in ret) SC.rewatch(ret); // setup watch chains if needed.
+  if (GUID_KEY in ret) Ember.generateGuid(ret, 'ember');
+  if (META_KEY in ret) Ember.rewatch(ret); // setup watch chains if needed.
   return ret;
 };
 
@@ -3225,7 +3225,7 @@ SC.createPrototype = function(obj, props) {
   @param {Object} obj  the object to destroy
   @returns {void}
 */
-SC.destroy = function(obj) {
+Ember.destroy = function(obj) {
   if (obj[META_KEY]) obj[META_KEY] = null;
 };
 
@@ -3235,19 +3235,19 @@ SC.destroy = function(obj) {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Metal
+// Project:  Ember Metal
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals sc_assert */
-var guidFor = SC.guidFor;
-var meta    = SC.meta;
-var get = SC.get, set = SC.set;
-var normalizeTuple = SC.normalizeTuple.primitive;
-var normalizePath  = SC.normalizePath;
-var SIMPLE_PROPERTY = SC.SIMPLE_PROPERTY;
-var GUID_KEY = SC.GUID_KEY;
-var notifyObservers = SC.notifyObservers;
+/*globals ember_assert */
+var guidFor = Ember.guidFor;
+var meta    = Ember.meta;
+var get = Ember.get, set = Ember.set;
+var normalizeTuple = Ember.normalizeTuple.primitive;
+var normalizePath  = Ember.normalizePath;
+var SIMPLE_PROPERTY = Ember.SIMPLE_PROPERTY;
+var GUID_KEY = Ember.GUID_KEY;
+var notifyObservers = Ember.notifyObservers;
 
 var FIRST_KEY = /^([^\.\*]+)/;
 var IS_PATH = /[\.\*]/;
@@ -3265,7 +3265,7 @@ function isKeyName(path) {
 // DEPENDENT KEYS
 //
 
-var DEP_SKIP = { __scproto__: true }; // skip some keys and toString
+var DEP_SKIP = { __emberproto__: true }; // skip some keys and toString
 function iterDeps(methodName, obj, depKey, seen) {
 
   var guid = guidFor(obj);
@@ -3273,7 +3273,7 @@ function iterDeps(methodName, obj, depKey, seen) {
   if (seen[guid][depKey]) return ;
   seen[guid][depKey] = true;
 
-  var deps = meta(obj, false).deps, method = SC[methodName];
+  var deps = meta(obj, false).deps, method = Ember[methodName];
   deps = deps && deps[depKey];
   if (deps) {
     for(var key in deps) {
@@ -3310,22 +3310,22 @@ function addChainWatcher(obj, keyName, node) {
   if (!obj || ('object' !== typeof obj)) return; // nothing to do
   var m = meta(obj);
   var nodes = m.chainWatchers;
-  if (!nodes || nodes.__scproto__ !== obj) {
-    nodes = m.chainWatchers = { __scproto__: obj };
+  if (!nodes || nodes.__emberproto__ !== obj) {
+    nodes = m.chainWatchers = { __emberproto__: obj };
   }
 
   if (!nodes[keyName]) nodes[keyName] = {};
   nodes[keyName][guidFor(node)] = node;
-  SC.watch(obj, keyName);
+  Ember.watch(obj, keyName);
 }
 
 function removeChainWatcher(obj, keyName, node) {
   if (!obj || ('object' !== typeof obj)) return; // nothing to do
   var m = meta(obj, false);
   var nodes = m.chainWatchers;
-  if (!nodes || nodes.__scproto__ !== obj) return; //nothing to do
+  if (!nodes || nodes.__emberproto__ !== obj) return; //nothing to do
   if (nodes[keyName]) delete nodes[keyName][guidFor(node)];
-  SC.unwatch(obj, keyName);
+  Ember.unwatch(obj, keyName);
 }
 
 var pendingQueue = [];
@@ -3354,22 +3354,45 @@ function isProto(pvalue) {
 // pass null for parent and key and object for value.
 var ChainNode = function(parent, key, value, separator) {
   var obj;
-
   this._parent = parent;
   this._key    = key;
+
+  // _watching is true when calling get(this._parent, this._key) will
+  // return the value of this node.
+  //
+  // It is false for the root of a chain (because we have no parent)
+  // and for global paths (because the parent node is the object with
+  // the observer on it)
   this._watching = value===undefined;
-  this._value  = value || (parent._value && !isProto(parent._value) && get(parent._value, key));
+
+  this._value  = value;
   this._separator = separator || '.';
   this._paths = {};
-
   if (this._watching) {
-    this._object = parent._value;
+    this._object = parent.value();
     if (this._object) addChainWatcher(this._object, this._key, this);
+  }
+
+  // Special-case: the EachProxy relies on immediate evaluation to
+  // establish its observers.
+  //
+  // TODO: Replace this with an efficient callback that the EachProxy
+  // can implement.
+  if (this._parent && this._parent._key === '@each') {
+    this.value();
   }
 };
 
 
 var Wp = ChainNode.prototype;
+
+Wp.value = function() {
+  if (this._value === undefined && this._watching){
+    var obj = this._parent.value();
+    this._value = (obj && !isProto(obj)) ? get(obj, this._key) : undefined;
+  }
+  return this._value;
+};
 
 Wp.destroy = function() {
   if (this._watching) {
@@ -3398,19 +3421,22 @@ Wp.add = function(path) {
   paths = this._paths;
   paths[path] = (paths[path] || 0) + 1 ;
 
-  obj = this._value;
+  obj = this.value();
   tuple = normalizeTuple(obj, path);
+
+  // the path was a local path
   if (tuple[0] && (tuple[0] === obj)) {
     path = tuple[1];
     key  = firstKey(path);
     path = path.slice(key.length+1);
 
-  // static path does not exist yet.  put into a queue and try to connect
-  // later.
+  // global path, but object does not exist yet.
+  // put into a queue and try to connect later.
   } else if (!tuple[0]) {
     pendingQueue.push([this, path]);
     return;
 
+  // global path, and object already exists
   } else {
     src  = tuple[0];
     key  = path.slice(0, 0-(tuple[1].length+1));
@@ -3429,7 +3455,7 @@ Wp.remove = function(path) {
   paths = this._paths;
   if (paths[path] > 0) paths[path]--;
 
-  obj = this._value;
+  obj = this.value();
   tuple = normalizeTuple(obj, path);
   if (tuple[0] === obj) {
     path = tuple[1];
@@ -3500,9 +3526,9 @@ Wp.chainWillChange = function(chain, path, depth) {
   if (this._parent) {
     this._parent.chainWillChange(this, path, depth+1);
   } else {
-    if (depth>1) SC.propertyWillChange(this._value, path);
+    if (depth>1) Ember.propertyWillChange(this.value(), path);
     path = 'this.'+path;
-    if (this._paths[path]>0) SC.propertyWillChange(this._value, path);
+    if (this._paths[path]>0) Ember.propertyWillChange(this.value(), path);
   }
 };
 
@@ -3511,22 +3537,27 @@ Wp.chainDidChange = function(chain, path, depth) {
   if (this._parent) {
     this._parent.chainDidChange(this, path, depth+1);
   } else {
-    if (depth>1) SC.propertyDidChange(this._value, path);
+    if (depth>1) Ember.propertyDidChange(this.value(), path);
     path = 'this.'+path;
-    if (this._paths[path]>0) SC.propertyDidChange(this._value, path);
+    if (this._paths[path]>0) Ember.propertyDidChange(this.value(), path);
   }
 };
 
 Wp.didChange = function() {
-  // update my own value first.
+  // invalidate my own value first.
   if (this._watching) {
-    var obj = this._parent._value;
+    var obj = this._parent.value();
     if (obj !== this._object) {
       removeChainWatcher(this._object, this._key, this);
       this._object = obj;
       addChainWatcher(obj, this._key, this);
     }
-    this._value  = obj && !isProto(obj) ? get(obj, this._key) : undefined;
+    this._value  = undefined;
+
+    // Special-case: the EachProxy relies on immediate evaluation to
+    // establish its observers.
+    if (this._parent && this._parent._key === '@each')
+      this.value();
   }
 
   // then notify chains...
@@ -3549,7 +3580,7 @@ function chainsFor(obj) {
   var m   = meta(obj), ret = m.chains;
   if (!ret) {
     ret = m.chains = new ChainNode(null, null, obj);
-  } else if (ret._value !== obj) {
+  } else if (ret.value() !== obj) {
     ret = m.chains = ret.copy(obj);
   }
   return ret ;
@@ -3560,7 +3591,7 @@ function chainsFor(obj) {
 function notifyChains(obj, keyName, methodName) {
   var m = meta(obj, false);
   var nodes = m.chainWatchers;
-  if (!nodes || nodes.__scproto__ !== obj) return; // nothing to do
+  if (!nodes || nodes.__emberproto__ !== obj) return; // nothing to do
 
   nodes = nodes[keyName];
   if (!nodes) return;
@@ -3583,21 +3614,21 @@ function chainsDidChange(obj, keyName) {
 // WATCH
 //
 
-var WATCHED_PROPERTY = SC.SIMPLE_PROPERTY.watched;
+var WATCHED_PROPERTY = Ember.SIMPLE_PROPERTY.watched;
 
 /**
   @private
 
   Starts watching a property on an object.  Whenever the property changes,
-  invokes SC.propertyWillChange and SC.propertyDidChange.  This is the
+  invokes Ember.propertyWillChange and Ember.propertyDidChange.  This is the
   primitive used by observers and dependent keys; usually you will never call
   this method directly but instead use higher level methods like
-  SC.addObserver().
+  Ember.addObserver().
 */
-SC.watch = function(obj, keyName) {
+Ember.watch = function(obj, keyName) {
 
   // can't watch length on Array - it is special...
-  if (keyName === 'length' && SC.typeOf(obj)==='array') return this;
+  if (keyName === 'length' && Ember.typeOf(obj)==='array') return this;
 
   var m = meta(obj), watching = m.watching, desc;
   keyName = normalizePath(keyName);
@@ -3608,7 +3639,7 @@ SC.watch = function(obj, keyName) {
     if (isKeyName(keyName)) {
       desc = m.descs[keyName];
       desc = desc ? desc.watched : WATCHED_PROPERTY;
-      if (desc) SC.defineProperty(obj, keyName, desc);
+      if (desc) Ember.defineProperty(obj, keyName, desc);
     } else {
       chainsFor(obj).add(keyName);
     }
@@ -3619,16 +3650,16 @@ SC.watch = function(obj, keyName) {
   return this;
 };
 
-SC.isWatching = function(obj, keyName) {
+Ember.isWatching = function(obj, keyName) {
   return !!meta(obj).watching[keyName];
 };
 
-SC.watch.flushPending = flushPendingChains;
+Ember.watch.flushPending = flushPendingChains;
 
 /** @private */
-SC.unwatch = function(obj, keyName) {
+Ember.unwatch = function(obj, keyName) {
   // can't watch length on Array - it is special...
-  if (keyName === 'length' && SC.typeOf(obj)==='array') return this;
+  if (keyName === 'length' && Ember.typeOf(obj)==='array') return this;
 
   var watching = meta(obj).watching, desc, descs;
   keyName = normalizePath(keyName);
@@ -3637,7 +3668,7 @@ SC.unwatch = function(obj, keyName) {
     if (isKeyName(keyName)) {
       desc = meta(obj).descs[keyName];
       desc = desc ? desc.unwatched : SIMPLE_PROPERTY;
-      if (desc) SC.defineProperty(obj, keyName, desc);
+      if (desc) Ember.defineProperty(obj, keyName, desc);
     } else {
       chainsFor(obj).remove(keyName);
     }
@@ -3656,22 +3687,22 @@ SC.unwatch = function(obj, keyName) {
   setup any chained watchers on the object instance as needed.  This method is
   safe to call multiple times.
 */
-SC.rewatch = function(obj) {
+Ember.rewatch = function(obj) {
   var m = meta(obj, false), chains = m.chains, bindings = m.bindings, key, b;
 
   // make sure the object has its own guid.
   if (GUID_KEY in obj && !obj.hasOwnProperty(GUID_KEY)) {
-    SC.generateGuid(obj, 'sc');
+    Ember.generateGuid(obj, 'ember');
   }
 
   // make sure any chained watchers update.
-  if (chains && chains._value !== obj) chainsFor(obj);
+  if (chains && chains.value() !== obj) chainsFor(obj);
 
   // if the object has bindings then sync them..
   if (bindings && m.proto!==obj) {
     for (key in bindings) {
       b = !DEP_SKIP[key] && obj[key];
-      if (b && b instanceof SC.Binding) b.fromDidChange(obj);
+      if (b && b instanceof Ember.Binding) b.fromDidChange(obj);
     }
   }
 
@@ -3688,7 +3719,7 @@ SC.rewatch = function(obj) {
 
   Normally you will not need to call this method directly but if for some
   reason you can't directly watch a property you can invoke this method
-  manually along with `SC.propertyDidChange()` which you should call just
+  manually along with `Ember.propertyDidChange()` which you should call just
   after the property value changes.
 
   @param {Object} obj
@@ -3699,13 +3730,13 @@ SC.rewatch = function(obj) {
 
   @returns {void}
 */
-SC.propertyWillChange = function(obj, keyName) {
+Ember.propertyWillChange = function(obj, keyName) {
   var m = meta(obj, false), proto = m.proto, desc = m.descs[keyName];
   if (proto === obj) return ;
   if (desc && desc.willChange) desc.willChange(obj, keyName);
   dependentKeysWillChange(obj, keyName);
   chainsWillChange(obj, keyName);
-  SC.notifyBeforeObservers(obj, keyName);
+  Ember.notifyBeforeObservers(obj, keyName);
 };
 
 /**
@@ -3714,7 +3745,7 @@ SC.propertyWillChange = function(obj, keyName) {
 
   Normally you will not need to call this method directly but if for some
   reason you can't directly watch a property you can invoke this method
-  manually along with `SC.propertyWilLChange()` which you should call just
+  manually along with `Ember.propertyWilLChange()` which you should call just
   before the property value changes.
 
   @param {Object} obj
@@ -3725,13 +3756,13 @@ SC.propertyWillChange = function(obj, keyName) {
 
   @returns {void}
 */
-SC.propertyDidChange = function(obj, keyName) {
+Ember.propertyDidChange = function(obj, keyName) {
   var m = meta(obj, false), proto = m.proto, desc = m.descs[keyName];
   if (proto === obj) return ;
   if (desc && desc.didChange) desc.didChange(obj, keyName);
   dependentKeysDidChange(obj, keyName);
   chainsDidChange(obj, keyName);
-  SC.notifyObservers(obj, keyName);
+  Ember.notifyObservers(obj, keyName);
 };
 
 })({});
@@ -3739,16 +3770,16 @@ SC.propertyDidChange = function(obj, keyName) {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2010 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals sc_assert */
-// SC.Logger
-// SC.watch.flushPending
-// SC.beginPropertyChanges, SC.endPropertyChanges
-// SC.guidFor
+/*globals ember_assert */
+// Ember.Logger
+// Ember.watch.flushPending
+// Ember.beginPropertyChanges, Ember.endPropertyChanges
+// Ember.guidFor
 
 // ..........................................................
 // HELPERS
@@ -3828,27 +3859,27 @@ RunLoop.prototype = {
       invoke(item.target, item.method, item.args);
     }
 
-    SC.watch.flushPending(); // make sure all chained watchers are setup
+    Ember.watch.flushPending(); // make sure all chained watchers are setup
 
     if (queueName) {
       while (this._queues && (queue = this._queues[queueName])) {
         this._queues[queueName] = null;
 
-        log = SC.LOG_BINDINGS && queueName==='sync';
-        if (log) SC.Logger.log('Begin: Flush Sync Queue');
+        log = Ember.LOG_BINDINGS && queueName==='sync';
+        if (log) Ember.Logger.log('Begin: Flush Sync Queue');
 
         // the sync phase is to allow property changes to propogate.  don't
         // invoke observers until that is finished.
-        if (queueName === 'sync') SC.beginPropertyChanges();
+        if (queueName === 'sync') Ember.beginPropertyChanges();
         queue.forEach(iter);
-        if (queueName === 'sync') SC.endPropertyChanges();
+        if (queueName === 'sync') Ember.endPropertyChanges();
 
-        if (log) SC.Logger.log('End: Flush Sync Queue');
+        if (log) Ember.Logger.log('End: Flush Sync Queue');
 
       }
 
     } else {
-      queueNames = SC.run.queues;
+      queueNames = Ember.run.queues;
       len = queueNames.length;
       do {
         this._queues = null;
@@ -3856,14 +3887,14 @@ RunLoop.prototype = {
           queueName = queueNames[idx];
           queue = queues[queueName];
 
-          log = SC.LOG_BINDINGS && queueName==='sync';
-          if (log) SC.Logger.log('Begin: Flush Sync Queue');
+          log = Ember.LOG_BINDINGS && queueName==='sync';
+          if (log) Ember.Logger.log('Begin: Flush Sync Queue');
 
-          if (queueName === 'sync') SC.beginPropertyChanges();
+          if (queueName === 'sync') Ember.beginPropertyChanges();
           if (queue) queue.forEach(iter);
-          if (queueName === 'sync') SC.endPropertyChanges();
+          if (queueName === 'sync') Ember.endPropertyChanges();
 
-          if (log) SC.Logger.log('End: Flush Sync Queue');
+          if (log) Ember.Logger.log('End: Flush Sync Queue');
 
         }
 
@@ -3877,10 +3908,10 @@ RunLoop.prototype = {
 
 };
 
-SC.RunLoop = RunLoop;
+Ember.RunLoop = RunLoop;
 
 // ..........................................................
-// SC.run - this is ideally the only public API the dev sees
+// Ember.run - this is ideally the only public API the dev sees
 //
 
 var run;
@@ -3908,7 +3939,7 @@ var run;
 
   @returns {Object} return value from invoking the passed function.
 */
-SC.run = run = function(target, method) {
+Ember.run = run = function(target, method) {
 
   var ret, loop;
   run.begin();
@@ -3919,24 +3950,24 @@ SC.run = run = function(target, method) {
 
 /**
   Begins a new RunLoop.  Any deferred actions invoked after the begin will
-  be buffered until you invoke a matching call to SC.run.end().  This is
-  an lower-level way to use a RunLoop instead of using SC.run().
+  be buffered until you invoke a matching call to Ember.run.end().  This is
+  an lower-level way to use a RunLoop instead of using Ember.run().
 
   @returns {void}
 */
-SC.run.begin = function() {
+Ember.run.begin = function() {
   run.currentRunLoop = new RunLoop(run.currentRunLoop);
 };
 
 /**
-  Ends a RunLoop.  This must be called sometime after you call SC.run.begin()
+  Ends a RunLoop.  This must be called sometime after you call Ember.run.begin()
   to flush any deferred actions.  This is a lower-level way to use a RunLoop
-  instead of using SC.run().
+  instead of using Ember.run().
 
   @returns {void}
 */
-SC.run.end = function() {
-  sc_assert('must have a current run loop', run.currentRunLoop);
+Ember.run.end = function() {
+  ember_assert('must have a current run loop', run.currentRunLoop);
   run.currentRunLoop = run.currentRunLoop.end();
 };
 
@@ -3948,7 +3979,7 @@ SC.run.end = function() {
 
   @property {String}
 */
-SC.run.queues = ['sync', 'actions', 'destroy', 'timers'];
+Ember.run.queues = ['sync', 'actions', 'destroy', 'timers'];
 
 /**
   Adds the passed target/method and any optional arguments to the named
@@ -3977,7 +4008,7 @@ SC.run.queues = ['sync', 'actions', 'destroy', 'timers'];
 
   @returns {void}
 */
-SC.run.schedule = function(queue, target, method) {
+Ember.run.schedule = function(queue, target, method) {
   var loop = run.autorun();
   loop.schedule.apply(loop, arguments);
 };
@@ -3991,19 +4022,19 @@ function autorun() {
 
 /**
   Begins a new RunLoop if necessary and schedules a timer to flush the
-  RunLoop at a later time.  This method is used by parts of SproutCore to
+  RunLoop at a later time.  This method is used by parts of Ember to
   ensure the RunLoop always finishes.  You normally do not need to call this
-  method directly.  Instead use SC.run().
+  method directly.  Instead use Ember.run().
 
-  @returns {SC.RunLoop} the new current RunLoop
+  @returns {Ember.RunLoop} the new current RunLoop
 */
-SC.run.autorun = function() {
+Ember.run.autorun = function() {
 
   if (!run.currentRunLoop) {
     run.begin();
 
     // TODO: throw during tests
-    if (SC.testing) {
+    if (Ember.testing) {
       run.end();
     } else if (!autorunTimer) {
       autorunTimer = setTimeout(autorun, 1);
@@ -4023,7 +4054,7 @@ SC.run.autorun = function() {
 
   @returns {void}
 */
-SC.run.sync = function() {
+Ember.run.sync = function() {
   run.autorun();
   run.currentRunLoop.flush('sync');
 };
@@ -4079,7 +4110,7 @@ function invokeLaterTimers() {
 
   @returns {Timer} an object you can use to cancel a timer at a later time.
 */
-SC.run.later = function(target, method) {
+Ember.run.later = function(target, method) {
   var args, expires, timer, guid, wait;
 
   // setTimeout compatibility...
@@ -4096,7 +4127,7 @@ SC.run.later = function(target, method) {
 
   expires = (+ new Date())+wait;
   timer   = { target: target, method: method, expires: expires, args: args };
-  guid    = SC.guidFor(timer);
+  guid    = Ember.guidFor(timer);
   timers[guid] = timer;
   run.once(timers, invokeLaterTimers);
   return guid;
@@ -4129,8 +4160,8 @@ function invokeOnceTimer(guid, onceTimers) {
 
   @returns {Object} timer
 */
-SC.run.once = function(target, method) {
-  var tguid = SC.guidFor(target), mguid = SC.guidFor(method), guid, timer;
+Ember.run.once = function(target, method) {
+  var tguid = Ember.guidFor(target), mguid = Ember.guidFor(method), guid, timer;
 
   var onceTimers = run.autorun().onceTimers;
   guid = onceTimers[tguid] && onceTimers[tguid][mguid];
@@ -4146,7 +4177,7 @@ SC.run.once = function(target, method) {
       mguid:  mguid
     };
 
-    guid  = SC.guidFor(timer);
+    guid  = Ember.guidFor(timer);
     timers[guid] = timer;
     if (!onceTimers[tguid]) onceTimers[tguid] = {};
     onceTimers[tguid][mguid] = guid; // so it isn't scheduled more than once
@@ -4186,7 +4217,7 @@ function invokeNextTimers() {
 
   @returns {Object} timer
 */
-SC.run.next = function(target, method) {
+Ember.run.next = function(target, method) {
   var timer, guid;
 
   timer = {
@@ -4196,7 +4227,7 @@ SC.run.next = function(target, method) {
     next: true
   };
 
-  guid = SC.guidFor(timer);
+  guid = Ember.guidFor(timer);
   timers[guid] = timer;
 
   if (!scheduledNext) scheduledNext = setTimeout(invokeNextTimers, 1);
@@ -4204,15 +4235,15 @@ SC.run.next = function(target, method) {
 };
 
 /**
-  Cancels a scheduled item.  Must be a value returned by `SC.run.later()`,
-  `SC.run.once()`, or `SC.run.next()`.
+  Cancels a scheduled item.  Must be a value returned by `Ember.run.later()`,
+  `Ember.run.once()`, or `Ember.run.next()`.
 
   @param {Object} timer
     Timer object to cancel
 
   @returns {void}
 */
-SC.run.cancel = function(timer) {
+Ember.run.cancel = function(timer) {
   delete timers[timer];
 };
 
@@ -4225,17 +4256,17 @@ SC.run.cancel = function(timer) {
   @deprecated
   @method
 
-  Use `#js:SC.run.begin()` instead
+  Use `#js:Ember.run.begin()` instead
 */
-SC.RunLoop.begin = SC.run.begin;
+Ember.RunLoop.begin = Ember.run.begin;
 
 /**
   @deprecated
   @method
 
-  Use `#js:SC.run.end()` instead
+  Use `#js:Ember.run.end()` instead
 */
-SC.RunLoop.end = SC.run.end;
+Ember.RunLoop.end = Ember.run.end;
 
 
 
@@ -4244,16 +4275,16 @@ SC.RunLoop.end = SC.run.end;
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals sc_assert */
-// SC.Logger
+/*globals ember_assert */
+// Ember.Logger
 // get, getPath, setPath, trySetPath
 // guidFor, isArray, meta
 // addObserver, removeObserver
-// SC.run.schedule
+// Ember.run.schedule
 
 // ..........................................................
 // CONSTANTS
@@ -4270,7 +4301,7 @@ SC.RunLoop.end = SC.run.end;
   @type Boolean
   @default NO
 */
-SC.LOG_BINDINGS = false || !!SC.ENV.LOG_BINDINGS;
+Ember.LOG_BINDINGS = false || !!Ember.ENV.LOG_BINDINGS;
 
 /**
   @static
@@ -4280,7 +4311,7 @@ SC.LOG_BINDINGS = false || !!SC.ENV.LOG_BINDINGS;
 
   @type Boolean
 */
-SC.BENCHMARK_BINDING_NOTIFICATIONS = !!SC.ENV.BENCHMARK_BINDING_NOTIFICATIONS;
+Ember.BENCHMARK_BINDING_NOTIFICATIONS = !!Ember.ENV.BENCHMARK_BINDING_NOTIFICATIONS;
 
 /**
   @static
@@ -4290,7 +4321,7 @@ SC.BENCHMARK_BINDING_NOTIFICATIONS = !!SC.ENV.BENCHMARK_BINDING_NOTIFICATIONS;
 
   @type Boolean
 */
-SC.BENCHMARK_BINDING_SETUP = !!SC.ENV.BENCHMARK_BINDING_SETUP;
+Ember.BENCHMARK_BINDING_SETUP = !!Ember.ENV.BENCHMARK_BINDING_SETUP;
 
 
 /**
@@ -4301,7 +4332,7 @@ SC.BENCHMARK_BINDING_SETUP = !!SC.ENV.BENCHMARK_BINDING_SETUP;
   @type String
   @default '@@MULT@@'
 */
-SC.MULTIPLE_PLACEHOLDER = '@@MULT@@';
+Ember.MULTIPLE_PLACEHOLDER = '@@MULT@@';
 
 /**
   @static
@@ -4312,7 +4343,7 @@ SC.MULTIPLE_PLACEHOLDER = '@@MULT@@';
   @type String
   @default '@@EMPTY@@'
 */
-SC.EMPTY_PLACEHOLDER = '@@EMPTY@@';
+Ember.EMPTY_PLACEHOLDER = '@@EMPTY@@';
 
 // ..........................................................
 // TYPE COERCION HELPERS
@@ -4350,10 +4381,10 @@ var NOT = {
   }
 };
 
-var get     = SC.get,
-    getPath = SC.getPath,
-    setPath = SC.setPath,
-    guidFor = SC.guidFor;
+var get     = Ember.get,
+    getPath = Ember.getPath,
+    setPath = Ember.setPath,
+    guidFor = Ember.guidFor;
 
 // Applies a binding's transformations against a value.
 function getTransformedValue(binding, val, obj, dir) {
@@ -4378,7 +4409,7 @@ function getTransformedValue(binding, val, obj, dir) {
 }
 
 function empty(val) {
-  return val===undefined || val===null || val==='' || (SC.isArray(val) && get(val, 'length')===0) ;
+  return val===undefined || val===null || val==='' || (Ember.isArray(val) && get(val, 'length')===0) ;
 }
 
 function getTransformedFromValue(obj, binding) {
@@ -4426,9 +4457,9 @@ var OR_OPERATION = function(obj, left, right) {
   what the other object outputs.
 
   To customize a binding, you can use one of the many helper methods defined
-  on SC.Binding like so:
+  on Ember.Binding like so:
 
-        valueBinding: SC.Binding.single("MyApp.someController.title")
+        valueBinding: Ember.Binding.single("MyApp.someController.title")
 
   This will create a binding just like the example above, except that now the
   binding will convert the value of `MyApp.someController.title` to a single
@@ -4437,7 +4468,7 @@ var OR_OPERATION = function(obj, left, right) {
 
   You can also chain helper methods to build custom bindings like so:
 
-        valueBinding: SC.Binding.single("MyApp.someController.title").notEmpty("(EMPTY)")
+        valueBinding: Ember.Binding.single("MyApp.someController.title").notEmpty("(EMPTY)")
 
   This will force the value of MyApp.someController.title to be a single value
   and then check to see if the value is "empty" (null, undefined, empty array,
@@ -4447,13 +4478,13 @@ var OR_OPERATION = function(obj, left, right) {
   ## One Way Bindings
 
   One especially useful binding customization you can use is the `oneWay()`
-  helper. This helper tells SproutCore that you are only interested in
+  helper. This helper tells Ember that you are only interested in
   receiving changes on the object you are binding from. For example, if you
   are binding to a preference and you want to be notified if the preference
   has changed, but your object will not be changing the preference itself, you
   could do:
 
-        bigTitlesBinding: SC.Binding.oneWay("MyApp.preferencesController.bigTitles")
+        bigTitlesBinding: Ember.Binding.oneWay("MyApp.preferencesController.bigTitles")
 
   This way if the value of MyApp.preferencesController.bigTitles changes the
   "bigTitles" property of your object will change also. However, if you
@@ -4469,27 +4500,27 @@ var OR_OPERATION = function(obj, left, right) {
 
   ## Adding Custom Transforms
 
-  In addition to using the standard helpers provided by SproutCore, you can
+  In addition to using the standard helpers provided by Ember, you can
   also defined your own custom transform functions which will be used to
   convert the value. To do this, just define your transform function and add
   it to the binding with the transform() helper. The following example will
   not allow Integers less than ten. Note that it checks the value of the
   bindings and allows all other values to pass:
 
-        valueBinding: SC.Binding.transform(function(value, binding) {
-          return ((SC.typeOf(value) === 'number') && (value < 10)) ? 10 : value;
+        valueBinding: Ember.Binding.transform(function(value, binding) {
+          return ((Ember.typeOf(value) === 'number') && (value < 10)) ? 10 : value;
         }).from("MyApp.someController.value")
 
   If you would like to instead use this transform on a number of bindings,
-  you can also optionally add your own helper method to SC.Binding. This
+  you can also optionally add your own helper method to Ember.Binding. This
   method should simply return the value of `this.transform()`. The example
   below adds a new helper called `notLessThan()` which will limit the value to
   be not less than the passed minimum:
 
-      SC.Binding.reopen({
+      Ember.Binding.reopen({
         notLessThan: function(minValue) {
           return this.transform(function(value, binding) {
-            return ((SC.typeOf(value) === 'number') && (value < minValue)) ? minValue : value;
+            return ((Ember.typeOf(value) === 'number') && (value < minValue)) ? minValue : value;
           });
         }
       });
@@ -4497,13 +4528,13 @@ var OR_OPERATION = function(obj, left, right) {
   You could specify this in your core.js file, for example. Then anywhere in
   your application you can use it to define bindings like so:
 
-        valueBinding: SC.Binding.from("MyApp.someController.value").notLessThan(10)
+        valueBinding: Ember.Binding.from("MyApp.someController.value").notLessThan(10)
 
   Also, remember that helpers are chained so you can use your helper along
   with any other helpers. The example below will create a one way binding that
   does not allow empty values or values less than 10:
 
-        valueBinding: SC.Binding.oneWay("MyApp.someController.value").notEmpty().notLessThan(10)
+        valueBinding: Ember.Binding.oneWay("MyApp.someController.value").notEmpty().notLessThan(10)
 
   ## How to Manually Adding Binding
 
@@ -4521,10 +4552,10 @@ var OR_OPERATION = function(obj, left, right) {
   you want to bind from (such as "MyApp.someController.value" in the examples
   above). When your object is created, it will automatically assign the value
   you want to bind "to" based on the name of your binding key. In the
-  examples above, during init, SproutCore objects will effectively call
+  examples above, during init, Ember objects will effectively call
   something like this on your binding:
 
-        binding = SC.Binding.from(this.valueBinding).to("value");
+        binding = Ember.Binding.from(this.valueBinding).to("value");
 
   This creates a new binding instance based on the template you provide, and
   sets the to path to the "value" property of the new object. Now that the
@@ -4543,26 +4574,26 @@ var OR_OPERATION = function(obj, left, right) {
 
   If you ever needed to do so (you almost never will, but it is useful to
   understand this anyway), you could manually create an active binding by
-  using the SC.bind() helper method. (This is the same method used by
+  using the Ember.bind() helper method. (This is the same method used by
   to setup your bindings on objects):
 
-        SC.bind(MyApp.anotherObject, "value", "MyApp.someController.value");
+        Ember.bind(MyApp.anotherObject, "value", "MyApp.someController.value");
 
   Both of these code fragments have the same effect as doing the most friendly
   form of binding creation like so:
 
-        MyApp.anotherObject = SC.Object.create({
+        MyApp.anotherObject = Ember.Object.create({
           valueBinding: "MyApp.someController.value",
 
           // OTHER CODE FOR THIS OBJECT...
 
         });
 
-  SproutCore's built in binding creation method makes it easy to automatically
+  Ember's built in binding creation method makes it easy to automatically
   create bindings for you. You should always use the highest-level APIs
   available, even if you understand how to it works underneath.
 
-  @since SproutCore 1.0
+  @since Ember 0.9
 */
 var K = function() {};
 var Binding = function(toPath, fromPath) {
@@ -4601,7 +4632,7 @@ Binding.prototype = {
     `getPath()` - see that method for more information.
 
     @param {String} propertyPath the property path to connect to
-    @returns {SC.Binding} receiver
+    @returns {Ember.Binding} receiver
   */
   from: function(path) {
     this._from = path;
@@ -4619,7 +4650,7 @@ Binding.prototype = {
 
     @param {String|Tuple} propertyPath A property path or tuple
     @param {Object} [root] Root object to use when resolving the path.
-    @returns {SC.Binding} this
+    @returns {Ember.Binding} this
   */
   to: function(path) {
     this._to = path;
@@ -4636,7 +4667,7 @@ Binding.prototype = {
       (Optional) passing nothing here will make the binding oneWay.  You can
       instead pass NO to disable oneWay, making the binding two way again.
 
-    @returns {SC.Binding} receiver
+    @returns {Ember.Binding} receiver
   */
   oneWay: function(flag) {
     this._oneWay = flag===undefined ? true : !!flag;
@@ -4661,7 +4692,7 @@ Binding.prototype = {
     `resetTransform()` first.
 
     @param {Function} transformFunc the transform function.
-    @returns {SC.Binding} this
+    @returns {Ember.Binding} this
   */
   transform: function(transform) {
     if ('function' === typeof transform) {
@@ -4678,7 +4709,7 @@ Binding.prototype = {
     binding will no longer transform values. You can then add new transforms
     as needed.
 
-    @returns {SC.Binding} this
+    @returns {Ember.Binding} this
   */
   resetTransforms: function() {
     this._transforms = null;
@@ -4702,10 +4733,10 @@ Binding.prototype = {
 
     @param {String} fromPath from path or null
     @param {Object} [placeholder] Placeholder value.
-    @returns {SC.Binding} this
+    @returns {Ember.Binding} this
   */
   single: function(placeholder) {
-    if (placeholder===undefined) placeholder = SC.MULTIPLE_PLACEHOLDER;
+    if (placeholder===undefined) placeholder = Ember.MULTIPLE_PLACEHOLDER;
     this._typeTransform = SINGLE;
     this._placeholder = placeholder;
     return this;
@@ -4716,7 +4747,7 @@ Binding.prototype = {
     the value is null or undefined, it will be converted to an empty array.
 
     @param {String} [fromPath]
-    @returns {SC.Binding} this
+    @returns {Ember.Binding} this
   */
   multiple: function() {
     this._typeTransform = MULTIPLE;
@@ -4729,7 +4760,7 @@ Binding.prototype = {
     an array it will return YES if array is not empty. If the value is a
     string it will return YES if the string is not empty.
 
-    @returns {SC.Binding} this
+    @returns {Ember.Binding} this
   */
   bool: function() {
     this.transform(BOOL);
@@ -4741,13 +4772,13 @@ Binding.prototype = {
     null, undefined, an empty array or an empty string. See also notNull().
 
     @param {Object} [placeholder] Placeholder value.
-    @returns {SC.Binding} this
+    @returns {Ember.Binding} this
   */
   notEmpty: function(placeholder) {
-    // Display warning for users using the SC 1.x-style API.
-    sc_assert("notEmpty should only take a placeholder as a parameter. You no longer need to pass null as the first parameter.", arguments.length < 2);
+    // Display warning for users using the SproutCore 1.x-style API.
+    ember_assert("notEmpty should only take a placeholder as a parameter. You no longer need to pass null as the first parameter.", arguments.length < 2);
 
-    if (placeholder == undefined) { placeholder = SC.EMPTY_PLACEHOLDER; }
+    if (placeholder == undefined) { placeholder = Ember.EMPTY_PLACEHOLDER; }
 
     this.transform({
       to: function(val) { return empty(val) ? placeholder : val; }
@@ -4762,10 +4793,10 @@ Binding.prototype = {
 
     @param {String} fromPath from path or null
     @param {Object} [placeholder] Placeholder value.
-    @returns {SC.Binding} this
+    @returns {Ember.Binding} this
   */
   notNull: function(placeholder) {
-    if (placeholder == undefined) { placeholder = SC.EMPTY_PLACEHOLDER; }
+    if (placeholder == undefined) { placeholder = Ember.EMPTY_PLACEHOLDER; }
 
     this.transform({
       to: function(val) { return val == null ? placeholder : val; }
@@ -4778,7 +4809,7 @@ Binding.prototype = {
     Adds a transform to convert the value to the inverse of a bool value. This
     uses the same transform as bool() but inverts it.
 
-    @returns {SC.Binding} this
+    @returns {Ember.Binding} this
   */
   not: function() {
     this.transform(NOT);
@@ -4788,7 +4819,7 @@ Binding.prototype = {
   /**
     Adds a transform that will return YES if the value is null or undefined, NO otherwise.
 
-    @returns {SC.Binding} this
+    @returns {Ember.Binding} this
   */
   isNull: function() {
     this.transform(function(val) { return val == null; });
@@ -4798,7 +4829,7 @@ Binding.prototype = {
   /** @private */
   toString: function() {
     var oneWay = this._oneWay ? '[oneWay]' : '';
-    return "SC.Binding<" + guidFor(this) + ">(" + this._from + " -> " + this._to + ")" + oneWay;
+    return "Ember.Binding<" + guidFor(this) + ">(" + this._from + " -> " + this._to + ")" + oneWay;
   },
 
   // ..........................................................
@@ -4819,24 +4850,24 @@ Binding.prototype = {
       to be used if no object was provided via `from`, so this parameter turns
       off the assertion.
 
-    @returns {SC.Binding} this
+    @returns {Ember.Binding} this
   */
   connect: function(obj) {
-    sc_assert('Must pass a valid object to SC.Binding.connect()', !!obj);
+    ember_assert('Must pass a valid object to Ember.Binding.connect()', !!obj);
 
     var oneWay = this._oneWay, operand = this._operand;
 
     // add an observer on the object to be notified when the binding should be updated
-    SC.addObserver(obj, this._from, this, this.fromDidChange);
+    Ember.addObserver(obj, this._from, this, this.fromDidChange);
 
     // if there is an operand, add an observer onto it as well
-    if (operand) { SC.addObserver(obj, operand, this, this.fromDidChange); }
+    if (operand) { Ember.addObserver(obj, operand, this, this.fromDidChange); }
 
     // if the binding is a two-way binding, also set up an observer on the target
     // object.
-    if (!oneWay) { SC.addObserver(obj, this._to, this, this.toDidChange); }
+    if (!oneWay) { Ember.addObserver(obj, this._to, this, this.toDidChange); }
 
-    if (SC.meta(obj,false).proto !== obj) { this._scheduleSync(obj, 'fwd'); }
+    if (Ember.meta(obj,false).proto !== obj) { this._scheduleSync(obj, 'fwd'); }
 
     this._readyToSync = true;
     return this;
@@ -4849,22 +4880,22 @@ Binding.prototype = {
     @param {Object} obj
       The root object you passed when connecting the binding.
 
-    @returns {SC.Binding} this
+    @returns {Ember.Binding} this
   */
   disconnect: function(obj) {
-    sc_assert('Must pass a valid object to SC.Binding.disconnect()', !!obj);
+    ember_assert('Must pass a valid object to Ember.Binding.disconnect()', !!obj);
 
     var oneWay = this._oneWay, operand = this._operand;
 
     // remove an observer on the object so we're no longer notified of
     // changes that should update bindings.
-    SC.removeObserver(obj, this._from, this, this.fromDidChange);
+    Ember.removeObserver(obj, this._from, this, this.fromDidChange);
 
     // if there is an operand, remove the observer from it as well
-    if (operand) SC.removeObserver(obj, operand, this, this.fromDidChange);
+    if (operand) Ember.removeObserver(obj, operand, this, this.fromDidChange);
 
     // if the binding is two-way, remove the observer from the target as well
-    if (!oneWay) SC.removeObserver(obj, this._to, this, this.toDidChange);
+    if (!oneWay) Ember.removeObserver(obj, this._to, this, this.toDidChange);
 
     this._readyToSync = false; // disable scheduled syncs...
     return this;
@@ -4890,7 +4921,7 @@ Binding.prototype = {
 
     // if we haven't scheduled the binding yet, schedule it
     if (!existingDir) {
-      SC.run.schedule('sync', this, this._sync, obj);
+      Ember.run.schedule('sync', this, this._sync, obj);
       this[guid] = dir;
     }
 
@@ -4903,7 +4934,7 @@ Binding.prototype = {
 
   /** @private */
   _sync: function(obj) {
-    var log = SC.LOG_BINDINGS;
+    var log = Ember.LOG_BINDINGS;
 
     // don't synchronize destroyed objects or disconnected bindings
     if (obj.isDestroyed || !this._readyToSync) { return; }
@@ -4924,13 +4955,13 @@ Binding.prototype = {
 
     // if we're synchronizing from the remote object...
     if (direction === 'fwd') {
-      if (log) { SC.Logger.log(' ', this.toString(), val, '->', fromValue, obj); }
-      SC.trySetPath(obj, toPath, fromValue);
+      if (log) { Ember.Logger.log(' ', this.toString(), val, '->', fromValue, obj); }
+      Ember.trySetPath(obj, toPath, fromValue);
 
     // if we're synchronizing *to* the remote object
     } else if (direction === 'back') {// && !this._oneWay) {
-      if (log) { SC.Logger.log(' ', this.toString(), val, '<-', fromValue, obj); }
-      SC.trySetPath(obj, fromPath, toValue);
+      if (log) { Ember.Logger.log(' ', this.toString(), val, '<-', fromValue, obj); }
+      Ember.trySetPath(obj, fromPath, toValue);
     }
   }
 
@@ -4947,7 +4978,7 @@ function mixinProperties(to, from) {
 mixinProperties(Binding, {
 
   /**
-    @see SC.Binding.prototype.from
+    @see Ember.Binding.prototype.from
   */
   from: function() {
     var C = this, binding = new C();
@@ -4955,7 +4986,7 @@ mixinProperties(Binding, {
   },
 
   /**
-    @see SC.Binding.prototype.to
+    @see Ember.Binding.prototype.to
   */
   to: function() {
     var C = this, binding = new C();
@@ -4963,7 +4994,7 @@ mixinProperties(Binding, {
   },
 
   /**
-    @see SC.Binding.prototype.oneWay
+    @see Ember.Binding.prototype.oneWay
   */
   oneWay: function(from, flag) {
     var C = this, binding = new C(null, from);
@@ -4971,7 +5002,7 @@ mixinProperties(Binding, {
   },
 
   /**
-    @see SC.Binding.prototype.single
+    @see Ember.Binding.prototype.single
   */
   single: function(from) {
     var C = this, binding = new C(null, from);
@@ -4979,7 +5010,7 @@ mixinProperties(Binding, {
   },
 
   /**
-    @see SC.Binding.prototype.multiple
+    @see Ember.Binding.prototype.multiple
   */
   multiple: function(from) {
     var C = this, binding = new C(null, from);
@@ -4987,7 +5018,7 @@ mixinProperties(Binding, {
   },
 
   /**
-    @see SC.Binding.prototype.transform
+    @see Ember.Binding.prototype.transform
   */
   transform: function(func) {
     var C = this, binding = new C();
@@ -4995,7 +5026,7 @@ mixinProperties(Binding, {
   },
 
   /**
-    @see SC.Binding.prototype.notEmpty
+    @see Ember.Binding.prototype.notEmpty
   */
   notEmpty: function(from, placeholder) {
     var C = this, binding = new C(null, from);
@@ -5003,7 +5034,7 @@ mixinProperties(Binding, {
   },
 
   /**
-    @see SC.Binding.prototype.bool
+    @see Ember.Binding.prototype.bool
   */
   bool: function(from) {
     var C = this, binding = new C(null, from);
@@ -5011,7 +5042,7 @@ mixinProperties(Binding, {
   },
 
   /**
-    @see SC.Binding.prototype.not
+    @see Ember.Binding.prototype.not
   */
   not: function(from) {
     var C = this, binding = new C(null, from);
@@ -5029,8 +5060,8 @@ mixinProperties(Binding, {
     whether something is selected in a list and whether the current user is
     allowed to delete:
 
-        deleteButton: SC.ButtonView.design({
-          isEnabledBinding: SC.Binding.and('MyApp.itemsController.hasSelection', 'MyApp.userController.canDelete')
+        deleteButton: Ember.ButtonView.design({
+          isEnabledBinding: Ember.Binding.and('MyApp.itemsController.hasSelection', 'MyApp.userController.canDelete')
         })
 
     @param {String} pathA The first part of the conditional
@@ -5062,7 +5093,7 @@ mixinProperties(Binding, {
 
 });
 
-SC.Binding = Binding;
+Ember.Binding = Binding;
 
 /**
   Global helper method to create a new binding.  Just pass the root object
@@ -5080,14 +5111,14 @@ SC.Binding = Binding;
     The path to the 'from' side of the binding.  Must be relative to obj or
     a global path.
 
-  @returns {SC.Binding} binding instance
+  @returns {Ember.Binding} binding instance
 */
-SC.bind = function(obj, to, from) {
-  return new SC.Binding(to, from).connect(obj);
+Ember.bind = function(obj, to, from) {
+  return new Ember.Binding(to, from).connect(obj);
 };
 
-SC.oneWay = function(obj, to, from) {
-  return new SC.Binding(to, from).oneWay().connect(obj);
+Ember.oneWay = function(obj, to, from) {
+  return new Ember.Binding(to, from).oneWay().connect(obj);
 }
 
 })({});
@@ -5095,17 +5126,17 @@ SC.oneWay = function(obj, to, from) {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Metal
+// Project:  Ember Metal
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals sc_assert */
-var meta = SC.meta;
-var guidFor = SC.guidFor;
-var USE_ACCESSORS = SC.USE_ACCESSORS;
+/*globals ember_assert */
+var meta = Ember.meta;
+var guidFor = Ember.guidFor;
+var USE_ACCESSORS = Ember.USE_ACCESSORS;
 var a_slice = Array.prototype.slice;
-var o_create = SC.platform.create;
-var o_defineProperty = SC.platform.defineProperty;
+var o_create = Ember.platform.create;
+var o_defineProperty = Ember.platform.defineProperty;
 
 // ..........................................................
 // DEPENDENT KEYS
@@ -5115,27 +5146,27 @@ var o_defineProperty = SC.platform.defineProperty;
 //  meta.deps = {
 //   'depKey': {
 //     'keyName': count,
-//     __scproto__: SRC_OBJ [to detect clones]
+//     __emberproto__: SRC_OBJ [to detect clones]
 //     },
-//   __scproto__: SRC_OBJ
+//   __emberproto__: SRC_OBJ
 //  }
 
 function uniqDeps(obj, depKey) {
   var m = meta(obj), deps, ret;
   deps = m.deps;
   if (!deps) {
-    deps = m.deps = { __scproto__: obj };
-  } else if (deps.__scproto__ !== obj) {
+    deps = m.deps = { __emberproto__: obj };
+  } else if (deps.__emberproto__ !== obj) {
     deps = m.deps = o_create(deps);
-    deps.__scproto__ = obj;
+    deps.__emberproto__ = obj;
   }
 
   ret = deps[depKey];
   if (!ret) {
-    ret = deps[depKey] = { __scproto__: obj };
-  } else if (ret.__scproto__ !== obj) {
+    ret = deps[depKey] = { __emberproto__: obj };
+  } else if (ret.__emberproto__ !== obj) {
     ret = deps[depKey] = o_create(ret);
-    ret.__scproto__ = obj;
+    ret.__emberproto__ = obj;
   }
 
   return ret;
@@ -5144,13 +5175,13 @@ function uniqDeps(obj, depKey) {
 function addDependentKey(obj, keyName, depKey) {
   var deps = uniqDeps(obj, depKey);
   deps[keyName] = (deps[keyName] || 0) + 1;
-  SC.watch(obj, depKey);
+  Ember.watch(obj, depKey);
 }
 
 function removeDependentKey(obj, keyName, depKey) {
   var deps = uniqDeps(obj, depKey);
   deps[keyName] = (deps[keyName] || 0) - 1;
-  SC.unwatch(obj, depKey);
+  Ember.unwatch(obj, depKey);
 }
 
 function addDependentKeys(desc, obj, keyName) {
@@ -5169,14 +5200,14 @@ function ComputedProperty(func, opts) {
   this._dependentKeys = opts && opts.dependentKeys;
 }
 
-SC.ComputedProperty = ComputedProperty;
-ComputedProperty.prototype = new SC.Descriptor();
+Ember.ComputedProperty = ComputedProperty;
+ComputedProperty.prototype = new Ember.Descriptor();
 
 var CP_DESC = {
   configurable: true,
   enumerable:   true,
   get: function() { return undefined; }, // for when use_accessors is false.
-  set: SC.Descriptor.MUST_USE_SETTER  // for when use_accessors is false
+  set: Ember.Descriptor.MUST_USE_SETTER  // for when use_accessors is false
 };
 
 function mkCpGetter(keyName, desc) {
@@ -5212,13 +5243,13 @@ function mkCpSetter(keyName, desc) {
     watched = watched && m.lastSetValues[keyName]!==guidFor(value);
     if (watched) {
       m.lastSetValues[keyName] = guidFor(value);
-      SC.propertyWillChange(this, keyName);
+      Ember.propertyWillChange(this, keyName);
     }
 
     if (cacheable) delete m.cache[keyName];
     ret = func.call(this, keyName, value);
     if (cacheable) m.cache[keyName] = ret;
-    if (watched) SC.propertyDidChange(this, keyName);
+    if (watched) Ember.propertyDidChange(this, keyName);
     desc._suspended = oldSuspended;
     return ret;
   };
@@ -5232,7 +5263,7 @@ var Cp = ComputedProperty.prototype;
   your function until one of the dependent keys changes.
 
   @param {Boolean} aFlag optional set to false to disable cacheing
-  @returns {SC.ComputedProperty} receiver
+  @returns {Ember.ComputedProperty} receiver
 */
 Cp.cacheable = function(aFlag) {
   this._cacheable = aFlag!==false;
@@ -5244,7 +5275,7 @@ Cp.cacheable = function(aFlag) {
   arguments containing key paths that this computed property depends on.
 
   @param {String} path... zero or more property paths
-  @returns {SC.ComputedProperty} receiver
+  @returns {Ember.ComputedProperty} receiver
 */
 Cp.property = function() {
   this._dependentKeys = a_slice.call(arguments);
@@ -5306,13 +5337,13 @@ Cp.set = function(obj, keyName, value) {
   watched = watched && m.lastSetValues[keyName]!==guidFor(value);
   if (watched) {
     m.lastSetValues[keyName] = guidFor(value);
-    SC.propertyWillChange(obj, keyName);
+    Ember.propertyWillChange(obj, keyName);
   }
 
   if (cacheable) delete m.cache[keyName];
   ret = this.func.call(obj, keyName, value);
   if (cacheable) m.cache[keyName] = ret;
-  if (watched) SC.propertyDidChange(obj, keyName);
+  if (watched) Ember.propertyDidChange(obj, keyName);
   this._suspended = oldSuspended;
   return ret;
 };
@@ -5321,7 +5352,7 @@ Cp.val = function(obj, keyName) {
   return meta(obj, false).values[keyName];
 };
 
-if (!SC.platform.hasPropertyAccessors) {
+if (!Ember.platform.hasPropertyAccessors) {
   Cp.setup = function(obj, keyName, value) {
     obj[keyName] = undefined; // so it shows up in key iteration
     addDependentKeys(this, obj, keyName);
@@ -5329,7 +5360,7 @@ if (!SC.platform.hasPropertyAccessors) {
 
 } else if (!USE_ACCESSORS) {
   Cp.setup = function(obj, keyName) {
-    // throw exception if not using SC.get() and SC.set() when supported
+    // throw exception if not using Ember.get() and Ember.set() when supported
     o_defineProperty(obj, keyName, CP_DESC);
     addDependentKeys(this, obj, keyName);
   };
@@ -5338,7 +5369,7 @@ if (!SC.platform.hasPropertyAccessors) {
 /**
   This helper returns a new property descriptor that wraps the passed
   computed property function.  You can use this helper to define properties
-  with mixins or via SC.defineProperty().
+  with mixins or via Ember.defineProperty().
 
   The function you pass will be used to both get and set property values.
   The function should accept two parameters, key and value.  If value is not
@@ -5348,9 +5379,9 @@ if (!SC.platform.hasPropertyAccessors) {
   @param {Function} func
     The computed property function.
 
-  @returns {SC.ComputedProperty} property descriptor instance
+  @returns {Ember.ComputedProperty} property descriptor instance
 */
-SC.computed = function(func) {
+Ember.computed = function(func) {
   return new ComputedProperty(func);
 };
 
@@ -5359,14 +5390,14 @@ SC.computed = function(func) {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Metal
+// Project:  Ember Metal
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals sc_assert */
-var o_create = SC.platform.create;
-var meta = SC.meta;
-var guidFor = SC.guidFor;
+/*globals ember_assert */
+var o_create = Ember.platform.create;
+var meta = Ember.meta;
+var guidFor = Ember.guidFor;
 var array_Slice = Array.prototype.slice;
 
 /**
@@ -5393,7 +5424,7 @@ var array_Slice = Array.prototype.slice;
 
 */
 
-var metaPath = SC.metaPath;
+var metaPath = Ember.metaPath;
 
 // Gets the set of all actions, keyed on the guid of each action's
 // method property.
@@ -5413,7 +5444,7 @@ function targetSetFor(obj, eventName) {
 
 // TODO: This knowledge should really be a part of the
 // meta system.
-var SKIP_PROPERTIES = { __sc_source__: true };
+var SKIP_PROPERTIES = { __ember_source__: true };
 
 // For a given target, invokes all of the methods that have
 // been registered as a listener.
@@ -5444,7 +5475,7 @@ function invokeEvents(targetSet, params) {
       // arbitrary transformations, such as changing the order of
       // parameters.
       //
-      // This is primarily used by sproutcore-runtime's observer system, which
+      // This is primarily used by ember-runtime's observer system, which
       // provides a higher level abstraction on top of events, including
       // dynamically looking up current values and passing them into the
       // registered listener.
@@ -5466,7 +5497,7 @@ function invokeEvents(targetSet, params) {
   that observers are expecting.
 */
 function addListener(obj, eventName, target, method, xform) {
-  sc_assert("You must pass at least an object and event name to SC.addListener", !!obj && !!eventName);
+  ember_assert("You must pass at least an object and event name to Ember.addListener", !!obj && !!eventName);
 
   if (!method && 'function' === typeof target) {
     method = target;
@@ -5522,10 +5553,10 @@ function watchedEvents(obj) {
 }
 
 function sendEvent(obj, eventName) {
-  sc_assert("You must pass an object and event name to SC.sendEvent", !!obj && !!eventName);
+  ember_assert("You must pass an object and event name to Ember.sendEvent", !!obj && !!eventName);
 
   // first give object a chance to handle it
-  if (obj !== SC && 'function' === typeof obj.sendEvent) {
+  if (obj !== Ember && 'function' === typeof obj.sendEvent) {
     obj.sendEvent.apply(obj, array_Slice.call(arguments, 1));
   }
 
@@ -5578,19 +5609,19 @@ function listenersFor(obj, eventName) {
   return ret;
 }
 
-SC.addListener = addListener;
-SC.removeListener = removeListener;
-SC.sendEvent = sendEvent;
-SC.hasListeners = hasListeners;
-SC.watchedEvents = watchedEvents;
-SC.listenersFor = listenersFor;
+Ember.addListener = addListener;
+Ember.removeListener = removeListener;
+Ember.sendEvent = sendEvent;
+Ember.hasListeners = hasListeners;
+Ember.watchedEvents = watchedEvents;
+Ember.listenersFor = listenersFor;
 
 })({});
 
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -5599,19 +5630,19 @@ var classToString, superClassString;
 
 var a_map = Array.prototype.map;
 var EMPTY_META = {}; // dummy for non-writable meta
-var META_SKIP = { __scproto__: true, __sc_count__: true };
+var META_SKIP = { __emberproto__: true, __ember_count__: true };
 
-var o_create = SC.platform.create;
+var o_create = Ember.platform.create;
 
 function meta(obj, writable) {
-  var m = SC.meta(obj, writable!==false), ret = m.mixins;
+  var m = Ember.meta(obj, writable!==false), ret = m.mixins;
   if (writable===false) return ret || EMPTY_META;
 
   if (!ret) {
-    ret = m.mixins = { __scproto__: obj };
-  } else if (ret.__scproto__ !== obj) {
+    ret = m.mixins = { __emberproto__: obj };
+  } else if (ret.__emberproto__ !== obj) {
     ret = m.mixins = o_create(ret);
-    ret.__scproto__ = obj;
+    ret.__emberproto__ = obj;
   }
   return ret;
 }
@@ -5649,10 +5680,10 @@ function mergeMixins(mixins, m, descs, values, base) {
   for(idx=0;idx<len;idx++) {
 
     mixin = mixins[idx];
-    if (!mixin) throw new Error('Null value found in SC.mixin()');
+    if (!mixin) throw new Error('Null value found in Ember.mixin()');
 
     if (mixin instanceof Mixin) {
-      guid = SC.guidFor(mixin);
+      guid = Ember.guidFor(mixin);
       if (m[guid]) continue;
       m[guid] = mixin;
       props = mixin.properties;
@@ -5671,7 +5702,7 @@ function mergeMixins(mixins, m, descs, values, base) {
       for (key in props) {
         if (!props.hasOwnProperty(key)) continue;
         value = props[key];
-        if (value instanceof SC.Descriptor) {
+        if (value instanceof Ember.Descriptor) {
           if (value === REQUIRED && descs[key]) { continue; }
 
           descs[key]  = value;
@@ -5680,21 +5711,21 @@ function mergeMixins(mixins, m, descs, values, base) {
 
           // impl super if needed...
           if (isMethod(value)) {
-            ovalue = (descs[key] === SC.SIMPLE_PROPERTY) && values[key];
+            ovalue = (descs[key] === Ember.SIMPLE_PROPERTY) && values[key];
             if (!ovalue) ovalue = base[key];
             if ('function' !== typeof ovalue) ovalue = null;
             if (ovalue) {
-              var o = value.__sc_observes__, ob = value.__sc_observesBefore__;
-              value = SC.wrap(value, ovalue);
-              value.__sc_observes__ = o;
-              value.__sc_observesBefore__ = ob;
+              var o = value.__ember_observes__, ob = value.__ember_observesBefore__;
+              value = Ember.wrap(value, ovalue);
+              value.__ember_observes__ = o;
+              value.__ember_observesBefore__ = ob;
             }
           } else if ((concats && concats.indexOf(key)>=0) || key === 'concatenatedProperties') {
             var baseValue = values[key] || base[key];
-            value = baseValue ? baseValue.concat(value) : SC.makeArray(value);
+            value = baseValue ? baseValue.concat(value) : Ember.makeArray(value);
           }
 
-          descs[key]  = SC.SIMPLE_PROPERTY;
+          descs[key]  = Ember.SIMPLE_PROPERTY;
           values[key] = value;
         }
       }
@@ -5711,34 +5742,34 @@ function mergeMixins(mixins, m, descs, values, base) {
   }
 }
 
-var defineProperty = SC.defineProperty;
+var defineProperty = Ember.defineProperty;
 
 function writableReq(obj) {
-  var m = SC.meta(obj), req = m.required;
-  if (!req || (req.__scproto__ !== obj)) {
-    req = m.required = req ? o_create(req) : { __sc_count__: 0 };
-    req.__scproto__ = obj;
+  var m = Ember.meta(obj), req = m.required;
+  if (!req || (req.__emberproto__ !== obj)) {
+    req = m.required = req ? o_create(req) : { __ember_count__: 0 };
+    req.__emberproto__ = obj;
   }
   return req;
 }
 
 function getObserverPaths(value) {
-  return ('function' === typeof value) && value.__sc_observes__;
+  return ('function' === typeof value) && value.__ember_observes__;
 }
 
 function getBeforeObserverPaths(value) {
-  return ('function' === typeof value) && value.__sc_observesBefore__;
+  return ('function' === typeof value) && value.__ember_observesBefore__;
 }
 
-SC._mixinBindings = function(obj, key, value, m) {
+Ember._mixinBindings = function(obj, key, value, m) {
   return value;
 };
 
 function applyMixin(obj, mixins, partial) {
-  var descs = {}, values = {}, m = SC.meta(obj), req = m.required;
+  var descs = {}, values = {}, m = Ember.meta(obj), req = m.required;
   var key, willApply, didApply, value, desc;
 
-  var mixinBindings = SC._mixinBindings;
+  var mixinBindings = Ember._mixinBindings;
 
   mergeMixins(mixins, meta(obj), descs, values, obj);
 
@@ -5759,7 +5790,7 @@ function applyMixin(obj, mixins, partial) {
 
         // for partial applies add to hash of required keys
         req = writableReq(obj);
-        req.__sc_count__++;
+        req.__ember_count__++;
         req[key] = true;
       }
 
@@ -5776,7 +5807,7 @@ function applyMixin(obj, mixins, partial) {
           value = desc.val(obj, altKey);
         } else {
           value = obj[altKey];
-          desc  = SC.SIMPLE_PROPERTY;
+          desc  = Ember.SIMPLE_PROPERTY;
         }
       }
 
@@ -5791,18 +5822,18 @@ function applyMixin(obj, mixins, partial) {
       if (curObserverPaths) {
         len = curObserverPaths.length;
         for(idx=0;idx<len;idx++) {
-          SC.removeObserver(obj, curObserverPaths[idx], null, key);
+          Ember.removeObserver(obj, curObserverPaths[idx], null, key);
         }
       }
 
       if (curBeforeObserverPaths) {
         len = curBeforeObserverPaths.length;
         for(idx=0;idx<len;idx++) {
-          SC.removeBeforeObserver(obj, curBeforeObserverPaths[idx], null,key);
+          Ember.removeBeforeObserver(obj, curBeforeObserverPaths[idx], null,key);
         }
       }
 
-      // TODO: less hacky way for sproutcore-runtime to add bindings.
+      // TODO: less hacky way for ember-runtime to add bindings.
       value = mixinBindings(obj, key, value, m);
 
       defineProperty(obj, key, desc, value);
@@ -5810,20 +5841,20 @@ function applyMixin(obj, mixins, partial) {
       if (observerPaths) {
         len = observerPaths.length;
         for(idx=0;idx<len;idx++) {
-          SC.addObserver(obj, observerPaths[idx], null, key);
+          Ember.addObserver(obj, observerPaths[idx], null, key);
         }
       }
 
       if (beforeObserverPaths) {
         len = beforeObserverPaths.length;
         for(idx=0;idx<len;idx++) {
-          SC.addBeforeObserver(obj, beforeObserverPaths[idx], null, key);
+          Ember.addBeforeObserver(obj, beforeObserverPaths[idx], null, key);
         }
       }
 
       if (req && req[key]) {
         req = writableReq(obj);
-        req.__sc_count__--;
+        req.__ember_count__--;
         req[key] = false;
       }
 
@@ -5833,7 +5864,7 @@ function applyMixin(obj, mixins, partial) {
   }
 
   // Make sure no required attrs remain
-  if (!partial && req && req.__sc_count__>0) {
+  if (!partial && req && req.__ember_count__>0) {
     var keys = [];
     for(key in req) {
       if (META_SKIP[key]) continue;
@@ -5844,7 +5875,7 @@ function applyMixin(obj, mixins, partial) {
   return obj;
 }
 
-SC.mixin = function(obj) {
+Ember.mixin = function(obj) {
   var args = Array.prototype.slice.call(arguments, 1);
   return applyMixin(obj, args, false);
 };
@@ -5906,7 +5937,7 @@ Mixin.prototype.applyPartial = function(obj) {
 };
 
 function _detect(curMixin, targetMixin, seen) {
-  var guid = SC.guidFor(curMixin);
+  var guid = Ember.guidFor(curMixin);
 
   if (seen[guid]) return false;
   seen[guid] = true;
@@ -5922,7 +5953,7 @@ function _detect(curMixin, targetMixin, seen) {
 Mixin.prototype.detect = function(obj) {
   if (!obj) return false;
   if (obj instanceof Mixin) return _detect(obj, this, {});
-  return !!meta(obj, false)[SC.guidFor(this)];
+  return !!meta(obj, false)[Ember.guidFor(this)];
 };
 
 Mixin.prototype.without = function() {
@@ -5932,8 +5963,8 @@ Mixin.prototype.without = function() {
 };
 
 function _keys(ret, mixin, seen) {
-  if (seen[SC.guidFor(mixin)]) return;
-  seen[SC.guidFor(mixin)] = true;
+  if (seen[Ember.guidFor(mixin)]) return;
+  seen[Ember.guidFor(mixin)] = true;
 
   if (mixin.properties) {
     var props = mixin.properties;
@@ -5956,7 +5987,7 @@ Mixin.prototype.keys = function() {
 
 /** @private - make Mixin's have nice displayNames */
 
-var NAME_KEY = SC.GUID_KEY+'_name';
+var NAME_KEY = Ember.GUID_KEY+'_name';
 
 function processNames(paths, root, seen) {
   var idx = paths.length;
@@ -5967,9 +5998,9 @@ function processNames(paths, root, seen) {
 
     if (obj && obj.toString === classToString) {
       obj[NAME_KEY] = paths.join('.');
-    } else if (key==='SC' || (SC.Namespace && obj instanceof SC.Namespace)) {
-      if (seen[SC.guidFor(obj)]) continue;
-      seen[SC.guidFor(obj)] = true;
+    } else if (key==='Ember' || (Ember.Namespace && obj instanceof Ember.Namespace)) {
+      if (seen[Ember.guidFor(obj)]) continue;
+      seen[Ember.guidFor(obj)] = true;
       processNames(paths, obj, seen);
     }
 
@@ -5978,7 +6009,7 @@ function processNames(paths, root, seen) {
 }
 
 function findNamespaces() {
-  var Namespace = SC.Namespace, obj;
+  var Namespace = Ember.Namespace, obj;
 
   if (Namespace.PROCESSED) { return; }
 
@@ -5994,7 +6025,7 @@ function findNamespaces() {
   }
 }
 
-SC.identifyNamespaces = findNamespaces;
+Ember.identifyNamespaces = findNamespaces;
 
 superClassString = function(mixin) {
   var superclass = mixin.superclass;
@@ -6007,7 +6038,7 @@ superClassString = function(mixin) {
 }
 
 classToString = function() {
-  var Namespace = SC.Namespace, namespace;
+  var Namespace = Ember.Namespace, namespace;
 
   // TODO: Namespace should really be in Metal
   if (Namespace) {
@@ -6042,7 +6073,7 @@ classToString = function() {
 Mixin.prototype.toString = classToString;
 
 // returns the mixins currently applied to the specified object
-// TODO: Make SC.mixin
+// TODO: Make Ember.mixin
 Mixin.mixins = function(obj) {
   var ret = [], mixins = meta(obj, false), key, mixin;
   for(key in mixins) {
@@ -6055,47 +6086,47 @@ Mixin.mixins = function(obj) {
   return ret;
 };
 
-REQUIRED = new SC.Descriptor();
+REQUIRED = new Ember.Descriptor();
 REQUIRED.toString = function() { return '(Required Property)'; };
 
-SC.required = function() {
+Ember.required = function() {
   return REQUIRED;
 };
 
 Alias = function(methodName) {
   this.methodName = methodName;
 };
-Alias.prototype = new SC.Descriptor();
+Alias.prototype = new Ember.Descriptor();
 
-SC.alias = function(methodName) {
+Ember.alias = function(methodName) {
   return new Alias(methodName);
 };
 
-SC.Mixin = Mixin;
+Ember.Mixin = Mixin;
 
 MixinDelegate = Mixin.create({
 
-  willApplyProperty: SC.required(),
-  didApplyProperty:  SC.required()
+  willApplyProperty: Ember.required(),
+  didApplyProperty:  Ember.required()
 
 });
 
-SC.MixinDelegate = MixinDelegate;
+Ember.MixinDelegate = MixinDelegate;
 
 
 // ..........................................................
 // OBSERVER HELPER
 //
 
-SC.observer = function(func) {
+Ember.observer = function(func) {
   var paths = Array.prototype.slice.call(arguments, 1);
-  func.__sc_observes__ = paths;
+  func.__ember_observes__ = paths;
   return func;
 };
 
-SC.beforeObserver = function(func) {
+Ember.beforeObserver = function(func) {
   var paths = Array.prototype.slice.call(arguments, 1);
-  func.__sc_observesBefore__ = paths;
+  func.__ember_observesBefore__ = paths;
   return func;
 };
 
@@ -6110,7 +6141,7 @@ SC.beforeObserver = function(func) {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Metal
+// Project:  Ember Metal
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -6118,7 +6149,7 @@ SC.beforeObserver = function(func) {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -6131,7 +6162,7 @@ SC.beforeObserver = function(func) {
 // HELPERS
 //
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
 var contexts = [];
 function popCtx() {
@@ -6159,7 +6190,7 @@ function xform(target, method, params) {
   @class
 
   This mixin defines the common interface implemented by enumerable objects
-  in SproutCore.  Most of these methods follow the standard Array iteration
+  in Ember.  Most of these methods follow the standard Array iteration
   API defined up to JavaScript 1.8 (excluding language-specific features that
   cannot be emulated in older versions of JavaScript).
 
@@ -6173,26 +6204,26 @@ function xform(target, method, params) {
 
   1. You must have a length property.  This property should change whenever
      the number of items in your enumerable object changes.  If you using this
-     with an SC.Object subclass, you should be sure to change the length
+     with an Ember.Object subclass, you should be sure to change the length
      property using set().
 
   2. If you must implement nextObject().  See documentation.
 
-  Once you have these two methods implement, apply the SC.Enumerable mixin
+  Once you have these two methods implement, apply the Ember.Enumerable mixin
   to your class and you will be able to enumerate the contents of your object
   like any other collection.
 
-  h3. Using SproutCore Enumeration with Other Libraries
+  h3. Using Ember Enumeration with Other Libraries
 
   Many other libraries provide some kind of iterator or enumeration like
   facility.  This is often where the most common API conflicts occur.
-  SproutCore's API is designed to be as friendly as possible with other
+  Ember's API is designed to be as friendly as possible with other
   libraries by implementing only methods that mostly correspond to the
   JavaScript 1.8 API.
 
-  @since SproutCore 1.0
+  @since Ember 0.9
 */
-SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
+Ember.Enumerable = Ember.Mixin.create( /** @lends Ember.Enumerable */ {
 
   /** @private - compatibility */
   isEnumerable: true,
@@ -6228,7 +6259,7 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
     @param context {Object} a context object you can use to maintain state.
     @returns {Object} the next object in the iteration or undefined
   */
-  nextObject: SC.required(Function),
+  nextObject: Ember.required(Function),
 
   /**
     Helper method returns the first object from a collection.  This is usually
@@ -6242,9 +6273,9 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
 
     @returns {Object} the object or undefined
   */
-  firstObject: SC.computed(function() {
+  firstObject: Ember.computed(function() {
     if (get(this, 'length')===0) return undefined ;
-    if (SC.Array && SC.Array.detect(this)) return this.objectAt(0);
+    if (Ember.Array && Ember.Array.detect(this)) return this.objectAt(0);
 
     // handle generic enumerables
     var context = popCtx(), ret;
@@ -6258,10 +6289,10 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
 
     @returns {Object} the object or undefined
   */
-  lastObject: SC.computed(function() {
+  lastObject: Ember.computed(function() {
     var len = get(this, 'length');
     if (len===0) return undefined ;
-    if (SC.Array && SC.Array.detect(this)) {
+    if (Ember.Array && Ember.Array.detect(this)) {
       return this.objectAt(len-1);
     } else {
       var context = popCtx(), idx=0, cur, last = null;
@@ -6330,7 +6361,7 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
   /**
     Retrieves the named value on each member object. This is more efficient
     than using one of the wrapper methods defined here. Objects that
-    implement SC.Observable will use the get() method, otherwise the property
+    implement Ember.Observable will use the get() method, otherwise the property
     will be accessed directly.
 
     @param {String} key The key to retrieve
@@ -6345,7 +6376,7 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
   /**
     Sets the value on the named property for each member. This is more
     efficient than using other methods defined on this helper. If the object
-    implements SC.Observable, the value will be changed to set(), otherwise
+    implements Ember.Observable, the value will be changed to set(), otherwise
     it will be set directly. null objects are skipped.
 
     @param {String} key The key to set
@@ -6684,7 +6715,7 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
     the receiver does not contain the value.
 
     @param {Object} value
-    @returns {SC.Enumerable}
+    @returns {Ember.Enumerable}
   */
   without: function(value) {
     if (!this.contains(value)) return this; // nothing to do
@@ -6699,7 +6730,7 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
     Returns a new enumerable that contains only unique values.  The default
     implementation returns an array regardless of the receiver type.
 
-    @returns {SC.Enumerable}
+    @returns {Ember.Enumerable}
   */
   uniq: function() {
     var ret = [];
@@ -6714,12 +6745,12 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
     You can observe this property to be notified of changes to the enumerables
     content.
 
-    For plain enumerables, this property is read only.  SC.Array overrides
+    For plain enumerables, this property is read only.  Ember.Array overrides
     this method.
 
-    @property {SC.Array}
+    @property {Ember.Array}
   */
-  '[]': SC.computed(function(key, value) {
+  '[]': Ember.computed(function(key, value) {
     return this;
   }).property().cacheable(),
 
@@ -6728,7 +6759,7 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
   //
 
   /**
-    Registers an enumerable observer.   Must implement SC.EnumerableObserver
+    Registers an enumerable observer.   Must implement Ember.EnumerableObserver
     mixin.
   */
   addEnumerableObserver: function(target, opts) {
@@ -6736,10 +6767,10 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
         didChange  = (opts && opts.didChange) || 'enumerableDidChange';
 
     var hasObservers = get(this, 'hasEnumerableObservers');
-    if (!hasObservers) SC.propertyWillChange(this, 'hasEnumerableObservers');
-    SC.addListener(this, '@enumerable:before', target, willChange, xform);
-    SC.addListener(this, '@enumerable:change', target, didChange, xform);
-    if (!hasObservers) SC.propertyDidChange(this, 'hasEnumerableObservers');
+    if (!hasObservers) Ember.propertyWillChange(this, 'hasEnumerableObservers');
+    Ember.addListener(this, '@enumerable:before', target, willChange, xform);
+    Ember.addListener(this, '@enumerable:change', target, didChange, xform);
+    if (!hasObservers) Ember.propertyDidChange(this, 'hasEnumerableObservers');
     return this;
   },
 
@@ -6751,10 +6782,10 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
         didChange  = (opts && opts.didChange) || 'enumerableDidChange';
 
     var hasObservers = get(this, 'hasEnumerableObservers');
-    if (hasObservers) SC.propertyWillChange(this, 'hasEnumerableObservers');
-    SC.removeListener(this, '@enumerable:before', target, willChange);
-    SC.removeListener(this, '@enumerable:change', target, didChange);
-    if (hasObservers) SC.propertyDidChange(this, 'hasEnumerableObservers');
+    if (hasObservers) Ember.propertyWillChange(this, 'hasEnumerableObservers');
+    Ember.removeListener(this, '@enumerable:before', target, willChange);
+    Ember.removeListener(this, '@enumerable:change', target, didChange);
+    if (hasObservers) Ember.propertyDidChange(this, 'hasEnumerableObservers');
     return this;
   },
 
@@ -6764,8 +6795,8 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
 
     @property {Boolean}
   */
-  hasEnumerableObservers: SC.computed(function() {
-    return SC.hasListeners(this, '@enumerable:change') || SC.hasListeners(this, '@enumerable:before');
+  hasEnumerableObservers: Ember.computed(function() {
+    return Ember.hasListeners(this, '@enumerable:change') || Ember.hasListeners(this, '@enumerable:before');
   }).property().cacheable(),
 
 
@@ -6774,15 +6805,15 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
     change.  You can either omit the parameters completely or pass the objects
     to be removed or added if available or just a count.
 
-    @param {SC.Enumerable|Number} removing
+    @param {Ember.Enumerable|Number} removing
       An enumerable of the objects to be removed or the number of items to
       be removed.
 
-    @param {SC.Enumerable|Number} adding
+    @param {Ember.Enumerable|Number} adding
       An enumerable of the objects to be added or the number of items to be
       added.
 
-    @returns {SC.Enumerable} receiver
+    @returns {Ember.Enumerable} receiver
   */
   enumerableContentWillChange: function(removing, adding) {
 
@@ -6801,9 +6832,9 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
     if (removing === -1) removing = null;
     if (adding   === -1) adding   = null;
 
-    SC.propertyWillChange(this, '[]');
-    if (hasDelta) SC.propertyWillChange(this, 'length');
-    SC.sendEvent(this, '@enumerable:before', removing, adding);
+    Ember.propertyWillChange(this, '[]');
+    if (hasDelta) Ember.propertyWillChange(this, 'length');
+    Ember.sendEvent(this, '@enumerable:before', removing, adding);
 
     return this;
   },
@@ -6847,9 +6878,9 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
     if (removing === -1) removing = null;
     if (adding   === -1) adding   = null;
 
-    SC.sendEvent(this, '@enumerable:change', removing, adding);
-    if (hasDelta) SC.propertyDidChange(this, 'length');
-    SC.propertyDidChange(this, '[]');
+    Ember.sendEvent(this, '@enumerable:change', removing, adding);
+    if (hasDelta) Ember.propertyDidChange(this, 'length');
+    Ember.propertyDidChange(this, '[]');
 
     return this ;
   }
@@ -6864,7 +6895,7 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -6872,7 +6903,7 @@ SC.Enumerable = SC.Mixin.create( /** @lends SC.Enumerable */ {
 // HELPERS
 //
 
-var get = SC.get, set = SC.set, meta = SC.meta;
+var get = Ember.get, set = Ember.set, meta = Ember.meta;
 
 function none(obj) { return obj===null || obj===undefined; }
 
@@ -6890,7 +6921,7 @@ function xform(target, method, params) {
   picked up by the Array class as well as other controllers, etc. that want to
   appear to be arrays.
 
-  Unlike SC.Enumerable, this mixin defines methods specifically for
+  Unlike Ember.Enumerable, this mixin defines methods specifically for
   collections that provide index-ordered access to their contents.  When you
   are designing code that needs to accept any kind of Array-like object, you
   should use these methods instead of Array primitives because these will
@@ -6906,16 +6937,16 @@ function xform(target, method, params) {
   membership if an array changes by changing the syntax of the property to
   .observes('*myProperty.[]') .
 
-  To support SC.Array in your own class, you must override two
+  To support Ember.Array in your own class, you must override two
   primitives to use it: replace() and objectAt().
 
-  Note that the SC.Array mixin also incorporates the SC.Enumerable mixin.  All
-  SC.Array-like objects are also enumerable.
+  Note that the Ember.Array mixin also incorporates the Ember.Enumerable mixin.  All
+  Ember.Array-like objects are also enumerable.
 
-  @extends SC.Enumerable
-  @since SproutCore 0.9.0
+  @extends Ember.Enumerable
+  @since Ember 0.9.0
 */
-SC.Array = SC.Mixin.create(SC.Enumerable, /** @scope SC.Array.prototype */ {
+Ember.Array = Ember.Mixin.create(Ember.Enumerable, /** @scope Ember.Array.prototype */ {
 
   /** @private - compatibility */
   isSCArray: true,
@@ -6926,10 +6957,10 @@ SC.Array = SC.Mixin.create(SC.Enumerable, /** @scope SC.Array.prototype */ {
     Your array must support the length property.  Your replace methods should
     set this property whenever it changes.
   */
-  length: SC.required(),
+  length: Ember.required(),
 
   /**
-    This is one of the primitives you must implement to support SC.Array.
+    This is one of the primitives you must implement to support Ember.Array.
     Returns the object at the named index.  If your object supports retrieving
     the value of an array item using get() (i.e. myArray.get(0)), then you do
     not need to implement this method yourself.
@@ -6943,7 +6974,7 @@ SC.Array = SC.Mixin.create(SC.Enumerable, /** @scope SC.Array.prototype */ {
     return get(this, idx);
   },
 
-  /** @private (nodoc) - overrides SC.Enumerable version */
+  /** @private (nodoc) - overrides Ember.Enumerable version */
   nextObject: function(idx) {
     return this.objectAt(idx);
   },
@@ -6955,9 +6986,9 @@ SC.Array = SC.Mixin.create(SC.Enumerable, /** @scope SC.Array.prototype */ {
     this property, it will return this.  If you set this property it a new
     array, it will replace the current content.
 
-    This property overrides the default property defined in SC.Enumerable.
+    This property overrides the default property defined in Ember.Enumerable.
   */
-  '[]': SC.computed(function(key, value) {
+  '[]': Ember.computed(function(key, value) {
     if (value !== undefined) this.replace(0, get(this, 'length'), value) ;
     return this ;
   }).property().cacheable(),
@@ -6967,7 +6998,7 @@ SC.Array = SC.Mixin.create(SC.Enumerable, /** @scope SC.Array.prototype */ {
     return this.indexOf(obj) >= 0;
   },
 
-  // Add any extra methods to SC.Array that are native to the built-in Array.
+  // Add any extra methods to Ember.Array that are native to the built-in Array.
   /**
     Returns a new array that is a slice of the receiver.  This implementation
     uses the observable array methods to retrieve the objects for the new
@@ -7055,17 +7086,17 @@ SC.Array = SC.Mixin.create(SC.Enumerable, /** @scope SC.Array.prototype */ {
       Optional hash of configuration options including willChange, didChange,
       and a context option.
 
-    @returns {SC.Array} receiver
+    @returns {Ember.Array} receiver
   */
   addArrayObserver: function(target, opts) {
     var willChange = (opts && opts.willChange) || 'arrayWillChange',
         didChange  = (opts && opts.didChange) || 'arrayDidChange';
 
     var hasObservers = get(this, 'hasArrayObservers');
-    if (!hasObservers) SC.propertyWillChange(this, 'hasArrayObservers');
-    SC.addListener(this, '@array:before', target, willChange, xform);
-    SC.addListener(this, '@array:change', target, didChange, xform);
-    if (!hasObservers) SC.propertyDidChange(this, 'hasArrayObservers');
+    if (!hasObservers) Ember.propertyWillChange(this, 'hasArrayObservers');
+    Ember.addListener(this, '@array:before', target, willChange, xform);
+    Ember.addListener(this, '@array:change', target, didChange, xform);
+    if (!hasObservers) Ember.propertyDidChange(this, 'hasArrayObservers');
     return this;
   },
 
@@ -7077,17 +7108,17 @@ SC.Array = SC.Mixin.create(SC.Enumerable, /** @scope SC.Array.prototype */ {
     @param {Object} target
       The object observing the array.
 
-    @returns {SC.Array} receiver
+    @returns {Ember.Array} receiver
   */
   removeArrayObserver: function(target, opts) {
     var willChange = (opts && opts.willChange) || 'arrayWillChange',
         didChange  = (opts && opts.didChange) || 'arrayDidChange';
 
     var hasObservers = get(this, 'hasArrayObservers');
-    if (hasObservers) SC.propertyWillChange(this, 'hasArrayObservers');
-    SC.removeListener(this, '@array:before', target, willChange, xform);
-    SC.removeListener(this, '@array:change', target, didChange, xform);
-    if (hasObservers) SC.propertyDidChange(this, 'hasArrayObservers');
+    if (hasObservers) Ember.propertyWillChange(this, 'hasArrayObservers');
+    Ember.removeListener(this, '@array:before', target, willChange, xform);
+    Ember.removeListener(this, '@array:change', target, didChange, xform);
+    if (hasObservers) Ember.propertyDidChange(this, 'hasArrayObservers');
     return this;
   },
 
@@ -7097,12 +7128,12 @@ SC.Array = SC.Mixin.create(SC.Enumerable, /** @scope SC.Array.prototype */ {
 
     @property {Boolean}
   */
-  hasArrayObservers: SC.computed(function() {
-    return SC.hasListeners(this, '@array:change') || SC.hasListeners(this, '@array:before');
+  hasArrayObservers: Ember.computed(function() {
+    return Ember.hasListeners(this, '@array:change') || Ember.hasListeners(this, '@array:before');
   }).property().cacheable(),
 
   /**
-    If you are implementing an object that supports SC.Array, call this
+    If you are implementing an object that supports Ember.Array, call this
     method just before the array content changes to notify any observers and
     invalidate any related properties.  Pass the starting index of the change
     as well as a delta of the amounts to change.
@@ -7116,7 +7147,7 @@ SC.Array = SC.Mixin.create(SC.Enumerable, /** @scope SC.Array.prototype */ {
     @param {Number} addAmt
       The number of items that will be added.  If you pass null assumes 0.
 
-    @returns {SC.Array} receiver
+    @returns {Ember.Array} receiver
   */
   arrayContentWillChange: function(startIdx, removeAmt, addAmt) {
 
@@ -7129,7 +7160,7 @@ SC.Array = SC.Mixin.create(SC.Enumerable, /** @scope SC.Array.prototype */ {
       if (!addAmt) addAmt=0;
     }
 
-    SC.sendEvent(this, '@array:before', startIdx, removeAmt, addAmt);
+    Ember.sendEvent(this, '@array:before', startIdx, removeAmt, addAmt);
 
     var removing, lim;
     if (startIdx>=0 && removeAmt>=0 && get(this, 'hasEnumerableObservers')) {
@@ -7143,7 +7174,7 @@ SC.Array = SC.Mixin.create(SC.Enumerable, /** @scope SC.Array.prototype */ {
     this.enumerableContentWillChange(removing, addAmt);
 
     // Make sure the @each proxy is set up if anyone is observing @each
-    if (SC.isWatching(this, '@each')) { get(this, '@each'); }
+    if (Ember.isWatching(this, '@each')) { get(this, '@each'); }
     return this;
   },
 
@@ -7168,7 +7199,7 @@ SC.Array = SC.Mixin.create(SC.Enumerable, /** @scope SC.Array.prototype */ {
     }
 
     this.enumerableContentDidChange(removeAmt, adding);
-    SC.sendEvent(this, '@array:change', startIdx, removeAmt, addAmt);
+    Ember.sendEvent(this, '@array:change', startIdx, removeAmt, addAmt);
     return this;
   },
 
@@ -7182,8 +7213,8 @@ SC.Array = SC.Mixin.create(SC.Enumerable, /** @scope SC.Array.prototype */ {
     return an enumerable that maps automatically to the named key on the
     member objects.
   */
-  '@each': SC.computed(function() {
-    if (!this.__each) this.__each = new SC.EachProxy(this);
+  '@each': Ember.computed(function() {
+    if (!this.__each) this.__each = new Ember.EachProxy(this);
     return this.__each;
   }).property().cacheable()
 
@@ -7199,7 +7230,7 @@ SC.Array = SC.Mixin.create(SC.Enumerable, /** @scope SC.Array.prototype */ {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -7236,13 +7267,13 @@ SC.Array = SC.Mixin.create(SC.Enumerable, /** @scope SC.Array.prototype */ {
 
   If you are implementing an object and want to support this API, just include
   this mixin in your class and implement the required methods.  In your unit
-  tests, be sure to apply the SC.MutableEnumerableTests to your object.
+  tests, be sure to apply the Ember.MutableEnumerableTests to your object.
 
-  @extends SC.Mixin
-  @extends SC.Enumerable
+  @extends Ember.Mixin
+  @extends Ember.Enumerable
 */
-SC.MutableEnumerable = SC.Mixin.create(SC.Enumerable,
-  /** @scope SC.MutableEnumerable.prototype */ {
+Ember.MutableEnumerable = Ember.Mixin.create(Ember.Enumerable,
+  /** @scope Ember.MutableEnumerable.prototype */ {
 
   /**
     __Required.__ You must implement this method to apply this mixin.
@@ -7260,18 +7291,18 @@ SC.MutableEnumerable = SC.Mixin.create(SC.Enumerable,
 
     @returns {Object} the passed object
   */
-  addObject: SC.required(Function),
+  addObject: Ember.required(Function),
 
   /**
     Adds each object in the passed enumerable to the receiver.
 
-    @param {SC.Enumerable} objects the objects to remove
+    @param {Ember.Enumerable} objects the objects to remove
     @returns {Object} receiver
   */
   addObjects: function(objects) {
-    SC.beginPropertyChanges(this);
+    Ember.beginPropertyChanges(this);
     objects.forEach(function(obj) { this.addObject(obj); }, this);
-    SC.endPropertyChanges(this);
+    Ember.endPropertyChanges(this);
     return this;
   },
 
@@ -7291,19 +7322,19 @@ SC.MutableEnumerable = SC.Mixin.create(SC.Enumerable,
 
     @returns {Object} the passed object
   */
-  removeObject: SC.required(Function),
+  removeObject: Ember.required(Function),
 
 
   /**
     Removes each objects in the passed enumerable from the receiver.
 
-    @param {SC.Enumerable} objects the objects to remove
+    @param {Ember.Enumerable} objects the objects to remove
     @returns {Object} receiver
   */
   removeObjects: function(objects) {
-    SC.beginPropertyChanges(this);
+    Ember.beginPropertyChanges(this);
     objects.forEach(function(obj) { this.removeObject(obj); }, this);
-    SC.endPropertyChanges(this);
+    Ember.endPropertyChanges(this);
     return this;
   }
 
@@ -7314,7 +7345,7 @@ SC.MutableEnumerable = SC.Mixin.create(SC.Enumerable,
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -7329,7 +7360,7 @@ var EMPTY = [];
 // HELPERS
 //
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
 /**
   @class
@@ -7341,17 +7372,17 @@ var get = SC.get, set = SC.set;
   For example, a SparyArray may not be directly modified but if its
   underlying enumerable changes, it will change also.
 
-  @extends SC.Mixin
-  @extends SC.Array
-  @extends SC.MutableEnumerable
+  @extends Ember.Mixin
+  @extends Ember.Array
+  @extends Ember.MutableEnumerable
 */
-SC.MutableArray = SC.Mixin.create(SC.Array, SC.MutableEnumerable,
-  /** @scope SC.MutableArray.prototype */ {
+Ember.MutableArray = Ember.Mixin.create(Ember.Array, Ember.MutableEnumerable,
+  /** @scope Ember.MutableArray.prototype */ {
 
   /**
     __Required.__ You must implement this method to apply this mixin.
 
-    This is one of the primitves you must implement to support SC.Array.  You
+    This is one of the primitves you must implement to support Ember.Array.  You
     should replace amt objects started at idx with the objects in the passed
     array.  You should also call this.enumerableContentDidChange() ;
 
@@ -7367,7 +7398,7 @@ SC.MutableArray = SC.Mixin.create(SC.Array, SC.MutableEnumerable,
       An array of zero or more objects that should be inserted into the array
       at *idx*
   */
-  replace: SC.required(),
+  replace: Ember.required(),
 
   /**
     This will use the primitive replace() method to insert an object at the
@@ -7388,9 +7419,9 @@ SC.MutableArray = SC.Mixin.create(SC.Array, SC.MutableEnumerable,
     index set.
 
     If you pass a single index or a start and length that is beyond the
-    length this method will throw an SC.OUT_OF_RANGE_EXCEPTION
+    length this method will throw an Ember.OUT_OF_RANGE_EXCEPTION
 
-    @param {Number|SC.IndexSet} start index, start of range, or index set
+    @param {Number|Ember.IndexSet} start index, start of range, or index set
     @param {Number} len length of passing range
     @returns {Object} receiver
   */
@@ -7409,7 +7440,7 @@ SC.MutableArray = SC.Mixin.create(SC.Array, SC.MutableEnumerable,
       this.replace(start, len, EMPTY);
     }
 
-    // TODO: Reintroduce SC.IndexSet support
+    // TODO: Reintroduce Ember.IndexSet support
     // this.beginPropertyChanges();
     // start.forEachRange(function(start, length) {
     //   start -= delta ;
@@ -7435,8 +7466,8 @@ SC.MutableArray = SC.Mixin.create(SC.Array, SC.MutableEnumerable,
     Add the objects in the passed numerable to the end of the array.  Defers
     notifying observers of the change until all objects are added.
 
-    @param {SC.Enumerable} objects the objects to add
-    @returns {SC.Array} receiver
+    @param {Ember.Enumerable} objects the objects to add
+    @returns {Ember.Array} receiver
   */
   pushObjects: function(objects) {
     this.replace(get(this, 'length'), 0, objects);
@@ -7481,8 +7512,8 @@ SC.MutableArray = SC.Mixin.create(SC.Array, SC.MutableEnumerable,
     Adds the named objects to the beginning of the array.  Defers notifying
     observers until all objects have been added.
 
-    @param {SC.Enumerable} objects the objects to add
-    @returns {SC.Array} receiver
+    @param {Ember.Enumerable} objects the objects to add
+    @returns {Ember.Array} receiver
   */
   unshiftObjects: function(objects) {
     this.beginPropertyChanges();
@@ -7492,7 +7523,7 @@ SC.MutableArray = SC.Mixin.create(SC.Array, SC.MutableEnumerable,
   },
 
   // ..........................................................
-  // IMPLEMENT SC.MutableEnumerable
+  // IMPLEMENT Ember.MutableEnumerable
   //
 
   /** @private (nodoc) */
@@ -7519,33 +7550,33 @@ SC.MutableArray = SC.Mixin.create(SC.Array, SC.MutableEnumerable,
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
 /**
   @class
 
-  Restores some of the SC 1.x SC.Observable mixin API.  The new property
-  observing system does not require SC.Observable to be applied anymore.
+  Restores some of the Ember 1.x Ember.Observable mixin API.  The new property
+  observing system does not require Ember.Observable to be applied anymore.
   Instead, on most browsers you can just access properties directly.  For
-  code that needs to run on IE7 or IE8 you should use SC.get() and SC.set()
+  code that needs to run on IE7 or IE8 you should use Ember.get() and Ember.set()
   instead.
 
-  If you have older code and you want to bring back the older 1.x observable
-  API, you can do so by readding SC.Observable to SC.Object like so:
+  If you have older code and you want to bring back the older Ember 1.x observable
+  API, you can do so by readding Ember.Observable to Ember.Object like so:
 
-      SC.Object.reopen(SC.Observable);
+      Ember.Object.reopen(Ember.Observable);
 
   You will then be able to use the traditional get(), set() and other
   observable methods on your objects.
 
-  @extends SC.Mixin
+  @extends Ember.Mixin
 */
-SC.Observable = SC.Mixin.create(/** @scope SC.Observable.prototype */ {
+Ember.Observable = Ember.Mixin.create(/** @scope Ember.Observable.prototype */ {
 
   /** @private - compatibility */
   isObserverable: true,
@@ -7645,7 +7676,7 @@ SC.Observable = SC.Mixin.create(/** @scope SC.Observable.prototype */ {
 
     @param {String} key The property to set
     @param {Object} value The value to set or null.
-    @returns {SC.Observable}
+    @returns {Ember.Observable}
   */
   set: function(keyName, value) {
     set(this, keyName, value);
@@ -7659,14 +7690,14 @@ SC.Observable = SC.Mixin.create(/** @scope SC.Observable.prototype */ {
           record.setProperties({ firstName: 'Charles', lastName: 'Jolley' });
 
     @param {Hash} hash the hash of keys and values to set
-    @returns {SC.Observable}
+    @returns {Ember.Observable}
   */
   setProperties: function(hash) {
-    SC.beginPropertyChanges(this);
+    Ember.beginPropertyChanges(this);
     for(var prop in hash) {
       if (hash.hasOwnProperty(prop)) set(this, prop, hash[prop]);
     }
-    SC.endPropertyChanges(this);
+    Ember.endPropertyChanges(this);
     return this;
   },
 
@@ -7680,10 +7711,10 @@ SC.Observable = SC.Mixin.create(/** @scope SC.Observable.prototype */ {
     When you are done making changes, call endPropertyChanges() to allow
     notification to resume.
 
-    @returns {SC.Observable}
+    @returns {Ember.Observable}
   */
   beginPropertyChanges: function() {
-    SC.beginPropertyChanges();
+    Ember.beginPropertyChanges();
     return this;
   },
 
@@ -7697,10 +7728,10 @@ SC.Observable = SC.Mixin.create(/** @scope SC.Observable.prototype */ {
     notifications. When you are done making changes, call this method to allow
     notification to resume.
 
-    @returns {SC.Observable}
+    @returns {Ember.Observable}
   */
   endPropertyChanges: function() {
-    SC.endPropertyChanges();
+    Ember.endPropertyChanges();
     return this;
   },
 
@@ -7718,10 +7749,10 @@ SC.Observable = SC.Mixin.create(/** @scope SC.Observable.prototype */ {
     and cause notifications to be delivered more often than you would like.
 
     @param {String} key The property key that is about to change.
-    @returns {SC.Observable}
+    @returns {Ember.Observable}
   */
   propertyWillChange: function(keyName){
-    SC.propertyWillChange(this, keyName);
+    Ember.propertyWillChange(this, keyName);
     return this;
   },
 
@@ -7741,10 +7772,10 @@ SC.Observable = SC.Mixin.create(/** @scope SC.Observable.prototype */ {
     @param {String} key The property key that has just changed.
     @param {Object} value The new value of the key. May be null.
     @param {Boolean} _keepCache Private property
-    @returns {SC.Observable}
+    @returns {Ember.Observable}
   */
   propertyDidChange: function(keyName) {
-    SC.propertyDidChange(this, keyName);
+    Ember.propertyDidChange(this, keyName);
     return this;
   },
 
@@ -7795,10 +7826,10 @@ SC.Observable = SC.Mixin.create(/** @scope SC.Observable.prototype */ {
     @param {String} key The key to observer
     @param {Object} target The target object to invoke
     @param {String|Function} method The method to invoke.
-    @returns {SC.Object} self
+    @returns {Ember.Object} self
   */
   addObserver: function(key, target, method) {
-    SC.addObserver(this, key, target, method);
+    Ember.addObserver(this, key, target, method);
   },
 
   /**
@@ -7809,10 +7840,10 @@ SC.Observable = SC.Mixin.create(/** @scope SC.Observable.prototype */ {
     @param {String} key The key to observer
     @param {Object} target The target object to invoke
     @param {String|Function} method The method to invoke.
-    @returns {SC.Observable} reciever
+    @returns {Ember.Observable} reciever
   */
   removeObserver: function(key, target, method) {
-    SC.removeObserver(this, key, target, method);
+    Ember.removeObserver(this, key, target, method);
   },
 
   /**
@@ -7825,7 +7856,7 @@ SC.Observable = SC.Mixin.create(/** @scope SC.Observable.prototype */ {
     @returns {Boolean}
   */
   hasObserverFor: function(key) {
-    return SC.hasListeners(this, key+':change');
+    return Ember.hasListeners(this, key+':change');
   },
 
   unknownProperty: function(key) {
@@ -7837,11 +7868,11 @@ SC.Observable = SC.Mixin.create(/** @scope SC.Observable.prototype */ {
   },
 
   getPath: function(path) {
-    return SC.getPath(this, path);
+    return Ember.getPath(this, path);
   },
 
   setPath: function(path, value) {
-    SC.setPath(this, path, value);
+    Ember.setPath(this, path, value);
     return this;
   },
 
@@ -7863,7 +7894,7 @@ SC.Observable = SC.Mixin.create(/** @scope SC.Observable.prototype */ {
   },
 
   observersForKey: function(keyName) {
-    return SC.observersFor(this, keyName);
+    return Ember.observersFor(this, keyName);
   }
 
 });
@@ -7876,23 +7907,23 @@ SC.Observable = SC.Mixin.create(/** @scope SC.Observable.prototype */ {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 
 
 
-// NOTE: this object should never be included directly.  Instead use SC.
-// SC.Object.  We only define this separately so that SC.Set can depend on it
+// NOTE: this object should never be included directly.  Instead use Ember.
+// Ember.Object.  We only define this separately so that Ember.Set can depend on it
 
 
 
-var rewatch = SC.rewatch;
-var classToString = SC.Mixin.prototype.toString;
-var set = SC.set, get = SC.get;
-var o_create = SC.platform.create,
-    meta = SC.meta;
+var rewatch = Ember.rewatch;
+var classToString = Ember.Mixin.prototype.toString;
+var set = Ember.set, get = Ember.get;
+var o_create = Ember.platform.create,
+    meta = Ember.meta;
 
 function makeCtor() {
 
@@ -7913,7 +7944,7 @@ function makeCtor() {
       if (hasChains) {
         rewatch(this);
       } else {
-        this[SC.GUID_KEY] = undefined;
+        this[Ember.GUID_KEY] = undefined;
       }
       if (init===false) { init = this.init; } // cache for later instantiations
       init.apply(this, arguments);
@@ -7924,7 +7955,7 @@ function makeCtor() {
   Class._prototypeMixinDidChange = function() { isPrepared = false; };
   Class._initMixins = function(args) { initMixins = args; };
 
-  SC.defineProperty(Class, 'proto', SC.computed(function() {
+  Ember.defineProperty(Class, 'proto', Ember.computed(function() {
     if (!isPrepared) {
       isPrepared = true;
       Class.PrototypeMixin.applyPartial(Class.prototype);
@@ -7939,10 +7970,10 @@ function makeCtor() {
 
 var CoreObject = makeCtor();
 
-CoreObject.PrototypeMixin = SC.Mixin.create({
+CoreObject.PrototypeMixin = Ember.Mixin.create({
 
   reopen: function() {
-    SC.Mixin._apply(this, arguments, true);
+    Ember.Mixin._apply(this, arguments, true);
     return this;
   },
 
@@ -7962,11 +7993,11 @@ CoreObject.PrototypeMixin = SC.Mixin.create({
     Note that destruction is scheduled for the end of the run loop and does not
     happen immediately.
 
-    @returns {SC.Object} receiver
+    @returns {Ember.Object} receiver
   */
   destroy: function() {
     set(this, 'isDestroyed', true);
-    SC.run.schedule('destroy', this, this._scheduledDestroy);
+    Ember.run.schedule('destroy', this, this._scheduledDestroy);
     return this;
   },
 
@@ -7977,27 +8008,27 @@ CoreObject.PrototypeMixin = SC.Mixin.create({
     @private
   */
   _scheduledDestroy: function() {
-    this[SC.META_KEY] = null;
+    this[Ember.META_KEY] = null;
   },
 
   bind: function(to, from) {
-    if (!(from instanceof SC.Binding)) { from = SC.Binding.from(from); }
+    if (!(from instanceof Ember.Binding)) { from = Ember.Binding.from(from); }
     from.to(to).connect(this);
     return from;
   },
 
   toString: function() {
-    return '<'+this.constructor.toString()+':'+SC.guidFor(this)+'>';
+    return '<'+this.constructor.toString()+':'+Ember.guidFor(this)+'>';
   }
 });
 
 CoreObject.__super__ = null;
 
-var ClassMixin = SC.Mixin.create({
+var ClassMixin = Ember.Mixin.create({
 
-  ClassMixin: SC.required(),
+  ClassMixin: Ember.required(),
 
-  PrototypeMixin: SC.required(),
+  PrototypeMixin: Ember.required(),
 
   isClass: true,
 
@@ -8005,8 +8036,8 @@ var ClassMixin = SC.Mixin.create({
 
   extend: function() {
     var Class = makeCtor(), proto;
-    Class.ClassMixin = SC.Mixin.create(this.ClassMixin);
-    Class.PrototypeMixin = SC.Mixin.create(this.PrototypeMixin);
+    Class.ClassMixin = Ember.Mixin.create(this.ClassMixin);
+    Class.PrototypeMixin = Ember.Mixin.create(this.PrototypeMixin);
 
     Class.ClassMixin.ownerConstructor = Class;
     Class.PrototypeMixin.ownerConstructor = Class;
@@ -8019,12 +8050,12 @@ var ClassMixin = SC.Mixin.create({
 
     proto = Class.prototype = o_create(this.prototype);
     proto.constructor = Class;
-    SC.generateGuid(proto, 'sc');
+    Ember.generateGuid(proto, 'ember');
     meta(proto).proto = proto; // this will disable observers on prototype
-    SC.rewatch(proto); // setup watch chains if needed.
+    Ember.rewatch(proto); // setup watch chains if needed.
 
 
-    Class.subclasses = SC.Set ? new SC.Set() : null;
+    Class.subclasses = Ember.Set ? new Ember.Set() : null;
     if (this.subclasses) { this.subclasses.add(Class); }
 
     Class.ClassMixin.apply(Class);
@@ -8047,7 +8078,7 @@ var ClassMixin = SC.Mixin.create({
   reopenClass: function() {
     var ClassMixin = this.ClassMixin;
     ClassMixin.reopen.apply(ClassMixin, arguments);
-    SC.Mixin._apply(this, arguments, false);
+    Ember.Mixin._apply(this, arguments, false);
     return this;
   },
 
@@ -8069,7 +8100,7 @@ var ClassMixin = SC.Mixin.create({
 CoreObject.ClassMixin = ClassMixin;
 ClassMixin.apply(CoreObject);
 
-SC.CoreObject = CoreObject;
+Ember.CoreObject = CoreObject;
 
 
 
@@ -8079,11 +8110,11 @@ SC.CoreObject = CoreObject;
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals ENV sc_assert */
+/*globals ENV ember_assert */
 // ........................................
 // GLOBAL CONSTANTS
 //
@@ -8122,7 +8153,7 @@ if (typeof console === 'undefined') {
   @default YES
   @constant
 
-  Determines whether SproutCore should enhances some built-in object
+  Determines whether Ember should enhances some built-in object
   prototypes to provide a more friendly API.  If enabled, a few methods
   will be added to Function, String, and Array.  Object.prototype will not be
   enhanced, which is the one that causes most troubles for people.
@@ -8131,7 +8162,7 @@ if (typeof console === 'undefined') {
   conflicts with other code.  If you need to turn it off however, you can
   define an ENV.EXTEND_PROTOTYPES config to disable it.
 */
-SC.EXTEND_PROTOTYPES = (SC.ENV.EXTEND_PROTOTYPES !== false);
+Ember.EXTEND_PROTOTYPES = (Ember.ENV.EXTEND_PROTOTYPES !== false);
 
 // ........................................
 // TYPING & ARRAY MESSAGING
@@ -8148,7 +8179,7 @@ var toString = Object.prototype.toString;
 /**
   Returns a consistent type for the passed item.
 
-  Use this instead of the built-in SC.typeOf() to get the type of an item.
+  Use this instead of the built-in Ember.typeOf() to get the type of an item.
   It will return the same result across all browsers and includes a bit
   more detail.  Here is what will be returned:
 
@@ -8160,24 +8191,24 @@ var toString = Object.prototype.toString;
   | 'undefined' | Undefined value |
   | 'function' | A function |
   | 'array' | An instance of Array |
-  | 'class' | A SproutCore class (created using SC.Object.extend()) |
-  | 'instance' | A SproutCore object instance |
+  | 'class' | A Ember class (created using Ember.Object.extend()) |
+  | 'instance' | A Ember object instance |
   | 'error' | An instance of the Error object |
-  | 'object' | A JavaScript object not inheriting from SC.Object |
+  | 'object' | A JavaScript object not inheriting from Ember.Object |
 
   @param item {Object} the item to check
   @returns {String} the type
 */
-SC.typeOf = function(item) {
+Ember.typeOf = function(item) {
   var ret;
 
   ret = item==null ? String(item) : TYPE_MAP[toString.call(item)]||'object';
 
   if (ret === 'function') {
-    if (SC.Object && SC.Object.detect(item)) ret = 'class';
+    if (Ember.Object && Ember.Object.detect(item)) ret = 'class';
   } else if (ret === 'object') {
     if (item instanceof Error) ret = 'error';
-    else if (SC.Object && item instanceof SC.Object) ret = 'instance';
+    else if (Ember.Object && item instanceof Ember.Object) ret = 'instance';
     else ret = 'object';
   }
 
@@ -8192,7 +8223,7 @@ SC.typeOf = function(item) {
   @param {Object} obj Value to test
   @returns {Boolean}
 */
-SC.none = function(obj) {
+Ember.none = function(obj) {
   return obj === null || obj === undefined;
 };
 
@@ -8203,12 +8234,12 @@ SC.none = function(obj) {
   @param {Object} obj Value to test
   @returns {Boolean}
 */
-SC.empty = function(obj) {
+Ember.empty = function(obj) {
   return obj === null || obj === undefined || obj === '';
 };
 
 /**
-  SC.isArray defined in sproutcore-metal/lib/utils
+  Ember.isArray defined in ember-metal/lib/utils
 **/
 
 /**
@@ -8219,20 +8250,20 @@ SC.empty = function(obj) {
   - 0 if both are equal,
   - 1 if the first is greater than the second.
 
- The order is calculated based on SC.ORDER_DEFINITION, if types are different.
+ The order is calculated based on Ember.ORDER_DEFINITION, if types are different.
  In case they have the same type an appropriate comparison for this type is made.
 
  @param {Object} v First value to compare
  @param {Object} w Second value to compare
  @returns {Number} -1 if v < w, 0 if v = w and 1 if v > w.
 */
-SC.compare = function (v, w) {
+Ember.compare = function (v, w) {
   if (v === w) { return 0; }
 
-  var type1 = SC.typeOf(v);
-  var type2 = SC.typeOf(w);
+  var type1 = Ember.typeOf(v);
+  var type2 = Ember.typeOf(w);
 
-  var Comparable = SC.Comparable;
+  var Comparable = Ember.Comparable;
   if (Comparable) {
     if (type1==='instance' && Comparable.detect(v.constructor)) {
       return v.constructor.compare(v, w);
@@ -8243,19 +8274,19 @@ SC.compare = function (v, w) {
     }
   }
 
-  // If we haven't yet generated a reverse-mapping of SC.ORDER_DEFINITION,
+  // If we haven't yet generated a reverse-mapping of Ember.ORDER_DEFINITION,
   // do so now.
-  var mapping = SC.ORDER_DEFINITION_MAPPING;
+  var mapping = Ember.ORDER_DEFINITION_MAPPING;
   if (!mapping) {
-    var order = SC.ORDER_DEFINITION;
-    mapping = SC.ORDER_DEFINITION_MAPPING = {};
+    var order = Ember.ORDER_DEFINITION;
+    mapping = Ember.ORDER_DEFINITION_MAPPING = {};
     var idx, len;
     for (idx = 0, len = order.length; idx < len;  ++idx) {
       mapping[order[idx]] = idx;
     }
 
-    // We no longer need SC.ORDER_DEFINITION.
-    delete SC.ORDER_DEFINITION;
+    // We no longer need Ember.ORDER_DEFINITION.
+    delete Ember.ORDER_DEFINITION;
   }
 
   var type1Index = mapping[type1];
@@ -8299,7 +8330,7 @@ SC.compare = function (v, w) {
       return 0;
 
     case 'instance':
-      if (SC.Comparable && SC.Comparable.detect(v)) {
+      if (Ember.Comparable && Ember.Comparable.detect(v)) {
         return v.compare(v, w);
       }
       return 0;
@@ -8318,17 +8349,17 @@ function _copy(obj, deep, seen, copies) {
   // avoid cyclical loops
   if (deep && (loc=seen.indexOf(obj))>=0) return copies[loc];
 
-  sc_assert('Cannot clone an SC.Object that does not implement SC.Copyable', !(obj instanceof SC.Object) || (SC.Copyable && SC.Copyable.detect(obj)));
+  ember_assert('Cannot clone an Ember.Object that does not implement Ember.Copyable', !(obj instanceof Ember.Object) || (Ember.Copyable && Ember.Copyable.detect(obj)));
 
   // IMPORTANT: this specific test will detect a native array only.  Any other
   // object will need to implement Copyable.
-  if (SC.typeOf(obj) === 'array') {
+  if (Ember.typeOf(obj) === 'array') {
     ret = obj.slice();
     if (deep) {
       loc = ret.length;
       while(--loc>=0) ret[loc] = _copy(ret[loc], deep, seen, copies);
     }
-  } else if (SC.Copyable && SC.Copyable.detect(obj)) {
+  } else if (Ember.Copyable && Ember.Copyable.detect(obj)) {
     ret = obj.copy(deep, seen, copies);
   } else {
     ret = {};
@@ -8358,10 +8389,10 @@ function _copy(obj, deep, seen, copies) {
   @param {Boolean} deep If true, a deep copy of the object is made
   @returns {Object} The cloned object
 */
-SC.copy = function(obj, deep) {
+Ember.copy = function(obj, deep) {
   // fast paths
   if ('object' !== typeof obj || obj===null) return obj; // can't copy primitives
-  if (SC.Copyable && SC.Copyable.detect(obj)) return obj.copy(deep);
+  if (Ember.Copyable && Ember.Copyable.detect(obj)) return obj.copy(deep);
   return _copy(obj, deep, deep ? [] : null, deep ? [] : null);
 };
 
@@ -8372,13 +8403,13 @@ SC.copy = function(obj, deep) {
   @param {Object} obj The object you want to inspect.
   @returns {String} A description of the object
 */
-SC.inspect = function(obj) {
+Ember.inspect = function(obj) {
   var v, ret = [];
   for(var key in obj) {
     if (obj.hasOwnProperty(key)) {
       v = obj[key];
       if (v === 'toString') { continue; } // ignore useless items
-      if (SC.typeOf(v) === 'function') { v = "function() { ... }"; }
+      if (Ember.typeOf(v) === 'function') { v = "function() { ... }"; }
       ret.push(key + ": " + v);
     }
   }
@@ -8395,16 +8426,16 @@ SC.inspect = function(obj) {
   @param {Object} b second object to compare
   @returns {Boolean}
 */
-SC.isEqual = function(a, b) {
+Ember.isEqual = function(a, b) {
   if (a && 'function'===typeof a.isEqual) return a.isEqual(b);
   return a === b;
 };
 
 /**
   @private
-  Used by SC.compare
+  Used by Ember.compare
 */
-SC.ORDER_DEFINITION = SC.ENV.ORDER_DEFINITION || [
+Ember.ORDER_DEFINITION = Ember.ENV.ORDER_DEFINITION || [
   'undefined',
   'null',
   'boolean',
@@ -8426,10 +8457,10 @@ SC.ORDER_DEFINITION = SC.ENV.ORDER_DEFINITION || [
   @param {Object} obj
   @returns {Array} Array containing keys of obj
 */
-SC.keys = Object.keys;
+Ember.keys = Object.keys;
 
-if (!SC.keys) {
-  SC.keys = function(obj) {
+if (!Ember.keys) {
+  Ember.keys = function(obj) {
     var ret = [];
     for(var key in obj) {
       if (obj.hasOwnProperty(key)) { ret.push(key); }
@@ -8445,9 +8476,9 @@ if (!SC.keys) {
 /**
   @class
 
-  A subclass of the JavaScript Error object for use in SproutCore.
+  A subclass of the JavaScript Error object for use in Ember.
 */
-SC.Error = function() {
+Ember.Error = function() {
   var tmp = Error.prototype.constructor.apply(this, arguments);
 
   for (var p in tmp) {
@@ -8455,14 +8486,14 @@ SC.Error = function() {
   }
 };
 
-SC.Error.prototype = SC.create(Error.prototype);
+Ember.Error.prototype = Ember.create(Error.prototype);
 
 })({});
 
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -8478,21 +8509,21 @@ var STRING_DECAMELIZE_REGEXP = (/([a-z])([A-Z])/g);
 
 /**
   Defines the hash of localized strings for the current language.  Used by
-  the `SC.String.loc()` helper.  To localize, add string values to this
+  the `Ember.String.loc()` helper.  To localize, add string values to this
   hash.
 
   @property {String}
 */
-SC.STRINGS = {};
+Ember.STRINGS = {};
 
 /**
   Defines string helper methods including string formatting and localization.
-  Unless SC.EXTEND_PROTOTYPES = false these methods will also be added to the
+  Unless Ember.EXTEND_PROTOTYPES = false these methods will also be added to the
   String.prototype as well.
 
   @namespace
 */
-SC.String = {
+Ember.String = {
 
   /**
     Apply formatting options to the string.  This will look for occurrences
@@ -8525,7 +8556,7 @@ SC.String = {
   /**
     Formats the passed string, but first looks up the string in the localized
     strings hash.  This is a convenient way to localize text.  See
-    `SC.String.fmt()` for more information on formatting.
+    `Ember.String.fmt()` for more information on formatting.
 
     Note that it is traditional but not required to prefix localized string
     keys with an underscore or other character so you can easily identify
@@ -8534,15 +8565,15 @@ SC.String = {
     # Example Usage
 
         @javascript@
-        SC.STRINGS = {
+        Ember.STRINGS = {
           '_Hello World': 'Bonjour le monde',
           '_Hello %@ %@': 'Bonjour %@ %@'
         };
 
-        SC.String.loc("_Hello World");
+        Ember.String.loc("_Hello World");
         => 'Bonjour le monde';
 
-        SC.String.loc("_Hello %@ %@", ["John", "Smith"]);
+        Ember.String.loc("_Hello %@ %@", ["John", "Smith"]);
         => "Bonjour John Smith";
 
 
@@ -8556,8 +8587,8 @@ SC.String = {
     @returns {String} formatted string
   */
   loc: function(str, formats) {
-    str = SC.STRINGS[str] || str;
-    return SC.String.fmt(str, formats) ;
+    str = Ember.STRINGS[str] || str;
+    return Ember.String.fmt(str, formats) ;
   },
 
   /**
@@ -8568,7 +8599,7 @@ SC.String = {
     # Example Usage
 
         @javascript@
-        SC.String.w("alpha beta gamma").forEach(function(key) {
+        Ember.String.w("alpha beta gamma").forEach(function(key) {
           console.log(key);
         });
         > alpha
@@ -8620,7 +8651,7 @@ SC.String = {
     if (ret) {
       return ret;
     } else {
-      ret = SC.String.decamelize(str).replace(STRING_DASHERIZE_REGEXP,'-');
+      ret = Ember.String.decamelize(str).replace(STRING_DASHERIZE_REGEXP,'-');
       cache[str] = ret;
     }
 
@@ -8636,12 +8667,12 @@ SC.String = {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2010 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
 /**
   @namespace
@@ -8653,11 +8684,11 @@ var get = SC.get, set = SC.set;
   You should generally implement the copy() method to return a copy of the
   receiver.
 
-  Note that frozenCopy() will only work if you also implement SC.Freezable.
+  Note that frozenCopy() will only work if you also implement Ember.Freezable.
 
-  @since SproutCore 1.0
+  @since Ember 0.9
 */
-SC.Copyable = SC.Mixin.create({
+Ember.Copyable = Ember.Mixin.create({
 
   /**
     Override to return a copy of the receiver.  Default implementation raises
@@ -8666,10 +8697,10 @@ SC.Copyable = SC.Mixin.create({
     @param deep {Boolean} if true, a deep copy of the object should be made
     @returns {Object} copy of receiver
   */
-  copy: SC.required(Function),
+  copy: Ember.required(Function),
 
   /**
-    If the object implements SC.Freezable, then this will return a new copy
+    If the object implements Ember.Freezable, then this will return a new copy
     if the object is not frozen and the receiver if the object is frozen.
 
     Raises an exception if you try to call this method on a object that does
@@ -8682,10 +8713,10 @@ SC.Copyable = SC.Mixin.create({
     @returns {Object} copy of receiver or receiver
   */
   frozenCopy: function() {
-    if (SC.Freezable && SC.Freezable.detect(this)) {
+    if (Ember.Freezable && Ember.Freezable.detect(this)) {
       return get(this, 'isFrozen') ? this : this.copy().freeze();
     } else {
-      throw new Error(SC.String.fmt("%@ does not support freezing", [this]));
+      throw new Error(Ember.String.fmt("%@ does not support freezing", [this]));
     }
   }
 });
@@ -8698,7 +8729,7 @@ SC.Copyable = SC.Mixin.create({
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2010 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
@@ -8708,12 +8739,12 @@ SC.Copyable = SC.Mixin.create({
 
 
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
 /**
   @namespace
 
-  The SC.Freezable mixin implements some basic methods for marking an object
+  The Ember.Freezable mixin implements some basic methods for marking an object
   as frozen. Once an object is frozen it should be read only. No changes
   may be made the internal state of the object.
 
@@ -8733,10 +8764,10 @@ var get = SC.get, set = SC.set;
 
   ## Example Usage
 
-  The example below shows a simple object that implement the SC.Freezable
+  The example below shows a simple object that implement the Ember.Freezable
   protocol.
 
-        Contact = SC.Object.extend(SC.Freezable, {
+        Contact = Ember.Object.extend(Ember.Freezable, {
 
           firstName: null,
 
@@ -8744,7 +8775,7 @@ var get = SC.get, set = SC.set;
 
           // swaps the names
           swapNames: function() {
-            if (this.get('isFrozen')) throw SC.FROZEN_ERROR;
+            if (this.get('isFrozen')) throw Ember.FROZEN_ERROR;
             var tmp = this.get('firstName');
             this.set('firstName', this.get('lastName'));
             this.set('lastName', tmp);
@@ -8760,13 +8791,13 @@ var get = SC.get, set = SC.set;
 
   ## Copying
 
-  Usually the SC.Freezable protocol is implemented in cooperation with the
-  SC.Copyable protocol, which defines a frozenCopy() method that will return
+  Usually the Ember.Freezable protocol is implemented in cooperation with the
+  Ember.Copyable protocol, which defines a frozenCopy() method that will return
   a frozen object, if the object implements this method as well.
 
-  @since SproutCore 1.0
+  @since Ember 0.9
 */
-SC.Freezable = SC.Mixin.create({
+Ember.Freezable = Ember.Mixin.create({
 
   /**
     Set to YES when the object is frozen.  Use this property to detect whether
@@ -8790,7 +8821,7 @@ SC.Freezable = SC.Mixin.create({
 
 });
 
-SC.FROZEN_ERROR = "Frozen object cannot be modified.";
+Ember.FROZEN_ERROR = "Frozen object cannot be modified.";
 
 
 
@@ -8800,11 +8831,11 @@ SC.FROZEN_ERROR = "Frozen object cannot be modified.";
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var get = SC.get, set = SC.set, guidFor = SC.guidFor, none = SC.none;
+var get = Ember.get, set = Ember.set, guidFor = Ember.guidFor, none = Ember.none;
 
 /**
   @class
@@ -8816,7 +8847,7 @@ var get = SC.get, set = SC.set, guidFor = SC.guidFor, none = SC.none;
   can also iterate through a set just like an array, even accessing objects
   by index, however there is no gaurantee as to their order.
 
-  Starting with SproutCore 2.0 all Sets are now observable since there is no
+  Starting with Ember 2.0 all Sets are now observable since there is no
   added cost to providing this support.  Sets also do away with the more
   specialized Set Observer API in favor of the more generic Enumerable
   Observer API - which works on any enumerable object including both Sets and
@@ -8825,22 +8856,22 @@ var get = SC.get, set = SC.set, guidFor = SC.guidFor, none = SC.none;
   ## Creating a Set
 
   You can create a set like you would most objects using
-  `new SC.Set()`.  Most new sets you create will be empty, but you can
+  `new Ember.Set()`.  Most new sets you create will be empty, but you can
   also initialize the set with some content by passing an array or other
   enumerable of objects to the constructor.
 
   Finally, you can pass in an existing set and the set will be copied. You
-  can also create a copy of a set by calling `SC.Set#copy()`.
+  can also create a copy of a set by calling `Ember.Set#copy()`.
 
       #js
       // creates a new empty set
-      var foundNames = new SC.Set();
+      var foundNames = new Ember.Set();
 
       // creates a set with four names in it.
-      var names = new SC.Set(["Charles", "Tom", "Juan", "Alex"]); // :P
+      var names = new Ember.Set(["Charles", "Tom", "Juan", "Alex"]); // :P
 
       // creates a copy of the names set.
-      var namesCopy = new SC.Set(names);
+      var namesCopy = new Ember.Set(names);
 
       // same as above.
       var anotherNamesCopy = names.copy();
@@ -8868,14 +8899,14 @@ var get = SC.get, set = SC.set, guidFor = SC.guidFor, none = SC.none;
   ## Testing for an Object
 
   To test for an object's presence in a set you simply call
-  `SC.Set#contains()`.
+  `Ember.Set#contains()`.
 
   ## Observing changes
 
-  When using `SC.Set`, you can observe the `"[]"` property to be
+  When using `Ember.Set`, you can observe the `"[]"` property to be
   alerted whenever the content changes.  You can also add an enumerable
   observer to the set to be notified of specific objects that are added and
-  removed from the set.  See `SC.Enumerable` for more information on
+  removed from the set.  See `Ember.Enumerable` for more information on
   enumerables.
 
   This is often unhelpful. If you are filtering sets of objects, for instance,
@@ -8886,28 +8917,28 @@ var get = SC.get, set = SC.set, guidFor = SC.guidFor, none = SC.none;
 
   ## Other Methods
 
-  `SC.Set` primary implements other mixin APIs.  For a complete reference
-  on the methods you will use with `SC.Set`, please consult these mixins.
-  The most useful ones will be `SC.Enumerable` and
-  `SC.MutableEnumerable` which implement most of the common iterator
+  `Ember.Set` primary implements other mixin APIs.  For a complete reference
+  on the methods you will use with `Ember.Set`, please consult these mixins.
+  The most useful ones will be `Ember.Enumerable` and
+  `Ember.MutableEnumerable` which implement most of the common iterator
   methods you are used to on Array.
 
-  Note that you can also use the `SC.Copyable` and `SC.Freezable`
-  APIs on `SC.Set` as well.  Once a set is frozen it can no longer be
+  Note that you can also use the `Ember.Copyable` and `Ember.Freezable`
+  APIs on `Ember.Set` as well.  Once a set is frozen it can no longer be
   modified.  The benefit of this is that when you call frozenCopy() on it,
-  SproutCore will avoid making copies of the set.  This allows you to write
+  Ember will avoid making copies of the set.  This allows you to write
   code that can know with certainty when the underlying set data will or
   will not be modified.
 
-  @extends SC.Enumerable
-  @extends SC.MutableEnumerable
-  @extends SC.Copyable
-  @extends SC.Freezable
+  @extends Ember.Enumerable
+  @extends Ember.MutableEnumerable
+  @extends Ember.Copyable
+  @extends Ember.Freezable
 
-  @since SproutCore 1.0
+  @since Ember 0.9
 */
-SC.Set = SC.CoreObject.extend(SC.MutableEnumerable, SC.Copyable, SC.Freezable,
-  /** @scope SC.Set.prototype */ {
+Ember.Set = Ember.CoreObject.extend(Ember.MutableEnumerable, Ember.Copyable, Ember.Freezable,
+  /** @scope Ember.Set.prototype */ {
 
   // ..........................................................
   // IMPLEMENT ENUMERABLE APIS
@@ -8925,10 +8956,10 @@ SC.Set = SC.CoreObject.extend(SC.MutableEnumerable, SC.Copyable, SC.Freezable,
     Clears the set.  This is useful if you want to reuse an existing set
     without having to recreate it.
 
-    @returns {SC.Set}
+    @returns {Ember.Set}
   */
   clear: function() {
-    if (this.isFrozen) { throw new Error(SC.FROZEN_ERROR); }
+    if (this.isFrozen) { throw new Error(Ember.FROZEN_ERROR); }
     var len = get(this, 'length');
     this.enumerableContentWillChange(len, 0);
     set(this, 'length', 0);
@@ -8940,12 +8971,12 @@ SC.Set = SC.CoreObject.extend(SC.MutableEnumerable, SC.Copyable, SC.Freezable,
     Returns true if the passed object is also an enumerable that contains the
     same objects as the receiver.
 
-    @param {SC.Set} obj the other object
+    @param {Ember.Set} obj the other object
     @returns {Boolean}
   */
   isEqual: function(obj) {
     // fail fast
-    if (!SC.Enumerable.detect(obj)) return false;
+    if (!Ember.Enumerable.detect(obj)) return false;
 
     var loc = get(this, 'length');
     if (get(obj, 'length') !== loc) return false;
@@ -8962,24 +8993,24 @@ SC.Set = SC.CoreObject.extend(SC.MutableEnumerable, SC.Copyable, SC.Freezable,
     and those can only be added once. If the object is already in the set or
     the passed value is null this method will have no effect.
 
-    This is an alias for `SC.MutableEnumerable.addObject()`.
+    This is an alias for `Ember.MutableEnumerable.addObject()`.
 
     @function
     @param {Object} obj The object to add
-    @returns {SC.Set} receiver
+    @returns {Ember.Set} receiver
   */
-  add: SC.alias('addObject'),
+  add: Ember.alias('addObject'),
 
   /**
     Removes the object from the set if it is found.  If you pass a null value
     or an object that is already not in the set, this method will have no
-    effect. This is an alias for `SC.MutableEnumerable.removeObject()`.
+    effect. This is an alias for `Ember.MutableEnumerable.removeObject()`.
 
     @function
     @param {Object} obj The object to remove
-    @returns {SC.Set} receiver
+    @returns {Ember.Set} receiver
   */
-  remove: SC.alias('removeObject'),
+  remove: Ember.alias('removeObject'),
 
   /**
     Removes an arbitrary object from the set and returns it.
@@ -8987,42 +9018,42 @@ SC.Set = SC.CoreObject.extend(SC.MutableEnumerable, SC.Copyable, SC.Freezable,
     @returns {Object} An object from the set or null
   */
   pop: function() {
-    if (get(this, 'isFrozen')) throw new Error(SC.FROZEN_ERROR);
+    if (get(this, 'isFrozen')) throw new Error(Ember.FROZEN_ERROR);
     var obj = this.length > 0 ? this[this.length-1] : null;
     this.remove(obj);
     return obj;
   },
 
   /**
-    This is an alias for `SC.MutableEnumerable.addObject()`.
+    This is an alias for `Ember.MutableEnumerable.addObject()`.
 
     @function
   */
-  push: SC.alias('addObject'),
-
-  /**
-    This is an alias for `SC.Set.pop()`.
-    @function
-  */
-  shift: SC.alias('pop'),
+  push: Ember.alias('addObject'),
 
   /**
-    This is an alias of `SC.Set.push()`
+    This is an alias for `Ember.Set.pop()`.
     @function
   */
-  unshift: SC.alias('push'),
+  shift: Ember.alias('pop'),
 
   /**
-    This is an alias of `SC.MutableEnumerable.addObjects()`
+    This is an alias of `Ember.Set.push()`
     @function
   */
-  addEach: SC.alias('addObjects'),
+  unshift: Ember.alias('push'),
 
   /**
-    This is an alias of `SC.MutableEnumerable.removeObjects()`
+    This is an alias of `Ember.MutableEnumerable.addObjects()`
     @function
   */
-  removeEach: SC.alias('removeObjects'),
+  addEach: Ember.alias('addObjects'),
+
+  /**
+    This is an alias of `Ember.MutableEnumerable.removeObjects()`
+    @function
+  */
+  removeEach: Ember.alias('removeObjects'),
 
   // ..........................................................
   // PRIVATE ENUMERABLE SUPPORT
@@ -9034,24 +9065,24 @@ SC.Set = SC.CoreObject.extend(SC.MutableEnumerable, SC.Copyable, SC.Freezable,
     if (items) this.addObjects(items);
   },
 
-  /** @private (nodoc) - implement SC.Enumerable */
+  /** @private (nodoc) - implement Ember.Enumerable */
   nextObject: function(idx) {
     return this[idx];
   },
 
   /** @private - more optimized version */
-  firstObject: SC.computed(function() {
+  firstObject: Ember.computed(function() {
     return this.length > 0 ? this[0] : undefined;
   }).property('[]').cacheable(),
 
   /** @private - more optimized version */
-  lastObject: SC.computed(function() {
+  lastObject: Ember.computed(function() {
     return this.length > 0 ? this[this.length-1] : undefined;
   }).property('[]').cacheable(),
 
-  /** @private (nodoc) - implements SC.MutableEnumerable */
+  /** @private (nodoc) - implements Ember.MutableEnumerable */
   addObject: function(obj) {
-    if (get(this, 'isFrozen')) throw new Error(SC.FROZEN_ERROR);
+    if (get(this, 'isFrozen')) throw new Error(Ember.FROZEN_ERROR);
     if (none(obj)) return this; // nothing to do
 
     var guid = guidFor(obj),
@@ -9072,9 +9103,9 @@ SC.Set = SC.CoreObject.extend(SC.MutableEnumerable, SC.Copyable, SC.Freezable,
     return this;
   },
 
-  /** @private (nodoc) - implements SC.MutableEnumerable */
+  /** @private (nodoc) - implements Ember.MutableEnumerable */
   removeObject: function(obj) {
-    if (get(this, 'isFrozen')) throw new Error(SC.FROZEN_ERROR);
+    if (get(this, 'isFrozen')) throw new Error(Ember.FROZEN_ERROR);
     if (none(obj)) return this; // nothing to do
 
     var guid = guidFor(obj),
@@ -9127,7 +9158,7 @@ SC.Set = SC.CoreObject.extend(SC.MutableEnumerable, SC.Copyable, SC.Freezable,
     for(idx = 0; idx < len; idx++) {
       array[idx] = this[idx];
     }
-    return "SC.Set<%@>".fmt(array.join(','));
+    return "Ember.Set<%@>".fmt(array.join(','));
   },
 
   // ..........................................................
@@ -9143,8 +9174,8 @@ SC.Set = SC.CoreObject.extend(SC.MutableEnumerable, SC.Copyable, SC.Freezable,
         // SproutCore 1.x:
         isSet = myobject && myobject.isSet;
 
-        // SproutCore 2.0 and later:
-        isSet = myobject instanceof SC.Set
+        // Ember:
+        isSet = myobject instanceof Ember.Set
 
     @type Boolean
     @default true
@@ -9154,11 +9185,11 @@ SC.Set = SC.CoreObject.extend(SC.MutableEnumerable, SC.Copyable, SC.Freezable,
 });
 
 // Support the older API
-var o_create = SC.Set.create;
-SC.Set.create = function(items) {
-  if (items && SC.Enumerable.detect(items)) {
-    SC.Logger.warn('Passing an enumerable to SC.Set.create() is deprecated and will be removed in a future version of SproutCore.  Use new SC.Set(items) instead');
-    return new SC.Set(items);
+var o_create = Ember.Set.create;
+Ember.Set.create = function(items) {
+  if (items && Ember.Enumerable.detect(items)) {
+    Ember.Logger.warn('Passing an enumerable to Ember.Set.create() is deprecated and will be removed in a future version of Ember.  Use new Ember.Set(items) instead');
+    return new Ember.Set(items);
   } else {
     return o_create.apply(this, arguments);
   }
@@ -9171,12 +9202,12 @@ SC.Set.create = function(items) {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-SC.CoreObject.subclasses = new SC.Set();
-SC.Object = SC.CoreObject.extend(SC.Observable);
+Ember.CoreObject.subclasses = new Ember.Set();
+Ember.Object = Ember.CoreObject.extend(Ember.Observable);
 
 
 
@@ -9186,31 +9217,31 @@ SC.Object = SC.CoreObject.extend(SC.Observable);
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
 /**
   @class
 
-  An ArrayProxy wraps any other object that implements SC.Array and/or
-  SC.MutableArray, forwarding all requests.  ArrayProxy isn't useful by itself
+  An ArrayProxy wraps any other object that implements Ember.Array and/or
+  Ember.MutableArray, forwarding all requests.  ArrayProxy isn't useful by itself
   but you can extend it to do specialized things like transforming values,
   etc.
 
-  @extends SC.Object
-  @extends SC.Array
-  @extends SC.MutableArray
+  @extends Ember.Object
+  @extends Ember.Array
+  @extends Ember.MutableArray
 */
-SC.ArrayProxy = SC.Object.extend(SC.MutableArray, {
+Ember.ArrayProxy = Ember.Object.extend(Ember.MutableArray, {
 
   /**
-    The content array.  Must be an object that implements SC.Array and or
-    SC.MutableArray.
+    The content array.  Must be an object that implements Ember.Array and or
+    Ember.MutableArray.
 
-    @property {SC.Array}
+    @property {Ember.Array}
   */
   content: null,
 
@@ -9252,7 +9283,7 @@ SC.ArrayProxy = SC.Object.extend(SC.MutableArray, {
     get(this, 'content').replace(idx, amt, objects);
   },
 
-  contentWillChange: SC.beforeObserver(function() {
+  contentWillChange: Ember.beforeObserver(function() {
     var content = get(this, 'content'),
         len     = content ? get(content, 'length') : 0;
     this.arrayWillChange(content, 0, len, undefined);
@@ -9263,7 +9294,7 @@ SC.ArrayProxy = SC.Object.extend(SC.MutableArray, {
     Invoked when the content property changes.  Notifies observers that the
     entire array content has changed.
   */
-  contentDidChange: SC.observer(function() {
+  contentDidChange: Ember.observer(function() {
     var content = get(this, 'content'),
         len     = content ? get(content, 'length') : 0;
     if (content) content.addArrayObserver(this);
@@ -9276,7 +9307,7 @@ SC.ArrayProxy = SC.Object.extend(SC.MutableArray, {
   },
 
   /** @private (nodoc) */
-  length: SC.computed(function() {
+  length: Ember.computed(function() {
     var content = get(this, 'content');
     return content ? get(content, 'length') : 0;
   }).property('content.length').cacheable(),
@@ -9312,23 +9343,23 @@ SC.ArrayProxy = SC.Object.extend(SC.MutableArray, {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Metal
+// Project:  Ember Metal
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 /**
   @class
 
-  SC.ArrayController provides a way for you to publish an array of objects for
-  SC.CollectionView or other controllers to work with.  To work with an
+  Ember.ArrayController provides a way for you to publish an array of objects for
+  Ember.CollectionView or other controllers to work with.  To work with an
   ArrayController, set the content property to the array you want the controller
   to manage.  Then work directly with the controller object as if it were the
   array itself.
 
   For example, imagine you wanted to display a list of items fetched via an XHR
-  request. Create an SC.ArrayController and set its `content` property:
+  request. Create an Ember.ArrayController and set its `content` property:
 
-      MyApp.listController = SC.ArrayController.create();
+      MyApp.listController = Ember.ArrayController.create();
 
       $.get('people.json', function(data) {
         MyApp.listController.set('content', data);
@@ -9344,10 +9375,10 @@ SC.ArrayProxy = SC.Object.extend(SC.MutableArray, {
   your view bindings once; to change what's displayed, simply swap out the
   `content` property on the controller.
 
-  @extends SC.ArrayProxy
+  @extends Ember.ArrayProxy
 */
 
-SC.ArrayController = SC.ArrayProxy.extend();
+Ember.ArrayController = Ember.ArrayProxy.extend();
 
 })({});
 
@@ -9358,49 +9389,49 @@ SC.ArrayController = SC.ArrayProxy.extend();
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var fmt = SC.String.fmt,
-    w   = SC.String.w,
-    loc = SC.String.loc,
-    decamelize = SC.String.decamelize,
-    dasherize = SC.String.dasherize;
+var fmt = Ember.String.fmt,
+    w   = Ember.String.w,
+    loc = Ember.String.loc,
+    decamelize = Ember.String.decamelize,
+    dasherize = Ember.String.dasherize;
 
-if (SC.EXTEND_PROTOTYPES) {
+if (Ember.EXTEND_PROTOTYPES) {
 
   /**
-    @see SC.String.fmt
+    @see Ember.String.fmt
   */
   String.prototype.fmt = function() {
     return fmt(this, arguments);
   };
 
   /**
-    @see SC.String.w
+    @see Ember.String.w
   */
   String.prototype.w = function() {
     return w(this);
   };
 
   /**
-    @see SC.String.loc
+    @see Ember.String.loc
   */
   String.prototype.loc = function() {
     return loc(this, arguments);
   };
 
   /**
-    @see SC.String.decamelize
+    @see Ember.String.decamelize
   */
   String.prototype.decamelize = function() {
     return decamelize(this);
   };
 
   /**
-    @see SC.String.dasherize
+    @see Ember.String.dasherize
   */
   String.prototype.dasherize = function() {
     return dasherize(this);
@@ -9415,25 +9446,25 @@ if (SC.EXTEND_PROTOTYPES) {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-if (SC.EXTEND_PROTOTYPES) {
+if (Ember.EXTEND_PROTOTYPES) {
 
   Function.prototype.property = function() {
-    var ret = SC.computed(this);
+    var ret = Ember.computed(this);
     return ret.property.apply(ret, arguments);
   };
 
   Function.prototype.observes = function() {
-    this.__sc_observes__ = Array.prototype.slice.call(arguments);
+    this.__ember_observes__ = Array.prototype.slice.call(arguments);
     return this;
   };
 
   Function.prototype.observesBefore = function() {
-    this.__sc_observesBefore__ = Array.prototype.slice.call(arguments);
+    this.__ember_observesBefore__ = Array.prototype.slice.call(arguments);
     return this;
   };
 
@@ -9445,17 +9476,17 @@ if (SC.EXTEND_PROTOTYPES) {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var IS_BINDING = SC.IS_BINDING = /^.+Binding$/;
+var IS_BINDING = Ember.IS_BINDING = /^.+Binding$/;
 
-SC._mixinBindings = function(obj, key, value, m) {
+Ember._mixinBindings = function(obj, key, value, m) {
   if (IS_BINDING.test(key)) {
-    if (!(value instanceof SC.Binding)) {
-      value = new SC.Binding(key.slice(0,-7), value); // make binding
+    if (!(value instanceof Ember.Binding)) {
+      value = new Ember.Binding(key.slice(0,-7), value); // make binding
     } else {
       value.to(key.slice(0, -7));
     }
@@ -9465,10 +9496,10 @@ SC._mixinBindings = function(obj, key, value, m) {
     // resync them...
     var bindings = m.bindings;
     if (!bindings) {
-      bindings = m.bindings = { __scproto__: obj };
-    } else if (bindings.__scproto__ !== obj) {
-      bindings = m.bindings = SC.create(m.bindings);
-      bindings.__scproto__ = obj;
+      bindings = m.bindings = { __emberproto__: obj };
+    } else if (bindings.__emberproto__ !== obj) {
+      bindings = m.bindings = Ember.create(m.bindings);
+      bindings.__emberproto__ = obj;
     }
 
     bindings[key] = true;
@@ -9482,7 +9513,7 @@ SC._mixinBindings = function(obj, key, value, m) {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -9493,7 +9524,7 @@ SC._mixinBindings = function(obj, key, value, m) {
 /**
  * @license
  * ==========================================================================
- * SproutCore
+ * Ember
  * Copyright ©2006-2011, Strobe Inc. and contributors.
  * Portions copyright ©2008-2011 Apple Inc. All rights reserved.
  *
@@ -9515,7 +9546,7 @@ SC._mixinBindings = function(obj, key, value, m) {
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  *
- * For more information about SproutCore, visit http://www.sproutcore.com
+ * For more information about Ember, visit http://www.emberjs.com
  *
  * ==========================================================================
  */
@@ -9525,7 +9556,7 @@ SC._mixinBindings = function(obj, key, value, m) {
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
@@ -9538,9 +9569,9 @@ SC._mixinBindings = function(obj, key, value, m) {
 
   You should implement the compare() method.
 
-  @since SproutCore 1.0
+  @since Ember 0.9
 */
-SC.Comparable = SC.Mixin.create( /** @scope SC.Comparable.prototype */{
+Ember.Comparable = Ember.Mixin.create( /** @scope Ember.Comparable.prototype */{
 
   /**
     walk like a duck. Indicates that the object can be compared.
@@ -9565,7 +9596,7 @@ SC.Comparable = SC.Mixin.create( /** @scope SC.Comparable.prototype */{
     @param b {Object} the second object to compare
     @returns {Integer} the result of the comparison
   */
-  compare: SC.required(Function)
+  compare: Ember.required(Function)
 
 });
 
@@ -9574,17 +9605,17 @@ SC.Comparable = SC.Mixin.create( /** @scope SC.Comparable.prototype */{
 
 
 (function(exports) {
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
-SC.TargetActionSupport = SC.Mixin.create({
+Ember.TargetActionSupport = Ember.Mixin.create({
   target: null,
   action: null,
 
-  targetObject: SC.computed(function() {
+  targetObject: Ember.computed(function() {
     var target = get(this, 'target');
 
-    if (SC.typeOf(target) === "string") {
-      return SC.getPath(this, target);
+    if (Ember.typeOf(target) === "string") {
+      return Ember.getPath(this, target);
     } else {
       return target;
     }
@@ -9612,7 +9643,7 @@ SC.TargetActionSupport = SC.Mixin.create({
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -9621,7 +9652,7 @@ SC.TargetActionSupport = SC.Mixin.create({
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -9633,39 +9664,39 @@ SC.TargetActionSupport = SC.Mixin.create({
 
   # Example Usage
 
-      MyFramework = SC.Namespace.create({
+      MyFramework = Ember.Namespace.create({
         VERSION: '1.0.0'
       });
 
 */
-SC.Namespace = SC.Object.extend({
+Ember.Namespace = Ember.Object.extend({
   init: function() {
-    SC.Namespace.NAMESPACES.push(this);
-    SC.Namespace.PROCESSED = false;
+    Ember.Namespace.NAMESPACES.push(this);
+    Ember.Namespace.PROCESSED = false;
   },
 
   toString: function() {
-    SC.identifyNamespaces();
-    return this[SC.GUID_KEY+'_name'];
+    Ember.identifyNamespaces();
+    return this[Ember.GUID_KEY+'_name'];
   },
 
   destroy: function() {
-    var namespaces = SC.Namespace.NAMESPACES;
+    var namespaces = Ember.Namespace.NAMESPACES;
     window[this.toString()] = undefined;
     namespaces.splice(namespaces.indexOf(this), 1);
     this._super();
   }
 });
 
-SC.Namespace.NAMESPACES = [];
-SC.Namespace.PROCESSED = true;
+Ember.Namespace.NAMESPACES = [];
+Ember.Namespace.PROCESSED = true;
 
 })({});
 
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -9676,15 +9707,15 @@ SC.Namespace.PROCESSED = true;
   very similar to a normal namespace except that it is expected to include at
   least a 'ready' function which can be run to initialize the application.
 
-  Currently SC.Application is very similar to SC.Namespace.  However, this
+  Currently Ember.Application is very similar to Ember.Namespace.  However, this
   class may be augmented by additional frameworks so it is important to use
   this instance when building new applications.
 
   # Example Usage
 
-      MyApp = SC.Application.create({
+      MyApp = Ember.Application.create({
         VERSION: '1.0.0',
-        store: SC.Store.create().from(SC.fixtures)
+        store: Ember.Store.create().from(Ember.fixtures)
       });
 
       MyApp.ready = function() {
@@ -9692,7 +9723,7 @@ SC.Namespace.PROCESSED = true;
       }
 
 */
-SC.Application = SC.Namespace.extend();
+Ember.Application = Ember.Namespace.extend();
 
 
 })({});
@@ -9700,13 +9731,13 @@ SC.Application = SC.Namespace.extend();
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var set = SC.set, get = SC.get, guidFor = SC.guidFor;
+var set = Ember.set, get = Ember.get, guidFor = Ember.guidFor;
 
-var EachArray = SC.Object.extend(SC.Array, {
+var EachArray = Ember.Object.extend(Ember.Array, {
 
   init: function(content, keyName, owner) {
     this._super();
@@ -9720,7 +9751,7 @@ var EachArray = SC.Object.extend(SC.Array, {
     return item && get(item, this._keyName);
   },
 
-  length: SC.computed(function() {
+  length: Ember.computed(function() {
     var content = this._content;
     return content ? get(content, 'length') : 0;
   }).property('[]').cacheable()
@@ -9736,8 +9767,8 @@ function addObserverForContentKey(content, keyName, proxy, idx, loc) {
   while(--loc>=idx) {
     var item = content.objectAt(loc);
     if (item) {
-      SC.addBeforeObserver(item, keyName, proxy, 'contentKeyWillChange');
-      SC.addObserver(item, keyName, proxy, 'contentKeyDidChange');
+      Ember.addBeforeObserver(item, keyName, proxy, 'contentKeyWillChange');
+      Ember.addObserver(item, keyName, proxy, 'contentKeyDidChange');
 
       // keep track of the indicies each item was found at so we can map
       // it back when the obj changes.
@@ -9756,8 +9787,8 @@ function removeObserverForContentKey(content, keyName, proxy, idx, loc) {
   while(--loc>=idx) {
     var item = content.objectAt(loc);
     if (item) {
-      SC.removeBeforeObserver(item, keyName, proxy, 'contentKeyWillChange');
-      SC.removeObserver(item, keyName, proxy, 'contentKeyDidChange');
+      Ember.removeBeforeObserver(item, keyName, proxy, 'contentKeyWillChange');
+      Ember.removeObserver(item, keyName, proxy, 'contentKeyDidChange');
 
       guid = guidFor(item);
       indicies = objects[guid];
@@ -9774,9 +9805,9 @@ function removeObserverForContentKey(content, keyName, proxy, idx, loc) {
   array.  It uses the unknownProperty handler to automatically create
   EachArray instances for property names.
 
-  @extends SC.Object
+  @extends Ember.Object
 */
-SC.EachProxy = SC.Object.extend({
+Ember.EachProxy = Ember.Object.extend({
 
   init: function(content) {
     this._super();
@@ -9785,7 +9816,7 @@ SC.EachProxy = SC.Object.extend({
 
     // in case someone is already observing some keys make sure they are
     // added
-    SC.watchedEvents(this).forEach(function(eventName) {
+    Ember.watchedEvents(this).forEach(function(eventName) {
       this.didAddListener(eventName);
     }, this);
   },
@@ -9797,7 +9828,7 @@ SC.EachProxy = SC.Object.extend({
   unknownProperty: function(keyName, value) {
     var ret;
     ret = new EachArray(this._content, keyName, this);
-    new SC.Descriptor().setup(this, keyName, ret);
+    new Ember.Descriptor().setup(this, keyName, ret);
     this.beginObservingContentKey(keyName);
     return ret;
   },
@@ -9810,37 +9841,36 @@ SC.EachProxy = SC.Object.extend({
     var keys = this._keys, key, array, lim;
 
     lim = removedCnt>0 ? idx+removedCnt : -1;
-    SC.beginPropertyChanges(this);
+    Ember.beginPropertyChanges(this);
+
     for(key in keys) {
-      if (!keys.hasOwnProperty(key)) continue;
+      if (!keys.hasOwnProperty(key)) { continue; }
 
       if (lim>0) removeObserverForContentKey(content, key, this, idx, lim);
 
-      array = get(this, key);
-      SC.propertyWillChange(this, key);
-      if (array) array.arrayContentWillChange(idx, removedCnt, addedCnt);
+      Ember.propertyWillChange(this, key);
     }
 
-    SC.propertyWillChange(this._content, '@each');
-    SC.endPropertyChanges(this);
+    Ember.propertyWillChange(this._content, '@each');
+    Ember.endPropertyChanges(this);
   },
 
   arrayDidChange: function(content, idx, removedCnt, addedCnt) {
     var keys = this._keys, key, array, lim;
 
     lim = addedCnt>0 ? idx+addedCnt : -1;
-    SC.beginPropertyChanges(this);
+    Ember.beginPropertyChanges(this);
+
     for(key in keys) {
-      if (!keys.hasOwnProperty(key)) continue;
+      if (!keys.hasOwnProperty(key)) { continue; }
 
       if (lim>0) addObserverForContentKey(content, key, this, idx, lim);
 
-      array = get(this, key);
-      if (array) array.arrayContentDidChange(idx, removedCnt, addedCnt);
-      SC.propertyDidChange(this, key);
+      Ember.propertyDidChange(this, key);
     }
-    SC.propertyDidChange(this._content, '@each');
-    SC.endPropertyChanges(this);
+
+    Ember.propertyDidChange(this._content, '@each');
+    Ember.endPropertyChanges(this);
   },
 
   // ..........................................................
@@ -9886,27 +9916,11 @@ SC.EachProxy = SC.Object.extend({
   },
 
   contentKeyWillChange: function(obj, keyName) {
-    // notify array.
-    var indexes = this._objects[guidFor(obj)],
-        array   = get(this, keyName),
-        len = array && indexes ? indexes.length : 0, idx;
-
-    for(idx=0;idx<len;idx++) {
-      array.arrayContentWillChange(indexes[idx], 1, 1);
-    }
+    Ember.propertyWillChange(this, keyName);
   },
 
   contentKeyDidChange: function(obj, keyName) {
-    // notify array.
-    var indexes = this._objects[guidFor(obj)],
-        array   = get(this, keyName),
-        len = array && indexes ? indexes.length : 0, idx;
-
-    for(idx=0;idx<len;idx++) {
-      array.arrayContentDidChange(indexes[idx], 1, 1);
-    }
-
-    SC.propertyDidChange(this, keyName);
+    Ember.propertyDidChange(this, keyName);
   }
 
 });
@@ -9918,16 +9932,16 @@ SC.EachProxy = SC.Object.extend({
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
-// Add SC.Array to Array.prototype.  Remove methods with native
+// Add Ember.Array to Array.prototype.  Remove methods with native
 // implementations and supply some more optimized versions of generic methods
 // because they are so common.
-var NativeArray = SC.Mixin.create(SC.MutableArray, SC.Observable, SC.Copyable, {
+var NativeArray = Ember.Mixin.create(Ember.MutableArray, Ember.Observable, Ember.Copyable, {
 
   // because length is a built-in property we need to know to just get the
   // original property.
@@ -9944,7 +9958,7 @@ var NativeArray = SC.Mixin.create(SC.MutableArray, SC.Observable, SC.Copyable, {
   // primitive for array support.
   replace: function(idx, amt, objects) {
 
-    if (this.isFrozen) throw SC.FROZEN_ERROR ;
+    if (this.isFrozen) throw Ember.FROZEN_ERROR ;
 
     // if we replaced exactly the same number of items, then pass only the
     // replaced range.  Otherwise, pass the full remaining array length
@@ -10018,30 +10032,30 @@ if (ignore.length>0) {
 
 /**
   The NativeArray mixin contains the properties needed to to make the native
-  Array support SC.MutableArray and all of its dependent APIs.  Unless you
-  have SC.EXTEND_PROTOTYPES set to false, this will be applied automatically.
+  Array support Ember.MutableArray and all of its dependent APIs.  Unless you
+  have Ember.EXTEND_PROTOTYPES set to false, this will be applied automatically.
   Otherwise you can apply the mixin at anytime by calling
-  `SC.NativeArray.activate`.
+  `Ember.NativeArray.activate`.
 
   @namespace
-  @extends SC.MutableArray
-  @extends SC.Array
-  @extends SC.Enumerable
-  @extends SC.MutableEnumerable
-  @extends SC.Copyable
-  @extends SC.Freezable
+  @extends Ember.MutableArray
+  @extends Ember.Array
+  @extends Ember.Enumerable
+  @extends Ember.MutableEnumerable
+  @extends Ember.Copyable
+  @extends Ember.Freezable
 */
-SC.NativeArray = NativeArray;
+Ember.NativeArray = NativeArray;
 
 /**
-  Creates an SC.NativeArray from an Array like object.
+  Creates an Ember.NativeArray from an Array like object.
   Does not modify the original object.
 
-  @returns {SC.NativeArray}
+  @returns {Ember.NativeArray}
 */
-SC.A = function(arr){
+Ember.A = function(arr){
   if (arr === undefined) { arr = []; }
-  return SC.NativeArray.apply(Array.prototype.slice.apply(arr));
+  return Ember.NativeArray.apply(Array.prototype.slice.apply(arr));
 };
 
 /**
@@ -10050,11 +10064,11 @@ SC.A = function(arr){
 
   @returns {void}
 */
-SC.NativeArray.activate = function() {
+Ember.NativeArray.activate = function() {
   NativeArray.apply(Array.prototype);
 };
 
-if (SC.EXTEND_PROTOTYPES) SC.NativeArray.activate();
+if (Ember.EXTEND_PROTOTYPES) Ember.NativeArray.activate();
 
 
 
@@ -10063,7 +10077,7 @@ if (SC.EXTEND_PROTOTYPES) SC.NativeArray.activate();
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -10072,7 +10086,7 @@ if (SC.EXTEND_PROTOTYPES) SC.NativeArray.activate();
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Runtime
+// Project:  Ember Runtime
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -10080,35 +10094,35 @@ if (SC.EXTEND_PROTOTYPES) SC.NativeArray.activate();
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
 /**
   @class
 
-  SC.RenderBuffer gathers information regarding the a view and generates the
-  final representation. SC.RenderBuffer will generate HTML which can be pushed
+  Ember.RenderBuffer gathers information regarding the a view and generates the
+  final representation. Ember.RenderBuffer will generate HTML which can be pushed
   to the DOM.
 
-  @extends SC.Object
+  @extends Ember.Object
 */
-SC.RenderBuffer = function(tagName) {
-  return SC._RenderBuffer.create({ elementTag: tagName });
+Ember.RenderBuffer = function(tagName) {
+  return Ember._RenderBuffer.create({ elementTag: tagName });
 };
 
-SC._RenderBuffer = SC.Object.extend(
-/** @scope SC.RenderBuffer.prototype */ {
+Ember._RenderBuffer = Ember.Object.extend(
+/** @scope Ember.RenderBuffer.prototype */ {
 
   /**
     Array of class-names which will be applied in the class="" attribute
 
     You should not maintain this array yourself, rather, you should use
-    the addClass() method of SC.RenderBuffer.
+    the addClass() method of Ember.RenderBuffer.
 
     @type Array
     @default []
@@ -10119,7 +10133,7 @@ SC._RenderBuffer = SC.Object.extend(
     The id in of the element, to be applied in the id="" attribute
 
     You should not set this property yourself, rather, you should use
-    the id() method of SC.RenderBuffer.
+    the id() method of Ember.RenderBuffer.
 
     @type String
     @default null
@@ -10133,7 +10147,7 @@ SC._RenderBuffer = SC.Object.extend(
     elementAttributes hash to {'data-view':'Foo.bar'}
 
     You should not maintain this hash yourself, rather, you should use
-    the attr() method of SC.RenderBuffer.
+    the attr() method of Ember.RenderBuffer.
 
     @type Hash
     @default {}
@@ -10141,12 +10155,12 @@ SC._RenderBuffer = SC.Object.extend(
   elementAttributes: null,
 
   /**
-    The tagname of the element an instance of SC.RenderBuffer represents.
+    The tagname of the element an instance of Ember.RenderBuffer represents.
 
-    Usually, this gets set as the first parameter to SC.RenderBuffer. For
+    Usually, this gets set as the first parameter to Ember.RenderBuffer. For
     example, if you wanted to create a `p` tag, then you would call
 
-      SC.RenderBuffer('p')
+      Ember.RenderBuffer('p')
 
     @type String
     @default null
@@ -10160,7 +10174,7 @@ SC._RenderBuffer = SC.Object.extend(
     elementStyle hash to {'background-color':'black'}
 
     You should not maintain this hash yourself, rather, you should use
-    the style() method of SC.RenderBuffer.
+    the style() method of Ember.RenderBuffer.
 
     @type Hash
     @default {}
@@ -10171,7 +10185,7 @@ SC._RenderBuffer = SC.Object.extend(
     Nested RenderBuffers will set this to their parent RenderBuffer
     instance.
 
-    @type SC._RenderBuffer
+    @type Ember._RenderBuffer
   */
   parentBuffer: null,
 
@@ -10179,10 +10193,10 @@ SC._RenderBuffer = SC.Object.extend(
   init: function() {
     this._super();
 
-    set(this ,'elementClasses', SC.A());
+    set(this ,'elementClasses', Ember.A());
     set(this, 'elementAttributes', {});
     set(this, 'elementStyle', {});
-    set(this, 'childBuffers', SC.A());
+    set(this, 'childBuffers', Ember.A());
     set(this, 'elements', {});
   },
 
@@ -10190,7 +10204,7 @@ SC._RenderBuffer = SC.Object.extend(
     Adds a string of HTML to the RenderBuffer.
 
     @param {String} string HTML to push into the buffer
-    @returns {SC.RenderBuffer} this
+    @returns {Ember.RenderBuffer} this
   */
   push: function(string) {
     get(this, 'childBuffers').pushObject(String(string));
@@ -10201,7 +10215,7 @@ SC._RenderBuffer = SC.Object.extend(
     Adds a class to the buffer, which will be rendered to the class attribute.
 
     @param {String} className Class name to add to the buffer
-    @returns {SC.RenderBuffer} this
+    @returns {Ember.RenderBuffer} this
   */
   addClass: function(className) {
     get(this, 'elementClasses').addObject(className);
@@ -10212,7 +10226,7 @@ SC._RenderBuffer = SC.Object.extend(
     Sets the elementID to be used for the element.
 
     @param {String} id
-    @returns {SC.RenderBuffer} this
+    @returns {Ember.RenderBuffer} this
   */
   id: function(id) {
     set(this, 'elementId', id);
@@ -10224,7 +10238,7 @@ SC._RenderBuffer = SC.Object.extend(
 
     @param {String} name The name of the attribute
     @param {String} value The value to add to the attribute
-    @returns {SC.RenderBuffer} this
+    @returns {Ember.RenderBuffer} this
   */
   attr: function(name, value) {
     get(this, 'elementAttributes')[name] = value;
@@ -10236,7 +10250,7 @@ SC._RenderBuffer = SC.Object.extend(
 
     @param {String} name Name of the style
     @param {String} value
-    @returns {SC.RenderBuffer} this
+    @returns {Ember.RenderBuffer} this
   */
   style: function(name, value) {
     get(this, 'elementStyle')[name] = value;
@@ -10253,14 +10267,14 @@ SC._RenderBuffer = SC.Object.extend(
 
     @private
     @param {String} tagName Tag name to use for the child buffer's element
-    @param {SC._RenderBuffer} parent The parent render buffer that this
+    @param {Ember._RenderBuffer} parent The parent render buffer that this
       buffer should be appended to.
     @param {Function} fn A callback to invoke with the newly created buffer.
     @param {Object} other Additional properties to add to the newly created
       buffer.
   */
   newBuffer: function(tagName, parent, fn, other) {
-    var buffer = SC._RenderBuffer.create({
+    var buffer = Ember._RenderBuffer.create({
       parentBuffer: parent,
       elementTag: tagName
     });
@@ -10277,7 +10291,7 @@ SC._RenderBuffer = SC.Object.extend(
     which passes the new buffer it created.
 
     @private
-    @param {SC._RenderBuffer} buffer The buffer to insert in place of
+    @param {Ember._RenderBuffer} buffer The buffer to insert in place of
       the existing buffer.
   */
   replaceWithBuffer: function(newBuffer) {
@@ -10296,12 +10310,12 @@ SC._RenderBuffer = SC.Object.extend(
   },
 
   /**
-    Creates a new SC.RenderBuffer object with the provided tagName as
+    Creates a new Ember.RenderBuffer object with the provided tagName as
     the element tag and with its parentBuffer property set to the current
-    SC.RenderBuffer.
+    Ember.RenderBuffer.
 
     @param {String} tagName Tag name to use for the child buffer's element
-    @returns {SC.RenderBuffer} A new RenderBuffer object
+    @returns {Ember.RenderBuffer} A new RenderBuffer object
   */
   begin: function(tagName) {
     return this.newBuffer(tagName, this, function(buffer) {
@@ -10351,7 +10365,7 @@ SC._RenderBuffer = SC.Object.extend(
   /**
     Closes the current buffer and adds its content to the parentBuffer.
 
-    @returns {SC.RenderBuffer} The parentBuffer, if one exists. Otherwise, this
+    @returns {Ember.RenderBuffer} The parentBuffer, if one exists. Otherwise, this
   */
   end: function() {
     var parent = get(this, 'parentBuffer');
@@ -10367,7 +10381,7 @@ SC._RenderBuffer = SC.Object.extend(
       of this buffer
   */
   element: function() {
-    return SC.$(this.string())[0];
+    return Ember.$(this.string())[0];
   },
 
   /**
@@ -10430,23 +10444,23 @@ SC._RenderBuffer = SC.Object.extend(
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 
-var get = SC.get, set = SC.set, fmt = SC.String.fmt;
+var get = Ember.get, set = Ember.set, fmt = Ember.String.fmt;
 
 /**
   @ignore
 
-  SC.EventDispatcher handles delegating browser events to their corresponding
-  SC.Views. For example, when you click on a view, SC.EventDispatcher ensures
+  Ember.EventDispatcher handles delegating browser events to their corresponding
+  Ember.Views. For example, when you click on a view, Ember.EventDispatcher ensures
   that that view's `mouseDown` method gets called.
 */
-SC.EventDispatcher = SC.Object.extend(
-/** @scope SC.EventDispatcher.prototype */{
+Ember.EventDispatcher = Ember.Object.extend(
+/** @scope Ember.EventDispatcher.prototype */{
 
   /**
     @private
@@ -10500,13 +10514,13 @@ SC.EventDispatcher = SC.Object.extend(
 
     jQuery.extend(events, addedEvents || {});
 
-    var rootElement = SC.$(get(this, 'rootElement'));
+    var rootElement = Ember.$(get(this, 'rootElement'));
 
-    sc_assert(fmt('You cannot use the same root element (%@) multiple times in an SC.Application', [rootElement.selector || rootElement[0].tagName]), !rootElement.is('.sc-application'));
-    sc_assert('You cannot make a new SC.Application using a root element that is a descendent of an existing SC.Application', !rootElement.closest('.sc-application').length);
-    sc_assert('You cannot make a new SC.Application using a root element that is an ancestor of an existing SC.Application', !rootElement.find('.sc-application').length);
+    ember_assert(fmt('You cannot use the same root element (%@) multiple times in an Ember.Application', [rootElement.selector || rootElement[0].tagName]), !rootElement.is('.ember-application'));
+    ember_assert('You cannot make a new Ember.Application using a root element that is a descendent of an existing Ember.Application', !rootElement.closest('.ember-application').length);
+    ember_assert('You cannot make a new Ember.Application using a root element that is an ancestor of an existing Ember.Application', !rootElement.find('.ember-application').length);
 
-    rootElement.addClass('sc-application')
+    rootElement.addClass('ember-application')
 
     for (event in events) {
       if (events.hasOwnProperty(event)) {
@@ -10537,9 +10551,9 @@ SC.EventDispatcher = SC.Object.extend(
   setupHandler: function(rootElement, event, eventName) {
     var self = this;
 
-    rootElement.delegate('.sc-view', event + '.sproutcore', function(evt, triggeringManager) {
+    rootElement.delegate('.ember-view', event + '.ember', function(evt, triggeringManager) {
 
-      var view = SC.View.views[this.id],
+      var view = Ember.View.views[this.id],
           result = true, manager = null;
 
       manager = self._findNearestEventManager(view,eventName);
@@ -10575,7 +10589,7 @@ SC.EventDispatcher = SC.Object.extend(
     var result = true;
 
     handler = object[eventName];
-    if (SC.typeOf(handler) === 'function') {
+    if (Ember.typeOf(handler) === 'function') {
       result = handler.call(object, evt, view);
       evt.stopPropagation();
     }
@@ -10591,9 +10605,9 @@ SC.EventDispatcher = SC.Object.extend(
     var result = true, handler,
         self = this;
 
-      SC.run(function() {
+      Ember.run(function() {
         handler = view[eventName];
-        if (SC.typeOf(handler) === 'function') {
+        if (Ember.typeOf(handler) === 'function') {
           result = handler.call(view, evt);
         }
       });
@@ -10604,7 +10618,7 @@ SC.EventDispatcher = SC.Object.extend(
   /** @private */
   destroy: function() {
     var rootElement = get(this, 'rootElement');
-    SC.$(rootElement).undelegate('.sproutcore').removeClass('sc-application');
+    Ember.$(rootElement).undelegate('.ember').removeClass('ember-application');
     return this._super();
   }
 });
@@ -10614,42 +10628,42 @@ SC.EventDispatcher = SC.Object.extend(
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
 /**
   @class
 
-  An SC.Application instance serves as the namespace in which you define your
+  An Ember.Application instance serves as the namespace in which you define your
   application's classes. You can also override the configuration of your
   application.
 
-  By default, SC.Application will begin listening for events on the document.
+  By default, Ember.Application will begin listening for events on the document.
   If your application is embedded inside a page, instead of controlling the
   entire document, you can specify which DOM element to attach to by setting
   the `rootElement` property:
 
-      MyApp = SC.Application.create({
+      MyApp = Ember.Application.create({
         rootElement: $('#my-app')
       });
 
-  The root of an SC.Application must not be removed during the course of the
+  The root of an Ember.Application must not be removed during the course of the
   page's lifetime. If you have only a single conceptual application for the
-  entire page, and are not embedding any third-party SproutCore applications
+  entire page, and are not embedding any third-party Ember applications
   in your page, use the default document root for your application.
 
   You only need to specify the root if your page contains multiple instances
-  of SC.Application.
+  of Ember.Application.
 
-  @since SproutCore 2.0
-  @extends SC.Object
+  @since Ember 2.0
+  @extends Ember.Object
 */
-SC.Application = SC.Namespace.extend(
-/** @scope SC.Application.prototype */{
+Ember.Application = Ember.Namespace.extend(
+/** @scope Ember.Application.prototype */{
 
   /**
     @type DOMElement
@@ -10658,7 +10672,7 @@ SC.Application = SC.Namespace.extend(
   rootElement: document,
 
   /**
-    @type SC.EventDispatcher
+    @type Ember.EventDispatcher
     @default null
   */
   eventDispatcher: null,
@@ -10675,14 +10689,14 @@ SC.Application = SC.Namespace.extend(
         rootElement = get(this, 'rootElement');
     this._super();
 
-    eventDispatcher = SC.EventDispatcher.create({
+    eventDispatcher = Ember.EventDispatcher.create({
       rootElement: rootElement
     });
 
     set(this, 'eventDispatcher', eventDispatcher);
 
     var self = this;
-    SC.$(document).ready(function() {
+    Ember.$(document).ready(function() {
       self.ready();
     });
 
@@ -10698,8 +10712,7 @@ SC.Application = SC.Namespace.extend(
 
   /** @private */
   destroy: function() {
-    var dispatcher = get(this, 'eventDispatcher')
-    if(dispatcher) dispatcher.destroy();
+    get(this, 'eventDispatcher').destroy();
     return this._super();
   }
 });
@@ -10711,7 +10724,7 @@ SC.Application = SC.Namespace.extend(
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
@@ -10719,7 +10732,7 @@ SC.Application = SC.Namespace.extend(
 
 // Add a new named queue for rendering views that happens
 // after bindings have synced.
-var queues = SC.run.queues;
+var queues = Ember.run.queues;
 queues.splice(jQuery.inArray('actions', queues)+1, 0, 'render');
 
 })({});
@@ -10727,7 +10740,7 @@ queues.splice(jQuery.inArray('actions', queues)+1, 0, 'render');
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
@@ -10737,19 +10750,19 @@ queues.splice(jQuery.inArray('actions', queues)+1, 0, 'render');
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals sc_assert */
-var get = SC.get, set = SC.set, addObserver = SC.addObserver;
-var getPath = SC.getPath, meta = SC.meta, fmt = SC.String.fmt;
+/*globals ember_assert */
+var get = Ember.get, set = Ember.set, addObserver = Ember.addObserver;
+var getPath = Ember.getPath, meta = Ember.meta, fmt = Ember.String.fmt;
 
-var childViewsProperty = SC.computed(function() {
+var childViewsProperty = Ember.computed(function() {
   var childViews = get(this, '_childViews');
 
-  var ret = SC.A();
+  var ret = Ember.A();
 
   childViews.forEach(function(view) {
     if (view.isVirtual) {
@@ -10771,15 +10784,15 @@ var childViewsProperty = SC.computed(function() {
 
   @type Hash
 */
-SC.TEMPLATES = {};
+Ember.TEMPLATES = {};
 
 /**
   @class
-  @since SproutCore 2.0
-  @extends SC.Object
+  @since Ember 0.9
+  @extends Ember.Object
 */
-SC.View = SC.Object.extend(
-/** @scope SC.View.prototype */ {
+Ember.View = Ember.Object.extend(
+/** @scope Ember.View.prototype */ {
 
   /** @private */
   concatenatedProperties: ['classNames', 'classNameBindings', 'attributeBindings'],
@@ -10798,9 +10811,9 @@ SC.View = SC.Object.extend(
   /**
     The name of the template to lookup if no template is provided.
 
-    SC.View will look for a template with this name in this view's
+    Ember.View will look for a template with this name in this view's
     `templates` object. By default, this will be a global object
-    shared in `SC.TEMPLATES`.
+    shared in `Ember.TEMPLATES`.
 
     @type String
     @default null
@@ -10810,10 +10823,10 @@ SC.View = SC.Object.extend(
   /**
     The hash in which to look for `templateName`.
 
-    @type SC.Object
-    @default SC.TEMPLATES
+    @type Ember.Object
+    @default Ember.TEMPLATES
   */
-  templates: SC.TEMPLATES,
+  templates: Ember.TEMPLATES,
 
   /**
     The template used to render the view. This should be a function that
@@ -10826,7 +10839,7 @@ SC.View = SC.Object.extend(
     @field
     @type Function
   */
-  template: SC.computed(function(key, value) {
+  template: Ember.computed(function(key, value) {
     if (value !== undefined) { return value; }
 
     var templateName = get(this, 'templateName'), template;
@@ -10841,7 +10854,7 @@ SC.View = SC.Object.extend(
       }
 
       if (!template) {
-        throw new SC.Error(fmt('%@ - Unable to find template "%@".', [this, templateName]));
+        throw new Ember.Error(fmt('%@ - Unable to find template "%@".', [this, templateName]));
       }
     }
 
@@ -10860,7 +10873,7 @@ SC.View = SC.Object.extend(
 
     @type Object
   */
-  templateContext: SC.computed(function(key, value) {
+  templateContext: Ember.computed(function(key, value) {
     return value !== undefined ? value : this;
   }).cacheable(),
 
@@ -10868,12 +10881,12 @@ SC.View = SC.Object.extend(
     If the view is currently inserted into the DOM of a parent view, this
     property will point to the parent of the view.
 
-    @type SC.View
+    @type Ember.View
     @default null
   */
   _parentView: null,
 
-  parentView: SC.computed(function() {
+  parentView: Ember.computed(function() {
     var parent = get(this, '_parentView');
 
     if (parent && parent.isVirtual) {
@@ -10901,14 +10914,14 @@ SC.View = SC.Object.extend(
   */
   childViews: childViewsProperty,
 
-  _childViews: SC.A(),
+  _childViews: Ember.A(),
 
   /**
     Return the nearest ancestor that is an instance of the provided
     class.
 
-    @param {Class} klass Subclass of SC.View (or SC.View itself)
-    @returns SC.View
+    @param {Class} klass Subclass of Ember.View (or Ember.View itself)
+    @returns Ember.View
   */
   nearestInstanceOf: function(klass) {
     var view = get(this, 'parentView');
@@ -10923,7 +10936,7 @@ SC.View = SC.Object.extend(
     Return the nearest ancestor that has a given property.
 
     @param {String} property A property name
-    @returns SC.View
+    @returns Ember.View
   */
   nearestWithProperty: function(property) {
     var view = get(this, 'parentView');
@@ -10938,8 +10951,8 @@ SC.View = SC.Object.extend(
     Return the nearest ancestor that is a direct child of a
     view of.
 
-    @param {Class} klass Subclass of SC.View (or SC.View itself)
-    @returns SC.View
+    @param {Class} klass Subclass of Ember.View (or Ember.View itself)
+    @returns Ember.View
   */
   nearestChildOf: function(klass) {
     var view = get(this, 'parentView');
@@ -10951,31 +10964,31 @@ SC.View = SC.Object.extend(
   },
 
   /**
-    Return the nearest ancestor that is an SC.CollectionView
+    Return the nearest ancestor that is an Ember.CollectionView
 
-    @returns SC.CollectionView
+    @returns Ember.CollectionView
   */
-  collectionView: SC.computed(function() {
-    return this.nearestInstanceOf(SC.CollectionView);
+  collectionView: Ember.computed(function() {
+    return this.nearestInstanceOf(Ember.CollectionView);
   }).cacheable(),
 
   /**
     Return the nearest ancestor that is a direct child of
-    an SC.CollectionView
+    an Ember.CollectionView
 
-    @returns SC.View
+    @returns Ember.View
   */
-  itemView: SC.computed(function() {
-    return this.nearestChildOf(SC.CollectionView);
+  itemView: Ember.computed(function() {
+    return this.nearestChildOf(Ember.CollectionView);
   }).cacheable(),
 
   /**
     Return the nearest ancestor that has the property
     `content`.
 
-    @returns SC.View
+    @returns Ember.View
   */
-  contentView: SC.computed(function() {
+  contentView: Ember.computed(function() {
     return this.nearestWithProperty('content');
   }).cacheable(),
 
@@ -10985,7 +10998,7 @@ SC.View = SC.Object.extend(
     When the parent view changes, recursively invalidate
     collectionView, itemView, and contentView
   */
-  _parentViewDidChange: SC.observer(function() {
+  _parentViewDidChange: Ember.observer(function() {
     this.invokeRecursively(function(view) {
       view.propertyDidChange('collectionView');
       view.propertyDidChange('itemView');
@@ -10995,14 +11008,14 @@ SC.View = SC.Object.extend(
 
   /**
     Called on your view when it should push strings of HTML into a
-    SC.RenderBuffer. Most users will want to override the `template`
+    Ember.RenderBuffer. Most users will want to override the `template`
     or `templateName` properties instead of this method.
 
-    By default, SC.View will look for a function in the `template`
+    By default, Ember.View will look for a function in the `template`
     property and invoke it with the value of `templateContext`. The value of
     `templateContext` will be the view itself unless you override it.
 
-    @param {SC.RenderBuffer} buffer The render buffer
+    @param {Ember.RenderBuffer} buffer The render buffer
   */
   render: function(buffer) {
     var template = get(this, 'template');
@@ -11068,7 +11081,7 @@ SC.View = SC.Object.extend(
   },
 
   clearRenderedChildren: function() {
-    var viewMeta = meta(this)['SC.View'],
+    var viewMeta = meta(this)['Ember.View'],
         lengthBefore = viewMeta.lengthBeforeRender,
         lengthAfter  = viewMeta.lengthAfterRender;
 
@@ -11157,7 +11170,7 @@ SC.View = SC.Object.extend(
     Iterates through the view's attribute bindings, sets up observers for each,
     then applies the current value of the attributes to the passed render buffer.
 
-    @param {SC.RenderBuffer} buffer
+    @param {Ember.RenderBuffer} buffer
   */
   _applyAttributeBindings: function(buffer) {
     var attributeBindings = get(this, 'attributeBindings'),
@@ -11214,7 +11227,7 @@ SC.View = SC.Object.extend(
         property = split[0],
         className = split[1];
 
-    var val = SC.getPath(this, property);
+    var val = Ember.getPath(this, property);
 
     // If value is a Boolean and true, return the dasherized property
     // name.
@@ -11225,7 +11238,7 @@ SC.View = SC.Object.extend(
       // as a class name. For exaple, content.foo.barBaz
       // becomes bar-baz.
       var parts = property.split('.');
-      return SC.String.dasherize(parts[parts.length-1]);
+      return Ember.String.dasherize(parts[parts.length-1]);
 
     // If the value is not NO, undefined, or null, return the current
     // value of the property.
@@ -11249,7 +11262,7 @@ SC.View = SC.Object.extend(
     @field
     @type DOMElement
   */
-  element: SC.computed(function(key, value) {
+  element: Ember.computed(function(key, value) {
     if (value !== undefined) {
       return this.invokeForState('setElement', value);
     } else {
@@ -11266,7 +11279,7 @@ SC.View = SC.Object.extend(
     all of the `li` elements inside the DOM element of this view.
 
     @param {String} [selector] a jQuery-compatible selector string
-    @returns {SC.CoreQuery} the CoreQuery object for the DOM node
+    @returns {Ember.CoreQuery} the CoreQuery object for the DOM node
   */
   $: function(sel) {
     return this.invokeForState('$', sel);
@@ -11314,7 +11327,7 @@ SC.View = SC.Object.extend(
     finished synchronizing.
 
     @param {String|DOMElement|jQuery} A selector, element, HTML string, or jQuery object
-    @returns {SC.View} receiver
+    @returns {Ember.View} receiver
   */
   appendTo: function(target) {
     // Schedule the DOM element to be created and appended to the given
@@ -11347,7 +11360,7 @@ SC.View = SC.Object.extend(
     @param {Function} fn the function that inserts the element into the DOM
   */
   _insertElementLater: function(fn) {
-    SC.run.schedule('render', this, 'invokeForState', 'insertElement', fn);
+    Ember.run.schedule('render', this, 'invokeForState', 'insertElement', fn);
   },
 
   /**
@@ -11359,7 +11372,7 @@ SC.View = SC.Object.extend(
     element will not be appended to the document body until all bindings have
     finished synchronizing.
 
-    @returns {SC.View} receiver
+    @returns {Ember.View} receiver
   */
   append: function() {
     return this.appendTo(document.body);
@@ -11368,7 +11381,7 @@ SC.View = SC.Object.extend(
   /**
     Removes the view's element from the element to which it is attached.
 
-    @returns {SC.View} receiver
+    @returns {Ember.View} receiver
   */
   remove: function() {
     // What we should really do here is wait until the end of the run loop
@@ -11388,8 +11401,8 @@ SC.View = SC.Object.extend(
     @type String
     @readOnly
   */
-  elementId: SC.computed(function(key, value) {
-    return value !== undefined ? value : SC.guidFor(this);
+  elementId: Ember.computed(function(key, value) {
+    return value !== undefined ? value : Ember.guidFor(this);
   }).cacheable(),
 
   /**
@@ -11412,13 +11425,13 @@ SC.View = SC.Object.extend(
     method to provide further customization to the buffer if needed. Normally
     you will not need to call or override this method.
 
-    @returns {SC.RenderBuffer}
+    @returns {Ember.RenderBuffer}
   */
   renderBuffer: function(tagName) {
     tagName = tagName || get(this, 'tagName');
     if (tagName == null) { tagName = tagName || 'div'; }
 
-    return SC.RenderBuffer(tagName);
+    return Ember.RenderBuffer(tagName);
   },
 
   /**
@@ -11428,7 +11441,7 @@ SC.View = SC.Object.extend(
     After the element has been created, `didInsertElement` will
     be called on this view and all of its child views.
 
-    @returns {SC.View} receiver
+    @returns {Ember.View} receiver
   */
   createElement: function() {
     if (get(this, 'element')) { return this; }
@@ -11442,14 +11455,14 @@ SC.View = SC.Object.extend(
   /**
     Called when a view is going to insert an element into the DOM.
   */
-  willInsertElement: SC.K,
+  willInsertElement: Ember.K,
 
   /**
     Called when the element of the view has been inserted into the DOM.
     Override this function to do any set up that requires an element in the
     document body.
   */
-  didInsertElement: SC.K,
+  didInsertElement: Ember.K,
 
   /**
     Run this callback on the current view and recursively on child views.
@@ -11517,7 +11530,7 @@ SC.View = SC.Object.extend(
     Normally you will not call or override this method yourself, but you may
     want to implement the above callbacks when it is run.
 
-    @returns {SC.View} receiver
+    @returns {Ember.View} receiver
   */
   destroyElement: function() {
     return this.invokeForState('destroyElement');
@@ -11542,9 +11555,9 @@ SC.View = SC.Object.extend(
   },
 
   /** @private (nodoc) */
-  _elementWillChange: SC.beforeObserver(function() {
+  _elementWillChange: Ember.beforeObserver(function() {
     this.forEachChildView(function(view) {
-      SC.propertyWillChange(view, 'element');
+      Ember.propertyWillChange(view, 'element');
     });
   }, 'element'),
 
@@ -11557,9 +11570,9 @@ SC.View = SC.Object.extend(
 
     @observes element
   */
-  _elementDidChange: SC.observer(function() {
+  _elementDidChange: Ember.observer(function() {
     this.forEachChildView(function(view) {
-      SC.propertyDidChange(view, 'element');
+      Ember.propertyDidChange(view, 'element');
     });
   }, 'element'),
 
@@ -11568,7 +11581,7 @@ SC.View = SC.Object.extend(
 
     @function
   */
-  parentViewDidChange: SC.K,
+  parentViewDidChange: Ember.K,
 
   /**
     @private
@@ -11583,20 +11596,20 @@ SC.View = SC.Object.extend(
     `template` property, or if you need more control, override the `render`
     method.
 
-    @param {SC.RenderBuffer} buffer the render buffer. If no buffer is
+    @param {Ember.RenderBuffer} buffer the render buffer. If no buffer is
       passed, a default buffer, using the current view's `tagName`, will
       be used.
   */
   renderToBuffer: function(parentBuffer, bufferOperation) {
-    var viewMeta = meta(this)['SC.View'];
+    var viewMeta = meta(this)['Ember.View'];
     var buffer;
 
-    SC.run.sync();
+    Ember.run.sync();
 
     // Determine where in the parent buffer to start the new buffer.
     // By default, a new buffer will be appended to the parent buffer.
     // The buffer operation may be changed if the child views array is
-    // mutated by SC.ContainerView.
+    // mutated by Ember.ContainerView.
     bufferOperation = bufferOperation || 'begin';
 
     // If this is the top-most view, start a new buffer. Otherwise,
@@ -11630,7 +11643,7 @@ SC.View = SC.Object.extend(
     this.applyAttributesToBuffer(buffer);
   },
 
-  afterRender: SC.K,
+  afterRender: Ember.K,
 
   /**
     @private
@@ -11698,9 +11711,9 @@ SC.View = SC.Object.extend(
     superclasses as well.
 
     @type Array
-    @default ['sc-view']
+    @default ['ember-view']
   */
-  classNames: ['sc-view'],
+  classNames: ['ember-view'],
 
   /**
     A list of properties of the view to apply as class names. If the property
@@ -11708,7 +11721,7 @@ SC.View = SC.Object.extend(
     name.
 
         // Applies the 'high' class to the view element
-        SC.View.create({
+        Ember.View.create({
           classNameBindings: ['priority']
           priority: 'high'
         });
@@ -11717,7 +11730,7 @@ SC.View = SC.Object.extend(
     added as a dasherized class name.
 
         // Applies the 'is-urgent' class to the view element
-        SC.View.create({
+        Ember.View.create({
           classNameBindings: ['isUrgent']
           isUrgent: true
         });
@@ -11726,7 +11739,7 @@ SC.View = SC.Object.extend(
     property name, you can pass a binding like this:
 
         // Applies the 'urgent' class to the view element
-        SC.View.create({
+        Ember.View.create({
           classNameBindings: ['isUrgent:urgent']
           isUrgent: true
         });
@@ -11744,7 +11757,7 @@ SC.View = SC.Object.extend(
 
         // Applies the type attribute to the element
         // with the value "button", like <div type="button">
-        SC.View.create({
+        Ember.View.create({
           attributeBindings: ['type'],
           type: 'button'
         });
@@ -11753,7 +11766,7 @@ SC.View = SC.Object.extend(
     added as an attribute.
 
         // Renders something like <div enabled="enabled">
-        SC.View.create({
+        Ember.View.create({
           attributeBindings: ['enabled'],
           enabled: true
         });
@@ -11780,20 +11793,20 @@ SC.View = SC.Object.extend(
     this._super();
 
     // Register the view for event handling. This hash is used by
-    // SC.RootResponder to dispatch incoming events.
-    SC.View.views[get(this, 'elementId')] = this;
+    // Ember.RootResponder to dispatch incoming events.
+    Ember.View.views[get(this, 'elementId')] = this;
 
-    var childViews = SC.A(get(this, '_childViews').slice());
+    var childViews = Ember.A(get(this, '_childViews').slice());
     // setup child views. be sure to clone the child views array first
     set(this, '_childViews', childViews);
 
 
-    this.classNameBindings = SC.A(get(this, 'classNameBindings').slice());
-    this.classNames = SC.A(get(this, 'classNames').slice());
+    this.classNameBindings = Ember.A(get(this, 'classNameBindings').slice());
+    this.classNames = Ember.A(get(this, 'classNames').slice());
 
     set(this, 'domManager', this.domManagerClass.create({ view: this }));
 
-    meta(this)["SC.View"] = {};
+    meta(this)["Ember.View"] = {};
   },
 
   appendChild: function(view, options) {
@@ -11803,8 +11816,8 @@ SC.View = SC.Object.extend(
   /**
     Removes the child view from the parent view.
 
-    @param {SC.View} view
-    @returns {SC.View} receiver
+    @param {Ember.View} view
+    @returns {Ember.View} receiver
   */
   removeChild: function(view) {
     // update parent node
@@ -11820,7 +11833,7 @@ SC.View = SC.Object.extend(
   /**
     Removes all children from the parentView.
 
-    @returns {SC.View} receiver
+    @returns {Ember.View} receiver
   */
   removeAllChildren: function() {
     return this.mutateChildViews(function(view) {
@@ -11830,7 +11843,7 @@ SC.View = SC.Object.extend(
 
   destroyAllChildren: function() {
     return this.mutateChildViews(function(view) {
-      if(view) view.destroy();
+      view.destroy();
     });
   },
 
@@ -11838,7 +11851,7 @@ SC.View = SC.Object.extend(
     Removes the view from its parentView, if one is found. Otherwise
     does nothing.
 
-    @returns {SC.View} receiver
+    @returns {Ember.View} receiver
   */
   removeFromParent: function() {
     var parent = get(this, '_parentView');
@@ -11861,7 +11874,7 @@ SC.View = SC.Object.extend(
 
     // calling this._super() will nuke computed properties and observers,
     // so collect any information we need before calling super.
-    var viewMeta   = meta(this)['SC.View'],
+    var viewMeta   = meta(this)['Ember.View'],
         childViews = get(this, '_childViews'),
         parent     = get(this, '_parentView'),
         elementId  = get(this, 'elementId'),
@@ -11876,7 +11889,7 @@ SC.View = SC.Object.extend(
     // the DOM again.
     if (parent) { parent.removeChild(this); }
 
-    SC.Descriptor.setup(this, 'state', 'destroyed');
+    Ember.Descriptor.setup(this, 'state', 'destroyed');
 
     this._super();
 
@@ -11886,7 +11899,7 @@ SC.View = SC.Object.extend(
     }
 
     // next remove view from global hash
-    delete SC.View.views[get(this, 'elementId')];
+    delete Ember.View.views[get(this, 'elementId')];
 
     return this; // done with cleanup
   },
@@ -11900,17 +11913,17 @@ SC.View = SC.Object.extend(
 
     @param {Class} viewClass
     @param {Hash} [attrs] Attributes to add
-    @returns {SC.View} new instance
+    @returns {Ember.View} new instance
     @test in createChildViews
   */
   createChildView: function(view, attrs) {
-    if (SC.View.detect(view)) {
+    if (Ember.View.detect(view)) {
       view = view.create(attrs || {}, { _parentView: this });
 
       var viewName = attrs && attrs.viewName || view.viewName;
       if (viewName) { set(this, viewName, view); }
     } else {
-      sc_assert('must pass instance of View', view instanceof SC.View);
+      ember_assert('must pass instance of View', view instanceof Ember.View);
       set(view, '_parentView', this);
     }
     return view;
@@ -11922,13 +11935,13 @@ SC.View = SC.Object.extend(
     When the view's `isVisible` property changes, toggle the visibility
     element of the actual DOM element.
   */
-  _isVisibleDidChange: SC.observer(function() {
+  _isVisibleDidChange: Ember.observer(function() {
     this.$().toggle(get(this, 'isVisible'));
   }, 'isVisible'),
 
   clearBuffer: function() {
     this.invokeRecursively(function(view) {
-      meta(view)['SC.View'].buffer = null;
+      meta(view)['Ember.View'].buffer = null;
     });
   },
 
@@ -11969,9 +11982,9 @@ SC.View = SC.Object.extend(
   // once the view has been inserted into the DOM, legal manipulations
   // are done on the DOM element.
 
-SC.View.reopen({
-  states: SC.View.states,
-  domManagerClass: SC.Object.extend({
+Ember.View.reopen({
+  states: Ember.View.states,
+  domManagerClass: Ember.Object.extend({
     view: this,
 
     prepend: function(childView) {
@@ -11999,7 +12012,7 @@ SC.View.reopen({
       set(view, 'element', null);
 
       view._insertElementLater(function() {
-        SC.$(element).replaceWith(get(view, 'element'));
+        Ember.$(element).replaceWith(get(view, 'element'));
       });
     },
 
@@ -12009,34 +12022,34 @@ SC.View.reopen({
 
       set(view, 'element', null);
 
-      SC.$(elem).remove();
+      Ember.$(elem).remove();
     }
   })
 });
 
 // Create a global view hash.
-SC.View.views = {};
+Ember.View.views = {};
 
 // If someone overrides the child views computed property when
 // defining their class, we want to be able to process the user's
 // supplied childViews and then restore the original computed property
-// at view initialization time. This happens in SC.ContainerView's init
+// at view initialization time. This happens in Ember.ContainerView's init
 // method.
-SC.View.childViewsProperty = childViewsProperty;
+Ember.View.childViewsProperty = childViewsProperty;
 
 })({});
 
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
-SC.View.states = {
+Ember.View.states = {
   _default: {
     // appendChild is only legal while rendering the buffer.
     appendChild: function() {
@@ -12044,7 +12057,7 @@ SC.View.states = {
     },
 
     $: function() {
-      return SC.$();
+      return Ember.$();
     },
 
     getElement: function() {
@@ -12053,8 +12066,8 @@ SC.View.states = {
   }
 };
 
-SC.View.reopen({
-  states: SC.View.states
+Ember.View.reopen({
+  states: Ember.View.states
 });
 
 })({});
@@ -12062,13 +12075,13 @@ SC.View.reopen({
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-SC.View.states.preRender = {
-  parentState: SC.View.states._default,
+Ember.View.states.preRender = {
+  parentState: Ember.View.states._default,
 
   // a view leaves the preRender state once its element has been
   // created (createElement).
@@ -12086,7 +12099,7 @@ SC.View.states.preRender = {
     if (view._willInsertElementAccessUnsupported) {
       console.error("Getting element from willInsertElement is unreliable and no longer supported.");
     }
-    return SC.$();
+    return Ember.$();
   },
 
   // This exists for the removal warning, remove later
@@ -12116,15 +12129,15 @@ SC.View.states.preRender = {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var get = SC.get, set = SC.set, meta = SC.meta;
+var get = Ember.get, set = Ember.set, meta = Ember.meta;
 
-SC.View.states.inBuffer = {
-  parentState: SC.View.states._default,
+Ember.View.states.inBuffer = {
+  parentState: Ember.View.states._default,
 
   $: function(view, sel) {
     // if we don't have an element yet, someone calling this.$() is
@@ -12132,13 +12145,13 @@ SC.View.states.inBuffer = {
     // rerender the view to allow the render method to reflect the
     // changes.
     view.rerender();
-    return SC.$();
+    return Ember.$();
   },
 
   // when a view is rendered in a buffer, rerendering it simply
   // replaces the existing buffer with a new one
   rerender: function(view) {
-    var buffer = meta(view)['SC.View'].buffer;
+    var buffer = meta(view)['Ember.View'].buffer;
 
     view.clearRenderedChildren();
     view.renderToBuffer(buffer, 'replaceWith');
@@ -12148,7 +12161,7 @@ SC.View.states.inBuffer = {
   // view will render that view and append the resulting
   // buffer into its buffer.
   appendChild: function(view, childView, options) {
-    var buffer = meta(view)['SC.View'].buffer;
+    var buffer = meta(view)['Ember.View'].buffer;
 
     childView = this.createChildView(childView, options);
     get(view, '_childViews').pushObject(childView);
@@ -12193,26 +12206,26 @@ SC.View.states.inBuffer = {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var get = SC.get, set = SC.set, meta = SC.meta;
+var get = Ember.get, set = Ember.set, meta = Ember.meta;
 
-SC.View.states.hasElement = {
-  parentState: SC.View.states._default,
+Ember.View.states.hasElement = {
+  parentState: Ember.View.states._default,
 
   $: function(view, sel) {
     var elem = get(view, 'element');
-    return sel ? SC.$(sel, elem) : SC.$(elem);
+    return sel ? Ember.$(sel, elem) : Ember.$(elem);
   },
 
   getElement: function(view) {
     var parent = get(view, 'parentView');
     if (parent) { parent = get(parent, 'element'); }
     if (parent) { return view.findElementInParentElement(parent); }
-    return SC.$("#" + get(view, 'elementId'))[0];
+    return Ember.$("#" + get(view, 'elementId'))[0];
   },
 
   setElement: function(view, value) {
@@ -12248,8 +12261,8 @@ SC.View.states.hasElement = {
   }
 };
 
-SC.View.states.inDOM = {
-  parentState: SC.View.states.hasElement,
+Ember.View.states.inDOM = {
+  parentState: Ember.View.states.hasElement,
 
   insertElement: function() {
     throw "You can't insert an element into the DOM that has already been inserted";
@@ -12261,15 +12274,15 @@ SC.View.states.inDOM = {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var destroyedError = "You can't call %@ on a destroyed view", fmt = SC.String.fmt;
+var destroyedError = "You can't call %@ on a destroyed view", fmt = Ember.String.fmt;
 
-SC.View.states.destroyed = {
-  parentState: SC.View.states._default,
+Ember.View.states.destroyed = {
+  parentState: Ember.View.states._default,
 
   appendChild: function() {
     throw fmt(destroyedError, ['appendChild']);
@@ -12287,7 +12300,7 @@ SC.View.states.destroyed = {
 
   // Since element insertion is scheduled, don't do anything if
   // the view has been destroyed between scheduling and execution
-  insertElement: SC.K
+  insertElement: Ember.K
 };
 
 
@@ -12296,7 +12309,7 @@ SC.View.states.destroyed = {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
@@ -12306,22 +12319,22 @@ SC.View.states.destroyed = {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var get = SC.get, set = SC.set, meta = SC.meta;
+var get = Ember.get, set = Ember.set, meta = Ember.meta;
 
-var childViewsProperty = SC.computed(function() {
+var childViewsProperty = Ember.computed(function() {
   return get(this, '_childViews');
 }).property('_childViews').cacheable();
 
-SC.ContainerView = SC.View.extend({
+Ember.ContainerView = Ember.View.extend({
 
   init: function() {
     var childViews = get(this, 'childViews');
-    SC.defineProperty(this, 'childViews', childViewsProperty);
+    Ember.defineProperty(this, 'childViews', childViewsProperty);
 
     this._super();
 
@@ -12343,7 +12356,7 @@ SC.ContainerView = SC.View.extend({
   },
 
   /**
-    Extends SC.View's implementation of renderToBuffer to
+    Extends Ember.View's implementation of renderToBuffer to
     set up an array observer on the child views array. This
     observer will detect when child views are added or removed
     and update the DOM to reflect the mutation.
@@ -12368,7 +12381,7 @@ SC.ContainerView = SC.View.extend({
   /**
     Instructs each child view to render to the passed render buffer.
 
-    @param {SC.RenderBuffer} buffer the buffer to render to
+    @param {Ember.RenderBuffer} buffer the buffer to render to
     @private
   */
   render: function(buffer) {
@@ -12400,7 +12413,7 @@ SC.ContainerView = SC.View.extend({
     `renderToBuffer` method.
 
     @private
-    @param {SC.Array} views the child views array before mutation
+    @param {Ember.Array} views the child views array before mutation
     @param {Number} start the start position of the mutation
     @param {Number} removed the number of child views removed
   **/
@@ -12418,7 +12431,7 @@ SC.ContainerView = SC.View.extend({
     place in the buffer.
 
     @private
-    @param {SC.Array} views the array of child views afte the mutation has occurred
+    @param {Ember.Array} views the array of child views afte the mutation has occurred
     @param {Number} start the start position of the mutation
     @param {Number} removed the number of child views removed
     @param {Number} the number of child views added
@@ -12437,8 +12450,8 @@ SC.ContainerView = SC.View.extend({
     Schedules a child view to be inserted into the DOM after bindings have
     finished syncing for this run loop.
 
-    @param {SC.View} view the child view to insert
-    @param {SC.View} prev the child view after which the specified view should
+    @param {Ember.View} view the child view to insert
+    @param {Ember.View} prev the child view after which the specified view should
                      be inserted
     @private
   */
@@ -12451,14 +12464,14 @@ SC.ContainerView = SC.View.extend({
   }
 });
 
-// SC.ContainerView extends the default view states to provide different
+// Ember.ContainerView extends the default view states to provide different
 // behavior for childViewsWillChange and childViewsDidChange.
-SC.ContainerView.states = {
-  parent: SC.View.states,
+Ember.ContainerView.states = {
+  parent: Ember.View.states,
 
   inBuffer: {
     childViewsDidChange: function(parentView, views, start, added) {
-      var buffer = meta(parentView)['SC.View'].buffer,
+      var buffer = meta(parentView)['Ember.View'].buffer,
           startWith, prev, prevBuffer, view;
 
       // Determine where to begin inserting the child view(s) in the
@@ -12480,7 +12493,7 @@ SC.ContainerView.states = {
       for (var i=startWith; i<start+added; i++) {
         prev = view;
         view = views[i];
-        prevBuffer = meta(prev)['SC.View'].buffer;
+        prevBuffer = meta(prev)['Ember.View'].buffer;
         view.renderToBuffer(prevBuffer, 'insertAfter');
       }
     }
@@ -12508,12 +12521,12 @@ SC.ContainerView.states = {
   }
 };
 
-SC.ContainerView.states.inDOM = {
-  parentState: SC.ContainerView.states.hasElement
+Ember.ContainerView.states.inDOM = {
+  parentState: Ember.ContainerView.states.hasElement
 }
 
-SC.ContainerView.reopen({
-  states: SC.ContainerView.states
+Ember.ContainerView.reopen({
+  states: Ember.ContainerView.states
 });
 
 })({});
@@ -12521,25 +12534,25 @@ SC.ContainerView.reopen({
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var get = SC.get, set = SC.set, fmt = SC.String.fmt;
+var get = Ember.get, set = Ember.set, fmt = Ember.String.fmt;
 
 /**
   @class
-  @since SproutCore 2.0
-  @extends SC.View
+  @since Ember 0.9
+  @extends Ember.View
 */
-SC.CollectionView = SC.ContainerView.extend(
-/** @scope SC.CollectionView.prototype */ {
+Ember.CollectionView = Ember.ContainerView.extend(
+/** @scope Ember.CollectionView.prototype */ {
 
   /**
-    A list of items to be displayed by the SC.CollectionView.
+    A list of items to be displayed by the Ember.CollectionView.
 
-    @type SC.Array
+    @type Ember.Array
     @default null
   */
   content: null,
@@ -12547,16 +12560,16 @@ SC.CollectionView = SC.ContainerView.extend(
   /**
     An optional view to display if content is set to an empty array.
 
-    @type SC.View
+    @type Ember.View
     @default null
   */
   emptyView: null,
 
   /**
-    @type SC.View
-    @default SC.View
+    @type Ember.View
+    @default Ember.View
   */
-  itemViewClass: SC.View,
+  itemViewClass: Ember.View,
 
   init: function() {
     var ret = this._super();
@@ -12564,7 +12577,7 @@ SC.CollectionView = SC.ContainerView.extend(
     return ret;
   },
 
-  _contentWillChange: SC.beforeObserver(function() {
+  _contentWillChange: Ember.beforeObserver(function() {
     var content = this.get('content');
 
     if (content) { content.removeArrayObserver(this); }
@@ -12580,11 +12593,11 @@ SC.CollectionView = SC.ContainerView.extend(
     asynchronously, to allow the element to be created before
     bindings have synchronized and vice versa.
   */
-  _contentDidChange: SC.observer(function() {
+  _contentDidChange: Ember.observer(function() {
     var content = get(this, 'content');
 
     if (content) {
-      sc_assert(fmt("an SC.CollectionView's content must implement SC.Array. You passed %@", [content]), content.addArrayObserver != null);
+      ember_assert(fmt("an Ember.CollectionView's content must implement Ember.Array. You passed %@", [content]), content.addArrayObserver != null);
       content.addArrayObserver(this);
     }
 
@@ -12605,7 +12618,7 @@ SC.CollectionView = SC.ContainerView.extend(
     // If the contents were empty before and this template collection has an
     // empty view remove it now.
     var emptyView = get(this, 'emptyView');
-    if (emptyView && emptyView instanceof SC.View) {
+    if (emptyView && emptyView instanceof Ember.View) {
       emptyView.removeFromParent();
     }
 
@@ -12624,7 +12637,7 @@ SC.CollectionView = SC.ContainerView.extend(
     Called when a mutation to the underlying content array occurs.
 
     This method will replay that mutation against the views that compose the
-    SC.CollectionView, ensuring that the view reflects the model.
+    Ember.CollectionView, ensuring that the view reflects the model.
 
     This array observer is added in contentDidChange.
 
@@ -12642,7 +12655,7 @@ SC.CollectionView = SC.ContainerView.extend(
         childViews = get(this, 'childViews'),
         addedViews = [], view, item, idx, len, itemTagName;
 
-    sc_assert(fmt("itemViewClass must be a subclass of SC.View, not %@", [itemViewClass]), SC.View.detect(itemViewClass));
+    ember_assert(fmt("itemViewClass must be a subclass of Ember.View, not %@", [itemViewClass]), Ember.View.detect(itemViewClass));
 
     len = content ? get(content, 'length') : 0;
     if (len) {
@@ -12672,7 +12685,7 @@ SC.CollectionView = SC.ContainerView.extend(
     var view = this._super(view, attrs);
 
     var itemTagName = get(view, 'tagName');
-    var tagName = itemTagName == null ? SC.CollectionView.CONTAINER_MAP[get(this, 'tagName')] : itemTagName;
+    var tagName = itemTagName == null ? Ember.CollectionView.CONTAINER_MAP[get(this, 'tagName')] : itemTagName;
 
     set(view, 'tagName', tagName);
 
@@ -12690,7 +12703,7 @@ SC.CollectionView = SC.ContainerView.extend(
   @type Hash
   @constant
 */
-SC.CollectionView.CONTAINER_MAP = {
+Ember.CollectionView.CONTAINER_MAP = {
   ul: 'li',
   ol: 'li',
   table: 'tr',
@@ -12706,7 +12719,7 @@ SC.CollectionView.CONTAINER_MAP = {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
@@ -12716,24 +12729,24 @@ SC.CollectionView.CONTAINER_MAP = {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore - JavaScript Application Framework
+// Project:   Ember - JavaScript Application Framework
 // Copyright: ©2006-2011 Strobe Inc. and contributors.
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-SC.$ = jQuery;
+Ember.$ = jQuery;
 })({});
 
 (function(exports) {
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
-SC.State = SC.Object.extend({
+Ember.State = Ember.Object.extend({
   isState: true,
   parentState: null,
   start: null,
 
   init: function() {
-    SC.keys(this).forEach(function(name) {
+    Ember.keys(this).forEach(function(name) {
       var value = this[name];
 
       if (value && value.isState) {
@@ -12743,18 +12756,18 @@ SC.State = SC.Object.extend({
     }, this);
   },
 
-  enter: SC.K,
-  exit: SC.K
+  enter: Ember.K,
+  exit: Ember.K
 });
 
 })({});
 
 
 (function(exports) {
-var get = SC.get, set = SC.set, getPath = SC.getPath, fmt = SC.String.fmt;
-SC.LOG_STATE_TRANSITIONS = false;
+var get = Ember.get, set = Ember.set, getPath = Ember.getPath, fmt = Ember.String.fmt;
+Ember.LOG_STATE_TRANSITIONS = false;
 
-SC.StateManager = SC.State.extend({
+Ember.StateManager = Ember.State.extend({
   /**
     When creating a new storyboard, look for a default state to transition
     into. This state can either be named `start`, or can be specified using the
@@ -12766,7 +12779,7 @@ SC.StateManager = SC.State.extend({
     var states = get(this, 'states');
     if (!states) {
       states = {};
-      SC.keys(this).forEach(function(name) {
+      Ember.keys(this).forEach(function(name) {
         var value = get(this, name);
 
         if (value && value.isState) {
@@ -12790,12 +12803,33 @@ SC.StateManager = SC.State.extend({
 
   currentState: null,
 
+  /**
+    If the current state is a view state or the descendent of a view state,
+    this property will be the view associated with it. If there is no
+    view state active in this state manager, this value will be null.
+  */
+  currentView: SC.computed(function() {
+    var currentState = get(this, 'currentState'),
+        view;
+
+    while (currentState) {
+      if (get(currentState, 'isViewState')) {
+        view = get(currentState, 'view');
+        if (view) { return view; }
+      }
+
+      currentState = get(currentState, 'parentState')
+    }
+
+    return null;
+  }).property('currentState').cacheable(),
+
   send: function(event, context) {
     this.sendRecursively(event, get(this, 'currentState'), context);
   },
 
   sendRecursively: function(event, currentState, context) {
-    var log = SC.LOG_STATE_TRANSITIONS;
+    var log = Ember.LOG_STATE_TRANSITIONS;
 
     var action = currentState[event];
 
@@ -12811,14 +12845,14 @@ SC.StateManager = SC.State.extend({
   goToState: function(name) {
     var currentState = get(this, 'currentState') || this, state, newState;
 
-    var exitStates = SC.A();
+    var exitStates = Ember.A();
 
     newState = getPath(currentState, name);
     state = currentState;
 
     if (!newState) {
       while (state && !newState) {
-        exitStates[SC.guidFor(state)] = state;
+        exitStates[Ember.guidFor(state)] = state;
         exitStates.push(state)
 
         state = get(state, 'parentState')
@@ -12867,14 +12901,14 @@ SC.StateManager = SC.State.extend({
   },
 
   enterState: function(parent, name, exitStates) {
-    var log = SC.LOG_STATE_TRANSITIONS;
+    var log = Ember.LOG_STATE_TRANSITIONS;
 
-    var parts = name.split("."), state = parent, enterStates = SC.A();
+    var parts = name.split("."), state = parent, enterStates = Ember.A();
 
     parts.forEach(function(name) {
       state = state[name];
 
-      var guid = SC.guidFor(state);
+      var guid = Ember.guidFor(state);
 
       if (guid in exitStates) {
         exitStates.removeObject(state);
@@ -12911,9 +12945,11 @@ SC.StateManager = SC.State.extend({
 
 
 (function(exports) {
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
-SC.ViewState = SC.State.extend({
+Ember.ViewState = Ember.State.extend({
+  isViewState: true,
+
   enter: function(stateManager) {
     var view = get(this, 'view');
 
@@ -12937,7 +12973,7 @@ SC.ViewState = SC.State.extend({
 
 (function(exports) {
 // ==========================================================================
-// Project:  SproutCore Storyboards
+// Project:  Ember Storyboards
 // Copyright: ©2011 Living Social Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -13296,7 +13332,7 @@ SC.ViewState = SC.State.extend({
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -13305,73 +13341,73 @@ SC.ViewState = SC.State.extend({
 /**
   @class
 
-  Prepares the Handlebars templating library for use inside SproutCore's view
+  Prepares the Handlebars templating library for use inside Ember's view
   system.
 
-  The SC.Handlebars object is the standard Handlebars library, extended to use
-  SproutCore's get() method instead of direct property access, which allows
+  The Ember.Handlebars object is the standard Handlebars library, extended to use
+  Ember's get() method instead of direct property access, which allows
   computed properties to be used inside templates.
 
-  To use SC.Handlebars, call SC.Handlebars.compile().  This will return a
+  To use Ember.Handlebars, call Ember.Handlebars.compile().  This will return a
   function that you can call multiple times, with a context object as the first
   parameter:
 
-      var template = SC.Handlebars.compile("my {{cool}} template");
+      var template = Ember.Handlebars.compile("my {{cool}} template");
       var result = template({
         cool: "awesome"
       });
 
       console.log(result); // prints "my awesome template"
 
-  Note that you won't usually need to use SC.Handlebars yourself. Instead, use
-  SC.View, which takes care of integration into the view layer for you.
+  Note that you won't usually need to use Ember.Handlebars yourself. Instead, use
+  Ember.View, which takes care of integration into the view layer for you.
 */
 /**
   @namespace
 
-  SproutCore Handlebars is an extension to Handlebars that makes the built-in
+  Ember Handlebars is an extension to Handlebars that makes the built-in
   Handlebars helpers and {{mustaches}} binding-aware.
 */
-SC.Handlebars = SC.create(Handlebars);
+Ember.Handlebars = Ember.create(Handlebars);
 
-SC.Handlebars.helpers = SC.create(Handlebars.helpers);
+Ember.Handlebars.helpers = Ember.create(Handlebars.helpers);
 
 /**
   Override the the opcode compiler and JavaScript compiler for Handlebars.
 */
-SC.Handlebars.Compiler = function() {};
-SC.Handlebars.Compiler.prototype = SC.create(Handlebars.Compiler.prototype);
-SC.Handlebars.Compiler.prototype.compiler = SC.Handlebars.Compiler;
+Ember.Handlebars.Compiler = function() {};
+Ember.Handlebars.Compiler.prototype = Ember.create(Handlebars.Compiler.prototype);
+Ember.Handlebars.Compiler.prototype.compiler = Ember.Handlebars.Compiler;
 
-SC.Handlebars.JavaScriptCompiler = function() {};
-SC.Handlebars.JavaScriptCompiler.prototype = SC.create(Handlebars.JavaScriptCompiler.prototype);
-SC.Handlebars.JavaScriptCompiler.prototype.compiler = SC.Handlebars.JavaScriptCompiler;
-SC.Handlebars.JavaScriptCompiler.prototype.namespace = "SC.Handlebars";
+Ember.Handlebars.JavaScriptCompiler = function() {};
+Ember.Handlebars.JavaScriptCompiler.prototype = Ember.create(Handlebars.JavaScriptCompiler.prototype);
+Ember.Handlebars.JavaScriptCompiler.prototype.compiler = Ember.Handlebars.JavaScriptCompiler;
+Ember.Handlebars.JavaScriptCompiler.prototype.namespace = "Ember.Handlebars";
 
 
-SC.Handlebars.JavaScriptCompiler.prototype.initializeBuffer = function() {
+Ember.Handlebars.JavaScriptCompiler.prototype.initializeBuffer = function() {
   return "''";
 };
 
 /**
-  Override the default buffer for SproutCore Handlebars. By default, Handlebars creates
-  an empty String at the beginning of each invocation and appends to it. SproutCore's
+  Override the default buffer for Ember Handlebars. By default, Handlebars creates
+  an empty String at the beginning of each invocation and appends to it. Ember's
   Handlebars overrides this to append to a single shared buffer.
 
   @private
 */
-SC.Handlebars.JavaScriptCompiler.prototype.appendToBuffer = function(string) {
+Ember.Handlebars.JavaScriptCompiler.prototype.appendToBuffer = function(string) {
   return "data.buffer.push("+string+");";
 };
 
 /**
   Rewrite simple mustaches from {{foo}} to {{bind "foo"}}. This means that all simple
-  mustaches in SproutCore's Handlebars will also set up an observer to keep the DOM
+  mustaches in Ember's Handlebars will also set up an observer to keep the DOM
   up to date when the underlying property changes.
 
   @private
 */
-SC.Handlebars.Compiler.prototype.mustache = function(mustache) {
+Ember.Handlebars.Compiler.prototype.mustache = function(mustache) {
   if (mustache.params.length || mustache.hash) {
     return Handlebars.Compiler.prototype.mustache.call(this, mustache);
   } else {
@@ -13390,16 +13426,16 @@ SC.Handlebars.Compiler.prototype.mustache = function(mustache) {
 };
 
 /**
-  The entry point for SproutCore Handlebars. This replaces the default Handlebars.compile and turns on
+  The entry point for Ember Handlebars. This replaces the default Handlebars.compile and turns on
   template-local data and String parameters.
 
   @param {String} string The template to compile
 */
-SC.Handlebars.compile = function(string) {
+Ember.Handlebars.compile = function(string) {
   var ast = Handlebars.parse(string);
   var options = { data: true, stringParams: true };
-  var environment = new SC.Handlebars.Compiler().compile(ast, options);
-  var templateSpec = new SC.Handlebars.JavaScriptCompiler().compile(environment, options, undefined, true);
+  var environment = new Ember.Handlebars.Compiler().compile(ast, options);
+  var templateSpec = new Ember.Handlebars.JavaScriptCompiler().compile(environment, options, undefined, true);
 
   return Handlebars.template(templateSpec);
 };
@@ -13416,14 +13452,14 @@ SC.Handlebars.compile = function(string) {
   @param {String} path
   @param {Hash} options
 */
-SC.Handlebars.registerHelper('helperMissing', function(path, options) {
+Ember.Handlebars.registerHelper('helperMissing', function(path, options) {
   var error, view = "";
 
   error = "%@ Handlebars error: Could not find property '%@' on object %@.";
   if (options.data){
     view = options.data.view;
   }
-  throw new SC.Error(SC.String.fmt(error, [view, path, this]));
+  throw new Ember.Error(Ember.String.fmt(error, [view, path, this]));
 });
 
 
@@ -13432,28 +13468,28 @@ SC.Handlebars.registerHelper('helperMissing', function(path, options) {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var set = SC.set, get = SC.get;
+var set = Ember.set, get = Ember.get;
 
 // TODO: Be explicit in the class documentation that you
-// *MUST* set the value of a checkbox through SproutCore.
+// *MUST* set the value of a checkbox through Ember.
 // Updating the value of a checkbox directly via jQuery objects
 // will not work.
 
-SC.Checkbox = SC.View.extend({
+Ember.Checkbox = Ember.View.extend({
   title: null,
   value: false,
   disabled: false,
 
-  classNames: ['sc-checkbox'],
+  classNames: ['ember-checkbox'],
 
-  defaultTemplate: SC.Handlebars.compile('<label><input type="checkbox" {{bindAttr checked="value" disabled="disabled"}}>{{title}}</label>'),
+  defaultTemplate: Ember.Handlebars.compile('<label><input type="checkbox" {{bindAttr checked="value" disabled="disabled"}}>{{title}}</label>'),
 
   change: function() {
-    SC.run.once(this, this._updateElementValue);
+    Ember.run.once(this, this._updateElementValue);
     // returning false will cause IE to not change checkbox state
   },
 
@@ -13469,15 +13505,15 @@ SC.Checkbox = SC.View.extend({
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 /** @class */
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
-SC.TextSupport = SC.Mixin.create({
+Ember.TextSupport = Ember.Mixin.create({
 
   value: "",
 
@@ -13485,8 +13521,8 @@ SC.TextSupport = SC.Mixin.create({
   placeholder: null,
   disabled: false,
 
-  insertNewline: SC.K,
-  cancel: SC.K,
+  insertNewline: Ember.K,
+  cancel: Ember.K,
 
   focusOut: function(event) {
     this._elementValueDidChange();
@@ -13507,7 +13543,7 @@ SC.TextSupport = SC.Mixin.create({
     @private
   */
   interpretKeyEvents: function(event) {
-    var map = SC.TextSupport.KEY_EVENTS;
+    var map = Ember.TextSupport.KEY_EVENTS;
     var method = map[event.keyCode];
 
     this._elementValueDidChange();
@@ -13520,7 +13556,7 @@ SC.TextSupport = SC.Mixin.create({
 
 });
 
-SC.TextSupport.KEY_EVENTS = {
+Ember.TextSupport.KEY_EVENTS = {
   13: 'insertNewline',
   27: 'cancel'
 };
@@ -13530,18 +13566,18 @@ SC.TextSupport.KEY_EVENTS = {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 /** @class */
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
-SC.TextField = SC.View.extend(SC.TextSupport,
-  /** @scope SC.TextField.prototype */ {
+Ember.TextField = Ember.View.extend(Ember.TextSupport,
+  /** @scope Ember.TextField.prototype */ {
 
-  classNames: ['sc-text-field'],
+  classNames: ['ember-text-field'],
 
   tagName: "input",
   attributeBindings: ['type', 'value'],
@@ -13561,14 +13597,14 @@ SC.TextField = SC.View.extend(SC.TextSupport,
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
-SC.Button = SC.View.extend(SC.TargetActionSupport, {
-  classNames: ['sc-button'],
+Ember.Button = Ember.View.extend(Ember.TargetActionSupport, {
+  classNames: ['ember-button'],
   classNameBindings: ['isActive'],
 
   tagName: 'button',
@@ -13604,7 +13640,7 @@ SC.Button = SC.View.extend(SC.TargetActionSupport, {
     if (get(this, 'isActive')) {
 
       // Actually invoke the button's target and action.
-      // This method comes from the SC.TargetActionSupport mixin.
+      // This method comes from the Ember.TargetActionSupport mixin.
       this.triggerAction();
       set(this, 'isActive', false);
     }
@@ -13632,17 +13668,17 @@ SC.Button = SC.View.extend(SC.TargetActionSupport, {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 /** @class */
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
-SC.TextArea = SC.View.extend(SC.TextSupport, {
+Ember.TextArea = Ember.View.extend(Ember.TextSupport, {
 
-  classNames: ['sc-text-area'],
+  classNames: ['ember-text-area'],
 
   tagName: "textarea",
 
@@ -13653,7 +13689,7 @@ SC.TextArea = SC.View.extend(SC.TextSupport, {
     this._updateElementValue();
   },
 
-  _updateElementValue: SC.observer(function() {
+  _updateElementValue: Ember.observer(function() {
     this.$().val(get(this, 'value'));
   }, 'value')
 
@@ -13664,7 +13700,7 @@ SC.TextArea = SC.View.extend(SC.TextSupport, {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -13672,9 +13708,9 @@ SC.TextArea = SC.View.extend(SC.TextSupport, {
 
 
 (function(exports) {
-var set = SC.set, get = SC.get, getPath = SC.getPath;
+var set = Ember.set, get = Ember.get, getPath = Ember.getPath;
 
-SC.Metamorph = SC.Mixin.create({
+Ember.Metamorph = Ember.Mixin.create({
   isVirtual: true,
   tagName: '',
 
@@ -13699,7 +13735,7 @@ SC.Metamorph = SC.Mixin.create({
     this.clearBuffer();
   },
 
-  domManagerClass: SC.Object.extend({
+  domManagerClass: Ember.Object.extend({
     remove: function(view) {
       var morph = getPath(this, 'view.morph');
       if (morph.isRemoved()) { return; }
@@ -13711,7 +13747,7 @@ SC.Metamorph = SC.Mixin.create({
 
       childView._insertElementLater(function() {
         var morph = get(view, 'morph');
-        var script = SC.$("#" + morph.start);
+        var script = Ember.$("#" + morph.start);
         script.after(get(childView, 'outerHTML'));
         childView.set('outerHTML', null);
       });
@@ -13722,7 +13758,7 @@ SC.Metamorph = SC.Mixin.create({
 
       nextView._insertElementLater(function() {
         var morph = get(view, 'morph');
-        var script = SC.$("#" + morph.end);
+        var script = Ember.$("#" + morph.end);
         script.after(get(nextView, 'outerHTML'));
         nextView.set('outerHTML', null);
       });
@@ -13736,7 +13772,7 @@ SC.Metamorph = SC.Mixin.create({
       view.clearRenderedChildren();
       var buffer = view.renderToBuffer();
 
-      SC.run.schedule('render', this, function() {
+      Ember.run.schedule('render', this, function() {
         if (get(view, 'isDestroyed')) { return; }
         view._notifyWillInsertElement();
         morph.replaceWith(buffer.string());
@@ -13753,28 +13789,28 @@ SC.Metamorph = SC.Mixin.create({
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 /*globals Handlebars */
 
-var get = SC.get, set = SC.set, getPath = SC.getPath;
+var get = Ember.get, set = Ember.set, getPath = Ember.getPath;
 /**
   @ignore
   @private
   @class
 
-  SC._BindableSpanView is a private view created by the Handlebars `{{bind}}`
+  Ember._BindableSpanView is a private view created by the Handlebars `{{bind}}`
   helpers that is used to keep track of bound properties.
 
   Every time a property is bound using a `{{mustache}}`, an anonymous subclass
-  of SC._BindableSpanView is created with the appropriate sub-template and
+  of Ember._BindableSpanView is created with the appropriate sub-template and
   context set up. When the associated property changes, just the template for
   this view will re-render.
 */
-SC._BindableSpanView = SC.View.extend(SC.Metamorph,
-/** @scope SC._BindableSpanView.prototype */{
+Ember._BindableSpanView = Ember.View.extend(Ember.Metamorph,
+/** @scope Ember._BindableSpanView.prototype */{
 
   /**
     The function used to determine if the `displayTemplate` or
@@ -13832,19 +13868,19 @@ SC._BindableSpanView = SC.View.extend(SC.Metamorph,
 
   /**
     Determines which template to invoke, sets up the correct state based on
-    that logic, then invokes the default SC.View `render` implementation.
+    that logic, then invokes the default Ember.View `render` implementation.
 
     This method will first look up the `property` key on `previousContext`,
     then pass that value to the `shouldDisplayFunc` function. If that returns
     true, the `displayTemplate` function will be rendered to DOM. Otherwise,
     `inverseTemplate`, if specified, will be rendered.
 
-    For example, if this SC._BindableSpan represented the {{#with foo}}
+    For example, if this Ember._BindableSpan represented the {{#with foo}}
     helper, it would look up the `foo` property of its context, and
     `shouldDisplayFunc` would always return true. The object found by looking
     up `foo` would be passed to `displayTemplate`.
 
-    @param {SC.RenderBuffer} buffer
+    @param {Ember.RenderBuffer} buffer
   */
   render: function(buffer) {
     // If not invoked via a triple-mustache ({{{foo}}}), escape
@@ -13914,12 +13950,12 @@ SC._BindableSpanView = SC.View.extend(SC.Metamorph,
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 /*globals Handlebars */
-var get = SC.get, getPath = SC.getPath, set = SC.set, fmt = SC.String.fmt;
+var get = Ember.get, getPath = Ember.getPath, set = Ember.set, fmt = Ember.String.fmt;
 
 (function() {
   // Binds a property into the DOM. This will create a hook in DOM that the
@@ -13935,8 +13971,8 @@ var get = SC.get, getPath = SC.getPath, set = SC.set, fmt = SC.String.fmt;
     if ('object' === typeof this) {
       // Create the view that will wrap the output of this template/property
       // and add it to the nearest view's childViews array.
-      // See the documentation of SC._BindableSpanView for more.
-      var bindView = view.createChildView(SC._BindableSpanView, {
+      // See the documentation of Ember._BindableSpanView for more.
+      var bindView = view.createChildView(Ember._BindableSpanView, {
         preserveContext: preserveContext,
         shouldDisplayFunc: shouldDisplay,
         displayTemplate: fn,
@@ -13956,15 +13992,15 @@ var get = SC.get, getPath = SC.getPath, set = SC.set, fmt = SC.String.fmt;
       };
 
       invoker = function() {
-        SC.run.once(observer);
+        Ember.run.once(observer);
       };
 
       // Observes the given property on the context and
-      // tells the SC._BindableSpan to re-render. If property
+      // tells the Ember._BindableSpan to re-render. If property
       // is an empty string, we are printing the current context
       // object ({{this}}) so updating it is not our responsibility.
       if (property !== '') {
-        SC.addObserver(ctx, property, invoker);
+        Ember.addObserver(ctx, property, invoker);
       }
     } else {
       // The object is not observable, so just render it out and
@@ -13983,8 +14019,8 @@ var get = SC.get, getPath = SC.getPath, set = SC.set, fmt = SC.String.fmt;
     This will return the `title` property as a string, then create a new
     observer at the specified path. If it changes, it will update the value in
     DOM. Note that if you need to support IE7 and IE8 you must modify the
-    model objects properties using SC.get() and SC.set() for this to work as
-    it relies on SC's KVO system.  For all other browsers this will be handled
+    model objects properties using Ember.get() and Ember.set() for this to work as
+    it relies on Ember's KVO system.  For all other browsers this will be handled
     for you automatically.
 
     @private
@@ -13993,13 +14029,13 @@ var get = SC.get, getPath = SC.getPath, set = SC.set, fmt = SC.String.fmt;
     @param {Function} fn Context to provide for rendering
     @returns {String} HTML string
   */
-  SC.Handlebars.registerHelper('bind', function(property, fn) {
-    sc_assert("You cannot pass more than one argument to the bind helper", arguments.length <= 2);
+  Ember.Handlebars.registerHelper('bind', function(property, fn) {
+    ember_assert("You cannot pass more than one argument to the bind helper", arguments.length <= 2);
 
     var context = (fn.contexts && fn.contexts[0]) || this;
 
     return bind.call(context, property, fn, false, function(result) {
-      return !SC.none(result);
+      return !Ember.none(result);
     });
   });
 
@@ -14017,11 +14053,11 @@ var get = SC.get, getPath = SC.getPath, set = SC.set, fmt = SC.String.fmt;
     @param {Function} fn Context to provide for rendering
     @returns {String} HTML string
   */
-  SC.Handlebars.registerHelper('boundIf', function(property, fn) {
+  Ember.Handlebars.registerHelper('boundIf', function(property, fn) {
     var context = (fn.contexts && fn.contexts[0]) || this;
 
     return bind.call(context, property, fn, true, function(result) {
-      if (SC.typeOf(result) === 'array') {
+      if (Ember.typeOf(result) === 'array') {
         return get(result, 'length') !== 0;
       } else {
         return !!result;
@@ -14036,11 +14072,11 @@ var get = SC.get, getPath = SC.getPath, set = SC.set, fmt = SC.String.fmt;
   @param {Hash} options
   @returns {String} HTML string
 */
-SC.Handlebars.registerHelper('with', function(context, options) {
-  sc_assert("You must pass exactly one argument to the with helper", arguments.length == 2);
-  sc_assert("You must pass a block to the with helper", options.fn && options.fn !== Handlebars.VM.noop);
+Ember.Handlebars.registerHelper('with', function(context, options) {
+  ember_assert("You must pass exactly one argument to the with helper", arguments.length == 2);
+  ember_assert("You must pass a block to the with helper", options.fn && options.fn !== Handlebars.VM.noop);
 
-  return SC.Handlebars.helpers.bind.call(options.contexts[0], context, options);
+  return Ember.Handlebars.helpers.bind.call(options.contexts[0], context, options);
 });
 
 
@@ -14050,11 +14086,11 @@ SC.Handlebars.registerHelper('with', function(context, options) {
   @param {Hash} options
   @returns {String} HTML string
 */
-SC.Handlebars.registerHelper('if', function(context, options) {
-  sc_assert("You must pass exactly one argument to the if helper", arguments.length == 2);
-  sc_assert("You must pass a block to the if helper", options.fn && options.fn !== Handlebars.VM.noop);
+Ember.Handlebars.registerHelper('if', function(context, options) {
+  ember_assert("You must pass exactly one argument to the if helper", arguments.length == 2);
+  ember_assert("You must pass a block to the if helper", options.fn && options.fn !== Handlebars.VM.noop);
 
-  return SC.Handlebars.helpers.boundIf.call(options.contexts[0], context, options);
+  return Ember.Handlebars.helpers.boundIf.call(options.contexts[0], context, options);
 });
 
 /**
@@ -14063,21 +14099,21 @@ SC.Handlebars.registerHelper('if', function(context, options) {
   @param {Hash} options
   @returns {String} HTML string
 */
-SC.Handlebars.registerHelper('unless', function(context, options) {
-  sc_assert("You must pass exactly one argument to the unless helper", arguments.length == 2);
-  sc_assert("You must pass a block to the unless helper", options.fn && options.fn !== Handlebars.VM.noop);
+Ember.Handlebars.registerHelper('unless', function(context, options) {
+  ember_assert("You must pass exactly one argument to the unless helper", arguments.length == 2);
+  ember_assert("You must pass a block to the unless helper", options.fn && options.fn !== Handlebars.VM.noop);
 
   var fn = options.fn, inverse = options.inverse;
 
   options.fn = inverse;
   options.inverse = fn;
 
-  return SC.Handlebars.helpers.boundIf.call(options.contexts[0], context, options);
+  return Ember.Handlebars.helpers.boundIf.call(options.contexts[0], context, options);
 });
 
 /**
   `bindAttr` allows you to create a binding between DOM element attributes and
-  SproutCore objects. For example:
+  Ember objects. For example:
 
       <img {{bindAttr src="imageUrl" alt="imageTitle"}}>
 
@@ -14085,11 +14121,11 @@ SC.Handlebars.registerHelper('unless', function(context, options) {
   @param {Hash} options
   @returns {String} HTML string
 */
-SC.Handlebars.registerHelper('bindAttr', function(options) {
+Ember.Handlebars.registerHelper('bindAttr', function(options) {
 
   var attrs = options.hash;
 
-  sc_assert("You must specify at least one hash argument to bindAttr", !!SC.keys(attrs).length);
+  ember_assert("You must specify at least one hash argument to bindAttr", !!Ember.keys(attrs).length);
 
   var view = options.data.view;
   var ret = [];
@@ -14103,30 +14139,30 @@ SC.Handlebars.registerHelper('bindAttr', function(options) {
   // Handle classes differently, as we can bind multiple classes
   var classBindings = attrs['class'];
   if (classBindings !== null && classBindings !== undefined) {
-    var classResults = SC.Handlebars.bindClasses(this, classBindings, view, dataId);
+    var classResults = Ember.Handlebars.bindClasses(this, classBindings, view, dataId);
     ret.push('class="' + classResults.join(' ') + '"');
     delete attrs['class'];
   }
 
-  var attrKeys = SC.keys(attrs);
+  var attrKeys = Ember.keys(attrs);
 
   // For each attribute passed, create an observer and emit the
   // current value of the property as an attribute.
   attrKeys.forEach(function(attr) {
     var property = attrs[attr];
 
-    sc_assert(fmt("You must provide a String for a bound attribute, not %@", [property]), typeof property === 'string');
+    ember_assert(fmt("You must provide a String for a bound attribute, not %@", [property]), typeof property === 'string');
 
     var value = getPath(ctx, property);
 
-    sc_assert(fmt("Attributes must be numbers, strings or booleans, not %@", [value]), value == null || typeof value === 'number' || typeof value === 'string' || typeof value === 'boolean');
+    ember_assert(fmt("Attributes must be numbers, strings or booleans, not %@", [value]), value == null || typeof value === 'number' || typeof value === 'string' || typeof value === 'boolean');
 
     var observer, invoker;
 
     observer = function observer() {
       var result = getPath(ctx, property);
 
-      sc_assert(fmt("Attributes must be numbers, strings or booleans, not %@", [result]), result == null || typeof result === 'number' || typeof result === 'string' || typeof result === 'boolean');
+      ember_assert(fmt("Attributes must be numbers, strings or booleans, not %@", [result]), result == null || typeof result === 'number' || typeof result === 'string' || typeof result === 'boolean');
 
       var elem = view.$("[data-handlebars-id='" + dataId + "']");
 
@@ -14135,7 +14171,7 @@ SC.Handlebars.registerHelper('bindAttr', function(options) {
       // In that case, we can assume the template has been re-rendered
       // and we need to clean up the observer.
       if (elem.length === 0) {
-        SC.removeObserver(ctx, property, invoker);
+        Ember.removeObserver(ctx, property, invoker);
         return;
       }
 
@@ -14156,13 +14192,13 @@ SC.Handlebars.registerHelper('bindAttr', function(options) {
     };
 
     invoker = function() {
-      SC.run.once(observer);
+      Ember.run.once(observer);
     };
 
     // Add an observer to the view for when the property changes.
     // When the observer fires, find the element using the
     // unique data id and update the attribute to the new value.
-    SC.addObserver(ctx, property, invoker);
+    Ember.addObserver(ctx, property, invoker);
 
     // Use the attribute's name as the value when it is YES
     if (value === true) {
@@ -14178,7 +14214,7 @@ SC.Handlebars.registerHelper('bindAttr', function(options) {
 
   // Add the unique identifier
   ret.push('data-handlebars-id="' + dataId + '"');
-  return new SC.Handlebars.SafeString(ret.join(' '));
+  return new Ember.Handlebars.SafeString(ret.join(' '));
 });
 
 /**
@@ -14193,13 +14229,13 @@ SC.Handlebars.registerHelper('bindAttr', function(options) {
   "fooBar"). If the value is a string, it will add that string as the class.
   Otherwise, it will not add any new class name.
 
-  @param {SC.Object} context
+  @param {Ember.Object} context
     The context from which to lookup properties
 
   @param {String} classBindings
     A string, space-separated, of class bindings to use
 
-  @param {SC.View} view
+  @param {Ember.View} view
     The view in which observers should look for the element to update
 
   @param {String} id
@@ -14207,7 +14243,7 @@ SC.Handlebars.registerHelper('bindAttr', function(options) {
 
   @returns {Array} An array of class names to add
 */
-SC.Handlebars.bindClasses = function(context, classBindings, view, id) {
+Ember.Handlebars.bindClasses = function(context, classBindings, view, id) {
   var ret = [], newClass, value, elem;
 
   // Helper method to retrieve the property from the context and
@@ -14229,7 +14265,7 @@ SC.Handlebars.bindClasses = function(context, classBindings, view, id) {
       // as a class name. For exaple, content.foo.barBaz
       // becomes bar-baz.
       var parts = property.split('.');
-      return SC.String.dasherize(parts[parts.length-1]);
+      return Ember.String.dasherize(parts[parts.length-1]);
 
     // If the value is not NO, undefined, or null, return the current
     // value of the property.
@@ -14264,7 +14300,7 @@ SC.Handlebars.bindClasses = function(context, classBindings, view, id) {
       // If we can't find the element anymore, a parent template has been
       // re-rendered and we've been nuked. Remove the observer.
       if (elem.length === 0) {
-        SC.removeObserver(context, binding, invoker);
+        Ember.removeObserver(context, binding, invoker);
       } else {
         // If we had previously added a class to the element, remove it.
         if (oldClass) {
@@ -14283,11 +14319,11 @@ SC.Handlebars.bindClasses = function(context, classBindings, view, id) {
     };
 
     invoker = function() {
-      SC.run.once(observer);
+      Ember.run.once(observer);
     };
 
     property = binding.split(':')[0];
-    SC.addObserver(context, property, invoker);
+    Ember.addObserver(context, property, invoker);
 
     // We've already setup the observer; now we just need to figure out the
     // correct behavior right now on the first pass through.
@@ -14311,18 +14347,18 @@ SC.Handlebars.bindClasses = function(context, classBindings, view, id) {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals Handlebars sc_assert */
+/*globals Handlebars ember_assert */
 
 // TODO: Don't require the entire module
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 var PARENT_VIEW_PATH = /^parentView\./;
 
 /** @private */
-SC.Handlebars.ViewHelper = SC.Object.create({
+Ember.Handlebars.ViewHelper = Ember.Object.create({
 
   viewClassFromHTMLOptions: function(viewClass, options, thisContext) {
     var extensions = {},
@@ -14361,16 +14397,16 @@ SC.Handlebars.ViewHelper = SC.Object.create({
       if (!options.hasOwnProperty(prop)) { continue; }
 
       // Test if the property ends in "Binding"
-      if (SC.IS_BINDING.test(prop)) {
+      if (Ember.IS_BINDING.test(prop)) {
         path = options[prop];
-        if (!SC.isGlobalPath(path)) {
+        if (!Ember.isGlobalPath(path)) {
 
           // Deprecation warning for users of beta 2 and lower, where
           // this facility was not available. The workaround was to bind
           // to parentViews; since this is no longer necessary, issue
           // a notice.
           if (PARENT_VIEW_PATH.test(path)) {
-            SC.Logger.warn("As of SproutCore 2.0 beta 3, it is no longer necessary to bind to parentViews. Instead, please provide binding paths relative to the current Handlebars context.");
+            Ember.Logger.warn("As of SproutCore 2.0 beta 3, it is no longer necessary to bind to parentViews. Instead, please provide binding paths relative to the current Handlebars context.");
           } else {
             if (path === 'this') {
               options[prop] = 'bindingContext';
@@ -14398,20 +14434,20 @@ SC.Handlebars.ViewHelper = SC.Object.create({
         newView;
 
     if ('string' === typeof path) {
-      newView = SC.getPath(thisContext, path);
-      sc_assert("Unable to find view at path '" + path + "'", !!newView);
+      newView = Ember.getPath(thisContext, path);
+      ember_assert("Unable to find view at path '" + path + "'", !!newView);
     } else {
       newView = path;
     }
 
-    sc_assert(SC.String.fmt('You must pass a view class to the #view helper, not %@ (%@)', [path, newView]), SC.View.detect(newView));
+    ember_assert(Ember.String.fmt('You must pass a view class to the #view helper, not %@ (%@)', [path, newView]), Ember.View.detect(newView));
 
     newView = this.viewClassFromHTMLOptions(newView, hash, thisContext);
     var currentView = data.view;
     var viewOptions = {};
 
     if (fn) {
-      sc_assert("You cannot provide a template block if you also specified a templateName", !get(viewOptions, 'templateName') && !newView.PrototypeMixin.keys().indexOf('templateName') >= 0);
+      ember_assert("You cannot provide a template block if you also specified a templateName", !get(viewOptions, 'templateName') && !newView.PrototypeMixin.keys().indexOf('templateName') >= 0);
       viewOptions.template = fn;
     }
 
@@ -14425,16 +14461,16 @@ SC.Handlebars.ViewHelper = SC.Object.create({
   @param {Hash} options
   @returns {String} HTML string
 */
-SC.Handlebars.registerHelper('view', function(path, options) {
-  sc_assert("The view helper only takes a single argument", arguments.length <= 2);
+Ember.Handlebars.registerHelper('view', function(path, options) {
+  ember_assert("The view helper only takes a single argument", arguments.length <= 2);
 
   // If no path is provided, treat path param as options.
   if (path && path.data && path.data.isRenderData) {
     options = path;
-    path = "SC.View";
+    path = "Ember.View";
   }
 
-  return SC.Handlebars.ViewHelper.helper(this, path, options);
+  return Ember.Handlebars.ViewHelper.helper(this, path, options);
 });
 
 
@@ -14443,14 +14479,14 @@ SC.Handlebars.registerHelper('view', function(path, options) {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals Handlebars sc_assert */
+/*globals Handlebars ember_assert */
 
 // TODO: Don't require all of this module
-var get = SC.get, fmt = SC.String.fmt;
+var get = Ember.get, fmt = Ember.String.fmt;
 
 /**
   @name Handlebars.helpers.collection
@@ -14458,14 +14494,14 @@ var get = SC.get, fmt = SC.String.fmt;
   @param {Hash} options
   @returns {String} HTML string
 */
-SC.Handlebars.registerHelper('collection', function(path, options) {
+Ember.Handlebars.registerHelper('collection', function(path, options) {
   // If no path is provided, treat path param as options.
   if (path && path.data && path.data.isRenderData) {
     options = path;
     path = undefined;
-    sc_assert("You cannot pass more than one argument to the collection helper", arguments.length === 1);
+    ember_assert("You cannot pass more than one argument to the collection helper", arguments.length === 1);
   } else {
-    sc_assert("You cannot pass more than one argument to the collection helper", arguments.length === 2);
+    ember_assert("You cannot pass more than one argument to the collection helper", arguments.length === 2);
   }
 
   var fn = options.fn;
@@ -14475,8 +14511,8 @@ SC.Handlebars.registerHelper('collection', function(path, options) {
   // If passed a path string, convert that into an object.
   // Otherwise, just default to the standard class.
   var collectionClass;
-  collectionClass = path ? SC.getPath(this, path) : SC.CollectionView;
-  sc_assert(fmt("%@ #collection: Could not find %@", data.view, path), !!collectionClass);
+  collectionClass = path ? Ember.getPath(this, path) : Ember.CollectionView;
+  ember_assert(fmt("%@ #collection: Could not find %@", data.view, path), !!collectionClass);
 
   var hash = options.hash, itemHash = {}, match;
 
@@ -14484,8 +14520,8 @@ SC.Handlebars.registerHelper('collection', function(path, options) {
   var itemViewClass, itemViewPath = hash.itemViewClass;
   var collectionPrototype = get(collectionClass, 'proto');
   delete hash.itemViewClass;
-  itemViewClass = itemViewPath ? SC.getPath(collectionPrototype, itemViewPath) : collectionPrototype.itemViewClass;
-  sc_assert(fmt("%@ #collection: Could not find %@", data.view, itemViewPath), !!itemViewClass);
+  itemViewClass = itemViewPath ? Ember.getPath(collectionPrototype, itemViewPath) : collectionPrototype.itemViewClass;
+  ember_assert(fmt("%@ #collection: Could not find %@", data.view, itemViewPath), !!itemViewClass);
 
   // Go through options passed to the {{collection}} helper and extract options
   // that configure item views instead of the collection itself.
@@ -14511,22 +14547,22 @@ SC.Handlebars.registerHelper('collection', function(path, options) {
   }
 
   if (inverse && inverse !== Handlebars.VM.noop) {
-    hash.emptyView = SC.View.extend({
+    hash.emptyView = Ember.View.extend({
       template: inverse,
       tagName: itemHash.tagName
     });
   }
 
   if (hash.preserveContext) {
-    itemHash.templateContext = SC.computed(function() {
+    itemHash.templateContext = Ember.computed(function() {
       return get(this, 'content');
     }).property('content');
     delete hash.preserveContext;
   }
 
-  hash.itemViewClass = SC.Handlebars.ViewHelper.viewClassFromHTMLOptions(itemViewClass, itemHash);
+  hash.itemViewClass = Ember.Handlebars.ViewHelper.viewClassFromHTMLOptions(itemViewClass, itemHash);
 
-  return SC.Handlebars.helpers.view.call(this, collectionClass, options);
+  return Ember.Handlebars.helpers.view.call(this, collectionClass, options);
 });
 
 
@@ -14537,12 +14573,12 @@ SC.Handlebars.registerHelper('collection', function(path, options) {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 /*globals Handlebars */
-var getPath = SC.getPath;
+var getPath = Ember.getPath;
 
 /**
   `unbound` allows you to output a property without binding. *Important:* The
@@ -14554,7 +14590,7 @@ var getPath = SC.getPath;
   @param {String} property
   @returns {String} HTML string
 */
-SC.Handlebars.registerHelper('unbound', function(property, fn) {
+Ember.Handlebars.registerHelper('unbound', function(property, fn) {
   var context = (fn.contexts && fn.contexts[0]) || this;
   return getPath(context, property);
 });
@@ -14564,12 +14600,12 @@ SC.Handlebars.registerHelper('unbound', function(property, fn) {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 /*globals Handlebars */
-var getPath = SC.getPath;
+var getPath = Ember.getPath;
 
 /**
   `log` allows you to output the value of a value in the current rendering
@@ -14580,9 +14616,9 @@ var getPath = SC.getPath;
   @name Handlebars.helpers.log
   @param {String} property
 */
-SC.Handlebars.registerHelper('log', function(property, fn) {
+Ember.Handlebars.registerHelper('log', function(property, fn) {
   var context = (fn.contexts && fn.contexts[0]) || this;
-  SC.Logger.log(getPath(context, property));
+  Ember.Logger.log(getPath(context, property));
 });
 
 /**
@@ -14594,7 +14630,7 @@ SC.Handlebars.registerHelper('log', function(property, fn) {
   @name Handlebars.helpers.debugger
   @param {String} property
 */
-SC.Handlebars.registerHelper('debugger', function() {
+Ember.Handlebars.registerHelper('debugger', function() {
   debugger;
 });
 
@@ -14602,14 +14638,14 @@ SC.Handlebars.registerHelper('debugger', function() {
 
 
 (function(exports) {
-SC.Handlebars.EachView = SC.CollectionView.extend(SC.Metamorph, {
-  itemViewClass: SC.View.extend(SC.Metamorph)
+Ember.Handlebars.EachView = Ember.CollectionView.extend(Ember.Metamorph, {
+  itemViewClass: Ember.View.extend(Ember.Metamorph)
 });
 
-SC.Handlebars.registerHelper('each', function(path, options) {
+Ember.Handlebars.registerHelper('each', function(path, options) {
   options.hash.contentBinding = path;
   options.hash.preserveContext = true;
-  return SC.Handlebars.helpers.collection.call(this, 'SC.Handlebars.EachView', options);
+  return Ember.Handlebars.helpers.collection.call(this, 'Ember.Handlebars.EachView', options);
 });
 
 })({});
@@ -14632,24 +14668,24 @@ SC.Handlebars.registerHelper('each', function(path, options) {
         Karma: <em>{{karma}}</em>
       </script>
 
-  This helper looks for templates in the global SC.TEMPLATES hash. If you
+  This helper looks for templates in the global Ember.TEMPLATES hash. If you
   add <script> tags to your page with the `data-template-name` attribute set,
   they will be compiled and placed in this hash automatically.
 
   You can also manually register templates by adding them to the hash:
 
-      SC.TEMPLATES["my_cool_template"] = SC.Handlebars.compile('<b>{{user}}</b>');
+      Ember.TEMPLATES["my_cool_template"] = Ember.Handlebars.compile('<b>{{user}}</b>');
 
   @name Handlebars.helpers.template
   @param {String} templateName the template to render
 */
 
-SC.Handlebars.registerHelper('template', function(name, options) {
-  var template = SC.TEMPLATES[name];
+Ember.Handlebars.registerHelper('template', function(name, options) {
+  var template = Ember.TEMPLATES[name];
 
-  sc_assert("Unable to find template with name '"+name+"'.", !!template);
+  ember_assert("Unable to find template with name '"+name+"'.", !!template);
 
-  SC.TEMPLATES[name](this, { data: options.data });
+  Ember.TEMPLATES[name](this, { data: options.data });
 });
 
 })({});
@@ -14657,7 +14693,7 @@ SC.Handlebars.registerHelper('template', function(name, options) {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -14666,36 +14702,36 @@ SC.Handlebars.registerHelper('template', function(name, options) {
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 /*globals Handlebars */
 // Find templates stored in the head tag as script tags and make them available
-// to SC.CoreView in the global SC.TEMPLATES object. This will be run as as
+// to Ember.CoreView in the global Ember.TEMPLATES object. This will be run as as
 // jQuery DOM-ready callback.
-SC.Handlebars.bootstrap = function() {
-  SC.$('script[type="text/html"], script[type="text/x-handlebars"]')
+Ember.Handlebars.bootstrap = function() {
+  Ember.$('script[type="text/html"], script[type="text/x-handlebars"]')
     .each(function() {
     // Get a reference to the script tag
-    var script = SC.$(this),
-      // Get the name of the script, used by SC.View's templateName property.
+    var script = Ember.$(this),
+      // Get the name of the script, used by Ember.View's templateName property.
       // First look for data-template-name attribute, then fall back to its
       // id if no name is found.
       templateName = script.attr('data-template-name') || script.attr('id'),
-      template = SC.Handlebars.compile(script.html()),
+      template = Ember.Handlebars.compile(script.html()),
       view, viewPath;
 
     if (templateName) {
       // For templates which have a name, we save them and then remove them from the DOM
-      SC.TEMPLATES[templateName] = template;
+      Ember.TEMPLATES[templateName] = template;
 
       // Remove script tag from DOM
       script.remove();
     } else {
       if (script.parents('head').length !== 0) {
         // don't allow inline templates in the head
-        throw new SC.Error("Template found in \<head\> without a name specified. " +
+        throw new Ember.Error("Template found in \<head\> without a name specified. " +
                          "Please provide a data-template-name attribute.\n" +
                          script.html());
       }
@@ -14707,7 +14743,7 @@ SC.Handlebars.bootstrap = function() {
       // Users can optionally specify a custom view subclass to use by setting the
       // data-view attribute of the script tag.
       viewPath = script.attr('data-view');
-      view = viewPath ? SC.getPath(viewPath) : SC.View;
+      view = viewPath ? Ember.getPath(viewPath) : Ember.View;
 
       view = view.create({
         template: template
@@ -14723,14 +14759,14 @@ SC.Handlebars.bootstrap = function() {
   });
 };
 
-SC.$(document).ready(SC.Handlebars.bootstrap);
+Ember.$(document).ready(Ember.Handlebars.bootstrap);
 
 })({});
 
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
@@ -14739,7 +14775,7 @@ SC.$(document).ready(SC.Handlebars.bootstrap);
 
 (function(exports) {
 // ==========================================================================
-// Project:   SproutCore Handlebar Views
+// Project:   Ember Handlebar Views
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
