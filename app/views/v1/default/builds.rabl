@@ -1,13 +1,10 @@
 collection(@builds)
 
-attributes :id, :repository_id, :number, :state, :started_at, :finished_at, :config, :status
+attributes :id, :repository_id, :number, :started_at, :finished_at, :duration
 
 node(:result) { |build| build.status }
 
 glue :commit do
-  extends 'v1/default/commit'
-end
-
-code :matrix do |build|
-  build.matrix.map { |job| Travis::Renderer.hash(job, :params => @_locals[:params]) }
+  attributes :commit, :branch
+  node(:message) { |commit| commit.message.truncate(75, :omission => ' ...') }
 end

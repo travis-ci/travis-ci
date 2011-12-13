@@ -1,5 +1,5 @@
 Travis.Helpers.Common = {
-  colorForStatus: function(result) {
+  colorForResult: function(result) {
     return result == 0 ? 'green' : result == 1 ? 'red' : null;
   },
 
@@ -45,7 +45,7 @@ Travis.Helpers.Common = {
   _nowUtc: function() {
     return this._toUtc(new Date());
   },
-  
+
   _toUtc: function(date) {
     return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
   }

@@ -1,4 +1,4 @@
-Travis.Controllers.Jobs = SC.ArrayController.extend({
+Travis.Controllers.Queue = SC.ArrayController.extend({
   init: function() {
     this.view = SC.View.create({
       jobs: this,
@@ -7,6 +7,6 @@ Travis.Controllers.Jobs = SC.ArrayController.extend({
       classNames: ['queue-' + this.get('queue').replace('.', '_')]
     });
     this.view.appendTo('#jobs');
-    this.set('content', Travis.Job.all({ queue: this.get('queue') }));
+    this.set('content', Travis.Job.all({ state: 'created', queue: this.get('queue') }));
   }
 });

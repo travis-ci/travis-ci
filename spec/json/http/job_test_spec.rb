@@ -18,7 +18,7 @@ describe 'HTTP API for Job::Test' do
       'log' => 'minimal log 2',
       'status' => 0, # still here for backwards compatibility
       'result' => 0,
-      'parent_id' => build.id,
+      'build_id' => build.id,
       'commit' => '91d1b7b2a310131fe3f8',
       'branch' => 'master',
       'message' => 'Bump to 0.0.22',

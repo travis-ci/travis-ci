@@ -17,37 +17,33 @@ h2. User Documentation
 * "Build Configuration":http://about.travis-ci.org/docs/user/build-configuration
 * "Status Images":http://about.travis-ci.org/docs/user/status-images
 
-h2. Developer Documentation
-
-* "The worker":http://about.travis-ci.org/docs/dev/worker/
-
-h2. Other sources
-
-* "Travis CI":http://bostonrb.org/presentations/travis-ci - Video: Presentation at Boston.rb ("Jeremy Weisskotten":https://twitter.com/#!/doctorzaius)
-* "Travis - a distributed build server tool for the Ruby community":http://svenfuchs.com/2011/2/5/travis-a-distributed-build-server-tool-for-the-ruby-community - Introductory blog post about the original idea ("Sven Fuchs":http://svenfuchs.com)
 
 h2. Overview
 
-Travis consists of four main parts:
+Travis consists of several parts:
 
-* A "Backbone.js":http://documentcloud.github.com/backbone single-page application that runs client side.
+* A Sprout Core-based single-page application that runs client side.
 * A Rails 3 application that serves to the in-browser application and takes pings from Github.
-* A "Resque":https://github.com/defunkt/resque worker for running a project's test suite remotely.
+* A JRuby-based "AMQP":http://bit.ly/amqp-model-explained worker for running a project's test suite in snapshotted virtual machines.
 * A websocket server (we use "Pusher":http://pusher.com) for tailing build results to the browser.
+* A JRuby-based AMQP daemon that collects build reports, workers state, propagates them to Pusher, delivers notifications and so on.
+* Tools that provision CI environment (to provide databases, RabbitMQ, Rubies/JDK/Node.js versions and so on) and build VM images.
 
-!https://github.com/travis-ci/travis-ci/raw/master/docs/travis.spike-3.png!
+All these applications, tools and libraries are hosted under "Travis CI github organization":https://github.com/travis-ci.
 
-You can also watch this (quite old, but still valid) screencast to get an idea: "1:20 quick demo screencast (spike 2)":http://www.youtube.com/watch?v=mNOwCJhjWAw
+You can also watch this (old but still valid) screencast to get an idea: "1:20 quick demo screencast (spike 2)":http://www.youtube.com/watch?v=mNOwCJhjWAw
+
 
 h2. Goals
 
 With Travis CI our vision is to become for builds (i.e. tests, for starters) what rubygems.org is for gems.
+Our goal is to build a rock solid, but dead-easy to use open-source continuous integration service for the open source community.
 
-Our goal is to build a rock solid, but dead-easy to use open-source continuous integration service for the Ruby community.
+We try to follow the 80/20 for requirements. I.e. we focus on the most common use cases.
 
-We try to follow the 80/20 for requirements. I.e. we focus on the most common use cases for testing Ruby Gems.
+Travis CI does **not** currently support closed in-house installations, although we know of people doing this.
+Ask on the "IRC channel":irc://irc.freenode.net#travis for more information.
 
-Travis CI does **not** currently support closed in-house installations, although we know of people working on this. Ask on the "IRC channel":irc://irc.freenode.net#travis for more information.
 
 h2. Running the tests
 
@@ -102,23 +98,30 @@ $ rake travis:create_admin_user
 
 Application is now up & running on **http://localhost:5000**
 
+h2. Dependency Status
+
+"!https://gemnasium.com/travis-ci/travis-ci.png?travis!":https://gemnasium.com/travis-ci/travis-ci
+
 h2. Design Iterations
 
 * "Second design Feb 2010":https://skitch.com/svenfuchs/rtfas/travis.2
 * "First design Jan 2010":https://skitch.com/svenfuchs/rtms3/travis-design-1-2010-02
 * Initial mockups of "index":https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/main.png and "details":https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/build_details.png
 
-h2. First spike
 
-My first spike was using Nanite for running workers.
+h2. Developer Documentation
 
-* "1:36 quick demo screencast (spike 1)":http://www.youtube.com/watch?v=qdTV-b6BJHA
-* "Architecture diagram (spike 1)":https://github.com/travis-ci/travis-ci/raw/master/docs/travis.spike-1.png
+* "The worker":http://about.travis-ci.org/docs/dev/worker/
+
+h2. Other sources
+
+* "Travis CI":http://bostonrb.org/presentations/travis-ci - Video: Presentation at Boston.rb ("Jeremy Weisskotten":https://twitter.com/#!/doctorzaius)
+* "Travis - a distributed build server tool for the Ruby community":http://svenfuchs.com/2011/2/5/travis-a-distributed-build-server-tool-for-the-ruby-community - Introductory blog post about the original idea ("Sven Fuchs":http://svenfuchs.com)
 
 
 h2. Requirements
 
-* Ruby 1.8.7 or Ruby 1.9.2 (Ruby 1.9.1 is not supported)
+* Ruby 1.9.2 (Ruby 1.9.1 is not supported)
 * PostgreSQL for the pg gem
-
-
+* RabbitMQ
+* VirtualBox 4.1

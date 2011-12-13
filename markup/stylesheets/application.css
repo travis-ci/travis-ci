@@ -386,10 +386,6 @@ caption {
   padding-left: 12px;
 }
 /* line 323, ../../../app/stylesheets/application.scss */
-#main #tab_parent {
-  display: none;
-}
-/* line 326, ../../../app/stylesheets/application.scss */
 #main #tab_build:not(.active) {
   display: none;
 }

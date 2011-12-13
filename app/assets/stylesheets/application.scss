@@ -179,27 +179,6 @@ caption {
     }
   }
 
-  #no_repositories {
-    background: transparent;
-    color: #000;
-    text-align: center;
-    padding: 15px 25px 15px 45px !important;
-
-    .small {
-      color: #666;
-      font-size: 12px;
-
-      a {
-        color: #777;
-        text-decoration: underline;
-
-        &:hover {
-         text-decoration: none;
-        }
-      }
-    }
-  }
-
   #repositories {
     li {
       position: relative;
@@ -297,8 +276,9 @@ caption {
     position: relative;
   }
   h3 {
-    margin: 15px 0 0 0;
+    margin: 15px 60px 0 0;
     font-size: 24px;
+    line-height: 24px;
   }
   a {
     color: #666;
@@ -316,7 +296,7 @@ caption {
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 60;
+    z-index: 110;
     a {
       height: 16px;
       display: block;
@@ -370,10 +350,7 @@ caption {
   .tab {
     padding-left: 12px;
   }
-  #tab_parent {
-    display: none;
-  }
-  #tab_build:not(.active), #tab_search:not(.active) {
+  #tab_build:not(.active), #tab_job:not(.active), #tab_search:not(.active) {
     display: none;
   }
   .tools {
