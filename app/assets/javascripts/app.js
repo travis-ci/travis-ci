@@ -2,7 +2,7 @@
 // SC.LOG_BINDINGS = true;
 
 var Travis = SC.Application.create({
-  Controllers: { Repositories: {}, Builds: {} }, Models: {}, Helpers: {}, Views: {},
+  Controllers: { Repositories: {}, Builds: {}, Jobs: {} }, Models: {}, Helpers: {}, Views: {},
 
   UPDATE_TIMES_INTERVAL: 5000,
 
@@ -24,7 +24,8 @@ var Travis = SC.Application.create({
     this.left   = Travis.Controllers.Repositories.List.create();
     this.right  = Travis.Controllers.Sidebar.create();
 
-    SC.routes.add('!/:owner/:name/builds/:id/:line_number', function(params) { Travis.main.activate('build',   params) });
+    SC.routes.add('!/:owner/:name/jobs/:id/:line_number', function(params) { Travis.main.activate('job', params) });
+    SC.routes.add('!/:owner/:name/jobs/:id',   function(params) { Travis.main.activate('job',     params) });
     SC.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.main.activate('build',   params) });
     SC.routes.add('!/:owner/:name/builds',     function(params) { Travis.main.activate('history', params) });
     SC.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('current', params) });
@@ -50,13 +51,13 @@ var Travis = SC.Application.create({
     var ix = this.channels.indexOf(channel);
     if(ix == -1) {
       this.channels.splice(ix, 1);
-      if(window.pusher)pusher.unsubscribe(channel);
+      if(window.pusher) pusher.unsubscribe(channel);
     }
   },
 
   initPusher: function() {
     if(window.pusher) {
-      var channels = ['builds', 'jobs', 'workers'];
+      var channels = ['common'];
       $.each(channels, function(ix, channel) { this.subscribe(channel); }.bind(this))
     }
   },

@@ -1,6 +1,6 @@
 object @build
 
-attributes :id, :repository_id, :number, :state, :started_at, :finished_at, :config, :status
+attributes :id, :repository_id, :number, :state, :started_at, :finished_at, :duration, :config, :status
 
 node(:result) { @build.status }
 

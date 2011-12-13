@@ -1,9 +1,6 @@
 //= require app/controllers/tabs.js
 //= require app/views.js
 
-    // List:    Travis.View.extend({ templateName: 'app/templates/repositories/list', repositoriesBinding: 'controller' }),
-    // Show:    Travis.View.extend({ templateName: 'app/templates/repositories/show' })
-
 Travis.Controllers.Repositories.List = SC.ArrayController.extend({
   searchBox: SC.TextField.create({
   }),

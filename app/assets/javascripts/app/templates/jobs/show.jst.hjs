@@ -3,7 +3,7 @@
     <div class="left">
       <dt>Build</dt>
 
-      <dd class="number"><a {{bindAttr href="content.url"}}>{{content.number}}</a></dd>
+      <dd class="number"><a {{bindAttr href="content.build.url"}}>{{content.number}}</a></dd>
       <dt class="finished_at_label">Finished</dt>
       <dd class="finished_at timeago" {{bindAttr title="content.finished_at"}}>{{content.formattedFinishedAt}}</dd>
       <dt>Duration</dt>
@@ -12,24 +12,26 @@
 
     <div class="right">
       <dt>Commit</dt>
-      <dd class="commit-hash"><a {{bindAttr href="content.urlGithubCommit"}}>{{content.formattedCommit}}</a></dd>
+      <dd class="commit-hash"><a {{bindAttr href="content.build.urlGithubCommit"}}>{{content.formattedCommit}}</a></dd>
       {{#if content.compare_url}}
         <dt>Compare</dt>
         <dd class="compare_view"><a {{bindAttr href="content.compare_url"}}>{{content.formattedCompareUrl}}</a></dd>
       {{/if}}
       {{#if content.author_name}}
         <dt>Author</dt>
-        <dd class="author"><a {{bindAttr href="content.urlAuthor"}}>{{content.author_name}}</a></dd>
+        <dd class="author"><a {{bindAttr href="content.build.urlAuthor"}}>{{content.author_name}}</a></dd>
       {{/if}}
       {{#if content.committer_name}}
         <dt>Committer</dt>
-        <dd class="committer"><a {{bindAttr href="content.urlCommitter"}}>{{content.committer_name}}</a></dd>
+        <dd class="committer"><a {{bindAttr href="content.build.urlCommitter"}}>{{content.committer_name}}</a></dd>
       {{/if}}
     </div>
 
     <dt>Message</dt>
     <dd class="commit-message">{{content.message}}</dd>
+    <dt>Config</dt>
+    <dd class="config">{{content.formattedConfig}}</dd>
   </dl>
 
-  {{view Travis.View templateName="app/templates/builds/matrix" repositoryBinding="repository" contentBinding="content" matrixBinding="matrix"}}
+  <pre class="log">{{{content.formattedLog}}}</pre>
 </div>

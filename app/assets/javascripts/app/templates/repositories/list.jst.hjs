@@ -1,14 +1,13 @@
 {{#collection tagName="ul" id="repositories" contentBinding="repositories" itemViewClass="Travis.View" itemClassBinding="content.cssClasses"}}
-  <a {{bindAttr href="urlCurrent"}} class="slug">{{content.slug}}</a>
-  <a {{bindAttr href="urlLastBuild"}} class="build">#{{content.lastBuildNumber}}</a>
+  <a {{bindAttr href="content.urlCurrent"}} class="slug">{{content.slug}}</a>
+  <a {{bindAttr href="content.urlLastBuild"}} class="build">#{{content.last_build_number}}</a>
   <p class="summary">
-    <span class="duration_label">Duration:</span> <abbr class="duration" {{bindAttr title="content.lastBuildDuration"}}>{{content.formattedLastBuildDuration}}</abbr>,
-    <span class="finished_at_label">Finished:</span> <abbr class="finished_at timeago" {{bindAttr title="content.lastBuildFinishedAt"}}>{{content.formattedLastBuildFinishedAt}}</abbr>
+    <span class="duration_label">Duration:</span> <abbr class="duration" {{bindAttr title="content.last_build_started_at"}}>{{content.formattedLastBuildDuration}}</abbr>,
+    <span class="finished_at_label">Finished:</span> <abbr class="finished_at timeago" {{bindAttr title="content.last_build_finished_at"}}>{{content.formattedLastBuildFinishedAt}}</abbr>
   </p>
   <span class="indicator"></span>
 {{/collection}}
 
-{{^collection contentBinding="repositories" id="no_repositories"}}
-  <p>There are no repositories</p>
-	<p class="small"><a href="/profile">Add your repositories to Travis CI</a></p>
+{{^collection contentBinding="repositories" id="list" class="loading"}}
+  <p></p>
 {{/collection}}

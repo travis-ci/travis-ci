@@ -1,12 +1,13 @@
 Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
-  slug:                SC.Record.attr(String),
-  name:                SC.Record.attr(String, { key: 'name' }),
-  owner:               SC.Record.attr(String, { key: 'owner_name' }),
-  lastBuildId:         SC.Record.attr(Number, { key: 'last_build_id' }),
-  lastBuildNumber:     SC.Record.attr(String, { key: 'last_build_number' }),
-  lastBuildResult:     SC.Record.attr(Number, { key: 'last_build_result' }),
-  lastBuildStartedAt:  SC.Record.attr(String, { key: 'last_build_started_at'  }),  // DateTime doesn't seem to work?
-  lastBuildFinishedAt: SC.Record.attr(String, { key: 'last_build_finished_at' }),
+  slug:                   SC.Record.attr(String),
+  name:                   SC.Record.attr(String),
+  owner:                  SC.Record.attr(String),
+  last_build_id:          SC.Record.attr(Number),
+  last_build_number:      SC.Record.attr(String),
+  last_build_result:      SC.Record.attr(Number),
+  last_build_duration:    SC.Record.attr(Number),
+  last_build_started_at:  SC.Record.attr(String),  // DateTime doesn't seem to work?
+  last_build_finished_at: SC.Record.attr(String),
 
   select: function() {
     this.whenReady(function(self) {
@@ -15,56 +16,74 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
   },
 
   updateTimes: function() {
-    this.notifyPropertyChange('lastBuildStartedAt');
-    this.notifyPropertyChange('lastBuildFinishedAt');
+    this.notifyPropertyChange('last_build_duration');
+    this.notifyPropertyChange('last_build_finished_at');
   },
 
   builds: function() {
-    if(window.__DEBUG__) console.log('updating builds on repository ' + this.get('id'));
     return Travis.Build.byRepositoryId(this.get('id'));
   }.property().cacheable(),
 
   lastBuild: function() {
-    if(window.__DEBUG__) console.log('updating lastBuild on repository ' + this.get('id'));
-    return Travis.Build.find(this.get('lastBuildId'));
-  }.property('lastBuildId'),
+    return Travis.Build.find(this.get('last_build_id'));
+  }.property('last_build_id'),
 
-  lastBuildDuration: function() {
-    if(window.__DEBUG__) console.log('updating lastBuildDuration on repository ' + this.get('id'));
-    return this.durationFrom(this.get('lastBuildStartedAt'), this.get('lastBuildFinishedAt'));
-  }.property('lastBuildStartedAt', 'lastBuildFinishedAt').cacheable(),
-
-  // TODO the following display logic all all seems to belong to a controller or helper module,
-  // but I can't find a way to bind an itemClass to a controller w/ a CollectionView
+  // VIEW HELPERS
 
   color: function() {
-    if(window.__DEBUG__) console.log('updating color on repository ' + this.get('id'));
-    return this.colorForStatus(this.get('lastBuildResult'));
-  }.property('lastBuildResult').cacheable(),
+    return this.colorForResult(this.get('last_build_result'));
+  }.property('last_build_result').cacheable(),
 
   formattedLastBuildDuration: function() {
-    if(window.__DEBUG__) console.log('updating formattedLastBuildDuration on repository ' + this.get('id'));
-    return this.readableTime(this.get('lastBuildDuration'));
-  }.property('lastBuildDuration').cacheable(),
+    var duration = this.get('last_build_duration');
+    if(!duration) duration = this.durationFrom(this.get('last_build_started_at'), this.get('last_build_finished_at'));
+    return this.readableTime(duration);
+  }.property('last_build_duration', 'last_build_started_at', 'last_build_finished_at'),
 
   formattedLastBuildFinishedAt: function() {
-    if(window.__DEBUG__) console.log('updating formattedLastBuildFinishedAt on repository ' + this.get('id'));
-    return this.timeAgoInWords(this.get('lastBuildFinishedAt')) || '-';
-  }.property('lastBuildFinishedAt').cacheable(),
+    return this.timeAgoInWords(this.get('last_build_finished_at')) || '-';
+  }.property('last_build_finished_at'),
 
   cssClasses: function() { // ugh
-    if(window.__DEBUG__) console.log('updating cssClasses on repository ' + this.get('id'));
     return $.compact(['repository', this.get('color'), this.get('selected') ? 'selected' : null]).join(' ');
-  }.property('color', 'selected').cacheable()
+  }.property('color', 'selected').cacheable(),
+
+  urlCurrent: function() {
+    return '#!/' + this.getPath('slug');
+  }.property('slug').cacheable(),
+
+  urlBuilds: function() {
+    return '#!/' + this.get('slug') + '/builds';
+  }.property('slug').cacheable(),
+
+  urlLastBuild: function() {
+    return '#!/' + this.get('slug') + '/builds/' + this.get('last_build_id');
+  }.property('last_build_id').cacheable(),
+
+  urlGithub: function() {
+    return 'http://github.com/' + this.get('slug');
+  }.property('slug').cacheable(),
+
+  urlGithubWatchers: function() {
+    return 'http://github.com/' + this.get('slug') + '/watchers';
+  }.property('slug').cacheable(),
+
+  urlGithubNetwork: function() {
+    return 'http://github.com/' + this.get('slug') + '/network';
+  }.property('slug').cacheable(),
+
+  urlGithubAdmin: function() {
+    return this.get('url') + '/admin/hooks#travis_minibucket';
+  }.property('slug').cacheable(),
 });
 
 Travis.Repository.reopenClass({
   resource: 'repositories',
 
   recent: function() {
-    return this.all({ orderBy: 'lastBuildStartedAt DESC' });
+    return this.all({ orderBy: 'last_build_started_at DESC' });
   },
-  
+
   owned_by: function(githubId) {
     return Travis.store.find(SC.Query.remote(Travis.Repository, { url: 'repositories.json?owner_name=' + githubId, orderBy: 'name' }));
   },
