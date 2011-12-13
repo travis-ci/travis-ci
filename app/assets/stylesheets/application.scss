@@ -276,8 +276,9 @@ caption {
     position: relative;
   }
   h3 {
-    margin: 15px 0 0 0;
+    margin: 15px 60px 0 0;
     font-size: 24px;
+    line-height: 24px;
   }
   a {
     color: #666;
@@ -295,7 +296,7 @@ caption {
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 60;
+    z-index: 110;
     a {
       height: 16px;
       display: block;
