@@ -31,5 +31,5 @@
     <dd class="commit-message">{{content.message}}</dd>
   </dl>
 
-  {{view Travis.View templateName="app/templates/builds/matrix" repositoryBinding="repository" contentBinding="content" matrixBinding="matrix"}}
+  {{view Travis.View templateName="app/templates/jobs/list" repositoryBinding="repository" contentBinding="content" jobsBinding="jobs"}}
 </div>

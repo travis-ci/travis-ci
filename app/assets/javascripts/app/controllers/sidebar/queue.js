@@ -3,7 +3,7 @@ Travis.Controllers.Queue = SC.ArrayController.extend({
     this.view = SC.View.create({
       jobs: this,
       queue: $.camelize(this.get('queue').split('.')[1]),
-      templateName: 'app/templates/jobs/list',
+      templateName: 'app/templates/queue/show',
       classNames: ['queue-' + this.get('queue').replace('.', '_')]
     });
     this.view.appendTo('#jobs');
