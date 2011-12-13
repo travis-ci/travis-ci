@@ -13,8 +13,6 @@ Travis.Controllers.Builds.Show = SC.Object.extend({
       jobsBinding: 'controller.jobs',
       templateName: 'app/templates/builds/show',
     });
-
-    this.set('jobs', SC.ArrayProxy.create({ parent: this, contentBinding: 'parent.build.matrix' }));
   },
 
   destroy: function() {
@@ -35,8 +33,12 @@ Travis.Controllers.Builds.Show = SC.Object.extend({
   },
 
   _buildObserver: function() {
-    if(this.getPath('build.isReady') && this.getPath('build.matrix.length') == 0 && this.getPath('build.log') === null) {
+    if(this.getPath('build.isReady') && this.getPath('build.matrix.length') == 0) {
       this.get('build').refresh();
     }
-  }.observes('build')
+    if(this.getPath('build.isReady') && this.getPath('build.matrix.length') == 1 && this.getPath('build.matrix').objectAt(0).get('log') === null) {
+      // TODO why does firstObject not work here?
+      this.getPath('build.matrix').objectAt(0).refresh();
+    }
+  }.observes('build.status')
 });

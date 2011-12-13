@@ -29,7 +29,17 @@
 
     <dt>Message</dt>
     <dd class="commit-message">{{content.message}}</dd>
+
+    {{#if content.isMatrix}}
+    {{else}}
+      <dt>Config</dt>
+      <dd class="config">{{content.formattedConfig}}</dd>
+    {{/if}}
   </dl>
 
-  {{view Travis.View templateName="app/templates/jobs/list" repositoryBinding="repository" contentBinding="content" jobsBinding="jobs"}}
+  {{#if content.isMatrix}}
+    {{view Travis.View templateName="app/templates/jobs/list" repositoryBinding="repository" contentBinding="content"}}
+  {{else}}
+    <pre class="log">{{{content.matrix.firstObject.formattedLog}}}</pre>
+  {{/if}}
 </div>
