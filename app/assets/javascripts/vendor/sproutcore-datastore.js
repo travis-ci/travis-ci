@@ -5,7 +5,7 @@
 // Copyright: ©2011 Strobe Inc. and contributors.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals sc_assert */
+/*globals ember_assert */
 
 var get = SC.get, set = SC.set, abs = Math.abs;
 
@@ -1055,7 +1055,7 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
   */
   addObject: function(object, firstOnly) {
     var source  = get(this, 'source');
-    sc_assert("%@.addObject() requires source".fmt(this), !!source);
+    ember_assert("%@.addObject() requires source".fmt(this), !!source);
 
     var len = get(source, 'length'),
         cur = 0, idx;
@@ -1102,7 +1102,7 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
   */
   removeObject: function(object, firstOnly) {
     var source  = get(this, 'source');
-    sc_assert("%@.removeObject() requires source".fmt(this), !!source);
+    ember_assert("%@.removeObject() requires source".fmt(this), !!source);
 
     var len = source.get('length'),
         cur = 0, idx;
@@ -8274,7 +8274,7 @@ SC.RecordArray.reopenClass(/** @scope SC.RecordArray.prototype */{
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals sc_assert */
+/*globals ember_assert */
 
 
 
@@ -8415,9 +8415,9 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     if (!newStoreClass) newStoreClass = SC.NestedStore;
 
     // Ensure the passed-in class is a type of nested store.
-    sc_assert("%@ is a valid class".fmt(newStoreClass),
+    ember_assert("%@ is a valid class".fmt(newStoreClass),
       SC.typeOf(newStoreClass) === 'class');
-    sc_assert("%@ is a type of SC.NestedStore".fmt(newStoreClass),
+    ember_assert("%@ is a type of SC.NestedStore".fmt(newStoreClass),
       SC.NestedStore.detect(newStoreClass));
 
     // Replicate parent records references
@@ -9119,7 +9119,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     // handle passing a query...
     if (id === undefined && !(recordType instanceof SC.Record)) {
-      sc_assert('SC.Store#find() accepts only a record type of query',
+      ember_assert('SC.Store#find() accepts only a record type of query',
         SC.Record.detect(recordType) || recordType instanceof SC.Query);
 
       if (!(recordType instanceof SC.Query)) {
@@ -11151,7 +11151,7 @@ SC.Store.findAll = function(filter, recordType) {
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-/*globals sc_assert */
+/*globals ember_assert */
 
 var get = SC.get, set = SC.set;
 
@@ -11267,7 +11267,7 @@ SC.NestedStore = SC.Store.extend(
     @returns {SC.Record|SC.RecordArray}
   */
   find: function(query) {
-    sc_assert("SC.Store#find() can only accept LOCAL queries in nested stores",
+    ember_assert("SC.Store#find() can only accept LOCAL queries in nested stores",
       !query || !(query instanceof SC.Query) || get(query, 'location') === SC.Query.LOCAL);
     return this._super.apply(this, arguments);
   },
