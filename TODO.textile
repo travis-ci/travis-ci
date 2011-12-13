@@ -5,6 +5,8 @@
 + travis-cli: move the heroku rake task to thor
 + travis-ci: use #!/[:slug]/jobs/:id for jobs
 + travis-ci: change pusher events and payloads to be more symetric with worker reporting events
++ travis-core: make sure we start the build with the first job only, and finish it with the last build only
++ travis-ci: calculate build duration from matrix.sum(&:duration) or similar
 
 - automate backups
 - rabbitmq message rate stats
@@ -16,11 +18,9 @@
 - "New repositories" tab
 
 - travis-ci: actually purge archived builds
-- travis-ci: calculate build duration from matrix.sum(&:duration) or similar
 - travis-ci: add tests for stats
 - travis-ci: add tests for github login that protect against changes in oauth etc
 
-- travis-core: make sure we start the build with the first job only, and finish it with the last build only
 - travis-core: fix webhook notifications when using https
 - travis-core: rename build.status to build.result internally
 
