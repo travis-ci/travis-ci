@@ -7,7 +7,7 @@
       <dt class="finished_at_label">Finished</dt>
       <dd class="finished_at timeago" {{bindAttr title="content.finished_at"}}>{{content.formattedFinishedAt}}</dd>
       <dt>Duration</dt>
-      <dd class="duration" {{bindAttr title="content.duration"}}>{{content.formattedDuration}}</dd>
+      <dd class="duration" {{bindAttr title="content.started_at"}}>{{content.formattedDuration}}</dd>
     </div>
 
     <div class="right">
