@@ -1,8 +1,7 @@
 <div {{bindAttr class="content.color"}}>
   <dl class="summary clearfix">
     <div class="left">
-      <dt>Build</dt>
-
+      <dt>Job</dt>
       <dd class="number"><a {{bindAttr href="content.build.url"}}>{{content.number}}</a></dd>
       <dt class="finished_at_label">Finished</dt>
       <dd class="finished_at timeago" {{bindAttr title="content.finished_at"}}>{{content.formattedFinishedAt}}</dd>

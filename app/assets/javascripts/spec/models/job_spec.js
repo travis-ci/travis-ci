@@ -1,4 +1,4 @@
-describe('Build', function() {
+describe('Job', function() {
   describe('class methods', function() {
     describe('byRepositoryId', function() {
       it('requests GET /repositories.json', function() {
@@ -39,37 +39,22 @@ describe('Build', function() {
       });
     });
 
-  // update
-  //   it updates with the given attributes
-  //   it does partial updates on matrix job attributes
-
-  // updateTimes
-  //   it updates properties based on duration
-  //   it updates properties based on finished_at
-
-  // isMatrix
-  //   returns true if the matrix has more than one build
-  //   returns false if the matrix has only one build
-  //   updates bindings when the matrix length changes
-
     describe('properties', function() {
       describe('color', function() {
-        it('returns "green" if the build has passed', function() {
+        it('returns "green" if the last build has passed', function() {
           build.set('result', 0);
           expect(build.get('color')).toEqual('green');
         });
 
-        it('returns "red" if the build has failed', function() {
+        it('returns "red" if the last build has failed', function() {
           build.set('result', 1);
           expect(build.get('color')).toEqual('red');
         });
 
-        it('returns undefined if the build result is unknown', function() {
+        it('returns undefined if the last build result is unknown', function() {
           build.set('result', null);
           expect(build.get('color')).toEqual(undefined);
         });
-
-        it('updates when the build result changes')
       });
 
       it('appendLog', function() {
@@ -80,3 +65,4 @@ describe('Build', function() {
     });
   });
 });
+

@@ -12,13 +12,9 @@ beforeEach(function() {
   Travis.Query._cache = {};
   Travis.store = SC.Store.create().from('Travis.DataSource');
 
-  $.ajax({ 
-           async: false, 
-           url: "/repositories/1.json", 
-           success: function(record) {
-             Travis.store.loadRecord(Travis.Repository, record, 1);
-           }  
-         });
+  // $.ajax({ async: false, url: "/repositories/1.json", success: function(record) {
+  //   Travis.store.loadRecord(Travis.Repository, record, 1);
+  // }});
 
   jasmine.Ajax.useMock();
 

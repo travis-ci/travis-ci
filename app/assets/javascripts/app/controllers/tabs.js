@@ -1,6 +1,6 @@
 Travis.Controllers.Tabs = SC.Object.extend({
   activate: function(tab) {
-    if (this.get('active') !== tab) {
+    if(this.get('active') !== tab) {
       this.destroy();
       SC.run.next(function() {
         this.create(tab);
@@ -10,12 +10,15 @@ Travis.Controllers.Tabs = SC.Object.extend({
   },
 
   setActive: function(tab) {
-    this.set('active', tab);
     $('.tabs > li', this.selector).removeClass('active');
+    $('.tabs > li', this.selector).removeClass('display');
     $('#tab_' + tab, this.selector).addClass('active');
+
+    this.set('active', tab);
+    if(tab == 'job') this.setDisplay('build', true);
   },
 
-  toggle: function(tab, visible) {
+  setDisplay: function(tab, visible) {
     $('#tab_' + tab)[visible ? 'addClass' : 'removeClass']('display');
   },
 
@@ -30,9 +33,4 @@ Travis.Controllers.Tabs = SC.Object.extend({
     if(this.tab) this.tab.destroy();
     delete this.tab;
   },
-
-  _activeObserver: function() {
-    var active = this.get('active')
-    if (active == 'job')   this.toggle('build', true);
-  }.observes('active'),
 });
