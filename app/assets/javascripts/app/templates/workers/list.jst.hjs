@@ -4,7 +4,7 @@
   {{#collection tagName="ul" itemClass="worker" itemClassBinding="content.state" contentBinding="content.workers"}}
     <div class="icon"></div>
     {{#if content.isTesting}}
-      <a {{bindAttr href="content.buildUrl"}} {{bindAttr title="content.last_seen_at"}}>{{content.display}}</a>
+      <a {{bindAttr href="content.urlJob"}} {{bindAttr title="content.last_seen_at"}}>{{content.display}}</a>
     {{else}}
       <span {{bindAttr title="content.last_seen_at"}}>{{content.display}}</span>
     {{/if}}
