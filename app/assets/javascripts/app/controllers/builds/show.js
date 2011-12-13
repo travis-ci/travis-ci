@@ -10,11 +10,11 @@ Travis.Controllers.Builds.Show = SC.Object.extend({
       controller: this,
       repositoryBinding: 'controller.repository',
       contentBinding: 'controller.build',
-      matrixBinding: 'controller.matrix',
+      jobsBinding: 'controller.jobs',
       templateName: 'app/templates/builds/show',
     });
 
-    this.set('matrix', SC.ArrayProxy.create({ parent: this, contentBinding: 'parent.build.matrix' }));
+    this.set('jobs', SC.ArrayProxy.create({ parent: this, contentBinding: 'parent.build.matrix' }));
   },
 
   destroy: function() {
