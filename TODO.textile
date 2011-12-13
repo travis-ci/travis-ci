@@ -20,6 +20,7 @@
 - travis-ci: add tests for stats
 - travis-ci: add tests for github login that protect against changes in oauth etc
 
+- travis-core: make sure we start the build with the first job only, and finish it with the last build only
 - travis-core: fix webhook notifications when using https
 - travis-core: rename build.status to build.result internally
 

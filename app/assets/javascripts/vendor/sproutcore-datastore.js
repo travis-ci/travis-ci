@@ -3260,7 +3260,7 @@ SC.Record = SC.Object.extend(
 
     } else if (prKey){
       rec = store.materializeRecord(prKey);
-      rec.destroy(false);
+      if(rec) rec.destroy(false);
     }
 
     return this ;
