@@ -15,7 +15,7 @@
 
   {{#collection tagName="tbody" contentBinding="matrix" itemViewClass="Travis.View" itemClassBinding="content.color"}}
     <td class="number"><a {{bindAttr href="content.url"}}>{{content.number}}</a></td>
-    <td class="duration" {{bindAttr title="content.duration"}}>{{content.formattedDuration}}</td>
+    <td class="duration" {{bindAttr title="content.started_at"}}>{{content.formattedDuration}}</td>
     <td class="finished_at timeago" {{bindAttr title="content.finishedAt"}}>{{content.formattedFinishedAt}}</td>
     {{#each content.formattedConfigValues itemTagName="td"}}
       {{value}}

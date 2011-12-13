@@ -36,9 +36,9 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
 
   formattedLastBuildDuration: function() {
     var duration = this.get('last_build_duration');
-    if(!duration) this.durationFrom(this.get('started_at'), this.get('finished_at'));
+    if(!duration) duration = this.durationFrom(this.get('last_build_started_at'), this.get('last_build_finished_at'));
     return this.readableTime(duration);
-  }.property('last_build_duration'),
+  }.property('last_build_duration', 'last_build_started_at', 'last_build_finished_at'),
 
   formattedLastBuildFinishedAt: function() {
     return this.timeAgoInWords(this.get('last_build_finished_at')) || '-';
