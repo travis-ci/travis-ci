@@ -22,9 +22,8 @@ Travis.Record = SC.Record.extend({
 
   update: function(attrs) {
     this.whenReady(function(record) {
-      // TODO should not need to camelize here, should we? otherwise bindings seem to get stuck.
       $.each(attrs, function(key, value) {
-        if(key != 'id') record.set($.camelize(key, false), value);
+        if(key != 'id') record.set(key, value);
       });
     });
     return this;
