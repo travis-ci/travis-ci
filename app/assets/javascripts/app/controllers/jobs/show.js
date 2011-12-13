@@ -36,8 +36,10 @@ Travis.Controllers.Jobs.Show = SC.Object.extend({
   },
 
   destroy: function() {
-    this.view.$().remove();
-    this.view.destroy();
+    if(this.view) {
+      this.view.$().remove();
+      this.view.destroy();
+    }
   },
 
   updateTimes: function() {

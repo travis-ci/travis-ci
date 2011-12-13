@@ -15,8 +15,10 @@ Travis.Controllers.Builds.List = SC.ArrayProxy.extend({
 
   destroy: function() {
     // console.log('destroying list in: ' + this.selector + ' .details')
-    this.view.$().remove();
-    this.view.destroy();
+    if(this.view) {
+      this.view.$().remove();
+      this.view.destroy();
+    }
   },
 
   updateTimes: function() {
