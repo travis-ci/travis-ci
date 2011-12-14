@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'HTTP API for Repository' do
 
-  let(:repository) { Scenario.default.first }
+  let(:repository) { Scenario.default.first.tap { |r| r.key = Factory(:ssl_key, :repository => r) } }
   let(:build)      { repository.last_build }
 
   it 'json' do
