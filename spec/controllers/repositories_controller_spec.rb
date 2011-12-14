@@ -54,6 +54,7 @@ describe RepositoriesController do
         'last_build_status' => 1,
         'last_build_language' => nil,
         'last_build_duration' => 160,
+        'public_key' => "-----BEGIN RSA PUBLIC KEY-----\nMIGJAoGBAMZ53W7GX2zMvQ9UT8Hq/08Oyj7FEez171gMHwOb5BgUPJ1253WfXXfh\nljf0PGDrM2FcMYpiKUc/gT1ugi6+B9IAM3XZ4PVyWiBfjozigEaBQCG2vlC8Yuf1\nMRbght4j6cOyEwktMt62EKYHofCbkt31CdFVPpT8DO05O/14n/EpAgMBAAE=\n-----END RSA PUBLIC KEY-----\n"
       }
     end
 
@@ -136,6 +137,7 @@ describe RepositoriesController do
           'last_build_duration'    => { '__content__' => '160' },
           'slug'                   => { '__content__' => 'sven/travis-ci' },
           'description'            => { 'nil' => 'true'},
+          'public_key'             => { '__content__' => "-----BEGIN RSA PUBLIC KEY-----\nMIGJAoGBAMZ53W7GX2zMvQ9UT8Hq/08Oyj7FEez171gMHwOb5BgUPJ1253WfXXfh\nljf0PGDrM2FcMYpiKUc/gT1ugi6+B9IAM3XZ4PVyWiBfjozigEaBQCG2vlC8Yuf1\nMRbght4j6cOyEwktMt62EKYHofCbkt31CdFVPpT8DO05O/14n/EpAgMBAAE=\n-----END RSA PUBLIC KEY-----\n" }
         }
       }
     end
