@@ -27,7 +27,11 @@ describe RepositoriesController do
   end
 
   describe 'GET :show, format json' do
-    let(:repository) { FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today) }
+    let(:repository) do
+      repo = FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today)
+      repo.key = Factory(:ssl_key, :repository => repo)
+      repo
+    end
 
     before(:each) do
       config = { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'], 'env' => ['DB=sqlite3', 'DB=postgres'] }
@@ -111,7 +115,11 @@ describe RepositoriesController do
   describe 'GET :show, format xml (schema: not specified)' do
     let(:config)     { { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'], 'env' => ['DB=sqlite3', 'DB=postgres'] } }
     let(:build)      { FactoryGirl.create(:build, :repository => repository, :config => config) }
-    let(:repository) { FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today) }
+    let(:repository) do
+      repo = FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today)
+      repo.key = Factory(:ssl_key, :repository => repo)
+      repo
+    end
 
     before(:each) do
       build.matrix.each do |job|

@@ -45,7 +45,6 @@ FactoryGirl.define do
     last_duration 60
     created_at { |r| Time.utc(2011, 01, 30, 5, 25) }
     updated_at { |r| r.created_at + 5.minutes }
-    association :ssl_key
   end
 
   factory :minimal, :parent => :repository do
@@ -94,6 +93,6 @@ FactoryGirl.define do
 
   factory :ssl_key do
     private_key "-----BEGIN RSA PRIVATE KEY-----\nMIICXAIBAAKBgQDGed1uxl9szL0PVE/B6v9PDso+xRHs9e9YDB8Dm+QYFDyddud1\nn1134ZY39Dxg6zNhXDGKYilHP4E9boIuvgfSADN12eD1clogX46M4oBGgUAhtr5Q\nvGLn9TEW4IbeI+nDshMJLTLethCmB6Hwm5Ld9QnRVT6U/AztOTv9eJ/xKQIDAQAB\nAoGABQ3zcq/AnF+2bN6DzXdzmwrQYbrZEwTMXJyqaYgdzfMt/ACcMmWllrj6/1/L\n7dfvjgowBMstK/BVFUBsNk6GmmoCDHFAU+BgeyyqUxyeb63+0dIDwVYx9LHTL4dr\n9a8cVyeefqc3mqB13B9NUlS40Ij4kuK6EOGP3DZwC1FQVwECQQDtBQFqgRuNdfbV\naGIcXnuMnD4BGrnFHm0IBdLYsK4ULL85gFbhEew6DTYGYlGqX1dXbXYue8F18D8i\nzqL6HOBhAkEA1l6zvLdC2t3J9UnwpkwU0jSPX4BpHH7IkrCoGRggjwtbSxJFcCKB\nRrbPFDNAwchsa2/ldXSBrFg6Y7GlwF3lyQJAaJk+6LuVZzZZ+hAYzCA+Me15x479\n0Kn+v/2h8RL3n9ungD7NGIKKV4wg/WxCUgfFScX608S1udCObFP4xJwdwQJBALtl\nwEQqBGSmXCV0xM3rVoxH7En1TG3fm2E400pUoCnMKLugtlkHoPF7X91tzJ9aoQTu\npa2e8rkBy9FY++gFbZkCQAJ46lGEXZJqcACvLX0t/+RrvmqWMxCydLFG50kOnD8b\nVNILVyUn1lYasTs4aMYr6BRtVZoCxqV5/+rkMhb1eOM=\n-----END RSA PRIVATE KEY-----\n"
-    public_key  "-----BEGIN RSA PUBLIC KEY-----\nMIGJAoGBAMZ53W7GX2zMvQ9UT8Hq/08Oyj7FEez171gMHwOb5BgUPJ1253WfXXfh\nljf0PGDrM2FcMYpiKUc/gT1ugi6+B9IAM3XZ4PVyWiBfjozigEaBQCG2vlC8Yuf1\nMRbght4j6cOyEwktMt62EKYHofCbkt31CdFVPpT8DO05O/14n/EpAgMBAAE=\n-----END RSA PUBLIC KEY-----"
+    public_key  "-----BEGIN RSA PUBLIC KEY-----\nMIGJAoGBAMZ53W7GX2zMvQ9UT8Hq/08Oyj7FEez171gMHwOb5BgUPJ1253WfXXfh\nljf0PGDrM2FcMYpiKUc/gT1ugi6+B9IAM3XZ4PVyWiBfjozigEaBQCG2vlC8Yuf1\nMRbght4j6cOyEwktMt62EKYHofCbkt31CdFVPpT8DO05O/14n/EpAgMBAAE=\n-----END RSA PUBLIC KEY-----\n"
   end
 end
