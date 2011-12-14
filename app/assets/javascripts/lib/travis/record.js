@@ -32,7 +32,7 @@ Travis.Record = SC.Record.extend({
   whenReady: function(callback) {
     if(!callback) {
       return this;
-    } else if(this.isReady()) {
+    } else if(this.get('isReady')) {
       callback(this);
     } else {
       // this.addObserver('status', function() {
