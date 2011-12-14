@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 989430a5ff5d75429c28c9b42237b5dd2b4e7757
+  revision: a041713cb2e629ee834254f5bb0f5a6b8dcde9da
   branch: securekeys
   specs:
     travis-core (0.0.1)
