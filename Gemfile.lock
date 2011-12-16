@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: f761052c3fae95cb0b78a1262ea4235bf66edea7
+  revision: ac3663de5b325cca106b74e7172119e3f38fa1a7
   branch: securekeys
   specs:
     travis-core (0.0.1)
@@ -157,7 +157,7 @@ GEM
     multi_json (1.0.4)
     multi_xml (0.4.1)
     multipart-post (1.1.4)
-    newrelic_rpm (3.3.0)
+    newrelic_rpm (3.3.1)
     nokogiri (1.5.0)
     oa-core (0.3.2)
     oa-oauth (0.3.2)
@@ -232,7 +232,7 @@ GEM
       thor (~> 0.14.6)
     raindrops (0.8.0)
     rake (0.9.2.2)
-    rdoc (3.11)
+    rdoc (3.12)
       json (~> 1.4)
     refraction (0.2.0)
     rspec (2.7.0)
