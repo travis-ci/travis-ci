@@ -2,15 +2,15 @@
 Test.Factory = {
   Repository: {
     travis: function() {
-      // Travis.store.loadRecord(Travis.Repository, {
-      //   id: '1',
-      //   slug: 'travis-ci/travis-ci',
-      //   last_build_id: '1',
-      //   last_build_number: '1',
-      //   last_build_result: '0',
-      //   last_build_started_at: '2011-01-01T01:00:10Z',
-      //   last_build_finished_at: '2011-01-01T01:00:20Z'
-      // }, 1);
+      Travis.store.loadRecord(Travis.Repository, {
+        id: '1',
+        slug: 'travis-ci/travis-ci',
+        last_build_id: '1',
+        last_build_number: '1',
+        last_build_result: '0',
+        last_build_started_at: '2011-01-01T01:00:10Z',
+        last_build_finished_at: '2011-01-01T01:00:20Z'
+      }, 1);
       return Travis.store.find(Travis.Repository, 1);
     },
     worker: function() {

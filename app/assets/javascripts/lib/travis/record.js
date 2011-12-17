@@ -17,8 +17,8 @@ Travis.Record = SC.Record.extend({
   id: SC.Record.attr(Number),
 
   isReady: function() {
-    return this.get('status') & SC.Record.READY != 0;
-  }, //.property(),
+    return (this.get('status') & SC.Record.READY) != 0;
+  }.property(),
 
   update: function(attrs) {
     this.whenReady(function(record) {
@@ -32,7 +32,7 @@ Travis.Record = SC.Record.extend({
   whenReady: function(callback) {
     if(!callback) {
       return this;
-    } else if(this.get('status') & SC.Record.READY) {
+    } else if(this.isReady()) {
       callback(this);
     } else {
       // this.addObserver('status', function() {
