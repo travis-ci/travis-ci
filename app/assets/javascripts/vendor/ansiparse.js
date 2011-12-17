@@ -26,6 +26,17 @@ ansiparse = function (str) {
         //
         // We've matched full control code. Lets start matching formating data.
         //
+
+        //
+        // "emit" matched text with correct state
+        //
+        if (matchingText) {
+          state.text = matchingText;
+          result.push(state);
+          state = {};
+          matchingText = "";
+        }
+
         matchingControl = null;
         matchingData = '';
       }
@@ -34,6 +45,7 @@ ansiparse = function (str) {
         // We failed to match anything - most likely a bad control code. We
         // go back to matching regular strings.
         //
+        matchingText += matchingControl + str[i];
         matchingControl = null;
       }
       continue;
@@ -100,14 +112,6 @@ ansiparse = function (str) {
     if (str[i] == '\033') {
       matchingControl = str[i];
 
-      //
-      // "emit" matched text with correct state
-      //
-      if (matchingText) {
-        state.text = matchingText;
-        result.push(state);
-        state = {};
-      }
     }
     else {
       matchingText += str[i];
@@ -115,7 +119,7 @@ ansiparse = function (str) {
   }
 
   if (matchingText) {
-    state.text = matchingText;
+    state.text = matchingText + (matchingControl ? matchingControl : '');
     result.push(state);
   }
   return result;
