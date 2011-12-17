@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(:version => 20111214173922) do
     t.datetime "updated_at"
   end
 
+  add_index "artifacts", ["type", "job_id"], :name => "index_artifacts_on_type_and_job_id"
+
   create_table "builds", :force => true do |t|
     t.integer  "repository_id"
     t.string   "number"
