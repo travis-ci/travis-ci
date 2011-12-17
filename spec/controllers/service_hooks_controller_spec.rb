@@ -46,6 +46,15 @@ describe ServiceHooksController, :webmock => true do
 
         assert_requested(:post, 'https://api.github.com/hub?access_token=github_oauth_token', :times => 1)
       end
+
+      it "should not be acceptable if a Travis::GithubApi::ServiceHookError is raised" do
+        Repository.any_instance.expects(:service_hook).raises(Travis::GithubApi::ServiceHookError)
+
+        put :update, :id => 1, :name => 'minimal', :owner_name => 'svenfuchs', :active => 'true'
+
+        assert_response :not_acceptable
+      end
+
     end
 
     context 'unsubscribes from the service hook' do
