@@ -4,7 +4,7 @@ gem 'rails',                '~> 3.1.2'
 gem 'rake',                 '~> 0.9.2.2'
 
 gem 'travis-support', :git => 'git://github.com/travis-ci/travis-support.git'
-gem 'travis-core',    :git => 'git://github.com/travis-ci/travis-core.git', :branch => 'securekeys', :require => 'travis_core/engine'
+gem 'travis-core',    :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine'
 
 gem 'amqp',                 '~> 0.8.4'
 
