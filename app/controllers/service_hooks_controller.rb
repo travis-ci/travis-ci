@@ -1,5 +1,5 @@
 class ServiceHooksController < ApplicationController
-  rescue_from ActiveRecord::RecordInvalid, Travis::GithubApi::ServiceHookError, :with => :not_acceptable
+  rescue_from ActiveRecord::RecordInvalid, Travis::GithubApi::ServiceHookError, :with => Proc.new { head :not_acceptable }
 
   layout 'simple'
 
