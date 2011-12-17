@@ -74,9 +74,15 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
     return parts[parts.length - 1];
   }.property('compare_url').cacheable(),
 
+  formattedConfig: function() {
+    var config = $.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js');
+    var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
+    return values.length == 0 ? '-' : values.join(', ');
+  }.property('config').cacheable(),
+
   formattedMatrixHeaders: function() {
     var keys = $.keys($.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js'));
-    return $.map(['Build', 'Duration', 'Finished'].concat(keys), function(key) { return $.camelize(key) });
+    return $.map(['Job', 'Duration', 'Finished'].concat(keys), function(key) { return $.camelize(key) });
   }.property('config').cacheable(),
 
   url: function() {
@@ -95,7 +101,6 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   urlGithubCommit: function() {
     return 'http://github.com/' + this.getPath('repository.slug') + '/commit/' + this.get('commit');
   }.property('repository.slug', 'commit').cacheable(),
-
 });
 
 Travis.Build.reopenClass({

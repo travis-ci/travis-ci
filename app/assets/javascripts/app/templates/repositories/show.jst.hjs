@@ -24,7 +24,7 @@
       <div class="tab"></div>
     </li>
     <li id="tab_job">
-      <h5><a {{bindAttr href="job.url"}}>Build #{{job.number}}</a></h5>
+      <h5><a {{bindAttr href="job.url"}}>Job #{{job.number}}</a></h5>
       <div class="tab"></div>
     </li>
   </ul>

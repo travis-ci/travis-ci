@@ -27,7 +27,7 @@ Travis.Controllers.Repositories.List = SC.ArrayController.extend({
     this.set('content', Travis.Repository.recent());
     this.tabs.activate('recent');
   },
-  
+
   owned_by: function(githubId) {
     this.set('content', Travis.Repository.owned_by(githubId));
     this.tabs.activate('my_repositories');
@@ -40,7 +40,7 @@ Travis.Controllers.Repositories.List = SC.ArrayController.extend({
 
   searchObserver: function() {
     this[this.searchBox.value ? 'search' : 'recent']();
-    this.tabs.toggle('search', this.searchBox.value);
+    this.tabs.setDisplay('search', this.searchBox.value);
   }.observes('searchBox.value'),
 
   updateTimes: function() {
