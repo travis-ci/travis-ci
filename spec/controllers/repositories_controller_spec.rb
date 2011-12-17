@@ -27,7 +27,11 @@ describe RepositoriesController do
   end
 
   describe 'GET :show, format json' do
-    let(:repository) { FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today) }
+    let(:repository) do
+      repo = FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today)
+      repo.key = Factory(:ssl_key, :repository => repo)
+      repo
+    end
 
     before(:each) do
       config = { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'], 'env' => ['DB=sqlite3', 'DB=postgres'] }
@@ -54,6 +58,7 @@ describe RepositoriesController do
         'last_build_status' => 1,
         'last_build_language' => nil,
         'last_build_duration' => 160,
+        'public_key' => "-----BEGIN RSA PUBLIC KEY-----\nMIGJAoGBAMZ53W7GX2zMvQ9UT8Hq/08Oyj7FEez171gMHwOb5BgUPJ1253WfXXfh\nljf0PGDrM2FcMYpiKUc/gT1ugi6+B9IAM3XZ4PVyWiBfjozigEaBQCG2vlC8Yuf1\nMRbght4j6cOyEwktMt62EKYHofCbkt31CdFVPpT8DO05O/14n/EpAgMBAAE=\n-----END RSA PUBLIC KEY-----\n"
       }
     end
 
@@ -110,7 +115,11 @@ describe RepositoriesController do
   describe 'GET :show, format xml (schema: not specified)' do
     let(:config)     { { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'], 'env' => ['DB=sqlite3', 'DB=postgres'] } }
     let(:build)      { FactoryGirl.create(:build, :repository => repository, :config => config) }
-    let(:repository) { FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today) }
+    let(:repository) do
+      repo = FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today)
+      repo.key = Factory(:ssl_key, :repository => repo)
+      repo
+    end
 
     before(:each) do
       build.matrix.each do |job|
@@ -136,6 +145,7 @@ describe RepositoriesController do
           'last_build_duration'    => { '__content__' => '160' },
           'slug'                   => { '__content__' => 'sven/travis-ci' },
           'description'            => { 'nil' => 'true'},
+          'public_key'             => { '__content__' => "-----BEGIN RSA PUBLIC KEY-----\nMIGJAoGBAMZ53W7GX2zMvQ9UT8Hq/08Oyj7FEez171gMHwOb5BgUPJ1253WfXXfh\nljf0PGDrM2FcMYpiKUc/gT1ugi6+B9IAM3XZ4PVyWiBfjozigEaBQCG2vlC8Yuf1\nMRbght4j6cOyEwktMt62EKYHofCbkt31CdFVPpT8DO05O/14n/EpAgMBAAE=\n-----END RSA PUBLIC KEY-----\n" }
         }
       }
     end

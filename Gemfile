@@ -4,10 +4,8 @@ gem 'rails',                '~> 3.1.2'
 gem 'rake',                 '~> 0.9.2.2'
 
 gem 'travis-support', :git => 'git://github.com/travis-ci/travis-support.git'
-gem 'travis-core', :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine'
+gem 'travis-core',    :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine'
 
-# TODO remove this once pusher has removed the crack dependency. should be in travis-core's gemspec
-gem 'pusher', :git => 'https://github.com/juno/pusher-gem.git', :ref => 'd025ccb'
 gem 'amqp',                 '~> 0.8.4'
 
 # app
@@ -26,7 +24,7 @@ gem 'pg',                   '~> 0.11.0'
 gem 'silent-postgres',      '~> 0.1.1'
 
 # apis
-gem 'hoptoad_notifier',     '~> 2.4.11'
+gem 'airbrake',             '~> 3.0.9'
 gem 'newrelic_rpm',         '~> 3.3.0'
 
 # heroku
