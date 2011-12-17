@@ -24,7 +24,7 @@ gem 'pg',                   '~> 0.11.0'
 gem 'silent-postgres',      '~> 0.1.1'
 
 # apis
-gem 'hoptoad_notifier',     '~> 2.4.11'
+gem 'airbrake',             '~> 3.0.9'
 gem 'newrelic_rpm',         '~> 3.3.0'
 
 # heroku
