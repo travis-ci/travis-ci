@@ -2,18 +2,18 @@ require 'spec_helper'
 
 describe 'routes redirection' do
   it 'the user is redirected to the hash bang version of the user route' do
-    get '/svenfuchs'
-    response.should redirect_to('http://www.example.com/#!/svenfuchs')
+    get '/sven.fuchs'
+    response.should redirect_to('http://www.example.com/#!/sven.fuchs')
   end
 
   it 'the user is redirected to the hash bang version of the repository route' do
-    get '/svenfuchs/travis'
-    response.should redirect_to('http://www.example.com/#!/svenfuchs/travis')
+    get '/svenfuchs/travis-ci.org'
+    response.should redirect_to('http://www.example.com/#!/svenfuchs/travis-ci.org')
   end
 
   it 'the user is redirected to the hash bang version of the repository builds route' do
-    get '/svenfuchs/travis/builds'
-    response.should redirect_to('http://www.example.com/#!/svenfuchs/travis/builds')
+    get '/svenfuchs/travis-ci.org/builds'
+    response.should redirect_to('http://www.example.com/#!/svenfuchs/travis-ci.org/builds')
   end
 
   it 'the user is redirected to the hash bang version of the repository build route' do
