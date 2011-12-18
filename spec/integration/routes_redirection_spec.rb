@@ -2,22 +2,16 @@ require 'spec_helper'
 
 describe 'routes redirection' do
   it 'the user is redirected to the hash bang version of the user route' do
-    pending
-
     get '/sven.fuchs'
     response.should redirect_to('http://www.example.com/#!/sven.fuchs')
   end
 
   it 'the user is redirected to the hash bang version of the repository route' do
-    pending
-
     get '/svenfuchs/travis-ci.org'
     response.should redirect_to('http://www.example.com/#!/svenfuchs/travis-ci.org')
   end
 
   it 'the user is redirected to the hash bang version of the repository builds route' do
-    pending
-
     get '/svenfuchs/travis-ci.org/builds'
     response.should redirect_to('http://www.example.com/#!/svenfuchs/travis-ci.org/builds')
   end
