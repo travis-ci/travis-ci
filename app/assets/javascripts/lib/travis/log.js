@@ -61,7 +61,7 @@ Travis.Log = {
             ? ('<span class="' + classes.join(' ') + '">' + part.text + '</span>')
             : part.text;
     });
-    return text;
+    return text.replace(/\033\(B/, "");
   },
 
   fold: function(log) {

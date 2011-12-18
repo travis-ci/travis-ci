@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111212112411) do
+ActiveRecord::Schema.define(:version => 20111214173922) do
 
   create_table "artifacts", :force => true do |t|
     t.text     "content"
@@ -121,6 +121,16 @@ ActiveRecord::Schema.define(:version => 20111212112411) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "ssl_keys", :force => true do |t|
+    t.integer  "repository_id"
+    t.text     "public_key"
+    t.text     "private_key"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ssl_keys", ["repository_id"], :name => "index_ssl_key_on_repository_id"
 
   create_table "tokens", :force => true do |t|
     t.integer  "user_id"
