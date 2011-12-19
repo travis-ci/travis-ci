@@ -36,7 +36,7 @@ Travis.Worker = Travis.Record.extend({
   }.property('state'),
 
   urlJob: function() {
-    return '#!/' + this.getPath('payload.repository.slug') + '/job/' + this.getPath('payload.build.id');
+    return '#!/' + this.getPath('payload.repository.slug') + '/jobs/' + this.getPath('payload.build.id');
   }.property('state', 'payload')
 });
 
