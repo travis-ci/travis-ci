@@ -71,7 +71,8 @@ describe('Travis.Log.deansi', function() {
         { source: '\033[31m2 failed\033[0m, \033[36m1 skipped\033[0m, \033[33m7 undefined\033[0m, \033[32m212 passed\033[0m', result: '<span class="red">2 failed</span>, <span class="cyan">1 skipped</span>, <span class="yellow">7 undefined</span>, <span class="green">212 passed</span>' },
         { source: '\033[32mUsing /home/vagrant/.rvm/gems/ruby-1.8.7-p334\033[m' + String.fromCharCode(27) + '(B\r\n', result: '<span class="green">Using /home/vagrant/.rvm/gems/ruby-1.8.7-p334</span>\r\n' },
         { source: '\033[32mYour bundle is complete! Use `bundle show [gemname]` to see ...\033[0m\r\n', result: '<span class="green">Your bundle is complete! Use `bundle show [gemname]` to see ...</span>\r\n' },
-        { source: '\033[31mcucumber features/command_line.feature:176\033[0m\033[90m # Scenario: Recompiling a project\033[0m\r\n', result: '<span class="red">cucumber features/command_line.feature:176</span><span class="grey"> # Scenario: Recompiling a project</span>\r\n' }
+        { source: '\033[31mcucumber features/command_line.feature:176\033[0m\033[90m # Scenario: Recompiling a project\033[0m\r\n', result: '<span class="red">cucumber features/command_line.feature:176</span><span class="grey"> # Scenario: Recompiling a project</span>\r\n' },
+        { source: '\033[30;42m\033[2KOK (22 tests, 31 assertions)\n\033[0m[2K\nGenerating textual code coverage report, this may take a moment.', result: '<span class="black bg-green">OK (22 tests, 31 assertions)\n</span>\nGenerating textual code coverage report, this may take a moment.' }
       ];
       $.each(examples, function(ix, example) {
         expect(deansi(example.source)).toEqual(example.result);
@@ -95,6 +96,12 @@ describe('Travis.Log.deansi', function() {
     it('removes [K sequences preceeding a carriage return', function() {
       var source   = 'remote: Compressing objects: 100% (21/21), done. \033[K\r';
       var expected = 'remote: Compressing objects: 100% (21/21), done. \r';
+      expect(deansi(source)).toEqual(expected);
+    });
+
+    it('removes [2K sequences', function() {
+      var source   = '\033[2KOK (22 tests, 31 assertions)';
+      var expected = 'OK (22 tests, 31 assertions)';
       expect(deansi(source)).toEqual(expected);
     });
 
