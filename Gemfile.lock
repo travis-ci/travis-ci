@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/evanphx/puma.git
-  revision: bcef6b82c5c83cc41d9fa8c0434e0dab90a1ac06
+  revision: ba27787d0ddeec09330c1cd85d20f585a66b3b8e
   specs:
     puma (0.9.2)
       rack (~> 1.2)
