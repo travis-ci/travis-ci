@@ -28,7 +28,7 @@ gem 'airbrake',             '~> 3.0.9'
 gem 'newrelic_rpm',         '~> 3.3.0'
 
 # heroku
-gem 'puma',           :git => 'git://github.com/evanphx/puma.git'
+gem 'unicorn',              '~> 4.1.1'
 
 # assets
 group :assets do
