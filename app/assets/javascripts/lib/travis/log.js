@@ -33,7 +33,7 @@ Travis.Log = {
     var result = '';
     $.each(log.trim().split('\n'), function (ix, line) {
       var path = Travis.Log.location().substr(1).replace(/\/L\d+/, '') + '/L' + (ix + 1);
-      result += '<p><a href="#%@" id="%@" name="L%@">%@</a>%@</p>\n'.fmt(path, path, (ix + 1), (ix + 1), line.trim());
+      result += '<p><a href="#%@" id="%@" name="L%@">%@</a>%@</p>\n'.fmt(path, path, (ix + 1), (ix + 1), line);
     });
     return result.trim();
   },
@@ -44,7 +44,11 @@ Travis.Log = {
     // carret returns. Lack of those causes progress bars and such to fail
     // miserably.
     //
-    log = log.replace(/\033\[K\r/, "\r").replace(/^.*\r(?!$)/gm, '').replace(/\[2K/g, '');
+    log = log
+            .replace(/\r\r/g, '\r')
+            .replace(/\033\[K\r/g, '\r')
+            .replace(/^.*\r(?!$)/gm, '')
+            .replace(/\[2K/g, '');
 
     var ansi = ansiparse(log),
         text = '';
