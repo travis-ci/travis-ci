@@ -44,7 +44,11 @@ Travis.Log = {
     // carret returns. Lack of those causes progress bars and such to fail
     // miserably.
     //
-    log = log.replace(/\033\[K\r/, "\r").replace(/^.*\r(?!$)/gm, '').replace(/\[2K/g, '');
+    log = log
+            .replace(/\r\r/g, '\r')
+            .replace(/\033\[K\r/g, '\r')
+            .replace(/^.*\r(?!$)/gm, '')
+            .replace(/\[2K/g, '');
 
     var ansi = ansiparse(log),
         text = '';
