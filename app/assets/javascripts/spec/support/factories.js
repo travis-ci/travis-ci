@@ -109,7 +109,11 @@ Test.Factory = {
       Travis.store.loadRecord(Travis.Job, { id: 6, number: '1.2', repository: { slug: 'travis-ci/travis-ci'     } }, 6);
       Travis.store.loadRecord(Travis.Job, { id: 7, number: '2.1', repository: { slug: 'travis-ci/travis-worker' } }, 7);
       Travis.store.loadRecord(Travis.Job, { id: 8, number: '2.2', repository: { slug: 'travis-ci/travis-worker' } }, 8);
-      return Travis.store.find(Travis.Job);
+      return Travis.store.find(Travis.Job, 5);
+    },
+    single : function() {
+      Travis.store.loadRecord(Travis.Job, { id: 9, number: '1.9', repository: { slug: 'travis-ci/travis-ci' }, started_at: '2011-01-01T01:00:10Z', finished_at: '2011-01-01T01:00:20Z', commit: '4d7621ea359459652268edeeb79ee59bd1709248', branch: 'master', }, 9);
+      return Travis.store.find(Travis.Job, 9);
     }
   },
   Worker: {
