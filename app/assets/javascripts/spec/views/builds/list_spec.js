@@ -7,7 +7,10 @@ describe('Views:', function() {
         spyOn($.timeago, 'now').andReturn(new Date(Date.UTC(2011, 0, 1, 4, 0, 0)).getTime());
 
         builds = Test.Factory.Build.byRepository();
-        view = createView('#main', { builds: builds, repositoryBinding: 'builds.repository', templateName: 'app/templates/builds/list' });
+        view = createView('#main', { 
+                              builds: builds, 
+                              repositoryBinding: 'builds.repository', 
+                              templateName: 'app/templates/builds/list' });
       });
 
       afterEach(function() {
@@ -51,12 +54,12 @@ describe('Views:', function() {
         });
 
         it('updates the duration', function() {
-          SC.run(function() { builds.objectAt(0).set('finishedAt', '2011-01-01T03:00:20Z'); });
+          SC.run(function() { builds.objectAt(0).set('finished_at', '2011-01-01T03:00:20Z'); });
           expect(view.$('#builds tbody tr:first-child .duration')).toHaveText('2 hrs 10 sec');
         });
 
         it('updates the finished_at time', function() {
-          SC.run(function() { builds.objectAt(0).set('finishedAt', '2011-01-01T03:00:20Z'); });
+          SC.run(function() { builds.objectAt(0).set('finished_at', '2011-01-01T03:00:20Z'); });
           expect(view.$('#builds tbody tr:first-child .finished_at')).toHaveText('about an hour ago');
         });
       });

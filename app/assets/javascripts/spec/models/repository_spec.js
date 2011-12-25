@@ -20,24 +20,24 @@ describe('Travis.Repository', function() {
         expect(repository.get('slug')).toEqual('travis-ci/travis-ci');
       });
 
-      it('lastBuildId', function() {
-        expect(repository.get('lastBuildId')).toEqual(1);
+      it('last_build_id', function() {
+        expect(repository.get('last_build_id')).toEqual(1);
       });
 
-      it('lastBuildNumber', function() {
-        expect(repository.get('lastBuildNumber')).toEqual('1');
+      it('last_build_number', function() {
+        expect(repository.get('last_build_number')).toEqual('1');
       });
 
-      it('lastBuildResult', function() {
-        expect(repository.get('lastBuildResult')).toEqual(0);
+      it('last_build_result', function() {
+        expect(repository.get('last_build_result')).toEqual(0);
       });
 
-      it('lastBuildStartedAt', function() {
-        expect(repository.get('lastBuildStartedAt')).toEqual('2011-01-01T01:00:10Z');
+      it('last_build_started_at', function() {
+        expect(repository.get('last_build_started_at')).toEqual('2011-01-01T01:00:10Z');
       });
 
-      it('lastBuildFinishedAt', function() {
-        expect(repository.get('lastBuildFinishedAt')).toEqual('2011-01-01T01:00:20Z');
+      it('last_build_finished_at', function() {
+        expect(repository.get('last_build_finished_at')).toEqual('2011-01-01T01:00:20Z');
       });
     });
 
@@ -58,29 +58,29 @@ describe('Travis.Repository', function() {
     describe('properties', function() {
       describe('color', function() {
         it('returns "green" if the last build has passed', function() {
-          repository.set('lastBuildResult', 0);
+          repository.set('last_build_result', 0);
           expect(repository.get('color')).toEqual('green');
         });
 
         it('returns "red" if the last build has failed', function() {
-          repository.set('lastBuildResult', 1);
+          repository.set('last_build_result', 1);
           expect(repository.get('color')).toEqual('red');
         });
 
         it('returns undefined if the last build result is unknown', function() {
-          repository.set('lastBuildResult', null);
+          repository.set('last_build_result', null);
           expect(repository.get('color')).toEqual(undefined);
         });
       });
 
       describe('formattedLastBuildDuration', function() {
         it("returns a '-' if the last build's start time is not known", function() {
-          repository.set('lastBuildStartedAt', null);
+          repository.set('last_build_started_at', null);
           expect(repository.get('formattedLastBuildDuration')).toEqual('-');
         });
 
         it("returns a human readable duration using the current time if the last build's finished time is not known", function() {
-          repository.set('lastBuildFinishedAt', null);
+          repository.set('last_build_finished_at', null);
           expect(repository.get('formattedLastBuildDuration')).toEqual('more than 24 hrs');
         });
 
@@ -91,7 +91,7 @@ describe('Travis.Repository', function() {
 
       describe('formattedLastBuildFinishedAt', function() {
         it("returns a '-' if the last build's finished time is not known", function() {
-          repository.set('lastBuildFinishedAt', null);
+          repository.set('last_build_finished_at', null);
           expect(repository.get('formattedLastBuildFinishedAt')).toEqual('-');
         });
 
@@ -107,17 +107,17 @@ describe('Travis.Repository', function() {
         });
 
         it("returns css classes not including 'green' if the last build result is not known", function() {
-          repository.set('lastBuildResult', null);
+          repository.set('last_build_result', null);
           expect(repository.get('cssClasses').split(' ')).not.toContain('green');
         });
 
         it("returns css classes including 'green' if the last build has passed", function() {
-          repository.set('lastBuildResult', 0);
+          repository.set('last_build_result', 0);
           expect(repository.get('cssClasses').split(' ')).toContain('green');
         });
 
         it("returns css classes including 'red' if the last build has failed", function() {
-          repository.set('lastBuildResult', 1);
+          repository.set('last_build_result', 1);
           expect(repository.get('cssClasses').split(' ')).toContain('red');
         });
 

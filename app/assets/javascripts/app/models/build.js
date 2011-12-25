@@ -90,17 +90,16 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   }.property('repository.status', 'id'),
 
   urlAuthor: function() {
-    this.get('authorEmail')
-    return 'mailto:' + this.get('authorEmail');
+    return 'mailto:' + this.get('author_email');
   }.property('author_email').cacheable(),
 
   urlCommitter: function() {
-    return 'mailto:' + this.get('committerEmail');
+    return 'mailto:' + this.get('committer_email');
   }.property('committer_email').cacheable(),
 
   urlGithubCommit: function() {
     return 'http://github.com/' + this.getPath('repository.slug') + '/commit/' + this.get('commit');
-  }.property('repository.slug', 'commit').cacheable(),
+  }.property('repository.slug', 'commit').cacheable()
 });
 
 Travis.Build.reopenClass({

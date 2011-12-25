@@ -66,14 +66,12 @@ $.extend(jasmine, {
 
     var commit       = build.get('commit').slice(0, 7) + (build.get('branch') ? ' (%@)'.fmt(build.get('branch')) : '');
     var commitUrl    = 'http://github.com/' + build.getPath('repository.slug') + '/commit/' + build.get('commit');
-    var committerUrl = 'mailto:' + build.get('committerEmail');
-    var authorUrl    = 'mailto:' + build.get('authorEmail');
 
     var expected = {
       '.summary .number':        build.get('number'),
       '.summary .commit-hash a': { text: commit, href: commitUrl },
-      '.summary .committer a':   { text: build.get('committerName'), href: committerUrl },
-      '.summary .author a':      { text: build.get('authorName'), href: authorUrl }
+      '.summary .committer a':   { text: build.get('committer_name'), href: 'mailto:' + build.get('committer_email') },
+      '.summary .author a':      { text: build.get('author_name'), href: 'mailto:' + build.get('author_email') }
       // '.summary .duration':      { title: build.get('duration'), text: build.get('formattedDuration') },
       // '.summary .finished_at':   { title: build.get('finished_at'), text: build.get('formattedFinishedAt') },
     };
