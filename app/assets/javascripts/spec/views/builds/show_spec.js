@@ -9,7 +9,11 @@ describe('Views:', function() {
     describe('show', function() {
 
       beforeEach(function() {
-        view = createView('#main', { repository: build.get('repository'), build: build, templateName: 'app/templates/builds/show' });
+        view = createView('#main', { 
+                              repository: build.get('repository'), 
+                              content: build, 
+                              templateName: 'app/templates/builds/show' 
+                          });
       });
 
       afterEach(function() {
@@ -27,7 +31,7 @@ describe('Views:', function() {
         });
 
         it('updates the duration and finished_at time', function() {
-          SC.run(function() { build.set('finishedAt', '2011-01-01T03:00:20Z'); });
+          SC.run(function() { build.set('finished_at', '2011-01-01T03:00:20Z'); });
           expect(view.$()).toShowBuildSummary(build);
         });
 
@@ -97,7 +101,7 @@ describe('Views:', function() {
 
       it('renders the log', function() {
         // spyOn(Travis.Log, 'filter').andCallFake(function(log) { return log; });
-        expect(view.$('pre.log')).toHaveText('1Done. Build script exited with: 0')
+        expect(view.$('pre.log')).toHaveText('1Done. Build script exited with: 0');
       });
     });
   });

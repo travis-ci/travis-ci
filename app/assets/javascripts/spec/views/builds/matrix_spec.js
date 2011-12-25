@@ -2,17 +2,15 @@ describe('Views:', function() {
   describe('builds', function() {
     describe('matrix', function() {
       var build, view;
-
+                 
       beforeEach(function() {
         spyOn($.timeago, 'now').andReturn(new Date(Date.UTC(2011, 0, 1, 4, 0, 0)).getTime());
-
         build = Test.Factory.Build.passing();
         view = createView('#main', {
-          repository: build.get('repository'),
-          build: build,
-          matrix: SC.ArrayProxy.create({ content: build.get('matrix') }),
-          templateName: 'app/templates/builds/matrix'
+          content: build,
+          templateName: 'app/templates/jobs/list'
         });
+
       });
 
       afterEach(function() {
@@ -24,7 +22,7 @@ describe('Views:', function() {
       });
 
       it('does not render extra table header cells if the config is empty', function() {
-        expect($.map(view.$('th'), function(th) { return $(th).text() })).toEqual(['Build', 'Duration', 'Finished'])
+        expect($.map(view.$('th'), function(th) { return $(th).text().trim() })).toEqual(['Job', 'Duration', 'Finished']);
       });
 
       // TODO this works in the browser
@@ -63,12 +61,12 @@ describe('Views:', function() {
         });
 
         it('updates the duration', function() {
-          SC.run(function() { build.get('matrix').objectAt(0).set('finishedAt', '2011-01-01T03:00:20Z'); });
+          SC.run(function() { build.get('matrix').objectAt(0).set('finished_at', '2011-01-01T03:00:20Z'); });
           expect(view.$('#builds tbody tr:first-child .duration')).toHaveText('2 hrs 10 sec');
         });
 
         it('updates the finished_at time', function() {
-          SC.run(function() { build.get('matrix').objectAt(0).set('finishedAt', '2011-01-01T03:00:20Z'); });
+          SC.run(function() { build.get('matrix').objectAt(0).set('finished_at', '2011-01-01T03:00:20Z'); });
           expect(view.$('#builds tbody tr:first-child .finished_at')).toHaveText('about an hour ago');
         });
       });
