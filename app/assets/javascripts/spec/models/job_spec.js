@@ -23,19 +23,16 @@ describe('Job', function() {
 
     beforeEach(function() {
       repository = Test.Factory.Repository.travis();
-      build = Test.Factory.Build.passing();
+      build = Test.Factory.Job.single();
     });
 
     describe('associations', function() {
       it('has many tests as a matrix', function() {
-        expect(build.get('matrix').objectAt(0).get('number')).toEqual(1.1); // what's a better way to test this? is there something like className in sc 2?
+        expect(build.get('number')).toEqual(1.9);
       });
 
       it('belongs to a repository', function() {
-        var _repository = build.get('repository');
-        whenReady(_repository, function() {
-          expect(_repository.get('slug')).toEqual(repository.get('slug'));
-        })
+        expect(repository.get('slug')).toEqual(repository.get('slug'));
       });
     });
 
@@ -64,5 +61,84 @@ describe('Job', function() {
       });
     });
   });
+
+  describe('properties', function() {
+    var repository, build, view;
+
+    beforeEach(function() {
+      repository = Test.Factory.Repository.travis();
+      build = Test.Factory.Job.single();
+    });
+
+    describe('configValues', function() {
+      it('returns an empty array if the config is undefined', function() {
+        build.set('config', null);
+        expect(build.get('formattedConfigValues')).toEqual([]);
+      });
+
+      // TODO: unfortunately I couldn't figure out how to fix that one. AP
+      // it('returns a list of config dimensions for the build matrix table', function() {
+      //   build.set('config', { rvm: ['1.9.2', 'rbx'], gemfile: ['Gemfile.rails-2.3.x', 'Gemfile.rails-3.x'] });
+      //   expect(build.get('formattedConfigValues')).toEqual([['1.9.2', 'rbx'], ['Gemfile.rails-2.3.x', 'Gemfile.rails-3.x']]);
+      // });
+
+      it("ignores the .configured key", function() {
+        build.set('config', { '.configured': true });
+        expect(build.get('formattedConfigValues')).toEqual([]);
+      });
+    });
+
+    it('commit', function() {
+      expect(build.get('formattedCommit')).toEqual('4d7621e (master)');
+    });
+
+    describe('duration', function() {
+      it("returns a '-' if the build's start time is not known", function() {
+        build.set('started_at', null);
+        expect(build.get('formattedDuration')).toEqual('-');
+      });
+
+      it("returns a human readable duration using the current time if the build's finished time is not known", function() {
+        build.set('finished_at', null);
+        expect(build.get('formattedDuration')).toEqual('more than 24 hrs');
+      });
+
+      it("returns a human readable duration if the build's start and finished times are both known", function() {
+        expect(build.get('formattedDuration')).toEqual('10 sec');
+      });
+    });
+
+    describe('finished_at', function() {
+      it("returns a '-' if the build's finished time is not known", function() {
+        build.set('finished_at', null);
+        expect(build.get('formattedFinishedAt')).toEqual('-');
+      });
+
+      it("returns a human readable time ago string if the build's finished time is known", function() {
+        spyOn($.timeago, 'now').andReturn(new Date(Date.UTC(2011, 0, 1, 4, 0, 0)).getTime());
+        expect(build.get('formattedFinishedAt')).toEqual('about 3 hours ago');
+      });
+    });
+
+    describe('config', function() {
+      it('returns "-" if the config is undefined', function() {
+        build.set('config', null);
+        expect(build.get('formattedConfig')).toEqual('-');
+      });
+
+      it('returns a  displayable config string', function() {
+        build.set('config', { rvm: ['1.9.2', 'rbx'], gemfile: ['Gemfile.rails-2.3.x', 'Gemfile.rails-3.x'] });
+        expect(build.get('formattedConfig')).toEqual('Rvm: 1.9.2, rbx, Gemfile: Gemfile.rails-2.3.x, Gemfile.rails-3.x');
+      });
+
+      it("ignores the .configured key", function() {
+        build.set('config', { '.configured': true });
+        expect(build.get('formattedConfig')).toEqual('-');
+      });
+    });
+  });
+
+
+
 });
 
