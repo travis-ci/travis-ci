@@ -102,6 +102,10 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
     return log ? Travis.Log.filter(log) : '';
   }.property('log').cacheable(),
 
+  formattedMessage: function(){
+    return this.emojize(this.get('message') || '');
+  }.property('message'),
+
   url: function() {
     return '#!/' + this.getPath('repository.slug') + '/jobs/' + this.get('id');
   }.property('repository', 'id'),
