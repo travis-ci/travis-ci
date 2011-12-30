@@ -28,7 +28,7 @@
     </div>
 
     <dt>Message</dt>
-    <dd class="commit-message">{{content.message}}</dd>
+    <dd class="commit-message">{{{content.formattedMessage}}}</dd>
 
     {{#if content.isMatrix}}
     {{else}}
