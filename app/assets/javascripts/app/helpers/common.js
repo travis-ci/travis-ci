@@ -54,8 +54,11 @@ Travis.Helpers.Common = {
     var emojis = text.match(/:\S+:/g);
     if (emojis !== null){
       $.each(emojis, function(ix, emoji) {
-        var image = '<img class="emoji" title="' + emoji + '" alt="' + emoji + '" src="/assets/emoji/' + emoji.substring(1, emoji.length -1) + '.png"/>';
-        text = text.replace(emoji, image);
+        var strippedEmoji = emoji.substring(1, emoji.length - 1);
+        if (Travis.Helpers.EmojiDictionary.indexOf(strippedEmoji) != -1){
+          var image = '<img class="emoji" title="' + emoji + '" alt="' + emoji + '" src="/assets/emoji/' + strippedEmoji + '.png"/>';
+          text = text.replace(emoji, image);
+        }
       });
     }
     return text;
