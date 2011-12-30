@@ -51,7 +51,7 @@ Travis.Helpers.Common = {
   },
 
   emojize: function(text){
-    var emojis = text.match(/:.*:/);
+    var emojis = text.match(/:\S+:/);
     if (emojis !== null){
       $.each(emojis, function(ix, emoji) {
         var image = '<img class="emoji" title="' + emoji + '" alt="' + emoji + '" src="/assets/emoji/' + emoji.substring(1, emoji.length -1) + '.png"/>';
