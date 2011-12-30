@@ -85,6 +85,11 @@ describe('Build', function() {
         expect(build.get('formattedMessage')).toEqual('The <img class="emoji" title=":cake:" alt=":cake:" src="/assets/emoji/cake.png"/> is a lie');
       });
 
+      it ('changes multiple emoji to image tags', function() {
+        build.set('message', 'I :love: :cake:');
+        expect(build.get('formattedMessage')).toEqual('I <img class="emoji" title=":love:" alt=":love:" src="/assets/emoji/love.png"/> <img class="emoji" title=":cake:" alt=":cake:" src="/assets/emoji/cake.png"/>');
+      });
+
       it ('does not change message without emoji', function() {
         build.set('message', 'Issue: This is normal commit ::.');
         expect(build.get('formattedMessage')).toEqual('Issue: This is normal commit ::.');
