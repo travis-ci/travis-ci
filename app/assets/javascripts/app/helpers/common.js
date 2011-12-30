@@ -48,5 +48,16 @@ Travis.Helpers.Common = {
 
   _toUtc: function(date) {
     return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+  },
+
+  emojize: function(text){
+    var emojis = text.match(/:\S+:/);
+    if (emojis !== null){
+      $.each(emojis, function(ix, emoji) {
+        var image = '<img class="emoji" title="' + emoji + '" alt="' + emoji + '" src="/assets/emoji/' + emoji.substring(1, emoji.length -1) + '.png"/>';
+        text = text.replace(emoji, image);
+      });
+    }
+    return text;
   }
 };

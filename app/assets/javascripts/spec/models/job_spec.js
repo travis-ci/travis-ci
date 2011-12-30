@@ -136,9 +136,18 @@ describe('Job', function() {
         expect(build.get('formattedConfig')).toEqual('-');
       });
     });
+
+    describe('message', function() {
+      it ('changes emoji to image tags', function() {
+        build.set('message', 'The :cake: is a lie');
+        expect(build.get('formattedMessage')).toEqual('The <img class="emoji" title=":cake:" alt=":cake:" src="/assets/emoji/cake.png"/> is a lie');
+      });
+
+      it ('does not change message without emoji', function() {
+        build.set('message', 'Issue: This is normal commit ::.');
+        expect(build.get('formattedMessage')).toEqual('Issue: This is normal commit ::.');
+      });
+    });
   });
-
-
-
 });
 
