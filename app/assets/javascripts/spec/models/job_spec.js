@@ -144,13 +144,13 @@ describe('Job', function() {
       });
 
       it ('changes multiple emoji to image tags', function() {
-        build.set('message', 'I :love: :cake:');
-        expect(build.get('formattedMessage')).toEqual('I <img class="emoji" title=":love:" alt=":love:" src="/assets/emoji/love.png"/> <img class="emoji" title=":cake:" alt=":cake:" src="/assets/emoji/cake.png"/>');
+        build.set('message', 'I :heart: :cake:');
+        expect(build.get('formattedMessage')).toEqual('I <img class="emoji" title=":heart:" alt=":heart:" src="/assets/emoji/heart.png"/> <img class="emoji" title=":cake:" alt=":cake:" src="/assets/emoji/cake.png"/>');
       });
 
       it ('does not change message without emoji', function() {
-        build.set('message', 'Issue: This is normal commit ::.');
-        expect(build.get('formattedMessage')).toEqual('Issue: This is normal commit ::.');
+        build.set('message', 'Issue: This is normal commit :: Something with ActiveSupport::Callbacks: remove __define_runner');
+        expect(build.get('formattedMessage')).toEqual('Issue: This is normal commit :: Something with ActiveSupport::Callbacks: remove __define_runner');
       });
     });
   });
