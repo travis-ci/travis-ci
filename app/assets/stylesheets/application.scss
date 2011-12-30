@@ -913,6 +913,15 @@ pre::-webkit-scrollbar-thumb:horizontal {
       margin-bottom: 4px;
     }
   }
+  p.notice {
+    background-color: #a8eb75;
+    padding: 10px;
+
+    small{
+      font-size: 13px;
+      display: block;
+    }
+  }
   p.tip {
     font-size: 13px;
     margin-top: -10px;
