@@ -85,6 +85,10 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
     return $.map(['Job', 'Duration', 'Finished'].concat(keys), function(key) { return $.camelize(key) });
   }.property('config').cacheable(),
 
+  formattedMessage: function(){
+    return this.emojize(this.get('message') || '');
+  }.property('message'),
+
   url: function() {
     return '#!/' + this.getPath('repository.slug') + '/builds/' + this.get('id');
   }.property('repository.status', 'id'),
