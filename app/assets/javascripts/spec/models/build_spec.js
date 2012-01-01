@@ -94,6 +94,11 @@ describe('Build', function() {
         build.set('message', 'Issue: This is normal commit :: Something with ActiveSupport::Callbacks: remove __define_runner');
         expect(build.get('formattedMessage')).toEqual('Issue: This is normal commit :: Something with ActiveSupport::Callbacks: remove __define_runner');
       });
+
+      it ('trims message to first line in build list for shortMessage', function() {
+        build.set('message', 'First line of commit.\\n\\nSecond line of commit');
+        expect(build.get('shortMessage')).toEqual('First line of commit.');
+      });
     });
   });
 });
