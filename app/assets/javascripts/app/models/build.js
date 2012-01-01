@@ -89,6 +89,10 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
     return this.emojize(this.get('message') || '');
   }.property('message'),
 
+  shortMessage: function(){
+    return this.get('formattedMessage').split('\\n')[0];
+  }.property('message'),
+
   url: function() {
     return '#!/' + this.getPath('repository.slug') + '/builds/' + this.get('id');
   }.property('repository.status', 'id'),
