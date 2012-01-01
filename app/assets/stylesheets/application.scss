@@ -395,7 +395,7 @@ caption {
   .summary dt,
   .summary dd {
     float: left;
-    height: 25px;
+    min-height: 25px;
     margin: 0;
   }
   .summary dt {

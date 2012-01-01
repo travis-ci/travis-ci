@@ -152,6 +152,11 @@ describe('Job', function() {
         build.set('message', 'Issue: This is normal commit :: Something with ActiveSupport::Callbacks: remove __define_runner');
         expect(build.get('formattedMessage')).toEqual('Issue: This is normal commit :: Something with ActiveSupport::Callbacks: remove __define_runner');
       });
+
+      it ('shows mulitple lines commits in multiple html lines', function() {
+        build.set('message', 'First line of commit.\\n\\nSecond line of commit');
+        expect(build.get('formattedMessage')).toEqual('First line of commit.<br/><br/>Second line of commit');
+      });
     });
   });
 });
