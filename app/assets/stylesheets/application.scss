@@ -412,6 +412,10 @@ caption {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  .summary .commit-message {
+    white-space: normal;
+    min-width: 0;
+  }
   .log {
     clear: left;
     white-space: pre-wrap;
