@@ -1,7 +1,7 @@
 require 'tilt'
 require 'json'
 
-class ScHandlebars < Tilt::Template
+class EmberHandlebars < Tilt::Template
   def self.default_mime_type
     "application/javascript"
   end
@@ -10,6 +10,6 @@ class ScHandlebars < Tilt::Template
   end
 
   def evaluate(scope, locals, &block)
-    "SC.TEMPLATES['#{scope.logical_path}'] = SC.Handlebars.compile(#{data.to_json})"
+    "Ember.TEMPLATES['#{scope.logical_path}'] = Ember.Handlebars.compile(#{data.to_json})"
   end
 end
