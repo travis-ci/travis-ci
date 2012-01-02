@@ -11,7 +11,7 @@ Travis.Controllers.Builds.Show = SC.Object.extend({
       repositoryBinding: 'controller.repository',
       contentBinding: 'controller.build',
       jobsBinding: 'controller.jobs',
-      templateName: 'app/templates/builds/show',
+      templateName: 'app/templates/builds/show'
     });
   },
 
@@ -27,13 +27,13 @@ Travis.Controllers.Builds.Show = SC.Object.extend({
     if(build) build.updateTimes();
 
     var matrix = this.getPath('build.matrix');
-    if(matrix) $.each(matrix.toArray(), function(ix, job) { job.updateTimes() }.bind(this));
+    if(matrix) $.each(matrix.toArray(), function(ix, job) { job.updateTimes(); }.bind(this));
 
     SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
   },
 
   _buildObserver: function() {
-    if(this.getPath('build.isReady') && this.getPath('build.matrix.length') == 0) {
+    if(this.getPath('build.isReady') && this.getPath('build.matrix.length') === 0) {
       this.get('build').refresh();
     }
     if(this.getPath('build.isReady') && this.getPath('build.matrix.length') == 1 && this.getPath('build.matrix').objectAt(0).get('log') === null) {

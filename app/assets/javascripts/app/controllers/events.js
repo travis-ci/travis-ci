@@ -53,7 +53,7 @@ Travis.Controllers.Events = SC.Object.extend({
 
   workerRemoved: function(data) {
     var worker = Travis.Worker.find(data.id);
-    if(worker) worker.whenReady(function(worker) { if(worker) worker.destroy() });
+    if(worker) worker.whenReady(function(worker) { if(worker) worker.destroy(); });
   },
 
   updateFrom: function(data) {

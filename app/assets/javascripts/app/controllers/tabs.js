@@ -32,5 +32,5 @@ Travis.Controllers.Tabs = SC.Object.extend({
   destroy: function() {
     if(this.tab) this.tab.destroy();
     delete this.tab;
-  },
+  }
 });
