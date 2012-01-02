@@ -1,5 +1,4 @@
 //= require app/controllers/tabs.js
-//= require app/views.js
 
 Travis.Controllers.Repositories.Show = Ember.Object.extend({
   tabs: Travis.Controllers.Tabs.create({
@@ -17,7 +16,7 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
 
   init: function() {
     this.tabs.parent = this;
-    this.view = Travis.View.create({
+    this.view = Ember.View.create({
       controller: this,
       repositoryBinding: 'controller.repository',
       buildBinding: 'controller.build',

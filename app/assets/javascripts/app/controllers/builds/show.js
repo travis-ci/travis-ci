@@ -6,7 +6,7 @@ Travis.Controllers.Builds.Show = Ember.Object.extend({
     Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
     var self = this;
 
-    this.view = Travis.View.create({
+    this.view = Ember.View.create({
       controller: this,
       repositoryBinding: 'controller.repository',
       contentBinding: 'controller.build',

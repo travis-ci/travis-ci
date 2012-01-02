@@ -6,7 +6,7 @@ Travis.Controllers.Builds.List = Ember.ArrayController.extend({
   init: function() {
     Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
 
-    this.view = Travis.View.create({
+    this.view = Ember.View.create({
       builds: this,
       repositoryBinding: 'builds.repository',
       templateName: 'app/templates/builds/list'
