@@ -1,12 +1,12 @@
 //= require app/controllers/tabs.js
 //= require app/views.js
 
-Travis.Controllers.Repositories.List = SC.ArrayController.extend({
-  searchBox: SC.TextField.create({
+Travis.Controllers.Repositories.List = Ember.ArrayController.extend({
+  searchBox: Ember.TextField.create({
   }),
 
   init: function() {
-    SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
+    Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
 
     this.tabs = Travis.Controllers.Tabs.create({
       selector: '#left',
@@ -47,6 +47,6 @@ Travis.Controllers.Repositories.List = SC.ArrayController.extend({
     var repositories  = this.get('content');
     if(repositories) repositories.forEach(function(repository) { repository.updateTimes(); }.bind(this));
 
-    SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
+    Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
   }
 });

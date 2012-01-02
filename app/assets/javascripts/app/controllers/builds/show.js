@@ -1,9 +1,9 @@
-Travis.Controllers.Builds.Show = SC.Object.extend({
+Travis.Controllers.Builds.Show = Ember.Object.extend({
   buildBinding: 'parent.build',
   repositoryBinding: 'parent.repository',
 
   init: function() {
-    SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
+    Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
     var self = this;
 
     this.view = Travis.View.create({
@@ -29,7 +29,7 @@ Travis.Controllers.Builds.Show = SC.Object.extend({
     var matrix = this.getPath('build.matrix');
     if(matrix) $.each(matrix.toArray(), function(ix, job) { job.updateTimes(); }.bind(this));
 
-    SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
+    Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
   },
 
   _buildObserver: function() {

@@ -1,9 +1,9 @@
-Travis.Controllers.Jobs.Show = SC.Object.extend({
+Travis.Controllers.Jobs.Show = Ember.Object.extend({
   jobBinding: 'parent.job',
   repositoryBinding: 'parent.repository',
 
   init: function() {
-    SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
+    Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
     var self = this;
 
     this.view = Travis.View.create({
@@ -45,17 +45,17 @@ Travis.Controllers.Jobs.Show = SC.Object.extend({
   updateTimes: function() {
     var build  = this.get('build');
     if(build) build.updateTimes();
-    SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
+    Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
   },
 
   _jobRefresher: function() {
-    if((this.getPath('job.status') & SC.Record.READY) && (this.getPath('job.log') === null)) {
+    if((this.getPath('job.status') & Ember.Record.READY) && (this.getPath('job.log') === null)) {
       this.get('job').refresh();
     }
   }.observes('job.status'),
 
   _jobSubscriber: function() {
-    if((this.getPath('job.status') & SC.Record.READY) && (this.getPath('job.state') != 'finished')) {
+    if((this.getPath('job.status') & Ember.Record.READY) && (this.getPath('job.state') != 'finished')) {
       this.get('job').subscribe();
     }
   }.observes('job.status')
