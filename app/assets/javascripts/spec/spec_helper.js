@@ -29,7 +29,7 @@ beforeEach(function() {
 });
 
 var createView = function(selector, options) {
-  var view = Travis.View.create(options);
+  var view = Ember.View.create(options);
   Ember.run(function() { view.appendTo(selector) });
   return view;
 };

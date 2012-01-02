@@ -1,5 +1,4 @@
 //= require app/controllers/tabs.js
-//= require app/views.js
 
 Travis.Controllers.Repositories.List = Ember.ArrayController.extend({
   searchBox: Ember.TextField.create({
@@ -13,7 +12,7 @@ Travis.Controllers.Repositories.List = Ember.ArrayController.extend({
       parent: this
     });
 
-    this.view = Travis.View.create({
+    this.view = Ember.View.create({
       repositories: this,
       templateName: 'app/templates/repositories/list'
     });
