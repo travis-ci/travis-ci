@@ -61,6 +61,8 @@ To run the whole test suite simply do:
 $ rake spec
 </pre>
 
+In order to run all tests you need to have "ChromeDriver":http://code.google.com/p/selenium/wiki/ChromeDriver installed. You can download it "here":http://code.google.com/p/chromium/downloads/list and then place it somewhere on your PATH.
+
 h2. Development
 
 Setup is pretty easy. You need to execute 4 steps:
