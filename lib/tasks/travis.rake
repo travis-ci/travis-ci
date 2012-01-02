@@ -37,7 +37,7 @@ namespace :travis do
         jobs = Job::Configure.where('created_at > ?', 6.hours.ago).where('started_at IS NULL').to_a
         puts "Configure Jobs not started in the last 6 hours : #{jobs.size}\n\n"
         puts "Requeuing all the non-started jobs ..."
-        jobs.each { |j| j.requeue }
+        jobs.each { |j| j.enqueue }
         puts "Done :)"
       end
     end
