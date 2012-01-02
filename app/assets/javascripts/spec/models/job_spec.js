@@ -154,7 +154,7 @@ describe('Job', function() {
       });
 
       it ('shows mulitple lines commits in multiple html lines', function() {
-        build.set('message', 'First line of commit.\\n\\nSecond line of commit↵Third line.');
+        build.set('message', 'First line of commit.\n\nSecond line of commit\nThird line.');
         expect(build.get('formattedMessage')).toEqual('First line of commit.<br/><br/>Second line of commit<br/>Third line.');
       });
     });

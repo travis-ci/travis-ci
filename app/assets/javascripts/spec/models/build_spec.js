@@ -96,15 +96,15 @@ describe('Build', function() {
       });
 
       it ('trims message to first line in build list for shortMessage', function() {
-        build.set('message', 'First line of commit.\\n\\nSecond line of commit');
+        build.set('message', 'First line of commit.\n\nSecond line of commit');
         expect(build.get('shortMessage')).toEqual('First line of commit.');
 
-        build.set('message', 'First line of commit.↵Second line of commit');
+        build.set('message', 'First line of commit.\nSecond line of commit');
         expect(build.get('shortMessage')).toEqual('First line of commit.');
       });
 
       it ('shows mulitple lines commits in multiple html lines', function() {
-        build.set('message', 'First line of commit.\\n\\nSecond line of commit↵Third line.');
+        build.set('message', 'First line of commit.\n\nSecond line of commit\nThird line.');
         expect(build.get('formattedMessage')).toEqual('First line of commit.<br/><br/>Second line of commit<br/>Third line.');
       });
     });
