@@ -1,4 +1,4 @@
-Travis.Controllers.Builds.List = SC.ArrayProxy.extend({
+Travis.Controllers.Builds.List = SC.ArrayController.extend({
   parent: null,
   repositoryBinding: 'parent.repository',
   contentBinding: 'parent.repository.builds',

@@ -1,4 +1,4 @@
-Travis.Controllers.Workers = SC.ArrayProxy.extend({
+Travis.Controllers.Workers = SC.ArrayController.extend({
   init: function() {
     this.view = SC.View.create({
       content: this,
