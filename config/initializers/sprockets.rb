@@ -1,3 +1,3 @@
-require 'sprockets/sc_handlebars'
+require 'sprockets/ember_handlebars'
 
-Rails.application.assets.register_engine 'hjs', ScHandlebars
+Rails.application.assets.register_engine 'hjs', EmberHandlebars
