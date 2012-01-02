@@ -54,7 +54,7 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
   }.property('params'),
 
   _updateGithubStats: function() {
-    if(window.__TESTING__) return
+    if(window.__TESTING__) return;
     var repository = this.get('repository');
     if(repository) $.getJSON('http://github.com/api/v2/json/repos/show/' + repository.get('slug') + '?callback=?', function(data) {
       var element = $('.github-stats');
