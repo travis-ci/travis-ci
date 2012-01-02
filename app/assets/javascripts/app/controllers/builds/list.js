@@ -1,10 +1,10 @@
-Travis.Controllers.Builds.List = SC.ArrayController.extend({
+Travis.Controllers.Builds.List = Ember.ArrayController.extend({
   parent: null,
   repositoryBinding: 'parent.repository',
   contentBinding: 'parent.repository.builds',
 
   init: function() {
-    SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
+    Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
 
     this.view = Travis.View.create({
       builds: this,
@@ -26,6 +26,6 @@ Travis.Controllers.Builds.List = SC.ArrayController.extend({
     if(builds) {
       $.each(builds, function(ix, build) { build.updateTimes(); }.bind(this));
     }
-    SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
+    Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
   }
 });

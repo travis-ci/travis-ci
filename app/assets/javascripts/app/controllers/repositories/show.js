@@ -1,7 +1,7 @@
 //= require app/controllers/tabs.js
 //= require app/views.js
 
-Travis.Controllers.Repositories.Show = SC.Object.extend({
+Travis.Controllers.Repositories.Show = Ember.Object.extend({
   tabs: Travis.Controllers.Tabs.create({
     selector: '#repository',
     tabs: {
@@ -31,13 +31,13 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
     this.set('params', params);
 
     if(tab == 'current') {
-      this.set('_buildProxy', SC.Object.create({ parent: this, contentBinding: 'parent.repository.lastBuild' }));
+      this.set('_buildProxy', Ember.Object.create({ parent: this, contentBinding: 'parent.repository.lastBuild' }));
       this.set('job', undefined);
     } else if(tab == 'build') {
-      this.set('_buildProxy', SC.Object.create({ parent: this, content: Travis.Build.find(params.id) }));
+      this.set('_buildProxy', Ember.Object.create({ parent: this, content: Travis.Build.find(params.id) }));
       this.set('job', undefined);
     } else if(tab == 'job') {
-      this.set('_buildProxy', SC.Object.create({ parent: this, contentBinding: 'parent.job.build' }));
+      this.set('_buildProxy', Ember.Object.create({ parent: this, contentBinding: 'parent.job.build' }));
       this.set('job', Travis.Job.find(params.id));
     }
     this.tabs.activate(tab);

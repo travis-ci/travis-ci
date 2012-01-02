@@ -1,4 +1,4 @@
-Travis.Controllers.Sidebar = SC.Object.extend({
+Travis.Controllers.Sidebar = Ember.Object.extend({
   cookie: 'sidebar_minimized',
   queues: ['common', 'node_js', 'php', 'rails', 'erlang', 'spree'], // 'configure',
 

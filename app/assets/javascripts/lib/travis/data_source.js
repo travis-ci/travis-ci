@@ -1,7 +1,7 @@
 // http://sproutcore-gyan.blogspot.com/2010/05/difference-between-local-remote-queries.html
 // http://svarovsky-tomas.com/sproutcore-datasource.html
 
-Travis.DataSource = SC.DataSource.extend({
+Travis.DataSource = Ember.DataSource.extend({
   fetch: function(store, query) {
     var url = query.url || this._urlFor(query.get('recordType')) + '.json';
 
@@ -28,8 +28,8 @@ Travis.DataSource = SC.DataSource.extend({
   },
 
   retrieveRecord: function(store, storeKey, id) {
-    if(id == undefined) id = SC.Store.idFor(storeKey);
-    var type = SC.Store.recordTypeFor(storeKey);
+    if(id == undefined) id = Ember.Store.idFor(storeKey);
+    var type = Ember.Store.recordTypeFor(storeKey);
     var url  = this._urlFor(type, id) + '.json';
 
     $.ajax({

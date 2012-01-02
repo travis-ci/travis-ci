@@ -1,6 +1,6 @@
-Travis.Controllers.Workers = SC.ArrayController.extend({
+Travis.Controllers.Workers = Ember.ArrayController.extend({
   init: function() {
-    this.view = SC.View.create({
+    this.view = Ember.View.create({
       content: this,
       templateName: 'app/templates/workers/list'
     });

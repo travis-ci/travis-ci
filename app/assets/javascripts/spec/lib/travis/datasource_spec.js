@@ -5,7 +5,7 @@ describe("Travis.Datasource", function() {
   };
 
   beforeEach(function() {
-    store  = Travis.store = SC.Store.create().from('Travis.DataSource');
+    store  = Travis.store = Ember.Store.create().from('Travis.DataSource');
     source = store._getDataSource();
   });
 

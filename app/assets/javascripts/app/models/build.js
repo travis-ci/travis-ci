@@ -1,24 +1,24 @@
 Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
-  repository_id:   SC.Record.attr(Number),
-  config:          SC.Record.attr(Object),
-  state:           SC.Record.attr(String),
-  number:          SC.Record.attr(Number),
-  commit:          SC.Record.attr(String),
-  branch:          SC.Record.attr(String),
-  message:         SC.Record.attr(String),
-  result:          SC.Record.attr(Number),
-  duration:        SC.Record.attr(Number),
-  started_at:      SC.Record.attr(String), // use DateTime?
-  finished_at:     SC.Record.attr(String),
-  committed_at:    SC.Record.attr(String),
-  committer_name:  SC.Record.attr(String),
-  committer_email: SC.Record.attr(String),
-  author_name:     SC.Record.attr(String),
-  author_email:    SC.Record.attr(String),
-  compare_url:     SC.Record.attr(String),
-  log:             SC.Record.attr(String),
+  repository_id:   Ember.Record.attr(Number),
+  config:          Ember.Record.attr(Object),
+  state:           Ember.Record.attr(String),
+  number:          Ember.Record.attr(Number),
+  commit:          Ember.Record.attr(String),
+  branch:          Ember.Record.attr(String),
+  message:         Ember.Record.attr(String),
+  result:          Ember.Record.attr(Number),
+  duration:        Ember.Record.attr(Number),
+  started_at:      Ember.Record.attr(String), // use DateTime?
+  finished_at:     Ember.Record.attr(String),
+  committed_at:    Ember.Record.attr(String),
+  committer_name:  Ember.Record.attr(String),
+  committer_email: Ember.Record.attr(String),
+  author_name:     Ember.Record.attr(String),
+  author_email:    Ember.Record.attr(String),
+  compare_url:     Ember.Record.attr(String),
+  log:             Ember.Record.attr(String),
 
-  matrix: SC.Record.toMany('Travis.Job', { nested: true }),
+  matrix: Ember.Record.toMany('Travis.Job', { nested: true }),
 
   repository: function() {
     if(this.get('repository_id')) return Travis.Repository.find(this.get('repository_id'));
@@ -42,7 +42,7 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
     return this.colorForResult(this.get('result'));
   }.property('result').cacheable(),
 
-  // We need to join given attributes with existing attributes because SC.Record.toMany
+  // We need to join given attributes with existing attributes because Ember.Record.toMany
   // does not seem to allow partial updates, i.e. would remove existing attributes?
   _joinMatrixAttributes: function(attrs) {
     var _this = this;

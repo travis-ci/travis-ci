@@ -1,13 +1,13 @@
 Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
-  slug:                   SC.Record.attr(String),
-  name:                   SC.Record.attr(String),
-  owner:                  SC.Record.attr(String),
-  last_build_id:          SC.Record.attr(Number),
-  last_build_number:      SC.Record.attr(String),
-  last_build_result:      SC.Record.attr(Number),
-  last_build_duration:    SC.Record.attr(Number),
-  last_build_started_at:  SC.Record.attr(String),  // DateTime doesn't seem to work?
-  last_build_finished_at: SC.Record.attr(String),
+  slug:                   Ember.Record.attr(String),
+  name:                   Ember.Record.attr(String),
+  owner:                  Ember.Record.attr(String),
+  last_build_id:          Ember.Record.attr(Number),
+  last_build_number:      Ember.Record.attr(String),
+  last_build_result:      Ember.Record.attr(Number),
+  last_build_duration:    Ember.Record.attr(Number),
+  last_build_started_at:  Ember.Record.attr(String),  // DateTime doesn't seem to work?
+  last_build_finished_at: Ember.Record.attr(String),
 
   select: function() {
     this.whenReady(function(self) {
@@ -85,11 +85,11 @@ Travis.Repository.reopenClass({
   },
 
   owned_by: function(githubId) {
-    return Travis.store.find(SC.Query.remote(Travis.Repository, { url: 'repositories.json?owner_name=' + githubId, orderBy: 'name' }));
+    return Travis.store.find(Ember.Query.remote(Travis.Repository, { url: 'repositories.json?owner_name=' + githubId, orderBy: 'name' }));
   },
 
   search: function(search) {
-    return Travis.store.find(SC.Query.remote(Travis.Repository, { url: 'repositories.json?search=' + search, orderBy: 'name' }));
+    return Travis.store.find(Ember.Query.remote(Travis.Repository, { url: 'repositories.json?search=' + search, orderBy: 'name' }));
   },
 
   bySlug: function(slug) {

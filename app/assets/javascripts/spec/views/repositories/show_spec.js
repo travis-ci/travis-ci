@@ -18,22 +18,22 @@ describe('Views:', function() {
 
       describe('when a repository property changes', function() {
         it('updates the slug', function() {
-          SC.run(function() { repository.set('slug', 'updated/slug'); });
+          Ember.run(function() { repository.set('slug', 'updated/slug'); });
           expect(view.$()).toShowRepository(repository);
         });
 
         it('updates the last build number', function() {
-          SC.run(function() { repository.set('lastBuildNumber', '111'); });
+          Ember.run(function() { repository.set('lastBuildNumber', '111'); });
           expect(view.$()).toShowRepository(repository);
         });
 
         it('updates the last build duration and last build finished_at time', function() {
-          SC.run(function() { repository.set('lastBuildFinishedAt', '2011-01-01T03:00:20Z'); });
+          Ember.run(function() { repository.set('lastBuildFinishedAt', '2011-01-01T03:00:20Z'); });
           expect(view.$()).toShowRepository(repository);
         });
 
         it('updates the last build url', function() {
-          SC.run(function() { repository.set('lastBuildId', 111); });
+          Ember.run(function() { repository.set('lastBuildId', 111); });
           expect(view.$()).toShowRepository(repository);
         });
       });

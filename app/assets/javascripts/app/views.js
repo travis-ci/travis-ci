@@ -1,3 +1,3 @@
 // TODO can be removed
-Travis.View = SC.View.extend();
+Travis.View = Ember.View.extend();
 
