@@ -1,5 +1,6 @@
 Travis.Controllers.Queue = Ember.ArrayController.extend({
   init: function() {
+    this._super();
     this.view = Ember.View.create({
       jobs: this,
       queue: $.camelize(this.get('queue').split('.')[1]),

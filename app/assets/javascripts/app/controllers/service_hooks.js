@@ -1,5 +1,6 @@
 Travis.Controllers.ServiceHooks = Ember.ArrayController.extend({
   init: function() {
+    this._super();
     this.view = Ember.View.create({
       service_hooks: this,
       template: Ember.TEMPLATES['app/templates/service_hooks/list']
