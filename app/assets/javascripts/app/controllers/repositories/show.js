@@ -15,6 +15,7 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
   buildBinding: '_buildProxy.content',
 
   init: function() {
+    this._super();
     this.tabs.parent = this;
     this.view = Ember.View.create({
       controller: this,

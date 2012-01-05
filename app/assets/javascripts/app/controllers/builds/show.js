@@ -3,6 +3,7 @@ Travis.Controllers.Builds.Show = Ember.Object.extend({
   repositoryBinding: 'parent.repository',
 
   init: function() {
+    this._super();
     Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
     var self = this;
 
