@@ -5,6 +5,7 @@ Travis.Controllers.Repositories.List = Ember.ArrayController.extend({
   }),
 
   init: function() {
+    this._super();
     Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
 
     this.tabs = Travis.Controllers.Tabs.create({

@@ -4,6 +4,7 @@ Travis.Controllers.Builds.List = Ember.ArrayController.extend({
   contentBinding: 'parent.repository.builds',
 
   init: function() {
+    this._super();
     Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
 
     this.view = Ember.View.create({
