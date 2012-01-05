@@ -1,5 +1,6 @@
 Travis.Controllers.Workers = Ember.ArrayController.extend({
   init: function() {
+    this._super();
     this.view = Ember.View.create({
       content: this,
       templateName: 'app/templates/workers/list'
