@@ -1,7 +1,8 @@
 Travis.Controllers.Builds.List = Ember.ArrayController.extend({
   parent: null,
   repositoryBinding: 'parent.repository',
-  contentBinding: 'parent.repository.builds',
+  defaultContentBinding: 'parent.repository.builds',
+  content: Ember.A(),
 
   init: function() {
     this._super();
@@ -12,7 +13,16 @@ Travis.Controllers.Builds.List = Ember.ArrayController.extend({
       repositoryBinding: 'builds.repository',
       templateName: 'app/templates/builds/list'
     });
+
+    this.propertyDidChange('defaultContent');
   },
+
+  defaultContentDidChange: function() {
+    var content = this.get('defaultContent');
+    if (content && (content.get('status') & SC.Record.READY) && this.getPath('content.length') === 0) {
+      this.get('content').pushObjects(content.toArray());
+    }
+  }.observes('defaultContent.status'),
 
   destroy: function() {
     // console.log('destroying list in: ' + this.selector + ' .details')
@@ -28,5 +38,18 @@ Travis.Controllers.Builds.List = Ember.ArrayController.extend({
       $.each(builds, function(ix, build) { build.updateTimes(); }.bind(this));
     }
     Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
+  },
+
+  showMore: function() {
+    var content = this.get('content'),
+      moreContent = Travis.Build.byRepositoryId(9),
+      moreContentDidLoad = function() {
+      if (moreContent.get('status') & SC.Record.READY) {
+        moreContent.removeObserver('status', this, moreContentDidLoad);
+        content.pushObjects(moreContent.toArray());
+      }
+    };
+    moreContent.addObserver('status', this, moreContentDidLoad);
+    moreContent.propertyDidChange('status');
   }
 });

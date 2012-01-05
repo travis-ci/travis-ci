@@ -17,3 +17,5 @@
       <td class="finished_at timeago" {{bindAttr title="content.finished_at"}}>{{content.formattedFinishedAt}}</td>
   {{/collection}}
 </table>
+
+{{#view Ember.Button targetBinding="builds" action="showMore"}}Show More{{/view}}
