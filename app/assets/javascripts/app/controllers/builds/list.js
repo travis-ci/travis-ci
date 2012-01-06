@@ -42,13 +42,14 @@ Travis.Controllers.Builds.List = Ember.ArrayController.extend({
 
   showMore: function() {
     var content = this.get('content'),
-      moreContent = Travis.Build.byRepositoryId(9),
-      moreContentDidLoad = function() {
-      if (moreContent.get('status') & SC.Record.READY) {
-        moreContent.removeObserver('status', this, moreContentDidLoad);
-        content.pushObjects(moreContent.toArray());
-      }
-    };
+        lastBuild = content[content.length - 1],
+        moreContent = Travis.Build.olderThanNumber(this.getPath('repository.id'), lastBuild.get('number')),
+        moreContentDidLoad = function() {
+          if (moreContent.get('status') & SC.Record.READY) {
+            moreContent.removeObserver('status', this, moreContentDidLoad);
+            content.pushObjects(moreContent.toArray());
+          }
+        };
     moreContent.addObserver('status', this, moreContentDidLoad);
     moreContent.propertyDidChange('status');
   }
