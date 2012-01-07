@@ -14,7 +14,7 @@ describe('Events:', function() {
   var receiveEvent = function(event, ix) {
     var data = EVENTS[$.compact([event, ix]).join(':')];
     data = JSON.parse(JSON.stringify(data)); // make sure we pass a clone
-    SC.run(function() { events.receive(event, data); });
+    Ember.run(function() { events.receive(event, data); });
   };
 
   beforeEach(function() {

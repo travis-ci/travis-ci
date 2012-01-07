@@ -6,7 +6,7 @@ require 'rubygems'
 require 'yaml'
 require 'fileutils'
 require 'sprockets'
-require 'sprockets/sc_handlebars'
+require 'sprockets/ember_handlebars'
 
 sprockets = Sprockets::Environment.new
 sprockets.cache = Sprockets::Cache::FileStore.new('tmp/cache')

@@ -1,8 +1,9 @@
-Travis.Controllers.ServiceHooks = SC.ArrayController.extend({
+Travis.Controllers.ServiceHooks = Ember.ArrayController.extend({
   init: function() {
-    this.view = Travis.View.create({
+    this._super();
+    this.view = Ember.View.create({
       service_hooks: this,
-      template: SC.TEMPLATES['app/templates/service_hooks/list']
+      template: Ember.TEMPLATES['app/templates/service_hooks/list']
     });
     this.view.appendTo('#service_hooks');
     this.set('content', Travis.ServiceHook.all({ orderBy: 'active DESC, name' }));

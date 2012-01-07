@@ -1,4 +1,4 @@
-Travis.Controllers.Events = SC.Object.extend({
+Travis.Controllers.Events = Ember.Object.extend({
   receive: function(event, data) {
     var events = this;
     var action = $.camelize(event.replace(':', '_'), false);
@@ -53,7 +53,7 @@ Travis.Controllers.Events = SC.Object.extend({
 
   workerRemoved: function(data) {
     var worker = Travis.Worker.find(data.id);
-    if(worker) worker.whenReady(function(worker) { if(worker) worker.destroy() });
+    if(worker) worker.whenReady(function(worker) { if(worker) worker.destroy(); });
   },
 
   updateFrom: function(data) {

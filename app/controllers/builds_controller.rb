@@ -23,7 +23,11 @@ class BuildsController < ApplicationController
     end
 
     def builds
-      @builds ||= repository.builds.recent(params.slice(:page))
+      @builds ||= if build_number = params['after_number']
+        repository.builds.older_than(build_number).to_a
+      else
+        repository.builds.recent.to_a
+      end
     end
 
     def build

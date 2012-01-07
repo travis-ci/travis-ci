@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: e63d8a0e83248bdf0378d72b360c136476762797
+  revision: 770bdb1db54640fba03d5a35eb7c993058a8a6fc
   specs:
     travis-core (0.0.1)
-      actionmailer_inline_css (~> 1.4.0)
+      actionmailer_inline_css (~> 1.5.1)
       data_migrations (~> 0.0.1)
       devise (~> 1.5.0)
       hashr (~> 0.0.19)
@@ -31,7 +31,7 @@ GEM
     actionmailer (3.1.3)
       actionpack (= 3.1.3)
       mail (~> 2.3.0)
-    actionmailer_inline_css (1.4.0)
+    actionmailer_inline_css (1.5.1)
       actionmailer (>= 3.0.0)
       nokogiri (>= 1.4.4)
       premailer (>= 1.7.1)
@@ -83,7 +83,7 @@ GEM
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
       xpath (~> 0.1.4)
-    childprocess (0.2.5)
+    childprocess (0.2.6)
       ffi (~> 1.0.6)
     chunky_png (1.2.5)
     coffee-rails (3.1.1)
