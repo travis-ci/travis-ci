@@ -1,9 +1,11 @@
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 770bdb1db54640fba03d5a35eb7c993058a8a6fc
+  revision: 3028d7f46c63802a3ff4dc6a78593e141ce6d975
   specs:
     travis-core (0.0.1)
+      actionmailer (~> 3.1.2)
       actionmailer_inline_css (~> 1.5.1)
+      activerecord (~> 3.1.2)
       data_migrations (~> 0.0.1)
       devise (~> 1.5.0)
       hashr (~> 0.0.19)
@@ -14,7 +16,7 @@ GIT
       postmark-rails (~> 0.4.1)
       pusher (~> 0.8.5)
       rabl (~> 0.5.1)
-      rails (~> 3.1.2)
+      railties (~> 3.1.2)
       rake (~> 0.9.2.2)
       simple_states (~> 0.1.0.pre2)
       thor (~> 0.14.6)
