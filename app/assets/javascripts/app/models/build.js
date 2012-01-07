@@ -118,6 +118,6 @@ Travis.Build.reopenClass({
   },
 
   olderThanNumber: function(id, build_number) {
-    return this.all({ url: '/repositories/' + id + '/builds.json?bare=true&build_number=' + build_number, repository_id: id, build_number: build_number, orderBy: 'number DESC' });
+    return this.all({ url: '/repositories/' + id + '/builds.json?bare=true&after_number=' + build_number, repository_id: id, orderBy: 'number DESC' });
   }
 });
