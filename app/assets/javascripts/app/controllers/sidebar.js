@@ -1,8 +1,9 @@
-Travis.Controllers.Sidebar = SC.Object.extend({
+Travis.Controllers.Sidebar = Ember.Object.extend({
   cookie: 'sidebar_minimized',
   queues: ['common', 'node_js', 'php', 'rails', 'erlang', 'spree'], // 'configure',
 
   init: function() {
+    this._super();
     Travis.Controllers.Workers.create();
     $.each(this.queues, function(ix, queue) {
       Travis.Controllers.Queue.create({ queue: 'builds.' + queue });

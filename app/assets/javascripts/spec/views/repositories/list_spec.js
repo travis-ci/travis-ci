@@ -18,19 +18,19 @@ describe('Views:', function() {
 
       describe('when a repository property changes', function() {
         it('updates the last build number', function() {
-          SC.run(function() { repositories.objectAt(0).set('lastBuildNumber', '111'); });
+          Ember.run(function() { repositories.objectAt(0).set('lastBuildNumber', '111'); });
           expect(view.$()).toListRepositories(repositories);
         });
 
         it('updates the last build duration and last build finished_at time', function() {
-          SC.run(function() { repositories.objectAt(0).set('lastBuildFinishedAt', '2011-01-01T03:00:20Z'); });
+          Ember.run(function() { repositories.objectAt(0).set('lastBuildFinishedAt', '2011-01-01T03:00:20Z'); });
           expect(view.$()).toListRepositories(repositories);
         });
       });
 
       describe('when a new repository is pushed to the collection', function() {
         it('adds a list item to the top', function() {
-          SC.run(function() { Test.Factory.Repository.cookbooks() });
+          Ember.run(function() { Test.Factory.Repository.cookbooks() });
           expect(view.$('li:first-child a.slug')).toHaveText('travis-ci/travis-cookbooks');
         });
       });

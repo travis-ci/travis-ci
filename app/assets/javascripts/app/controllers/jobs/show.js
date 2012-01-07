@@ -1,12 +1,13 @@
-Travis.Controllers.Jobs.Show = SC.Object.extend({
+Travis.Controllers.Jobs.Show = Ember.Object.extend({
   jobBinding: 'parent.job',
   repositoryBinding: 'parent.repository',
 
   init: function() {
-    SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
+    this._super();
+    Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
     var self = this;
 
-    this.view = Travis.View.create({
+    this.view = Ember.View.create({
       controller: this,
       repositoryBinding: 'controller.repository',
       contentBinding: 'controller.job',
@@ -16,7 +17,7 @@ Travis.Controllers.Jobs.Show = SC.Object.extend({
 
         if (self.parent.params.line_number) {
           setTimeout(function() {
-            var line_element = $("a[name='" + self.parent.params.line_number + "']")
+            var line_element = $("a[name='" + self.parent.params.line_number + "']");
             if(line_element.length > 0) {
               // TODO: FIXME:
               // Warning: this is quite a dirty implementation for line numbers. The problem with SC is
@@ -26,8 +27,8 @@ Travis.Controllers.Jobs.Show = SC.Object.extend({
               // page is loaded.
               //
               // Other than the pageload, element IDs make hashtags/anchors to get handled auto-magically.
-              $(window).scrollTop(line_element.offset().top)
-              line_element.addClass("highlight")
+              $(window).scrollTop(line_element.offset().top);
+              line_element.addClass("highlight");
             }
           }, 1000);
         }
@@ -45,17 +46,17 @@ Travis.Controllers.Jobs.Show = SC.Object.extend({
   updateTimes: function() {
     var build  = this.get('build');
     if(build) build.updateTimes();
-    SC.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
+    Ember.run.later(this.updateTimes.bind(this), Travis.UPDATE_TIMES_INTERVAL);
   },
 
   _jobRefresher: function() {
-    if((this.getPath('job.status') & SC.Record.READY) && (this.getPath('job.log') === null)) {
+    if((this.getPath('job.status') & Ember.Record.READY) && (this.getPath('job.log') === null)) {
       this.get('job').refresh();
     }
   }.observes('job.status'),
 
   _jobSubscriber: function() {
-    if((this.getPath('job.status') & SC.Record.READY) && (this.getPath('job.state') != 'finished')) {
+    if((this.getPath('job.status') & Ember.Record.READY) && (this.getPath('job.state') != 'finished')) {
       this.get('job').subscribe();
     }
   }.observes('job.status')

@@ -1,4 +1,4 @@
-{{#collection tagName="ul" itemViewClass="Travis.View" itemClass="repository" contentBinding="service_hooks"}}
+{{#collection tagName="ul" itemViewClass="Ember.View" itemClass="repository" contentBinding="service_hooks"}}
 
   <a {{bindAttr href="content.url"}} rel="nofollow">{{content.name}}</a>
   <p class="description">{{content.description}}</p>

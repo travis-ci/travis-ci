@@ -1,7 +1,6 @@
 //= require app/controllers/tabs.js
-//= require app/views.js
 
-Travis.Controllers.Repositories.Show = SC.Object.extend({
+Travis.Controllers.Repositories.Show = Ember.Object.extend({
   tabs: Travis.Controllers.Tabs.create({
     selector: '#repository',
     tabs: {
@@ -16,8 +15,9 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
   buildBinding: '_buildProxy.content',
 
   init: function() {
+    this._super();
     this.tabs.parent = this;
-    this.view = Travis.View.create({
+    this.view = Ember.View.create({
       controller: this,
       repositoryBinding: 'controller.repository',
       buildBinding: 'controller.build',
@@ -31,13 +31,13 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
     this.set('params', params);
 
     if(tab == 'current') {
-      this.set('_buildProxy', SC.Object.create({ parent: this, contentBinding: 'parent.repository.lastBuild' }));
+      this.set('_buildProxy', Ember.Object.create({ parent: this, contentBinding: 'parent.repository.lastBuild' }));
       this.set('job', undefined);
     } else if(tab == 'build') {
-      this.set('_buildProxy', SC.Object.create({ parent: this, content: Travis.Build.find(params.id) }));
+      this.set('_buildProxy', Ember.Object.create({ parent: this, content: Travis.Build.find(params.id) }));
       this.set('job', undefined);
     } else if(tab == 'job') {
-      this.set('_buildProxy', SC.Object.create({ parent: this, contentBinding: 'parent.job.build' }));
+      this.set('_buildProxy', Ember.Object.create({ parent: this, contentBinding: 'parent.job.build' }));
       this.set('job', Travis.Job.find(params.id));
     }
     this.tabs.activate(tab);
@@ -54,7 +54,7 @@ Travis.Controllers.Repositories.Show = SC.Object.extend({
   }.property('params'),
 
   _updateGithubStats: function() {
-    if(window.__TESTING__) return
+    if(window.__TESTING__) return;
     var repository = this.get('repository');
     if(repository) $.getJSON('http://github.com/api/v2/json/repos/show/' + repository.get('slug') + '?callback=?', function(data) {
       var element = $('.github-stats');

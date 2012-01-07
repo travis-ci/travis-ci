@@ -1,8 +1,8 @@
-Travis.Controllers.Tabs = SC.Object.extend({
+Travis.Controllers.Tabs = Ember.Object.extend({
   activate: function(tab) {
     if(this.get('active') !== tab) {
       this.destroy();
-      SC.run.next(function() {
+      Ember.run.next(function() {
         this.create(tab);
         this.setActive(tab);
       }.bind(this));
@@ -32,5 +32,5 @@ Travis.Controllers.Tabs = SC.Object.extend({
   destroy: function() {
     if(this.tab) this.tab.destroy();
     delete this.tab;
-  },
+  }
 });

@@ -2,9 +2,9 @@
 // given parameters.
 //
 // It also allows to cache queries so the same query object can be reused easily.
-// (We need this because SC.Query.build does not support caching queries based on
+// (We need this because Ember.Query.build does not support caching queries based on
 // arbitrary parameters.)
-Travis.Query = SC.Object.extend({
+Travis.Query = Ember.Object.extend({
   init: function() {
     var options = this.get('options') || {};
 
@@ -42,7 +42,7 @@ Travis.Query = SC.Object.extend({
   },
 
   toScQuery: function(mode) {
-    return SC.Query[mode || 'local'](this.get('recordType'), { conditions: this.conditions(), url: this.url(), orderBy: this.orderBy });
+    return Ember.Query[mode || 'local'](this.get('recordType'), { conditions: this.conditions(), url: this.url(), orderBy: this.orderBy });
   }
 });
 

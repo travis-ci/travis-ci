@@ -1,22 +1,22 @@
 Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
-  repository_id:   SC.Record.attr(Number),
-  build_id:        SC.Record.attr(Number),
-  config:          SC.Record.attr(Object),
-  state:           SC.Record.attr(String),
-  number:          SC.Record.attr(Number),
-  commit:          SC.Record.attr(String),
-  branch:          SC.Record.attr(String),
-  message:         SC.Record.attr(String),
-  result:          SC.Record.attr(Number),
-  started_at:      SC.Record.attr(String), // use DateTime?
-  finished_at:     SC.Record.attr(String),
-  committed_at:    SC.Record.attr(String),
-  committer_name:  SC.Record.attr(String),
-  committer_email: SC.Record.attr(String),
-  author_name:     SC.Record.attr(String),
-  author_email:    SC.Record.attr(String),
-  compare_url:     SC.Record.attr(String),
-  log:             SC.Record.attr(String),
+  repository_id:   Ember.Record.attr(Number),
+  build_id:        Ember.Record.attr(Number),
+  config:          Ember.Record.attr(Object),
+  state:           Ember.Record.attr(String),
+  number:          Ember.Record.attr(Number),
+  commit:          Ember.Record.attr(String),
+  branch:          Ember.Record.attr(String),
+  message:         Ember.Record.attr(String),
+  result:          Ember.Record.attr(Number),
+  started_at:      Ember.Record.attr(String), // use DateTime?
+  finished_at:     Ember.Record.attr(String),
+  committed_at:    Ember.Record.attr(String),
+  committer_name:  Ember.Record.attr(String),
+  committer_email: Ember.Record.attr(String),
+  author_name:     Ember.Record.attr(String),
+  author_email:    Ember.Record.attr(String),
+  compare_url:     Ember.Record.attr(String),
+  log:             Ember.Record.attr(String),
 
   build: function() {
     if(window.__DEBUG__) console.log('updating build on job ' + this.get('id'));
@@ -94,7 +94,7 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
 
   formattedConfigValues: function() {
     var values = $.values($.only(this.getPath('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js'));
-    return $.map(values, function(value) { return SC.Object.create({ value: value }) });
+    return $.map(values, function(value) { return Ember.Object.create({ value: value }) });
   }.property().cacheable(),
 
   formattedLog: function() {

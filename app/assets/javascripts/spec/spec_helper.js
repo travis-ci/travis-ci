@@ -1,5 +1,5 @@
 // TODO somehow make this accessible through cli
-// SC.LOG_BINDINGS = true;
+// Ember.LOG_BINDINGS = true;
 
 var Test = {
   html: '<div id="tab_recent"><div class="tab"></div></div>' +
@@ -10,7 +10,7 @@ var Test = {
 
 beforeEach(function() {
   Travis.Query._cache = {};
-  Travis.store = SC.Store.create().from('Travis.DataSource');
+  Travis.store = Ember.Store.create().from('Travis.DataSource');
 
   // $.ajax({ async: false, url: "/repositories/1.json", success: function(record) {
   //   Travis.store.loadRecord(Travis.Repository, record, 1);
@@ -29,21 +29,21 @@ beforeEach(function() {
 });
 
 var createView = function(selector, options) {
-  var view = Travis.View.create(options);
-  SC.run(function() { view.appendTo(selector) });
+  var view = Ember.View.create(options);
+  Ember.run(function() { view.appendTo(selector) });
   return view;
 };
 
 var withinRunLoop = function(block) {
-  SC.RunLoop.begin();
+  Ember.RunLoop.begin();
   var result = block();
-  SC.RunLoop.end();
+  Ember.RunLoop.end();
   return result;
 };
 
 var whenReady = function(object, callback) {
   waitsFor(function() {
-    return object.get('status') & SC.Record.READY;
+    return object.get('status') & Ember.Record.READY;
   });
   runs(function() {
     callback();

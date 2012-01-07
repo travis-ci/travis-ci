@@ -7,7 +7,7 @@ describe('Travis.Query', function() {
     describe('cached', function() {
       it('generates a new query unless cached', function() {
         var query = Travis.Query.cached(Travis.Repository);
-        expect(SC.typeOf(query)).toEqual('instance');
+        expect(Ember.typeOf(query)).toEqual('instance');
       });
 
       it('returns a cached query', function() {
@@ -63,7 +63,7 @@ describe('Travis.Query', function() {
     });
 
     describe('conditions', function() {
-      it('returns conditions suitable for being used in an SC.Query', function() {
+      it('returns conditions suitable for being used in an Ember.Query', function() {
         expect(query({ slug: 'travis-ci/travis-ci' }).conditions()).toEqual('slug = "travis-ci/travis-ci"');
       });
     });

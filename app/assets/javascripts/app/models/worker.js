@@ -1,4 +1,4 @@
-Travis.WorkerGroup = SC.Object.extend({
+Travis.WorkerGroup = Ember.Object.extend({
   init: function() {
     this.set('workers', []);
   },

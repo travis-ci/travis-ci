@@ -34,18 +34,18 @@
 //   }
 // }
 
-SC.ObjectProxy = SC.Object.extend({
+Ember.ObjectProxy = Ember.Object.extend({
   content: null,
   unknownProperty: function(keyName) {
     console.log(keyName);
     this.addProxiedProperty(keyName);
-    SC.defineProperty(this, keyName, SC.computed(function() {
+    Ember.defineProperty(this, keyName, Ember.computed(function() {
       return this.getPath('content.' + keyName);
     }).property('content').cacheable());
-    return SC.get(this,keyName);
+    return Ember.get(this,keyName);
   },
   addProxiedProperty: function(keyName){
-    var proxiedProperties = this.proxiedProperties || (this.proxiedProperties = new SC.Set());
+    var proxiedProperties = this.proxiedProperties || (this.proxiedProperties = new Ember.Set());
     proxiedProperties.add(keyName);
   },
   contentDidChange: function(){

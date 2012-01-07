@@ -1,23 +1,23 @@
-SC.RecordArray.prototype.whenReady = function(callback) {
+Ember.RecordArray.prototype.whenReady = function(callback) {
   if(!callback) {
     return this;
-  } else if(this.get('status') & SC.Record.READY) {
+  } else if(this.get('status') & Ember.Record.READY) {
     callback(this);
   } else {
     // this.addObserver('status', function() {
-    //   if(this.get('status') & SC.Record.READY) { callback(this); }
+    //   if(this.get('status') & Ember.Record.READY) { callback(this); }
     // })
   }
   return this;
 };
 
-Travis.Record = SC.Record.extend({
+Travis.Record = Ember.Record.extend({
   childRecordNamespace: Travis,
   primaryKey: 'id',
-  id: SC.Record.attr(Number),
+  id: Ember.Record.attr(Number),
 
   isReady: function() {
-    return (this.get('status') & SC.Record.READY) != 0;
+    return (this.get('status') & Ember.Record.READY) != 0;
   }.property(),
 
   update: function(attrs) {
@@ -36,7 +36,7 @@ Travis.Record = SC.Record.extend({
       callback(this);
     } else {
       // this.addObserver('status', function() {
-      //   if(this.get('status') & SC.Record.READY) { callback(this); }
+      //   if(this.get('status') & Ember.Record.READY) { callback(this); }
       // })
     }
     return this;

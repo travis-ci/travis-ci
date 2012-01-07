@@ -4,7 +4,7 @@ describe('Views:', function() {
       var jobs, view;
 
       beforeEach(function() {
-        jobs = SC.ArrayProxy.create({ content: Test.Factory.Job.all() });
+        jobs = Ember.ArrayController.create({ content: Test.Factory.Job.all() });
         view = createView('#jobs', { jobs: jobs, templateName: 'app/templates/jobs/list' });
       });
 
