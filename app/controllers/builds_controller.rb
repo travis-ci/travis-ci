@@ -24,9 +24,9 @@ class BuildsController < ApplicationController
 
     def builds
       @builds ||= if build_number = params['after_number']
-        repository.builds.older_than(build_number)
+        repository.builds.older_than(build_number).to_a
       else
-        repository.builds.recent
+        repository.builds.recent.to_a
       end
     end
 
