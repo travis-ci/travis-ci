@@ -18,4 +18,4 @@
   {{/collection}}
 </table>
 
-{{#view Ember.Button targetBinding="builds" action="showMore"}}Show More{{/view}}
+{{#view Ember.Button targetBinding="builds" action="showMore" isVisibleBinding="builds.showMoreIsVisible"}}Show More{{/view}}
