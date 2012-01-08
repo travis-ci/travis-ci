@@ -22,7 +22,7 @@ h2. Overview
 
 Travis consists of several parts:
 
-* A Sprout Core-based single-page application that runs client side.
+* An Ember.js-based single-page application that runs client side.
 * A Rails 3 application that serves to the in-browser application and takes pings from Github.
 * A JRuby-based "AMQP":http://bit.ly/amqp-model-explained worker for running a project's test suite in snapshotted virtual machines.
 * A websocket server (we use "Pusher":http://pusher.com) for tailing build results to the browser.
