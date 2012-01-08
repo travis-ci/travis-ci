@@ -9,7 +9,7 @@ h2. Contact
 * "Github":http://github.com/travis-ci
 * "Twitter":http://twitter.com/travisci
 * "IRC":irc://irc.freenode.net#travis
-* "Mailinglist":http://groups.google.com/group/travis-ci
+* "Mailing list":http://groups.google.com/group/travis-ci
 
 h2. User Documentation
 
