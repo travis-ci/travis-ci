@@ -60,7 +60,8 @@ and we also have guides technology-specific guides:
  * "Ruby":http://about.travis-ci.org/docs/user/languages/ruby/
 
 
-h2. Implementation Overview
+
+h2. Technical Overview
 
 Travis consists of several parts:
 
@@ -73,6 +74,7 @@ Travis consists of several parts:
 
 All these applications, tools and libraries are hosted under "Travis CI github organization":https://github.com/travis-ci.
 This particular repository is the site that powers travis-ci.org.
+
 
 
 h3. Setting server environment up
@@ -129,7 +131,7 @@ $ open http://localhost:3000
 To run the whole test suite simply do:
 
 <pre>
-$ rake spec
+$ bundle exec rake spec
 </pre>
 
 In order to run all tests you need to have "ChromeDriver":http://code.google.com/p/selenium/wiki/ChromeDriver installed. You can download it "here":http://code.google.com/p/chromium/downloads/list and then place it somewhere on your PATH.
