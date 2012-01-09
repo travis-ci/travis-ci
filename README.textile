@@ -1,15 +1,29 @@
 h1. Travis CI, a distributed build system for the open source community "!https://secure.travis-ci.org/travis-ci/travis-ci.png?branch=master!":http://travis-ci.org/travis-ci/travis-ci
 
-Travis is an attempt to create an open-source, distributed build system for the Ruby community that:
+h2. Goals
 
-1. allows open-source projects to register their repository and have their test-suites run on demand
-2. allows users to contribute build capacity by connecting a machine that runs "Travis workers":https://github.com/travis-ci/travis-worker and "VMs they use":https://github.com/travis-ci/travis-boxes on their underused servers
+Travis is an attempt to create an open-source, distributed build system for the OSS community that:
 
-h2. Contact
+1. Allows open-source projects to effortlessly register their GitHub repository and have their test suites run after pushes
+2. Allows users to contribute build capacity by connecting a machine that runs "Travis workers":https://github.com/travis-ci/travis-worker and "VMs they use":https://github.com/travis-ci/travis-boxes on their underused servers
+
+With Travis CI our vision is to become for builds (i.e. tests, for starters) what services like rubygems.org or Maven Central are for distribution of libraries.
+Our goal is to build a rock solid, but dead-easy to use open-source continuous integration service for the open source community.
+
+Please note that this is a work in progress. We have only reached our goal #1 so far. We try to follow the 80/20 for requirements. I.e. we focus on the most common use cases.
+
+Travis CI is **not** currently a good fit for closed in-house installations: there are multiple applications that evolve
+rapidly and workers need VMs running on the same host. Ask on the "IRC channel":irc://irc.freenode.net#travis for more information.
+
+You can also watch this (old but still valid) screencast to get an idea: "1:20 quick demo screencast (spike 2)":http://www.youtube.com/watch?v=mNOwCJhjWAw
+
+h2. Get In Touch!
+
 * "Github":http://github.com/travis-ci
 * "Twitter":http://twitter.com/travisci
 * "IRC":irc://irc.freenode.net#travis
 * "Mailing list":http://groups.google.com/group/travis-ci
+
 
 h2. User Documentation
 
@@ -28,7 +42,7 @@ and we also have guides technology-specific guides:
  * "Ruby":http://about.travis-ci.org/docs/user/languages/ruby/
 
 
-h2. Overview
+h2. Implementation Overview
 
 Travis consists of several parts:
 
@@ -40,19 +54,8 @@ Travis consists of several parts:
 * Tools that provision "CI environment":http://about.travis-ci.org/docs/user/ci-environment/ (to provide databases, RabbitMQ, Rubies/JDK/Node.js versions and so on) and "build VM images":https://github.com/travis-ci/travis-boxes.
 
 All these applications, tools and libraries are hosted under "Travis CI github organization":https://github.com/travis-ci.
+This particular repository is the site that powers travis-ci.org.
 
-You can also watch this (old but still valid) screencast to get an idea: "1:20 quick demo screencast (spike 2)":http://www.youtube.com/watch?v=mNOwCJhjWAw
-
-
-h2. Goals
-
-With Travis CI our vision is to become for builds (i.e. tests, for starters) what rubygems.org is for gems.
-Our goal is to build a rock solid, but dead-easy to use open-source continuous integration service for the open source community.
-
-We try to follow the 80/20 for requirements. I.e. we focus on the most common use cases.
-
-Travis CI does **not** currently support closed in-house installations, although we know of people doing this.
-Ask on the "IRC channel":irc://irc.freenode.net#travis for more information.
 
 
 h2. Running the tests
