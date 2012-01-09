@@ -46,7 +46,7 @@ h2. Get In Touch!
 h2. User Documentation
 
 We care about our documentation and make sure our "documentation guides":http://about.travis-ci.org/docs/ are clearly
-written and up-to-date. Please make sure you read them. Two key guides are 
+written and up-to-date. Please make sure you read them. Two key guides are
 
 * "Getting started":http://about.travis-ci.org/docs/user/getting-started
 * "Build Configuration":http://about.travis-ci.org/docs/user/build-configuration
@@ -75,31 +75,12 @@ All these applications, tools and libraries are hosted under "Travis CI github o
 This particular repository is the site that powers travis-ci.org.
 
 
+h3. Setting server environment up
 
-h2. Running the tests
-
-Integration tests are implemented using "Jasmine":http://pivotal.github.com/jasmine and can be run in the browser:
-
-<pre>
-$ RAILS_ENV=jasmine rake db:migrate db:seed
-$ rails s thin -e jasmine
-$ open http://localhost:3000
-</pre>
-
-To run the whole test suite simply do:
+The setup consists of 4 steps:
 
 <pre>
-$ rake spec
-</pre>
-
-In order to run all tests you need to have "ChromeDriver":http://code.google.com/p/selenium/wiki/ChromeDriver installed. You can download it "here":http://code.google.com/p/chromium/downloads/list and then place it somewhere on your PATH.
-
-h2. Development
-
-Setup is pretty easy. You need to execute 4 steps:
-
-<pre>
-$ bundle
+$ bundle install
 $ bundle exec rake travis:setup:config
 </pre>
 
@@ -131,20 +112,45 @@ $ rake travis:create_admin_user
 
 Application is now up & running on **http://localhost:5000**
 
-h2. Dependency Status
 
-"!https://gemnasium.com/travis-ci/travis-ci.png?travis!":https://gemnasium.com/travis-ci/travis-ci
 
-h2. Design Iterations
+h2. Working on the server
+
+h3. Running the tests
+
+Integration tests are implemented using "Jasmine":http://pivotal.github.com/jasmine and can be run in the browser:
+
+<pre>
+$ RAILS_ENV=jasmine rake db:migrate db:seed
+$ rails s thin -e jasmine
+$ open http://localhost:3000
+</pre>
+
+To run the whole test suite simply do:
+
+<pre>
+$ rake spec
+</pre>
+
+In order to run all tests you need to have "ChromeDriver":http://code.google.com/p/selenium/wiki/ChromeDriver installed. You can download it "here":http://code.google.com/p/chromium/downloads/list and then place it somewhere on your PATH.
+
+
+h2. Developer Documentation
+
+Please keep in mind that Travis CI evolves rapidly and this documentation may be outdated. Development, travis-ci.org maintenance and
+user documentation take priority.
+
+* "travis worker":http://about.travis-ci.org/docs/dev/worker/
+
+
+h2. History
+
+h3. Design Iterations
 
 * "Second design Feb 2010":https://skitch.com/svenfuchs/rtfas/travis.2
 * "First design Jan 2010":https://skitch.com/svenfuchs/rtms3/travis-design-1-2010-02
 * Initial mockups of "index":https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/main.png and "details":https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/build_details.png
 
-
-h2. Developer Documentation
-
-* "The worker":http://about.travis-ci.org/docs/dev/worker/
 
 h2. Other sources
 
