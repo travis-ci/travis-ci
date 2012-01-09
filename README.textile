@@ -1,4 +1,6 @@
-h1. Travis CI, a distributed build system for the open source community "!https://secure.travis-ci.org/travis-ci/travis-ci.png?branch=master!":http://travis-ci.org/travis-ci/travis-ci
+h1. What is Travis CI
+
+h3. A distributed build system for the open source community "!https://secure.travis-ci.org/travis-ci/travis-ci.png?branch=master!":http://travis-ci.org/travis-ci/travis-ci
 
 h2. Goals
 
