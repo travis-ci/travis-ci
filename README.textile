@@ -37,7 +37,7 @@ You can also watch this (old but still valid) screencast to get an idea: "1:20 q
 
 h2. Get In Touch!
 
-* "Github":http://github.com/travis-ci
+* "Repositories Github":http://github.com/travis-ci
 * "Twitter":http://twitter.com/travisci
 * "IRC":irc://irc.freenode.net#travis
 * "Mailing list":http://groups.google.com/group/travis-ci
