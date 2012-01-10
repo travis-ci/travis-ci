@@ -16,6 +16,29 @@ Travis.Controllers.Builds.Show = Ember.Object.extend({
     });
   },
 
+  buildDidChange: function() {
+    var build = this.get('build');
+
+    if (build.get('isLoaded')) {
+      this.subscribeToFirstJob();
+    } else {
+      build.addObserver('isLoaded', this, 'subscribeToFirstJob');
+    }
+  }.observes('build'),
+
+  subscribeToFirstJob: function() {
+    if (this.getPath('build.matrix.length') > 1) {
+      return true;
+    }
+
+    var jobs = this.getPath('build.matrix'),
+        job  = jobs.objectAt(0);
+
+    if(job.get('isReady') && (job.get('state') != 'finished')) {
+      job.subscribe();
+    }
+  },
+
   destroy: function() {
     if(this.view) {
       this.view.$().remove();
