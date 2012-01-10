@@ -1,0 +1,7 @@
+{{#collection tagName="ul" id="repositories" contentBinding="repositories" itemViewClass="Ember.View" itemClassBinding="content.cssClasses" class="menu"}}
+<a {{bindAttr href="content.urlCurrent"}} class="slug">{{content.slug}}</a>
+{{/collection}}
+
+{{^collection contentBinding="repositories" id="list" class="loading"}}
+  <p></p>
+{{/collection}}

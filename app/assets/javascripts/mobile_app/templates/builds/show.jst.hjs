@@ -1,0 +1,39 @@
+<div {{bindAttr class="content.color"}} id="build">
+  <h2><span class="status"></span>Build #{{content.number}}</h2>
+  <h3><a {{bindAttr href="repository.urlGithub"}}>{{repository.slug}}</a></h3>
+
+  <ul class="info">
+    <li><label for="finished_at">Finished At</label> <span id="finished_at">{{content.formattedFinishedAt}}</span></li>
+    <li><label for="duration">Duration</label> <span id="duration">{{content.formattedDuration}}</span></li>
+    <li><label for="commit">Commit</label> <span id="commit">{{content.formattedCommit}}</span></li>
+    {{#if content.compare_url}}
+    <li>
+      <label for="compare_view">Compare</label>
+      <span id="compare_view"><a {{bindAttr href="content.compare_url"}}>{{content.formattedCompareUrl}}</a></span>
+    </li>
+    {{/if}}
+    {{#if content.author_name}}
+    <li>
+      <label for="author">Author</label>
+      <span id="author"><a {{bindAttr href="content.urlAuthor"}}>{{content.author_name}}</a></span>
+    </li>
+    {{/if}}
+    {{#if content.commiter_name}}
+    <li>
+      <label for="committer">Committer</label>
+      <span id="committer"><a {{bindAttr href="content.urlCommitter"}}>{{content.committer_name}}</a></span>
+    </li>
+    {{/if}}
+  </ul>
+
+  <div class="commit-message">{{{content.formattedMessage}}}</div>
+
+  {{#if content.isMatrix}}
+    <h3>Build Matrix</h3>
+    {{#collection tagName="ul" contentBinding="content.matrix" itemViewClass="Ember.View" itemClassBinding="content.color" class="matrix menu"}}
+      <a {{bindAttr href="content.url"}}><span class="status"></span>{{content.number}}</a>
+    {{/collection}}
+  {{else}}
+    <pre class="log">{{{content.matrix.firstObject.formattedLog}}}</pre>
+  {{/if}}
+</div>
