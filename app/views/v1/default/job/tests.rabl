@@ -1,3 +1,3 @@
 collection @tests
 
-attributes :id, :repository_id, :number, :queue
+attributes :id, :repository_id, :number, :state, :queue

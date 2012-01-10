@@ -8,6 +8,6 @@ Travis.Controllers.Queue = Ember.ArrayController.extend({
       classNames: ['queue-' + this.get('queue').replace('.', '_')]
     });
     this.view.appendTo('#jobs');
-    this.set('content', Travis.Job.all({ state: 'created', queue: this.get('queue') }, 'remote'));
+    this.set('content', Travis.Job.all({ state: 'created', queue: this.get('queue') }));
   }
 });
