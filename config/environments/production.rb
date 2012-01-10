@@ -46,7 +46,7 @@ TravisCi::Application.configure do
   # config.action_controller.asset_host = 'http://assets.example.com'
 
   # Precompile the mobile stylesheet
-  config.assets.precompile += [ 'mobile.scss', 'mobile.js' ]
+  config.assets.precompile += [ 'mobile.css', 'mobile.js' ]
 
   config.action_mailer.default_url_options = {
     :host => Travis.config.domain
