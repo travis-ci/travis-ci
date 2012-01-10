@@ -1,0 +1,16 @@
+<div id="repository">
+  <h2><a {{bindAttr href="repository.urlGithub"}}>{{repository.slug}}</a></h2>
+
+  <p class="description">{{repository.description}}</p>
+
+  <ul class="menu">
+    <li><a {{bindAttr href="repository.urlCurrent"}}>Current</a></li>
+    <li><a {{bindAttr href="repository.urlBuilds"}}>Builds</a></li>
+    {{#if build}}
+    <li><a {{bindAttr href="build.url"}}>Build #{{build.number}}</a></li>
+    {{/if}}
+    {{#if job}}
+    <li><a {{bindAttr href="job.url"}}>Job #{{job.number}}</a></li>
+    {{/if}}
+  </ul>
+</div>

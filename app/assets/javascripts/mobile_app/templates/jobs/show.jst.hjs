@@ -1,0 +1,44 @@
+<div {{bindAttr class="content.color"}} id="job">
+  <h2><span class="status"></span>Job #{{content.number}}</h2>
+
+  <ul class="info">
+    <li>
+      <label for="finished_at">Finished</label>
+      <span id="finished_at">{{content.formattedFinishedAt}}</span>
+    </li>
+    <li>
+      <label for="duration">Duration</label>
+      <span id="duration">{{content.formattedDuration}}</span>
+    </li>
+    <li>
+      <label for="commit">Commit</label>
+      <span id="commit"><a {{bindAttr href="content.build.urlGithubCommit"}}>{{content.formattedCommit}}</a></span>
+    </li>
+    {{#if content.compare_url}}
+    <li>
+      <label for="compare_view">Compare</label>
+      <span id="compare_view"><a {{bindAttr href="content.compare_url"}}>{{content.formattedCompareUrl}}</a></span>
+    </li>
+    {{/if}}
+    {{#if content.author_name}}
+    <li>
+      <label for="author">Author</label>
+      <span id="author"><a {{bindAttr href="content.build.urlAuthor"}}>{{content.author_name}}</a></span>
+    </li>
+    {{/if}}
+    {{#if content.committer_name}}
+    <li>
+      <label for="committer">Committer</label>
+      <span id="committer"><a {{bindAttr href="content.build.urlCommitter"}}>{{content.committer_name}}</a></span>
+    </li>
+    {{/if}}
+  </ul>
+
+  <p class="commit-message">{{{content.formattedMessage}}}</p>
+
+  <h3>Config</h3>
+  <p class="config">{{{content.formattedConfig}}}</p>
+
+  <h3>Log</h3>
+  <pre class="log">{{{content.formattedLog}}}</pre>
+</div>
