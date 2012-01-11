@@ -11,21 +11,31 @@ var Travis = Ember.Application.create({
   },
 
   home: function() {
-    this.main = Travis.Controllers.PageManager.create({
-      selector: '#main',
-      pages: {
-        list: Travis.Controllers.Repositories.List,
-        builds: Travis.Controllers.Builds.List,
-        build: Travis.Controllers.Builds.Show,
-        job: Travis.Controllers.Jobs.Show
-      }
+    Ember.routes.add('!/:owner/:name/jobs/:id', function(params) {
+      Travis.set('params', params);
+      Travis.transitionTo('#job_page');
     });
 
-    Ember.routes.add('!/:owner/:name/jobs/:id',   function(params) { Travis.main.activate('job',    params) });
-    Ember.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.main.activate('build',  params) });
-    Ember.routes.add('!/:owner/:name/builds',     function(params) { Travis.main.activate('builds', params) });
-    Ember.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('builds', params) });
-    Ember.routes.add('',                          function(params) { Travis.main.activate('list',   params) });
+    Ember.routes.add('!/:owner/:name/builds/:id', function(params) {
+      Travis.set('params', params);
+      Travis.transitionTo('#jobs_list');
+    });
+
+    Ember.routes.add('!/:owner/:name', function(params) {
+      Travis.set('params', params);
+      Travis.transitionTo('#builds_list');
+    });
+
+    Ember.routes.add('', function(params) {
+      Travis.set('params', params);
+      Travis.transitionTo('#repositories_list');
+    });
+
+    // Ember.routes.add('!/:owner/:name/jobs/:id',   function(params) { Travis.main.activate('job',    params) });
+    // Ember.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.main.activate('build',  params) });
+    // Ember.routes.add('!/:owner/:name/builds',     function(params) { Travis.main.activate('builds', params) });
+    // Ember.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('builds', params) });
+    // Ember.routes.add('',                          function(params) { Travis.main.activate('list',   params) });
 
   },
 
@@ -33,10 +43,22 @@ var Travis = Ember.Application.create({
   },
 
   stopLoading: function() {
+  },
+
+  transitionTo: function(page_selector) {
+    var newPage = $(page_selector);
+    var oldPage = this.get('currentPage');
+
+    if (oldPage) {
+      oldPage.removeClass('active').addClass('inactive');
+    }
+    newPage.removeClass('inactive').addClass('active');
+
+    this.set('currentPage', newPage);
   }
 });
 
-$('document').ready(function() {
+$(function() {
   Travis.run();
 });
 

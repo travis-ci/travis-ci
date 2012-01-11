@@ -1,9 +1,0 @@
-<div id="repository">
-  <h2><a {{bindAttr href="repository.urlGithub"}}>{{repository.slug}}</a></h2>
-
-  <p class="description">{{repository.description}}</p>
-
-  {{#collection tagName="ul" id="builds" contentBinding="builds" itemViewClass="Ember.View" itemClassBinding="content.color" class="menu"}}
-    <a {{bindAttr href="content.url"}}>Build #{{content.number}}</a>
-  {{/collection}}
-</div>
