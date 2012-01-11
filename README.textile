@@ -75,6 +75,8 @@ Travis consists of several parts:
 All these applications, tools and libraries are hosted under "Travis CI github organization":https://github.com/travis-ci.
 This particular repository is the site that powers travis-ci.org.
 
+A more detailed overview is available in our "Technical Overview guide":http://about.travis-ci.org/docs/dev/overview/ aimed at developers.
+
 
 
 h3. Setting server environment up
