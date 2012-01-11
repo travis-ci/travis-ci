@@ -511,7 +511,7 @@
   },
   {
     "ssh_url": "git@github.com:svenfuchs/google_analytics.git",
-    "description": "This plugin is primarily targeted at being used with Mephisto but should be useful with other Rails based CMS or blogging plattforms, too.",
+    "description": "This plugin is primarily targeted at being used with Mephisto but should be useful with other Rails based CMS or blogging platforms, too.",
     "created_at": "2009-03-30T21:24:44Z",
     "svn_url": "https://github.com/svenfuchs/google_analytics",
     "open_issues": 0,
