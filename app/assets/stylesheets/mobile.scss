@@ -60,7 +60,6 @@ header {
 
 .page {
   min-height: 410px;
-  display: block;
   overflow: visible;
   top: 0;
   left: 0;
@@ -74,6 +73,41 @@ header {
   text-shadow: 0 1px 0 white;
   background: #F0F0F0;
   @include gradient(#EEE, #DDD);
+
+  &.active, &.inactive {
+    // -webkit-animation-timing-function: ease-in-out;
+    // -webkit-animation-duration: 350ms;
+  }
+
+  &.active {
+    // -webkit-transform: translateX(0);
+    // -webkit-animation-name: slideinfromright;
+    display: block;
+  }
+
+  &.inactive {
+    // -webkit-transform: translateX(100%);
+    // -webkit-animation-name: slideouttoleft;
+    display: none;
+  }
+}
+
+@-webkit-keyframes slideinfromright {
+  from {
+    -webkit-transform: translateX(100%);
+  }
+  to {
+    -webkit-transform: translateX(0);
+  }
+}
+
+@-webkit-keyframes slideouttoleft {
+  from {
+    -webkit-transform: translateX(0);
+  }
+  to {
+    -webkit-transform: translateX(100%)
+  }
 }
 
 ul.menu {
