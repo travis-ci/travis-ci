@@ -32,7 +32,7 @@ Please note that this is a work in progress. We have only reached our goal #1 so
 Travis CI is **not** currently a good fit for closed in-house installations: there are multiple applications that evolve
 rapidly and workers need VMs running on the same host. Ask on the "IRC channel":irc://irc.freenode.net#travis for more information.
 
-You can also watch this (old but still valid) screencast to get an idea: "1:20 quick demo screencast (spike 2)":http://www.youtube.com/watch?v=mNOwCJhjWAw
+You can also watch this (a year old but still valid) screencast to get an idea: "1:20 quick demo screencast (spike 2)":http://www.youtube.com/watch?v=mNOwCJhjWAw
 
 
 h2. Get In Touch!
@@ -75,7 +75,7 @@ Travis consists of several parts:
 All these applications, tools and libraries are hosted under "Travis CI github organization":https://github.com/travis-ci.
 This particular repository is the site that powers travis-ci.org.
 
-A more detailed overview is available in our "Technical Overview guide":http://about.travis-ci.org/docs/dev/overview/ aimed at developers.
+A more detailed overview is available in our "Technical Overview guide":http://bit.ly/travisci-technical-overview aimed at developers.
 
 
 
