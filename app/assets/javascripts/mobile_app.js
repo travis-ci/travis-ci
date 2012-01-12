@@ -8,6 +8,7 @@ var Travis = Ember.Application.create({
     if (this[action]) {
       this[action]();
     }
+    this.initEvents();
   },
 
   home: function() {
@@ -37,6 +38,10 @@ var Travis = Ember.Application.create({
     // Ember.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('builds', params) });
     // Ember.routes.add('',                          function(params) { Travis.main.activate('list',   params) });
 
+  },
+
+  initEvents: function() {
+    $('.fold').live('click', function() { $(this).toggleClass('open'); });
   },
 
   startLoading: function() {
