@@ -216,12 +216,23 @@ ul.info {
   display: inline;
 }
 
-.matrix li.green .status,
+#build h2 .status,
+#repository h2 .status {
+  padding-left: 20px;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+#build.green h2 .status,
+.matrix li.green .status
+#repository h2 .status.green,
 #builds li.green .status {
   background-image: url(/assets/icons/status.green.png);
 }
 
+#build.red h2 .status,
 .matrix li.red .status,
+#repository h2 .status.red,
 #builds li.red .status {
   background-image: url(/assets/icons/status.red.png);
 }
@@ -239,22 +250,6 @@ ul.info {
     margin: 0 10px;
     margin-bottom: 10px;
     word-wrap: break-word;
-  }
-
-  h2 .status {
-    padding-left: 20px;
-    background-repeat: no-repeat;
-    background-position: center center;
-  }
-
-  &.green h2 .status,
-  ul.matrix li.green .status {
-    background-image: url(/assets/icons/status.green.png);
-  }
-
-  &.red h2 .status,
-  ul.matrix li.red .status {
-    background-image: url(/assets/icons/status.red.png);
   }
 
   .matrix {

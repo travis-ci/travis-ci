@@ -2,6 +2,10 @@ Travis.Controllers.Builds.List = Ember.ArrayController.create({
   repositoryBinding: '_repositories.firstObject',
   buildsBinding: 'repository.builds',
 
+  lastStatus: function() {
+    return 'status ' + this.getPath('builds.firstObject.color');
+  }.property('builds.firstObject.color'),
+
   _repositories: function() {
     var slug = this.get('_slug');
     return slug ? Travis.Repository.bySlug(slug) : Travis.Repository.recent();
