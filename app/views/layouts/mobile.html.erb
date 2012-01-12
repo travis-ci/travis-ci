@@ -31,7 +31,7 @@
       <header><h1>Travis</h1></header>
       <script type="text/x-handlebars">
         <div id="repository">
-          <h2><a {{bindAttr href="Travis.Controllers.Builds.List.repository.urlGithub"}}>{{Travis.Controllers.Builds.List.repository.slug}}</a></h2>
+          <h2><span {{bindAttr class="Travis.Controllers.Builds.List.lastStatus"}}></span><a {{bindAttr href="Travis.Controllers.Builds.List.repository.urlGithub"}}>{{Travis.Controllers.Builds.List.repository.slug}}</a></h2>
 
           <p class="description">{{Travis.Controllers.Builds.List.repository.description}}</p>
 
