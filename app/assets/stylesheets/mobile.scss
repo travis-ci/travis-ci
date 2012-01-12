@@ -207,6 +207,25 @@ ul.info {
   }
 }
 
+.matrix li .status,
+#builds li .status {
+  padding-left: 20px;
+  margin-right: 7px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  display: inline;
+}
+
+.matrix li.green .status,
+#builds li.green .status {
+  background-image: url(/assets/icons/status.green.png);
+}
+
+.matrix li.red .status,
+#builds li.red .status {
+  background-image: url(/assets/icons/status.red.png);
+}
+
 #build {
   width: 100%;
 
@@ -239,14 +258,6 @@ ul.info {
   }
 
   .matrix {
-    li .status {
-      padding-left: 20px;
-      margin-right: 7px;
-      background-repeat: no-repeat;
-      background-position: center center;
-      display: inline;
-    }
-
     li a {
       // text-align: center;
       // display: inline;
@@ -255,13 +266,7 @@ ul.info {
       text-decoration: underline !important;
     }
 
-    li.green .status {
-      background-image: url(/assets/icons/status.green.png);
-    }
 
-    li.red .status {
-      background-image: url(/assets/icons/status.red.png);
-    }
 
     li.green a {
       color: green;

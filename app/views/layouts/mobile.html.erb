@@ -36,7 +36,7 @@
           <p class="description">{{Travis.Controllers.Builds.List.repository.description}}</p>
 
           {{#collection tagName="ul" id="builds" contentBinding="Travis.Controllers.Builds.List.builds" itemViewClass="Ember.View" itemClassBinding="content.color" class="menu"}}
-            <a {{bindAttr href="content.url"}}>Build #{{content.number}}</a>
+            <a {{bindAttr href="content.url"}}><span class="status"></span>Build #{{content.number}}</a>
           {{/collection}}
         </div>
       </script>
