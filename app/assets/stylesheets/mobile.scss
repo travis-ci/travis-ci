@@ -237,6 +237,13 @@ ul.info {
   background-image: url(/assets/icons/status.red.png);
 }
 
+#build.yellow h2 .status,
+.matrix li.yellow .status,
+#repository h2 .status.yellow,
+#builds li.yellow .status {
+  background-image: url(/assets/icons/status.yellow.png);
+}
+
 #build {
   width: 100%;
 
