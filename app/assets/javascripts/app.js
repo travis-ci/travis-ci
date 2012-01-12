@@ -64,12 +64,12 @@ var Travis = Ember.Application.create({
 
   initEvents: function() {
     $('.tool-tip').tipsy({ gravity: 'n', fade: true });
-    $('.fold').live('click', function() { $(this).hasClass('open') ? $(this).removeClass('open') : $(this).addClass('open'); });
+    $('.fold').live('click', function() { $(this).toggleClass('open'); });
 
     $('#top .profile').mouseover(function() { $('#top .profile ul').show(); });
     $('#top .profile').mouseout(function() { $('#top .profile ul').hide(); });
 
-    $('#workers .group').live('click', function() { $(this).hasClass('open') ? $(this).removeClass('open') : $(this).addClass('open'); })
+    $('#workers .group').live('click', function() { $(this).toggleClass('open'); })
 
     $('li#tab_recent').click(function () {
       Travis.left.recent();
