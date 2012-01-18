@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 62f750c697eaf82843aa2238aa30534bc9ad5b73
+  revision: 5599fab819a303463969a5a86b15b6de3b16caa7
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.1.2)
@@ -85,7 +85,7 @@ GEM
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
       xpath (~> 0.1.4)
-    childprocess (0.2.8)
+    childprocess (0.3.0)
       ffi (~> 1.0.6)
     chunky_png (1.2.5)
     coffee-rails (3.1.1)
@@ -101,13 +101,14 @@ GEM
       fssm (>= 0.2.7)
       sass (~> 3.1)
     crack (0.3.1)
-    css_parser (1.2.5)
+    css_parser (1.2.6)
       addressable
+      rdoc
     daemons (1.1.5)
     data_migrations (0.0.1)
       activerecord
       rake
-    database_cleaner (0.7.0)
+    database_cleaner (0.7.1)
     devise (1.5.3)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
@@ -134,7 +135,7 @@ GEM
     hashie (1.2.0)
     hashr (0.0.19)
     hike (1.2.1)
-    hpricot (0.8.5)
+    hpricot (0.8.6)
     htmlentities (4.3.1)
     i18n (0.6.0)
     jasmine (1.1.2)
@@ -143,7 +144,7 @@ GEM
       rspec (>= 1.3.1)
       selenium-webdriver (>= 0.1.3)
     jasmine-core (1.1.0)
-    json (1.6.4)
+    json (1.6.5)
     kgio (2.7.2)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
@@ -153,7 +154,7 @@ GEM
       treetop (~> 1.4.8)
     metaclass (0.0.1)
     mime-types (1.17.2)
-    mocha (0.10.0)
+    mocha (0.10.2)
       metaclass (~> 0.0.1)
     multi_json (1.0.4)
     multi_xml (0.4.1)
@@ -178,7 +179,7 @@ GEM
       faraday_middleware (~> 0.7.0)
       hashie (~> 1.2.0)
       multi_json (~> 1.0.2)
-    omniauth (1.0.1)
+    omniauth (1.0.2)
       hashie (~> 1.2)
       rack
     omniauth-github (1.0.1)
@@ -267,7 +268,7 @@ GEM
       railties (~> 3.1.0)
       sass (~> 3.1.10)
       tilt (~> 1.3.2)
-    selenium-webdriver (2.16.0)
+    selenium-webdriver (2.17.0)
       childprocess (>= 0.2.5)
       ffi (~> 1.0.9)
       multi_json (~> 1.0.4)
