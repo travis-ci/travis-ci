@@ -31,6 +31,6 @@ class BuildsController < ApplicationController
     end
 
     def build
-      @build ||= repository.builds.find(params[:id], :include => [:commit, { :matrix => [:commit, :log] }])
+      @build ||= Build.find(params[:id], :include => [:commit, { :matrix => [:commit, :log] }] )
     end
 end
