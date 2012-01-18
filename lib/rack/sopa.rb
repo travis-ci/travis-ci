@@ -12,7 +12,9 @@ module Rack
       if (request.path_info == '/' or request.path_info.empty?) and not request.cookies['fuck_sopa'] and not request.params['fuck_sopa']
         Rack::Response.new(@src).finish
       else
-        @app.call(env)
+        status, headers, body = @app.call(env)
+        Rack::Utils.set_cookie_header! headers, 'fuck_sopa', 'yeah'
+        [status, headers, body]
       end
     end
   end
