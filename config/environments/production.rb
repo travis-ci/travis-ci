@@ -75,9 +75,4 @@ TravisCi::Application.configure do
   config.active_support.deprecation = :notify
 
   config.middleware.insert_before(::Rack::Lock, 'Refraction')
-
-  unless ENV['fuck_sopa']
-    require 'rack/sopa'
-    config.middleware.use('Rack::Sopa')
-  end
 end
