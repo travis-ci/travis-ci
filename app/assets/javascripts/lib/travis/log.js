@@ -9,7 +9,6 @@ Travis.Log = {
   filter: function(log) {
     // log = this.stripPaths(log);
     log = this.escapeHtml(log);
-
     log = this.deansi(log);
     log = log.replace(/\r/g, '');
     log = this.numberLines(log);
@@ -25,9 +24,8 @@ Travis.Log = {
   escapeHtml: function(log) {
     log = log.split("/n");
     var sponsor = log.shift();
-    Handlebars.Utils.escapeExpression(log);
-    log.unshift(sponsor);
-    return log;
+    Handlebars.Utils.escapeExpression(log.join);
+    return sponsor + log;
   },
 
   escapeRuby: function(log) {
