@@ -34,7 +34,7 @@
 
   <pre class="log">{{{content.formattedLog}}}</pre>
 
-  {{#if content.sponsor}}
+  {{#if content.sponsor.name}}
     <p class="sponsor">
       This test suite has run on a worker box sponsored by
       <a {{bindAttr href="content.sponsor.url"}}>{{content.sponsor.name}}</a>
