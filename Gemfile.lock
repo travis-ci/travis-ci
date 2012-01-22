@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 5599fab819a303463969a5a86b15b6de3b16caa7
+  revision: 970e2e920ad89455d669203527133e0f7d411645
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.1.2)
@@ -120,10 +120,10 @@ GEM
       multi_json (~> 1.0)
     factory_girl (2.4.1)
       activesupport
-    faraday (0.7.5)
-      addressable (~> 2.2.6)
-      multipart-post (~> 1.1.3)
-      rack (>= 1.1.0, < 2)
+    faraday (0.7.6)
+      addressable (~> 2.2)
+      multipart-post (~> 1.1)
+      rack (~> 1.1)
     faraday_middleware (0.7.0)
       faraday (~> 0.7.3)
     ffi (1.0.11)
@@ -282,7 +282,7 @@ GEM
     sprockets (2.0.3)
       hike (~> 1.2)
       rack (~> 1.0)
-      tilt (~> 1.1, != 1.3.0)
+      tilt (!= 1.3.0, ~> 1.1)
     term-ansicolor (1.0.7)
     thin (1.3.1)
       daemons (>= 1.0.9)
