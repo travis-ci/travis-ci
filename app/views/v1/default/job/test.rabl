@@ -1,6 +1,6 @@
 object @job
 
-attributes :id, :repository_id, :number, :state, :started_at, :finished_at, :config, :status
+attributes :id, :repository_id, :number, :state, :started_at, :finished_at, :config, :status, :worker, :sponsor
 
 node(:log)         { @job.log.try(:content) || '' } unless params[:bare]
 node(:result)      { @job.status }
