@@ -22,10 +22,7 @@ Travis.Log = {
   },
 
   escapeHtml: function(log) {
-    log = log.split("/n");
-    var sponsor = log.shift();
-    Handlebars.Utils.escapeExpression(log.join);
-    return sponsor + log;
+    return Handlebars.Utils.escapeExpression(log);
   },
 
   escapeRuby: function(log) {
