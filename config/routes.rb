@@ -5,6 +5,7 @@ TravisCi::Application.routes.draw do
 
   resources :repositories, :only => [:index, :show] do
     resources :builds, :only => [:index, :show]
+    resources :branches, :only => :index
   end
 
   resources :builds,   :only => :show
