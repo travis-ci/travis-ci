@@ -9,11 +9,11 @@ describe('Job', function() {
 
     describe('createOrUpdate', function() {
       it('calls createOrUpdate for each of the matrix builds, too', function() {
-        var build = Travis.Build.createOrUpdate({ id: 99, number: '1', matrix: [{ id: 2, number: '1.1' }]});
+        var build = Travis.Build.createOrUpdate({ id: 99, number: '1', matrix: [{ id: 2, number: '1.10' }]});
         build = Travis.Build.find(build.get('id'));
 
         expect(build.get('number')).toEqual(1);
-        expect(build.getPath('matrix.firstObject.number')).toEqual(1.1);
+        expect(build.getPath('matrix.firstObject.number')).toEqual('1.10');
       });
     });
   });
@@ -28,7 +28,7 @@ describe('Job', function() {
 
     describe('associations', function() {
       it('has many tests as a matrix', function() {
-        expect(build.get('number')).toEqual(1.9);
+        expect(build.get('number')).toEqual('1.9');
       });
 
       it('belongs to a repository', function() {
