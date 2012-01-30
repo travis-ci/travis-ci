@@ -3,7 +3,7 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
   build_id:        Ember.Record.attr(Number),
   config:          Ember.Record.attr(Object),
   state:           Ember.Record.attr(String),
-  number:          Ember.Record.attr(Number),
+  number:          Ember.Record.attr(String),
   commit:          Ember.Record.attr(String),
   branch:          Ember.Record.attr(String),
   message:         Ember.Record.attr(String),
