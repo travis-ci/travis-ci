@@ -80,6 +80,14 @@ var Travis = Ember.Application.create({
     $('li#tab_search').click(function () {
       Travis.left.search();
     });
+
+    $('.slug').live('mouseover', function() { 
+      $(this).siblings('.summary').find('.description').show();
+    });
+
+    $('.slug').live('mouseout', function() { 
+      $(this).siblings('.summary').find('.description').hide();
+    });
   },
 
   startLoading: function() {
