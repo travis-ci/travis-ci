@@ -72,11 +72,6 @@ describe('Build', function() {
         it('updates when the build result changes')
       });
 
-      it('appendLog', function() {
-        build.set('log', 'test-1');
-        build.appendLog('test-2');
-        expect(build.get('log')).toEqual('test-1test-2');
-      });
     });
 
     describe('message', function() {
