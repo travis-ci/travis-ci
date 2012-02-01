@@ -4,8 +4,8 @@
   <p class="summary">
     <span class="duration_label">Duration:</span> <abbr class="duration" {{bindAttr title="content.last_build_started_at"}}>{{content.formattedLastBuildDuration}}</abbr>,
     <span class="finished_at_label">Finished:</span> <abbr class="finished_at timeago" {{bindAttr title="content.last_build_finished_at"}}>{{content.formattedLastBuildFinishedAt}}</abbr>
-    <span class="description" style="display:none;">{{content.description}}</span>
   </p>
+  <p class="description">{{content.description}}</p>
   <span class="indicator"></span>
 {{/collection}}
 

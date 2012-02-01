@@ -204,13 +204,13 @@ caption {
     li .build {
       float: right;
     }
-    li .summary {
+    li .summary, li .description{
       margin: 5px 0 0 0;
       font-size: 13px;
       color: #666;
     }
-    li .description {
-      display: block;
+    li .description, li .description{
+      display: none;
     }
     li .indicator {
       display: none;

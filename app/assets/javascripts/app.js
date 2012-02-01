@@ -82,11 +82,11 @@ var Travis = Ember.Application.create({
     });
 
     $('.slug').live('mouseover', function() { 
-      $(this).siblings('.summary').find('.description').show();
+      $(this).siblings('.description').show();
     });
 
     $('.slug').live('mouseout', function() { 
-      $(this).siblings('.summary').find('.description').hide();
+      $(this).siblings('.description').hide();
     });
   },
 
