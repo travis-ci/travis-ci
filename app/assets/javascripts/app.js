@@ -81,12 +81,12 @@ var Travis = Ember.Application.create({
       Travis.left.search();
     });
 
-    $('.slug').live('mouseover', function() { 
-      $(this).siblings('.description').show();
+    $('.repository').live('mouseover', function() {
+      $(this).find('.description').show();
     });
 
-    $('.slug').live('mouseout', function() { 
-      $(this).siblings('.description').hide();
+    $('.repository').live('mouseout', function() {
+      $(this).find('.description').hide();
     });
   },
 
