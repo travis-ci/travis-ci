@@ -183,16 +183,26 @@ caption {
   #repositories {
     li {
       position: relative;
+      font-size: 16px;
+      height: 75px;
+      overflow: visible;
+      &:hover {
+        z-index: 1000;
+      }
+    }
+    li .wrapper {
       padding: 15px 25px 15px 45px !important;
       border-bottom: 1px solid #ccc;
-      font-size: 16px;
       background-position: 24px 16px;
       background-repeat: no-repeat;
+      &:hover {
+        @include single-box-shadow(rgba(black, 0.3), 0px, 3px, 5px);
+      }
     }
-    li:nth-child(odd) {
+    li:nth-child(odd) .wrapper {
       background-color:#fff;
     }
-    li:nth-child(even) {
+    li:nth-child(even) .wrapper {
       background-color:#f6f6f6;
     }
     li.green a {
@@ -233,7 +243,7 @@ caption {
   }
 }
 
-#left #repositories li,
+#left #repositories li .wrapper,
 #main .summary .number a,
 #main #builds td:first-child a,
 #main #builds .build td:first-child a {
@@ -241,7 +251,7 @@ caption {
   padding-left: 20px;
   background-repeat: no-repeat;
 }
-#left #repositories li.green,
+#left #repositories li.green .wrapper,
 #main .green .summary .number a,
 #main #builds .green td:first-child a,
 #main #builds .build.green td:first-child a {
@@ -250,7 +260,7 @@ caption {
   padding-left: 20px;
   background-repeat: no-repeat;
 }
-#left #repositories li.red,
+#left #repositories li.red .wrapper,
 #main .red .summary .number a,
 #main #builds .red td:first-child a,
 #main #builds .build.red td:first-child a {
