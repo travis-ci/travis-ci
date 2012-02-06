@@ -62,5 +62,9 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
       element.find('.forks').attr('href',repository.get('urlGithubNetwork')).text(data.repository.forks);
       element.find('.github-admin').attr('href', repository.get('urlGithubAdmin'));
     });
-  }.observes('repository.slug')
+  }.observes('repository.slug'),
+
+  repositoryDidChange: function() {
+    this.repository.select();
+  }.observes('repository')
 });
