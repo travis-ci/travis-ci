@@ -1,7 +1,16 @@
 <div id="repository">
-  <h3>
+  <div class="title">
     <a {{bindAttr href="repository.urlGithub"}}>{{repository.slug}}</a>
-  </h3>
+    <div class="status-image">
+      <img {{bindAttr src="repository.urlStatusImage"}} alt="Status image"/>
+      <div class="content">
+        <p><span>Branch:</span><select></select></p>
+        <p><span>Image URL:</span><input type="text" class="url"></input></p>
+        <p><span>Markdown:</span><input type="text" class="markdown"></input></p>
+      </div>
+    </div>
+  </div>
+
   <p class="description">{{repository.description}}</p>
 
   <ul class="github-stats">

@@ -76,6 +76,10 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
   urlGithubAdmin: function() {
     return this.get('url') + '/admin/hooks#travis_minibucket';
   }.property('slug').cacheable(),
+
+  urlStatusImage: function() {
+    return this.get('slug') + '.png'
+  }.property('slug').cacheable()
 });
 
 Travis.Repository.reopenClass({
