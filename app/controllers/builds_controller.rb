@@ -33,7 +33,7 @@ class BuildsController < ApplicationController
     def build
       @build ||= begin
         scope = params['repository_id'] ? repository.builds : Build
-        scope.find(params[:id], :include => [:commit, { :matrix => [:commit, :log] }])
+        scope.includes(:commit, :matrix => [:commit, :log]).find(params[:id])
       end
     end
 end
