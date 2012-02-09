@@ -186,17 +186,19 @@ caption {
       font-size: 16px;
       height: 75px;
       overflow: visible;
+
+      .wrapper {
+        padding: 15px 25px 15px 45px !important;
+        border-bottom: 1px solid #ccc;
+        background-position: 24px 16px;
+        background-repeat: no-repeat;
+      }
+
       &:hover {
         z-index: 1000;
-      }
-    }
-    li .wrapper {
-      padding: 15px 25px 15px 45px !important;
-      border-bottom: 1px solid #ccc;
-      background-position: 24px 16px;
-      background-repeat: no-repeat;
-      &:hover {
-        @include single-box-shadow(rgba(black, 0.3), 0px, 3px, 5px);
+        .wrapper {
+          @include single-box-shadow(rgba(black, 0.3), 0px, 4px, 4px);
+        }
       }
     }
     li:nth-child(odd) .wrapper {
