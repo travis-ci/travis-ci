@@ -88,7 +88,7 @@ describe('Events:', function() {
       receiveEvent('build:finished');
 
       expect(build.get('result')).toEqual(1);
-      expect(build.get('finishedAt')).toEqual('2011-11-11T01:00:00Z');
+      expect(build.get('finished_at')).toEqual('2011-11-11T01:00:00Z');
     });
   });
 });
