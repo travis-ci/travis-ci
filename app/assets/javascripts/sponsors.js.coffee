@@ -1,6 +1,6 @@
 if !Array.prototype.shuffle
   Array.prototype.shuffle = () ->
-    array = @slice() 
+    array = @slice()
     top = array.length
     while top && --top
       current = Math.floor(Math.random() * (top + 1))
@@ -11,7 +11,7 @@ if !Array.prototype.shuffle
 
 Sponsors = (element, collection, options) ->
   @element = element
-  @pagination = new Pagination(this, $('.pagination', @element.parent()), @shuffle(collection), 1)
+  @pagination = new Pagination(this, $('.pagination', @element.parent()), collection.shuffle(), 1)
   @
 $.extend Sponsors,
   PACKAGES: ['platinum', 'gold', 'silver']
@@ -33,14 +33,6 @@ $.extend Sponsors.prototype,
   render: (page) ->
     @clear()
     @element.append(deck.render()) for deck in page
-  shuffle: (array) ->
-    top = array.length
-    while top && --top
-      current = Math.floor(Math.random() * (top + 1))
-      tmp = array[current]
-      array[current] = array[top]
-      array[top] = tmp
-    array
   run: ->
     if @pagination
       doRun = ->
@@ -84,7 +76,7 @@ $.extend Sponsor.prototype,
     node
 
 $.fn.sponsors = (decks, options) ->
-  new Sponsors(@, decks, options) #.run()
+  new Sponsors(@, decks, options).run()
 
 $ ->
   Sponsors.load (decks)->
