@@ -3,7 +3,7 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
   build_id:        Ember.Record.attr(Number),
   config:          Ember.Record.attr(Object),
   state:           Ember.Record.attr(String),
-  number:          Ember.Record.attr(Number),
+  number:          Ember.Record.attr(String),
   commit:          Ember.Record.attr(String),
   branch:          Ember.Record.attr(String),
   message:         Ember.Record.attr(String),
@@ -87,13 +87,13 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
   }.property('compare_url').cacheable(),
 
   formattedConfig: function() {
-    var config = $.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js');
+    var config = $.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js', 'scala', 'jdk', 'python', 'perl');
     var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
     return values.length == 0 ? '-' : values.join(', ');
   }.property('config').cacheable(),
 
   formattedConfigValues: function() {
-    var values = $.values($.only(this.getPath('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js'));
+    var values = $.values($.only(this.getPath('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js', 'scala', 'jdk', 'python', 'perl'));
     return $.map(values, function(value) { return Ember.Object.create({ value: value }) });
   }.property().cacheable(),
 
@@ -103,7 +103,7 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
   }.property('log').cacheable(),
 
   formattedMessage: function(){
-    return this.emojize(this.get('message') || '').replace(/\n/g,'<br/>');
+    return this.emojize(this.escape(this.get('message') || '')).replace(/\n/g,'<br/>');
   }.property('message'),
 
   url: function() {

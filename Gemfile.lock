@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 970e2e920ad89455d669203527133e0f7d411645
+  revision: 4725bcfa616440669c4b2fa9cda171a899b79a2c
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.1.2)
@@ -191,7 +191,7 @@ GEM
     orm_adapter (0.0.6)
     pg (0.12.2)
     polyglot (0.3.3)
-    postmark (0.9.8)
+    postmark (0.9.10)
     postmark-rails (0.4.1)
       actionmailer
       postmark (>= 0.9.0)
@@ -282,7 +282,7 @@ GEM
     sprockets (2.0.3)
       hike (~> 1.2)
       rack (~> 1.0)
-      tilt (!= 1.3.0, ~> 1.1)
+      tilt (~> 1.1, != 1.3.0)
     term-ansicolor (1.0.7)
     thin (1.3.1)
       daemons (>= 1.0.9)

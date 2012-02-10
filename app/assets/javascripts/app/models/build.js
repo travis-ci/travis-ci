@@ -86,11 +86,11 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   }.property('config').cacheable(),
 
   formattedMessage: function(){
-    return this.emojize(this.get('message') || '').replace(/\n/g,'<br/>');
+    return this.emojize(this.escape(this.get('message') || '')).replace(/\n/g,'<br/>');
   }.property('message'),
 
   shortMessage: function(){
-    return this.emojize((this.get('message') || '').split(/\n/)[0]);
+    return this.emojize(this.escape((this.get('message') || '').split(/\n/)[0]));
   }.property('message'),
 
   url: function() {
