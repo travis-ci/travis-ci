@@ -1,0 +1,79 @@
+{
+  "platinum": [
+    {
+      "url": "http://www.wooga.com",
+      "image": "/images/logos/wooga-205x130.png"
+    },
+    {
+      "url": "http://bendyworks.com",
+      "image": "/images/logos/bendyworks-205x130.png"
+    },
+    {
+      "url": "http://cloudcontrol.com",
+      "image": "/images/logos/cloudcontrol-205x130.png"
+    },
+    {
+      "url": "http://xing.de",
+      "image": "/images/logos/xing-205x130.png"
+    }
+  ],
+  "gold": [
+    {
+      "url": "http://soundcloud.com",
+      "image": "/images/logos/soundcloud-205x60.png"
+    },
+    {
+      "url": "http://nedap.com",
+      "image": "/images/logos/nedap-205x60.png"
+    },
+    {
+      "url": "http://mongohq.com",
+      "image": "/images/logos/mongohq-205x60.png"
+    },
+    {
+      "url": "http://zweitag.de",
+      "image": "/images/logos/zweitag-205x60.png"
+    },
+    {
+      "url": "http://kanbanery.com",
+      "image": "/images/logos/kanbanery-205x60.png"
+    },
+    {
+      "url": "http://ticketevolution.com",
+      "image": "/images/logos/ticketevolution-205x60.png"
+    }
+  ],
+  "silver": [
+    {
+      "link": "<a href=\"http://cobot.me\">Cobot</a><span>: Run your coworking space</span>"
+    },
+    {
+      "link": "<a href=\"http://jumpstartlab.com\">JumpstartLab</a><span>: We build developers</span>"
+    },
+    {
+      "link": "<a href=\"http://evilmartians.com\">Evil Martians</a><span>: Agile web development with Ruby on Rails</span>"
+    },
+    {
+      "link": "<a href=\"http://zendesk.com\">Zendesk</a><span>: Love your helpdesk</span>"
+    },
+    {
+      "link": "<a href=\"http://stripe.com\">Stripe</a><span>: Payments for developers</span>"
+    },
+    {
+      "link": "<a href=\"http://basho.com\">Basho</a><span>: We make Riak</span>"
+    },
+    {
+      "link": "<a href=\"http://thinkrelevance.com\">Relevance</a><span>: We deliver software solutions</span>"
+    },
+    {
+      "link": "<a href=\"http://mindmatters.de\">Mindmatters</a><span>: Software für Menschen</span>"
+    },
+    {
+      "link": "<a href=\"http://amenhq.com\">Amen</a><span>: The best and worst of everything</span>"
+    },
+    {
+      "link": "<a href=\"http://site5.com\">Site5</a><span></span>"
+    }
+  ]
+}
+
