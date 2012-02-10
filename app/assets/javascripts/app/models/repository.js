@@ -2,6 +2,7 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
   slug:                   Ember.Record.attr(String),
   name:                   Ember.Record.attr(String),
   owner:                  Ember.Record.attr(String),
+  description:            Ember.Record.attr(String),
   last_build_id:          Ember.Record.attr(Number),
   last_build_number:      Ember.Record.attr(String),
   last_build_result:      Ember.Record.attr(Number),

@@ -62,5 +62,12 @@ Travis.Helpers.Common = {
       });
     }
     return text;
+  },
+
+  escape: function(text) {
+    return text
+              .replace(/&/g, '&amp;')
+              .replace(/</g, '&lt;')
+              .replace(/>/g, '&gt;');
   }
 };
