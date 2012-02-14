@@ -1,15 +1,7 @@
 <div id="repository">
-  <div class="title">
+  <h3>
     <a {{bindAttr href="repository.urlGithub"}}>{{repository.slug}}</a>
-    <div class="status-image">
-      <img {{bindAttr src="repository.urlStatusImage"}} alt="Status image"/>
-      <div class="content">
-        <p><span>Branch:</span><select></select></p>
-        <p><span>Image URL:</span><input type="text" class="url"></input></p>
-        <p><span>Markdown:</span><input type="text" class="markdown"></input></p>
-      </div>
-    </div>
-  </div>
+  </h3>
 
   <p class="description">{{repository.description}}</p>
 
@@ -37,4 +29,13 @@
       <div class="tab"></div>
     </li>
   </ul>
+
+  <div class="tools">
+    <a href="#"></a>
+    <div class="content">
+      <p><label>Branch:</label><select></select></p>
+      <p><label>Image URL:</label><input type="text" class="url"></input></p>
+      <p><label>Markdown:</label><input type="text" class="markdown"></input></p>
+    </div>
+  </div>
 </div>

@@ -26,7 +26,7 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
     });
     this.view.appendTo('#main');
 
-    this.branchSelector = '.status-image select';
+    this.branchSelector = '.tools select';
     $(this.branchSelector).live('change', this._updateStatusImageCodes.bind(this));
   },
 
@@ -86,8 +86,8 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
   }.observes('repository.slug'),
 
   _updateStatusImageCodes: function() {
-    $('.status-image input.url').val(this.get('_statusImageUrl'));
-    $('.status-image input.markdown').val('[![Build Status](' + this.get('_statusImageUrl') + ')](' + this.get('_repositoryUrl') + ')');
+    $('.tools input.url').val(this.get('_statusImageUrl'));
+    $('.tools input.markdown').val('[![Build Status](' + this.get('_statusImageUrl') + ')](' + this.get('_repositoryUrl') + ')');
   },
 
   _statusImageUrl: function() {
