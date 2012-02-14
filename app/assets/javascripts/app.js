@@ -89,10 +89,8 @@ var Travis = Ember.Application.create({
       $(this).find('.description').hide();
     });
 
-    $('.status-image').live('mouseover', function() {
-      if ($(this).find('select').children().length > 0) {
-        $(this).find('.content').fadeIn('fast');
-      }
+    $('.tools').live('click', function() {
+      $(this).find('.content').toggle();
     }).find('.content').live('click', function(event){
       event.stopPropagation();
     }).find('input[type=text]').live('focus', function() {
@@ -102,8 +100,8 @@ var Travis = Ember.Application.create({
     });
 
     $('html').click(function(e) {
-      if ($(e.target).closest('.status-image .content').length == 0 && $('.status-image .content').css('display') != 'none') {
-        $('.status-image .content').fadeOut('fast');
+      if ($(e.target).closest('.tools .content').length == 0 && $('.tools .content').css('display') != 'none') {
+        $('.tools .content').fadeOut('fast');
       }
     });
   },
