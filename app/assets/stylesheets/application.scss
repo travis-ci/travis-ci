@@ -291,10 +291,47 @@ caption {
   #repository {
     position: relative;
   }
-  h3 {
+  .title {
     margin: 15px 60px 0 0;
-    font-size: 24px;
-    line-height: 24px;
+    a {
+      font-size: 24px;
+      line-height: 24px;
+    }
+    .status-image {
+      position: relative;
+      display: inline;
+      margin-left: 10px;
+
+      .content {
+        background-color: #F2F4F9;
+        border: 1px solid #CCC;
+        padding: 10px 20px;
+        font-size: 80%;
+        color: #666;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        width: 500px;
+        display: none;
+
+        p {
+          margin: 10px 0;
+
+          span {
+            width: 80px;
+            display: inline-block;
+          }
+
+          input {
+            border: 1px solid #DDD;
+            @include border-radius(3px);
+            width: 410px;
+            padding: 4px;
+          }
+        }
+      }
+    }
   }
   a {
     color: #666;
