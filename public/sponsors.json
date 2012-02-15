@@ -45,7 +45,7 @@
   ],
   "silver": [
     {
-      "link": "<a href=\"http://cobot.me\">Cobot</a><span>: Run your coworking space</span>"
+      "link": "<a href=\"http://cobot.me\">Cobot</a><span>: The one tool to run your coworking space</span>"
     },
     {
       "link": "<a href=\"http://jumpstartlab.com\">JumpstartLab</a><span>: We build developers</span>"
@@ -60,7 +60,7 @@
       "link": "<a href=\"http://stripe.com\">Stripe</a><span>: Payments for developers</span>"
     },
     {
-      "link": "<a href=\"http://basho.com\">Basho</a><span>: We make Riak</span>"
+      "link": "<a href=\"http://basho.com\">Basho</a><span>: We make Riak!</span>"
     },
     {
       "link": "<a href=\"http://thinkrelevance.com\">Relevance</a><span>: We deliver software solutions</span>"
@@ -72,7 +72,7 @@
       "link": "<a href=\"http://amenhq.com\">Amen</a><span>: The best and worst of everything</span>"
     },
     {
-      "link": "<a href=\"http://site5.com\">Site5</a><span></span>"
+      "link": "<a href=\"http://site5.com\">Site5</a><span>: Full No Worry VPS and Cloud VPS scaling</span>"
     }
   ]
 }
