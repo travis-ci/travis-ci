@@ -6,6 +6,15 @@ describe 'HTTP API for Job::Test' do
   let(:build) { repository.last_build }
   let(:job) { build.matrix.first }
 
+  before :each do
+    Travis.config.sponsors.workers = {
+      'ruby3.worker.travis-ci.org' => {
+        'name' => 'Railslove',
+        'url' => 'http://railslove.de'
+      }
+    }
+  end
+
   it 'json' do
     json_for_http(job).should == {
       'id' => job.id,
