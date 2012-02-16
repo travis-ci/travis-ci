@@ -2,45 +2,45 @@
   "platinum": [
     {
       "url": "http://www.wooga.com",
-      "image": "/images/logos/wooga-205x130.png"
+      "image": "http://travis-ci.org/images/sponsors/wooga-205x130.png"
     },
     {
       "url": "http://bendyworks.com",
-      "image": "/images/logos/bendyworks-205x130.png"
+      "image": "http://travis-ci.org/images/sponsors/bendyworks-205x130.png"
     },
     {
       "url": "http://cloudcontrol.com",
-      "image": "/images/logos/cloudcontrol-205x130.png"
+      "image": "http://travis-ci.org/images/sponsors/cloudcontrol-205x130.png"
     },
     {
       "url": "http://xing.de",
-      "image": "/images/logos/xing-205x130.png"
+      "image": "http://travis-ci.org/images/sponsors/xing-205x130.png"
     }
   ],
   "gold": [
     {
       "url": "http://soundcloud.com",
-      "image": "/images/logos/soundcloud-205x60.png"
+      "image": "http://travis-ci.org/images/sponsors/soundcloud-205x60.png"
     },
     {
       "url": "http://nedap.com",
-      "image": "/images/logos/nedap-205x60.png"
+      "image": "http://travis-ci.org/images/sponsors/nedap-205x60.png"
     },
     {
       "url": "http://mongohq.com",
-      "image": "/images/logos/mongohq-205x60.png"
+      "image": "http://travis-ci.org/images/sponsors/mongohq-205x60.png"
     },
     {
       "url": "http://zweitag.de",
-      "image": "/images/logos/zweitag-205x60.png"
+      "image": "http://travis-ci.org/images/sponsors/zweitag-205x60.png"
     },
     {
       "url": "http://kanbanery.com",
-      "image": "/images/logos/kanbanery-205x60.png"
+      "image": "http://travis-ci.org/images/sponsors/kanbanery-205x60.png"
     },
     {
       "url": "http://ticketevolution.com",
-      "image": "/images/logos/ticketevolution-205x60.png"
+      "image": "http://travis-ci.org/images/sponsors/ticketevolution-205x60.png"
     }
   ],
   "silver": [
