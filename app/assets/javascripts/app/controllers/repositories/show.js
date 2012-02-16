@@ -25,6 +25,9 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
       templateName: 'app/templates/repositories/show'
     });
     this.view.appendTo('#main');
+
+    this.branchSelector = '.tools select';
+    $(this.branchSelector).live('change', this._updateStatusImageCodes.bind(this));
   },
 
   activate: function(tab, params) {
@@ -63,6 +66,37 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
       element.find('.github-admin').attr('href', repository.get('urlGithubAdmin'));
     });
   }.observes('repository.slug'),
+
+  _updateGithubBranches: function() {
+    var repository = this.get('repository');
+    if (!repository) return;
+
+    var selector = $(this.branchSelector);
+    selector.children().remove();
+
+    $.getJSON('http://github.com/api/v2/json/repos/show/' + repository.get('slug') + '/branches?callback=?', function(data) {
+      if (selector.children().length == 0) {
+        $.each($.map(data['branches'], function(commit, name) { return name; }).sort(), function(index, branch) {
+          $('<option>', { value: branch }).html(branch).appendTo(selector);
+        });
+        selector.val('master');
+        this._updateStatusImageCodes();
+      }
+    }.bind(this));
+  }.observes('repository.slug'),
+
+  _updateStatusImageCodes: function() {
+    $('.tools input.url').val(this.get('_statusImageUrl'));
+    $('.tools input.markdown').val('[![Build Status](' + this.get('_statusImageUrl') + ')](' + this.get('_repositoryUrl') + ')');
+  },
+
+  _statusImageUrl: function() {
+    return 'https://secure.travis-ci.org/' + this.repository.get('slug') + '.png?branch=' + $(this.branchSelector).val();
+  }.property('repository.slug'),
+
+  _repositoryUrl: function() {
+    return 'http://travis-ci.org/' + this.repository.get('slug');
+  }.property('repository.slug'),
 
   repositoryDidChange: function() {
     this.repository.select();
