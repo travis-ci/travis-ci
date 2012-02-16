@@ -88,6 +88,22 @@ var Travis = Ember.Application.create({
     $('.repository').live('mouseout', function() {
       $(this).find('.description').hide();
     });
+
+    $('.tools').live('click', function() {
+      $(this).find('.content').toggle();
+    }).find('.content').live('click', function(event){
+      event.stopPropagation();
+    }).find('input[type=text]').live('focus', function() {
+      this.select();
+    }).live('mouseup', function(e) {
+      e.preventDefault();
+    });
+
+    $('html').click(function(e) {
+      if ($(e.target).closest('.tools .content').length == 0 && $('.tools .content').css('display') != 'none') {
+        $('.tools .content').fadeOut('fast');
+      }
+    });
   },
 
   startLoading: function() {
