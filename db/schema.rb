@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120114125404) do
+ActiveRecord::Schema.define(:version => 20120216133223) do
 
   create_table "artifacts", :force => true do |t|
     t.text     "content"
@@ -121,6 +121,8 @@ ActiveRecord::Schema.define(:version => 20120114125404) do
     t.datetime "finished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "event_type"
+    t.string   "comments_url"
   end
 
   create_table "ssl_keys", :force => true do |t|
