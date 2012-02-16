@@ -9,6 +9,7 @@ describe RequestsController do
     before(:each) do
       Travis.config.notifications = [:worker]
       request.env['HTTP_AUTHORIZATION'] = auth
+      request.env['HTTP_X_GITHUB_EVENT'] = 'push'
     end
 
     it 'should create a Request including its commit on repository' do
