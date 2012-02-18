@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: c6a43b86eaa4c11b9128527ba24e949a860a050b
+  revision: 4bf74ebe0102fbb7c198f614ce1c1e968d24deac
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.1.2)
@@ -270,7 +270,7 @@ GEM
     sprockets (2.0.3)
       hike (~> 1.2)
       rack (~> 1.0)
-      tilt (~> 1.1, != 1.3.0)
+      tilt (!= 1.3.0, ~> 1.1)
     term-ansicolor (1.0.7)
     thin (1.3.1)
       daemons (>= 1.0.9)
