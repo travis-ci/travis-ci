@@ -36,8 +36,8 @@
       <p><label>Branch:</label><select></select></p>
       <p><label>Image URL:</label><input type="text" class="url"></input></p>
       <p><label>Markdown:</label><input type="text" class="markdown"></input></p>
-      <p><label>RDoc:</label><input type="text" class="rdoc"></input></p>
       <p><label>Textile:</label><input type="text" class="textile"></input></p>
+      <p><label>RDoc:</label><input type="text" class="rdoc"></input></p>
     </div>
   </div>
 </div>

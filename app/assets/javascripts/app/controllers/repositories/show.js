@@ -82,8 +82,8 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
   _updateStatusImageCodes: function() {
     $('.tools input.url').val(this.get('_statusImageUrl'));
     $('.tools input.markdown').val('[![Build Status](' + this.get('_statusImageUrl') + ')](' + this.get('_repositoryUrl') + ')');
-    $('.tools input.rdoc').val('{<img src="' + this.get('_statusImageUrl') + '" alt="Build Status" />}[' + this.get('_repositoryUrl') + ']');
     $('.tools input.textile').val('!' + this.get('_statusImageUrl') + '(Build Status)!:' + this.get('_repositoryUrl'));
+    $('.tools input.rdoc').val('{<img src="' + this.get('_statusImageUrl') + '" alt="Build Status" />}[' + this.get('_repositoryUrl') + ']');
   },
 
   _statusImageUrl: function() {
