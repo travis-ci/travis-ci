@@ -68,26 +68,22 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
   }.observes('repository.slug'),
 
   _updateGithubBranches: function() {
-    var repository = this.get('repository');
-    if (!repository) return;
-
     var selector = $(this.branchSelector);
-    selector.children().remove();
-
-    $.getJSON('http://github.com/api/v2/json/repos/show/' + repository.get('slug') + '/branches?callback=?', function(data) {
-      if (selector.children().length == 0) {
-        $.each($.map(data['branches'], function(commit, name) { return name; }).sort(), function(index, branch) {
-          $('<option>', { value: branch }).html(branch).appendTo(selector);
-        });
-        selector.val('master');
-        this._updateStatusImageCodes();
-      }
+    selector.empty();
+    $('.tools input').val('');
+    $.getJSON('http://github.com/api/v2/json/repos/show/' + this.get('_slug') + '/branches?callback=?', function(data) {
+      var branches = $.map(data['branches'], function(commit, name) { return name; }).sort();
+      $.each(branches, function(index, branch) { $('<option>', { value: branch }).html(branch).appendTo(selector); });
+      selector.val('master');
+      this._updateStatusImageCodes();
     }.bind(this));
-  }.observes('repository.slug'),
+  }.observes('_slug'),
 
   _updateStatusImageCodes: function() {
     $('.tools input.url').val(this.get('_statusImageUrl'));
     $('.tools input.markdown').val('[![Build Status](' + this.get('_statusImageUrl') + ')](' + this.get('_repositoryUrl') + ')');
+    $('.tools input.rdoc').val('{<img src="' + this.get('_statusImageUrl') + '" alt="Build Status" />}[' + this.get('_repositoryUrl') + ']');
+    $('.tools input.textile').val('!' + this.get('_statusImageUrl') + '(Build Status)!:' + this.get('_repositoryUrl'));
   },
 
   _statusImageUrl: function() {
