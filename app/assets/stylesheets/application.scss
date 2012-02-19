@@ -139,6 +139,11 @@ caption {
   .profile ul li:last-child a:hover {
     @include border-bottom-radius(4px);
   }
+
+  .getting-started {
+    color: lime;
+    margin-right: 15px;
+  }
 }
 
 

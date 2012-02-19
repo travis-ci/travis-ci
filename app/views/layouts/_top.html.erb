@@ -9,6 +9,7 @@
   </ul>
 
   <div class="profile">
+    <%= link_to "Getting Started", "http://about.travis-ci.org/docs/user/getting-started/", :class => "getting-started" %>
     <% if user_signed_in? %>
       <%= link_to profile_path do %>
         <%= gravatar(current_user, :size => 24) %>
