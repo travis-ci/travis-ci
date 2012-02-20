@@ -7,7 +7,7 @@ node(:result)      { @job.status }
 node(:build_id)    { @job.owner_id }
 node(:started_at)  { @job.started_at }  if @job.started?
 node(:finished_at) { @job.finished_at } if @job.finished?
-
+node(:allow_failure) { @job.allow_failure } if @job.allow_failure
 glue @job.commit do
   extends 'v1/default/commit'
 end

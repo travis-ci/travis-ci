@@ -262,6 +262,8 @@ caption {
   padding-left: 20px;
   background-repeat: no-repeat;
 }
+
+
 #left #repositories li.red .wrapper,
 #main .red .summary .number a,
 #main #builds .red td:first-child a,
@@ -271,6 +273,7 @@ caption {
   padding-left: 20px;
   background-repeat: no-repeat;
 }
+
 
 
 /* main */
@@ -604,6 +607,11 @@ caption {
   #builds tbody tr:nth-child(odd) {
     background-color: #f6f6f6;
   }
+  #builds tbody tr.allow-failure {
+    color: #008888;
+    background-color:#BDBDBD;
+  }
+
 }
 
 #builds .green .number a {
@@ -1085,6 +1093,7 @@ ul#tokens {
   color: #FFFFFF;
 }
 
+
 /**
  * Github Badge
  */
@@ -1120,3 +1129,4 @@ ul#tokens {
     @include box-shadow(rgba(black, 0.5) 1px 1px 10px, rgba(black, 0.07) 0 0 3px 1px inset);
   }
 }
+
