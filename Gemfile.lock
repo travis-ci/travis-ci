@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 4bf74ebe0102fbb7c198f614ce1c1e968d24deac
+  revision: 731e5ad6fb267ae5175d12b5c44e70c689073c93
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.1.2)
@@ -22,7 +22,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-support.git
-  revision: 80bb9877e760034b751751c597e0bfd92c27a4e2
+  revision: b952e1aa2a9ea6f8e07db6a6cbe9f2245fb8a55b
   specs:
     travis-support (0.0.1)
 
@@ -150,7 +150,7 @@ GEM
     multi_json (1.0.4)
     multi_xml (0.4.1)
     multipart-post (1.1.5)
-    newrelic_rpm (3.3.1)
+    newrelic_rpm (3.3.2)
     nokogiri (1.5.0)
     oa-core (0.3.2)
     oa-oauth (0.3.2)
@@ -270,7 +270,7 @@ GEM
     sprockets (2.0.3)
       hike (~> 1.2)
       rack (~> 1.0)
-      tilt (!= 1.3.0, ~> 1.1)
+      tilt (~> 1.1, != 1.3.0)
     term-ansicolor (1.0.7)
     thin (1.3.1)
       daemons (>= 1.0.9)
@@ -290,7 +290,7 @@ GEM
       rack
       raindrops (~> 0.6)
     unobtrusive_flash (0.0.2)
-    warden (1.1.0)
+    warden (1.1.1)
       rack (>= 1.0)
     webmock (1.7.10)
       addressable (~> 2.2, > 2.2.5)
