@@ -1,4 +1,4 @@
-<h4>Queue: {{queue}}</h4>
+<h4>Queue: {{friendly_queue_name}}</h4>
 {{#collection tagName="ul" classBinding="className" itemClass="job" contentBinding="jobs"}}
   {{content.repository.slug}}
   {{#if content.number}}
