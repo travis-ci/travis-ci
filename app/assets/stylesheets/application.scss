@@ -9,6 +9,7 @@
 
 @import "mixins.scss";
 @import "compass";
+@import "facebox.scss";
 
 html {
   margin: 0;
@@ -262,6 +263,7 @@ caption {
   padding-left: 20px;
   background-repeat: no-repeat;
 }
+
 #left #repositories li.red .wrapper,
 #main .red .summary .number a,
 #main #builds .red td:first-child a,
@@ -271,7 +273,6 @@ caption {
   padding-left: 20px;
   background-repeat: no-repeat;
 }
-
 
 /* main */
 
@@ -604,6 +605,10 @@ caption {
   #builds tbody tr:nth-child(odd) {
     background-color: #f6f6f6;
   }
+  #builds tbody tr.allow-failure {
+    background-color:#BDBDBD;
+  }
+
 }
 
 #builds .green .number a {
@@ -1119,4 +1124,103 @@ ul#tokens {
     @include rotate(45deg);
     @include box-shadow(rgba(black, 0.5) 1px 1px 10px, rgba(black, 0.07) 0 0 3px 1px inset);
   }
+}
+
+#main #allow_failure_builds td:first-child a,
+#main #allow_failure_builds .build td:first-child a {
+  background-image: url(/assets/icons/status.yellow.png);
+  padding-left: 20px;
+  background-repeat: no-repeat;
+}
+#main #allow_failure_builds .green td:first-child a,
+#main #allow_failure_builds .build.green td:first-child a {
+  background-image: url(/assets/icons/status.green.png);
+  color: green;
+  padding-left: 20px;
+  background-repeat: no-repeat;
+}
+
+#left #repositories li.red .wrapper,
+#main .red .summary .number a,
+#main #allow_failure_builds .red td:first-child a,
+#main #allow_failure_builds .build.red td:first-child a {
+  background-image: url(/assets/icons/status.red.png);
+  color: #c00;
+  padding-left: 20px;
+  background-repeat: no-repeat;
+}
+
+  #allow_failure_builds {
+    margin: 20px 0 0 -12px;
+  }
+  #allow_failure_builds caption {
+    margin-left: 12px;
+    margin-bottom: 8px;
+  }
+  #allow_failure_builds {
+    width: 100%;
+    margin: 25px 0 0 -12px;
+  }
+  #allow_failure_builds th {
+    font-size: 13px;
+    color: #666;
+  }
+  #allow_failure_builds th,
+  #allow_failure_builds td {
+    white-space: nowrap;
+  }
+  #allow_failure_builds td.message {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+  }
+  #allow_failure_builds tr {
+    max-height: 20px;
+  }
+  #allow_failure_builds tbody tr:nth-child(odd) {
+    background-color: #f6f6f6;
+  }
+  #allow_failure_builds tbody tr.allow-failure {
+    background-color:#BDBDBD;
+  }
+
+
+#allow_failure_builds .green .number a {
+  color: green;
+}
+#allow_failure_builds .red .number a {
+  color: #C00;
+}
+
+.whats_this {
+  margin-left: 10px;
+  display: inline-block;
+  width: 16px;
+  background: url("/assets/icons/help.png") no-repeat scroll 0 0 transparent;
+}
+.context_help_caption {
+  text-align: left;
+  font-size: 16px;
+  font-weight: bold;
+  color: #666;
+border-bottom: 1px solid #CCCCCC;
+}
+.context_help {
+  display: none;
+}
+.context_help_body {
+    font-size: 1em;
+    line-height: 1.4286;
+    margin: 1.4286em 0;
+}
+pre {
+    background: none repeat scroll 0 0 #FAFAFA;
+    border: 1px solid #DDDDDD;
+    border-radius: 8px 8px 8px 8px;
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.5em;
+    margin-top: 1em;
+    overflow-x: scroll;
+    padding: 1em 1.5em;
 }
