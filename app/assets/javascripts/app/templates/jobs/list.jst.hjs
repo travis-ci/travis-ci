@@ -37,7 +37,7 @@
 
 <div id="allow_failure_help" class="context_help">
 <div class="context_help_caption">Allowed Failures</div>
-<div class="context_help_body">Allowed Failures are items in your build matrix that are allowed to fail without causing the entire build to be shown as failed. This lets you add in experimental and prepartory builds to test agains versions or configurations that you are not ready to officially support.<br><br>You can define allowed failures in the build matrix  as follows:
+<div class="context_help_body">Allowed Failures are items in your build matrix that are allowed to fail without causing the entire build to be shown as failed. This lets you add in experimental and preparatory builds to test against versions or configurations that you are not ready to officially support.<br><br>You can define allowed failures in the build matrix as follows:
 </br><pre>
 matrix:
   allow_failure:
