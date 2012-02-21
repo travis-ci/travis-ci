@@ -42,6 +42,10 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
     this.notifyPropertyChange('finished_at');
   },
 
+  hasFailureMatrix: function() {
+      return this.get('allow_failure_matrix').length > 0;
+  }.property('hasFailureMatrix').cacheable(),
+
   isMatrix: function() {
     return this.getPath('matrix.length') > 1;
   }.property('matrix.length').cacheable(),
