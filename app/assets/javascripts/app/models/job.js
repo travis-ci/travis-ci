@@ -17,7 +17,7 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
   author_email:    Ember.Record.attr(String),
   compare_url:     Ember.Record.attr(String),
   log:             Ember.Record.attr(String),
-  allow_failure:   Ember.Record.attr(String),
+  allow_failure:   Ember.Record.attr(Boolean),
 
   build: function() {
     if(window.__DEBUG__) console.log('updating build on job ' + this.get('id'));
@@ -47,11 +47,7 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
   },
 
   color: function() {
-    c =  this.colorForResult(this.get('result'));
-    if(this.get('allow_failure')) {
-      c += ' allow-failure'
-    }
-    return c
+    return this.colorForResult(this.get('result'));
   }.property('result').cacheable(),
 
   duration: function() {

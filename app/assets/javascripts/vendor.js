@@ -8,4 +8,5 @@
 //= require vendor/pusher-1.6.min.js
 //= require vendor/highcharts.js
 //= require vendor/ansiparse.js
+//= require vendor/facebox.js
 
