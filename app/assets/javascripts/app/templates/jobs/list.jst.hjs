@@ -16,6 +16,7 @@
   {{/collection}}
 </table>
 
+{{#if content.hasFailureMatrix}}
 <table id="allow_failure_builds">
   <caption>Allowed Failures{{whats_this "allow_failure_help"}}
 </caption>
@@ -44,3 +45,4 @@ matrix:
     - rvm: 1.8.7
 </pre></div>
 </div>
+{{/if}}
