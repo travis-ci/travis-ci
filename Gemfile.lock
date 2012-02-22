@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 731e5ad6fb267ae5175d12b5c44e70c689073c93
+  revision: 12bb3bf4d7ac9dde759de4b5e7b8f293a36e6297
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.1.2)
@@ -8,7 +8,6 @@ GIT
       data_migrations (~> 0.0.1)
       devise (~> 1.5.0)
       hashr (~> 0.0.19)
-      hpricot (~> 0.8.4)
       oa-oauth (~> 0.3.2)
       octokit (~> 0.6.5)
       omniauth
@@ -127,7 +126,6 @@ GEM
     hashie (1.2.0)
     hashr (0.0.19)
     hike (1.2.1)
-    hpricot (0.8.6)
     i18n (0.6.0)
     jasmine (1.1.2)
       jasmine-core (>= 1.1.0)
