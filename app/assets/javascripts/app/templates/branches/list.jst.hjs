@@ -1,0 +1,11 @@
+<table id="branches">
+  <thead>
+    <tr>
+      <th>Branch</th>
+    </tr>
+  </thead>
+
+  {{#collection tagName="tbody" contentBinding="branches" itemViewClass="Ember.View" itemClassBinding="content.color"}}
+    <td>Something</td>
+  {{/collection}}
+</table>
