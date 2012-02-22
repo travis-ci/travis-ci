@@ -2,7 +2,7 @@
 // Ember.LOG_BINDINGS = true;
 
 var Travis = Ember.Application.create({
-  Controllers: { Repositories: {}, Builds: {}, Jobs: {} }, Models: {}, Helpers: {}, Views: {},
+  Controllers: { Repositories: {}, Builds: {}, Jobs: {}, Branches: {} }, Models: {}, Helpers: {}, Views: {},
 
   UPDATE_TIMES_INTERVAL: 5000,
 
@@ -28,6 +28,7 @@ var Travis = Ember.Application.create({
     Ember.routes.add('!/:owner/:name/jobs/:id',   function(params) { Travis.main.activate('job',     params) });
     Ember.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.main.activate('build',   params) });
     Ember.routes.add('!/:owner/:name/builds',     function(params) { Travis.main.activate('history', params) });
+    Ember.routes.add('!/:owner/:name/branches',   function(params) { Travis.main.activate('branches', params) });
     Ember.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('current', params) });
     Ember.routes.add('',                          function(params) { Travis.main.activate('current', params) });
   },

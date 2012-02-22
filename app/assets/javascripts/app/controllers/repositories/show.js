@@ -4,10 +4,11 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
   tabs: Travis.Controllers.Tabs.create({
     selector: '#repository',
     tabs: {
-      current: Travis.Controllers.Builds.Show,
-      history: Travis.Controllers.Builds.List,
-      build:   Travis.Controllers.Builds.Show,
-      job:     Travis.Controllers.Jobs.Show
+      current:  Travis.Controllers.Builds.Show,
+      history:  Travis.Controllers.Builds.List,
+      build:    Travis.Controllers.Builds.Show,
+      job:      Travis.Controllers.Jobs.Show,
+      branches: Travis.Controllers.Branches.List
     }
   }),
 
