@@ -20,6 +20,14 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
 
   matrix: Ember.Record.toMany('Travis.Job', { nested: true }),
 
+  required_matrix: function() {
+      return this.get('matrix').filter(function(item, index, self) { return item.get('allow_failure') != true });
+  }.property('required_matrix').cacheable(),
+
+  allow_failure_matrix: function() {
+      return this.get('matrix').filter(function(item, index, self) { return item.get('allow_failure') });
+  }.property('allow_failure_matrix').cacheable(),
+
   repository: function() {
     if(this.get('repository_id')) return Travis.Repository.find(this.get('repository_id'));
   }.property('repository_id').cacheable(),
@@ -33,6 +41,10 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
     this.notifyPropertyChange('duration');
     this.notifyPropertyChange('finished_at');
   },
+
+  hasFailureMatrix: function() {
+      return this.get('allow_failure_matrix').length > 0;
+  }.property('hasFailureMatrix').cacheable(),
 
   isMatrix: function() {
     return this.getPath('matrix.length') > 1;
