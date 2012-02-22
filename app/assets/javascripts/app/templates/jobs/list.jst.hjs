@@ -6,7 +6,7 @@
     {{/collection}}
   </thead>
 
-  {{#collection tagName="tbody" contentBinding="content.matrix" itemViewClass="Ember.View" itemClassBinding="content.color"}}
+  {{#collection tagName="tbody" contentBinding="content.required_matrix" itemViewClass="Ember.View" itemClassBinding="content.color"}}
     <td class="number"><a {{bindAttr href="content.url"}}>{{content.number}}</a></td>
     <td class="duration" {{bindAttr title="content.started_at"}}>{{content.formattedDuration}}</td>
     <td class="finished_at timeago" {{bindAttr title="content.finished_at"}}>{{content.formattedFinishedAt}}</td>
@@ -16,3 +16,33 @@
   {{/collection}}
 </table>
 
+{{#if content.hasFailureMatrix}}
+<table id="allow_failure_builds">
+  <caption>Allowed Failures{{whats_this "allow_failure_help"}}
+</caption>
+  <thead>
+    {{#collection tagName="tr" contentBinding="content.formattedMatrixHeaders" itemTagName="th"}}
+      {{content}}
+    {{/collection}}
+  </thead>
+
+  {{#collection tagName="tbody" contentBinding="content.allow_failure_matrix" itemViewClass="Ember.View" itemClassBinding="content.color"}}
+    <td class="number"><a {{bindAttr href="content.url"}}>{{content.number}}</a></td>
+    <td class="duration" {{bindAttr title="content.started_at"}}>{{content.formattedDuration}}</td>
+    <td class="finished_at timeago" {{bindAttr title="content.finished_at"}}>{{content.formattedFinishedAt}}</td>
+    {{#each content.formattedConfigValues itemTagName="td"}}
+      {{value}}
+    {{/each}}
+  {{/collection}}
+</table>
+
+<div id="allow_failure_help" class="context_help">
+<div class="context_help_caption">Allowed Failures</div>
+<div class="context_help_body">Allowed Failures are items in your build matrix that are allowed to fail without causing the entire build to be shown as failed. This lets you add in experimental and preparatory builds to test against versions or configurations that you are not ready to officially support.<br><br>You can define allowed failures in the build matrix as follows:
+</br><pre>
+matrix:
+  allow_failure:
+    - rvm: 1.8.7
+</pre></div>
+</div>
+{{/if}}

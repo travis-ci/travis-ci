@@ -17,6 +17,7 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
   author_email:    Ember.Record.attr(String),
   compare_url:     Ember.Record.attr(String),
   log:             Ember.Record.attr(String),
+  allow_failure:   Ember.Record.attr(Boolean),
 
   build: function() {
     if(window.__DEBUG__) console.log('updating build on job ' + this.get('id'));
