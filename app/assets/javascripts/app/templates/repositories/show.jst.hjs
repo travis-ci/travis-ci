@@ -19,6 +19,10 @@
       <h5><a {{bindAttr href="repository.urlBuilds"}}>Build History</a></h5>
       <div class="tab"></div>
     </li>
+    <li id="tab_branches">
+      <h5><a {{bindAttr href="repository.urlBranches"}}>Branches Summary</a></h5>
+      <div class="tab"></div>
+    </li>
     <li id="tab_build">
       <h5><a {{bindAttr href="build.url"}}>Build #{{build.number}}</a></h5>
       <div class="tab"></div>
