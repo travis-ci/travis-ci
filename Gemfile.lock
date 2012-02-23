@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 1fd50ac34ede885c6599fa48f9312be2ae0a131c
+  revision: 93fdb0e42a59c7108a516e22172d2aa89515da49
   ref: metriks
   specs:
     travis-core (0.0.1)
@@ -78,7 +78,7 @@ GEM
       amq-protocol (>= 0.9.0)
       eventmachine
     archive-tar-minitar (0.5.2)
-    arel (2.2.1)
+    arel (2.2.3)
     atomic (1.0.0)
     bcrypt-ruby (3.0.1)
     builder (3.0.0)
