@@ -1,3 +1,3 @@
 require 'metriks/reporter/logger'
 require 'remote_syslog_logger'
-Metriks.counter("starts").increment
+$metriks_reporter = Metriks::Reporter::Logger.new
