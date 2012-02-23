@@ -5,7 +5,7 @@
 
 <dl class="profile">
   <dt>Github:</dt><dd><%= link_to "#{@user.login}", "http://github.com/#{@user.login}" %></dd>
-  <% unless @user.email.blank? %>
+  <% if @user.email.present? %>
     <dt>E-Mail:</dt><dd><%= @user.email %></dd>
   <% end %>
   <dt>Token:</dt><dd><%= @user.tokens.first.token %></dd>
