@@ -41,5 +41,12 @@
     {{view Ember.View templateName="app/templates/jobs/list" repositoryBinding="repository" contentBinding="content"}}
   {{else}}
     <pre class="log">{{{content.matrix.firstObject.formattedLog}}}</pre>
+
+    {{#if content.matrix.firstObject.sponsor.name}}
+      <p class="sponsor">
+        This test suite has run on a worker box sponsored by
+        <a {{bindAttr href="content.matrix.firstObject.sponsor.url"}}>{{content.matrix.firstObject.sponsor.name}}</a>
+      </p>
+    {{/if}}
   {{/if}}
 </div>

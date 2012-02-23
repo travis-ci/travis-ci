@@ -16,6 +16,8 @@ var Travis = Ember.Application.create({
     }
     this.initPusher();
     this.initEvents();
+    $.facebox.settings.closeImage = '/images/facebox/closelabel.png';
+    $.facebox.settings.loadingImage = '/images/facebox/loading.gif'; 
   },
 
   home: function() {
@@ -80,6 +82,30 @@ var Travis = Ember.Application.create({
     });
     $('li#tab_search').click(function () {
       Travis.left.search();
+    });
+
+    $('.repository').live('mouseover', function() {
+      $(this).find('.description').show();
+    });
+
+    $('.repository').live('mouseout', function() {
+      $(this).find('.description').hide();
+    });
+
+    $('.tools').live('click', function() {
+      $(this).find('.content').toggle();
+    }).find('.content').live('click', function(event){
+      event.stopPropagation();
+    }).find('input[type=text]').live('focus', function() {
+      this.select();
+    }).live('mouseup', function(e) {
+      e.preventDefault();
+    });
+
+    $('html').click(function(e) {
+      if ($(e.target).closest('.tools .content').length == 0 && $('.tools .content').css('display') != 'none') {
+        $('.tools .content').fadeOut('fast');
+      }
     });
   },
 

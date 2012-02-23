@@ -26,6 +26,13 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
       templateName: 'app/templates/repositories/show'
     });
     this.view.appendTo('#main');
+
+    this.branchSelector = '.tools select';
+    $(this.branchSelector).live('change', this._updateStatusImageCodes.bind(this));
+
+    // TODO: FIXME
+    // Delaying the call as branch selector is not yet on the page (looks like view is not completely rendered at the moment).
+    Ember.run.later(this, this._updateGithubBranches, 1000);
   },
 
   activate: function(tab, params) {
@@ -63,5 +70,58 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
       element.find('.forks').attr('href',repository.get('urlGithubNetwork')).text(data.repository.forks);
       element.find('.github-admin').attr('href', repository.get('urlGithubAdmin'));
     });
-  }.observes('repository.slug')
+  }.observes('repository.slug'),
+
+  _updateGithubBranches: function() {
+    var selector = $(this.branchSelector);
+    var repository = this.get('repository');
+
+    selector.empty();
+    $('.tools input').val('');
+
+    if (selector.length > 0 && repository) {
+      $.getJSON('http://github.com/api/v2/json/repos/show/' + repository.get('slug') + '/branches?callback=?', function(data) {
+        var branches = $.map(data['branches'], function(commit, name) { return name; }).sort();
+
+        // TODO: FIXME
+        // Clear selector again as observing 'repository.slug' causes this method (as well as _updateGithubStats) being
+        // called twice while switching repository. That results in two identical API calls that lead to selector being
+        // updated twice too.
+        selector.empty();
+        $.each(branches, function(index, branch) { $('<option>', { value: branch }).html(branch).appendTo(selector); });
+        selector.val('master');
+
+        this._updateStatusImageCodes();
+      }.bind(this));
+    }
+  }.observes('repository.slug'),
+
+  _updateStatusImageCodes: function() {
+    var imageUrl = this.get('_statusImageUrl');
+    var repositoryUrl = this.get('_repositoryUrl');
+
+    if (repositoryUrl && imageUrl) {
+      $('.tools input.url').val(imageUrl);
+      $('.tools input.markdown').val('[![Build Status](' + imageUrl + ')](' + repositoryUrl + ')');
+      $('.tools input.textile').val('!' + imageUrl + '(Build Status)!:' + repositoryUrl);
+      $('.tools input.rdoc').val('{<img src="' + imageUrl + '" alt="Build Status" />}[' + repositoryUrl + ']');
+    } else {
+      $('.tools input').val('');
+    }
+  },
+
+  _statusImageUrl: function() {
+    var branch = $(this.branchSelector).val();
+    if (branch && this.repository.get('slug')) {
+      return 'https://secure.travis-ci.org/' + this.repository.get('slug') + '.png?branch=' + branch;
+    }
+  }.property('repository.slug'),
+
+  _repositoryUrl: function() {
+    if (this.repository.get('slug')) return 'http://travis-ci.org/' + this.repository.get('slug');
+  }.property('repository.slug'),
+
+  repositoryDidChange: function() {
+    this.repository.select();
+  }.observes('repository')
 });
