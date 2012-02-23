@@ -1,6 +1,15 @@
 GIT
+  remote: git://github.com/mattmatt/metriks.git
+  revision: 22c6c92b0f8fe58f3ba88557d43ce0a0fd2ab225
+  specs:
+    metriks (0.8.0)
+      atomic (~> 1.0)
+      hitimes (~> 1.1)
+
+GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 12bb3bf4d7ac9dde759de4b5e7b8f293a36e6297
+  revision: 1fd50ac34ede885c6599fa48f9312be2ae0a131c
+  ref: metriks
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.1.2)
@@ -70,6 +79,7 @@ GEM
       eventmachine
     archive-tar-minitar (0.5.2)
     arel (2.2.1)
+    atomic (1.0.0)
     bcrypt-ruby (3.0.1)
     builder (3.0.0)
     capybara (1.1.2)
@@ -126,6 +136,7 @@ GEM
     hashie (1.2.0)
     hashr (0.0.19)
     hike (1.2.1)
+    hitimes (1.1.1)
     i18n (0.6.0)
     jasmine (1.1.2)
       jasmine-core (>= 1.1.0)
@@ -314,6 +325,7 @@ DEPENDENCIES
   forgery (~> 0.5.0)
   jasmine (~> 1.1.2)
   json (~> 1.6.3)
+  metriks!
   mocha (~> 0.10.0)
   newrelic_rpm (~> 3.3.0)
   omniauth-github (~> 1.0.0)
