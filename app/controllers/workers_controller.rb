@@ -9,6 +9,6 @@ class WorkersController < ApplicationController
   protected
 
     def workers
-      @workers ||= Worker.all(:order => [:host, :name])
+      @workers ||= Worker.order(:host, :name)
     end
 end
