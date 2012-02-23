@@ -14,4 +14,7 @@ after_fork do |server, worker|
 
   require 'travis'
   Travis::Amqp.connect
+
+  $reporter = Metriks::Reporter::Logger.new :interval => 5
+  $reporter.start
 end
