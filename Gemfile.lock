@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: 2c53c9b61dfb78d6fc915850662b205cde0a7bf7
+  revision: ea8ba4c30e88159e71ef02c2e416369df75b93b8
   ref: metriks
   specs:
     travis-core (0.0.1)
