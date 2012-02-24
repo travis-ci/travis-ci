@@ -12,6 +12,7 @@ Travis.Controllers.Builds.Show = Ember.Object.extend({
       repositoryBinding: 'controller.repository',
       contentBinding: 'controller.build',
       jobsBinding: 'controller.jobs',
+      branchesBinding: 'controller.branches',
       templateName: 'app/templates/builds/show'
     });
   },
@@ -30,7 +31,7 @@ Travis.Controllers.Builds.Show = Ember.Object.extend({
     if (this.getPath('build.matrix.length') > 1) {
       return true;
     }
-
+      
     var jobs = this.getPath('build.matrix'),
         job  = jobs.objectAt(0);
 
@@ -64,5 +65,6 @@ Travis.Controllers.Builds.Show = Ember.Object.extend({
       // TODO why does firstObject not work here?
       this.getPath('build.matrix').objectAt(0).refresh();
     }
+    //#this.get('build').refresh();
   }.observes('build.status')
 });
