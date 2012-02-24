@@ -7,7 +7,6 @@ gem 'travis-support', :git => 'git://github.com/travis-ci/travis-support.git'
 gem 'travis-core',    :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine'
 
 gem 'metriks',        :git => 'git://github.com/mattmatt/metriks.git', :ref => 'source'
-gem 'remote_syslog_logger'
 gem 'amqp',                 '~> 0.9.0'
 
 # app
