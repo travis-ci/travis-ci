@@ -78,6 +78,8 @@ TravisCi::Application.configure do
 
   require 'notifications'
 
+  config.action_dispatch.rack_cache = {:metastore => "rails:/", :entitystore => "rails:/", :verbose => false} 
+
   config.log_weasel.key = "TRAVISWEB"
 
   config.after_initialize do
