@@ -75,4 +75,6 @@ TravisCi::Application.configure do
   config.active_support.deprecation = :notify
 
   config.middleware.insert_before(::Rack::Lock, 'Refraction')
+
+  require 'notifications'
 end
