@@ -19,6 +19,10 @@
   ],
   "gold": [
     {
+      "url": "http://heroku.com",
+      "image": "http://travis-ci.org/images/sponsors/heroku-205x60.png"
+    },
+    {
       "url": "http://soundcloud.com",
       "image": "http://travis-ci.org/images/sponsors/soundcloud-205x60.png"
     },
