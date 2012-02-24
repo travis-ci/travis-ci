@@ -79,9 +79,8 @@ TravisCi::Application.configure do
   require 'notifications'
 
   config.after_initialize do
-    require 'travis/database'
     Travis.logger.level = Logger::INFO
-    ActionController::Base.logger = Travis.logger
+    ActionController::Base.logger = LogWeasel::BufferedLogger.new(STDOUT)
     ActiveRecord::Base.logger = Travis.logger
   end
 end
