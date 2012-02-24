@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/mattmatt/metriks.git
-  revision: bb52dd4e0c8980c7898a8200d5660596f2b7885a
+  revision: d7ad6c2c1b0ce14df8a943752d1b6c7635d4790c
   ref: source
   specs:
     metriks (0.8.0)
