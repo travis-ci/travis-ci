@@ -21,7 +21,7 @@ TravisCi::Application.configure do
   # just comment this out and Rails will serve the files
 
   config.logger = Logger.new(STDOUT)
-  config.log_level = :debug
+  config.log_level = :info
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
@@ -75,4 +75,6 @@ TravisCi::Application.configure do
   config.active_support.deprecation = :notify
 
   config.middleware.insert_before(::Rack::Lock, 'Refraction')
+
+  require 'notifications'
 end
