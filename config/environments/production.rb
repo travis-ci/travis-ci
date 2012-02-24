@@ -78,6 +78,8 @@ TravisCi::Application.configure do
 
   require 'notifications'
 
+  config.log_weasel.key = "TRAVISWEB"
+
   config.after_initialize do
     Travis.logger.level = Logger::INFO
     ActionController::Base.logger = LogWeasel::BufferedLogger.new(STDOUT)

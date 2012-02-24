@@ -5,8 +5,6 @@ Bundler.require *Rails.groups(:assets) if defined?(Bundler)
 
 module TravisCi
   class Application < Rails::Application
-    #config.log_weasel.key = "TRAVIS"
-
     config.encoding = 'utf-8'
 
     config.filter_parameters += [:password]
