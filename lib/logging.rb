@@ -16,10 +16,6 @@ module Travis
       logger.info(message)
     end
 
-    def redirect_to(event)
-      p event.payload
-    end
-
     private
     def runtimes(event)
       message = ""
