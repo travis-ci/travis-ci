@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: c753862c7815e7ce40d77e491a959e93da16bd15
+  revision: bc4ec7223888b830b6d7989d2aeccd8a212f66fa
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.1.2)
@@ -8,7 +8,6 @@ GIT
       data_migrations (~> 0.0.1)
       devise (~> 1.5.0)
       hashr (~> 0.0.19)
-      hpricot (~> 0.8.4)
       oa-oauth (~> 0.3.2)
       octokit (~> 0.6.5)
       omniauth
@@ -70,7 +69,7 @@ GEM
       amq-protocol (>= 0.9.0)
       eventmachine
     archive-tar-minitar (0.5.2)
-    arel (2.2.1)
+    arel (2.2.3)
     bcrypt-ruby (3.0.1)
     builder (3.0.0)
     capybara (1.1.2)
@@ -127,7 +126,6 @@ GEM
     hashie (1.2.0)
     hashr (0.0.19)
     hike (1.2.1)
-    hpricot (0.8.6)
     i18n (0.6.0)
     jasmine (1.1.2)
       jasmine-core (>= 1.1.0)
