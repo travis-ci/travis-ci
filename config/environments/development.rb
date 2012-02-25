@@ -36,5 +36,9 @@ TravisCi::Application.configure do
 
   # Don't concatenate assets
   config.assets.debug = false
+
+  config.after_initialize do
+    require 'logging'
+  end
 end
 
