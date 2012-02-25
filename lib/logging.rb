@@ -11,14 +11,30 @@ module Travis
     def process_action(event)
       payload = event.payload
       message = "#{payload[:method]} #{payload[:path]} format=#{payload[:format]} action=#{payload[:params]['controller']}##{payload[:params]['action']}"
-      message << (" status=#{payload[:status]} duration=%.2f view=%.2f db=%.2f" % [event.duration, payload[:view_runtime], payload[:db_runtime]])
+      message << " status=#{payload[:status]}"
+      message << runtimes(event)
       logger.info(message)
     end
 
-    def start_processing(event)
+    def redirect_to(event)
+      p event.payload
     end
 
-    def redirect_to(event)
+    private
+    def runtimes(event)
+      message = ""
+      if event.duration
+        message << " duration=%.2f" % event.duration
+      end
+
+      if event.payload[:view_runtime]
+        message << " view=%.2f" % event.payload[:view_runtime]
+      end
+
+      if event.payload[:db_runtime]
+        message << " db=%.2f" % event.payload[:db_runtime]
+      end
+      message
     end
 
     def logger
