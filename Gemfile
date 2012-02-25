@@ -7,7 +7,6 @@ gem 'travis-support', :git => 'git://github.com/travis-ci/travis-support.git'
 gem 'travis-core',    :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine'
 
 gem 'metriks',        :git => 'git://github.com/mattmatt/metriks.git', :ref => 'source'
-gem 'log_weasel',     :git => 'https://github.com/mattmatt/log_weasel.git', :ref => 'ruby-1.9'
 
 gem 'amqp',                 '~> 0.9.0'
 
