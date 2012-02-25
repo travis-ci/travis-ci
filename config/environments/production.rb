@@ -80,8 +80,6 @@ TravisCi::Application.configure do
 
   config.action_dispatch.rack_cache = {:metastore => "rails:/", :entitystore => "rails:/", :verbose => false} 
 
-  config.log_weasel.key = "TRAVISWEB"
-
   config.after_initialize do
     Travis.logger.level = Logger::INFO
     ActionController::Base.logger = LogWeasel::BufferedLogger.new(STDOUT)
