@@ -20,10 +20,6 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
 
   matrix: Ember.Record.toMany('Travis.Job', { nested: true }),
   
-  branch_summary: function() {
-    return this.get('repository').get('build_summary')
-  }.property('last_build_id').cacheable(),
-
   required_matrix: function() {
       return this.get('matrix').filter(function(item, index, self) { return item.get('allow_failure') != true });
   }.property('matrix').cacheable(),
