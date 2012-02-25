@@ -34,14 +34,6 @@ GIT
   specs:
     travis-support (0.0.1)
 
-GIT
-  remote: https://github.com/mattmatt/log_weasel.git
-  revision: fef002d054462cbd995d7102727c63608196f271
-  ref: ruby-1.9
-  specs:
-    log_weasel (0.1.0)
-      activesupport
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -333,7 +325,6 @@ DEPENDENCIES
   forgery (~> 0.5.0)
   jasmine (~> 1.1.2)
   json (~> 1.6.3)
-  log_weasel!
   metriks!
   mocha (~> 0.10.0)
   newrelic_rpm (~> 3.3.0)
