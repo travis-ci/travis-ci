@@ -1,5 +1,5 @@
 //= require app/controllers/tabs.js
-
+// __TESTING__ = true
 Travis.Controllers.Repositories.Show = Ember.Object.extend({
   tabs: Travis.Controllers.Tabs.create({
     selector: '#repository',
@@ -8,7 +8,7 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
       history:  Travis.Controllers.Builds.List,
       build:    Travis.Controllers.Builds.Show,
       job:      Travis.Controllers.Jobs.Show,
-      branches: Travis.Controllers.Branches.List
+      branch_summary: Travis.Controllers.Repositories.BranchSummary
     }
   }),
 
@@ -32,7 +32,12 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
 
     // TODO: FIXME
     // Delaying the call as branch selector is not yet on the page (looks like view is not completely rendered at the moment).
+    Ember.run.later(this, this._setTooltips, 1000);
     Ember.run.later(this, this._updateGithubBranches, 1000);
+  },
+
+  _setTooltips: function() {
+    $(".tool-tip").tipsy();
   },
 
   activate: function(tab, params) {
@@ -73,6 +78,7 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
   }.observes('repository.slug'),
 
   _updateGithubBranches: function() {
+    if(window.__TESTING__) return;
     var selector = $(this.branchSelector);
     var repository = this.get('repository');
 
