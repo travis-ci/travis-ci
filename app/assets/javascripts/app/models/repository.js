@@ -21,6 +21,21 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
     this.notifyPropertyChange('last_build_finished_at');
   },
 
+  branchSummary: function() {
+    builds = this.get('branch_summary');
+    var p_slug = this.get('slug')
+    $.each(builds, function(index, build) {
+      build['formattedCommit'] = build.commit.substr(0,7);
+      build['color'] = Travis.Helpers.Common.colorForResult(build.status);
+      build['started_at'] = Travis.Helpers.Common.timeAgoInWords(build.started_at);
+      build['finished_at'] = Travis.Helpers.Common.timeAgoInWords(build.finished_at);
+      build['build_url'] = '#!/' + p_slug + '/builds/' + build.build_id;
+      build['commit_url'] = 'http://github.com/' + p_slug + '/commit/' + build.commit;
+
+    });
+    return builds;
+  }.property().cacheable(),
+
   builds: function() {
     return Travis.Build.byRepositoryId(this.get('id'));
   }.property().cacheable(),
@@ -77,9 +92,14 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
     return this.get('url') + '/admin/hooks#travis_minibucket';
   }.property('slug').cacheable(),
 
+  urlBranches: function() {
+    return '#!/' + this.get('slug') + '/branch_summary';
+  }.property('slug').cacheable(),
+
   urlStatusImage: function() {
     return this.get('slug') + '.png'
   }.property('slug').cacheable()
+
 });
 
 Travis.Repository.reopenClass({
