@@ -19,6 +19,10 @@
   ],
   "gold": [
     {
+      "url": "http://heroku.com",
+      "image": "http://travis-ci.org/images/sponsors/heroku-205x60.png"
+    },
+    {
       "url": "http://soundcloud.com",
       "image": "http://travis-ci.org/images/sponsors/soundcloud-205x60.png"
     },
@@ -40,7 +44,7 @@
     },
     {
       "url": "http://ticketevolution.com",
-      "image": "http://travis-ci.org/images/sponsors/ticketevolution-205x60.png"
+      "image": "http://travis-ci.org/images/sponsors/ticketevolution-205x60.jpg"
     }
   ],
   "silver": [
@@ -75,7 +79,7 @@
       "link": "<a href=\"http://site5.com\">Site5</a><span>: Premium Web Hosting Solutions</span>"
     },
     {
-      "link": "<a href=\"http://www.8thlight.com/\">8th Light</a><span>: We craft beautiful and durable software</span>"
+      "link": "<a href=\"http://www.8thlight.com/\">8th Light</a><span>: Software is our Craft</span>"
     }
   ]
 }
