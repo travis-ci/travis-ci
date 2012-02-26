@@ -82,7 +82,7 @@ TravisCi::Application.configure do
 
   config.after_initialize do
     Travis.logger.level = Logger::INFO
-    ActionController::Base.logger = LogWeasel::BufferedLogger.new(STDOUT)
+    ActionController::Base.logger = Travis.logger
     ActiveRecord::Base.logger = Travis.logger
 
     require 'logging'
