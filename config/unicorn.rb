@@ -14,4 +14,9 @@ after_fork do |server, worker|
 
   require 'travis'
   Travis::Amqp.connect
+
+  if $metriks_reporter
+    $metriks_reporter.stop
+    $metriks_reporter.start
+  end
 end

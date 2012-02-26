@@ -89,13 +89,18 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
 
   formattedConfig: function() {
     var config = $.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js', 'scala', 'jdk', 'python', 'perl');
-    var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
+    var values = $.map(config, function(value, key) {
+      value = (value && value.join) ? value.join(', ') : (value || '');
+      return '%@: %@'.fmt($.camelize(key), value);
+    });
     return values.length == 0 ? '-' : values.join(', ');
   }.property('config').cacheable(),
 
   formattedConfigValues: function() {
     var values = $.values($.only(this.getPath('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js', 'scala', 'jdk', 'python', 'perl'));
-    return $.map(values, function(value) { return Ember.Object.create({ value: value }) });
+    return $.map(values, function(value) {
+      return Ember.Object.create({ value: value })
+    });
   }.property().cacheable(),
 
   formattedLog: function() {
