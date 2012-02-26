@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'jsonp API' do
+describe 'JSONP API' do
   let(:repository) do
     FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today).tap do |repo|
       repo.key = Factory(:ssl_key, :repository => repo)
