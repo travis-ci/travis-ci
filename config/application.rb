@@ -18,7 +18,5 @@ module TravisCi
     config.active_record.default_timezone = :utc
 
     ActiveRecord::Base.include_root_in_json = false
-    
-    config.middleware.delete Rails::Rack::Logger
   end
 end
