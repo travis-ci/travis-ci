@@ -11,12 +11,22 @@ module Travis
     def process_action(event)
       payload = event.payload
       message = "#{payload[:method]} #{payload[:path]} format=#{payload[:format]} action=#{payload[:params]['controller']}##{payload[:params]['action']}"
-      message << " status=#{payload[:status]}"
+      message << extract_status(payload)
       message << runtimes(event)
       logger.info(message)
     end
 
     private
+
+    def extract_status(payload)
+      if payload[:status]
+        " status=#{payload[:status]}"
+      elsif payload[:exception]
+        exception, message = payload[:exception]
+        " status=500 error='#{exception}:#{message}'"
+      end
+    end
+
     def runtimes(event)
       message = ""
       {:duration => event.duration,
