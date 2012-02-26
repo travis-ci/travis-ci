@@ -46,15 +46,21 @@ describe 'JSONP API' do
   end
 
   context 'callback parameter is not valid' do
-    let(:path) { '/sve/travis-ci.json?callback=123' }
+    let(:path) { '/sven/travis-ci.json' }
+    let(:callback) { '?callback=123' }
+
+    it 'uses valid path' do
+      get path
+      response.status.should == 200
+    end
 
     it 'returns bad request body' do
-      get path
+      get(path + callback)
       response.body.should == 'Bad Request'
     end
 
     it 'returns 400 status code' do
-      get path
+      get(path + callback)
       response.status.should == 400
     end
   end
