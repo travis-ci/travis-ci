@@ -1192,6 +1192,7 @@ ul#tokens {
   color: #C00;
 }
 
+/*  Whats this */
 .whats_this {
   margin-left: 10px;
   display: inline-block;
@@ -1223,4 +1224,71 @@ pre {
     margin-top: 1em;
     overflow-x: scroll;
     padding: 1em 1.5em;
+}
+
+/* Branch Summary */
+#main #branch_summary td:first-child a,
+#main #branch_summary .build td:first-child a {
+  background-image: url(/assets/icons/status.yellow.png);
+  padding-left: 20px;
+  background-repeat: no-repeat;
+}
+#main #branch_summary .green td:first-child a,
+#main #branch_summary .build.green td:first-child a {
+  background-image: url(/assets/icons/status.green.png);
+  color: green;
+  padding-left: 20px;
+  background-repeat: no-repeat;
+}
+
+#left #repositories li.red .wrapper,
+#main .red .summary .number a,
+#main #branch_summary .red td:first-child a,
+#main #branch_summary .build.red td:first-child a {
+  background-image: url(/assets/icons/status.red.png);
+  color: #c00;
+  padding-left: 20px;
+  background-repeat: no-repeat;
+}
+
+  #branch_summary {
+    margin: 20px 0 0 -12px;
+  }
+  #branch_summary caption {
+    margin-left: 12px;
+    margin-bottom: 8px;
+  }
+  #branch_summary {
+    width: 90%;
+    margin: 25px 0 0 -12px;
+  }
+  #branch_summary th {
+    font-size: 13px;
+    color: #666;
+  }
+  #branch_summary th,
+  #branch_summary td {
+    white-space: nowrap;
+  }
+  #branch_summary td.message {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+  }
+  #branch_summary tr {
+    max-height: 20px;
+  }
+  #branch_summary tbody tr:nth-child(odd) {
+    background-color: #f6f6f6;
+  }
+  #branch_summary tbody tr.allow-failure {
+    background-color:#BDBDBD;
+  }
+
+
+#branch_summary .green .number a {
+  color: green;
+}
+#branch_summary .red .number a {
+  color: #C00;
 }

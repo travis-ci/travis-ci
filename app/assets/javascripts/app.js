@@ -30,6 +30,7 @@ var Travis = Ember.Application.create({
     Ember.routes.add('!/:owner/:name/jobs/:id',   function(params) { Travis.main.activate('job',     params) });
     Ember.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.main.activate('build',   params) });
     Ember.routes.add('!/:owner/:name/builds',     function(params) { Travis.main.activate('history', params) });
+    Ember.routes.add('!/:owner/:name/branch_summary',   function(params) { Travis.main.activate('branch_summary', params) });
     Ember.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('current', params) });
     Ember.routes.add('',                          function(params) { Travis.main.activate('current', params) });
   },
@@ -65,6 +66,9 @@ var Travis = Ember.Application.create({
   },
 
   initEvents: function() {
+
+    //this is only going to work for rendered elements
+
     $('.tool-tip').tipsy({ gravity: 'n', fade: true });
     $('.fold').live('click', function() { $(this).toggleClass('open'); });
 
