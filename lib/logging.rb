@@ -19,16 +19,10 @@ module Travis
     private
     def runtimes(event)
       message = ""
-      if event.duration
-        message << " duration=%.2f" % event.duration
-      end
-
-      if event.payload[:view_runtime]
-        message << " view=%.2f" % event.payload[:view_runtime]
-      end
-
-      if event.payload[:db_runtime]
-        message << " db=%.2f" % event.payload[:db_runtime]
+      {:duration => event.duration,
+       :view => event.payload[:view_runtime],
+       :db => event.payload[:db_runtime]}.each do |name, runtime|
+        message << " #{name}=%.2f" % runtime if runtime
       end
       message
     end
