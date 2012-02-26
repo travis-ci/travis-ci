@@ -7,6 +7,58 @@ describe 'JSONP API' do
     end
   end
 
+  before(:each) do
+    config = { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'], 'env' => ['DB=sqlite3', 'DB=postgres'] }
+    build = FactoryGirl.create(:build, :repository => repository, :config => config)
+    build.matrix.each do |job|
+      job.start!(:started_at => '2010-11-12T12:30:00Z')
+      job.finish!(:status => job.config[:rvm] == '1.8.7' ? 0 : 1, :finished_at => '2010-11-12T12:30:20Z')
+    end
+    repository.reload
+  end
+
+  context 'callback parameter passed' do
+    let(:path) { '/sven/travis-ci.json?callback=foo' }
+
+    it 'returns text/javascript content type' do
+      get path
+      response.content_type.should == 'text/javascript'
+    end
+
+    it 'returns response in jsonp format' do
+      get path
+      valid_repository_info?(response.body[/foo\((.*)\)/, 1]).should be_true
+    end
+  end
+
+  context 'no callback parameter passed' do
+    let(:path) { '/sven/travis-ci.json' }
+
+    it 'returns application/json content type' do
+      get path
+      response.content_type.should == 'application/json'
+    end
+
+    it 'returns response in json format' do
+      get path
+      valid_repository_info?(response.body).should be_true
+    end
+  end
+
+  context 'callback parameter is not valid' do
+    let(:path) { '/sve/travis-ci.json?callback=123' }
+
+    it 'returns bad request body' do
+      get path
+      response.body.should == 'Bad Request'
+    end
+
+    it 'returns 400 status code' do
+      get path
+      response.status.should == 400
+    end
+  end
+
   def valid_repository_info?(info)
     ActiveSupport::JSON.decode(info) == {
        'id'                     => repository.id,
@@ -22,31 +74,5 @@ describe 'JSONP API' do
        'last_build_duration'    => 160,
        'public_key'             => "-----BEGIN RSA PUBLIC KEY-----\nMIGJAoGBAMZ53W7GX2zMvQ9UT8Hq/08Oyj7FEez171gMHwOb5BgUPJ1253WfXXfh\nljf0PGDrM2FcMYpiKUc/gT1ugi6+B9IAM3XZ4PVyWiBfjozigEaBQCG2vlC8Yuf1\nMRbght4j6cOyEwktMt62EKYHofCbkt31CdFVPpT8DO05O/14n/EpAgMBAAE=\n-----END RSA PUBLIC KEY-----\n"
     }
-  end
-
-  before(:each) do
-    config = { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'], 'env' => ['DB=sqlite3', 'DB=postgres'] }
-    build = FactoryGirl.create(:build, :repository => repository, :config => config)
-    build.matrix.each do |job|
-      job.start!(:started_at => '2010-11-12T12:30:00Z')
-      job.finish!(:status => job.config[:rvm] == '1.8.7' ? 0 : 1, :finished_at => '2010-11-12T12:30:20Z')
-    end
-    repository.reload
-  end
-
-  it 'returns repository info in jsonp format if callback parameter passed' do
-    get '/sven/travis-ci.json?callback=foo'
-    valid_repository_info?(response.body[/foo\((.*)\)/, 1]).should be_true
-  end
-
-  it 'returns repository info in json format if no callback parameter passed' do
-    get '/sven/travis-ci.json'
-    valid_repository_info?(response.body).should be_true
-  end
-
-  it 'returns bad request if callback parameter is not valid' do
-    get '/sve/travis-ci.json?callback=123'
-    response.body.should == 'Bad Request'
-    response.status.should == 400
   end
 end
