@@ -28,14 +28,30 @@ Travis.Controllers.Builds.Show = Ember.Object.extend({
   }.observes('build'),
 
   subscribeToFirstJob: function() {
-    if (this.getPath('build.matrix.length') > 1) {
-      return true;
-    }
-    // TODO same issue as _buildObserver. In some cases, the matrix is empty 
-    var job = this.getPath('build.matrix').objectAt(0)
+    var build = this.get('build'),
+        matrix = build.get('matrix'),
+        length = matrix.get('length');
+    if (build.get('isLoaded')) {
+      build.removeObserver('isLoaded', this, 'subscribeToFirstJob');
 
-    if(job.get('isReady') && (job.get('state') != 'finished')) {
-      job.subscribe();
+      if (length > 1) {
+        return true;
+      } else if (length === 1) {
+        this.subscribeToFirstJobWhenMatrixReady();
+      } else {
+        matrix.addObserver('length', this, 'subscribeToFirstJobWhenMatrixReady');
+      }
+    }
+  },
+
+  subscribeToFirstJobWhenMatrixReady: function() {
+    var matrix = this.getPath('build.matrix'), job;
+    matrix.removeObserver('length', this, 'subscribeToFirstJobWhenMatrixReady');
+    if (matrix.get('length') === 1) {
+      job = matrix.objectAt(0);
+      if (job && job.get('isReady') && (job.get('state') != 'finished')) {
+        job.subscribe();
+      }
     }
   },
 
