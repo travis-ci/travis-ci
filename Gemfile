@@ -7,6 +7,7 @@ gem 'travis-support', :git => 'git://github.com/travis-ci/travis-support.git'
 gem 'travis-core',    :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine'
 
 gem 'metriks',        :git => 'git://github.com/mattmatt/metriks.git', :ref => 'source'
+
 gem 'amqp',                 '~> 0.9.0'
 
 # app
@@ -19,6 +20,7 @@ gem 'unobtrusive_flash',    '~> 0.0.2'
 gem 'json',                 '~> 1.6.3'
 gem 'yajl-ruby',            '~> 1.1.0'
 gem 'rabl',                 '~> 0.5.1'
+gem 'rack-contrib', :git => 'git://github.com/rack/rack-contrib.git', :require => 'rack/contrib'
 
 # db
 gem 'pg',                   '~> 0.12.0'

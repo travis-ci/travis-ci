@@ -34,4 +34,5 @@ class ApplicationController < ActionController::Base
     def prepare_for_mobile
       session[:mobile_param] = params[:mobile] if params[:mobile]
     end
+
 end

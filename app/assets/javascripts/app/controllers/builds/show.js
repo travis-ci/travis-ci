@@ -12,6 +12,7 @@ Travis.Controllers.Builds.Show = Ember.Object.extend({
       repositoryBinding: 'controller.repository',
       contentBinding: 'controller.build',
       jobsBinding: 'controller.jobs',
+      branchesBinding: 'controller.branches',
       templateName: 'app/templates/builds/show'
     });
   },
@@ -27,15 +28,30 @@ Travis.Controllers.Builds.Show = Ember.Object.extend({
   }.observes('build'),
 
   subscribeToFirstJob: function() {
-    if (this.getPath('build.matrix.length') > 1) {
-      return true;
+    var build = this.get('build'),
+        matrix = build.get('matrix'),
+        length = matrix.get('length');
+    if (build.get('isLoaded')) {
+      build.removeObserver('isLoaded', this, 'subscribeToFirstJob');
+
+      if (length > 1) {
+        return true;
+      } else if (length === 1) {
+        this.subscribeToFirstJobWhenMatrixReady();
+      } else {
+        matrix.addObserver('length', this, 'subscribeToFirstJobWhenMatrixReady');
+      }
     }
+  },
 
-    var jobs = this.getPath('build.matrix'),
-        job  = jobs.objectAt(0);
-
-    if(job.get('isReady') && (job.get('state') != 'finished')) {
-      job.subscribe();
+  subscribeToFirstJobWhenMatrixReady: function() {
+    var matrix = this.getPath('build.matrix'), job;
+    matrix.removeObserver('length', this, 'subscribeToFirstJobWhenMatrixReady');
+    if (matrix.get('length') === 1) {
+      job = matrix.objectAt(0);
+      if (job && job.get('isReady') && (job.get('state') != 'finished')) {
+        job.subscribe();
+      }
     }
   },
 

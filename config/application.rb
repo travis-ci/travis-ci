@@ -18,5 +18,7 @@ module TravisCi
     config.active_record.default_timezone = :utc
 
     ActiveRecord::Base.include_root_in_json = false
+
+    config.middleware.use Rack::JSONP
   end
 end
