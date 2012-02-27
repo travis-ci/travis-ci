@@ -81,6 +81,7 @@ TravisCi::Application.configure do
   config.action_dispatch.rack_cache = {:metastore => "rails:/", :entitystore => "rails:/", :verbose => false} 
 
   config.middleware.delete Rails::Rack::Logger
+  config.assets.initialize_on_precompile
 
   config.after_initialize do
     Travis.logger.level = Logger::INFO
