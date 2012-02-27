@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  rescue_from ActionController::RoutingError, :with => :route_not_found
+
   prepend_view_path 'app/views/v1/default'
 
   protect_from_forgery
@@ -33,5 +35,10 @@ class ApplicationController < ActionController::Base
 
     def prepare_for_mobile
       session[:mobile_param] = params[:mobile] if params[:mobile]
+    end
+
+    def route_not_found(error)
+      logger.warn("404: #{error.message}")
+      render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
     end
 end
