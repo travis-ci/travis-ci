@@ -1,5 +1,3 @@
-require 'patches/rails_route_set'
-
 TravisCi::Application.routes.draw do
   root :to => 'home#index'
 
