@@ -45,6 +45,8 @@ TravisCi::Application.routes.draw do
   post 'builds',         :to => 'requests#create'
   put  'builds/:id',     :to => 'jobs#update'
   put  'builds/:id/log', :to => 'jobs#log'
+
+  match "/*path" => "home#route_not_found"
 end
 
 # we want these after everything else is loaded
