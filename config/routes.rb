@@ -46,7 +46,6 @@ TravisCi::Application.routes.draw do
   put  'builds/:id',     :to => 'jobs#update'
   put  'builds/:id/log', :to => 'jobs#log'
 
-  match "/*path" => "home#route_not_found"
 end
 
 # we want these after everything else is loaded
@@ -57,4 +56,6 @@ TravisCi::Application.routes.append do
     match ":user/:repository/builds",     :to => redirect("/#!/%{user}/%{repository}/builds"),       :as => :user_repo_builds_redirect
     match ":user/:repository/builds/:id", :to => redirect("/#!/%{user}/%{repository}/builds/%{id}"), :as => :user_repo_build_redirect
   end
+
+  match "/*path" => "home#route_not_found"
 end
