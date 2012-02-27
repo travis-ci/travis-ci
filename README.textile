@@ -22,7 +22,9 @@ You can see Travis CI in action at "travis-ci.org":http://travis-ci.org. With ab
  * "Symfony 2":http://travis-ci.org/#!/symfony/symfony, "Doctrine 2":http://travis-ci.org/#!/doctrine/doctrine2, "Composer":http://travis-ci.org/#!/composer/composer, "Behat":http://travis-ci.org/#!/Behat/Behat and numerous Symfony 2 bundles in the PHP community
  * "Leiningen":http://travis-ci.org/#!/technomancy/leiningen, "Knockbox":http://travis-ci.org/#!/reiddraper/knockbox, "Langohr":http://travis-ci.org/#!/michaelklishin/langohr, "Monger":http://travis-ci.org/#!/michaelklishin/monger, "Neocons":http://travis-ci.org/#!/michaelklishin/neocons, "Sumo":http://travis-ci.org/#!/reiddraper/sumo in the Clojure community
  * "Cowboy":http://travis-ci.org/#!/extend/cowboy and "Elixir":http://travis-ci.org/#!/josevalim/elixir in the Erlang community
-
+ * "Riak Java client":https://github.com/basho/riak-java-client/, "Cucumber JVM":https://github.com/cucumber/cucumber-jvm/, "Symfony 2 Eclipse Plugin":https://github.com/pulse00/Symfony-2-Eclipse-Plugin/ in the Java community
+ * "Scalding":https://github.com/twitter/scalding and "Scalatra":https://github.com/scalatra/scalatra in the Scala community
+ * "Tornado":http://travis-ci.org/#!/facebook/tornado, "simplejson":http://travis-ci.org/#!/simplejson/simplejson, "Requests":http://travis-ci.org/#!/kennethreitz/requests, "Kombu":http://travis-ci.org/#!/ask/kombu in the Python community
 
 
 h3. We Are Not Done Yet
