@@ -78,10 +78,16 @@ TravisCi::Application.configure do
 
   require 'notifications'
 
+  config.action_dispatch.rack_cache = {:metastore => "rails:/", :entitystore => "rails:/", :verbose => false} 
+
+  config.middleware.delete Rails::Rack::Logger
+
   config.after_initialize do
-    require 'travis/database'
     Travis.logger.level = Logger::INFO
     ActionController::Base.logger = Travis.logger
     ActiveRecord::Base.logger = Travis.logger
+
+    require 'logging'
   end
+
 end

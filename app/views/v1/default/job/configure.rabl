@@ -6,6 +6,8 @@ node(:parent_id)   { @job.owner_id }
 node(:started_at)  { @job.started_at }  if @job.started?
 node(:finished_at) { @job.finished_at } if @job.finished?
 
+node(:log)         { @job.log.try(:content) || '' } unless params[:bare]
+
 glue @job.commit do
   extends 'v1/default/commit'
 end
