@@ -1,10 +1,10 @@
 source :rubygems
 
-gem 'rails',                '~> 3.1.2'
+gem 'rails',                '~> 3.2.1'
 gem 'rake',                 '~> 0.9.2.2'
 
-gem 'travis-support', :git => 'git://github.com/travis-ci/travis-support.git'
-gem 'travis-core',    :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine'
+gem 'travis-support', :git => 'git://github.com/travis-ci/travis-support.git', :ref => 'rails-3.2'
+gem 'travis-core',    :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine', :ref => 'rails-3.2'
 
 gem 'metriks',        :git => 'git://github.com/mattmatt/metriks.git', :ref => 'source'
 
@@ -35,14 +35,13 @@ gem 'unicorn',              '~> 4.1.1'
 
 # assets
 group :assets do
-  gem 'sass-rails',         '~> 3.1.5'
-  gem 'coffee-rails',       '~> 3.1.1'
+  gem 'sass-rails',         '~> 3.2.4'
+  gem 'coffee-rails',       '~> 3.2.2'
   gem 'uglifier',           '~> 1.2.0'
   gem 'compass',            '0.12.alpha.4'
 end
 
 group :development, :test, :jasmine do
-  gem 'rails-dev-tweaks',   '~> 0.5.1'
   gem 'factory_girl',       '~> 2.4.0'
   gem 'forgery',            '~> 0.5.0'
   gem 'rspec-rails',        '~> 2.8.0'
