@@ -16,7 +16,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: ffad42bf5268ee3c729f7f04495a970130155f5b
+  revision: 93fc27da0493dfe7351ee84092ae699f413b9c47
   ref: rails-3.2
   specs:
     travis-core (0.0.1)
@@ -269,10 +269,10 @@ GEM
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    selenium-webdriver (2.19.0)
+    selenium-webdriver (2.20.0)
       childprocess (>= 0.2.5)
-      ffi (~> 1.0.9)
-      multi_json (~> 1.0.4)
+      ffi (~> 1.0)
+      multi_json (~> 1.0)
       rubyzip
     signature (0.1.2)
       ruby-hmac
