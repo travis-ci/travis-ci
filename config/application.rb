@@ -13,7 +13,6 @@ module TravisCi
     config.assets.version = '1.0sc'
     config.serve_static_assets = true
 
-    config.assets.initialize_on_precompile = false
     config.action_controller.page_cache_directory = root.join('tmp/assets')
 
     config.active_record.default_timezone = :utc
