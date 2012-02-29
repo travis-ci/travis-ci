@@ -23,8 +23,7 @@ gem 'rabl',                 '~> 0.5.1'
 gem 'rack-contrib', :git => 'git://github.com/rack/rack-contrib.git', :require => 'rack/contrib'
 
 # db
-gem 'pg',                   '~> 0.12.0'
-gem 'silent-postgres',      '~> 0.1.1'
+gem 'pg',                   '~> 0.13.2'
 
 # apis
 gem 'airbrake',             '~> 3.0.9'
