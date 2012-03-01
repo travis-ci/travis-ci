@@ -48,7 +48,9 @@ Travis.Log = {
             .replace(/\r\r/g, '\r')
             .replace(/\033\[K\r/g, '\r')
             .replace(/^.*\r(?!$)/gm, '')
-            .replace(/\[2K/g, '');
+            .replace(/\[2K/g, '')
+            .replace(/\033\(B/g, "");
+
 
     var ansi = ansiparse(log),
         text = '';
@@ -65,7 +67,7 @@ Travis.Log = {
             ? ('<span class="' + classes.join(' ') + '">' + part.text + '</span>')
             : part.text;
     });
-    return text.replace(/\033\(B/, "");
+    return text.replace(/\033/g, '');
   },
 
   fold: function(log) {
