@@ -30,7 +30,8 @@ describe('Travis.Log.deansi', function() {
     });
 
     it('removes all occurrences of \e(B', function() {
-      expect(deansi(String.fromCharCode(27) + '(Bfoo' + String.fromCharCode(27) + '(Bbar')).toEqual('foobar');
+      str = String.fromCharCode(27) + '(Bfoo' + String.fromCharCode(27) + '(Bbar'
+      expect(deansi(str)).toEqual('foobar');
     });
 
     it('removes all occurrences of \e', function() {
