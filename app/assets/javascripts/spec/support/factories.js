@@ -112,7 +112,7 @@ Test.Factory = {
       return Travis.store.find(Travis.Job, 5);
     },
     single : function() {
-      Travis.store.loadRecord(Travis.Job, { id: 9, number: '1.9', repository: { slug: 'travis-ci/travis-ci' }, started_at: '2011-01-01T01:00:10Z', finished_at: '2011-01-01T01:00:20Z', commit: '4d7621ea359459652268edeeb79ee59bd1709248', branch: 'master', log: 'Done. Build script exited with: 0\n' }, 9);
+      Travis.store.loadRecord(Travis.Job, { id: 9, number: '1.9', repository_id: 1, started_at: '2011-01-01T01:00:10Z', finished_at: '2011-01-01T01:00:20Z', commit: '4d7621ea359459652268edeeb79ee59bd1709248', branch: 'master', log: 'Done. Build script exited with: 0\n', build_id: 1 }, 9);
       return Travis.store.find(Travis.Job, 9);
     }
   },
