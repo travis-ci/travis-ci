@@ -69,5 +69,27 @@ Travis.Helpers.Common = {
               .replace(/&/g, '&amp;')
               .replace(/</g, '&lt;')
               .replace(/>/g, '&gt;');
+  },
+  // extracted from build and job models
+
+  _formattedCompareUrl: function() {
+    var parts = (this.get('compare_url') || '').split('/');
+    return parts[parts.length - 1];
+  },
+
+  _formattedCommit: function(record) {
+    var branch = this.get('branch');
+    return (this.get('commit') || '').substr(0, 7) + (branch ? ' (%@)'.fmt(branch) : '');
+  },
+
+  _formattedConfig: function() {
+    var config = $.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js', 'scala', 'jdk', 'python', 'perl');
+    var values = $.map(config, function(value, key) {
+      value = (value && value.join) ? value.join(', ') : (value || '');
+      return '%@: %@'.fmt($.camelize(key), value);
+    });
+    return values.length == 0 ? '-' : values.join(', ');
   }
+
+
 };
