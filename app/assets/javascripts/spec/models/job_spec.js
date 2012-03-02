@@ -1,22 +1,4 @@
 describe('Job', function() {
-  describe('class methods', function() {
-    describe('byRepositoryId', function() {
-      it('requests GET /repositories.json', function() {
-        Travis.Build.byRepositoryId(1);
-        expect(mostRecentAjaxRequest().url).toEqual('/repositories/1/builds.json?bare=true');
-      });
-    });
-
-    describe('createOrUpdate', function() {
-      it('calls createOrUpdate for each of the matrix builds, too', function() {
-        var build = Travis.Build.createOrUpdate({ id: 99, number: '1', matrix: [{ id: 2, number: '1.10' }]});
-        build = Travis.Build.find(build.get('id'));
-
-        expect(build.get('number')).toEqual(1);
-        expect(build.getPath('matrix.firstObject.number')).toEqual('1.10');
-      });
-    });
-  });
 
   describe('instance', function() {
     var repository, build;
@@ -68,24 +50,6 @@ describe('Job', function() {
     beforeEach(function() {
       repository = Test.Factory.Repository.travis();
       build = Test.Factory.Job.single();
-    });
-
-    describe('configValues', function() {
-      it('returns an empty array if the config is undefined', function() {
-        build.set('config', null);
-        expect(build.get('formattedConfigValues')).toEqual([]);
-      });
-
-      // TODO: unfortunately I couldn't figure out how to fix that one. AP
-      // it('returns a list of config dimensions for the build matrix table', function() {
-      //   build.set('config', { rvm: ['1.9.2', 'rbx'], gemfile: ['Gemfile.rails-2.3.x', 'Gemfile.rails-3.x'] });
-      //   expect(build.get('formattedConfigValues')).toEqual([['1.9.2', 'rbx'], ['Gemfile.rails-2.3.x', 'Gemfile.rails-3.x']]);
-      // });
-
-      it("ignores the .configured key", function() {
-        build.set('config', { '.configured': true });
-        expect(build.get('formattedConfigValues')).toEqual([]);
-      });
     });
 
     it('commit', function() {
