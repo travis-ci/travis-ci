@@ -33,13 +33,32 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
     this._super(attrs);
   },
 
-  repository: function() {
-    return Travis.Repository.find(this.get('repository_id'));
-  }.property('repository_id').cacheable(),
+  subscribe: function() {
+    var id = this.get('id');
+    if(id && !this._subscribed) {
+      this._subscribed = true;
+      Travis.subscribe('job-' + id);
+    }
+  },
 
   appendLog: function(log) {
     this.set('log', this.get('log') + log);
   },
+
+  unsubscribe: function() {
+    this._subscribed = false;
+    //randym: facinating, but possibly incorrect....
+    //Travis.subscribe('job-' + this.get('id'));
+    Travis.unsubscribe('job-' + this.get('id'));
+  },
+
+  formattedCompareUrl: function() {
+    return this._formattedCompareUrl(this)
+  }.property('compare_url').cacheable(),
+
+  repository: function() {
+    return Travis.Repository.find(this.get('repository_id'));
+  }.property('repository_id').cacheable(),
 
   updateTimes: function() {
     this.notifyPropertyChange('duration');
@@ -54,19 +73,6 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
     return this.durationFrom(this.get('started_at'), this.get('finished_at'));
   }.property('finished_at'),
 
-  subscribe: function() {
-    var id = this.get('id');
-    if(id && !this._subscribed) {
-      this._subscribed = true;
-      Travis.subscribe('job-' + id);
-    }
-  },
-
-  unsubscribe: function() {
-    this._subscribed = false;
-    Travis.subscribe('job-' + this.get('id'));
-  },
-
   // VIEW HELPERS
 
   formattedDuration: function() {
@@ -78,22 +84,15 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
   }.property('finished_at').cacheable(),
 
   formattedCommit: function() {
-    var branch = this.get('branch');
-    return (this.get('commit') || '').substr(0, 7) + (branch ? ' (%@)'.fmt(branch) : '');
+    return this._formattedCommit()
   }.property('commit', 'branch').cacheable(),
 
   formattedCompareUrl: function() {
-    var parts = (this.get('compare_url') || '').split('/');
-    return parts[parts.length - 1];
+    return this._formattedCompareUrl();
   }.property('compare_url').cacheable(),
 
   formattedConfig: function() {
-    var config = $.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js', 'scala', 'jdk', 'python', 'perl');
-    var values = $.map(config, function(value, key) {
-      value = (value && value.join) ? value.join(', ') : (value || '');
-      return '%@: %@'.fmt($.camelize(key), value);
-    });
-    return values.length == 0 ? '-' : values.join(', ');
+    return this._formattedConfig();
   }.property('config').cacheable(),
 
   formattedConfigValues: function() {
