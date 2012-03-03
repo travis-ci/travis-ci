@@ -101,15 +101,15 @@ Test.Factory = {
   },
   Job: {
     all: function() {
-      Travis.store.loadRecord(Travis.Job, { id: 1, number: '',    repository: { slug: 'travis-ci/travis-ci'     } }, 1);
-      Travis.store.loadRecord(Travis.Job, { id: 2, number: '',    repository: { slug: 'travis-ci/travis-worker' } }, 2);
-      Travis.store.loadRecord(Travis.Job, { id: 3, number: '1',   repository: { slug: 'travis-ci/travis-ci'     } }, 3);
-      Travis.store.loadRecord(Travis.Job, { id: 4, number: '2',   repository: { slug: 'travis-ci/travis-worker' } }, 4);
-      Travis.store.loadRecord(Travis.Job, { id: 5, number: '1.1', repository: { slug: 'travis-ci/travis-ci'     } }, 5);
-      Travis.store.loadRecord(Travis.Job, { id: 6, number: '1.2', repository: { slug: 'travis-ci/travis-ci'     } }, 6);
-      Travis.store.loadRecord(Travis.Job, { id: 7, number: '2.1', repository: { slug: 'travis-ci/travis-worker' } }, 7);
-      Travis.store.loadRecord(Travis.Job, { id: 8, number: '2.2', repository: { slug: 'travis-ci/travis-worker' } }, 8);
-      return Travis.store.find(Travis.Job, 5);
+      Travis.store.loadRecord(Travis.Job, { id: 1, number: '', repository_id: 1 }, 1);
+      Travis.store.loadRecord(Travis.Job, { id: 2, number: '', repository_id: 2 }, 2);
+      Travis.store.loadRecord(Travis.Job, { id: 3, number: '1', repository_id: 1 }, 3);
+      Travis.store.loadRecord(Travis.Job, { id: 4, number: '2', repository_id: 2 }, 4);
+      Travis.store.loadRecord(Travis.Job, { id: 5, number: '1.1', repository_id: 1 }, 5);
+      Travis.store.loadRecord(Travis.Job, { id: 6, number: '1.2', repository_id: 1 }, 6);
+      Travis.store.loadRecord(Travis.Job, { id: 7, number: '2.1', repository_id: 2 }, 7);
+      Travis.store.loadRecord(Travis.Job, { id: 8, number: '2.2', repository_id: 2 }, 8);
+      return Travis.store.find(Travis.Job);
     },
     single : function() {
       Travis.store.loadRecord(Travis.Job, { id: 9, number: '1.9', repository_id: 1, started_at: '2011-01-01T01:00:10Z', finished_at: '2011-01-01T01:00:20Z', commit: '4d7621ea359459652268edeeb79ee59bd1709248', branch: 'master', log: 'Done. Build script exited with: 0\n', build_id: 1 }, 9);
