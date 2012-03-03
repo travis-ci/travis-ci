@@ -75,33 +75,24 @@ describe('Views:', function() {
           expect(view.$()).toShowBuildSummary(build);
         });
       });
+      describe('with a single build matrix', function() {
+	it('renders the log', function() {
+          expect(view.$()).toShowBuildLog(build.get('matrix').objectAt(0).get('formattedLog'))
+	});
+      });
 
       describe('with a multi-build matrix', function() {
         it('renders the matrix view', function() {
-          Ember.run(function() {
+	  Ember.run(function() {
             var attributes = build.get('matrix').objectAt(0).get('attributes');
-            Travis.store.loadRecord(Travis.Build, $.merge(attributes, { id: 111, parent_id: build.get('id') }));
-            build.get('matrix').pushObject(Travis.store.find(Travis.Build, 111));
+	    Travis.store.loadRecord(Travis.Build, $.merge({ id: 111, parent_id: build.get('id') }, attributes));
+            build.get('matrix').pushObject(Travis.store.find(Travis.Build, 1));
           });
-          // TODO just can't get to actually get the matrix rendered here
           expect(view.$('#builds')).toExist();
         });
-      });
-    });
 
-    describe('show with a single-build matrix', function() {
-      beforeEach(function() {
-        build = build.get('matrix').objectAt(0);
-        view = createView('#main', { repository: build.get('repository'), build: build, templateName: 'app/templates/builds/show' });
-      });
+	//TODO add in specs for allowed_failure / required matrix views
 
-      afterEach(function() {
-        view.destroy();
-      });
-
-      it('renders the log', function() {
-        // spyOn(Travis.Log, 'filter').andCallFake(function(log) { return log; });
-        expect(view.$('pre.log')).toHaveText('1Done. Build script exited with: 0');
       });
     });
   });
