@@ -19,7 +19,27 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   log:             Ember.Record.attr(String),
 
   matrix: Ember.Record.toMany('Travis.Job', { nested: true }),
-  
+
+  update: function(attrs) {
+    if('matrix' in attrs) attrs.matrix = this._joinMatrixAttributes(attrs.matrix);
+    this._super(attrs);
+  },
+
+  updateTimes: function() {
+    this.notifyPropertyChange('duration');
+    this.notifyPropertyChange('finished_at');
+  },
+
+  // We need to join given attributes with existing attributes because Ember.Record.toMany
+  // does not seem to allow partial updates, i.e. would remove existing attributes?
+  _joinMatrixAttributes: function(attrs) {
+    var _this = this;
+    return $.each(attrs, function(ix, job) {
+      var _job = _this.get('matrix').objectAt(ix);
+      if(_job) attrs[ix] = $.extend(_job.get('attributes') || {}, job);
+    });
+  },
+
   required_matrix: function() {
       return this.get('matrix').filter(function(item, index, self) { return item.get('allow_failure') != true });
   }.property('matrix').cacheable(),
@@ -32,16 +52,6 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
     if(this.get('repository_id')) return Travis.Repository.find(this.get('repository_id'));
   }.property('repository_id').cacheable(),
 
-  update: function(attrs) {
-    if('matrix' in attrs) attrs.matrix = this._joinMatrixAttributes(attrs.matrix);
-    this._super(attrs);
-  },
-
-  updateTimes: function() {
-    this.notifyPropertyChange('duration');
-    this.notifyPropertyChange('finished_at');
-  },
-
   hasFailureMatrix: function() {
       return this.get('allow_failure_matrix').length > 0;
   }.property('hasFailureMatrix').cacheable(),
@@ -53,16 +63,6 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   color: function() {
     return this.colorForResult(this.get('result'));
   }.property('result').cacheable(),
-
-  // We need to join given attributes with existing attributes because Ember.Record.toMany
-  // does not seem to allow partial updates, i.e. would remove existing attributes?
-  _joinMatrixAttributes: function(attrs) {
-    var _this = this;
-    return $.each(attrs, function(ix, job) {
-      var _job = _this.get('matrix').objectAt(ix);
-      if(_job) attrs[ix] = $.extend(_job.get('attributes') || {}, job);
-    });
-  },
 
   // VIEW HELPERS
 
