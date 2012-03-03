@@ -67,29 +67,23 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   // VIEW HELPERS
 
   formattedDuration: function() {
-    var duration = this.get('duration');
-    if(!duration) duration = this.durationFrom(this.get('started_at'), this.get('finished_at'));
-    return this.readableTime(duration);
+    return this._formattedDuration()
   }.property('duration', 'started_at', 'finished_at'),
 
   formattedFinishedAt: function() {
-    return this.timeAgoInWords(this.get('finished_at')) || '-';
+    return this._formattedFinishedAt();
   }.property('finished_at').cacheable(),
 
   formattedCommit: function() {
-    var branch = this.get('branch');
-    return (this.get('commit') || '').substr(0, 7) + (branch ? ' (%@)'.fmt(branch) : '');
+    return this._formattedCommit()
   }.property('commit', 'branch').cacheable(),
 
   formattedCompareUrl: function() {
-    var parts = (this.get('compare_url') || '').split('/');
-    return parts[parts.length - 1];
+    return this._formattedCompareUrl();
   }.property('compare_url').cacheable(),
 
   formattedConfig: function() {
-    var config = $.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js', 'perl', 'python', 'scala');
-    var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
-    return values.length == 0 ? '-' : values.join(', ');
+    return this._formattedConfig();
   }.property('config').cacheable(),
 
   formattedMatrixHeaders: function() {
@@ -98,7 +92,7 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
   }.property('config').cacheable(),
 
   formattedMessage: function(){
-    return this.emojize(this.escape(this.get('message') || '')).replace(/\n/g,'<br/>');
+    return this._formattedMessage();
   }.property('message'),
 
   shortMessage: function(){

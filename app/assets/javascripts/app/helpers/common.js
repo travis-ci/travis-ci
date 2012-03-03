@@ -72,6 +72,20 @@ Travis.Helpers.Common = {
   },
   // extracted from build and job models
 
+  _formattedMessage: function() {
+    return this.emojize(this.escape(this.get('message') || '')).replace(/\n/g,'<br/>');
+  },
+
+  _formattedDuration: function() {
+    var duration = this.get('duration');
+    if(!duration) duration = this.durationFrom(this.get('started_at'), this.get('finished_at'));
+    return this.readableTime(duration);
+  },
+
+  _formattedFinishedAt: function() {
+    return this.timeAgoInWords(this.get('finished_at')) || '-';
+  },
+
   _formattedCompareUrl: function() {
     var parts = (this.get('compare_url') || '').split('/');
     return parts[parts.length - 1];
@@ -90,6 +104,5 @@ Travis.Helpers.Common = {
     });
     return values.length == 0 ? '-' : values.join(', ');
   }
-
 
 };
