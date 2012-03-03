@@ -95,7 +95,8 @@ $.extend(jasmine, {
   },
 
   showsBuildLog: function(element, log, errors) {
-    var actual = $(element).find('.log').text();
+    var actual = $(element).find('.log p').html();
+    log = $(log).html();
     if(actual != log) {
       errors.push('expected "' + element.selector + '.log" to show the log "' + log + '", but it shows "' + actual + '".');
     }
