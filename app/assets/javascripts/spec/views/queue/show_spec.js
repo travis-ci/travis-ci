@@ -14,7 +14,6 @@ describe('Queue', function() {
     });
 
     it('renders an element per record', function() {
-      alert('woah')
       expect(view.$()).toMatchList([
         'travis-ci/travis-ci',
         'travis-ci/travis-worker',
