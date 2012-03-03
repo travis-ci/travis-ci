@@ -18,7 +18,7 @@ describe('Views:', function() {
 
       describe('when a repository property changes', function() {
         it('updates the last build number', function() {
-          Ember.run(function() { repositories.objectAt(0).set('lastBuildNumber', '111'); });
+          Ember.run(function() { repositories.objectAt(0).set('last_build_number', '111'); });
           expect(view.$()).toListRepositories(repositories);
         });
 
