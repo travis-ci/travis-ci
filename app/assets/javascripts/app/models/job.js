@@ -76,11 +76,11 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
   // VIEW HELPERS
 
   formattedDuration: function() {
-    return this.readableTime(this.get('duration'));
+    return this._formattedDuration();
   }.property('duration'),
 
   formattedFinishedAt: function() {
-    return this.timeAgoInWords(this.get('finished_at')) || '-';
+    return this._formattedFinishedAt();
   }.property('finished_at').cacheable(),
 
   formattedCommit: function() {
@@ -108,7 +108,7 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
   }.property('log').cacheable(),
 
   formattedMessage: function(){
-    return this.emojize(this.escape(this.get('message') || '')).replace(/\n/g,'<br/>');
+    return this._formattedMessage();
   }.property('message'),
 
   url: function() {
