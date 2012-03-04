@@ -9,7 +9,6 @@
 #
 src_dir:
   - app/assets/javascripts
-
 # src_files
 #
 # Return an array of filepaths relative to src_dir to include before jasmine specs.
@@ -37,11 +36,10 @@ src_files:
   - vendor/facebox.js
   - app.js
   - lib/**/*.js
-  - app/controllers/*.js
   - app/**/*.js
   - mock/**/*.js
   - sponsers/**/*.js
-  - tmp/assets/*.*
+  - templates/**/*.hjs
 
 # stylesheets
 #
@@ -104,8 +102,3 @@ spec_files:
 # spec_dir: spec/javascripts
 #
 spec_dir: spec/javascripts
-
-
-asset_pipeline_paths:
-  - tmp/assets
-  - spec/javascripts
