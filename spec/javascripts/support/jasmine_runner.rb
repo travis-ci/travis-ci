@@ -1,7 +1,10 @@
 $:.unshift(ENV['JASMINE_GEM_PATH']) if ENV['JASMINE_GEM_PATH'] # for gem testing purposes
 
 require 'rubygems'
+
 require File.expand_path("../../../../config/environment", __FILE__)
+require 'sprockets/ember_handlebars'
+Rails.application.assets.register_engine 'hjs', EmberHandlebars
 
 require 'jasmine'
 require 'json'
