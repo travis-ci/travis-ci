@@ -19,7 +19,7 @@ gem 'unobtrusive_flash',    '~> 0.0.2'
 # structures
 gem 'json',                 '~> 1.6.3'
 gem 'yajl-ruby',            '~> 1.1.0'
-gem 'rabl',                 '~> 0.5.1'
+gem 'rabl',                 '~> 0.6.0'
 gem 'rack-contrib', :git => 'git://github.com/rack/rack-contrib.git', :require => 'rack/contrib'
 
 # db
@@ -59,7 +59,7 @@ group :development do
 end
 
 group :test do
-  gem 'jasmine',           '~> 1.1.2'
+  gem 'jasmine',           :git => "git://github.com/pivotal/jasmine-gem.git"
   gem 'capybara',          '~> 1.1.2'
   gem 'database_cleaner',  '~> 0.7.0'
   gem 'mocha',             '~> 0.10.0'
