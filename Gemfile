@@ -19,7 +19,7 @@ gem 'unobtrusive_flash',    '~> 0.0.2'
 # structures
 gem 'json',                 '~> 1.6.3'
 gem 'yajl-ruby',            '~> 1.1.0'
-gem 'rabl',                 '~> 0.6.0'
+gem 'rabl',                 '~> 0.5.1'
 gem 'rack-contrib', :git => 'git://github.com/rack/rack-contrib.git', :require => 'rack/contrib'
 
 # db
