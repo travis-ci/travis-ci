@@ -1,7 +1,6 @@
 module Jasmine
   class Config
-    puts 'Mommy, can I go out and kill tonight?'
-
+    puts 'Mother, can I go out and kill tonight?'
     # Add your overrides or custom config code here
   end
 end
