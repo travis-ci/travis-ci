@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120311234933) do
+ActiveRecord::Schema.define(:version => 20120304000505) do
 
   create_table "artifacts", :force => true do |t|
     t.text     "content"
@@ -64,8 +64,8 @@ ActiveRecord::Schema.define(:version => 20120311234933) do
   create_table "jobs", :force => true do |t|
     t.integer  "repository_id"
     t.integer  "commit_id"
-    t.integer  "owner_id"
-    t.string   "owner_type"
+    t.integer  "source_id"
+    t.string   "source_type"
     t.string   "queue"
     t.string   "type"
     t.string   "state"
@@ -81,29 +81,19 @@ ActiveRecord::Schema.define(:version => 20120311234933) do
     t.text     "tags"
     t.integer  "retries",       :default => 0
     t.boolean  "allow_failure", :default => false
+    t.integer  "owner_id"
+    t.string   "owner_type"
   end
 
   add_index "jobs", ["queue", "state"], :name => "index_jobs_on_queue_and_state"
   add_index "jobs", ["repository_id"], :name => "index_jobs_on_repository_id"
-  add_index "jobs", ["type", "owner_id", "owner_type"], :name => "index_jobs_on_type_and_owner_id_and_owner_type"
+  add_index "jobs", ["type", "source_id", "source_type"], :name => "index_jobs_on_type_and_owner_id_and_owner_type"
 
   create_table "pg_ts_cfg", :id => false, :force => true do |t|
     t.text "ts_name",  :null => false
     t.text "prs_name", :null => false
     t.text "locale"
   end
-
-  create_table "pg_ts_cfgmap", :id => false, :force => true do |t|
-    t.text   "ts_name",   :null => false
-    t.text   "tok_alias", :null => false
-    t.string "dict_name"
-  end
-
-# Could not dump table "pg_ts_dict" because of following StandardError
-#   Unknown type 'regprocedure' for column 'dict_init'
-
-# Could not dump table "pg_ts_parser" because of following StandardError
-#   Unknown type 'regprocedure' for column 'prs_start'
 
   create_table "repositories", :force => true do |t|
     t.string   "name"
