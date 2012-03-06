@@ -21,7 +21,8 @@ beforeEach(function() {
   // We add these html elements in the specs so we can look at styled content
   // when run in the browser. For jasmine-headless-webkit we therefor need to
   // inject them to the dom.
-  if(window.JHW) $('#jasmine_content').html(Test.html);
+
+  $('#jasmine_content').html(Test.html);
 
   $.each(['#tab_recent .tab', '#main', '#workers', '#jobs'], function(ix, selector) {
     $(selector).empty();
