@@ -10,6 +10,7 @@ GIT
 GIT
   remote: git://github.com/pivotal/jasmine-gem.git
   revision: 34c1529c3f7b78ebd81ac16006f141fc6b7cf013
+  submodules: true
   specs:
     jasmine (1.2.0.rc2)
       jasmine-core (>= 1.2.0.rc1)

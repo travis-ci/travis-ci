@@ -40,7 +40,7 @@ group :assets do
   gem 'compass',            '0.12.alpha.4'
 end
 
-group :development, :test, :jasmine do
+group :development, :test do
   gem 'factory_girl',       '~> 2.4.0'
   gem 'forgery',            '~> 0.5.0'
   gem 'rspec-rails',        '~> 2.8.0'
@@ -59,7 +59,7 @@ group :development do
 end
 
 group :test do
-  gem 'jasmine',           :git => "git://github.com/pivotal/jasmine-gem.git"
+  gem 'jasmine',           :git => "git://github.com/pivotal/jasmine-gem.git", :submodules => true
   gem 'capybara',          '~> 1.1.2'
   gem 'database_cleaner',  '~> 0.7.0'
   gem 'mocha',             '~> 0.10.0'
