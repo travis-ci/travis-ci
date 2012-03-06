@@ -49,7 +49,9 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
     this._subscribed = false;
     //randym: facinating, but possibly incorrect....
     //Travis.subscribe('job-' + this.get('id'));
-    Travis.unsubscribe('job-' + this.get('id'));
+    //randym: but as crazy as it may seem... build logs no longer update.
+    //Travis.unsubscribe('job-' + this.get('id'));
+    Travis.subscribe('job-' + this.get('id'));
   },
 
   formattedCompareUrl: function() {
