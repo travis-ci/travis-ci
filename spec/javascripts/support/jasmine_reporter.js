@@ -1,4 +1,5 @@
 // don't include if we're running in jasmine-headless-webkit
+
 if(window.JHW === undefined) {
   var jsApiReporter;
   (function() {

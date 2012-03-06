@@ -1,69 +1,25 @@
-# src_dir
-#
-# Source directory path. Your src_files must be returned relative to this path. Will use root if left blank.
-# Default: project root
-#
-# EXAMPLE:
-#
-# src_dir: public
-#
+assets:
+  - application.js
+
 src_dir:
-  - app/assets/javascripts
+  - tmp/jasmine
+
 # src_files
 #
-# Return an array of filepaths relative to src_dir to include before jasmine specs.
-# Default: []
-#
-# EXAMPLE:
-#
-# src_files:
-#   - lib/source1.js
-#   - lib/source2.js
-#   - dist/**/*.js
-#
-
 src_files:
-  - vendor/jquery-1.7.js
-  - vendor/jquery.timeago.js
-  - vendor/jquery.cookie.js
-  - vendor/jquery.tipsy.js
-  - vendor/ember.js
-  - vendor/sproutcore-datastore.js
-  - vendor/sproutcore-2.0/**/*.js
-  - vendor/pusher-1.6.min.js
-  - vendor/highcharts.js
-  - vendor/ansiparse.js
-  - vendor/facebox.js
-  - app.js
-  - lib/**/*.js
-  - app/**/*.js
-  - mock/**/*.js
-  - sponsers/**/*.js
-  - templates/**/*.hjs
+  - application.js
 
 # stylesheets
-#
-# Return an array of stylesheet filepaths relative to src_dir to include before jasmine specs.
-# Default: []
-#
-# EXAMPLE:
-#
-# stylesheets:
-#   - css/style.css
-#   - stylesheets/*.css
 #
 stylesheets:
   - stylesheets/**/*.css
 
+# spec_files
+#
+spec_files:
+  - '**/*[sS]pec.js'
+
 # helpers
-#
-# Return an array of filepaths relative to spec_dir to include before jasmine specs.
-# Default: ["helpers/**/*.js"]
-#
-# EXAMPLE:
-#
-# helpers:
-#   - helpers/**/*.js
 #
 helpers:
   - helpers/spec_helper.js
@@ -73,32 +29,8 @@ helpers:
   - vendor/jasmine_ajax.js
   - vendor/jasmine-jquery-1.3.1.js
   - vendor/jasmine-html-1.1.0.js
-  # - spec_helper.js
-  # - support/**/*.js
-
-
-# spec_files
-#
-# Return an array of filepaths relative to spec_dir to include.
-# Default: ["**/*[sS]pec.js"]
-#
-# EXAMPLE:
-#
-# spec_files:
-#   - **/*[sS]pec.js
-#
-spec_files:
-  - '**/*[sS]pec.js'
-  #- 'lib/travis/log/incremental_spec.js'
-
+  # - vendor/jasmine-1.1.0.js
 
 # spec_dir
-#
-# Spec directory path. Your spec_files must be returned relative to this path.
-# Default: spec/javascripts
-#
-# EXAMPLE:
-#
-# spec_dir: spec/javascripts
 #
 spec_dir: spec/javascripts
