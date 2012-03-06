@@ -9,6 +9,7 @@ task :ci_env do
 end
 
 task :jasmine_on_travis do
+  ENV['RAILS_ENV'] = 'test'
   require 'jasmine'
   load 'jasmine/tasks/jasmine.rake'
   system("export DISPLAY=:99.0 && bundle exec rake jasmine:ci")

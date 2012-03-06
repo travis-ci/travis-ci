@@ -126,16 +126,10 @@ h3. Running the tests
 
 Integration tests are implemented using "Jasmine":http://pivotal.github.com/jasmine and can be run in the browser:
 
-<pre>
-$ RAILS_ENV=jasmine rake db:migrate db:seed
-$ rails s thin -e jasmine
-$ open http://localhost:3000
-</pre>
-
 To run the whole test suite simply do:
 
 <pre>
-$ bundle exec rake spec
+$ bundle exec rake test:ci
 </pre>
 
 In order to run all tests you need to have "ChromeDriver":http://code.google.com/p/selenium/wiki/ChromeDriver installed. You can download it "here":http://code.google.com/p/chromium/downloads/list and then place it somewhere on your PATH.
