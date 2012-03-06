@@ -69,7 +69,7 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
   _updateGithubStats: function() {
     if(window.__TESTING__) return;
     var repository = this.get('repository');
-    if(repository) $.getJSON('http://github.com/api/v2/json/repos/show/' + repository.get('slug') + '?callback=?', function(data) {
+    if(repository && repository.get('slug')) $.getJSON('http://github.com/api/v2/json/repos/show/' + repository.get('slug') + '?callback=?', function(data) {
       var element = $('.github-stats');
       element.find('.watchers').attr('href', repository.get('urlGithubWatchers')).text(data.repository.watchers);
       element.find('.forks').attr('href',repository.get('urlGithubNetwork')).text(data.repository.forks);
