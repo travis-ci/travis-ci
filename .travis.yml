@@ -4,6 +4,8 @@ rvm:
 bundler_args: "--without development"
 before_script:
   - "cp config/database.example.yml config/database.yml"
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
 script: "RAILS_ENV=test bundle exec rake test:ci --trace"
 notifications:
   irc: "irc.freenode.org#travis"
