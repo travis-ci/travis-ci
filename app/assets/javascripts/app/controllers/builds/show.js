@@ -20,9 +20,12 @@ Travis.Controllers.Builds.Show = Ember.Object.extend({
   buildDidChange: function() {
     var build = this.get('build');
 
-    if (build.get('isLoaded')) {
+    //this stops jobs from subscribing?
+
+    if (build && build.get('isLoaded')) {
       this.subscribeToFirstJob();
     } else {
+      if (!build) { return; }
       build.addObserver('isLoaded', this, 'subscribeToFirstJob');
     }
   }.observes('build'),

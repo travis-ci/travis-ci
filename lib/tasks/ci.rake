@@ -9,7 +9,10 @@ task :ci_env do
 end
 
 task :jasmine_on_travis do
+  ENV['RAILS_ENV'] = 'test'
   require 'jasmine'
   load 'jasmine/tasks/jasmine.rake'
+  puts "Starting to run jasmine:ci..."
   system("export DISPLAY=:99.0 && bundle exec rake jasmine:ci")
+  raise "jasmine:ci failed!" unless $?.exitstatus == 0
 end
