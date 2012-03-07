@@ -14,5 +14,5 @@ task :jasmine_on_travis do
   load 'jasmine/tasks/jasmine.rake'
   puts "Starting to run jasmine:ci..."
   system("export DISPLAY=:99.0 && bundle exec rake jasmine:ci")
-  raise "jasmine:ci failed!" unless $?.exitstatus == 0
+  exit($?.exitstatus)
 end
