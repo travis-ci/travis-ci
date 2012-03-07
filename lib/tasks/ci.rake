@@ -13,4 +13,5 @@ task :jasmine_on_travis do
   require 'jasmine'
   load 'jasmine/tasks/jasmine.rake'
   system("export DISPLAY=:99.0 && bundle exec rake jasmine:ci")
+  $?.exitstatus
 end
