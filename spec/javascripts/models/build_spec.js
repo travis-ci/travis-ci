@@ -12,7 +12,7 @@ describe('Build', function() {
         var build = Travis.Build.createOrUpdate({ id: 99, number: '1', matrix: [{ id: 2, number: '1.1' }]});
         build = Travis.Build.find(build.get('id'));
 
-        expect(build.get('number')).toEqual(7);
+        expect(build.get('number')).toEqual(70);
         expect(build.getPath('matrix.firstObject.number')).toEqual('1.1');
       });
     });
