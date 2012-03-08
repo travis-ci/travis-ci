@@ -1,5 +1,6 @@
 TravisCi::Application.routes.draw do
 
+  # TODO add some support methods to config to return supported and unsupported locales
   scope "(:locale)", :locale => /en|ja/ do
     root :to => 'home#index'
 
@@ -13,7 +14,6 @@ TravisCi::Application.routes.draw do
     resources :jobs,     :only => [:index, :show]
   end
 
-  match '/:locale' =>'home#index'
 
   # match 'queues',      :to => 'queues#index'
   match 'workers',     :to => 'workers#index'
@@ -54,11 +54,17 @@ end
 # we want these after everything else is loaded
 TravisCi::Application.routes.append do
   constraints :user => /[^\/]+/, :repository => /[^\/]+/ do
-    match ":user",                        :to => redirect("/#!/%{user}"),                            :as => :user_redirect
-    match ":user/:repository",            :to => redirect("/#!/%{user}/%{repository}"),              :as => :user_repo_redirect
-    match ":user/:repository/builds",     :to => redirect("/#!/%{user}/%{repository}/builds"),       :as => :user_repo_builds_redirect
-    match ":user/:repository/builds/:id", :to => redirect("/#!/%{user}/%{repository}/builds/%{id}"), :as => :user_repo_build_redirect
+    match ":user",                        :to => redirect("/en/#!/%{user}"),                            :as => :user_redirect
+    match ":user/:repository",            :to => redirect("/en/#!/%{user}/%{repository}"),              :as => :user_repo_redirect
+    match ":user/:repository/builds",     :to => redirect("/en/#!/%{user}/%{repository}/builds"),       :as => :user_repo_builds_redirect
+    match ":user/:repository/builds/:id", :to => redirect("/en/#!/%{user}/%{repository}/builds/%{id}"), :as => :user_repo_build_redirect
   end
 
   match "/*path" => "home#route_not_found"
+
+  # TODO add some support methods to config to return supported and unsupported locales
+  constraints :name => '/^($?!en$|ja$)+/' do
+    match ":name", :to => redirect("/en/#!/%{name}")
+  end
+
 end
