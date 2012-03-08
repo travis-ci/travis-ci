@@ -57,9 +57,14 @@ and we also have guides technology-specific guides:
 
  * "Clojure":http://about.travis-ci.org/docs/user/languages/clojure/
  * "Erlang":http://about.travis-ci.org/docs/user/languages/erlang/
- * "Node.js":http://about.travis-ci.org/docs/user/languages/javascript-with-nodejs/
+ * "Groovy":http://about.travis-ci.org/docs/user/languages/groovy/
+ * "Java":http://about.travis-ci.org/docs/user/languages/java/
+ * "JavaScript":http://about.travis-ci.org/docs/user/languages/javascript-with-nodejs/ (with Node.js)
+ * "Perl":http://about.travis-ci.org/docs/user/languages/perl/
  * "PHP":http://about.travis-ci.org/docs/user/languages/php/
+ * "Python":http://about.travis-ci.org/docs/user/languages/python/
  * "Ruby":http://about.travis-ci.org/docs/user/languages/ruby/
+ * "Scala":http://about.travis-ci.org/docs/user/languages/scala/
 
 
 
