@@ -2,10 +2,10 @@
   <%= link_to "<h1>Travis</h1>".html_safe, root_path %>
 
   <ul id="navigation">
-    <%= top_bar_menu_item('Home', root_path) %>
-    <%= top_bar_menu_item('Stats', stats_path) %>
-    <%= top_bar_menu_item('Blog', 'http://about.travis-ci.org/blog') %>
-    <%= top_bar_menu_item('Docs', 'http://about.travis-ci.org/docs') %>
+    <%= top_bar_menu_item(I18n.t(:home), root_path) %>
+    <%= top_bar_menu_item(I18n.t(:stats), stats_path) %>
+    <%= top_bar_menu_item(I18n.t(:blog), 'http://about.travis-ci.org/blog') %>
+    <%= top_bar_menu_item(I18n.t(:docs), 'http://about.travis-ci.org/docs') %>
   </ul>
 
   <div class="profile">
