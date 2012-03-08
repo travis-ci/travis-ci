@@ -50,14 +50,14 @@ Travis.Helpers.Common = {
     return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
   },
 
-  emojize: function(text){
+  emojize: function(text) {
     var emojis = text.match(/:\S+:/g);
     if (emojis !== null){
-      $.each(emojis, function(ix, emoji) {
+      $.each(emojis.uniq(), function(ix, emoji) {
         var strippedEmoji = emoji.substring(1, emoji.length - 1);
-        if (Travis.Helpers.EmojiDictionary.indexOf(strippedEmoji) != -1){
+        if (Travis.Helpers.EmojiDictionary.indexOf(strippedEmoji) != -1) {
           var image = '<img class="emoji" title="' + emoji + '" alt="' + emoji + '" src="/assets/emoji/' + strippedEmoji + '.png"/>';
-          text = text.replace(emoji, image);
+          text = text.replace(new RegExp(emoji, 'g'), image);
         }
       });
     }
