@@ -9,7 +9,7 @@ feature 'Service hooks', %(
     mock_omniauth
 
     visit homepage
-    click_link 'Sign in with Github'
+    click_link 'sign_in'
     should_see_text 'name'
 
     visit profile_page
