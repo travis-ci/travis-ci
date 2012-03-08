@@ -29,6 +29,9 @@ gem 'pg',                   '~> 0.13.2'
 gem 'hubble',       :git => 'git://github.com/mattmatt/hubble.git'
 gem 'newrelic_rpm',         '~> 3.3.0'
 
+# i18n
+gem 'localeapp'
+
 # heroku
 gem 'unicorn',              '~> 4.1.1'
 

@@ -1,14 +1,19 @@
 TravisCi::Application.routes.draw do
-  root :to => 'home#index'
 
-  resources :repositories, :only => [:index, :show] do
-    resources :builds, :only => [:index, :show]
-    resources :branches, :only => :index
+  scope "(:locale)", :locale => /en|ja/ do
+    root :to => 'home#index'
+
+    resources :repositories, :only => [:index, :show] do
+      resources :builds, :only => [:index, :show]
+      resources :branches, :only => :index
+    end
+
+    resources :builds,   :only => :show
+    resources :requests, :only => :create
+    resources :jobs,     :only => [:index, :show]
   end
 
-  resources :builds,   :only => :show
-  resources :requests, :only => :create
-  resources :jobs,     :only => [:index, :show]
+  match '/:locale' =>'home#index'
 
   # match 'queues',      :to => 'queues#index'
   match 'workers',     :to => 'workers#index'

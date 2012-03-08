@@ -5,9 +5,14 @@ class ApplicationController < ActionController::Base
 
   before_filter :set_gitsha_header
   before_filter :prepare_for_mobile
+  before_filter :set_locale
   after_filter  :prepare_unobtrusive_flash
 
   protected
+
+    def set_locale
+      I18n.locale = params[:locale] || :en
+    end
 
     def repositories
       @repositories ||= Repository.timeline
