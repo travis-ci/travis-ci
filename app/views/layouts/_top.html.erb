@@ -22,7 +22,7 @@
         <li><%= link_to "Sign out", destroy_session_path %></li>
       </ul>
     <% else %>
-      <%= link_to "Sign in with Github", user_omniauth_authorize_path(:github), :class => "profile-signup" %>
+      <%= link_to I18n.t(:sign_in_with_github), user_omniauth_authorize_path(:github), :id => "sign_in", :class => "profile-signup" %>
     <% end %>
   </div>
 </div>
