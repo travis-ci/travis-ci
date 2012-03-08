@@ -132,6 +132,12 @@ To run the whole test suite simply do:
 $ bundle exec rake test:ci
 </pre>
 
+To run only the jasmine specs do:
+
+<pre>
+$ bundle exec rake jasmine_on_travis
+</pre>
+
 In order to run all tests you need to have "ChromeDriver":http://code.google.com/p/selenium/wiki/ChromeDriver installed. You can download it "here":http://code.google.com/p/chromium/downloads/list and then place it somewhere on your PATH.
 
 h2. Dependency Status
