@@ -1,12 +1,5 @@
 GIT
-  remote: git://github.com/mattmatt/hubble.git
-  revision: 5220415d5542a2868d54f7be9f35fc1d66126b8e
-  specs:
-    hubble (0.1.2)
-      json (~> 1.6.5)
-
-GIT
-  remote: git://github.com/mattmatt/metriks.git
+  remote: git://github.com/mattmatt/metriks
   revision: 23482212ec6676bfde20dae70760f80778bf6e77
   ref: source
   specs:
@@ -33,7 +26,7 @@ GIT
       rack (>= 0.9.1)
 
 GIT
-  remote: git://github.com/travis-ci/travis-core.git
+  remote: git://github.com/travis-ci/travis-core
   revision: fa2023f4065b0664e679c4d15fa19c9a952dc864
   ref: magnum
   specs:
@@ -55,7 +48,7 @@ GIT
       thor (~> 0.14.6)
 
 GIT
-  remote: git://github.com/travis-ci/travis-support.git
+  remote: git://github.com/travis-ci/travis-support
   revision: 29226dafb3ff64cd74958e8e3d0b21ba50bafc6a
   specs:
     travis-support (0.0.1)

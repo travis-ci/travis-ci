@@ -22,7 +22,7 @@ FactoryGirl.define do
   factory :test, :class => 'Job::Test' do
     repository { Repository.first || Factory(:repository) }
     commit     { Factory(:commit) }
-    owner      { Factory(:build) }
+    source     { Factory(:build) }
     log        { Factory(:log) }
     queue      "ruby"
   end
