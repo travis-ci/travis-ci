@@ -3,9 +3,9 @@ source :rubygems
 gem 'rails',                '~> 3.2.1'
 gem 'rake',                 '~> 0.9.2.2'
 
-gem 'travis-support', git: 'git://github.com/travis-ci/travis-support.git'
-gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core.git', ref: 'magnum', require: 'travis_core/engine'
-gem 'metriks',        git: 'git://github.com/mattmatt/metriks.git',      ref: 'source'
+gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
+gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', ref: 'magnum', require: 'travis_core/engine'
+gem 'metriks',        git: 'git://github.com/mattmatt/metriks',      ref: 'source'
 
 gem 'amqp',                 '~> 0.9.0'
 
