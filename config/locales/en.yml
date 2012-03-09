@@ -1,5 +1,6 @@
 en:
-  home: Home
+  home:
+    name: Home
   datetime:
     distance_in_words:
       hours_exact:
@@ -11,3 +12,7 @@ en:
       seconds_exact:
         one: ! '%{count} second'
         other: ! '%{count} seconds'
+  blog: Blog
+  docs: Docs
+  sign_in_with_github: Sign in with Github
+  stats: Stats

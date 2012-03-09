@@ -30,7 +30,8 @@ gem 'airbrake',             '~> 3.0.9'
 gem 'newrelic_rpm',         '~> 3.3.0'
 
 # i18n
-gem 'localeapp'
+gem "localeapp",            "~> 0.4.1"
+gem "http_accept_language", "~> 1.0.2"
 
 # heroku
 gem 'unicorn',              '~> 4.1.1'
