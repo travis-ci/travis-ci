@@ -155,6 +155,7 @@ GEM
     hashr (0.0.19)
     hike (1.2.1)
     hitimes (1.1.1)
+    http_accept_language (1.0.2)
     i18n (0.6.0)
     jasmine-core (1.2.0.rc1)
     journey (1.0.3)
@@ -340,9 +341,10 @@ DEPENDENCIES
   factory_girl (~> 2.4.0)
   foreman (~> 0.36.0)
   forgery (~> 0.5.0)
+  http_accept_language (~> 1.0.2)
   jasmine!
   json (~> 1.6.3)
-  localeapp
+  localeapp (~> 0.4.1)
   metriks!
   mocha (~> 0.10.0)
   newrelic_rpm (~> 3.3.0)
