@@ -3,10 +3,9 @@ source :rubygems
 gem 'rails',                '~> 3.2.1'
 gem 'rake',                 '~> 0.9.2.2'
 
-gem 'travis-support', :git => 'git://github.com/travis-ci/travis-support.git'
-gem 'travis-core',    :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine'
-
-gem 'metriks',        :git => 'git://github.com/mattmatt/metriks.git', :ref => 'source'
+gem 'travis-support', git: 'git://github.com/travis-ci/travis-support.git'
+gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core.git', ref: 'magnum', require: 'travis_core/engine'
+gem 'metriks',        git: 'git://github.com/mattmatt/metriks.git',      ref: 'source'
 
 gem 'amqp',                 '~> 0.9.0'
 
@@ -20,7 +19,7 @@ gem 'unobtrusive_flash',    '~> 0.0.2'
 gem 'json',                 '~> 1.6.3'
 gem 'yajl-ruby',            '~> 1.1.0'
 gem 'rabl',                 '~> 0.5.1'
-gem 'rack-contrib', :git => 'git://github.com/rack/rack-contrib.git', :require => 'rack/contrib'
+gem 'rack-contrib', git: 'git://github.com/rack/rack-contrib.git', require: 'rack/contrib'
 
 # db
 gem 'pg',                   '~> 0.13.2'
@@ -64,7 +63,7 @@ group :development do
 end
 
 group :test do
-  gem 'jasmine',           :git => "git://github.com/pivotal/jasmine-gem.git", :submodules => true
+  gem 'jasmine',           git: 'git://github.com/pivotal/jasmine-gem.git', submodules: true
   gem 'capybara',          '~> 1.1.2'
   gem 'database_cleaner',  '~> 0.7.0'
   gem 'mocha',             '~> 0.10.0'
