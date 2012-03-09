@@ -1,4 +1,6 @@
 ja:
-  home: ホーム
+  home:
+    name: ホーム
   docs: サポート
   blog: ブログ
+  sign_in_with_github: Githubでログイン

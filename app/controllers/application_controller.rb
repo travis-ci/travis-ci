@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::Base
+
+  require 'http_accept_language'
+
   prepend_view_path 'app/views/v1/default'
 
   protect_from_forgery
@@ -8,10 +11,16 @@ class ApplicationController < ActionController::Base
   before_filter :set_locale
   after_filter  :prepare_unobtrusive_flash
 
+
+
   protected
 
     def set_locale
-      I18n.locale = params[:locale] || :en
+      I18n.locale = if params[:hl] && I18n.available_locales.include?(params[:hl].to_sym)
+                 params[:hl].to_sym
+               else
+                 request.preferred_language_from(I18n.available_locales) || :en
+               end
     end
 
     def repositories
@@ -39,5 +48,6 @@ class ApplicationController < ActionController::Base
     def prepare_for_mobile
       session[:mobile_param] = params[:mobile] if params[:mobile]
     end
+
 
 end
