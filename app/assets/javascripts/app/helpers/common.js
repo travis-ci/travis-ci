@@ -51,7 +51,7 @@ Travis.Helpers.Common = {
   },
 
   emojize: function(text) {
-    var emojis = text.match(/:\S+:/g);
+    var emojis = text.match(/:\S+?:/g);
     if (emojis !== null){
       $.each(emojis.uniq(), function(ix, emoji) {
         var strippedEmoji = emoji.substring(1, emoji.length - 1);
