@@ -26,7 +26,7 @@ gem 'rack-contrib', :git => 'git://github.com/rack/rack-contrib.git', :require =
 gem 'pg',                   '~> 0.13.2'
 
 # apis
-gem 'airbrake',             '~> 3.0.9'
+gem 'hubble',       :git => 'git://github.com/mattmatt/hubble.git'
 gem 'newrelic_rpm',         '~> 3.3.0'
 
 # heroku

@@ -90,4 +90,8 @@ TravisCi::Application.configure do
     require 'logging'
   end
 
+  require 'hubble'
+  require 'hubble/middleware'
+  Hubble.setup
+  config.middleware.use "Hubble::Rescuer"
 end
