@@ -85,6 +85,11 @@ describe('Build', function() {
         expect(build.get('formattedMessage')).toEqual('I <img class="emoji" title=":heart:" alt=":heart:" src="/assets/emoji/heart.png"/> <img class="emoji" title=":cake:" alt=":cake:" src="/assets/emoji/cake.png"/>');
       });
 
+      it ('changes emoji not separated by spaces to image tags', function() {
+        build.set('message', 'I :heart::cake:');
+        expect(build.get('formattedMessage')).toEqual('I <img class="emoji" title=":heart:" alt=":heart:" src="/assets/emoji/heart.png"/><img class="emoji" title=":cake:" alt=":cake:" src="/assets/emoji/cake.png"/>');
+      });
+
       it ('changes multiple identical emoji to image tags', function() {
           build.set('message', 'I :heart: :heart:');
           expect(build.get('formattedMessage')).toEqual('I <img class="emoji" title=":heart:" alt=":heart:" src="/assets/emoji/heart.png"/> <img class="emoji" title=":heart:" alt=":heart:" src="/assets/emoji/heart.png"/>');
