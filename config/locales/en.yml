@@ -1,6 +1,4 @@
 en:
-  home:
-    name: Home
   datetime:
     distance_in_words:
       hours_exact:
@@ -12,7 +10,49 @@ en:
       seconds_exact:
         one: ! '%{count} second'
         other: ! '%{count} seconds'
-  blog: Blog
-  docs: Docs
-  sign_in_with_github: Sign in with Github
-  stats: Stats
+  layouts:
+    top:
+      home: Home
+      blog: Blog
+      docs: Docs
+      stats: Stats
+      github_login: Sign in with Github
+      profile: Profile
+      sign_out: Sign Out
+    application:
+      fork_me: Fork me on Github
+      recent: Recent
+      search: Search
+      sponsers: Sponsers
+      sponsors_link: See all of our amazing sponsors &rarr;
+      my_repositories: My Repositories
+    about:
+      alpha: This stuff is alpha.
+      messages:
+        alpha: Please do <strong>not</strong> consider this a stable service. We're
+          still far from that! More info <a href='https://github.com/travis-ci'>here.</a>
+      join: Join us and help!
+      mailing_list: Mailing List
+      repository: Repository
+      twitter: Twitter
+  profiles:
+    show:
+      github: Github
+      message:
+        your_repos: ! "  Flick the switches below to turn on the Travis service hook
+          for your projects, then push to GitHub.<br />\n  To test against multiple
+          rubies, see"
+        config: how to configure custom build options
+      messages:
+        notice: ! "To get started, please read our <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Getting
+          Started guide</a>.\n  <small>It will only take a couple of minutes.</small>"
+      token: Token
+      your_repos: Your Repositories
+  statistics:
+    index:
+      count: Count
+      repo_growth: Repository Growth
+      total_projects: Total Projects/Repositories
+      build_count: Build Count
+      last_month: last month
+      total_builds: Total Builds

@@ -1,14 +1,13 @@
 <div id="alpha_warning" class="box">
-  <h4>This stuff is alpha.</h4>
-  <p>Please do <strong>not</strong> consider this a stable service. We're still far from that! More info <a href='https://github.com/travis-ci'>here.</a></p>
+  <h4><%= t '.alpha' %></h4>
+  <p><%= raw t '.messages.alpha' %></p>
 </div>
-
 <div id="about" class="box">
-  <h4>Join us and help!</h4>
+  <h4><%= t '.join' %></h4>
   <ul>
-    <li>Repository: <a href="http://github.com/travis-ci">Github</a></li>
-    <li>Twitter: <a href="http://twitter.com/travisci">@travisci</a></li>
-    <li>Mailinglist: <a href="http://groups.google.com/group/travis-ci">travis-ci</a></li>
+    <li><%= t '.repository' %>: <a href="http://github.com/travis-ci">Github</a></li>
+    <li><%= t '.twitter' %>: <a href="http://twitter.com/travisci">@travisci</a></li>
+    <li><%= t '.mailing_list' %>: <a href="http://groups.google.com/group/travis-ci">travis-ci</a></li>
     <li><a href="irc://irc.freenode.net#travis">irc.freenode.net#travis</a></li>
   </ul>
 </div>

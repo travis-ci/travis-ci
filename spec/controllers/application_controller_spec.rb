@@ -4,9 +4,7 @@ describe ApplicationController do
   before(:all) do
     ApplicationController.class_eval do
       def index
-        @text ||= ""
-        @text += " world!"
-        render :text => @text
+        render :text => "dur...."
       end
     end
   end
@@ -32,6 +30,18 @@ describe ApplicationController do
     it 'preferres the hl param over HTTP_ACCEPT_LANGUAGE header' do
       request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
       get :index, :hl=>:en
+      I18n.locale.should == :en
+    end
+
+    it 'falls back from hl -> header when param is not supported' do
+      request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
+      get :index, :hl=>:cn
+      I18n.locale.should == :ja
+    end
+
+    it 'falls back from hl -> header -> deafult when header and param are not supported' do
+      request.env['HTTP_ACCEPT_LANGUAGE'] = 'de'
+      get :index, :hl=>:cn
       I18n.locale.should == :en
     end
 

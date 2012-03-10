@@ -17,7 +17,7 @@ var Travis = Ember.Application.create({
     this.initPusher();
     this.initEvents();
     $.facebox.settings.closeImage = '/images/facebox/closelabel.png';
-    $.facebox.settings.loadingImage = '/images/facebox/loading.gif'; 
+    $.facebox.settings.loadingImage = '/images/facebox/loading.gif';
   },
 
   home: function() {
@@ -74,6 +74,9 @@ var Travis = Ember.Application.create({
 
     $('#top .profile').mouseover(function() { $('#top .profile ul').show(); });
     $('#top .profile').mouseout(function() { $('#top .profile ul').hide(); });
+
+    $('#top .locale').mouseover(function() { $('#top .locale ul').show(); });
+    $('#top .locale').mouseout(function() { $('#top .locale ul').hide(); });
 
     $('#workers .group').live('click', function() { $(this).toggleClass('open'); })
 
