@@ -23,7 +23,7 @@ module ApplicationHelper
   end
 
   def locale_link_to(name, path, options = {})
-    options.merge(:hl => params[:hl]) if params[:hl]
+    options[:hl] = request.query_parameters["hl"] if request.query_parameters["hl"]
     link_to name, path, options
   end
 
