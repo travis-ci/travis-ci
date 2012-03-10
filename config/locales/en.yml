@@ -10,6 +10,61 @@ en:
       seconds_exact:
         one: ! '%{count} second'
         other: ! '%{count} seconds'
+  workers: Workers
+  queue: Queue
+  no_job: There are no jobs
+  repositories:
+    branch: Branch
+    image_url: Image URL
+    markdown: Markdown
+    textile: Textile
+    rdoc: RDOC
+    commit: Commit
+    message: Message
+    started_at: Started
+    duration: Duration
+    finished_at: Finished
+    tabs:
+      current: Current
+      build_history: Build History
+      branches: Branch Summary
+      build: Build
+      job: Job
+  build:
+    job: Job
+    duration: Duration
+    finished_at: Finisehd
+  jobs:
+    messages:
+      sponsored_by: This test series was run on a worker box sponsored by
+    build_matrix: Build Matrix
+    allowed_failures: Allowed Failures
+    author: Author
+    config: Config
+    compare: Compare
+    committer: Committer
+    branch: Branch
+    commit: Commit
+    message: Message
+    started_at: Started
+    duration: Duration
+    finished_at: Finished
+  builds:
+    name: Build
+    messages:
+      sponsored_by: This test series was run on a worker box sponsored by
+    build_matrix: Build Matrix
+    allowed_failures: Allowed Failures
+    author: Author
+    config: Config
+    compare: Compare
+    committer: Committer
+    branch: Branch
+    commit: Commit
+    message: Message
+    started_at: Started
+    duration: Duration
+    finished_at: Finished
   layouts:
     top:
       home: Home

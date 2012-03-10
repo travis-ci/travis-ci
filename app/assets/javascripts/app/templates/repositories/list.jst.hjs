@@ -3,8 +3,8 @@
     <a {{bindAttr href="content.urlCurrent"}} class="slug">{{content.slug}}</a>
     <a {{bindAttr href="content.urlLastBuild"}} class="build">#{{content.last_build_number}}</a>
     <p class="summary">
-      <span class="duration_label">Duration:</span> <abbr class="duration" {{bindAttr title="content.last_build_started_at"}}>{{content.formattedLastBuildDuration}}</abbr>,
-      <span class="finished_at_label">Finished:</span> <abbr class="finished_at timeago" {{bindAttr title="content.last_build_finished_at"}}>{{content.formattedLastBuildFinishedAt}}</abbr>
+      <span class="duration_label">{{i18n "repositories.duration"}}:</span> <abbr class="duration" {{bindAttr title="content.last_build_started_at"}}>{{content.formattedLastBuildDuration}}</abbr>,
+      <span class="finished_at_label">{{i18n "repositories.finished_at"}}:</span> <abbr class="finished_at timeago" {{bindAttr title="content.last_build_finished_at"}}>{{content.formattedLastBuildFinishedAt}}</abbr>
     </p>
     {{#if content.description}}
       <p class="description">{{content.description}}</p>
