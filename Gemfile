@@ -42,6 +42,7 @@ group :assets do
   gem 'coffee-rails',       '~> 3.2.2'
   gem 'uglifier',           '~> 1.2.0'
   gem 'compass',            '0.12.alpha.4'
+  gem "i18n-js",            '~> 2.1.2'
 end
 
 group :development, :test do

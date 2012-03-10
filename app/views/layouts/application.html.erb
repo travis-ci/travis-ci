@@ -15,6 +15,10 @@
     <meta property="og:description" content="Hi I'm Travis. I'm a distributed build server tool for the open source community - currently in early alpha, and I'm looking for your help!"/>
 
     <%= render :partial => 'layouts/assets' %>
+    <script type="text/javascript">
+      I18n.defaultLocale = "<%= I18n.default_locale %>";
+      I18n.locale = "<%= I18n.locale %>";
+    </script>
   </head>
 
   <body id="<%= body_id %>">
