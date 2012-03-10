@@ -1,4 +1,59 @@
 ja:
+  workers: ワーカ
+  queue: キュー
+  no_job: ジョブはありません
+  repositories:
+    branch: ブランチ
+    image_url: 画像URL
+    markdown: .md
+    textile: .textile
+    rdoc: .rdoc
+    commit: コミット
+    message: メッセージ
+    started_at: 開始時刻
+    duration: 処理時間
+    finished_at: 終了時刻
+    tabs:
+      current: 最新
+      build_history: ビルド履歴
+      branches: ブランチ纏め
+      build: ビルド
+      job: ジョブ
+  build:
+    job: ジョブ
+    duration: 処理時間
+    finished_at: 終了時刻
+  jobs:
+    messages:
+      sponsored_by: このテストは以下のスポンサーの協力で行いました。
+    build_matrix: 失敗許容範囲外
+    allowed_failures: 失敗許容範囲内
+    author: 制作者
+    config: 設定
+    compare: 比較
+    committer: コミット者
+    branch: ブランチ
+    commit: コミット
+    message: メッセージ
+    started_at: 開始時刻
+    duration: 処理時間
+    finished_at: 終了時刻
+  builds:
+    name: ビルド
+    messages:
+      sponsored_by: このテストは以下のスポンサーの協力で行いました。
+    build_matrix: 失敗許容範囲外
+    allowed_failures: 失敗許容範囲内
+    author: 制作者
+    config: 設定
+    compare: 比較
+    committer: コミット者
+    branch: ブランチ
+    commit: コミット
+    message: メッセージ
+    started_at: 開始時刻
+    duration: 処理時間
+    finished_at: 終了時刻
   layouts:
     about:
       alpha: まだアルファですよ！
