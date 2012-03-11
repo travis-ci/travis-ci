@@ -78,7 +78,7 @@ en:
       fork_me: Fork me on Github
       recent: Recent
       search: Search
-      sponsers: Sponsers
+      sponsers: Sponsors
       sponsors_link: See all of our amazing sponsors &rarr;
       my_repositories: My Repositories
     about:
@@ -104,6 +104,7 @@ en:
       log: Log
   profiles:
     show:
+      email: Email
       github: Github
       message:
         your_repos: ! "  Flick the switches below to turn on the Travis service hook

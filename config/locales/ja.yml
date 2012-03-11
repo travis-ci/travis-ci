@@ -93,6 +93,7 @@ ja:
   profiles:
     show:
       github: Github
+      email: メール
       message:
         config: 詳細設定
         your_repos: 以下のスイッチを設定し、Travis-ciを有効にします。Githubへプッシュしたらビルドは自動的に開始します。複数バーションや細かい設定はこちらへ：
