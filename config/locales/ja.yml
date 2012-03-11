@@ -78,9 +78,22 @@ ja:
       profile: プロフィール
       sign_out: ログアウト
       stats: 統計
+    mobile:
+      author: 制作者
+      build: ビルド
+      build_matrix: ビルドマトリクス
+      commit: コミット
+      committer: コミット者
+      compare: 比較
+      config: 設定
+      duration: 処理時間
+      finished_at: 終了時刻
+      job: ジョブ
+      log: ログ
   profiles:
     show:
       github: Github
+      email: メール
       message:
         config: 詳細設定
         your_repos: 以下のスイッチを設定し、Travis-ciを有効にします。Githubへプッシュしたらビルドは自動的に開始します。複数バーションや細かい設定はこちらへ：
