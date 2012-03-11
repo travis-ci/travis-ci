@@ -2,7 +2,7 @@ assets:
   - application.js
 
 src_dir:
-  - tmp/jasmine
+  - public/assets
 
 # src_files
 #
