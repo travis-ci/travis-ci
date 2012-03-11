@@ -33,7 +33,7 @@ en:
   build:
     job: Job
     duration: Duration
-    finished_at: Finisehd
+    finished_at: Finished
   jobs:
     messages:
       sponsored_by: This test series was run on a worker box sponsored by
