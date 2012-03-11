@@ -35,9 +35,7 @@ TravisCi::Application.configure do
   config.assets.compress = false
 
   # Don't concatenate assets
-  config.assets.debug = false
-
-  #config.assets.initialize_on_precompile = true
+  config.assets.debug = true
 
 end
 
