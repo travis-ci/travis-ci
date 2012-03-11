@@ -22,10 +22,10 @@
 
   <div class="profile">
     <% if user_signed_in? %>
-      <%= link_to profile_path do %>
+
         <%= gravatar(current_user, :size => 24) %>
         <span class="name"><%= current_user.name || current_user.login %></span>
-      <% end %>
+
       <ul>
         <li><%= locale_link_to t('.profile'), profile_path %></li>
         <% if current_user.is_admin? %>
