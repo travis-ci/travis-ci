@@ -143,12 +143,6 @@ To run only the jasmine specs do:
 $ bundle exec rake test:jasmine
 </pre>
 
-Jasmine requires asset precompilation. If you want to remove those files run:
-
-<pre>
-bundle exec rake RAILS_ENV=test assets:clean
-</pre>
-
 In order to run all tests you need to have "ChromeDriver":http://code.google.com/p/selenium/wiki/ChromeDriver installed. You can download it "here":http://code.google.com/p/chromium/downloads/list and then place it somewhere on your PATH.
 
 h2. Dependency Status
