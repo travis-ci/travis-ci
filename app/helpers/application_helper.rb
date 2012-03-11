@@ -23,14 +23,15 @@ module ApplicationHelper
   end
 
   def locale_link_to(name, path, options = {})
-    options[:hl] = request.query_parameters["hl"] if request.query_parameters["hl"]
+    if request.query_parameters[:hl]
+      path = "#{path}?hl=#{request.query_parameters[:hl]}"
+    end
     link_to name, path, options
   end
 
   def switch_locale_link(name, options ={})
-    request.query_parameters[:hl] = options.delete(:hl)
-    query = request.query_parameters.map { |key, value| "#{key}=#{value}"}.join("&")
-    path = request.path + "?#{query}" unless query.blank?
+    query = request.query_parameters.merge(options).map { |key, value| "#{key}=#{value}"}.join("&")
+    path = query.blank? ? request.path : "#{request.path}?#{query}"
     link_to name, path, options
   end
 
