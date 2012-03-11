@@ -30,7 +30,8 @@ module ApplicationHelper
   end
 
   def switch_locale_link(name, options ={})
-    query = request.query_parameters.merge(options).map { |key, value| "#{key}=#{value}"}.join("&")
+    merged_options = request.query_parameters.merge({:hl => options.delete(:hl)})
+    query = merged_options.map { |key, value| "#{key}=#{value}"}.join("&")
     path = query.blank? ? request.path : "#{request.path}?#{query}"
     link_to name, path, options
   end
