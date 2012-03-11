@@ -78,6 +78,18 @@ ja:
       profile: プロフィール
       sign_out: ログアウト
       stats: 統計
+    mobile:
+      author: 制作者
+      build: ビルド
+      build_matrix: ビルドマトリクス
+      commit: コミット
+      committer: コミット者
+      compare: 比較
+      config: 設定
+      duration: 処理時間
+      finished_at: 終了時刻
+      job: ジョブ
+      log: ログ
   profiles:
     show:
       github: Github
