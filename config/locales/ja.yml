@@ -1,5 +1,5 @@
 ja:
-  workers: ワーカ
+  workers: ワーカー
   queue: キュー
   no_job: ジョブはありません
   repositories:
@@ -16,7 +16,7 @@ ja:
     tabs:
       current: 最新
       build_history: ビルド履歴
-      branches: ブランチ纏め
+      branches: ブランチまとめ
       build: ビルド
       job: ジョブ
   build:
@@ -60,7 +60,7 @@ ja:
       join: 参加してみよう！
       mailing_list: メールリスト
       messages:
-        alpha: Travis-ciは安定したサービスまで後一歩！詳しくは<a href='https://github.com/travis-ci'>ここを参照ください。</a>
+        alpha: Travis-ciは安定したサービスまで後一歩！詳しくは<a href='https://github.com/travis-ci'>こちら</a>
       repository: リポジトリ
       twitter: ツイッター
     application:
@@ -83,7 +83,7 @@ ja:
       github: Github
       message:
         config: 詳細設定
-        your_repos: 以下のスイッチを設定し、Travis-ciを有効にしてからGithubへプッシュしたらビルドは自動的に開始します。複数バーションや細かい設定はこちらを参考してください：
+        your_repos: 以下のスイッチを設定し、Travis-ciを有効にします。Githubへプッシュしたらビルドは自動的に開始します。複数バーションや細かい設定はこちらへ：
       messages:
         notice: まずは<a href="http://about.travis-ci.org/docs/user/getting-started/">Travisのはじめ方</a>を参照してください。
       token: トークン
