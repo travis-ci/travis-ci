@@ -11,10 +11,10 @@ fr:
         one: ! '%{count} seconde'
         other: ! '%{count} secondes'
   workers: Processus
-  queue: Queue
-  no_job: Pas de travail
+  queue: File
+  no_job: Pas de tâches
   repositories:
-    branch: Rameau
+    branch: Branche
     image_url: URL d'image
     markdown: Markdown
     textile: Textile
@@ -26,24 +26,24 @@ fr:
     finished_at: Terminé
     tabs:
       current: Actuel
-      build_history: Histoire des versions
-      branches: Résumé des rameaux
-      build: Créer
-      job: Travail
+      build_history: Historique des tâches
+      branches: Résumé des branches
+      build: Construction
+      job: Tâche
   build:
-    job: Travail
+    job: Tâche
     duration: Durée
     finished_at: Terminé
   jobs:
     messages:
-      sponsored_by: Cette série d'épreuves était faite sur une boîte de processus sponsorisée par
+      sponsored_by: Cette série de tests était faite sur une boîte de processus sponsorisée par
     build_matrix: Matrice des versions
     allowed_failures: Échecs permis
     author: Auteur
     config: Config
     compare: Comparer
     committer: Committeur
-    branch: Rameau
+    branch: Branche
     commit: Commit
     message: Message
     started_at: Commencé
@@ -52,14 +52,14 @@ fr:
   builds:
     name: Version
     messages:
-      sponsored_by: Cette série d'épreuves était faite sur une boîte de processus sponsorisée par
+      sponsored_by: Cette série de tests était faite sur une boîte de processus sponsorisée par
     build_matrix: Matrice des versions
     allowed_failures: Échecs permis
     author: Auteur
     config: Config
     compare: Comparer
     committer: Committeur
-    branch: Rameau
+    branch: Branche
     commit: Commit
     message: Message
     started_at: Commencé
@@ -78,7 +78,7 @@ fr:
       fork_me: Faites un Fork sur Github
       recent: Récent
       search: Chercher
-      sponsers: Sponsors
+      sponsers: Commanditaires
       sponsors_link: Voir tous nos sponsors extraordinaire &rarr;
       my_repositories: Mes dépôts
     about:
@@ -100,19 +100,19 @@ fr:
       config: Config
       duration: Durée
       finished_at: Terminé à
-      job: Travail
-      log: Registre
+      job: Tâche
+      log: Journal
   profiles:
     show:
       github: Github
       message:
         your_repos: ! "  Cliquez les interrupteurs au-dessous pour allumer le crochet de service Travis 
-          pour vos projets, ensuite poussez à GitHub.<br />\n  Pour évaluer contre plus de 
-          rubies, voir"
-        config: comment configurer des options personnalisée de version
+          pour vos projets, ensuite poussez sur GitHub.<br />\n  Pour évaluer sur plus de 
+          versions de ruby, voir"
+        config: comment configurer des options personnalisées de version
       messages:
-        notice: ! "Pour commencer, s'il vous plaît lire à notre <a 
-        href=\"http://about.travis-ci.org/docs/user/getting-started/\">guide de commencement</a>.\n
+        notice: ! "Pour commencer, s'il vous plaît lire notre <a 
+        href=\"http://about.travis-ci.org/docs/user/getting-started/\">guide de départ</a>.\n
         <small>Cela ne vous prendra que quelques minutes.</small>"
       token: Jeton
       your_repos: Vos dépôts
