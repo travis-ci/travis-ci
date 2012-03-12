@@ -10,6 +10,58 @@ pl:
       seconds_exact:
         one: ! '%{count} sekunda'
         other: ! '%{count} sekundy'
+      about_x_hours:
+        few: około %{count} godziny
+        one: około godziny
+        other: około %{count} godzin
+      about_x_months:
+        few: około %{count} miesiące
+        one: około miesiąca
+        other: około %{count} miesięcy
+      about_x_years:
+        few: około %{count} lata
+        one: około rok
+        other: około %{count} lat
+      almost_x_years:
+        few: prawie %{count} lata
+        one: prawie rok
+        other: prawie %{count} lat
+      half_a_minute: pół minuty
+      less_than_x_minutes:
+        few: mniej niż %{count} minuty
+        one: mniej niż minutę
+        other: mniej niż %{count} minut
+      less_than_x_seconds:
+        few: mniej niż %{count} sekundy
+        one: mniej niż sekundę
+        other: mniej niż %{count} sekund
+      over_x_years:
+        few: ponad %{count} lata
+        one: ponad rok
+        other: ponad %{count} lat
+      x_days:
+        few: ! '%{count} dni'
+        one: 1 dzień
+        other: ! '%{count} dni'
+      x_minutes:
+        few: ! '%{count} minuty'
+        one: 1 minuta
+        other: ! '%{count} minut'
+      x_months:
+        few: ! '%{count} miesiące'
+        one: 1 miesiąc
+        other: ! '%{count} miesięcy'
+      x_seconds:
+        few: ! '%{count} sekundy'
+        one: 1 sekunda
+        other: ! '%{count} sekund'
+    prompts:
+      day: Dzień
+      hour: Godzina
+      minute: Minuta
+      month: Miesiąc
+      second: Sekundy
+      year: Rok
   workers: Workers
   queue: Kolejka
   no_job: Brak zadań
@@ -36,7 +88,7 @@ pl:
     finished_at: Zakończono
   jobs:
     messages:
-    sponsored_by: Te testy zostały uruchomione na maszynie sponsorowanej przez
+      sponsored_by: Te testy zostały uruchomione na maszynie sponsorowanej przez
     build_matrix: Macierz Buildów
     allowed_failures: Dopuszczalne Niepowodzenia
     author: Autor
@@ -77,15 +129,15 @@ pl:
     application:
       fork_me: Fork me on Github
       recent: Ostatnie
-      search: Wyniki 
+      search: Wyniki
       sponsers: Sponsorzy
       sponsors_link: Zobacz naszych wszystkich wspaniałych sponsorów &rarr;
       my_repositories: Moje repozytoria
     about:
       alpha: To wciąż jest wersja alpha.
       messages:
-        alpha: Proszę <strong>nie</strong> traktuj tego jako stabilnej usługi. Wciąż nam wiele do tego brakuje!
-          Więcej informacji znajdziesz <a href='https://github.com/travis-ci'>tutaj.</a>
+        alpha: Proszę <strong>nie</strong> traktuj tego jako stabilnej usługi. Wciąż
+          nam wiele do tego brakuje! Więcej informacji znajdziesz <a href='https://github.com/travis-ci'>tutaj.</a>
       join: Pomóż i dołącz do nas!
       mailing_list: Lista mailingowa
       repository: Repozytorium
@@ -108,8 +160,8 @@ pl:
       github: Github
       message:
         your_repos: ! "  Przesuń suwak poniżej, aby włączyć Travisa, dla twoich projektów,
-          a następnie umieść swój kod na GitHubie.<br />\n Aby testować swój kod
-          przy użyciu wielu wersji Rubiego, zobacz"
+          a następnie umieść swój kod na GitHubie.<br />\n Aby testować swój kod przy
+          użyciu wielu wersji Rubiego, zobacz"
         config: jak skonfigurować niestandardowe opcje builda
       messages:
         notice: ! "Aby zacząć, przeczytaj nasz <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Przewodnik
@@ -121,6 +173,64 @@ pl:
       count: Ilość
       repo_growth: Przyrost repozytoriów
       total_projects: Łącznie projektów/repozytoriów
-      build_count: Liczba buildów 
+      build_count: Liczba buildów
       last_month: ostatni miesiąc
       total_builds: Łącznie Buildów
+  date:
+    abbr_day_names:
+    - nie
+    - pon
+    - wto
+    - śro
+    - czw
+    - pią
+    - sob
+    abbr_month_names:
+    - !!null
+    - sty
+    - lut
+    - mar
+    - kwi
+    - maj
+    - cze
+    - lip
+    - sie
+    - wrz
+    - paź
+    - lis
+    - gru
+    day_names:
+    - niedziela
+    - poniedziałek
+    - wtorek
+    - środa
+    - czwartek
+    - piątek
+    - sobota
+    formats:
+      default: ! '%d-%m-%Y'
+      long: ! '%B %d, %Y'
+      short: ! '%d %b'
+    month_names:
+    - !!null
+    - styczeń
+    - luty
+    - marzec
+    - kwiecień
+    - maj
+    - czerwiec
+    - lipiec
+    - sierpień
+    - wrzesień
+    - październik
+    - listopad
+    - grudzień
+    order:
+    - :day
+    - :month
+    - :year
+  errors:
+    format: ! '%{attribute} %{message}'
+    messages:
+      accepted: musi zostać zaakceptowane
+      blank: nie może być puste
