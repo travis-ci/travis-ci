@@ -101,6 +101,7 @@ pl:
     started_at: Rozpoczęto
     duration: Czas trwania
     finished_at: Zakończono
+    sponsored_by: Te testy zostały uruchomione na maszynie sponsorowanej przez
   builds:
     name: Build
     messages:
@@ -186,7 +187,7 @@ pl:
     - pią
     - sob
     abbr_month_names:
-    - !!null
+    - !!null 
     - sty
     - lut
     - mar
@@ -212,7 +213,7 @@ pl:
       long: ! '%B %d, %Y'
       short: ! '%d %b'
     month_names:
-    - !!null
+    - !!null 
     - styczeń
     - luty
     - marzec
