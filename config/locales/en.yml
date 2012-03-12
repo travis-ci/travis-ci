@@ -124,60 +124,6 @@ en:
       build_count: Build Count
       last_month: last month
       total_builds: Total Builds
-  admin:
-    actions:
-      create: create
-      created: created
-      delete: delete
-      deleted: deleted
-      update: update
-      updated: updated
-    credentials:
-      log_out: Log out
-    dashboard:
-      add_new: Add new
-      ago: ago
-      last_used: Last used
-      model_name: Model name
-      modify: Modify
-      name: Dashboard
-      pagename: Site administration
-      records: Records
-      show: Show
-    delete:
-      confirmation: Yes, I'm sure
-      flash_confirmation: ! '%{name} was successfully destroyed'
-    flash:
-      error: ! '%{name} failed to be %{action}'
-      noaction: No actions were taken
-      successful: ! '%{name} was successfully %{action}'
-    history:
-      name: History
-      no_activity: No Activity
-      page_name: History for %{name}
-    list:
-      add_new: Add new
-      delete_action: Delete
-      delete_selected: Delete selected
-      edit_action: Edit
-      search: Search
-      select: Select %{name} to edit
-      select_action: Select
-      show_all: Show all
-    new:
-      basic_info: Basic info
-      cancel: Cancel
-      chosen: Chosen %{name}
-      chose_all: Choose all
-      clear_all: Clear all
-      many_chars: characters or fewer.
-      one_char: character.
-      optional: Optional
-      required: Required
-      save: Save
-      save_and_add_another: Save and add another
-      save_and_edit: Save and edit
-      select_choice: Select your choice(s) and click
   devise:
     confirmations:
       confirmed: Your account was successfully confirmed. You are now signed in.
@@ -220,5 +166,3 @@ en:
       already_confirmed: was already confirmed
       not_found: not found
       not_locked: was not locked
-  home:
-    name: home
