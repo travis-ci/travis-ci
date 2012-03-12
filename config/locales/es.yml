@@ -12,7 +12,7 @@ es:
         other: ! '%{count} segundos'
   workers: Procesos
   queue: Cola
-  no_job: No hay trabajos 
+  no_job: No hay trabajos
   repositories:
     branch: Rama
     image_url: Imagen URL
@@ -36,7 +36,8 @@ es:
     finished_at: Finalizado
   jobs:
     messages:
-      sponsored_by: Esta serie de tests han sido ejecutados en una caja de Proceso patrocinada por
+      sponsored_by: Esta serie de tests han sido ejecutados en una caja de Proceso
+        patrocinada por
     build_matrix: Matriz de Builds
     allowed_failures: Fallos Permitidos
     author: Autor
@@ -52,7 +53,8 @@ es:
   builds:
     name: Build
     messages:
-      sponsored_by: Esta serie de tests han sido ejecutados en una caja de Proceso patrocinada por
+      sponsored_by: Esta serie de tests han sido ejecutados en una caja de Proceso
+        patrocinada por
     build_matrix: Matriz de Builds
     allowed_failures: Fallos Permitidos
     author: Autor
@@ -69,7 +71,7 @@ es:
     top:
       home: Inicio
       blog: Blog
-      docs: Docs
+      docs: Documentación
       stats: Estadísticas
       github_login: Iniciar sesión con Github
       profile: Perfil
@@ -84,8 +86,8 @@ es:
     about:
       alpha: Esto es alpha.
       messages:
-        alpha: Por favor <strong>no</strong> considereis esto un servicio estable. Estamos
-          estamos aún lejos de ello! Más información <a href='https://github.com/travis-ci'>aquí.</a>
+        alpha: Por favor <strong>no</strong> considereis esto un servicio estable.
+          Estamos estamos aún lejos de ello! Más información <a href='https://github.com/travis-ci'>aquí.</a>
       join: Únetenos y ayudanos!
       mailing_list: Lista de Correos
       repository: Repositorio
@@ -95,20 +97,33 @@ es:
       email: Correo electrónico
       github: Github
       message:
-        your_repos: ! "  Activa los interruptores para inicial el  Travis service hook
-          para tus proyectos, y haz un Push en GitHub.<br />\n  Para probar varias versiones
-          de ruby, mira"
+        your_repos: ! "  Activa los interruptores para inicial el  Travis service
+          hook para tus proyectos, y haz un Push en GitHub.<br />\n  Para probar varias
+          versiones de ruby, mira"
         config: como configurar tus propias opciones para el Build
       messages:
-        notice: ! "Para comenzar, por favor lee nuestra <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Guía de Inicio
-          </a>.\n  <small>Solo tomará unos pocos minutos.</small>"
+        notice: ! "Para comenzar, por favor lee nuestra <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Guía
+          de Inicio </a>.\n  <small>Solo tomará unos pocos minutos.</small>"
       token: Token
       your_repos: Tus repositorios
   statistics:
     index:
-      count: Cantidad
-      repo_growth: Crecimiento de Repositorio
+      count: Número
+      repo_growth: Crecimiento de Repositorios
       total_projects: Total de Proyectos/Repositorios
-      build_count: Cantidad de Builds
+      build_count: Número de Builds
       last_month: mes anterior
       total_builds: Total de Builds
+  number:
+    human:
+      decimal_units:
+        units:
+          unit: ''
+      format:
+        delimiter: ''
+    percentage:
+      format:
+        delimiter: ''
+    precision:
+      format:
+        delimiter: ''

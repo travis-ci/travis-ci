@@ -69,8 +69,8 @@ fr:
     top:
       home: Accueil
       blog: Blog
-      docs: Docs
-      stats: Stats
+      docs: Documentation
+      stats: Statistique
       github_login: Connectez-vous avec Github
       profile: Profil
       sign_out: Déconnectez-vous
