@@ -74,6 +74,7 @@ en:
       github_login: Sign in with Github
       profile: Profile
       sign_out: Sign Out
+      admin: Admin
     application:
       fork_me: Fork me on Github
       recent: Recent
