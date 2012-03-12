@@ -1,4 +1,4 @@
-en:
+pl:
   datetime:
     distance_in_words:
       hours_exact:
@@ -25,9 +25,9 @@ en:
     duration: Czas trwania
     finished_at: Zakończono
     tabs:
-      current: Bieżący
-      build_history: Historia buildów
-      branches: Podsumowanie Gałęzi
+      current: Aktualny
+      build_history: Historia Buildów
+      branches: Wszystkie Gałęzie
       build: Build
       job: Zadanie
   build:
@@ -77,16 +77,16 @@ en:
     application:
       fork_me: Fork me on Github
       recent: Ostatnie
-      search: Wyszukaj
+      search: Wyniki 
       sponsers: Sponsorzy
-      sponsors_link: Zobacz wszystkich naszych wspaniałych sponsorów &rarr;
+      sponsors_link: Zobacz naszych wszystkich wspaniałych sponsorów &rarr;
       my_repositories: Moje repozytoria
     about:
-      alpha: To wciąż jest alpha.
+      alpha: To wciąż jest wersja alpha.
       messages:
-        alpha: Proszę <strong>nie</strong> traktuj tego jak stabilnej usługi. Jesteśmy wciąż daleko od tego!
+        alpha: Proszę <strong>nie</strong> traktuj tego jako stabilnej usługi. Wciąż nam wiele do tego brakuje!
           Więcej informacji znajdziesz <a href='https://github.com/travis-ci'>tutaj.</a>
-      join: Dołącz do nas i pomóż!
+      join: Pomóż i dołącz do nas!
       mailing_list: Lista mailingowa
       repository: Repozytorium
       twitter: Twitter
@@ -115,15 +115,15 @@ en:
         notice: ! "To get started, please read our <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Getting
           Started guide</a>.\n  <small>It will only take a couple of minutes.</small>"
       token: Token
-      your_repos: Your Repositories
+      your_repos: Twoje repozytoria
   statistics:
     index:
-      count: Count
-      repo_growth: Repository Growth
-      total_projects: Total Projects/Repositories
-      build_count: Build Count
-      last_month: last month
-      total_builds: Total Builds
+      count: Ilość
+      repo_growth: Przyrost repozytoriów
+      total_projects: Łącznie projektów/repozytoriów
+      build_count: Liczba buildów 
+      last_month: ostatni miesiąc
+      total_builds: Łącznie Buildów
   devise:
     confirmations:
       confirmed: Your account was successfully confirmed. You are now signed in.
