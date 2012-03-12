@@ -45,7 +45,6 @@
     {{#if content.matrix.firstObject.sponsor.name}}
       <p class="sponsor">
       {{i18n "builds.messages.sponsored_by"}}
-        This test suite has run on a worker box sponsored by
         <a {{bindAttr href="content.matrix.firstObject.sponsor.url"}}>{{content.matrix.firstObject.sponsor.name}}</a>
       </p>
     {{/if}}
