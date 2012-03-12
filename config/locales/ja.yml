@@ -27,7 +27,6 @@ ja:
     messages:
       sponsored_by: このテストは以下のスポンサーの協力で行いました。
     build_matrix: ビルドマトリクス
-    allowed_failures: 失敗許容範囲内
     author: 制作者
     config: 設定
     compare: 比較
@@ -43,7 +42,6 @@ ja:
     messages:
       sponsored_by: このテストは以下のスポンサーの協力で行いました。
     build_matrix: 失敗許容範囲外
-    allowed_failures: 失敗許容範囲内
     author: 制作者
     config: 設定
     compare: 比較

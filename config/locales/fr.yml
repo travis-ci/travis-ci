@@ -38,7 +38,6 @@ fr:
     messages:
       sponsored_by: Cette série de tests était faite sur une boîte de processus sponsorisée par
     build_matrix: Matrice des versions
-    allowed_failures: Échecs permis
     author: Auteur
     config: Config
     compare: Comparer
@@ -54,7 +53,6 @@ fr:
     messages:
       sponsored_by: Cette série de tests était faite sur une boîte de processus sponsorisée par
     build_matrix: Matrice des versions
-    allowed_failures: Échecs permis
     author: Auteur
     config: Config
     compare: Comparer
@@ -106,12 +104,12 @@ fr:
     show:
       github: Github
       message:
-        your_repos: ! "  Cliquez les interrupteurs au-dessous pour allumer le crochet de service Travis 
-          pour vos projets, ensuite poussez sur GitHub.<br />\n  Pour évaluer sur plus de 
+        your_repos: ! "  Cliquez les interrupteurs au-dessous pour allumer le crochet de service Travis
+          pour vos projets, ensuite poussez sur GitHub.<br />\n  Pour évaluer sur plus de
           versions de ruby, voir"
         config: comment configurer des options personnalisées de version
       messages:
-        notice: ! "Pour commencer, s'il vous plaît lire notre <a 
+        notice: ! "Pour commencer, s'il vous plaît lire notre <a
         href=\"http://about.travis-ci.org/docs/user/getting-started/\">guide de départ</a>.\n
         <small>Cela ne vous prendra que quelques minutes.</small>"
       token: Jeton

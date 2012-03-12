@@ -12,7 +12,7 @@ es:
         other: ! '%{count} segundos'
   workers: Procesos
   queue: Cola
-  no_job: No hay trabajos 
+  no_job: No hay trabajos
   repositories:
     branch: Rama
     image_url: Imagen URL
@@ -38,7 +38,6 @@ es:
     messages:
       sponsored_by: Esta serie de tests han sido ejecutados en una caja de Proceso patrocinada por
     build_matrix: Matriz de Builds
-    allowed_failures: Fallos Permitidos
     author: Autor
     config: Configuración
     compare: Comparar
@@ -54,7 +53,6 @@ es:
     messages:
       sponsored_by: Esta serie de tests han sido ejecutados en una caja de Proceso patrocinada por
     build_matrix: Matriz de Builds
-    allowed_failures: Fallos Permitidos
     author: Autor
     config: Configuración
     compare: Comparar
