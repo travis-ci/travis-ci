@@ -36,7 +36,7 @@ fr:
     finished_at: Terminé
   jobs:
     messages:
-      sponsored_by: Cette série de tests était faite sur une boîte de processus sponsorisée par
+      sponsored_by: Cette série de tests a été exécutée sur une machine sponsorisée par
     build_matrix: Matrice des versions
     allowed_failures: Échecs permis
     author: Auteur
@@ -52,7 +52,7 @@ fr:
   builds:
     name: Version
     messages:
-      sponsored_by: Cette série de tests était faite sur une boîte de processus sponsorisée par
+      sponsored_by: Cette série de tests a été exécutée sur une machine sponsorisée par
     build_matrix: Matrice des versions
     allowed_failures: Échecs permis
     author: Auteur
@@ -84,7 +84,7 @@ fr:
     about:
       alpha: Ces trucs sont alphas.
       messages:
-        alpha: S'il vous plaît ne ce considérez <strong>pas</strong> un service stable. Nous restons
+        alpha: S'il vous plaît ne considérez <strong>pas</strong> ce service stable. Nous sommes
           loin de ça! Plus d'infos <a href='https://github.com/travis-ci'>ici.</a>
       join: Joignez-vous à nous et aider!
       mailing_list: Liste de distribution
@@ -106,9 +106,8 @@ fr:
     show:
       github: Github
       message:
-        your_repos: ! "  Cliquez les interrupteurs au-dessous pour allumer le crochet de service Travis 
-          pour vos projets, ensuite poussez sur GitHub.<br />\n  Pour évaluer sur plus de 
-          versions de ruby, voir"
+        your_repos: ! " Démarrer Travis sur vos projets puis faites un déploiement sur GitHub..<br />\n  
+        Pour évaluer sur plus de versions de ruby, voir"
         config: comment configurer des options personnalisées de version
       messages:
         notice: ! "Pour commencer, s'il vous plaît lire notre <a 
