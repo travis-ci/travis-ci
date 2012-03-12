@@ -28,9 +28,6 @@
 
       <ul>
         <li><%= locale_link_to t('.profile'), profile_path %></li>
-        <% if current_user.is_admin? %>
-          <li><%= locale_link_to t('.admin'), '#' %></li>
-        <% end %>
         <li><%= link_to t('.sign_out'), destroy_session_path %></li>
       </ul>
     <% else %>
