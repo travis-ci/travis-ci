@@ -36,7 +36,7 @@ fr:
     finished_at: Terminé
   jobs:
     messages:
-      sponsored_by: Cette série d'épreuves était fait sur une boîte de processus sponsorisée par
+      sponsored_by: Cette série d'épreuves était faite sur une boîte de processus sponsorisée par
     build_matrix: Matrice des versions
     allowed_failures: Échecs permis
     author: Auteur
@@ -52,7 +52,7 @@ fr:
   builds:
     name: Version
     messages:
-      sponsored_by: Cette série d'épreuves était fait sur une boîte de processus sponsorisée par
+      sponsored_by: Cette série d'épreuves était faite sur une boîte de processus sponsorisée par
     build_matrix: Matrice des versions
     allowed_failures: Échecs permis
     author: Auteur
