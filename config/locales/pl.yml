@@ -1,0 +1,126 @@
+pl:
+  datetime:
+    distance_in_words:
+      hours_exact:
+        one: ! '%{count} godzina'
+        other: ! '%{count} godziny'
+      minutes_exact:
+        one: ! '%{count} minuta'
+        other: ! '%{count} minuty'
+      seconds_exact:
+        one: ! '%{count} sekunda'
+        other: ! '%{count} sekundy'
+  workers: Workers
+  queue: Kolejka
+  no_job: Brak zadań
+  repositories:
+    branch: Gałąź
+    image_url: URL obrazka
+    markdown: Markdown
+    textile: Textile
+    rdoc: RDOC
+    commit: Commit
+    message: Opis
+    started_at: Rozpoczęto
+    duration: Czas trwania
+    finished_at: Zakończono
+    tabs:
+      current: Aktualny
+      build_history: Historia Buildów
+      branches: Wszystkie Gałęzie
+      build: Build
+      job: Zadanie
+  build:
+    job: Zadanie
+    duration: Czas trwania
+    finished_at: Zakończono
+  jobs:
+    messages:
+    sponsored_by: Te testy zostały uruchomione na maszynie sponsorowanej przez
+    build_matrix: Macierz Buildów
+    allowed_failures: Dopuszczalne Niepowodzenia
+    author: Autor
+    config: Konfiguracja
+    compare: Porównanie
+    committer: Committer
+    branch: Gałąź
+    commit: Commit
+    message: Opis
+    started_at: Rozpoczęto
+    duration: Czas trwania
+    finished_at: Zakończono
+  builds:
+    name: Build
+    messages:
+      sponsored_by: Te testy zostały uruchomione na maszynie sponsorowanej przez
+    build_matrix: Macierz Buildów
+    allowed_failures: Dopuszczalne Niepowodzenia
+    author: Autor
+    config: Konfiguracja
+    compare: Porównanie
+    committer: Komitujący
+    branch: Gałąź
+    commit: Commit
+    message: Opis
+    started_at: Rozpoczęto
+    duration: Czas trwania
+    finished_at: Zakończono
+  layouts:
+    top:
+      home: Start
+      blog: Blog
+      docs: Dokumentacja
+      stats: Statystki
+      github_login: Zaloguj się przy pomocy Githuba
+      profile: Profil
+      sign_out: Wyloguj się
+    application:
+      fork_me: Fork me on Github
+      recent: Ostatnie
+      search: Wyniki 
+      sponsers: Sponsorzy
+      sponsors_link: Zobacz naszych wszystkich wspaniałych sponsorów &rarr;
+      my_repositories: Moje repozytoria
+    about:
+      alpha: To wciąż jest wersja alpha.
+      messages:
+        alpha: Proszę <strong>nie</strong> traktuj tego jako stabilnej usługi. Wciąż nam wiele do tego brakuje!
+          Więcej informacji znajdziesz <a href='https://github.com/travis-ci'>tutaj.</a>
+      join: Pomóż i dołącz do nas!
+      mailing_list: Lista mailingowa
+      repository: Repozytorium
+      twitter: Twitter
+    mobile:
+      author: Autor
+      build: Build
+      build_matrix: Macierz Buildów
+      commit: Commit
+      committer: Komitujący
+      compare: Porównianie
+      config: Konfiguracja
+      duration: Czas trwania
+      finished_at: Zakończono
+      job: Zadanie
+      log: Log
+  profiles:
+    show:
+      email: Email
+      github: Github
+      message:
+        your_repos: ! "  Przesuń suwak poniżej, aby włączyć Travisa, dla twoich projektów,
+          a następnie umieść swój kod na GitHubie.<br />\n Aby testować swój kod
+          przy użyciu wielu wersji Rubiego, zobacz"
+        config: jak skonfigurować niestandardowe opcje builda
+      messages:
+        notice: ! "Aby zacząć, przeczytaj nasz <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Przewodnik
+          </a>.\n  <small>Zajmie ci to tylko kilka minut.</small>"
+      token: Token
+      your_repos: Twoje repozytoria
+  statistics:
+    index:
+      count: Ilość
+      repo_growth: Przyrost repozytoriów
+      total_projects: Łącznie projektów/repozytoriów
+      build_count: Liczba buildów 
+      last_month: ostatni miesiąc
+      total_builds: Łącznie Buildów
