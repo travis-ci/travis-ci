@@ -114,16 +114,3 @@ es:
       build_count: Número de Builds
       last_month: mes anterior
       total_builds: Total de Builds
-  number:
-    human:
-      decimal_units:
-        units:
-          unit: ''
-      format:
-        delimiter: ''
-    percentage:
-      format:
-        delimiter: ''
-    precision:
-      format:
-        delimiter: ''
