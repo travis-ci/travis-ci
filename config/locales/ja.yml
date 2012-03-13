@@ -109,16 +109,3 @@ ja:
       repo_growth: リポジトリ
       total_builds: 合計ビルド数
       total_projects: 合計リポジトリ
-  number:
-    human:
-      decimal_units:
-        units:
-          unit: ''
-      format:
-        delimiter: ''
-    percentage:
-      format:
-        delimiter: ''
-    precision:
-      format:
-        delimiter: ''

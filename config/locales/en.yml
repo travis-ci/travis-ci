@@ -166,16 +166,3 @@ en:
       already_confirmed: was already confirmed
       not_found: not found
       not_locked: was not locked
-  number:
-    human:
-      decimal_units:
-        units:
-          unit: ''
-      format:
-        delimiter: ''
-    percentage:
-      format:
-        delimiter: ''
-    precision:
-      format:
-        delimiter: ''
