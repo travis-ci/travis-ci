@@ -153,22 +153,23 @@ caption {
     z-index: 111;
     position: absolute;
     top: 40px;
-    right: 165px;
+    right: 159px;
     background-color: #444;
     @include border-bottom-radius(4px);
     @include single-box-shadow(rgba(black, 0.3), 2px, 2px, 10px);
+    padding-bottom: 4px;
   }
   .locale ul li {
     padding: 0px 2px;
   }
   .locale a {
     display:block;
-    padding: 2px;
+    padding: 0px 6px;
     line-height:24px;
   }
   .locale_icon {
     @include border-radius(2px);
-    padding: 2px;
+    padding: 2px 5px;
 
     color: #3e3e3e;
     background-color:#ededed;
