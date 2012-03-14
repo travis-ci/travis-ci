@@ -102,6 +102,9 @@ ja:
         notice: まずは<a href="http://about.travis-ci.org/docs/user/getting-started/">Travisのはじめ方</a>を参照してください。
       token: トークン
       your_repos: リポジトリ
+      update: 更新
+      update_locale: 更新
+      your_locale: 言語設定
   statistics:
     index:
       build_count: ビルド数

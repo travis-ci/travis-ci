@@ -117,6 +117,9 @@ en:
           Started guide</a>.\n  <small>It will only take a couple of minutes.</small>"
       token: Token
       your_repos: Your Repositories
+      update: Update
+      update_locale: Update
+      your_locale: Your Locale
   statistics:
     index:
       count: Count
