@@ -55,7 +55,7 @@ ru:
       successful: ! '%{name} было успешно %{action}'
   build:
     duration: Длительность
-    finished_at: Завершена
+    finished_at: Завершен
     job: Задача
   builds:
     allowed_failures: Допустимые неудачи
@@ -67,7 +67,7 @@ ru:
     compare: Дифф
     config: Конфигурация
     duration: Длительность
-    finished_at: Завершена
+    finished_at: Завершен
     message: Комментарий
     messages:
       sponsored_by: Эта серия тестов была запущена на машине, спонсируемой
@@ -143,7 +143,7 @@ ru:
     compare: Сравнение
     config: Конфигурация
     duration: Длительность
-    finished_at: Завершена
+    finished_at: Завершен
     message: Комментарий
     messages:
       sponsored_by: Эта серия тестов была запущена на машине спонсируемой
@@ -174,7 +174,7 @@ ru:
       compare: Сравнение
       config: Конфигурация
       duration: Длительность
-      finished_at: Завершена
+      finished_at: Завершен
       job: Задача
       log: Журнал
     top:
@@ -209,7 +209,7 @@ ru:
     branch: Ветка
     commit: Коммит
     duration: Длительность
-    finished_at: Завершена
+    finished_at: Завершен
     image_url: URL изображения
     markdown: Markdown
     message: Комментарий
