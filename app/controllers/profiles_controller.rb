@@ -22,7 +22,7 @@ class ProfilesController < ApplicationController
       locale = params[:user][:locale].to_sym
       valid = I18n.available_locales.include?(locale)
       if valid
-        user.locale = locale
+        user.locale = locale.to_s
         user.save!
         session[:locale] = locale
         set_locale

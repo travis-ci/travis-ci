@@ -20,6 +20,7 @@ describe ProfilesController do
     it 'updates the locale for the user profile' do
       post :update, :user=>{:locale => :ja}
       I18n.locale.should == :ja
+      controller.current_user.locale.should == "ja"
       session[:locale].should == :ja
       response.should redirect_to :profile
     end
