@@ -108,6 +108,9 @@ es:
           de Inicio </a>.\n  <small>Solo tomará unos pocos minutos.</small>"
       token: Token
       your_repos: Tus repositorios
+      update: Actualizar
+      update_locale: Actualizar
+      your_locale: Tu Idioma
   statistics:
     index:
       count: Número
