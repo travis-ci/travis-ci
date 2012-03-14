@@ -75,9 +75,6 @@ var Travis = Ember.Application.create({
     $('#top .profile').mouseover(function() { $('#top .profile ul').show(); });
     $('#top .profile').mouseout(function() { $('#top .profile ul').hide(); });
 
-    $('#top .locale').mouseover(function() { $('#top .locale ul').show(); });
-    $('#top .locale').mouseout(function() { $('#top .locale ul').hide(); });
-
     $('#workers .group').live('click', function() { $(this).toggleClass('open'); })
 
     $('li#tab_recent').click(function () {
