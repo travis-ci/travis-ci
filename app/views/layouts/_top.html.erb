@@ -8,18 +8,6 @@
     <%= top_bar_menu_item(t('.docs'), 'http://about.travis-ci.org/docs') %>
   </ul>
 
-
-  <div class="locale">
-    <span class="locale_icon"><%= I18n.locale %></span>
-    <ul>
-      <% I18n.available_locales.reject { |l| l == I18n.locale }.each do |locale| %>
-      <li>
-	<%= switch_locale_link locale, {:hl => locale} %>
-      </li>
-      <% end %>
-    </ul>
-  </div>
-
   <div class="profile">
     <% if user_signed_in? %>
 
