@@ -87,8 +87,8 @@ fr:
     about:
       alpha: Ces trucs sont alphas.
       messages:
-        alpha: S'il vous plaît ne considérez <strong>pas</strong> ce service stable.
-          Nous sommes loin de ça! Plus d'infos <a href='https://github.com/travis-ci'>ici.</a>
+        alpha: S'il vous plaît ne considérez <strong>pas</strong> ce service comme
+          étant stable. Nous sommes loin de ça! Plus d'infos <a href='https://github.com/travis-ci'>ici.</a>
       join: Joignez-vous à nous et aider!
       mailing_list: Liste de distribution
       repository: Dépôt
@@ -202,7 +202,7 @@ fr:
       reset_password_instructions:
         subject: Instruction de remise du mot de passe à zéro
       unlock_instructions:
-        subject: Instruction de débarrage
+        subject: Instruction de débloquage
     passwords:
       send_instructions: Vous recevrez un courriel avec les instructions de remise
         à zéro du mot de passe dans quelques minutes.
@@ -218,10 +218,10 @@ fr:
       signed_out: Déconnecté avec succès
     unlocks:
       send_instructions: Vous recevrez un courriel contenant les instructions pour
-        débarrer votre compte dans quelques minutes.
+        débloquer votre compte dans quelques minutes.
       unlocked: Votre compte a été débarré avec succès.
   errors:
     messages:
       already_confirmed: étais déja confirmé
       not_found: n'a pas été trouvé
-      not_locked: n'étais pas barré
+      not_locked: n'étais pas bloqué
