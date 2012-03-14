@@ -1,7 +1,10 @@
 require 'spec_helper'
 
 describe ApplicationController do
+  let(:user) { Factory(:user) }
+
   before(:all) do
+
     ApplicationController.class_eval do
       def index
         render :text => "dur...."
@@ -16,33 +19,44 @@ describe ApplicationController do
   end
 
   describe 'set_locale' do
-    it 'sets i18n.local to HTTP_ACCEPT_LANGUAGE header when hl query param is not supplied and the locale is supported' do
-      request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
-      get :index
-      I18n.locale.should == :ja
-    end
-    it 'sets i18n.local to the default when HTTP_ACCEPT_LANGUAGE is not supported and the hl query param is not supplied' do
-      request.env['HTTP_ACCEPT_LANGUAGE'] = 'nl'
-      get :index
-      I18n.locale.should == :en
-    end
 
-    it 'preferres the hl param over HTTP_ACCEPT_LANGUAGE header' do
-      request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
-      get :index, :hl=>:en
-      I18n.locale.should == :en
-    end
-
-    it 'falls back from hl -> header when param is not supported' do
-      request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
-      get :index, :hl=>:cn
+    it 'prefers hl query parameter over anything else' do
+      sign_in user
+      controller.current_user.locale = :es
+      session[:locale] = :pl
+      request.env['HTTP_ACCEPT_LANGUAGE'] = 'es'
+      get :index, :hl => :ja
       I18n.locale.should == :ja
     end
 
-    it 'falls back from hl -> header -> deafult when header and param are not supported' do
-      request.env['HTTP_ACCEPT_LANGUAGE'] = 'de'
-      get :index, :hl=>:cn
-      I18n.locale.should == :en
+    it 'prefers the session[:locale] if there is no hl parameter' do
+      sign_in user
+      controller.current_user.locale = :es
+      session[:locale] = :fr
+      request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
+      get :index
+      I18n.locale.should == :fr
+    end
+
+
+    it 'prefers current_user.locale if session[:locale] is empty and there is no hl query paramter' do
+      sign_in user
+      controller.current_user.locale = :es
+      request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja'
+      get :index
+      I18n.locale.should == :es
+    end
+
+    it 'prefers the http_accept_language if session[locale] is empty, there is no hl query parameter and no current_user.local' do
+      request.env['HTTP_ACCEPT_LANGUAGE'] = 'ja, en'
+      get :index
+      I18n.locale.should == :ja
+    end
+
+    it 'uses the default locale when nothing is specified' do
+      request.env['HTTP_ACCEPT_LANGUAGE'] = nil
+      get :index
+      I18n.locale.should == I18n.default_locale
     end
 
   end

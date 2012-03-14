@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120222082522) do
+ActiveRecord::Schema.define(:version => 20120311234933) do
 
   create_table "artifacts", :force => true do |t|
     t.text     "content"
@@ -87,6 +87,24 @@ ActiveRecord::Schema.define(:version => 20120222082522) do
   add_index "jobs", ["repository_id"], :name => "index_jobs_on_repository_id"
   add_index "jobs", ["type", "owner_id", "owner_type"], :name => "index_jobs_on_type_and_owner_id_and_owner_type"
 
+  create_table "pg_ts_cfg", :id => false, :force => true do |t|
+    t.text "ts_name",  :null => false
+    t.text "prs_name", :null => false
+    t.text "locale"
+  end
+
+  create_table "pg_ts_cfgmap", :id => false, :force => true do |t|
+    t.text   "ts_name",   :null => false
+    t.text   "tok_alias", :null => false
+    t.string "dict_name"
+  end
+
+# Could not dump table "pg_ts_dict" because of following StandardError
+#   Unknown type 'regprocedure' for column 'dict_init'
+
+# Could not dump table "pg_ts_parser" because of following StandardError
+#   Unknown type 'regprocedure' for column 'prs_start'
+
   create_table "repositories", :force => true do |t|
     t.string   "name"
     t.string   "url"
@@ -150,6 +168,7 @@ ActiveRecord::Schema.define(:version => 20120222082522) do
     t.integer  "github_id"
     t.string   "github_oauth_token"
     t.string   "gravatar_id"
+    t.string   "locale"
   end
 
   add_index "users", ["github_id"], :name => "index_users_on_github_id"

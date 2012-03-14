@@ -1,6 +1,5 @@
 TravisCi::Application.routes.draw do
 
-  # TODO add some support methods to config to return supported and unsupported locales
     root :to => 'home#index'
 
     resources :repositories, :only => [:index, :show] do
@@ -16,10 +15,13 @@ TravisCi::Application.routes.draw do
   # match 'queues',      :to => 'queues#index'
   match 'workers',     :to => 'workers#index'
 
-  resource :profile, :only => :show do
+  match 'profile/:id', :to => 'profiles#update'
+
+  resource :profile, :only => [:show] do
     get 'service_hooks',     :to => 'service_hooks#index'
     put 'service_hooks/:id', :to => 'service_hooks#update'
   end
+
 
   constraints :owner_name => /[^\/]+/, :name => /[^\/]+/ do
     match ":owner_name/:name.png", :to => 'repositories#show', :format => 'png'

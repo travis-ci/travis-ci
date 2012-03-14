@@ -12,6 +12,18 @@ describe ProfilesController do
       get :show
       response.should be_success
       response.should render_template("profiles/show")
-    end 
+    end
   end
+
+  describe 'POST :update' do
+
+    it 'updates the locale for the user profile' do
+      post :update, :user=>{:locale => :ja}
+      I18n.locale.should == :ja
+      session[:locale].should == :ja
+      response.should redirect_to :profile
+    end
+
+  end
+
 end
