@@ -48,6 +48,7 @@ ru:
       save_and_add_another: Сохранить и добавить другое
       save_and_edit: Сохранить и продолжить редактирование
       select_choice: Выберите и кликните
+      many_chars: символов или меньше.
     flash:
       error: ! '%{name} не удалось %{action}'
       noaction: Никаких действий не произведено
@@ -60,17 +61,17 @@ ru:
     allowed_failures: Допустимые неудачи
     author: Автор
     branch: Ветка
-    build_matrix: Матрица сборки
+    build_matrix: Матрица
     commit: Коммит
     committer: Коммитер
-    compare: Сравнение
+    compare: Дифф
     config: Конфигурация
     duration: Длительность
     finished_at: Завершена
     message: Комментарий
     messages:
-      sponsored_by: Эта серия тестов была запущена на машине спонсируемой
-    name: Сборка
+      sponsored_by: Эта серия тестов была запущена на машине, спонсируемой
+    name: Билд
     started_at: Начало
   datetime:
     distance_in_words:
@@ -136,13 +137,13 @@ ru:
     allowed_failures: Допустимые неудачи
     author: Автор
     branch: Ветка
-    build_matrix: Матрица сборки
+    build_matrix: Матрица
     commit: Коммит
     committer: Коммитер
     compare: Сравнение
     config: Конфигурация
     duration: Длительность
-    finished_at: Завершен
+    finished_at: Завершена
     message: Комментарий
     messages:
       sponsored_by: Эта серия тестов была запущена на машине спонсируемой
@@ -166,8 +167,8 @@ ru:
       sponsors_link: Список всех наших замечательных спонсоров &rarr;
     mobile:
       author: Автор
-      build: Сборка
-      build_matrix: Матрица сборки
+      build: Билд
+      build_matrix: Матрица
       commit: Коммит
       committer: Коммитер
       compare: Сравнение
@@ -185,13 +186,13 @@ ru:
       profile: Профиль
       sign_out: Выход
       stats: Статистика
-  no_job: Задач нет
+  no_job: Очередь пуста
   profiles:
     show:
       email: Электронная почта
       github: Github
       message:
-        config: как настроить специальные опции сборки
+        config: как настроить специальные опции билда
         your_repos: Используйте переключатели, чтобы включить Travis service hook
           для вашего проекта, а потом отправьте код на GitHub.<br />\\n  Для тестирования
           на нескольких версиях Ruby смотрите
@@ -215,9 +216,9 @@ ru:
     rdoc: RDOC
     started_at: Начало
     tabs:
-      branches: Общие сведения о сборке
-      build: Сборка
-      build_history: История сборки
+      branches: Статус веток
+      build: Билд
+      build_history: История
       current: Текущий
       job: Задача
     textile: Textile
@@ -225,10 +226,10 @@ ru:
     duration: Длительность
   statistics:
     index:
-      build_count: Количество сборок
+      build_count: Количество билдов
       count: Количество
       last_month: прошлый месяц
       repo_growth: Рост числа репозиториев
-      total_builds: Всего сборок
+      total_builds: Всего билдов
       total_projects: Всего проектов/репозиториев
   workers: Машины
