@@ -194,11 +194,11 @@ ru:
       message:
         config: как настроить специальные опции билда
         your_repos: Используйте переключатели, чтобы включить Travis service hook
-          для вашего проекта, а потом отправьте код на GitHub.<br />\\n  Для тестирования
+          для вашего проекта, а потом отправьте код на GitHub.<br />Для тестирования
           на нескольких версиях Ruby смотрите
       messages:
         notice: Перед началом, пожалуйста, прочтите <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Getting
-          Started guide</a>.\n  <small>Это займет всего несколько минут.</small>
+          Started guide</a>.<br/><small>Это займет всего несколько минут.</small>
       token: Токен
       update: Обновить
       update_locale: Обновить
