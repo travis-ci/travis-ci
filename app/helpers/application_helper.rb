@@ -18,15 +18,8 @@ module ApplicationHelper
   def top_bar_menu_item(name, path, options = {})
     active = (request.env['PATH_INFO'] == path ? 'current' : nil)
     content_tag('li', :class => active) do
-      locale_link_to name, path, options
+      link_to name, path, options
     end
-  end
-
-  def locale_link_to(name, path, options = {})
-    if request.query_parameters[:hl]
-      path = "#{path}?hl=#{request.query_parameters[:hl]}"
-    end
-    link_to name, path, options
   end
 
   def switch_locale_link(name, options ={})

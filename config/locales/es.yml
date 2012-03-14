@@ -50,6 +50,7 @@ es:
     started_at: Iniciado
     duration: Duración
     finished_at: Finalizado
+    sponsored_by: Patrocinado por
   builds:
     name: Build
     messages:
@@ -76,6 +77,7 @@ es:
       github_login: Iniciar sesión con Github
       profile: Perfil
       sign_out: Desconetar
+      admin: Admin
     application:
       fork_me: Hazme un Fork en Github
       recent: Reciente

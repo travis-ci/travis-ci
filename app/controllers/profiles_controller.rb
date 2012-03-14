@@ -7,10 +7,27 @@ class ProfilesController < ApplicationController
   respond_to :html, :only => :show
 
   def show
+    puts "User Locale:#{user.locale}"
     respond_with(user)
   end
 
+  def update
+    update_locale
+    redirect_to :profile
+  end
+
   private
+
+    def update_locale
+      locale = params[:user][:locale].to_sym
+      valid = I18n.available_locales.include?(locale)
+      if valid
+        user.locale = locale
+        user.save!
+        session[:locale] = locale
+        set_locale
+      end
+    end
 
     def user
       @user ||= current_user

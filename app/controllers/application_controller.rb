@@ -11,16 +11,32 @@ class ApplicationController < ActionController::Base
   before_filter :set_locale
   after_filter  :prepare_unobtrusive_flash
 
-
-
   protected
 
     def set_locale
-      I18n.locale = if params[:hl] && I18n.available_locales.include?(params[:hl].to_sym)
-                 params[:hl].to_sym
+
+      if params[:hl]
+        locale_by_param
+      end
+
+      locale = if session[:locale]
+                 session[:locale].to_sym
+               elsif user_signed_in? && current_user.locale
+                 current_user.locale.to_sym
+               elsif request.env['HTTP_ACCEPT_LANGUAGE']
+                 request.preferred_language_from(I18n.available_locales)
                else
-                 request.preferred_language_from(I18n.available_locales) || :en
+                 I18n.default_locale
                end
+      I18n.locale = locale || I18n.default_locale
+
+    end
+
+    def locale_by_param
+      session[:locale] = request.query_parameters.delete(:hl)
+      query = request.query_parameters.map{ |k, v| "#{k}=#{v.to_s}" }.join('&')
+      path = query.blank? ? request.path : ("#{request.path}?#{query}")
+      redirect_to path
     end
 
     def repositories
