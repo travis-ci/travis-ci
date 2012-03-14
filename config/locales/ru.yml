@@ -1,0 +1,180 @@
+ru:
+  datetime:
+    distance_in_words:
+      hours_exact:
+        one: ! '%{count} час'
+        other: ! '%{count} часов'
+      minutes_exact:
+        one: ! '%{count} минута'
+        other: ! '%{count} минут'
+      seconds_exact:
+        one: ! '%{count} секунда'
+        other: ! '%{count} секунд'
+  workers: Воркеры
+  queue: Очередь
+  no_job: Задач нет
+  repositories:
+    branch: Бранч
+    image_url: URL изображения
+    markdown: Markdown
+    textile: Textile
+    rdoc: RDOC
+    commit: Коммит
+    message: Коммент.
+    started_at: Начало
+    duration: Длительность
+    finished_at: Завершен
+    tabs:
+      current: Текущий
+      build_history: История билдов
+      branches: Бранчи
+      build: Билд
+      job: Задача
+  build:
+    job: Задача
+    duration: Длительн.
+    finished_at: Завершен
+  jobs:
+    messages:
+      sponsored_by: Эта серия тестов была запущена на воркер-боксе спонсируемом
+    build_matrix: Матрица билда
+    allowed_failures: Ожидаемые фейлы
+    author: Автор
+    config: Конфигурация
+    compare: Сравнение
+    committer: Коммитер
+    branch: Бранч
+    commit: Коммит
+    message: Коммент.
+    started_at: Начало
+    duration: Длительн.
+    finished_at: Завершен
+  builds:
+    name: Билд
+    messages:
+      sponsored_by: Эта серия тестов была запущена на воркер-боксе спонсируемом
+    build_matrix: Матрица билда
+    allowed_failures: Ожидаемые фейлы
+    author: Автор
+    config: Конфигурация
+    compare: Сравнение
+    committer: Коммитер
+    branch: Бранч
+    commit: Коммит
+    message: Коммент.
+    started_at: Начало
+    duration: Длительн.
+    finished_at: Завершен
+  layouts:
+    top:
+      home: Главная
+      blog: Блог
+      docs: Документация
+      stats: Статистика
+      github_login: Войти через Github
+      profile: Профиль
+      sign_out: Выйти
+    application:
+      fork_me: Fork me on Github
+      recent: Недавние
+      search: Поиск
+      sponsers: Спонсоры
+      sponsors_link: Список всех наших замечательных спонсоров &rarr;
+      my_repositories: Мои репозитории
+    about:
+      alpha: Это альфа-версия
+      messages:
+        alpha: Пожалуйста, <strong>не</strong> считайте данный сервис стабильным.
+          Мы еще очень далеки от стабильности! <a href='https://github.com/travis-ci'>Подробности</a>
+      join: Присоединяйтесь к нам и помогайте!
+      mailing_list: Лист рассылки
+      repository: Репозиторий
+      twitter: Twitter
+    mobile:
+      author: Автор
+      build: Билд
+      build_matrix: Матрица билда
+      commit: Коммит
+      committer: Коммитер
+      compare: Сравнение
+      config: Конфигурация
+      duration: Длительн.
+      finished_at: Завершен
+      job: Задача
+      log: Лог
+  profiles:
+    show:
+      email: Электронная почта
+      github: Github
+      message:
+        your_repos: ! "  Используйте переключатели, чтобы включить Travis service hook
+          для вашего проекта, а потом сделайте пуш на GitHub.<br />\n  Для тестирования
+          на нескольких версиях Ruby смотрите"
+        config: как настроить специальные опции билда
+      messages:
+        notice: ! "Перед началом, пожалуйста, прочтите <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Getting
+          Started guide</a>.\n  <small>Это займет всего несколько минут.</small>"
+      token: Токен
+      your_repos: Ваши репозитории
+  statistics:
+    index:
+      count: Количество
+      repo_growth: Рост репозитория
+      total_projects: Всего проектов/репозиториев
+      build_count: Количество билдов
+      last_month: прошлый месяц
+      total_builds: Всего билдов
+  devise:
+    confirmations:
+      confirmed: Ваш аккаунт успешно подтвержден. Вы авторизованы.
+      send_instructions: В течении нескольких минут вы получите электронное
+        письмо с инструкциями для прохождения процедуры подтверждения аккаунта.
+    failure:
+      inactive: Ваш аккаунт еще не активирован.
+      invalid: Ошибка в адресе почты или пароле.
+      invalid_token: Неправильный токен аутентификации.
+      locked: Ваш аккаунт заблокирован.
+      timeout: Сессия окончена, пожалуйста. Для продолжения работы авторизуйтесь снова.
+      unauthenticated: Вам нужно авторизироваться или зарегистрироваться.
+      unconfirmed: Вы должны сначала подтвердить свой аккаунт.
+    mailer:
+      confirmation_instructions:
+        subject: Инструкции для подтверждению аккаунта
+      reset_password_instructions:
+        subject: Инструкции для сброса пароля
+      unlock_instructions:
+        subject: Инструкции для разблокирования аккаунта
+    passwords:
+      send_instructions: В течении нескольких минут вы получите электронное
+        письмо с инструкциями для сбросу пароля.
+      updated: Ваш пароль успешно изменен. Вы авторизованы.
+    registrations:
+      destroyed: Ваш аккаунт был успешно удален. Живите долго и процветайте!
+      signed_up: Вы успешно прошли регистрацию. Инструкции для подтверждения
+        аккаунта отправлены на ваш электронный адрес.
+      updated: Аккаунт успешно обновлен.
+    sessions:
+      signed_in: Приветствуем!
+      signed_out: Удачи!
+    unlocks:
+      send_instructions: В течении нескольких минут вы получите электронное
+        письмо с инструкциям для разблокировния аккаунта.
+      unlocked: Ваш аккаунт успешно разблокирован. Вы авторизованы.
+  errors:
+    messages:
+      already_confirmed: уже подтвержден
+      not_found: не найден
+      not_locked: не заблокирован
+  number:
+    human:
+      decimal_units:
+        units:
+          unit: ''
+      format:
+        delimiter: ''
+    percentage:
+      format:
+        delimiter: ''
+    precision:
+      format:
+        delimiter: ''
