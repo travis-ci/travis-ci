@@ -27,7 +27,7 @@
         <span class="name"><%= current_user.name || current_user.login %></span>
 
       <ul>
-        <li><%= locale_link_to t('.profile'), profile_path %></li>
+        <li><%= link_to t('.profile'), profile_path %></li>
         <li><%= link_to t('.sign_out'), destroy_session_path %></li>
       </ul>
     <% else %>
