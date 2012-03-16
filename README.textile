@@ -115,15 +115,6 @@ Note that you always start the server using <code>foreman</code>, not <code>unic
 
 Travis CI is now up & running on **http://localhost:5000**
 
-You can also create a default admin user (optional):
-
-<pre>
-$ rake travis:create_admin_user
-</pre>
-
-Application is now up & running on **http://localhost:5000**
-
-
 
 h2. Working on the server
 
@@ -140,7 +131,7 @@ $ bundle exec rake test:ci
 To run only the jasmine specs do:
 
 <pre>
-$ bundle exec rake jasmine_on_travis
+$ bundle exec rake test:jasmine
 </pre>
 
 In order to run all tests you need to have "ChromeDriver":http://code.google.com/p/selenium/wiki/ChromeDriver installed. You can download it "here":http://code.google.com/p/chromium/downloads/list and then place it somewhere on your PATH.

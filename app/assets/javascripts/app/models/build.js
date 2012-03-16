@@ -88,7 +88,7 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
 
   formattedMatrixHeaders: function() {
     var keys = $.keys($.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js', 'perl', 'python', 'scala'));
-    return $.map(['Job', 'Duration', 'Finished'].concat(keys), function(key) { return $.camelize(key) });
+    return $.map([I18n.t("build.job"), I18n.t("build.duration"), I18n.t("build.finished_at")].concat(keys), function(key) { return $.camelize(key) });
   }.property('config').cacheable(),
 
   formattedMessage: function(){

@@ -1,38 +1,38 @@
 <div {{bindAttr class="content.color"}}>
   <dl class="summary clearfix">
     <div class="left">
-      <dt>Build</dt>
+      <dt>{{i18n "builds.name"}}</dt>
 
       <dd class="number"><a {{bindAttr href="content.url"}}>{{content.number}}</a></dd>
-      <dt class="finished_at_label">Finished</dt>
+      <dt class="finished_at_label">{{i18n "builds.finished_at"}}</dt>
       <dd class="finished_at timeago" {{bindAttr title="content.finished_at"}}>{{content.formattedFinishedAt}}</dd>
-      <dt>Duration</dt>
+      <dt>{{i18n "builds.duration"}}</dt>
       <dd class="duration" {{bindAttr title="content.started_at"}}>{{content.formattedDuration}}</dd>
     </div>
 
     <div class="right">
-      <dt>Commit</dt>
+      <dt>{{i18n "builds.commit"}}</dt>
       <dd class="commit-hash"><a {{bindAttr href="content.urlGithubCommit"}}>{{content.formattedCommit}}</a></dd>
       {{#if content.compare_url}}
-        <dt>Compare</dt>
+        <dt>{{i18n "builds.compare"}}</dt>
         <dd class="compare_view"><a {{bindAttr href="content.compare_url"}}>{{content.formattedCompareUrl}}</a></dd>
       {{/if}}
       {{#if content.author_name}}
-        <dt>Author</dt>
+        <dt>{{i18n "builds.author"}}</dt>
         <dd class="author"><a {{bindAttr href="content.urlAuthor"}}>{{content.author_name}}</a></dd>
       {{/if}}
       {{#if content.committer_name}}
-        <dt>Committer</dt>
+        <dt>{{i18n "builds.committer"}}</dt>
         <dd class="committer"><a {{bindAttr href="content.urlCommitter"}}>{{content.committer_name}}</a></dd>
       {{/if}}
     </div>
 
-    <dt>Message</dt>
+    <dt>{{i18n "builds.message"}}</dt>
     <dd class="commit-message">{{{content.formattedMessage}}}</dd>
 
     {{#if content.isMatrix}}
     {{else}}
-      <dt>Config</dt>
+      <dt>{{i18n "builds.config"}}</dt>
       <dd class="config">{{content.formattedConfig}}</dd>
     {{/if}}
   </dl>
@@ -44,7 +44,7 @@
 
     {{#if content.matrix.firstObject.sponsor.name}}
       <p class="sponsor">
-        This test suite has run on a worker box sponsored by
+      {{i18n "builds.messages.sponsored_by"}}
         <a {{bindAttr href="content.matrix.firstObject.sponsor.url"}}>{{content.matrix.firstObject.sponsor.name}}</a>
       </p>
     {{/if}}
