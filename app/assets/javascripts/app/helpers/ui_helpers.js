@@ -4,3 +4,6 @@ Handlebars.registerHelper('whats_this', function(id) {
 Handlebars.registerHelper('tipsy', function(text, tip) {
   return new Handlebars.SafeString('<span class="tool-tip" original-title="'+tip+'">'+text+'</span>');
 });
+Handlebars.registerHelper('i18n', function(key) {
+  return new Handlebars.SafeString(I18n.t(key))
+});

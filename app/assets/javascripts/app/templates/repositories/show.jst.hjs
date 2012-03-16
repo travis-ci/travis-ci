@@ -13,23 +13,23 @@
 
   <ul class="tabs">
     <li id="tab_current">
-      <h5><a {{bindAttr href="repository.urlCurrent"}}>Current</a></h5>
+      <h5><a {{bindAttr href="repository.urlCurrent"}}>{{i18n "repositories.tabs.current"}}</a></h5>
       <div class="tab"></div>
     </li>
     <li id="tab_history">
-      <h5><a {{bindAttr href="repository.urlBuilds"}}>Build History</a></h5>
+      <h5><a {{bindAttr href="repository.urlBuilds"}}>{{i18n "repositories.tabs.build_history"}}</a></h5>
       <div class="tab"></div>
     </li>
     <li id="tab_branch_summary">
-      <h5><a {{bindAttr href="repository.urlBranches"}}>Branches</a></h5>
+      <h5><a {{bindAttr href="repository.urlBranches"}}>{{i18n "repositories.tabs.branches"}}</a></h5>
       <div class="tab"></div>
     </li>
     <li id="tab_build">
-      <h5><a {{bindAttr href="build.url"}}>Build #{{build.number}}</a></h5>
+      <h5><a {{bindAttr href="build.url"}}>{{i18n "repositories.tabs.build"}} #{{build.number}}</a></h5>
       <div class="tab"></div>
     </li>
     <li id="tab_job">
-      <h5><a {{bindAttr href="job.url"}}>Job #{{job.number}}</a></h5>
+      <h5><a {{bindAttr href="job.url"}}>{{i18n "repositories.tabs.job"}} #{{job.number}}</a></h5>
       <div class="tab"></div>
     </li>
   </ul>
@@ -37,11 +37,11 @@
   <div class="tools">
     <a href="#"></a>
     <div class="content">
-      <p><label>Branch:</label><select></select></p>
-      <p><label>Image URL:</label><input type="text" class="url"></input></p>
-      <p><label>Markdown:</label><input type="text" class="markdown"></input></p>
-      <p><label>Textile:</label><input type="text" class="textile"></input></p>
-      <p><label>RDoc:</label><input type="text" class="rdoc"></input></p>
+      <p><label>{{i18n "repositories.branch"}}:</label><select></select></p>
+      <p><label>{{i18n "repositories.image_url"}}:</label><input type="text" class="url"></input></p>
+      <p><label>{{i18n "repositories.markdown"}}:</label><input type="text" class="markdown"></input></p>
+      <p><label>{{i18n "repositories.textile"}}:</label><input type="text" class="textile"></input></p>
+      <p><label>{{i18n "repositories.rdoc"}}:</label><input type="text" class="rdoc"></input></p>
     </div>
   </div>
 </div>

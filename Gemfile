@@ -29,6 +29,10 @@ gem 'pg',                   '~> 0.13.2'
 gem 'hubble',       :git => 'git://github.com/mattmatt/hubble.git'
 gem 'newrelic_rpm',         '~> 3.3.0'
 
+# i18n
+gem "localeapp",            "~> 0.4.1"
+gem "http_accept_language", "~> 1.0.2"
+
 # heroku
 gem 'unicorn',              '~> 4.1.1'
 
@@ -38,6 +42,7 @@ group :assets do
   gem 'coffee-rails',       '~> 3.2.2'
   gem 'uglifier',           '~> 1.2.0'
   gem 'compass',            '0.12.alpha.4'
+  gem "i18n-js",            '~> 2.1.2'
 end
 
 group :development, :test do

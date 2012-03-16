@@ -17,7 +17,7 @@ var Travis = Ember.Application.create({
     this.initPusher();
     this.initEvents();
     $.facebox.settings.closeImage = '/images/facebox/closelabel.png';
-    $.facebox.settings.loadingImage = '/images/facebox/loading.gif'; 
+    $.facebox.settings.loadingImage = '/images/facebox/loading.gif';
   },
 
   home: function() {

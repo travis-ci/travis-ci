@@ -1,5 +1,8 @@
+require 'http_accept_language'
+
 class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
+
 
   prepend_view_path 'app/views/v1/default'
 
@@ -7,6 +10,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :set_gitsha_header
   before_filter :prepare_for_mobile
+  before_filter :set_locale
   after_filter  :prepare_unobtrusive_flash
 
   def not_found
@@ -14,6 +18,32 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+    def set_locale
+
+      if params[:hl]
+        locale_by_param
+      end
+
+      locale = if session[:locale]
+                 session[:locale].to_sym
+               elsif user_signed_in? && current_user.locale
+                 current_user.locale.to_sym
+               elsif request.env['HTTP_ACCEPT_LANGUAGE']
+                 request.preferred_language_from(I18n.available_locales)
+               else
+                 I18n.default_locale
+               end
+      I18n.locale = locale || I18n.default_locale
+
+    end
+
+    def locale_by_param
+      session[:locale] = request.query_parameters.delete(:hl)
+      query = request.query_parameters.map{ |k, v| "#{k}=#{v.to_s}" }.join('&')
+      path = query.blank? ? request.path : ("#{request.path}?#{query}")
+      redirect_to path
+    end
 
     def repositories
       @repositories ||= Repository.timeline
@@ -36,5 +66,6 @@ class ApplicationController < ActionController::Base
     def prepare_for_mobile
       session[:mobile_param] = params[:mobile] if params[:mobile]
     end
+
 
 end

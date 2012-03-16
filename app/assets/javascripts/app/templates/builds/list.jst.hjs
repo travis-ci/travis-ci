@@ -1,11 +1,11 @@
 <table id="builds">
   <thead>
     <tr>
-      <th>Build</th>
-      <th>Commit</th>
-      <th>Message</th>
-      <th>Duration</th>
-      <th>Finished</th>
+      <th>{{i18n "builds.name"}}</th>
+      <th>{{i18n "builds.commit"}}</th>
+      <th>{{i18n "builds.message"}}</th>
+      <th>{{i18n "builds.duration"}}</th>
+      <th>{{i18n "builds.finished_at"}}</th>
     </tr>
   </thead>
 
