@@ -34,7 +34,8 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core.git
-  revision: e87d5d7de9da8236296778ca9076a7b7a6a4a927
+  revision: 4790f4990bafae67cb13dfea8e69a02cf526bba6
+  ref: sslkey-on-create
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.1)
