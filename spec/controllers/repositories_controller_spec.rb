@@ -28,9 +28,10 @@ describe RepositoriesController do
 
   describe 'GET :show, format json' do
     let(:repository) do
-      repo = FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today)
-      repo.key = Factory(:ssl_key, :repository => repo)
-      repo
+      repository = FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today)
+      repository.key.destroy
+      repository.key = FactoryGirl.create(:ssl_key, :repository => repository)
+      repository
     end
 
     before(:each) do
@@ -122,6 +123,7 @@ describe RepositoriesController do
     let(:build)      { FactoryGirl.create(:build, :repository => repository, :config => config) }
     let(:repository) do
       repo = FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today)
+      repo.key.destroy
       repo.key = Factory(:ssl_key, :repository => repo)
       repo
     end
