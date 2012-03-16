@@ -68,7 +68,7 @@ nb:
     config: Oppsett
     duration: Varighet
     finished_at: Fullført
-    message: Melding
+    message: Beskrivelse
     messages:
       sponsored_by: Denne testen ble kjørt på en maskin sponset av
     name: Jobb
@@ -138,7 +138,7 @@ nb:
     config: Oppsett
     duration: Varighet
     finished_at: Fullført
-    message: Melding
+    message: Beskrivelse
     messages:
       sponsored_by: Denne testserien ble kjørt på en maskin sponset av
     started_at: Startet
@@ -153,7 +153,7 @@ nb:
       repository: Kodelager
       twitter: Twitter.
     application:
-      fork_me: Lag en ny avgrening på Github
+      fork_me: Se koden på Github
       my_repositories: Mine kodelagre
       recent: Nylig
       search: Søk
@@ -207,7 +207,7 @@ nb:
     finished_at: Fullført
     image_url: Bilde-URL
     markdown: Markdown
-    message: Melding
+    message: Beskrivelse
     rdoc: RDOC
     started_at: Startet
     tabs:
