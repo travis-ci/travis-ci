@@ -198,7 +198,7 @@ ru:
           на нескольких версиях Ruby смотрите
       messages:
         notice: Перед началом, пожалуйста, прочтите <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Getting
-          Started guide</a>.<br/><small>Это займет всего несколько минут.</small>
+          Started guide</a>.  <small>Это займет всего несколько минут.</small>
       token: Токен
       update: Обновить
       update_locale: Обновить
