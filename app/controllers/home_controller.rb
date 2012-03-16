@@ -7,9 +7,4 @@ class HomeController < ApplicationController
       render :text => '', :layout => 'application'
     end
   end
-
-  def route_not_found
-    logger.warn("404: #{params[:path]}")
-    render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
-  end
 end
