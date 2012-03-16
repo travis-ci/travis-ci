@@ -27,8 +27,10 @@ class RepositoriesController < ApplicationController
     end
 
     def repository
-      @repository ||= Repository.find_by(params).tap do |repository|
-        not_found unless repository || params[:format] == 'png'
+      begin
+        @repository ||= Repository.find_by(params)
+      rescue ActiveRecord::RecordNotFound
+        raise if not params[:format] == 'png'
       end
     end
 end

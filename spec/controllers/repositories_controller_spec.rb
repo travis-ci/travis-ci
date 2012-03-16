@@ -62,6 +62,11 @@ describe RepositoriesController do
       }
     end
 
+    it "returns not found for an unknown repository" do
+      get :show, :owner_name => 'mattmatt', :name => "roidrage"
+      response.should be_not_found
+    end
+
     context 'with parameter rvm:1.8.7' do
       it 'returns last build result passing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.8.7'

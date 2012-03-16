@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
+
   prepend_view_path 'app/views/v1/default'
 
   protect_from_forgery
@@ -6,6 +8,10 @@ class ApplicationController < ActionController::Base
   before_filter :set_gitsha_header
   before_filter :prepare_for_mobile
   after_filter  :prepare_unobtrusive_flash
+
+  def not_found
+    render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
+  end
 
   protected
 
@@ -16,10 +22,6 @@ class ApplicationController < ActionController::Base
 
     def set_gitsha_header
       headers['X-GIT_SHA'] = ENV['GIT_SHA'] if ENV['GIT_SHA']
-    end
-
-    def not_found
-      raise ActionController::RoutingError.new('Not Found')
     end
 
     def mobile_device?
