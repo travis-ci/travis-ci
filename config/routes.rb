@@ -60,6 +60,5 @@ TravisCi::Application.routes.append do
     match ":user/:repository/builds/:id", :to => redirect("/#!/%{user}/%{repository}/builds/%{id}"), :as => :user_repo_build_redirect
   end
 
-  match "/*path" => "home#route_not_found"
-
+  match "/*path" => "home#not_found"
 end
