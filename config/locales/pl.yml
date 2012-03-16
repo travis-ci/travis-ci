@@ -181,3 +181,11 @@ pl:
     messages:
       accepted: musi zostać zaakceptowane
       blank: nie może być puste
+  locales:
+    en: English
+    es: Español
+    ja: 日本語
+    ru: Русский
+    fr: Français
+    nb: Norsk Bokmål
+    pl: Polski

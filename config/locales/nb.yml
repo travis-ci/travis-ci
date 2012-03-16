@@ -228,3 +228,11 @@ nb:
       total_builds: Totale jobber
       total_projects: Antall prosjekter/kodelagre
   workers: Arbeidere
+  locales:
+    en: English
+    es: Español
+    ja: 日本語
+    ru: Русский
+    fr: Français
+    nb: Norsk Bokmål
+    pl: Polski

@@ -119,3 +119,11 @@ es:
       build_count: Número de Builds
       last_month: mes anterior
       total_builds: Total de Builds
+  locales:
+    en: English
+    es: Español
+    fr: Français
+    ja: 日本語
+    nb: Norsk Bokmål
+    pl: Polski
+    ru: Русский
