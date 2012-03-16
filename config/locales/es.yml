@@ -76,7 +76,7 @@ es:
       stats: Estadísticas
       github_login: Iniciar sesión con Github
       profile: Perfil
-      sign_out: Desconetar
+      sign_out: Desconectar
       admin: Admin
     application:
       fork_me: Hazme un Fork en Github
