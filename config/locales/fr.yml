@@ -118,6 +118,9 @@ fr:
       token: Jeton
       your_repos: Vos dépôts
       email: Courriel
+      update: Update
+      update_locale: Update
+      your_locale: Your Locale
   statistics:
     index:
       count: Décompte
@@ -225,3 +228,11 @@ fr:
       already_confirmed: étais déja confirmé
       not_found: n'a pas été trouvé
       not_locked: n'étais pas bloqué
+  locales:
+    en: English
+    es: Español
+    ja: 日本語
+    ru: Русский
+    fr: Français
+    nb: Norsk Bokmål
+    pl: Polski

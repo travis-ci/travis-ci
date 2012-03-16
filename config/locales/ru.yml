@@ -233,3 +233,11 @@ ru:
       total_builds: Всего билдов
       total_projects: Всего проектов/репозиториев
   workers: Машины
+  locales:
+    en: English
+    es: Español
+    ja: 日本語
+    ru: Русский
+    fr: Français
+    nb: Norsk Bokmål
+    pl: Polski

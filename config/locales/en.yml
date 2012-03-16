@@ -170,3 +170,11 @@ en:
       already_confirmed: was already confirmed
       not_found: not found
       not_locked: was not locked
+  locales:
+    en: English
+    es: Español
+    fr: Français
+    ja: 日本語
+    nb: Norsk Bokmål
+    pl: Polski
+    ru: Русский

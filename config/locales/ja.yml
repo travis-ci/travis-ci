@@ -113,3 +113,11 @@ ja:
       repo_growth: リポジトリ
       total_builds: 合計ビルド数
       total_projects: 合計リポジトリ
+  locales:
+    en: English
+    es: Español
+    fr: Français
+    ja: 日本語
+    nb: Norsk Bokmål
+    pl: Polski
+    ru: Русский
