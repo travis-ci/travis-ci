@@ -33,9 +33,8 @@ describe BuildsController do
 
       it 'returns 404 with wrong repoid' do
         repoid = repository.id + 1
-        lambda {
-          get :show, :repository_id => repoid, :id => builds.first.id, :format => :json
-        }.should raise_error ActiveRecord::RecordNotFound
+        get :show, :repository_id => repoid, :id => builds.first.id, :format => :json
+        response.should be_not_found
       end
     end
   end
