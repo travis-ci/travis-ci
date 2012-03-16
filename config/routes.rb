@@ -15,9 +15,7 @@ TravisCi::Application.routes.draw do
   # match 'queues',      :to => 'queues#index'
   match 'workers',     :to => 'workers#index'
 
-  match 'profile', :to => 'profiles#update'
-
-  resource :profile, :only => [:show] do
+  resource :profile, :only => [:show, :update] do
     get 'service_hooks',     :to => 'service_hooks#index'
     put 'service_hooks/:id', :to => 'service_hooks#update'
   end
