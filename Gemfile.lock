@@ -35,7 +35,6 @@ GIT
 GIT
   remote: git://github.com/travis-ci/travis-core.git
   revision: e87d5d7de9da8236296778ca9076a7b7a6a4a927
-  ref: raise-recordnotfound
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.1)
