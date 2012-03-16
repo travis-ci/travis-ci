@@ -1,27 +1,26 @@
 TravisCi::Application.routes.draw do
 
-    root :to => 'home#index'
+  root :to => 'home#index'
 
-    resources :repositories, :only => [:index, :show] do
-      resources :builds, :only => [:index, :show]
-      resources :branches, :only => :index
-    end
+  resources :repositories, :only => [:index, :show] do
+    resources :builds, :only => [:index, :show]
+    resources :branches, :only => :index
+  end
 
-    resources :builds,   :only => :show
-    resources :requests, :only => :create
-    resources :jobs,     :only => [:index, :show]
+  resources :builds,   :only => :show
+  resources :requests, :only => :create
+  resources :jobs,     :only => [:index, :show]
 
 
   # match 'queues',      :to => 'queues#index'
   match 'workers',     :to => 'workers#index'
 
-  match 'profile/:id', :to => 'profiles#update'
+  match 'profile', :to => 'profiles#update'
 
   resource :profile, :only => [:show] do
     get 'service_hooks',     :to => 'service_hooks#index'
     put 'service_hooks/:id', :to => 'service_hooks#update'
   end
-
 
   constraints :owner_name => /[^\/]+/, :name => /[^\/]+/ do
     match ":owner_name/:name.png", :to => 'repositories#show', :format => 'png'

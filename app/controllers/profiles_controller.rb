@@ -7,7 +7,6 @@ class ProfilesController < ApplicationController
   respond_to :html, :only => :show
 
   def show
-    puts "User Locale:#{user.locale}"
     respond_with(user)
   end
 
