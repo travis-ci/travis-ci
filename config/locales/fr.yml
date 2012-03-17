@@ -15,7 +15,7 @@ fr:
   no_job: Pas de tâches
   repositories:
     branch: Branche
-    image_url: URL d'image
+    image_url: Image
     markdown: Markdown
     textile: Textile
     rdoc: RDOC
@@ -39,7 +39,7 @@ fr:
       sponsored_by: Cette série de tests a été exécutée sur une machine sponsorisée
         par
     build_matrix: Matrice des versions
-    allowed_failures: Échecs permis
+    allowed_failures: Échecs autorisés
     author: Auteur
     config: Config
     compare: Comparer
@@ -50,13 +50,15 @@ fr:
     started_at: Commencé
     duration: Durée
     finished_at: Terminé
+    sponsored_by: Cette série de tests a été exécutée sur une machine sponsorisée
+      par
   builds:
     name: Version
     messages:
       sponsored_by: Cette série de tests a été exécutée sur une machine sponsorisée
         par
     build_matrix: Matrice des versions
-    allowed_failures: Échecs permis
+    allowed_failures: Échecs autorisés
     author: Auteur
     config: Config
     compare: Comparer
@@ -73,23 +75,23 @@ fr:
       blog: Blog
       docs: Documentation
       stats: Statistiques
-      github_login: Connectez-vous avec Github
+      github_login: Connection Github
       profile: Profil
-      sign_out: Déconnectez-vous
+      sign_out: Déconnection
       admin: Admin
     application:
       fork_me: Faites un Fork sur Github
       recent: Récent
       search: Chercher
-      sponsers: Commanditaires
-      sponsors_link: Voir tous nos sponsors extraordinaire &rarr;
+      sponsers: Sponsors
+      sponsors_link: Voir tous nos extraordinaire sponsors &rarr;
       my_repositories: Mes dépôts
     about:
-      alpha: Ces trucs sont alphas.
+      alpha: Ceci est en alpha.
       messages:
         alpha: S'il vous plaît ne considérez <strong>pas</strong> ce service comme
           étant stable. Nous sommes loin de ça! Plus d'infos <a href='https://github.com/travis-ci'>ici.</a>
-      join: Joignez-vous à nous et aider!
+      join: Joignez-vous à nous et aidez-nous!
       mailing_list: Liste de distribution
       repository: Dépôt
       twitter: Twitter
@@ -109,18 +111,20 @@ fr:
     show:
       github: Github
       message:
-        your_repos: ! " Démarrer Travis sur vos projets puis faites un déploiement
-          sur GitHub..<br />\n Pour évaluer sur plus de versions de ruby, voir"
-        config: comment configurer des options personnalisées de version
+        your_repos: ! 'Utilisez les boutons ci-dessous pour activer Travis sur vos
+          projets puis déployez sur GitHub.<br />
+
+          Pour tester sur plus de versions de ruby, voir'
+        config: comment configurer des options de version personnalisées
       messages:
-        notice: ! "Pour commencer, s'il vous plaît lire notre <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">guide
-          de départ</a>.\n <small>Cela ne vous prendra que quelques minutes.</small>"
+        notice: ! "Pour commencer, veuillez lire notre <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">guide
+          de démarrage</a>.\n <small>Cela ne vous prendra que quelques minutes.</small>"
       token: Jeton
       your_repos: Vos dépôts
       email: Courriel
-      update: Update
-      update_locale: Update
-      your_locale: Your Locale
+      update: Modifier
+      update_locale: Modifier
+      your_locale: Votre langue
   statistics:
     index:
       count: Décompte
@@ -182,6 +186,7 @@ fr:
       pagename: Administration du site
       records: Enregistrements
       show: Voir
+      ago: plus tôt
   home:
     name: accueil
   repository:
@@ -195,7 +200,7 @@ fr:
       inactive: Votre compte n'a pas encore été activé.
       invalid: Adresse courriel ou mot de passe invalide.
       invalid_token: Jeton d'authentification invalide.
-      locked: Votre compte est barré.
+      locked: Votre compte est bloqué.
       timeout: Votre session est expirée, veuillez vous reconnecter pour continuer.
       unauthenticated: Vous devez vous connecter ou vous enregistrer afin de continuer
       unconfirmed: Vous devez confirmer votre compte avant de continuer.
@@ -203,7 +208,7 @@ fr:
       confirmation_instructions:
         subject: Instructions de confirmations
       reset_password_instructions:
-        subject: Instruction de remise du mot de passe à zéro
+        subject: Instruction de remise à zéro du mot de passe
       unlock_instructions:
         subject: Instruction de débloquage
     passwords:
@@ -211,8 +216,8 @@ fr:
         à zéro du mot de passe dans quelques minutes.
       updated: Votre mot de passe a été changé avec succès. Vous êtes maintenant connecté.
     registrations:
-      destroyed: ! 'Au revoir! Votre compte a été annulé avec succès. On espère vous
-        revoir bientôt. '
+      destroyed: Au revoir! Votre compte a été annulé avec succès. Nous espérons vous
+        revoir bientôt.
       signed_up: Vous êtes enregistré avec succès. Si activé, une confirmation vous
         a été envoyé par courriel.
       updated: Votre compte a été mis a jour avec succès
@@ -222,7 +227,7 @@ fr:
     unlocks:
       send_instructions: Vous recevrez un courriel contenant les instructions pour
         débloquer votre compte dans quelques minutes.
-      unlocked: Votre compte a été débarré avec succès.
+      unlocked: Votre compte a été débloqué avec succès.
   errors:
     messages:
       already_confirmed: étais déja confirmé
