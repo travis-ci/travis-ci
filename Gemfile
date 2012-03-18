@@ -1,12 +1,16 @@
 source :rubygems
 
-gem 'rails',                '~> 3.2.1'
-gem 'rake',                 '~> 0.9.2.2'
+# see https://gist.github.com/2063855
+base ||= 'git://github.com/travis-ci'
+type = base[0, 2] == '..' ? :path : :git
 
-gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
-gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', ref: 'magnum', require: 'travis_core/engine'
+gem 'travis-core',    type => "#{base}/travis-core", :ref => 'magnum', :require => 'travis/engine'
+gem 'travis-support', type => "#{base}/travis-support"
+
 gem 'metriks',        git: 'git://github.com/mattmatt/metriks',      ref: 'source'
 
+gem 'rails',                '~> 3.2.1'
+gem 'rake',                 '~> 0.9.2.2'
 gem 'amqp',                 '~> 0.9.0'
 
 # app
