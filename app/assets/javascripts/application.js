@@ -6,3 +6,4 @@
 //= require sponsors
 //= require_tree ./sponsors
 //= require i18n/translations
+//= require localeapp-i18n-js
