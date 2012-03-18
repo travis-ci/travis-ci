@@ -168,8 +168,14 @@ nl:
       sign_out: Uitloggen
       stats: Statistieken
   locales:
-    en: ''
-    es: ''
+    en: English
+    es: Español
+    fr: Français
+    ja: 日本語
+    nb: Norsk Bokmål
+    nl: Nederlands
+    pl: Polski
+    ru: Русский
   no_job: Er zijn geen taken
   profiles:
     show:
