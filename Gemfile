@@ -52,8 +52,8 @@ group :assets do
 end
 
 group :development, :test do
-  gem "localeapp",            "~> 0.4.1"
-  gem "localeapp-i18n-js",  :git => "git://github.com/randym/localeapp-i18n-js'
+  gem "localeapp-i18n-js",  :git => 'git://github.com/randym/localeapp-i18n-js.git'
+  gem "localeapp",          '~> 0.4.1'
   gem 'factory_girl',       '~> 2.4.0'
   gem 'forgery',            '~> 0.5.0'
   gem 'rspec-rails',        '~> 2.8.0'
