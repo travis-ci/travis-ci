@@ -1,3 +1,4 @@
+.Gemfile*
 .bundle
 .rvmrc
 public/assets
