@@ -4,10 +4,13 @@ describe "repositories/show.cctray.xml.builder" do
   let(:rendered_xml) { ActiveSupport::XmlMini.parse(rendered) }
 
   it "renders the basic details of a repository" do
-    assign(:repository, Factory(:repository, :id => 1, :name => "travisci", :url => "http://travis-ci.org", :last_build_number => 123))
+    repo = Factory(:repository, :id => 1, :name => "travisci", :url => "http://travis-ci.org", :last_build_number => 123)
+    puts repo.inspect
+    puts repo.last_build.inspect
+    assign(:repository, repo)
     render
     rendered_xml.should have_xml_attribute("name", "travisci").for_node_path(%w{Projects Project})
-    rendered_xml.should have_xml_attribute("webUrl", "http://travis-ci.org").for_node_path(%w{Projects Project})
+    rendered_xml.should have_xml_attribute("webUrl", "http://test.host/svenfuchs/travisci").for_node_path(%w{Projects Project})
     rendered_xml.should have_xml_attribute("lastBuildLabel", "123").for_node_path(%w{Projects Project})
   end
 
@@ -33,6 +36,7 @@ describe "repositories/show.cctray.xml.builder" do
     assign(:repository, Factory(:repository, :id => 1, :last_build => nil))
     render
     rendered_xml.should have_xml_attribute("activity", "Sleeping").for_node_path(%w{Projects Project})
+    rendered_xml.should have_xml_attribute("webUrl", "http://test.host/svenfuchs/minimal").for_node_path(%w{Projects Project})
   end
 
   it "renders the correct build status for a repository whose last build failed" do
