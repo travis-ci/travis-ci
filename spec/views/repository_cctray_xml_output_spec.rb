@@ -5,8 +5,6 @@ describe "repositories/show.cctray.xml.builder" do
 
   it "renders the basic details of a repository" do
     repo = Factory(:repository, :id => 1, :name => "travisci", :url => "http://travis-ci.org", :last_build_number => 123)
-    puts repo.inspect
-    puts repo.last_build.inspect
     assign(:repository, repo)
     render
     rendered_xml.should have_xml_attribute("name", "travisci").for_node_path(%w{Projects Project})
