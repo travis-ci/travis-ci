@@ -57,7 +57,6 @@ end
 
 group :development do
   gem 'foreman',            '~> 0.36.0'
-  gem 'data_migrations',    '~> 0.0.1'
 
   unless RUBY_VERSION == '1.9.3' && RUBY_PLATFORM !~ /darwin/
     # will need to install ruby-debug19 manually:
