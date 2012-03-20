@@ -3,8 +3,7 @@ require 'http_accept_language'
 class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
 
-
-  prepend_view_path 'app/views/v1/default'
+  prepend_view_path File.expand_path('../../views/v1/default', __FILE__)
 
   protect_from_forgery
 
@@ -66,6 +65,4 @@ class ApplicationController < ActionController::Base
     def prepare_for_mobile
       session[:mobile_param] = params[:mobile] if params[:mobile]
     end
-
-
 end

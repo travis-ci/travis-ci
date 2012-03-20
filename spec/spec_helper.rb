@@ -35,6 +35,7 @@ def configure
 
   RSpec.configure do |c|
     c.filter_run_excluding :js => true if ENV['CI']
+    c.backtrace_clean_patterns.clear
 
     c.mock_with :mocha
 

@@ -1,13 +1,16 @@
 source :rubygems
 
+# see https://gist.github.com/2063855
+base ||= 'git://github.com/travis-ci'
+type = base[0, 2] == '..' ? :path : :git
+
+gem 'travis-core',    type => "#{base}/travis-core", :ref => 'magnum', :require => 'travis/engine', :ref => 'magnum'
+gem 'travis-support', type => "#{base}/travis-support"
+
+gem 'metriks',        git: 'git://github.com/mattmatt/metriks',      ref: 'source'
+
 gem 'rails',                '~> 3.2.1'
 gem 'rake',                 '~> 0.9.2.2'
-
-gem 'travis-support', :git => 'git://github.com/travis-ci/travis-support.git'
-gem 'travis-core',    :git => 'git://github.com/travis-ci/travis-core.git', :require => 'travis_core/engine'
-
-gem 'metriks',        :git => 'git://github.com/mattmatt/metriks.git', :ref => 'source'
-
 gem 'amqp',                 '~> 0.9.0'
 
 # app
@@ -20,7 +23,7 @@ gem 'unobtrusive_flash',    '~> 0.0.2'
 gem 'json',                 '~> 1.6.3'
 gem 'yajl-ruby',            '~> 1.1.0'
 gem 'rabl',                 '~> 0.5.1'
-gem 'rack-contrib', :git => 'git://github.com/rack/rack-contrib.git', :require => 'rack/contrib'
+gem 'rack-contrib', git: 'git://github.com/rack/rack-contrib.git', require: 'rack/contrib'
 
 # db
 gem 'pg',                   '~> 0.13.2'
@@ -54,7 +57,6 @@ end
 
 group :development do
   gem 'foreman',            '~> 0.36.0'
-  gem 'data_migrations',    '~> 0.0.1'
 
   unless RUBY_VERSION == '1.9.3' && RUBY_PLATFORM !~ /darwin/
     # will need to install ruby-debug19 manually:
@@ -64,7 +66,7 @@ group :development do
 end
 
 group :test do
-  gem 'jasmine',           :git => "git://github.com/pivotal/jasmine-gem.git", :submodules => true
+  gem 'jasmine',           git: 'git://github.com/pivotal/jasmine-gem.git', submodules: true
   gem 'capybara',          '~> 1.1.2'
   gem 'database_cleaner',  '~> 0.7.0'
   gem 'mocha',             '~> 0.10.0'
