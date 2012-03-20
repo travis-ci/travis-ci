@@ -154,8 +154,8 @@ ru:
       join: Присоединяйтесь к нам и помогайте!
       mailing_list: Лист рассылки
       messages:
-        alpha: Пожалуйста, <strong>не</strong> считайте данный сервис стабильным.
-          Мы еще очень далеки от стабильности! <a href='https://github.com/travis-ci'>Подробности</a>
+        alpha: ! "Пожалуйста, <strong>не</strong> считайте данный сервис стабильным.
+          Мы еще очень далеки от стабильности! <a href=\"https://github.com/travis-ci\">Подробности</a>"
       repository: Репозиторий
       twitter: Twitter
     application:
@@ -193,12 +193,12 @@ ru:
       github: Github
       message:
         config: как настроить специальные опции билда
-        your_repos: Используйте переключатели, чтобы включить Travis service hook
-          для вашего проекта, а потом отправьте код на GitHub.<br />Для тестирования
-          на нескольких версиях Ruby смотрите
+        your_repos: ! "Используйте переключатели, чтобы включить Travis service hook
+          для вашего проекта, а потом отправьте код на GitHub.<br />\n Для тестирования
+          на нескольких версиях Ruby смотрите"
       messages:
-        notice: Перед началом, пожалуйста, прочтите <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Getting
-          Started guide</a>.  <small>Это займет всего несколько минут.</small>
+        notice: ! "Перед началом, пожалуйста, прочтите <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Getting
+          Started guide</a>.  <small>Это займет всего несколько минут.</small>"
       token: Токен
       update: Обновить
       update_locale: Обновить
