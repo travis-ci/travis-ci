@@ -11,19 +11,61 @@ describe RequestsController do
       request.env['HTTP_AUTHORIZATION'] = auth
     end
 
-    it 'should create a Request including its commit on repository' do
-      create = lambda { post :create, :payload => payload }
-      create.should change(Request, :count).by(1)
+    describe 'given an approvable payload' do
+      let(:action) { lambda { post :create, :payload => payload } }
 
-      request = Request.last
-      request.should be_created
-      request.payload.should == payload
-      # request.job.should be_published # TODO
+      it 'creates a Request and stores the payload' do
+        action.should change(Request, :count).by(1)
+        Request.last.payload.should =~ %r(svenfuchs/gem-release)
+      end
+
+      it 'leaves the request in the state :created' do
+        action.call
+        Request.last.state.should == 'created'
+      end
+
+      it 'creates a repository' do
+        action.should change(Repository, :count).by(1)
+        Repository.last.slug.should == 'svenfuchs/gem-release'
+      end
+
+      it 'creates a commit' do
+        action.should change(Commit, :count).by(1)
+        Commit.last.commit.should == '9854592'
+      end
+
+      it 'creates a configure job' do
+        action.should change(Job::Configure, :count).by(1)
+        Job::Configure.last.source.should == Request.last
+      end
     end
 
-    it 'does not create a build record when the branch is gh_pages' do
-      create = lambda { post :create, :payload => payload.gsub('refs/heads/master', 'refs/heads/gh_pages') }
-      create.should_not change(Request, :count)
+    describe 'given an unapprovable payload' do
+      let(:action) { lambda { post :create, :payload => payload.gsub('refs/heads/master', 'refs/heads/gh_pages') } }
+
+      it 'creates a Request and stores the payload' do
+        action.should change(Request, :count).by(1)
+        Request.last.payload.should =~ %r(svenfuchs/gem-release)
+      end
+
+      it 'leaves the request in the state :finished' do
+        action.call
+        Request.last.state.should == 'finished'
+      end
+
+      it 'creates a repository' do
+        action.should change(Repository, :count).by(1)
+        Repository.last.slug.should == 'svenfuchs/gem-release'
+      end
+
+      it 'creates a commit' do
+        action.should change(Commit, :count).by(1)
+        Commit.last.commit.should == '9854592'
+      end
+
+      it 'does not create a configure job' do
+        action.should_not change(Job::Configure, :count)
+      end
     end
   end
 end
