@@ -15,7 +15,7 @@
 </p>
 <%= form_tag("profile", :method => :put) do %>
 <h4><%= t '.your_locale' %></h4>
-<%= select "user", "locale", I18n.available_locales, {:include_blank => true, :selected => @user.locale } %>
+<%= select "user", "locale", I18n.available_locales, { :include_blank => true, :selected => @user.locale } %>
 <%= submit_tag(t('.update_locale')) %>
 <% end %>
 <h4><%= t '.your_repos' %></h4>
