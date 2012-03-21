@@ -58,6 +58,7 @@ group :development, :test do
   gem 'forgery',            '~> 0.5.0'
   gem 'rspec-rails',        '~> 2.8.0'
   gem 'thin',               '~> 1.3.1'
+  gem "localeapp-i18n-js",  git: 'git://github.com/randym/localeapp-i18n-js.git'
 end
 
 group :development do
