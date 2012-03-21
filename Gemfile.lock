@@ -34,8 +34,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 4831b956bc4d9829688c253287fcb3f7a0fa0b40
-  ref: magnum
+  revision: 40c0960d1d04b2f082d87bdf600d53c094c59b2c
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.1)
@@ -56,7 +55,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-support
-  revision: 474686c452d21a46e503b537ef052405dad76649
+  revision: 6023cb08b40d334804c06702293e7c74e0adf4d4
   specs:
     travis-support (0.0.1)
 

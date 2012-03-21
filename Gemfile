@@ -4,7 +4,7 @@ source :rubygems
 base ||= 'git://github.com/travis-ci'
 type = base[0, 2] == '..' ? :path : :git
 
-gem 'travis-core',    type => "#{base}/travis-core", :ref => 'magnum', :require => 'travis/engine', :ref => 'magnum'
+gem 'travis-core',    type => "#{base}/travis-core", :require => 'travis/engine'
 gem 'travis-support', type => "#{base}/travis-support"
 
 gem 'metriks',        git: 'git://github.com/mattmatt/metriks',      ref: 'source'
