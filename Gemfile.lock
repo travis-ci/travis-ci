@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/mattmatt/hubble.git
+  remote: git://github.com/mattmatt/hubble
   revision: 5220415d5542a2868d54f7be9f35fc1d66126b8e
   specs:
     hubble (0.1.2)
@@ -26,7 +26,7 @@ GIT
       selenium-webdriver (>= 0.1.3)
 
 GIT
-  remote: git://github.com/rack/rack-contrib.git
+  remote: git://github.com/rack/rack-contrib
   revision: 451f029857d655c4a37012564eb49665d2f9313a
   specs:
     rack-contrib (1.1.0)
