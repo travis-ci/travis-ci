@@ -52,9 +52,9 @@ var Travis = Ember.Application.create({
   },
 
   unsubscribe: function(channel) {
-    var ix = this.channels.indexOf(channel);
+    var ix = this.active_channels.indexOf(channel);
     if(ix == -1) {
-      this.channels.splice(ix, 1);
+      this.active_channels.splice(ix, 1);
       if(window.pusher) pusher.unsubscribe(channel);
     }
   },
@@ -66,7 +66,6 @@ var Travis = Ember.Application.create({
   },
 
   initEvents: function() {
-
     //this is only going to work for rendered elements
 
     $('.tool-tip').tipsy({ gravity: 'n', fade: true });
