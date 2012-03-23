@@ -7,7 +7,8 @@ var Travis = Ember.Application.create({
   UPDATE_TIMES_INTERVAL: 5000,
 
   store: Ember.Store.create().from('Travis.DataSource'),
-  channels: [],
+  channels: ['common'],
+  active_channels: [],
 
   run: function() {
     var action = $('body').attr('id');
@@ -44,8 +45,8 @@ var Travis = Ember.Application.create({
   },
 
   subscribe: function(channel) {
-    if(this.channels.indexOf(channel) == -1) {
-      this.channels.push(channel);
+    if(this.active_channels.indexOf(channel) == -1) {
+      this.active_channels.push(channel);
       if(window.pusher) pusher.subscribe(channel).bind_all(this.receive);
     }
   },
@@ -60,8 +61,7 @@ var Travis = Ember.Application.create({
 
   initPusher: function() {
     if(window.pusher) {
-      var channels = ['common'];
-      $.each(channels, function(ix, channel) { this.subscribe(channel); }.bind(this))
+      $.each(Travis.channels, function(ix, channel) { this.subscribe(channel); }.bind(this))
     }
   },
 
