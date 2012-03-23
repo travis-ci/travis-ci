@@ -97,7 +97,7 @@ $ bundle exec rake travis:setup:config
 
 This will create two files: <code>./config/travis.yml</code> and <code>./config/database.yml</code>. Edit these files according to your local configuration.
 
-Travis CI is configured to authenticate with OAuth and github. You'll need to "register your application with github":https://github.com/account/applications/new (even if it's only for local development) and complete all the required fields in <code>./config/travis.yml</code> for your ID and secret.
+Travis CI is configured to authenticate with OAuth and github. You'll need to "register your application with github":https://github.com/settings/applications/new (even if it's only for local development) and complete all the required fields in <code>./config/travis.yml</code> for your ID and secret.
 
 Next, tell Travis to configure the database:
 
