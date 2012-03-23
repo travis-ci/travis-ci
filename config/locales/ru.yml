@@ -112,7 +112,7 @@ ru:
         subject: Инструкции для разблокирования аккаунта
     passwords:
       send_instructions: В течении нескольких минут вы получите электронное письмо
-        с инструкциями для сбросу пароля.
+        с инструкциями для сброса пароля.
       updated: Ваш пароль успешно изменен. Приветствуем!
     registrations:
       destroyed: Ваш аккаунт был успешно удален. Живите долго и процветайте!
@@ -167,8 +167,8 @@ ru:
       sponsors_link: Список всех наших замечательных спонсоров &rarr;
     mobile:
       author: Автор
-      build: Билд
-      build_matrix: Матрица
+      build: Сборка
+      build_matrix: Матрица сборок
       commit: Коммит
       committer: Коммитер
       compare: Сравнение
@@ -193,12 +193,13 @@ ru:
       github: Github
       message:
         config: как настроить специальные опции билда
-        your_repos: Используйте переключатели, чтобы включить Travis service hook
-          для вашего проекта, а потом отправьте код на GitHub.<br />Для тестирования
-          на нескольких версиях Ruby смотрите
+        your_repos: ! 'Используйте переключатели, чтобы включить Travis service hook
+          для вашего проекта, а потом отправьте код на GitHub.<br />
+
+          Для тестирования на нескольких версиях Ruby смотрите'
       messages:
-        notice: Перед началом, пожалуйста, прочтите <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Getting
-          Started guide</a>.  <small>Это займет всего несколько минут.</small>
+        notice: Перед началом, пожалуйста, прочтите <a href="http://about.travis-ci.org/docs/user/getting-started/">Руководство
+          для быстрого старта</a>. <small>Это займет всего несколько минут.</small>
       token: Токен
       update: Обновить
       update_locale: Обновить
