@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120304000502) do
+ActiveRecord::Schema.define(:version => 20120319170001) do
 
   create_table "artifacts", :force => true do |t|
     t.text     "content"
@@ -81,26 +81,18 @@ ActiveRecord::Schema.define(:version => 20120304000502) do
     t.text     "tags"
     t.integer  "retries",       :default => 0
     t.boolean  "allow_failure", :default => false
-    t.integer  "owner_id"
-    t.string   "owner_type"
   end
 
   add_index "jobs", ["queue", "state"], :name => "index_jobs_on_queue_and_state"
   add_index "jobs", ["repository_id"], :name => "index_jobs_on_repository_id"
   add_index "jobs", ["type", "source_id", "source_type"], :name => "index_jobs_on_type_and_owner_id_and_owner_type"
 
-  create_table "pg_ts_cfg", :id => false, :force => true do |t|
-    t.text "ts_name",  :null => false
-    t.text "prs_name", :null => false
-    t.text "locale"
-  end
-
   create_table "repositories", :force => true do |t|
     t.string   "name"
     t.string   "url"
     t.integer  "last_duration"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
     t.integer  "last_build_id"
     t.string   "last_build_number"
     t.integer  "last_build_status"
@@ -112,6 +104,7 @@ ActiveRecord::Schema.define(:version => 20120304000502) do
     t.text     "description"
     t.string   "last_build_language"
     t.integer  "last_build_duration"
+    t.boolean  "private",                :default => false
   end
 
   add_index "repositories", ["last_build_started_at"], :name => "index_repositories_on_last_build_started_at"
