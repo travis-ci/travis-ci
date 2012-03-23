@@ -7,8 +7,6 @@ type = base[0, 2] == '..' ? :path : :git
 gem 'travis-core',    type => "#{base}/travis-core", :require => 'travis/engine'
 gem 'travis-support', type => "#{base}/travis-support"
 
-gem 'metriks',        git: 'git://github.com/mattmatt/metriks',      ref: 'source'
-
 gem 'rails',                '~> 3.2.1'
 gem 'rake',                 '~> 0.9.2.2'
 gem 'amqp',                 '~> 0.9.0'
@@ -23,13 +21,14 @@ gem 'unobtrusive_flash',    '~> 0.0.2'
 gem 'json',                 '~> 1.6.3'
 gem 'yajl-ruby',            '~> 1.1.0'
 gem 'rabl',                 '~> 0.5.1'
-gem 'rack-contrib', git: 'git://github.com/rack/rack-contrib.git', require: 'rack/contrib'
+gem 'rack-contrib', git: 'git://github.com/rack/rack-contrib', require: 'rack/contrib'
 
 # db
 gem 'pg',                   '~> 0.13.2'
 
-# apis
-gem 'hubble',       :git => 'git://github.com/mattmatt/hubble.git'
+# metrics
+gem 'hubble',       git: 'git://github.com/mattmatt/hubble'
+gem 'metriks',      git: 'git://github.com/mattmatt/metriks', ref: 'source'
 gem 'newrelic_rpm',         '~> 3.3.0'
 
 # i18n
