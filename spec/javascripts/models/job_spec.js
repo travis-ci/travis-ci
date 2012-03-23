@@ -153,9 +153,9 @@ describe('Job', function() {
       });
 
       it('subscribe', function() {
-	expect(Travis.channels.indexOf('job-9')).toEqual(-1);
+	expect(Travis.active_channels.indexOf('job-9')).toEqual(-1);
 	job.subscribe()
-	expect(Travis.channels.indexOf('job-9')).toEqual(0);
+	expect(Travis.active_channels.indexOf('job-9')).toEqual(0);
       });
 
     });
