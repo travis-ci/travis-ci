@@ -7,7 +7,8 @@ var Travis = Ember.Application.create({
   UPDATE_TIMES_INTERVAL: 5000,
 
   store: Ember.Store.create().from('Travis.DataSource'),
-  channels: [],
+  channels: ['common'],
+  active_channels: [],
 
   run: function() {
     var action = $('body').attr('id');
@@ -44,29 +45,27 @@ var Travis = Ember.Application.create({
   },
 
   subscribe: function(channel) {
-    if(this.channels.indexOf(channel) == -1) {
-      this.channels.push(channel);
+    if(this.active_channels.indexOf(channel) == -1) {
+      this.active_channels.push(channel);
       if(window.pusher) pusher.subscribe(channel).bind_all(this.receive);
     }
   },
 
   unsubscribe: function(channel) {
-    var ix = this.channels.indexOf(channel);
+    var ix = this.active_channels.indexOf(channel);
     if(ix == -1) {
-      this.channels.splice(ix, 1);
+      this.active_channels.splice(ix, 1);
       if(window.pusher) pusher.unsubscribe(channel);
     }
   },
 
   initPusher: function() {
     if(window.pusher) {
-      var channels = ['common'];
-      $.each(channels, function(ix, channel) { this.subscribe(channel); }.bind(this))
+      $.each(Travis.channels, function(ix, channel) { this.subscribe(channel); }.bind(this))
     }
   },
 
   initEvents: function() {
-
     //this is only going to work for rendered elements
 
     $('.tool-tip').tipsy({ gravity: 'n', fade: true });
