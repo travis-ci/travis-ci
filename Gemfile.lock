@@ -34,7 +34,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: f84006111eef13880328333dbc330406e3d87ae9
+  revision: 4b8102fc75b5fe6ee10f033e96007ff982ccb4df
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.1)
@@ -239,6 +239,8 @@ GEM
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
+    rack-protection (1.2.0)
+      rack
     rack-ssl (1.3.2)
       rack
     rack-test (0.6.1)
@@ -305,6 +307,10 @@ GEM
     simple_states (0.1.0.pre2)
       activesupport
       hashr (~> 0.0.10)
+    sinatra (1.3.2)
+      rack (~> 1.3, >= 1.3.6)
+      rack-protection (~> 1.2)
+      tilt (~> 1.3, >= 1.3.3)
     sprockets (2.1.2)
       hike (~> 1.2)
       rack (~> 1.0)
@@ -370,6 +376,7 @@ DEPENDENCIES
   rspec-rails (~> 2.8.0)
   ruby-debug19
   sass-rails (~> 3.2.4)
+  sinatra (~> 1.3.1)
   thin (~> 1.3.1)
   travis-core!
   travis-support!
