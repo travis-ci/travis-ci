@@ -1,4 +1,10 @@
+require 'shortener'
+
 TravisCi::Application.routes.draw do
+
+  constraints :domain => 'trvs.io' do
+    mount Travis::Shortener => '/'
+  end
 
   root :to => 'home#index'
 
