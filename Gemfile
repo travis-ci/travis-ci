@@ -8,6 +8,7 @@ gem 'travis-core',    type => "#{base}/travis-core", :require => 'travis/engine'
 gem 'travis-support', type => "#{base}/travis-support"
 
 gem 'rails',                '~> 3.2.1'
+gem 'sinatra',              '~> 1.3.1'
 gem 'rake',                 '~> 0.9.2.2'
 gem 'amqp',                 '~> 0.9.0'
 
