@@ -2,7 +2,7 @@ require 'shortener'
 
 TravisCi::Application.routes.draw do
 
-  constraints :domain => Travis.config.shorten_host do
+  constraints :host => Travis.config.shorten_host do
     mount Travis::Shortener => '/'
   end
 
