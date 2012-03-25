@@ -22,4 +22,4 @@ development:
     client_secret: YOUR_GITHUB_CLIENT_SECRET
 
 test:
-  domain: test.travis-ci.org
+  host: test.travis-ci.org

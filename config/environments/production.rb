@@ -49,7 +49,7 @@ TravisCi::Application.configure do
   config.assets.precompile += [ 'mobile.css', 'mobile.js' ]
 
   config.action_mailer.default_url_options = {
-    :host => Travis.config.domain
+    :host => Travis.config.host
   }
 
   # Disable delivery errors, bad email addresses will be ignored
@@ -78,7 +78,11 @@ TravisCi::Application.configure do
 
   require 'notifications'
 
-  config.action_dispatch.rack_cache = {:metastore => "rails:/", :entitystore => "rails:/", :verbose => false} 
+  config.action_dispatch.rack_cache = {
+    :metastore => "rails:/",
+    :entitystore => "rails:/",
+    :verbose => false
+  }
 
   config.middleware.delete Rails::Rack::Logger
 

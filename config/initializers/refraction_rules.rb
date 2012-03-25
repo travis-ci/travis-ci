@@ -12,7 +12,7 @@ Refraction.configure do |req|
 
 
   # secure.travis-ci.org should be allowed
-  elsif req.host == "secure.#{Travis.config.domain}"
+  elsif req.host == "secure.#{Travis.config.host}"
     # but must be https
     if req.scheme != 'https'
       req.permanent! :scheme => 'https'
@@ -22,7 +22,7 @@ Refraction.configure do |req|
 
 
   # we don't want to use www.* for now (or other random names)
-  elsif req.host =~ /([-\w]+\.)+#{Regexp.escape(Travis.config.domain)}/
+  elsif req.host =~ /([-\w]+\.)+#{Regexp.escape(Travis.config.host)}/
 
     req.permanent! :host => Travis.config.host
 
