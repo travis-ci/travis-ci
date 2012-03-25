@@ -33,6 +33,15 @@ GIT
       rack (>= 0.9.1)
 
 GIT
+  remote: git://github.com/rkh/gh.git
+  revision: f4a1ad5c48343bbe41a096dd804f4349e819d783
+  specs:
+    gh (0.0.1)
+      backports (~> 2.3)
+      faraday (~> 0.7)
+      multi_json (~> 1.0)
+
+GIT
   remote: git://github.com/travis-ci/travis-core
   revision: 4b8102fc75b5fe6ee10f033e96007ff982ccb4df
   specs:
@@ -156,10 +165,6 @@ GEM
       thor (>= 0.13.6)
     forgery (0.5.0)
     fssm (0.2.8.1)
-    gh (0.0.1)
-      backports (~> 2.3)
-      faraday (~> 0.7)
-      multi_json (~> 1.0)
     gli (1.5.1)
     hashie (1.2.0)
     hashr (0.0.19)
@@ -357,6 +362,7 @@ DEPENDENCIES
   factory_girl (~> 2.4.0)
   foreman (~> 0.36.0)
   forgery (~> 0.5.0)
+  gh!
   http_accept_language (~> 1.0.2)
   hubble!
   i18n-js (~> 2.1.2)
