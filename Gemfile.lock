@@ -111,7 +111,7 @@ GEM
     archive-tar-minitar (0.5.2)
     arel (3.0.2)
     atomic (1.0.0)
-    backports (2.4.0)
+    backports (2.3.0)
     bcrypt-ruby (3.0.1)
     builder (3.0.0)
     capybara (1.1.2)
@@ -354,6 +354,7 @@ PLATFORMS
 
 DEPENDENCIES
   amqp (~> 0.9.0)
+  backports (~> 2.3.0)
   capybara (~> 1.1.2)
   coffee-rails (~> 3.2.2)
   compass (= 0.12.alpha.4)
