@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Statistics do
   before { Scenario.default }
-  let(:today) {Date.today.to_s(:date)}
+  let(:today) { Date.current.to_s(:date) }
 
   describe "when listing daily test counts" do
     it "should return the jobs per day" do
