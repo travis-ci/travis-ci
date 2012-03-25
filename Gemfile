@@ -27,7 +27,8 @@ gem 'rack-contrib', git: 'git://github.com/rack/rack-contrib', require: 'rack/co
 # db
 gem 'pg',                   '~> 0.13.2'
 
-# metrics
+# apis + metrics
+gem 'gh',           git: 'git://github.com/rkh/gh.git'
 gem 'hubble',       git: 'git://github.com/mattmatt/hubble'
 gem 'metriks',      git: 'git://github.com/mattmatt/metriks', ref: 'source'
 gem 'newrelic_rpm',         '~> 3.3.0'
