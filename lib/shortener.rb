@@ -2,7 +2,7 @@ module Travis
   class Shortener < Sinatra::Base
 
     get '/' do
-      redirect Travis.config.host
+      redirect "http://#{Travis.config.host}"
     end
 
     get '/:id' do

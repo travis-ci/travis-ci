@@ -6,7 +6,7 @@ Refraction.configure do |req|
     # old heroku address
     Rails.logger.add(1, "\n\nREDIRECT : redirect issued for heroku address\n\n")
 
-    req.permanent! :host => Travis.config.domain
+    req.permanent! :host => Travis.config.host
 
     Rails.logger.flush if Rails.logger.respond_to?(:flush)
 
@@ -24,7 +24,7 @@ Refraction.configure do |req|
   # we don't want to use www.* for now (or other random names)
   elsif req.host =~ /([-\w]+\.)+#{Regexp.escape(Travis.config.domain)}/
 
-    req.permanent! :host => Travis.config.domain
+    req.permanent! :host => Travis.config.host
 
 
   else
