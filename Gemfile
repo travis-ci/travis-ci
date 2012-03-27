@@ -17,6 +17,7 @@ gem 'refraction',           '~> 0.2.0'
 gem 'devise',               '~> 1.5.0'
 gem 'omniauth-github',      '~> 1.0.0'
 gem 'unobtrusive_flash',    '~> 0.0.2'
+gem 'rollout',              '~> 1.1.0'
 
 # structures
 gem 'json',                 '~> 1.6.3'
@@ -26,6 +27,7 @@ gem 'rack-contrib', git: 'git://github.com/rack/rack-contrib', require: 'rack/co
 
 # db
 gem 'pg',                   '~> 0.13.2'
+gem 'redis',                '~> 2.2.0'
 
 # apis + metrics
 gem 'backports',            '~> 2.3.0'
