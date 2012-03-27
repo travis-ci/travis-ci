@@ -269,9 +269,11 @@ GEM
     rake (0.9.2.2)
     rdoc (3.12)
       json (~> 1.4)
+    redis (2.2.2)
     refraction (0.2.0)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rollout (1.1.0)
     rspec (2.8.0)
       rspec-core (~> 2.8.0)
       rspec-expectations (~> 2.8.0)
@@ -379,7 +381,9 @@ DEPENDENCIES
   rack-contrib!
   rails (~> 3.2.1)
   rake (~> 0.9.2.2)
+  redis (~> 2.2.0)
   refraction (~> 0.2.0)
+  rollout (~> 1.1.0)
   rspec-rails (~> 2.8.0)
   ruby-debug19
   sass-rails (~> 3.2.4)
