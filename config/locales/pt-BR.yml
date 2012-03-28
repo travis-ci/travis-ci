@@ -1,0 +1,169 @@
+en:
+  datetime:
+    distance_in_words:
+      hours_exact:
+        one: ! '%{count} hora'
+        other: ! '%{count} horas'
+      minutes_exact:
+        one: ! '%{count} minuto'
+        other: ! '%{count} minutos'
+      seconds_exact:
+        one: ! '%{count} segundo'
+        other: ! '%{count} segundos'
+  workers: Workers
+  queue: Fila
+  no_job: Não há tarefas
+  repositories:
+    branch: Branch
+    image_url: URL da imagem
+    markdown: Markdown
+    textile: Textile
+    rdoc: RDOC
+    commit: Commit
+    message: Mensagem
+    started_at: Iniciou em
+    duration: Duração
+    finished_at: Concluído em
+    tabs:
+      current: Atual
+      build_history: Histórico de build
+      branches: Sumário do Branch
+      build: Build
+      job: Trabalho
+  build:
+    job: Trabalho
+    duration: Duração
+    finished_at: Concluído em
+  jobs:
+    messages:
+      sponsored_by: Esta série de testes foi executada em uma caixa de processos patrocinada por
+    build_matrix: Matriz de Build
+    allowed_failures: Falhas Permitidas
+    author: Autor
+    config: Config
+    compare: Comparar
+    committer: Committer
+    branch: Branch
+    commit: Commit
+    message: Mensagem
+    started_at: Iniciou em
+    duration: Duração
+    finished_at: Concluído em
+  builds:
+    name: Build
+    messages:
+      sponsored_by: Esta série de testes foi executada em uma caixa de processos patrocinada por
+    build_matrix: Matriz de Build
+    allowed_failures: Falhas Permitidas
+    author: Autor
+    config: Config
+    compare: Comparar
+    committer: Committer
+    branch: Branch
+    commit: Commit
+    message: Mensagem
+    started_at: Iniciou em
+    duration: Duração
+    finished_at: Concluído em
+  layouts:
+    top:
+      home: Home
+      blog: Blog
+      docs: Documentação
+      stats: Estatísticas
+      github_login: Logue com o Github
+      profile: Perfil
+      sign_out: Deslogar
+      admin: Admin
+    application:
+      fork_me: Faça fork no Github
+      recent: Recentes
+      search: Buscar
+      sponsers: Patrocínio
+      sponsors_link: Conheça todos os nossos patrocinadores &rarr;
+      my_repositories: Meus Repositórios
+    about:
+      alpha: Isto é um alpha.
+      messages:
+        alpha: Por favor, <strong>não</strong> considere isto um serviço estável. Estamos
+          muito longe disso! Mais informações <a href='https://github.com/travis-ci'>aqui.</a>
+      join: Junte-se à nós e ajude!
+      mailing_list: Lista de email
+      repository: Repositório
+      twitter: Twitter
+    mobile:
+      author: Autor
+      build: Build
+      build_matrix: Matriz de Build
+      commit: Commit
+      committer: Committer
+      compare: Comparar
+      config: Config
+      duration: Duração
+      finished_at: Concluído em
+      job: Trabalho
+      log: Log
+  profiles:
+    show:
+      email: Email
+      github: Github
+      message:
+        your_repos: ! "  Use os botões abaixo para ligar ou desligar o hook de serviço do Travis
+          para seus projetos, e então, faça um push para o Github.<br />\n  Para testar com múltiplas versões
+          do Ruby, leia"
+        config: como configurar opções de build
+      messages:
+        notice: ! "Para começar, leia nosso <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Guia de início</a>.\n  <small>Só leva alguns minutinhos.</small>"
+      token: Token
+      your_repos: Seus Repositórios
+      update: Atualizar
+      update_locale: Atualizar
+      your_locale: Sua Língua
+  statistics:
+    index:
+      count: Número
+      repo_growth: Crescimento de Repositório
+      total_projects: Total de Projetos/Repositórios
+      build_count: Número de Builds
+      last_month: último mês
+      total_builds: Total de Builds
+  devise:
+    confirmations:
+      confirmed: Sua conta foi confirmada com sucesso. Você agora está logado.
+      send_instructions: Você receberá um email com instruções de como
+        confirmar sua conta em alguns minutos.
+    failure:
+      inactive: Sua conta ainda não foi ativada.
+      invalid: Email ou senha inválidos.
+      invalid_token: Token de autenticação inválido.
+      locked: Sua conta está trancada.
+      timeout: Sua sessão expirou, por favor faça seu login novamente.
+      unauthenticated: Você precisa fazer o login ou cadastrar-se antes de continuar.
+      unconfirmed: Você precisa confirmar sua conta antes de continuar.
+    mailer:
+      confirmation_instructions:
+        subject: Instruções de confirmação
+      reset_password_instructions:
+        subject: Instruções de atualização de senha
+      unlock_instructions:
+        subject: Instruções de destrancamento
+    passwords:
+      send_instructions: Você receberá um email com instruções de como
+        atualizar sua senha em alguns minutos.
+      updated: Sua senha foi alterada com sucesso. Você agora está logado.
+    registrations:
+      destroyed: Tchau! Sua conta foi cancelada com sucesso. Esperamos vê-lo novamente em breve!
+      signed_up: Você se cadastrou com sucesso. Se ativada, uma confirmação foi enviada para seu email.
+      updated: Você atualizou sua conta com sucesso.
+    sessions:
+      signed_in: Logado com sucesso.
+      signed_out: Deslogado com sucesso.
+    unlocks:
+      send_instructions: Você receberá um email com instruções de como
+        destrancar sua conta em alguns minutos.
+      unlocked: Sua conta foi destrancada com sucesso. Você agora está logado.
+  errors:
+    messages:
+      already_confirmed: já foi confirmado
+      not_found: não encontrado
+      not_locked: não estava trancado
