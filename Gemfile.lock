@@ -43,7 +43,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 6bb867e5cff47d5adbc559157cec262a2acda2dd
+  revision: 116e7a51e72cd5c9ef9d2cbbe74b121b429617ea
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.1)
@@ -176,7 +176,7 @@ GEM
       i18n
     jasmine-core (1.2.0.rc1)
     journey (1.0.3)
-    json (1.6.5)
+    json (1.6.6)
     kgio (2.7.4)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
