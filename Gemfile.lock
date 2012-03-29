@@ -34,7 +34,7 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh.git
-  revision: f4a1ad5c48343bbe41a096dd804f4349e819d783
+  revision: f3134544756c18c87b08ed2f0a4cca4b2a6efcd7
   specs:
     gh (0.0.1)
       backports (~> 2.3)
@@ -43,7 +43,8 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 116e7a51e72cd5c9ef9d2cbbe74b121b429617ea
+  revision: 19d2beb7789e451e1728e0453fd5b6ec2229c685
+  branch: add-owners
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.1)
@@ -197,7 +198,7 @@ GEM
     multi_json (1.0.4)
     multi_xml (0.4.2)
     multipart-post (1.1.5)
-    newrelic_rpm (3.3.2.1)
+    newrelic_rpm (3.3.3)
     nokogiri (1.5.2)
     oa-core (0.3.2)
     oa-oauth (0.3.2)
@@ -333,7 +334,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.32)
-    uglifier (1.2.3)
+    uglifier (1.2.4)
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
     unicorn (4.1.1)
