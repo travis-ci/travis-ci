@@ -43,7 +43,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 19d2beb7789e451e1728e0453fd5b6ec2229c685
+  revision: c6b59e007806426f88a10454cb726acc9195f0ac
   branch: add-owners
   specs:
     travis-core (0.0.1)
