@@ -1,11 +1,7 @@
 source :rubygems
 
-# see https://gist.github.com/2063855
-base ||= 'git://github.com/travis-ci'
-type = base[0, 2] == '..' ? :path : :git
-
-gem 'travis-core',    type => "#{base}/travis-core", :require => 'travis/engine'
-gem 'travis-support', type => "#{base}/travis-support"
+gem 'travis-core',    :git => 'git://github.com/travis-ci/travis-core', :require => 'travis/engine', :branch => 'add-owners'
+gem 'travis-support', :git => 'git://github.com/travis-ci/travis-support'
 
 gem 'rails',                '~> 3.2.1'
 gem 'sinatra',              '~> 1.3.1'
