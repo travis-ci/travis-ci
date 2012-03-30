@@ -35,8 +35,7 @@ def configure
 
   RSpec.configure do |c|
     c.filter_run_excluding :js => true if ENV['CI']
-    c.backtrace_clean_patterns.clear
-
+    # c.backtrace_clean_patterns.clear
     c.mock_with :mocha
 
     Support.constants.each do |constant|
@@ -59,7 +58,7 @@ def configure
     end
 
     c.before :each, :webmock => true do
-      Support::GithubApi.mock!
+      Support::Webmock.mock!
     end
 
     c.after :each do
