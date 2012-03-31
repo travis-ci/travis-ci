@@ -1,11 +1,7 @@
 source :rubygems
 
-# see https://gist.github.com/2063855
-base ||= 'git://github.com/travis-ci'
-type = base[0, 2] == '..' ? :path : :git
-
-gem 'travis-core',    type => "#{base}/travis-core", :require => 'travis/engine'
-gem 'travis-support', type => "#{base}/travis-support"
+gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine'
+gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
 
 gem 'rails',                '~> 3.2.1'
 gem 'sinatra',              '~> 1.3.1'
@@ -67,7 +63,7 @@ group :development do
   unless RUBY_VERSION == '1.9.3' && RUBY_PLATFORM !~ /darwin/
     # will need to install ruby-debug19 manually:
     # gem install ruby-debug19 -- --with-ruby-include=$rvm_path/src/ruby-1.9.3-preview1
-    gem 'ruby-debug19', :platforms => :mri_19
+    gem 'ruby-debug19', platforms: :mri_19
   end
 end
 
