@@ -45,10 +45,10 @@ group :assets do
   gem 'uglifier',           '~> 1.2.0'
   gem 'compass',            '0.12.alpha.4'
   gem "i18n-js",            '~> 2.1.2'
+  gem "localeapp-i18n-js",  :git => 'git://github.com/randym/localeapp-i18n-js.git'
 end
 
 group :development, :test do
-  gem "localeapp-i18n-js",  :git => 'git://github.com/randym/localeapp-i18n-js.git'
   gem "localeapp",          '~> 0.4.1'
   gem 'factory_girl',       '~> 2.4.0'
   gem 'forgery',            '~> 0.5.0'
