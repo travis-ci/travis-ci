@@ -7,10 +7,10 @@
 // ==========================================================================
 /*globals ember_assert */
 
-var get = SC.get, set = SC.set, abs = Math.abs;
+var get = Ember.get, set = Ember.set, abs = Math.abs;
 
 function isIndexSet(obj) {
-  return obj instanceof SC.IndexSet;
+  return obj instanceof Ember.IndexSet;
 }
 
 /** @private
@@ -21,7 +21,7 @@ function isIndexSet(obj) {
 function _hint(indexSet, start, length, content) {
   if (content === undefined) content = indexSet._content;
 
-  var skip    = SC.IndexSet.HINT_SIZE,
+  var skip    = Ember.IndexSet.HINT_SIZE,
       next    = abs(content[start]), // start of next range
       loc     = start - (start % skip) + skip, // next hint loc
       lim     = start + length ; // stop
@@ -73,12 +73,12 @@ function _sliceContent(c) {
   Examples
   ---
 
-        var set = SC.IndexSet.create(ranges) ;
+        var set = Ember.IndexSet.create(ranges) ;
         set.contains(index);
         set.add(index, length);
         set.remove(index, length);
 
-        // uses a backing SC.Array object to return each index
+        // uses a backing Ember.Array object to return each index
         set.forEach(function(object) { .. })
 
         // returns the index
@@ -95,14 +95,18 @@ function _sliceContent(c) {
   the end of an empty range.  A value less than the index is a search
   accelerator.  It tells you the start of the nearest range.
 
-  @extends SC.Enumerable
-  @extends SC.MutableEnumerable
-  @extends SC.Copyable
-  @extends SC.Freezable
+  @extends Ember.Enumerable
+  @extends Ember.MutableEnumerable
+  @extends Ember.Copyable
+  @extends Ember.Freezable
   @since SproutCore 1.0
 */
-SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable, SC.Copyable,
-/** @scope SC.IndexSet.prototype */ {
+
+YES = true;
+NO = false;
+
+Ember.IndexSet = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable, Ember.Freezable, Ember.Copyable,
+/** @scope Ember.IndexSet.prototype */ {
 
   /**
     Walk like a duck.  You should use instanceof instead.
@@ -189,7 +193,7 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
     if (abs(content[index]) > index) return index ; // we hit a border
 
     // use accelerator to find nearest content range
-    accel = index - (index % SC.IndexSet.HINT_SIZE);
+    accel = index - (index % Ember.IndexSet.HINT_SIZE);
     ret = content[accel];
     if (ret<0 || ret>index) ret = accel;
     next = abs(content[ret]);
@@ -383,10 +387,10 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
 
     @param {Number} start index, range, or IndexSet
     @param {Number} length optional range length
-    @returns {SC.IndexSet} new index set
+    @returns {Ember.IndexSet} new index set
   */
   without: function(start, length) {
-    if (start === this) return new SC.IndexSet(); // just need empty set
+    if (start === this) return new Ember.IndexSet(); // just need empty set
     return this.copy().remove(start, length);
   },
 
@@ -397,7 +401,7 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
 
     @param {Number} start index, Range, or another IndexSet
     @param {Number} length optional length of range.
-    @returns {SC.IndexSet} receiver
+    @returns {Ember.IndexSet} receiver
   */
   replace: function(start, length) {
 
@@ -407,12 +411,12 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
       } else if (start && isIndexSet(start)) {
         var oldLen = get(this, 'length'), newLen = get(start, 'length');
         this.enumerableContentWillChange(oldLen, newLen);
-        SC.beginPropertyChanges(this);
+        Ember.beginPropertyChanges(this);
         this._content = _sliceContent(start._content);
         set(this, 'max', get(start, 'max'));
         set(this, 'length', newLen);
         set(this, 'source', get(start, 'source'));
-        SC.endPropertyChanges(this);
+        Ember.endPropertyChanges(this);
         this.enumerableContentDidChange(oldLen, newLen);
         return this ;
 
@@ -435,11 +439,11 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
 
     @param {Number} start index, Range, or another IndexSet
     @param {Number} length optional length of range.
-    @returns {SC.IndexSet} receiver
+    @returns {Ember.IndexSet} receiver
   */
   add: function(start, length) {
 
-    if (get(this, 'isFrozen')) throw new Error(SC.FROZEN_ERROR);
+    if (get(this, 'isFrozen')) throw new Error(Ember.FROZEN_ERROR);
 
     var content, cur, next, notified;
 
@@ -618,11 +622,11 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
 
     @param {Number} start index, Range, or IndexSet
     @param {Number} length optional length of range.
-    @returns {SC.IndexSet} receiver
+    @returns {Ember.IndexSet} receiver
   */
   remove: function(start, length) {
 
-    if (get(this, 'isFrozen')) throw new Error(SC.FROZEN_ERROR);
+    if (get(this, 'isFrozen')) throw new Error(Ember.FROZEN_ERROR);
 
     // normalize input
     if (length === undefined) {
@@ -748,16 +752,16 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
     Clears the set
   */
   clear: function() {
-    if (get(this, 'isFrozen')) throw new Error(SC.FROZEN_ERROR);
+    if (get(this, 'isFrozen')) throw new Error(Ember.FROZEN_ERROR);
 
     var oldLen = get(this, 'length');
     if (oldLen>0) this.enumerableContentWillChange();
-    SC.beginPropertyChanges(this);
+    Ember.beginPropertyChanges(this);
     this._content.length=1;
     this._content[0] = 0;
     set(this, 'length', 0);
     set(this, 'max', 0);
-    SC.endPropertyChanges(this);
+    Ember.endPropertyChanges(this);
     if (oldLen > 0) this.enumerableContentDidChange();
   },
 
@@ -767,10 +771,10 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
     @param {Enumerable} objects The list of ranges you want to add
   */
   addEach: function(objects) {
-    if (get(this, 'isFrozen')) throw new Error(SC.FROZEN_ERROR);
-    SC.beginPropertyChanges(this);
+    if (get(this, 'isFrozen')) throw new Error(Ember.FROZEN_ERROR);
+    Ember.beginPropertyChanges(this);
     objects.forEach(function(idx) { this.add(idx); }, this);
-    SC.endPropertyChanges(this);
+    Ember.endPropertyChanges(this);
     return this ;
   },
 
@@ -780,10 +784,10 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
     @param {Object...} objects The list of objects you want to remove
   */
   removeEach: function(objects) {
-    if (get(this, 'isFrozen')) throw new Error(SC.FROZEN_ERROR);
-    SC.beginPropertyChanges(this);
+    if (get(this, 'isFrozen')) throw new Error(Ember.FROZEN_ERROR);
+    Ember.beginPropertyChanges(this);
     objects.forEach(function(idx) { this.remove(idx); }, this);
-    SC.endPropertyChanges(this);
+    Ember.endPropertyChanges(this);
     return this ;
   },
 
@@ -791,14 +795,14 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
    Clones the set into a new set.
   */
   copy: function() {
-    return new SC.IndexSet(this);
+    return new Ember.IndexSet(this);
   },
 
   /** @private (nodoc) */
-  clone: SC.alias('copy'),
+  clone: Ember.alias('copy'),
 
   /** @private (nodoc) */
-  slice: SC.alias('copy'),
+  slice: Ember.alias('copy'),
 
   /**
     Returns a string describing the internal range structure.  Useful for
@@ -817,7 +821,7 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
       item = content[idx];
       if (item !== undefined) ret.push("%@:%@".fmt(idx,item));
     }
-    return "SC.IndexSet<%@>".fmt(ret.join(' , '));
+    return "Ember.IndexSet<%@>".fmt(ret.join(' , '));
   },
 
   /**
@@ -832,7 +836,7 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
 
     @param {Function} callback The method to run on each iteration
     @param {Object} target the object to call the callback on
-    @returns {SC.IndexSet} receiver
+    @returns {Ember.IndexSet} receiver
   */
   forEachRange: function(callback, target) {
     var content = this._content,
@@ -858,7 +862,7 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
     @param {Number} length length of range
     @param {Function} callback
     @param {Object} target
-    @returns {SC.IndexSet} receiver
+    @returns {Ember.IndexSet} receiver
   */
   forEachIn: function(start, length, callback, target) {
     var content = this._content,
@@ -888,7 +892,7 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
   /**
     Total number of indexes within the specified range.
 
-    @param {Number|SC.IndexSet} start index, range object or IndexSet
+    @param {Number|Ember.IndexSet} start index, range object or IndexSet
     @param {Number} length optional range length
     @returns {Number} count of indexes
   */
@@ -1015,7 +1019,7 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
 
     @param {Function} callback function to invoke.
     @param {Object} target optional content. otherwise uses window
-    @returns {SC.IndexSet} receiver
+    @returns {Ember.IndexSet} receiver
   */
   forEachObject: function(callback, target) {
     var source  = get(this, 'source');
@@ -1051,7 +1055,7 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
     @param {Object} object the object to add
     @param {Boolean} firstOnly Set to true if you can assume that the first
        match is the only one
-    @returns {SC.IndexSet} receiver
+    @returns {Ember.IndexSet} receiver
   */
   addObject: function(object, firstOnly) {
     var source  = get(this, 'source');
@@ -1075,10 +1079,10 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
     Adds any indexes matching the passed objects.  If firstOnly is passed,
     then only finds the first index for each object.
 
-    @param {SC.Enumerable} objects the objects to add
+    @param {Ember.Enumerable} objects the objects to add
     @param {Boolean} firstOnly Set to true if you can assume that the first
        match is the only one
-    @returns {SC.IndexSet} receiver
+    @returns {Ember.IndexSet} receiver
   */
   addObjects: function(objects, firstOnly) {
     objects.forEach(function(object) {
@@ -1098,7 +1102,7 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
     @param {Object} object the object to add
     @param {Boolean} firstOnly Set to true if you can assume that the first
        match is the only one
-    @returns {SC.IndexSet} receiver
+    @returns {Ember.IndexSet} receiver
   */
   removeObject: function(object, firstOnly) {
     var source  = get(this, 'source');
@@ -1122,10 +1126,10 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
     Removes any indexes matching the passed objects.  If firstOnly is passed,
     then only finds the first index for each object.
 
-    @param {SC.Enumerable} objects the objects to add
+    @param {Ember.Enumerable} objects the objects to add
     @param {Boolean} firstOnly Set to true if you can assume that the first
        match is the only one
-    @returns {SC.IndexSet} receiver
+    @returns {Ember.IndexSet} receiver
   */
   removeObjects: function(objects, firstOnly) {
     objects.forEach(function(object) {
@@ -1200,12 +1204,12 @@ SC.IndexSet = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.Freezable
     this.forEachRange(function(start, length) {
       str.push(length === 1 ? start : "%@..%@".fmt(start, start + length - 1));
     }, this);
-    return "SC.IndexSet<%@>".fmt(str.join(',')) ;
+    return "Ember.IndexSet<%@>".fmt(str.join(',')) ;
   }
 
 }) ;
 
-SC.IndexSet.reopenClass({
+Ember.IndexSet.reopenClass({
 
   /**
     Create can take a simple range as well..
@@ -1229,9 +1233,9 @@ SC.IndexSet.reopenClass({
   /**
     A empty index set.  Useful for common comparisons.
 
-    @type SC.IndexSet
+    @type Ember.IndexSet
   */
-  EMPTY: new SC.IndexSet().freeze()
+  EMPTY: new Ember.IndexSet().freeze()
 
 });
 
@@ -1252,7 +1256,7 @@ SC.IndexSet.reopenClass({
 // ==========================================================================
 
 
-var get = SC.get, set = SC.set, getPath = SC.getPath;
+var get = Ember.get, set = Ember.set, getPath = Ember.getPath;
 
 /**
   @class
@@ -1260,7 +1264,7 @@ var get = SC.get, set = SC.set, getPath = SC.getPath;
   This permits you to perform queries on your data store,
   written in a SQL-like language. Here is a simple example:
 
-      q = SC.Query.create({
+      q = Ember.Query.create({
         conditions: "firstName = 'Jonny' AND lastName = 'Cash'"
       })
 
@@ -1277,7 +1281,7 @@ var get = SC.get, set = SC.set, getPath = SC.getPath;
   To limit the query to a record type of `MyApp.MyModel`,
   you can specify the type as a property of the query like this:
 
-      q = SC.Query.create({
+      q = Ember.Query.create({
         conditions: "firstName = 'Jonny' AND lastName = 'Cash'",
         recordType: MyApp.MyModel
       })
@@ -1289,14 +1293,14 @@ var get = SC.get, set = SC.set, getPath = SC.getPath;
 
   You can give an order, which the resulting records should follow, like this:
 
-      q = SC.Query.create({
+      q = Ember.Query.create({
         conditions: "firstName = 'Jonny' AND lastName = 'Cash'",
         recordType: MyApp.MyModel,
-        orderBy: "lastName, year DESC"
+        orderBy: "lastName, year DEEmber"
       });
 
   The default order direction is ascending. You can change it to descending
-  by writing `'DESC'` behind the property name like in the example above.
+  by writing `'DEEmber'` behind the property name like in the example above.
   If no order is given, or records are equal in respect to a given order,
   records will be ordered by guid.
 
@@ -1369,12 +1373,12 @@ var get = SC.get, set = SC.set, getPath = SC.getPath;
 
   You can extend the query language with your own operators by calling:
 
-      SC.Query.registerQueryExtension('your_operator', your_operator_definition);
+      Ember.Query.registerQueryExtension('your_operator', your_operator_definition);
 
   See details below. As well you can provide your own comparison functions
   to control ordering of specific record properties like this:
 
-      SC.Query.registerComparison(property_name, comparison_for_this_property);
+      Ember.Query.registerComparison(property_name, comparison_for_this_property);
 
   Examples
 
@@ -1382,14 +1386,14 @@ var get = SC.get, set = SC.set, getPath = SC.getPath;
 
   TODO add examples
 
-  @extends SC.Object
-  @extends SC.Copyable
-  @extends SC.Freezable
+  @extends Ember.Object
+  @extends Ember.Copyable
+  @extends Ember.Freezable
   @since SproutCore 1.0
 */
 
-SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
-  /** @scope SC.Query.prototype */ {
+Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
+  /** @scope Ember.Query.prototype */ {
 
   // ..........................................................
   // PROPERTIES
@@ -1412,7 +1416,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
 
   /**
     Optional orderBy parameters.  This can be a string of keys, optionally
-    beginning with the strings `"DESC "` or `"ASC "` to select descending or
+    beginning with the strings `"DEEmber "` or `"AEmber "` to select descending or
     ascending order.
 
     Alternatively, you can specify a comparison function, in which case the
@@ -1428,7 +1432,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
     filter the kinds of records this query will work on.  You may either
     set this to a single record type or to an array or set of record types.
 
-    @type SC.Record
+    @type Ember.Record
   */
   recordType:  null,
 
@@ -1436,7 +1440,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
     Optional array of multiple record types.  If the query accepts multiple
     record types, this is how you can check for it.
 
-    @type SC.Enumerable
+    @type Ember.Enumerable
   */
   recordTypes: null,
 
@@ -1445,20 +1449,20 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
     any named `recordType`s plus their subclasses.
 
     @property
-    @type SC.Enumerable
+    @type Ember.Enumerable
   */
   expandedRecordTypes: function() {
-    var ret = SC.Set.create(), rt, q  ;
+    var ret = Ember.Set.create(), rt, q  ;
 
     if (rt = get(this, 'recordType')) this._scq_expandRecordType(rt, ret);
     else if (rt = get(this, 'recordTypes')) {
       rt.forEach(function(t) { this._scq_expandRecordType(t, ret); }, this);
-    } else this._scq_expandRecordType(SC.Record, ret);
+    } else this._scq_expandRecordType(Ember.Record, ret);
 
     // save in queue.  if a new recordtype is defined, we will be notified.
-    q = SC.Query._scq_queriesWithExpandedRecordTypes;
+    q = Ember.Query._scq_queriesWithExpandedRecordTypes;
     if (!q) {
-      q = SC.Query._scq_queriesWithExpandedRecordTypes = SC.Set.create();
+      q = Ember.Query._scq_queriesWithExpandedRecordTypes = Ember.Set.create();
     }
     q.add(this);
 
@@ -1472,7 +1476,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
     if (set.contains(recordType)) return; // nothing to do
     set.add(recordType);
 
-    if (SC.typeOf(recordType)==='string') {
+    if (Ember.typeOf(recordType)==='string') {
       recordType = getPath( recordType);
     }
 
@@ -1494,12 +1498,12 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
     Indicates the location where the result set for this query is stored.
     Currently the available options are:
 
-     - `SC.Query.LOCAL` -- indicates that the query results will be
+     - `Ember.Query.LOCAL` -- indicates that the query results will be
        automatically computed from the in-memory store.
-     - `SC.Query.REMOTE` -- indicates that the query results are kept on a
+     - `Ember.Query.REMOTE` -- indicates that the query results are kept on a
        remote server and hence must be loaded from the `DataSource`.
 
-    The default setting for this property is `SC.Query.LOCAL`.
+    The default setting for this property is `Ember.Query.LOCAL`.
 
     Note that even if a query location is `LOCAL`, your `DataSource` will
     still have its `fetch()` method called for the query.  For `LOCAL`
@@ -1514,13 +1518,13 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
 
     @type String
   */
-  location: 'local', // SC.Query.LOCAL
+  location: 'local', // Ember.Query.LOCAL
 
   /**
     Another query that will optionally limit the search of records.  This is
     usually configured for you when you do `find()` from another record array.
 
-    @type SC.Query
+    @type Ember.Query
   */
   scope: null,
 
@@ -1533,7 +1537,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
     @type Boolean
   */
   isRemote: function() {
-    return get(this, 'location') === SC.Query.REMOTE;
+    return get(this, 'location') === Ember.Query.REMOTE;
   }.property('location').cacheable(),
 
   /**
@@ -1544,7 +1548,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
     @type Boolean
   */
   isLocal: function() {
-    return get(this, 'location') === SC.Query.LOCAL;
+    return get(this, 'location') === Ember.Query.LOCAL;
   }.property('location').cacheable(),
 
   /**
@@ -1562,7 +1566,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
     Returns `YES` if record is matched by the query, `NO` otherwise.  This is
     used when computing a query locally.
 
-    @param {SC.Record} record the record to check
+    @param {Ember.Record} record the record to check
     @param {Hash} parameters optional override parameters
     @returns {Boolean} YES if record belongs, NO otherwise
   */
@@ -1596,7 +1600,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
     Returns `YES` if the query matches one or more of the record types in the
     passed set.
 
-    @param {SC.Set} types set of record types
+    @param {Ember.Set} types set of record types
     @returns {Boolean} YES if record types match
   */
   containsRecordTypes: function(types) {
@@ -1618,8 +1622,8 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
     two records actually belong in the query set or not; this is checked using
     `contains()`.
 
-    @param {SC.Record} record1 the first record
-    @param {SC.Record} record2 the second record
+    @param {Ember.Record} record1 the first record
+    @param {Ember.Record} record2 the second record
     @returns {Number} -1 if record1 < record2,
                       +1 if record1 > record2,
                       0 if equal
@@ -1642,14 +1646,14 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
     // if called for the first time we have to build the order array
     if (!this._isReady) this.parse();
     if (!this._isReady) { // can't parse. guid is wrong but consistent
-      return SC.compare(get(record1, 'id'),get(record2, 'id'));
+      return Ember.compare(get(record1, 'id'),get(record2, 'id'));
     }
 
     // For every property specified in orderBy until non-eql result is found.
     // Or, if orderBy is a comparison function, simply invoke it with the
     // records.
     order = this._order;
-    if (SC.typeOf(order) === 'function') {
+    if (Ember.typeOf(order) === 'function') {
       result = order.call(null, record1, record2);
     }
     else {
@@ -1657,13 +1661,13 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
       for (i=0; result===0 && (i < len); i++) {
         propertyName = order[i].propertyName;
         // if this property has a registered comparison use that
-        if (SC.Query.comparisons[propertyName]) {
-          result = SC.Query.comparisons[propertyName](
+        if (Ember.Query.comparisons[propertyName]) {
+          result = Ember.Query.comparisons[propertyName](
                     get(record1, propertyName),get(record2, propertyName));
 
-        // if not use default SC.compare()
+        // if not use default Ember.compare()
         } else {
-          result = SC.compare(
+          result = Ember.compare(
                     get(record1, propertyName), get(record2, propertyName) );
         }
 
@@ -1673,7 +1677,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
 
     // return result or compare by guid
     if (result !== 0) return result ;
-    else return SC.compare(get(record1, 'id'),get(record2, 'id'));
+    else return Ember.compare(get(record1, 'id'),get(record2, 'id'));
   },
 
   /** @private
@@ -1708,12 +1712,12 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
     This will copy the receiver.  It also stores these queries in a cache to
     reuse them if possible.
 
-    @param {SC.RecordArray} recordArray the scope
-    @returns {SC.Query} new query
+    @param {Ember.RecordArray} recordArray the scope
+    @returns {Ember.Query} new query
   */
   queryWithScope: function(recordArray) {
     // look for a cached query on record array.
-    var key = '__query__'+SC.guidFor(this),
+    var key = '__query__'+Ember.guidFor(this),
         ret = recordArray[key];
 
     if (!ret) {
@@ -1765,7 +1769,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
 
   /**
     This is the definition of the query language. You can extend it
-    by using `SC.Query.registerQueryExtension()`.
+    by using `Ember.Query.registerQueryExtension()`.
   */
   queryLanguage: {
 
@@ -1781,7 +1785,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
 
       /** @ignore */
       evaluate:         function (r,w) {
-                          return SC.getPath(r, this.tokenValue);
+                          return Ember.getPath(r, this.tokenValue);
                         }
     },
 
@@ -1883,7 +1887,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
       evaluate:         function (r,w) {
                           var left  = this.leftSide.evaluate(r,w);
                           var right = this.rightSide.evaluate(r,w);
-                          return SC.isEqual(left, right);
+                          return Ember.isEqual(left, right);
                         }
     },
 
@@ -1897,7 +1901,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
       evaluate:         function (r,w) {
                           var left  = this.leftSide.evaluate(r,w);
                           var right = this.rightSide.evaluate(r,w);
-                          return !SC.isEqual(left, right);
+                          return !Ember.isEqual(left, right);
                         }
     },
 
@@ -1911,7 +1915,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
       evaluate:         function (r,w) {
                           var left  = this.leftSide.evaluate(r,w);
                           var right = this.rightSide.evaluate(r,w);
-                          return SC.compare(left, right) == -1; //left < right;
+                          return Ember.compare(left, right) == -1; //left < right;
                         }
     },
 
@@ -1925,7 +1929,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
       evaluate:         function (r,w) {
                           var left  = this.leftSide.evaluate(r,w);
                           var right = this.rightSide.evaluate(r,w);
-                          return SC.compare(left, right) != 1; //left <= right;
+                          return Ember.compare(left, right) != 1; //left <= right;
                         }
     },
 
@@ -1939,7 +1943,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
       evaluate:         function (r,w) {
                           var left  = this.leftSide.evaluate(r,w);
                           var right = this.rightSide.evaluate(r,w);
-                          return SC.compare(left, right) == 1; //left > right;
+                          return Ember.compare(left, right) == 1; //left > right;
                         }
     },
 
@@ -1953,7 +1957,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
       evaluate:         function (r,w) {
                           var left  = this.leftSide.evaluate(r,w);
                           var right = this.rightSide.evaluate(r,w);
-                          return SC.compare(left, right) != -1; //left >= right;
+                          return Ember.compare(left, right) != -1; //left >= right;
                         }
     },
 
@@ -1996,7 +2000,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
                           var all    = this.leftSide.evaluate(r,w) || [];
                           var value = this.rightSide.evaluate(r,w);
 
-                          var allType = SC.typeOf(all);
+                          var allType = Ember.typeOf(all);
                           if (allType === 'string') {
                             return (all.indexOf(value) !== -1);
                           } else if (allType === 'array' || all.toArray) {
@@ -2053,7 +2057,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
 
       /** @ignore */
       evaluate:         function (r,w) {
-                          var actualType = SC.Store.recordTypeFor(r.storeKey);
+                          var actualType = Ember.Store.recordTypeFor(r.storeKey);
                           var right      = this.rightSide.evaluate(r,w);
                           var expectType = getPath( right);
                           return actualType == expectType;
@@ -2440,7 +2444,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
     if (!orderOp) {
       return [];
     }
-    else if (SC.typeOf(orderOp) === 'function') {
+    else if (Ember.typeOf(orderOp) === 'function') {
       return orderOp;
     }
     else {
@@ -2451,7 +2455,7 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
         p = p.replace(/\s+/,',');
         p = p.split(',');
         o[i] = {propertyName: p[0]};
-        if (p[1] && p[1] == 'DESC') o[i].descending = true;
+        if (p[1] && p[1] == 'DEEmber') o[i].descending = true;
       }
 
       return o;
@@ -2463,17 +2467,17 @@ SC.Query = SC.Object.extend(SC.Copyable, SC.Freezable,
 
 
 // Class Methods
-SC.Query.reopenClass( /** @scope SC.Query */ {
+Ember.Query.reopenClass( /** @scope Ember.Query */ {
 
   /**
-    Constant used for `SC.Query#location`
+    Constant used for `Ember.Query#location`
 
     @type String
   */
   LOCAL: 'local',
 
   /**
-    Constant used for `SC.Query#location`
+    Constant used for `Ember.Query#location`
 
     @type String
   */
@@ -2481,9 +2485,9 @@ SC.Query.reopenClass( /** @scope SC.Query */ {
 
   /**
     Given a query, returns the associated `storeKey`.  For the inverse of this
-    method see `SC.Store.queryFor()`.
+    method see `Ember.Store.queryFor()`.
 
-    @param {SC.Query} query the query
+    @param {Ember.Query} query the query
     @returns {Number} a storeKey.
   */
   storeKeyFor: function(query) {
@@ -2491,13 +2495,13 @@ SC.Query.reopenClass( /** @scope SC.Query */ {
   },
 
   /**
-    Will find which records match a give `SC.Query` and return an array of
+    Will find which records match a give `Ember.Query` and return an array of
     store keys. This will also apply the sorting for the query.
 
-    @param {SC.Query} query to apply
-    @param {SC.RecordArray} records to search within
-    @param {SC.Store} store to materialize record from
-    @returns {Array} array instance of store keys matching the SC.Query (sorted)
+    @param {Ember.Query} query to apply
+    @param {Ember.RecordArray} records to search within
+    @param {Ember.Store} store to materialize record from
+    @returns {Array} array instance of store keys matching the Ember.Query (sorted)
   */
   containsRecords: function(query, records, store) {
     var ret = [];
@@ -2508,25 +2512,25 @@ SC.Query.reopenClass( /** @scope SC.Query */ {
       }
     }
 
-    ret = SC.Query.orderStoreKeys(ret, query, store);
+    ret = Ember.Query.orderStoreKeys(ret, query, store);
 
     return ret;
   },
 
   /**
     Sorts a set of store keys according to the orderBy property
-    of the `SC.Query`.
+    of the `Ember.Query`.
 
     @param {Array} storeKeys to sort
-    @param {SC.Query} query to use for sorting
-    @param {SC.Store} store to materialize records from
+    @param {Ember.Query} query to use for sorting
+    @param {Ember.Store} store to materialize records from
     @returns {Array} sorted store keys.  may be same instance as passed value
   */
   orderStoreKeys: function(storeKeys, query, store) {
     // apply the sort if there is one
     if (storeKeys) {
       var res = storeKeys.sort(function(a, b) {
-        return SC.Query.compareStoreKeys(query, store, a, b);
+        return Ember.Query.compareStoreKeys(query, store, a, b);
       });
     }
 
@@ -2550,14 +2554,14 @@ SC.Query.reopenClass( /** @scope SC.Query */ {
   },
 
   /**
-    Returns a `SC.Query` instance reflecting the passed properties.  Where
+    Returns a `Ember.Query` instance reflecting the passed properties.  Where
     possible this method will return cached query instances so that multiple
     calls to this method will return the same instance.  This is not possible
     however, when you pass custom parameters or set ordering. All returned
     queries are frozen.
 
     Usually you will not call this method directly.  Instead use the more
-    convenient `SC.Query.local()` and `SC.Query.remote()`.
+    convenient `Ember.Query.local()` and `Ember.Query.remote()`.
 
     Examples
 
@@ -2566,32 +2570,32 @@ SC.Query.reopenClass( /** @scope SC.Query */ {
     The following return local queries selecting all records of a particular
     type or types, including any subclasses:
 
-        var people = SC.Query.local(Ab.Person);
-        var peopleAndCompanies = SC.Query.local([Ab.Person, Ab.Company]);
+        var people = Ember.Query.local(Ab.Person);
+        var peopleAndCompanies = Ember.Query.local([Ab.Person, Ab.Company]);
 
-        var people = SC.Query.local('Ab.Person');
-        var peopleAndCompanies = SC.Query.local('Ab.Person Ab.Company'.w());
+        var people = Ember.Query.local('Ab.Person');
+        var peopleAndCompanies = Ember.Query.local('Ab.Person Ab.Company'.w());
 
-        var allRecords = SC.Query.local(SC.Record);
+        var allRecords = Ember.Query.local(Ember.Record);
 
     The following will match a particular type of condition:
 
-        var married = SC.Query.local(Ab.Person, "isMarried=YES");
-        var married = SC.Query.local(Ab.Person, "isMarried=%@", [YES]);
-        var married = SC.Query.local(Ab.Person, "isMarried={married}", {
+        var married = Ember.Query.local(Ab.Person, "isMarried=YES");
+        var married = Ember.Query.local(Ab.Person, "isMarried=%@", [YES]);
+        var married = Ember.Query.local(Ab.Person, "isMarried={married}", {
           married: YES
         });
 
     You can also pass a hash of options as the second parameter.  This is
     how you specify an order, for example:
 
-        var orderedPeople = SC.Query.local(Ab.Person, { orderBy: "firstName" });
+        var orderedPeople = Ember.Query.local(Ab.Person, { orderBy: "firstName" });
 
     @param {String} location the query location.
-    @param {SC.Record|Array} recordType the record type or types.
+    @param {Ember.Record|Array} recordType the record type or types.
     @param {String} conditions optional conditions
     @param {Hash} params optional params. or pass multiple args.
-    @returns {SC.Query}
+    @returns {Ember.Query}
   */
   build: function(location, recordType, conditions, params) {
 
@@ -2622,7 +2626,7 @@ SC.Query.reopenClass( /** @scope SC.Query */ {
         ret.push(t);
       }, this);
       recordType = ret ;
-    } else if (!recordType) recordType = SC.Record; // find all records
+    } else if (!recordType) recordType = Ember.Record; // find all records
 
     if (params === undefined) params = null;
     if (conditions === undefined) conditions = null;
@@ -2636,15 +2640,15 @@ SC.Query.reopenClass( /** @scope SC.Query */ {
     // special case - easy to cache.
     if (!params && !opts) {
 
-      tmp = SC.Query._scq_recordTypeCache;
-      if (!tmp) tmp = SC.Query._scq_recordTypeCache = {};
+      tmp = Ember.Query._scq_recordTypeCache;
+      if (!tmp) tmp = Ember.Query._scq_recordTypeCache = {};
       cache = tmp[location];
       if (!cache) cache = tmp[location] = {};
 
       if (recordType.isEnumerable) {
-        key = recordType.map(function(k) { return SC.guidFor(k); });
+        key = recordType.map(function(k) { return Ember.guidFor(k); });
         key = key.sort().join(':');
-      } else key = SC.guidFor(recordType);
+      } else key = Ember.guidFor(recordType);
 
       if (conditions) key = [key, conditions].join('::');
 
@@ -2656,7 +2660,7 @@ SC.Query.reopenClass( /** @scope SC.Query */ {
 
         opts.location = location ;
         opts.conditions = conditions ;
-        ret = cache[key] = SC.Query.create(opts).freeze();
+        ret = cache[key] = Ember.Query.create(opts).freeze();
       }
     // otherwise parse extra conditions and handle them
     } else {
@@ -2673,7 +2677,7 @@ SC.Query.reopenClass( /** @scope SC.Query */ {
       if (conditions) opts.conditions = conditions;
       if (params) opts.parameters = params;
 
-      ret = SC.Query.create(opts).freeze();
+      ret = Ember.Query.create(opts).freeze();
     }
 
     return ret ;
@@ -2681,39 +2685,39 @@ SC.Query.reopenClass( /** @scope SC.Query */ {
 
   /**
     Returns a `LOCAL` query with the passed options.  For a full description of
-    the parameters you can pass to this method, see `SC.Query.build()`.
+    the parameters you can pass to this method, see `Ember.Query.build()`.
 
-    @param {SC.Record|Array} recordType the record type or types.
+    @param {Ember.Record|Array} recordType the record type or types.
     @param {String} conditions optional conditions
     @param {Hash} params optional params. or pass multiple args.
-    @returns {SC.Query}
+    @returns {Ember.Query}
   */
   local: function(recordType, conditions, params) {
-    return this.build(SC.Query.LOCAL, recordType, conditions, params);
+    return this.build(Ember.Query.LOCAL, recordType, conditions, params);
   },
 
   /**
     Returns a `REMOTE` query with the passed options.  For a full description of
-    the parameters you can pass to this method, see `SC.Query.build()`.
+    the parameters you can pass to this method, see `Ember.Query.build()`.
 
-    @param {SC.Record|Array} recordType the record type or types.
+    @param {Ember.Record|Array} recordType the record type or types.
     @param {String} conditions optional conditions
     @param {Hash} params optional params. or pass multiple args.
-    @returns {SC.Query}
+    @returns {Ember.Query}
   */
   remote: function(recordType, conditions, params) {
-    return this.build(SC.Query.REMOTE, recordType, conditions, params);
+    return this.build(Ember.Query.REMOTE, recordType, conditions, params);
   },
 
   /** @private
-    called by `SC.Record.extend()`. invalidates `expandedRecordTypes`
+    called by `Ember.Record.extend()`. invalidates `expandedRecordTypes`
   */
   _scq_didDefineRecordType: function() {
-    var q = SC.Query._scq_queriesWithExpandedRecordTypes;
+    var q = Ember.Query._scq_queriesWithExpandedRecordTypes;
     if (q) {
       q.forEach(function(query) {
-        SC.propertyWillChange(query, 'expandedRecordTypes');
-        SC.propertyDidChange(query, 'expandedRecordTypes');
+        Ember.propertyWillChange(query, 'expandedRecordTypes');
+        Ember.propertyDidChange(query, 'expandedRecordTypes');
       }, this);
       q.clear();
     }
@@ -2725,7 +2729,7 @@ SC.Query.reopenClass( /** @scope SC.Query */ {
 /** @private
   Hash of registered comparisons by propery name.
 */
-SC.Query.comparisons = {};
+Ember.Query.comparisons = {};
 
 /**
   Call to register a comparison for a specific property name.
@@ -2735,10 +2739,10 @@ SC.Query.comparisons = {};
 
   @param {String} name of the record property
   @param {Function} custom comparison function
-  @returns {SC.Query} receiver
+  @returns {Ember.Query} receiver
 */
-SC.Query.registerComparison = function(propertyName, comparison) {
-  SC.Query.comparisons[propertyName] = comparison;
+Ember.Query.registerComparison = function(propertyName, comparison) {
+  Ember.Query.comparisons[propertyName] = comparison;
 };
 
 
@@ -2753,10 +2757,10 @@ SC.Query.registerComparison = function(propertyName, comparison) {
 
   @param {String} tokenName name of the operator
   @param {Object} token extension definition
-  @returns {SC.Query} receiver
+  @returns {Ember.Query} receiver
 */
-SC.Query.registerQueryExtension = function(tokenName, token) {
-  get(SC.Query, 'proto').queryLanguage[tokenName] = token;
+Ember.Query.registerQueryExtension = function(tokenName, token) {
+  get(Ember.Query, 'proto').queryLanguage[tokenName] = token;
 };
 
 
@@ -2770,9 +2774,9 @@ SC.Query.registerQueryExtension = function(tokenName, token) {
 //            Portions ©2008-2011 Apple Inc. All rights reserved.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
-// @global SC
+// @global Ember
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
 /**
   @class
@@ -2788,22 +2792,22 @@ var get = SC.get, set = SC.set;
 
   You can pass error objects to various UI elements to display the error in
   the interface. You can easily determine if the value returned by some API is
-  an error or not using the helper SC.ok(value).
+  an error or not using the helper Ember.ok(value).
 
   Faking Error Objects
   ---
 
   You can actually make any object you want to be treated like an Error object
   by simply implementing two properties: isError and errorValue.  If you
-  set isError to YES, then calling SC.ok(obj) on your object will return NO.
-  If isError is YES, then SC.val(obj) will return your errorValue property
+  set isError to YES, then calling Ember.ok(obj) on your object will return NO.
+  If isError is YES, then Ember.val(obj) will return your errorValue property
   instead of the receiver.
 
-  @extends SC.Object
+  @extends Ember.Object
   @since SproutCore 1.0
 */
-SC.StoreError = SC.Object.extend(
-/** @scope SC.StoreError.prototype */ {
+Ember.StoreError = Ember.Object.extend(
+/** @scope Ember.StoreError.prototype */ {
 
   /**
     error code.  Used to designate the error type.
@@ -2833,7 +2837,7 @@ SC.StoreError = SC.Object.extend(
     However, sometimes another object will masquarade as an error; this gives
     you a way to get at the underyling error.
 
-    @type SC.StoreError
+    @type Ember.StoreError
   */
   errorObject: function() {
     return this;
@@ -2848,7 +2852,7 @@ SC.StoreError = SC.Object.extend(
 
   /** @private */
   toString: function() {
-    return "SC.StoreError:%@:%@ (%@)".fmt(SC.guidFor(this), get(this, 'message'), get(this, 'code'));
+    return "Ember.StoreError:%@:%@ (%@)".fmt(Ember.guidFor(this), get(this, 'message'), get(this, 'code'));
   },
 
   /**
@@ -2860,15 +2864,15 @@ SC.StoreError = SC.Object.extend(
 }) ;
 
 /**
-  Creates a new SC.StoreError instance with the passed description, label, and
+  Creates a new Ember.StoreError instance with the passed description, label, and
   code.  All parameters are optional.
 
   @param description {String} human readable description of the error
   @param label {String} human readable name of the item with the error
   @param code {Number} an error code to use for testing.
-  @returns {SC.StoreError} new error instance.
+  @returns {Ember.StoreError} new error instance.
 */
-SC.StoreError.desc = function(description, label, value, code) {
+Ember.StoreError.desc = function(description, label, value, code) {
   var opts = { message: description } ;
   if (label !== undefined) opts.label = label ;
   if (code !== undefined) opts.code = code ;
@@ -2877,16 +2881,16 @@ SC.StoreError.desc = function(description, label, value, code) {
 } ;
 
 /**
-  Shorthand form of the SC.StoreError.desc method.
+  Shorthand form of the Ember.StoreError.desc method.
 
   @param description {String} human readable description of the error
   @param label {String} human readable name of the item with the error
   @param code {Number} an error code to use for testing.
-  @returns {SC.StoreError} new error instance.
+  @returns {Ember.StoreError} new error instance.
 */
 
-SC.$error = function(description, label, value, c) {
-  return SC.StoreError.desc(description,label, value, c);
+Ember.$error = function(description, label, value, c) {
+  return Ember.StoreError.desc(description,label, value, c);
 } ;
 
 /**
@@ -2895,12 +2899,12 @@ SC.$error = function(description, label, value, c) {
   @param {Object} ret object value
   @returns {Boolean}
 */
-SC.ok = function(ret) {
+Ember.ok = function(ret) {
   return (ret !== false) && !(ret && ret.isError);
 };
 
 /** @private */
-SC.$ok = SC.ok;
+Ember.$ok = Ember.ok;
 
 /**
   Returns the value of an object.  If the passed object is an error, returns
@@ -2909,14 +2913,14 @@ SC.$ok = SC.ok;
   @param {Object} obj the object
   @returns {Object} value
 */
-SC.val = function(obj) {
+Ember.val = function(obj) {
   if (obj && obj.isError) {
     return get(obj, 'errorValue') ; // Error has no value
   } else return obj ;
 };
 
 /** @private */
-SC.$val = SC.val;
+Ember.$val = Ember.val;
 
 // STANDARD ERROR OBJECTS
 
@@ -2925,7 +2929,7 @@ SC.$val = SC.val;
 
   @type Number
 */
-SC.StoreError.HAS_MULTIPLE_VALUES = -100 ;
+Ember.StoreError.HAS_MULTIPLE_VALUES = -100 ;
 
 
 })({});
@@ -2941,7 +2945,7 @@ SC.StoreError.HAS_MULTIPLE_VALUES = -100 ;
 
 
 
-var get = SC.get, set = SC.set, none = SC.none, copy = SC.copy, K;
+var get = Ember.get, set = Ember.set, none = Ember.none, copy = Ember.copy, K;
 
 /**
   @class
@@ -2969,12 +2973,12 @@ var get = SC.get, set = SC.set, none = SC.none, copy = SC.copy, K;
   You can bulk update attributes from the server using the
   `updateAttributes()` method.
 
-  @extends SC.Object
-  @see SC.RecordAttribute
+  @extends Ember.Object
+  @see Ember.RecordAttribute
   @since SproutCore 1.0
 */
-SC.Record = SC.Object.extend(
-/** @scope SC.Record.prototype */ {
+Ember.Record = Ember.Object.extend(
+/** @scope Ember.Record.prototype */ {
 
   /**
     Deprecated.  Use instanceof keyword instead.
@@ -3021,7 +3025,7 @@ SC.Record = SC.Object.extend(
       this.writeAttribute(get(this, 'primaryKey'), value);
       return value;
     } else {
-      return SC.Store.idFor(get(this, 'storeKey'));
+      return Ember.Store.idFor(get(this, 'storeKey'));
     }
   }.property('storeKey').cacheable(),
 
@@ -3035,8 +3039,8 @@ SC.Record = SC.Object.extend(
     currently allowed on the record and which are not.
 
     In general, a record can be in one of five primary states:
-    `SC.Record.EMPTY`, `SC.Record.BUSY`, `SC.Record.READY`,
-    `SC.Record.DESTROYED`, `SC.Record.ERROR`.  These are all described in
+    `Ember.Record.EMPTY`, `Ember.Record.BUSY`, `Ember.Record.READY`,
+    `Ember.Record.DESTROYED`, `Ember.Record.ERROR`.  These are all described in
     more detail in the class mixin (below) where they are defined.
 
     @type Number
@@ -3054,7 +3058,7 @@ SC.Record = SC.Object.extend(
     This property is set when the record instance is created and should not be
     changed or else it will break the record behavior.
 
-    @type SC.Store
+    @type Ember.Store
     @default null
   */
   store: null,
@@ -3079,7 +3083,7 @@ SC.Record = SC.Object.extend(
     @dependsOn status
   */
   isDestroyed: function() {
-    return !!(get(this, 'status') & SC.Record.DESTROYED);
+    return !!(get(this, 'status') & Ember.Record.DESTROYED);
   }.property('status').cacheable(),
 
   /**
@@ -3089,7 +3093,7 @@ SC.Record = SC.Object.extend(
 
     This property is both readable and writable.  Note however that if you
     set this property to `YES` but the status of the record is anything but
-    `SC.Record.READY`, the return value of this property may remain `NO`.
+    `Ember.Record.READY`, the return value of this property may remain `NO`.
 
     @type Boolean
     @property
@@ -3097,7 +3101,7 @@ SC.Record = SC.Object.extend(
   */
   isEditable: function(key, value) {
     if (value !== undefined) this._screc_isEditable = value;
-    return (get(this, 'status') & SC.Record.READY) && this._screc_isEditable;
+    return (get(this, 'status') & Ember.Record.READY) && this._screc_isEditable;
   }.property('status').cacheable(),
 
   /**
@@ -3205,7 +3209,7 @@ SC.Record = SC.Object.extend(
     @param {Function} callback
       optional callback that will fire when request finishes
 
-    @returns {SC.Record} receiver
+    @returns {Ember.Record} receiver
   */
   refresh: function(recordOnly, callback) {
     var store = get(this, 'store'), rec, ro,
@@ -3239,7 +3243,7 @@ SC.Record = SC.Object.extend(
       optional param if you want to only THIS record even if it is a child
       record.
 
-    @returns {SC.Record} receiver
+    @returns {Ember.Record} receiver
   */
   destroy: function(recordOnly) {
     var store = get(this, 'store'), rec, ro,
@@ -3250,9 +3254,9 @@ SC.Record = SC.Object.extend(
     // record we will commit this record
     ro = recordOnly || (none(recordOnly) && none(prKey));
     if (ro){
-      SC.propertyWillChange(this, 'status');
+      Ember.propertyWillChange(this, 'status');
       store.destroyRecord(null, null, sk);
-      SC.propertyDidChange(this, 'status');
+      Ember.propertyDidChange(this, 'status');
 
       // If there are any aggregate records, we might need to propagate our
       // new status to them.
@@ -3278,7 +3282,7 @@ SC.Record = SC.Object.extend(
     only once for the changed property instead of `allPropertiesDidChange()`
 
     @param {String} key key that changed (optional)
-    @returns {SC.Record} receiver
+    @returns {Ember.Record} receiver
   */
   recordDidChange: function(key) {
 
@@ -3312,7 +3316,7 @@ SC.Record = SC.Object.extend(
 
     Calls to `beginEditing()` and `endEditing()` can be nested.
 
-    @returns {SC.Record} receiver
+    @returns {Ember.Record} receiver
   */
   beginEditing: function() {
     this._editLevel++;
@@ -3327,7 +3331,7 @@ SC.Record = SC.Object.extend(
     Calls to `beginEditing()` and `endEditing()` can be nested.
 
     @param {String} key key that changed (optional)
-    @returns {SC.Record} receiver
+    @returns {Ember.Record} receiver
   */
   endEditing: function(key) {
     if(--this._editLevel <= 0) {
@@ -3360,7 +3364,7 @@ SC.Record = SC.Object.extend(
     @param {Object} value the value you want to write
     @param {Boolean} ignoreDidChange only set if you do NOT want to flag
       record as dirty
-    @returns {SC.Record} receiver
+    @returns {Ember.Record} receiver
   */
   writeAttribute: function(key, value, ignoreDidChange) {
     var store    = get(this, 'store'),
@@ -3378,9 +3382,9 @@ SC.Record = SC.Object.extend(
       // If the key is the primaryKey of the record, we need to tell the store
       // about the change.
       if (key===get(this, 'primaryKey')) {
-        SC.propertyWillChange(this, 'id'); // Reset computed value
-        SC.Store.replaceIdFor(storeKey, value) ;
-        SC.propertyDidChange(this, 'id'); // Reset computed value
+        Ember.propertyWillChange(this, 'id'); // Reset computed value
+        Ember.Store.replaceIdFor(storeKey, value) ;
+        Ember.propertyDidChange(this, 'id'); // Reset computed value
       }
 
       if(!ignoreDidChange) this.endEditing(key);
@@ -3396,7 +3400,7 @@ SC.Record = SC.Object.extend(
   */
   propagateToAggregates: function() {
     var storeKey = get(this, 'storeKey'),
-        recordType = SC.Store.recordTypeFor(storeKey),
+        recordType = Ember.Store.recordTypeFor(storeKey),
         idx, len, key, val, recs, aggregates;
 
     aggregates = recordType.aggregates;
@@ -3405,7 +3409,7 @@ SC.Record = SC.Object.extend(
     // create the cache first
     if (!aggregates) {
       var dataHash = get(this, 'store').readDataHash(storeKey);
-      var attrFor  = SC.RecordAttribute.attrFor;
+      var attrFor  = Ember.RecordAttribute.attrFor;
       var attr;
 
       aggregates = [];
@@ -3418,7 +3422,7 @@ SC.Record = SC.Object.extend(
 
     // now loop through all aggregate properties and mark their related
     // record objects as dirty
-    var K          = SC.Record,
+    var K          = Ember.Record,
         dirty      = K.DIRTY,
         readyNew   = K.READY_NEW,
         destroyed  = K.DESTROYED,
@@ -3433,7 +3437,7 @@ SC.Record = SC.Object.extend(
       because the parent will dirty itself when it modifies that
       relationship.)
 
-      @param {SC.Record} record to propagate to
+      @param {Ember.Record} record to propagate to
     */
     iter =  function(rec) {
       var childStatus, parentStatus;
@@ -3455,15 +3459,15 @@ SC.Record = SC.Object.extend(
     for(idx=0,len=aggregates.length;idx<len;++idx) {
       key = aggregates[idx];
       val = get(this, key);
-      recs = val instanceof SC.ManyArray ? val : [val];
+      recs = val instanceof Ember.ManyArray ? val : [val];
       recs.forEach(iter, this);
     }
   },
 
   /** @private used internally to notify of property changes. */
   notifyPropertyChange: function(keyName) {
-    SC.propertyWillChange(this, keyName);
-    SC.propertyDidChange(this, keyName);
+    Ember.propertyWillChange(this, keyName);
+    Ember.propertyDidChange(this, keyName);
   },
 
   /**
@@ -3473,7 +3477,7 @@ SC.Record = SC.Object.extend(
 
     @param {Boolean} statusOnly changed
     @param {String} key that changed (optional)
-    @returns {SC.Record} receiver
+    @returns {Ember.Record} receiver
   */
   storeDidChangeProperties: function(statusOnly, keys) {
     // TODO:  Should this function call propagateToAggregates() at the
@@ -3483,17 +3487,17 @@ SC.Record = SC.Object.extend(
     } else {
       if (!keys) {
         keys = get(this, 'store').readDataHash(get(this, 'storeKey'));
-        if (keys) keys = SC.keys(keys);
+        if (keys) keys = Ember.keys(keys);
       }
 
-      SC.beginPropertyChanges(this);
+      Ember.beginPropertyChanges(this);
       if (keys) {
         keys.forEach(function(k) {
           this.notifyPropertyChange(k);
         }, this);
       }
       this.notifyPropertyChange('status');
-      SC.endPropertyChanges(this);
+      Ember.endPropertyChanges(this);
 
       // also notify manyArrays
       var manyArrays = this.relationships,
@@ -3519,7 +3523,7 @@ SC.Record = SC.Object.extend(
     includeNull argument.
 
     @param {Boolean} includeNull will write empty (null) attributes
-    @returns {SC.Record} the normalized record
+    @returns {Ember.Record} the normalized record
   */
 
   normalize: function(includeNull) {
@@ -3534,7 +3538,7 @@ SC.Record = SC.Object.extend(
     dataHash[primaryKey] = recordId;
     recHash = store.readDataHash(storeKey);
 
-    var attrFor = SC.RecordAttribute.attrFor;
+    var attrFor = Ember.RecordAttribute.attrFor;
 
     for (key in this) {
       // make sure property is a record attribute.
@@ -3542,7 +3546,7 @@ SC.Record = SC.Object.extend(
       if (attr) {
         keyForDataHash = get(attr, 'key') || key; // handle alt keys
         typeClass = get(attr, 'typeClass');
-        isRecord  = SC.typeOf(get(attr, 'typeClass')) === 'class';
+        isRecord  = Ember.typeOf(get(attr, 'typeClass')) === 'class';
         isChild   = get(attr, 'isNestedRecordTransform');
 
         if (isRecord) {
@@ -3587,7 +3591,7 @@ SC.Record = SC.Object.extend(
 
   setUnknownProperty: function(key, value) {
     // If the value is undefined, it means it has not been set to null
-    // by SC.Record (and thus reserved as an internal property).
+    // by Ember.Record (and thus reserved as an internal property).
     //
     // Since we will always circumvent the normal set() semantics in
     // this case, the value will *never* be set, so every call to
@@ -3597,14 +3601,14 @@ SC.Record = SC.Object.extend(
       // first check if we should ignore unknown properties for this
       // recordType
       var storeKey = get(this, 'storeKey'),
-        recordType = SC.Store.recordTypeFor(storeKey);
+        recordType = Ember.Store.recordTypeFor(storeKey);
 
       if(recordType.ignoreUnknownProperties===YES) {
         this[key] = value;
         return value;
       }
 
-      // if we're modifying the PKEY, then `SC.Store` needs to relocate where
+      // if we're modifying the PKEY, then `Ember.Store` needs to relocate where
       // this record is cached. store the old key, update the value, then let
       // the store do the housekeeping...
       var primaryKey = get(this, 'primaryKey');
@@ -3612,7 +3616,7 @@ SC.Record = SC.Object.extend(
 
       // update ID if needed
       if (key === primaryKey) {
-        SC.Store.replaceIdFor(storeKey, value);
+        Ember.Store.replaceIdFor(storeKey, value);
       }
 
       return this.unknownProperty(key);
@@ -3649,7 +3653,7 @@ SC.Record = SC.Object.extend(
       record if it has a parent.
     @param {Function} callback optional callback that the store will fire once the
     datasource finished committing
-    @returns {SC.Record} receiver
+    @returns {Ember.Record} receiver
   */
   commitRecord: function(params, recordOnly, callback) {
     var store = get(this, 'store'), rec, ro,
@@ -3658,7 +3662,7 @@ SC.Record = SC.Object.extend(
 
     // If we only want to commit this record or it doesn't have a parent record
     // we will commit this record
-    ro = recordOnly || (SC.none(recordOnly) && SC.none(prKey));
+    ro = recordOnly || (Ember.none(recordOnly) && Ember.none(prKey));
     if (ro){
       store.commitRecord(undefined, undefined, get(this, 'storeKey'), params, callback);
     } else if (prKey){
@@ -3669,11 +3673,11 @@ SC.Record = SC.Object.extend(
   },
 
   // ..........................................................
-  // EMULATE SC.StoreError API
+  // EMULATE Ember.StoreError API
   //
 
   /**
-    Returns `YES` whenever the status is SC.Record.ERROR.  This will allow you
+    Returns `YES` whenever the status is Ember.Record.ERROR.  This will allow you
     to put the UI into an error state.
 
     @type Boolean
@@ -3681,26 +3685,26 @@ SC.Record = SC.Object.extend(
     @dependsOn status
   */
   isError: function() {
-    return get(this, 'status') & SC.Record.ERROR;
+    return get(this, 'status') & Ember.Record.ERROR;
   }.property('status').cacheable(),
 
   /**
     Returns the receiver if the record is in an error state.  Returns null
     otherwise.
 
-    @type SC.Record
+    @type Ember.Record
     @property
     @dependsOn isError
   */
   errorValue: function() {
-    return get(this, 'isError') ? SC.val(get(this, 'errorObject')) : null ;
+    return get(this, 'isError') ? Ember.val(get(this, 'errorObject')) : null ;
   }.property('isError').cacheable(),
 
   /**
     Returns the current error object only if the record is in an error state.
-    If no explicit error object has been set, returns SC.Record.GENERIC_ERROR.
+    If no explicit error object has been set, returns Ember.Record.GENERIC_ERROR.
 
-    @type SC.StoreError
+    @type Ember.StoreError
     @property
     @dependsOn isError
   */
@@ -3719,12 +3723,12 @@ SC.Record = SC.Object.extend(
     Sets the key equal to value.
 
     This version will first check to see if the property is an
-    `SC.RecordAttribute`, and if so, will ensure that its isEditable property
+    `Ember.RecordAttribute`, and if so, will ensure that its isEditable property
     is `YES` before attempting to change the value.
 
     @param key {String} the property to set
     @param value {Object} the value to set or null.
-    @returns {SC.Record}
+    @returns {Ember.Record}
   */
   set: function(key, value) {
     var func = this[key];
@@ -3743,9 +3747,9 @@ SC.Record = SC.Object.extend(
 
   toString: function() {
     // We won't use 'readOnlyAttributes' here because accessing them directly
-    // avoids a SC.copy() -- we'll be careful not to edit anything.
+    // avoids a Ember.copy() -- we'll be careful not to edit anything.
     var attrs = get(this, 'store').readDataHash(get(this, 'storeKey'));
-    return "%@(%@) %@".fmt(this.constructor.toString(), SC.inspect(attrs), this.statusString());
+    return "%@(%@) %@".fmt(this.constructor.toString(), Ember.inspect(attrs), this.statusString());
   },
 
   /** @private
@@ -3757,8 +3761,8 @@ SC.Record = SC.Object.extend(
   statusString: function() {
     var ret = [], status = get(this, 'status');
 
-    for(var prop in SC.Record) {
-      if(prop.match(/[A-Z_]$/) && SC.Record[prop]===status) {
+    for(var prop in Ember.Record) {
+      if(prop.match(/[A-Z_]$/) && Ember.Record[prop]===status) {
         ret.push(prop);
       }
     }
@@ -3776,18 +3780,18 @@ SC.Record = SC.Object.extend(
     @param {Hash} value The hash of attributes to apply to the child record.
     @param {Integer} key The store key that we are asking for
     @param {String} path The property path of the child record
-    @returns {SC.Record} the child record that was registered
+    @returns {Ember.Record} the child record that was registered
    */
   registerNestedRecord: function(value, key, path) {
     var store, psk, csk, childRecord, recordType;
 
     // if no path is entered it must be the key
-    if (SC.none(path)) path = key;
+    if (Ember.none(path)) path = key;
 
     // if a record instance is passed, simply use the storeKey.  This allows
     // you to pass a record from a chained store to get the same record in the
     // current store.
-    if (value instanceof SC.Record) {
+    if (value instanceof Ember.Record) {
       childRecord = value;
     } else {
       recordType = this._materializeNestedRecordType(value, key);
@@ -3814,35 +3818,35 @@ SC.Record = SC.Object.extend(
      Important for use in polymorphism but you must have the following items
      in the parent record:
 
-     `nestedRecordNamespace` <= this is the object that has the `SC.Records`
+     `nestedRecordNamespace` <= this is the object that has the `Ember.Records`
      defined
 
      @param {Hash} value The hash of attributes to apply to the child record.
      @param {String} key the name of the key on the attribute
-     @param {SC.Record} the record that was materialized
+     @param {Ember.Record} the record that was materialized
     */
   _materializeNestedRecordType: function(value, key){
     var childNS, recordType, ret, attr, t;
 
     // Get the record type, first checking the "type" property on the hash.
-    t = SC.typeOf(value);
+    t = Ember.typeOf(value);
     if (t === 'instance' || t === 'object') {
       // Get the record type.
       childNS = get(this, 'nestedRecordNamespace');
-      if (get(value, 'type') && !SC.none(childNS)) {
+      if (get(value, 'type') && !Ember.none(childNS)) {
         recordType = get(childNS, get(value, 'type'));
       }
     }
 
     // Maybe it's not a hash or there was no type property.
     if (!recordType && key) {
-      attr = SC.RecordAttribute.attrFor(this, key);
+      attr = Ember.RecordAttribute.attrFor(this, key);
       if (attr) recordType = get(attr, 'typeClass');
     }
 
     // When all else fails throw and exception.
-    if (!SC.Record.detect(recordType)) {
-      throw 'SC.Child: Error during transform: Invalid record type.';
+    if (!Ember.Record.detect(recordType)) {
+      throw 'Ember.Child: Error during transform: Invalid record type.';
     }
 
     return recordType;
@@ -3851,20 +3855,20 @@ SC.Record = SC.Object.extend(
   /**
     Creates a new nested record instance.
 
-    @param {SC.Record} recordType The type of the nested record to create.
+    @param {Ember.Record} recordType The type of the nested record to create.
     @param {Hash} hash The hash of attributes to apply to the child record.
     (may be null)
-    @returns {SC.Record} the nested record created
+    @returns {Ember.Record} the nested record created
    */
   createNestedRecord: function(recordType, hash) {
     var store, id, sk, pk, cr = null, existingId = null;
-    SC.run(this, function() {
+    Ember.run(this, function() {
       hash = hash || {}; // init if needed
 
       existingId = hash[get(recordType, 'proto').primaryKey];
 
       store = get(this, 'store');
-      if (SC.none(store)) throw 'Error: during the creation of a child record: NO STORE ON PARENT!';
+      if (Ember.none(store)) throw 'Error: during the creation of a child record: NO STORE ON PARENT!';
 
       if (!id && (pk = get(recordType, 'proto').primaryKey)) {
         id = hash[pk];
@@ -3876,10 +3880,10 @@ SC.Record = SC.Object.extend(
           cr = store.materializeRecord(sk);
         } else {
           cr = store.createRecord(recordType, hash) ;
-          if (SC.none(id)){
+          if (Ember.none(id)){
             sk = get(cr, 'storeKey');
             id = 'cr'+sk;
-            SC.Store.replaceIdFor(sk, id);
+            Ember.Store.replaceIdFor(sk, id);
             hash = store.readEditableDataHash(sk);
             hash[pk] = id;
           }
@@ -3888,7 +3892,7 @@ SC.Record = SC.Object.extend(
       }
 
       // ID processing if necessary
-      if (SC.none(existingId) && this.generateIdForChild) this.generateIdForChild(cr);
+      if (Ember.none(existingId) && this.generateIdForChild) this.generateIdForChild(cr);
 
     });
 
@@ -3901,7 +3905,7 @@ SC.Record = SC.Object.extend(
     Override this function if you want to have a special way of creating
     ids for your child records
 
-    @param {SC.Record} childRecord
+    @param {Ember.Record} childRecord
     @returns {String} the id generated
    */
   generateIdForChild: function(childRecord){}
@@ -3909,7 +3913,7 @@ SC.Record = SC.Object.extend(
 }) ;
 
 // Class Methods
-SC.Record.reopenClass( /** @scope SC.Record.prototype */ {
+Ember.Record.reopenClass( /** @scope Ember.Record.prototype */ {
 
   /**
     Whether to ignore unknown properties when they are being set on the record
@@ -3954,7 +3958,7 @@ SC.Record.reopenClass( /** @scope SC.Record.prototype */ {
     State for records that are still loaded.
 
     A record instance should never be in this state.  You will only run into
-    it when working with the low-level data hash API on `SC.Store`. Use a
+    it when working with the low-level data hash API on `Ember.Store`. Use a
     logical AND (single `&`) to test record status
 
     @static
@@ -4179,45 +4183,45 @@ SC.Record.reopenClass( /** @scope SC.Record.prototype */ {
 
     @static
     @constant
-    @type SC.StoreError
+    @type Ember.StoreError
   */
-  BAD_STATE_ERROR:     SC.$error("Internal Inconsistency"),
+  BAD_STATE_ERROR:     Ember.$error("Internal Inconsistency"),
 
   /**
     Error for when you try to create a new record that already exists.
 
     @static
     @constant
-    @type SC.StoreError
+    @type Ember.StoreError
   */
-  RECORD_EXISTS_ERROR: SC.$error("Record Exists"),
+  RECORD_EXISTS_ERROR: Ember.$error("Record Exists"),
 
   /**
     Error for when you attempt to locate a record that is not found
 
     @static
     @constant
-    @type SC.StoreError
+    @type Ember.StoreError
   */
-  NOT_FOUND_ERROR:     SC.$error("Not found "),
+  NOT_FOUND_ERROR:     Ember.$error("Not found "),
 
   /**
     Error for when you try to modify a record that is currently busy
 
     @static
     @constant
-    @type SC.StoreError
+    @type Ember.StoreError
   */
-  BUSY_ERROR:          SC.$error("Busy"),
+  BUSY_ERROR:          Ember.$error("Busy"),
 
   /**
     Generic unknown record error
 
     @static
     @constant
-    @type SC.StoreError
+    @type Ember.StoreError
   */
-  GENERIC_ERROR:       SC.$error("Generic Error"),
+  GENERIC_ERROR:       Ember.$error("Generic Error"),
 
   /**
     @private
@@ -4230,72 +4234,72 @@ SC.Record.reopenClass( /** @scope SC.Record.prototype */ {
   //
 
   /**
-    Helper method returns a new `SC.RecordAttribute` instance to map a simple
+    Helper method returns a new `Ember.RecordAttribute` instance to map a simple
     value or to-one relationship and then defines it as a computed property.
     At the very least, you should pass the type class you expect the attribute
     to have.  You may pass any additional options as well.
 
-    Use this helper when you define SC.Record subclasses.
+    Use this helper when you define Ember.Record subclasses.
 
-        MyApp.Contact = SC.Record.extend({
-          firstName: SC.Record.attr(String, { isRequired: YES })
+        MyApp.Contact = Ember.Record.extend({
+          firstName: Ember.Record.attr(String, { isRequired: YES })
         });
 
     @param {Class} type the attribute type
     @param {Hash} opts the options for the attribute
-    @returns {SC.RecordAttribute} created instance
+    @returns {Ember.RecordAttribute} created instance
   */
   attr: function(type, opts) {
-    return SC.RecordAttribute.attr(type, opts).computed();
+    return Ember.RecordAttribute.attr(type, opts).computed();
   },
 
   /**
-    Returns an `SC.RecordAttribute` that describes a fetched attribute.  When
-    you reference this attribute, it will return an `SC.RecordArray` that uses
+    Returns an `Ember.RecordAttribute` that describes a fetched attribute.  When
+    you reference this attribute, it will return an `Ember.RecordArray` that uses
     the type as the fetch key and passes the attribute value as a param.
 
-    Use this helper when you define SC.Record subclasses.
+    Use this helper when you define Ember.Record subclasses.
 
-        MyApp.Group = SC.Record.extend({
-          contacts: SC.Record.fetch('MyApp.Contact')
+        MyApp.Group = Ember.Record.extend({
+          contacts: Ember.Record.fetch('MyApp.Contact')
         });
 
-    @param {SC.Record|String} recordType The type of records to load
+    @param {Ember.Record|String} recordType The type of records to load
     @param {Hash} opts the options for the attribute
-    @returns {SC.RecordAttribute} created instance
+    @returns {Ember.RecordAttribute} created instance
   */
   fetch: function(recordType, opts) {
-    return SC.FetchedAttribute.attr(recordType, opts).computed();
+    return Ember.FetchedAttribute.attr(recordType, opts).computed();
   },
 
   /**
     Will return one of the following:
 
-     1. `SC.ManyAttribute` that describes a record array backed by an
+     1. `Ember.ManyAttribute` that describes a record array backed by an
         array of guids stored in the underlying JSON.
-     2. `SC.ChildrenAttribute` that describes a record array backed by a
+     2. `Ember.ChildrenAttribute` that describes a record array backed by a
         array of hashes.
 
     You can edit the contents of this relationship.
 
-    For `SC.ManyAttribute`, If you set the inverse and `isMaster: NO` key,
+    For `Ember.ManyAttribute`, If you set the inverse and `isMaster: NO` key,
     then editing this array will modify the underlying data, but the
     inverse key on the matching record will also be edited and that
     record will be marked as needing a change.
 
-    @param {SC.Record|String} recordType The type of record to create
+    @param {Ember.Record|String} recordType The type of record to create
     @param {Hash} opts the options for the attribute
-    @returns {SC.ManyAttribute|SC.ChildrenAttribute} created instance
+    @returns {Ember.ManyAttribute|Ember.ChildrenAttribute} created instance
   */
   toMany: function(recordType, opts) {
     opts = opts || {};
     var isNested = opts.nested || opts.isNested;
     var attr;
     if(isNested){
-      attr = SC.ChildrenAttribute.attr(recordType, opts);
+      attr = Ember.ChildrenAttribute.attr(recordType, opts);
     }
     else {
-      attr = SC.ManyAttribute.attr(recordType, opts);
+      attr = Ember.ManyAttribute.attr(recordType, opts);
     }
     return attr.computed();
   },
@@ -4303,38 +4307,38 @@ SC.Record.reopenClass( /** @scope SC.Record.prototype */ {
   /**
     Will return one of the following:
 
-     1. `SC.SingleAttribute` that converts the underlying ID to a single
+     1. `Ember.SingleAttribute` that converts the underlying ID to a single
         record.  If you modify this property, it will rewrite the underyling
         ID. It will also modify the inverse of the relationship, if you set it.
-     2. `SC.ChildAttribute` that you can edit the contents
+     2. `Ember.ChildAttribute` that you can edit the contents
         of this relationship.
 
-    @param {SC.Record|String} recordType the type of the record to create
+    @param {Ember.Record|String} recordType the type of the record to create
     @param {Hash} opts additional options
-    @returns {SC.SingleAttribute|SC.ChildAttribute} created instance
+    @returns {Ember.SingleAttribute|Ember.ChildAttribute} created instance
   */
   toOne: function(recordType, opts) {
     opts = opts || {};
     var isNested = opts.nested || opts.isNested;
     var attr;
     if(isNested){
-      attr = SC.ChildAttribute.attr(recordType, opts);
+      attr = Ember.ChildAttribute.attr(recordType, opts);
     }
     else {
-      attr = SC.SingleAttribute.attr(recordType, opts);
+      attr = Ember.SingleAttribute.attr(recordType, opts);
     }
     return attr.computed();
   },
 
   /**
     Returns all storeKeys mapped by Id for this record type.  This method is
-    used mostly by the `SC.Store` and the Record to coordinate.  You will
+    used mostly by the `Ember.Store` and the Record to coordinate.  You will
     rarely need to call this method yourself.
 
     @returns {Hash}
   */
   storeKeysById: function() {
-    var key = 'storeKey-'+SC.guidFor(this),
+    var key = 'storeKey-'+Ember.guidFor(this),
         ret = this[key];
     if (!ret) ret = this[key] = {};
     return ret;
@@ -4345,8 +4349,8 @@ SC.Record.reopenClass( /** @scope SC.Record.prototype */ {
     storeKey.  If the primaryKey has not been assigned a storeKey yet, it
     will be added.
 
-    For the inverse of this method see `SC.Store.idFor()` and
-    `SC.Store.recordTypeFor()`.
+    For the inverse of this method see `Ember.Store.idFor()` and
+    `Ember.Store.recordTypeFor()`.
 
     @param {String} id a record id
     @returns {Number} a storeKey.
@@ -4356,9 +4360,9 @@ SC.Record.reopenClass( /** @scope SC.Record.prototype */ {
         ret       = storeKeys[id];
 
     if (!ret) {
-      ret = SC.Store.generateStoreKey();
-      SC.Store.idsByStoreKey[ret] = id ;
-      SC.Store.recordTypesByStoreKey[ret] = this ;
+      ret = Ember.Store.generateStoreKey();
+      Ember.Store.idsByStoreKey[ret] = id ;
+      Ember.Store.recordTypesByStoreKey[ret] = this ;
       storeKeys[id] = ret ;
     }
 
@@ -4383,28 +4387,28 @@ SC.Record.reopenClass( /** @scope SC.Record.prototype */ {
   /**
     Returns a record with the named ID in store.
 
-    @param {SC.Store} store the store
+    @param {Ember.Store} store the store
     @param {String} id the record id or a query
-    @returns {SC.Record} record instance
+    @returns {Ember.Record} record instance
   */
   find: function(store, id) {
     return store.find(this, id);
   },
 
-  /** @private - enhance extend to notify SC.Query as well. */
+  /** @private - enhance extend to notify Ember.Query as well. */
   extend: function() {
-    var ret = SC.Object.extend.apply(this, arguments);
+    var ret = Ember.Object.extend.apply(this, arguments);
 
     // Clear aggregates cache when creating a new subclass
-    // of SC.Record
+    // of Ember.Record
     ret.aggregates = null;
 
-    SC.Query._scq_didDefineRecordType(ret);
+    Ember.Query._scq_didDefineRecordType(ret);
     return ret ;
   }
 }) ;
 
-K = SC.Record;
+K = Ember.Record;
 
 })({});
 
@@ -4419,7 +4423,7 @@ K = SC.Record;
 
 
 
-var get = SC.get, set = SC.set, getPath = SC.getPath;
+var get = Ember.get, set = Ember.set, getPath = Ember.getPath;
 
 /** @class
 
@@ -4427,9 +4431,9 @@ var get = SC.get, set = SC.set, getPath = SC.getPath;
   generate computed properties on records that can automatically convert data
   types and verify data.
 
-  When defining an attribute on an SC.Record, you can configure it this way:
+  When defining an attribute on an Ember.Record, you can configure it this way:
 
-      title: SC.Record.attr(String, {
+      title: Ember.Record.attr(String, {
         defaultValue: 'Untitled',
         isRequired: YES|NO
       })
@@ -4439,9 +4443,9 @@ var get = SC.get, set = SC.set, getPath = SC.getPath;
   be if you have record with a parentGuid attribute, but are not able to
   determine which record type to map to before looking at the guid (or any
   other attributes). To set up such a computed property, you can attach a
-  function in the attribute definition of the SC.Record subclass:
+  function in the attribute definition of the Ember.Record subclass:
 
-      relatedToComputed: SC.Record.toOne(function() {
+      relatedToComputed: Ember.Record.toOne(function() {
         return (this.readAttribute('relatedToComputed').indexOf("foo")==0) ? MyApp.Foo : MyApp.Bar;
       })
 
@@ -4451,16 +4455,16 @@ var get = SC.get, set = SC.set, getPath = SC.getPath;
   You usually will not work with RecordAttribute objects directly, though you
   may extend the class in any way that you like to create a custom attribute.
 
-  A number of default RecordAttribute types are defined on the SC.Record.
+  A number of default RecordAttribute types are defined on the Ember.Record.
 
-  @extends SC.Object
-  @see SC.Record
-  @see SC.ManyAttribute
-  @see SC.SingleAttribute
+  @extends Ember.Object
+  @see Ember.Record
+  @see Ember.ManyAttribute
+  @see Ember.SingleAttribute
   @since SproutCore 1.0
 */
-SC.RecordAttribute = SC.Object.extend(
-  /** @scope SC.RecordAttribute.prototype */ {
+Ember.RecordAttribute = Ember.Object.extend(
+  /** @scope Ember.RecordAttribute.prototype */ {
   /**
     Walk like a duck.
 
@@ -4563,7 +4567,7 @@ SC.RecordAttribute = SC.Object.extend(
   */
   typeClass: function() {
     var ret = get(this, 'type');
-    if (SC.typeOf(ret) === 'string') ret = getPath(ret);
+    if (Ember.typeOf(ret) === 'string') ret = getPath(ret);
     return ret ;
   }.property('type').cacheable(),
 
@@ -4577,12 +4581,12 @@ SC.RecordAttribute = SC.Object.extend(
   */
   transform: function() {
     var klass      = get(this, 'typeClass') || String,
-        transforms = SC.RecordAttribute.transforms,
+        transforms = Ember.RecordAttribute.transforms,
         ret ;
 
     // walk up class hierarchy looking for a transform handler
-    while(klass && !(ret = transforms[SC.guidFor(klass)])) {
-      // check if super has create property to detect SC.Object's
+    while(klass && !(ret = transforms[Ember.guidFor(klass)])) {
+      // check if super has create property to detect Ember.Object's
       if(klass.superclass && klass.superclass.hasOwnProperty('create')) {
         klass = klass.superclass ;
       }
@@ -4601,10 +4605,10 @@ SC.RecordAttribute = SC.Object.extend(
   /**
     Converts the passed value into the core attribute value.  This will apply
     any format transforms.  You can install standard transforms by adding to
-    the `SC.RecordAttribute.transforms` hash.  See
-    SC.RecordAttribute.registerTransform() for more.
+    the `Ember.RecordAttribute.transforms` hash.  See
+    Ember.RecordAttribute.registerTransform() for more.
 
-    @param {SC.Record} record The record instance
+    @param {Ember.Record} record The record instance
     @param {String} key The key used to access this attribute on the record
     @param {Object} value The property value before being transformed
     @returns {Object} The transformed value
@@ -4618,7 +4622,7 @@ SC.RecordAttribute = SC.Object.extend(
       value = transform.to(value, this, type, record, key) ;
 
       // if the transform needs to do something when its children change, we need to set up an observer for it
-      if(!SC.none(value) && (children = transform.observesChildren)) {
+      if(!Ember.none(value) && (children = transform.observesChildren)) {
         var i, len = children.length,
         // store the record, transform, and key so the observer knows where it was called from
         context = {
@@ -4626,7 +4630,7 @@ SC.RecordAttribute = SC.Object.extend(
           key: key
         };
 
-        for(i = 0; i < len; i++) SC.addObserver(value, children[i], this, this._SCRA_childObserver, context);
+        for(i = 0; i < len; i++) Ember.addObserver(value, children[i], this, this._EmberRA_childObserver, context);
       }
     }
 
@@ -4638,7 +4642,7 @@ SC.RecordAttribute = SC.Object.extend(
 
     Shared observer used by any attribute whose transform creates a seperate
     object that needs to write back to the datahash when it changes. For
-    example, when enumerable content changes on a `SC.Set` attribute, it
+    example, when enumerable content changes on a `Ember.Set` attribute, it
     writes back automatically instead of forcing you to call `.set` manually.
 
     This functionality can be used by setting an array named
@@ -4651,7 +4655,7 @@ SC.RecordAttribute = SC.Object.extend(
     @param {Object} prev Previous value (not used)
     @param {Object} context Hash of extra context information
   */
-  _SCRA_childObserver: function(obj, key, prev, context) {
+  _EmberRA_childObserver: function(obj, key, prev, context) {
     // write the new value back to the record
     this.call(context.record, context.key, obj);
 
@@ -4662,10 +4666,10 @@ SC.RecordAttribute = SC.Object.extend(
   /**
     Converts the passed value from the core attribute value.  This will apply
     any format transforms.  You can install standard transforms by adding to
-    the `SC.RecordAttribute.transforms` hash.  See
-    `SC.RecordAttribute.registerTransform()` for more.
+    the `Ember.RecordAttribute.transforms` hash.  See
+    `Ember.RecordAttribute.registerTransform()` for more.
 
-    @param {SC.Record} record The record instance
+    @param {Ember.Record} record The record instance
     @param {String} key The key used to access this attribute on the record
     @param {Object} value The transformed value
     @returns {Object} The value converted back to attribute format
@@ -4682,11 +4686,11 @@ SC.RecordAttribute = SC.Object.extend(
 
   /**
     The core handler. Called when `get()` is called on the
-    parent record, since `SC.RecordAttribute` uses `isProperty` to masquerade
+    parent record, since `Ember.RecordAttribute` uses `isProperty` to masquerade
     as a computed property. Get expects a property be a function, thus we
     need to implement call.
 
-    @param {SC.Record} record The record instance
+    @param {Ember.Record} record The record instance
     @param {String} key The key used to access this attribute on the record
     @param {Object} value The property value if called as a setter
     @returns {Object} property value
@@ -4702,7 +4706,7 @@ SC.RecordAttribute = SC.Object.extend(
     }
 
     nvalue = value = record.readAttribute(attrKey);
-    if (SC.none(value) && (value = get(this, 'defaultValue'))) {
+    if (Ember.none(value) && (value = get(this, 'defaultValue'))) {
        if (typeof value === 'function') {
         value = this.defaultValue(record, key, this);
         // write default value so it doesn't have to be executed again
@@ -4732,8 +4736,8 @@ SC.RecordAttribute = SC.Object.extend(
   init: function() {
     this._super();
     // setup some internal properties needed for KVO - faking 'cacheable'
-    this.cacheKey = "__cache__" + SC.guidFor(this) ;
-    this.lastSetValueKey = "__lastValue__" + SC.guidFor(this) ;
+    this.cacheKey = "__cache__" + Ember.guidFor(this) ;
+    this.lastSetValueKey = "__lastValue__" + Ember.guidFor(this) ;
   },
 
   /**
@@ -4744,7 +4748,7 @@ SC.RecordAttribute = SC.Object.extend(
   */
   computed: function() {
     var attr = this;
-    var ret  = SC.computed(function(key, value) {
+    var ret  = Ember.computed(function(key, value) {
       return attr.call(this, key, value);
     });
     ret.attr = attr;
@@ -4756,8 +4760,8 @@ SC.RecordAttribute = SC.Object.extend(
 // CLASS METHODS
 //
 
-SC.RecordAttribute.reopenClass(
-  /** @scope SC.RecordAttribute.prototype */{
+Ember.RecordAttribute.reopenClass(
+  /** @scope Ember.RecordAttribute.prototype */{
   /**
     The default method used to create a record attribute instance.  Unlike
     `create()`, takes an `attributeType` as the first parameter which will be
@@ -4767,7 +4771,7 @@ SC.RecordAttribute.reopenClass(
     @static
     @param {Object|String} attributeType the assumed attribute type
     @param {Hash} opts optional additional config options
-    @returns {SC.RecordAttribute} new instance
+    @returns {Ember.RecordAttribute} new instance
   */
   attr: function(attributeType, opts) {
     if (!opts) opts = {} ;
@@ -4798,7 +4802,7 @@ SC.RecordAttribute.reopenClass(
         {
           to: function(value, attr, type, record, key) {
             if(value) return value.toSet();
-            else return SC.Set.create();
+            else return Ember.Set.create();
           },
 
           from: function(value, attr, type, record, key) {
@@ -4811,10 +4815,10 @@ SC.RecordAttribute.reopenClass(
     @static
     @param {Object} klass the type of object you convert
     @param {Object} transform the transform object
-    @returns {SC.RecordAttribute} receiver
+    @returns {Ember.RecordAttribute} receiver
   */
   registerTransform: function(klass, transform) {
-    SC.RecordAttribute.transforms[SC.guidFor(klass)] = transform;
+    Ember.RecordAttribute.transforms[Ember.guidFor(klass)] = transform;
   },
 
   /**
@@ -4822,12 +4826,12 @@ SC.RecordAttribute.reopenClass(
     use get() to retrieve record attributes because that will invoke the
     property instead.
 
-    @param {SC.Record} rec record instance to inspect
+    @param {Ember.Record} rec record instance to inspect
     @param {String} keyName key name to retrieve
-    @returns {SC.RecordAttribute} the attribute or null if none defined
+    @returns {Ember.RecordAttribute} the attribute or null if none defined
   */
   attrFor: function(rec, keyName) {
-    var ret = SC.meta(rec, false).descs[keyName];
+    var ret = Ember.meta(rec, false).descs[keyName];
     return ret && ret.attr;
   }
 });
@@ -4839,29 +4843,29 @@ SC.RecordAttribute.reopenClass(
 // Object, String, Number just pass through.
 
 /** @private - generic converter for Boolean records */
-SC.RecordAttribute.registerTransform(Boolean, {
+Ember.RecordAttribute.registerTransform(Boolean, {
   /** @private - convert an arbitrary object value to a boolean */
   to: function(obj) {
-    return SC.none(obj) ? null : !!obj;
+    return Ember.none(obj) ? null : !!obj;
   }
 });
 
 /** @private - generic converter for Numbers */
-SC.RecordAttribute.registerTransform(Number, {
+Ember.RecordAttribute.registerTransform(Number, {
   /** @private - convert an arbitrary object value to a Number */
   to: function(obj) {
-    return SC.none(obj) ? null : Number(obj) ;
+    return Ember.none(obj) ? null : Number(obj) ;
   }
 });
 
 /** @private - generic converter for Strings */
-SC.RecordAttribute.registerTransform(String, {
+Ember.RecordAttribute.registerTransform(String, {
   /** @private -
     convert an arbitrary object value to a String
     allow null through as that will be checked separately
   */
   to: function(obj) {
-    if (!(typeof obj === 'string') && !SC.none(obj) && obj.toString) {
+    if (!(typeof obj === 'string') && !Ember.none(obj) && obj.toString) {
       obj = obj.toString();
     }
     return obj;
@@ -4869,11 +4873,11 @@ SC.RecordAttribute.registerTransform(String, {
 });
 
 /** @private - generic converter for Array */
-SC.RecordAttribute.registerTransform(Array, {
+Ember.RecordAttribute.registerTransform(Array, {
   /** @private - check if obj is an array
   */
   to: function(obj) {
-    if (!SC.isArray(obj) && !SC.none(obj)) {
+    if (!Ember.isArray(obj) && !Ember.none(obj)) {
       obj = [];
     }
     return obj;
@@ -4883,23 +4887,23 @@ SC.RecordAttribute.registerTransform(Array, {
 });
 
 /** @private - generic converter for Object */
-SC.RecordAttribute.registerTransform(Object, {
+Ember.RecordAttribute.registerTransform(Object, {
   /** @private - check if obj is an object */
   to: function(obj) {
-    if (!(typeof obj === 'object') && !SC.none(obj)) {
+    if (!(typeof obj === 'object') && !Ember.none(obj)) {
       obj = {};
     }
     return obj;
   }
 });
 
-/** @private - generic converter for SC.Record-type records */
-SC.RecordAttribute.registerTransform(SC.Record, {
+/** @private - generic converter for Ember.Record-type records */
+Ember.RecordAttribute.registerTransform(Ember.Record, {
 
   /** @private - convert a record id to a record instance */
   to: function(id, attr, recordType, parentRecord) {
     var store = get(parentRecord, 'store');
-    if (SC.none(id) || (id==="")) return null;
+    if (Ember.none(id) || (id==="")) return null;
     else return store.find(recordType, id);
   },
 
@@ -4908,7 +4912,7 @@ SC.RecordAttribute.registerTransform(SC.Record, {
 });
 
 /** @private - generic converter for transforming computed record attributes */
-SC.RecordAttribute.registerTransform('function', {
+Ember.RecordAttribute.registerTransform('function', {
 
   /** @private - convert a record id to a record instance */
   to: function(id, attr, recordType, parentRecord) {
@@ -4922,14 +4926,14 @@ SC.RecordAttribute.registerTransform('function', {
 });
 
 /** @private - generic converter for Date records */
-SC.RecordAttribute.registerTransform(Date, {
+Ember.RecordAttribute.registerTransform(Date, {
 
   /** @private - convert a string to a Date */
   to: function(str, attr) {
 
     // If a null or undefined value is passed, don't
     // do any normalization.
-    if (SC.none(str)) { return str; }
+    if (Ember.none(str)) { return str; }
 
     var ret ;
     str = str.toString() || '';
@@ -4973,7 +4977,7 @@ SC.RecordAttribute.registerTransform(Date, {
   /** @private - convert a date to a string */
   from: function(date) {
 
-    if (SC.none(date)) { return null; }
+    if (Ember.none(date)) { return null; }
 
     var ret = this._dates[date.getTime()];
     if (ret) return ret ;
@@ -4997,13 +5001,13 @@ SC.RecordAttribute.registerTransform(Date, {
   }
 });
 
-if (SC.DateTime && !SC.RecordAttribute.transforms[SC.guidFor(SC.DateTime)]) {
+if (Ember.DateTime && !Ember.RecordAttribute.transforms[Ember.guidFor(Ember.DateTime)]) {
   /**
-    Registers a transform to allow `SC.DateTime` to be used as a record
-    attribute, ie `SC.Record.attr(SC.DateTime);`
+    Registers a transform to allow `Ember.DateTime` to be used as a record
+    attribute, ie `Ember.Record.attr(Ember.DateTime);`
 
-    Because `SC.RecordAttribute` is in the datastore framework and
-    `SC.DateTime` in the foundation framework, and we don't know which
+    Because `Ember.RecordAttribute` is in the datastore framework and
+    `Ember.DateTime` in the foundation framework, and we don't know which
     framework is being loaded first, this chunck of code is duplicated in
     both frameworks.
 
@@ -5011,25 +5015,25 @@ if (SC.DateTime && !SC.RecordAttribute.transforms[SC.guidFor(SC.DateTime)]) {
     `record_attribute.js.`
   */
 
-  SC.RecordAttribute.registerTransform(SC.DateTime, {
+  Ember.RecordAttribute.registerTransform(Ember.DateTime, {
 
     /** @private
       Convert a String to a DateTime
     */
     to: function(str, attr) {
-      if (SC.none(str) || (str instanceof SC.DateTime)) return str;
-      if (SC.none(str) || (str instanceof Date)) return SC.DateTime.create(str.getTime());
+      if (Ember.none(str) || (str instanceof Ember.DateTime)) return str;
+      if (Ember.none(str) || (str instanceof Date)) return Ember.DateTime.create(str.getTime());
       var format = get(attr, 'format');
-      return SC.DateTime.parse(str, format ? format : SC.DateTime.recordFormat);
+      return Ember.DateTime.parse(str, format ? format : Ember.DateTime.recordFormat);
     },
 
     /** @private
       Convert a DateTime to a String
     */
     from: function(dt, attr) {
-      if (SC.none(dt)) return dt;
+      if (Ember.none(dt)) return dt;
       var format = get(attr, 'format');
-      return dt.toFormattedString(format ? format : SC.DateTime.recordFormat);
+      return dt.toFormattedString(format ? format : Ember.DateTime.recordFormat);
     }
   });
 
@@ -5038,9 +5042,9 @@ if (SC.DateTime && !SC.RecordAttribute.transforms[SC.guidFor(SC.DateTime)]) {
 /**
   Parses a coreset represented as an array.
  */
-SC.RecordAttribute.registerTransform(SC.Set, {
+Ember.RecordAttribute.registerTransform(Ember.Set, {
   to: function(value, attr, type, record, key) {
-    return SC.Set.create(value);
+    return Ember.Set.create(value);
   },
 
   from: function(value, attr, type, record, key) {
@@ -5063,7 +5067,7 @@ SC.RecordAttribute.registerTransform(SC.Set, {
 // ==========================================================================
 
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
 /** @class
 
@@ -5071,17 +5075,17 @@ var get = SC.get, set = SC.set;
   relationships for child records.
 
   When setting ( `set()` ) the value of a toMany attribute, make sure
-  to pass in an array of `SC.Record` objects.
+  to pass in an array of `Ember.Record` objects.
 
   There are many ways you can configure a ManyAttribute:
 
-      contacts: SC.ChildAttribute.attr('SC.Child');
+      contacts: Ember.ChildAttribute.attr('Ember.Child');
 
-  @extends SC.RecordAttribute
+  @extends Ember.RecordAttribute
   @since SproutCore 1.0
 */
-SC.ChildAttribute = SC.RecordAttribute.extend(
-  /** @scope SC.ChildAttribute.prototype */ {
+Ember.ChildAttribute = Ember.RecordAttribute.extend(
+  /** @scope Ember.ChildAttribute.prototype */ {
 
   isNestedRecordTransform: YES,
 
@@ -5095,9 +5099,9 @@ SC.ChildAttribute = SC.RecordAttribute.extend(
         recordType  = get(this, 'typeClass');
 
     if (!record) {
-      throw 'SC.Child: Error during transform: Unable to retrieve parent record.';
+      throw 'Ember.Child: Error during transform: Unable to retrieve parent record.';
     }
-    if (!SC.none(value)) ret = record.registerNestedRecord(value, key);
+    if (!Ember.none(value)) ret = record.registerNestedRecord(value, key);
 
     return ret;
   },
@@ -5107,7 +5111,7 @@ SC.ChildAttribute = SC.RecordAttribute.extend(
     var sk, store, ret;
 
     if (record) {
-      if (SC.none(value)) {
+      if (Ember.none(value)) {
         // Handle null value.
         record.writeAttribute(key, value);
         ret = value;
@@ -5132,21 +5136,21 @@ SC.ChildAttribute = SC.RecordAttribute.extend(
 
   /**
     The core handler.  Called from the property.
-    @param {SC.Record} record the record instance
+    @param {Ember.Record} record the record instance
     @param {String} key the key used to access this attribute on the record
     @param {Object} value the property value if called as a setter
     @returns {Object} property value
   */
   call: function(record, key, value) {
     var attrKey = get(this, 'key') || key, cRef,
-        cacheKey = '__kid__'+SC.guidFor(this);
+        cacheKey = '__kid__'+Ember.guidFor(this);
     if (value !== undefined) {
       // this.orphan(record, cacheKey, value);
       value = this.fromType(record, key, value) ; // convert to attribute.
       // record[cacheKey] = value;
     } else {
       value = record.readAttribute(attrKey);
-      if (SC.none(value) && (value = get(this, 'defaultValue'))) {
+      if (Ember.none(value) && (value = get(this, 'defaultValue'))) {
         if (typeof value === 'function') {
           value = this.defaultValue(record, key, this);
           // write default value so it doesn't have to be executed again
@@ -5172,20 +5176,20 @@ SC.ChildAttribute = SC.RecordAttribute.extend(
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 
-var get = SC.get, set = SC.set, getPath = SC.getPath;
+var get = Ember.get, set = Ember.set, getPath = Ember.getPath;
 
 /**
   @class
 
   A `ChildArray` is used to map an array of `ChildRecord` objects.
 
-  @extends SC.Enumerable
-  @extends SC.Array
+  @extends Ember.Enumerable
+  @extends Ember.Array
   @since SproutCore 1.0
 */
 
-SC.ChildArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable, SC.MutableArray,
-  /** @scope SC.ChildArray.prototype */ {
+Ember.ChildArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.MutableEnumerable, Ember.MutableArray,
+  /** @scope Ember.ChildArray.prototype */ {
 
   /**
     If set, it is the default record `recordType`
@@ -5200,7 +5204,7 @@ SC.ChildArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable, 
     it can change its own state
 
     @default null
-    @type {SC.Record}
+    @type {Ember.Record}
   */
   record: null,
 
@@ -5217,7 +5221,7 @@ SC.ChildArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable, 
     Actual references to the hashes
 
     @default null
-    @type {SC.Array}
+    @type {Ember.Array}
   */
   children: null,
 
@@ -5225,7 +5229,7 @@ SC.ChildArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable, 
     The store that owns this record array.  All record arrays must have a
     store to function properly.
 
-    @type SC.Store
+    @type Ember.Store
     @property
   */
   store: function() {
@@ -5247,7 +5251,7 @@ SC.ChildArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable, 
     Returns the storeIds in read only mode.  Avoids modifying the record
     unnecessarily.
 
-    @type SC.Array
+    @type Ember.Array
     @property
   */
   readOnlyChildren: function() {
@@ -5258,7 +5262,7 @@ SC.ChildArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable, 
     Returns an editable array of child hashes.  Marks the owner records as
     modified.
 
-    @type {SC.Array}
+    @type {Ember.Array}
     @property
   */
   editableChildren: function() {
@@ -5297,7 +5301,7 @@ SC.ChildArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable, 
     records.
 
     @param {Number} idx index of the object to retrieve.
-    @returns {SC.Record} The record if found or undefined.
+    @returns {Ember.Record} The record if found or undefined.
   */
   objectAt: function(idx) {
     var recs      = this._records,
@@ -5328,7 +5332,7 @@ SC.ChildArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable, 
     @param {Number} idx index of the object to replace.
     @param {Number} amt number of records to replace starting at idx.
     @param {Number} recs array with records to replace.
-    @returns {SC.Record} The record if found or undefined.
+    @returns {Ember.Record} The record if found or undefined.
 
   */
   replace: function(idx, amt, recs) {
@@ -5350,14 +5354,14 @@ SC.ChildArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable, 
 
     Converts a records array into an array of hashes.
 
-    @param {SC.Array} recs records to be converted to hashes.
-    @returns {SC.Array} array of hashes.
+    @param {Ember.Array} recs records to be converted to hashes.
+    @returns {Ember.Array} array of hashes.
   */
   _processRecordsToHashes: function(recs){
     var store, sk;
     recs = recs || [];
     recs.forEach( function(me, idx) {
-      if (me instanceof SC.Record) {
+      if (me instanceof Ember.Record) {
         store = get(me, 'store');
         sk = get(me, 'storeKey');
         if (sk) recs[idx] = store.readDataHash(sk);
@@ -5383,8 +5387,8 @@ SC.ChildArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable, 
   /**
     Invoked whenever the children array changes.  Observes changes.
 
-    @param {SC.Array} keys optional
-    @returns {SC.ChildArray} itself.
+    @param {Ember.Array} keys optional
+    @returns {Ember.ChildArray} itself.
   */
   recordPropertyDidChange: function(keys) {
     if (keys && !keys.contains(get(this, 'propertyName'))) return this;
@@ -5459,7 +5463,7 @@ SC.ChildArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable, 
 
 
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
 /** @class
 
@@ -5467,17 +5471,17 @@ var get = SC.get, set = SC.set;
   relationships for child records.
 
   When setting ( `set()` ) the value of a toMany attribute, make sure
-  to pass in an array of SC.Record objects.
+  to pass in an array of Ember.Record objects.
 
   There are many ways you can configure a ChildrenAttribute:
 
-      contacts: SC.ChildrenAttribute.attr('SC.Child');
+      contacts: Ember.ChildrenAttribute.attr('Ember.Child');
 
-  @extends SC.RecordAttribute
+  @extends Ember.RecordAttribute
   @since SproutCore 1.0
 */
-SC.ChildrenAttribute = SC.ChildAttribute.extend(
-  /** @scope SC.ChildrenAttribute.prototype */ {
+Ember.ChildrenAttribute = Ember.ChildAttribute.extend(
+  /** @scope Ember.ChildrenAttribute.prototype */ {
 
   // ..........................................................
   // LOW-LEVEL METHODS
@@ -5486,14 +5490,14 @@ SC.ChildrenAttribute = SC.ChildAttribute.extend(
   /**  @private - adapted for to many relationship */
   toType: function(record, key, value) {
     var attrKey   = get(this, 'key') || key,
-        arrayKey  = '__kidsArray__'+SC.guidFor(this),
+        arrayKey  = '__kidsArray__'+Ember.guidFor(this),
         ret       = record[arrayKey],
         recordType  = get(this, 'typeClass'), rel;
 
     // lazily create a ManyArray one time.  after that always return the
     // same object.
     if (!ret) {
-      ret = SC.ChildArray.create({
+      ret = Ember.ChildArray.create({
         record:         record,
         propertyName:   attrKey,
         defaultRecordType: recordType
@@ -5511,7 +5515,7 @@ SC.ChildrenAttribute = SC.ChildAttribute.extend(
   // Default fromType is just returning itself
   fromType: function(record, key, value){
     var sk, store,
-        arrayKey = '__kidsArray__'+SC.guidFor(this),
+        arrayKey = '__kidsArray__'+Ember.guidFor(this),
         ret = record[arrayKey];
     if (record) {
       record.writeAttribute(key, value);
@@ -5535,7 +5539,7 @@ SC.ChildrenAttribute = SC.ChildAttribute.extend(
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 
-var get = SC.get, set = SC.set, attrFor = SC.RecordAttribute.attrFor;
+var get = Ember.get, set = Ember.set, attrFor = Ember.RecordAttribute.attrFor;
 
 /**
   @class
@@ -5547,13 +5551,13 @@ var get = SC.get, set = SC.set, attrFor = SC.RecordAttribute.attrFor;
   property will be an instance of `ManyArray`.  You can generally customize the
   behavior of ManyArray by passing settings to the `toMany()` helper.
 
-  @extends SC.Enumerable
-  @extends SC.Array
+  @extends Ember.Enumerable
+  @extends Ember.Array
   @since SproutCore 1.0
 */
 
-SC.ManyArray = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.MutableArray, SC.Array,
-  /** @scope SC.ManyArray.prototype */ {
+Ember.ManyArray = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable, Ember.MutableArray, Ember.Array,
+  /** @scope Ember.ManyArray.prototype */ {
 
   /**
     `recordType` will tell what type to transform the record to when
@@ -5569,7 +5573,7 @@ SC.ManyArray = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.MutableA
     it can change its own state
 
     @default null
-    @type SC.Record
+    @type Ember.Record
   */
   record: null,
 
@@ -5587,7 +5591,7 @@ SC.ManyArray = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.MutableA
     The `ManyAttribute` that created this array.
 
     @default null
-    @type SC.ManyAttribute
+    @type Ember.ManyAttribute
   */
   manyAttribute: null,
 
@@ -5595,7 +5599,7 @@ SC.ManyArray = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.MutableA
     The store that owns this record array.  All record arrays must have a
     store to function properly.
 
-    @type SC.Store
+    @type Ember.Store
     @property
   */
   store: function() {
@@ -5618,7 +5622,7 @@ SC.ManyArray = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.MutableA
     Returns the `storeId`s in read-only mode.  Avoids modifying the record
     unnecessarily.
 
-    @type SC.Array
+    @type Ember.Array
     @property
   */
   readOnlyStoreIds: function() {
@@ -5630,7 +5634,7 @@ SC.ManyArray = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.MutableA
     Returns an editable array of `storeId`s.  Marks the owner records as
     modified.
 
-    @type {SC.Array}
+    @type {Ember.Array}
     @property
   */
   editableStoreIds: function() {
@@ -5740,7 +5744,7 @@ SC.ManyArray = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.MutableA
       // retrieve it
       storeKey = store.storeKeyFor(recordType, storeId);
 
-      if (store.readStatus(storeKey) === SC.Record.EMPTY) {
+      if (store.readStatus(storeKey) === Ember.Record.EMPTY) {
         store.retrieveRecord(recordType, null, storeKey);
       }
 
@@ -5773,8 +5777,8 @@ SC.ManyArray = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.MutableA
     // remove
     inverse = get(this, 'inverse');
     if (inverse && amt>0) {
-      toRemove = SC.ManyArray._toRemove;
-      if (toRemove) SC.ManyArray._toRemove = null; // reuse if possible
+      toRemove = Ember.ManyArray._toRemove;
+      if (toRemove) Ember.ManyArray._toRemove = null; // reuse if possible
       else toRemove = [];
 
       for(i=0;i<amt;i++) toRemove[i] = this.objectAt(idx + i);
@@ -5798,7 +5802,7 @@ SC.ManyArray = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.MutableA
 
       if (toRemove) {
         toRemove.length = 0; // cleanup
-        if (!SC.ManyArray._toRemove) SC.ManyArray._toRemove = toRemove;
+        if (!Ember.ManyArray._toRemove) Ember.ManyArray._toRemove = toRemove;
       }
 
       // notify additions
@@ -5830,8 +5834,8 @@ SC.ManyArray = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.MutableA
     Called by the `ManyAttribute` whenever a record is removed on the inverse
     of the relationship.
 
-    @param {SC.Record} inverseRecord the record that was removed
-    @returns {SC.ManyArray} receiver
+    @param {Ember.Record} inverseRecord the record that was removed
+    @returns {Ember.ManyArray} receiver
   */
   removeInverseRecord: function(inverseRecord) {
 
@@ -5864,8 +5868,8 @@ SC.ManyArray = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.MutableA
     Called by the `ManyAttribute` whenever a record is added on the inverse
     of the relationship.
 
-    @param {SC.Record} inverseRecord the record this array is a part of
-    @returns {SC.ManyArray} receiver
+    @param {Ember.Record} inverseRecord the record this array is a part of
+    @returns {Ember.ManyArray} receiver
   */
   addInverseRecord: function(inverseRecord) {
 
@@ -5916,15 +5920,15 @@ SC.ManyArray = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.MutableA
       function to compare to objects
   */
   _compare: function(a, b, orderBy) {
-    var t = SC.typeOf(orderBy),
+    var t = Ember.typeOf(orderBy),
         ret, idx, len;
 
     if (t === 'function') ret = orderBy(a, b);
-    else if (t === 'string') ret = SC.compare(a,b);
+    else if (t === 'string') ret = Ember.compare(a,b);
     else {
       len = get(orderBy, 'length');
       ret = 0;
-      for(idx=0;(ret===0) && (idx<len);idx++) ret = SC.compare(a,b);
+      for(idx=0;(ret===0) && (idx<len);idx++) ret = Ember.compare(a,b);
     }
 
     return ret ;
@@ -6010,7 +6014,7 @@ SC.ManyArray = SC.Object.extend(SC.Enumerable, SC.MutableEnumerable, SC.MutableA
 
 
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
 /** @class
 
@@ -6018,11 +6022,11 @@ var get = SC.get, set = SC.set;
   relationships.
 
   When setting ( `set()` ) the value of a `toMany` attribute, make sure
-  to pass in an array of `SC.Record` objects.
+  to pass in an array of `Ember.Record` objects.
 
   There are many ways you can configure a `ManyAttribute`:
 
-      contacts: SC.Record.toMany('MyApp.Contact', {
+      contacts: Ember.Record.toMany('MyApp.Contact', {
         inverse: 'group', // set the key used to represent the inverse
         isMaster: YES|NO, // indicate whether changing this should dirty
         transform: function(), // transforms value <=> storeKey,
@@ -6030,11 +6034,11 @@ var get = SC.get, set = SC.set;
         through: 'taggings' // set a relationship this goes through
       });
 
-  @extends SC.RecordAttribute
+  @extends Ember.RecordAttribute
   @since SproutCore 1.0
 */
-SC.ManyAttribute = SC.RecordAttribute.extend(
-  /** @scope SC.ManyAttribute.prototype */ {
+Ember.ManyAttribute = Ember.RecordAttribute.extend(
+  /** @scope Ember.ManyAttribute.prototype */ {
 
   /**
     Set the foreign key on content objects that represent the inversion of
@@ -6074,14 +6078,14 @@ SC.ManyAttribute = SC.RecordAttribute.extend(
   toType: function(record, key, value) {
     var type      = get(this, 'typeClass'),
         attrKey   = get(this, 'key') || key,
-        arrayKey  = '__manyArray__'+SC.guidFor(this),
+        arrayKey  = '__manyArray__'+Ember.guidFor(this),
         ret       = record[arrayKey],
         rel;
 
     // lazily create a ManyArray one time.  after that always return the
     // same object.
     if (!ret) {
-      ret = SC.ManyArray.create({
+      ret = Ember.ManyArray.create({
         recordType:    type,
         record:        record,
         propertyName:  attrKey,
@@ -6102,7 +6106,7 @@ SC.ManyAttribute = SC.RecordAttribute.extend(
   fromType: function(record, key, value) {
     var ret = [];
 
-    if(!SC.isArray(value)) throw "Expects toMany attribute to be an array";
+    if(!Ember.isArray(value)) throw "Expects toMany attribute to be an array";
 
     var len = get(value, 'length');
     for(var i=0;i<len;i++) {
@@ -6119,9 +6123,9 @@ SC.ManyAttribute = SC.RecordAttribute.extend(
 
     You should never call this directly.
 
-    @param {SC.Record} the record owning this attribute
+    @param {Ember.Record} the record owning this attribute
     @param {String} key the key for this attribute
-    @param {SC.Record} inverseRecord record that was removed from inverse
+    @param {Ember.Record} inverseRecord record that was removed from inverse
     @param {String} key key on inverse that was modified
     @returns {void}
   */
@@ -6139,9 +6143,9 @@ SC.ManyAttribute = SC.RecordAttribute.extend(
 
     You should never call this directly.
 
-    @param {SC.Record} the record owning this attribute
+    @param {Ember.Record} the record owning this attribute
     @param {String} key the key for this attribute
-    @param {SC.Record} inverseRecord record that was added to inverse
+    @param {Ember.Record} inverseRecord record that was added to inverse
     @param {String} key key on inverse that was modified
     @returns {void}
   */
@@ -6167,9 +6171,9 @@ SC.ManyAttribute = SC.RecordAttribute.extend(
 // ==========================================================================
 
 
-var get = SC.get, set = SC.set;
-var RecordAttribute_call = get(SC.RecordAttribute, 'proto').call;
-var attrFor = SC.RecordAttribute.attrFor;
+var get = Ember.get, set = Ember.set;
+var RecordAttribute_call = get(Ember.RecordAttribute, 'proto').call;
+var attrFor = Ember.RecordAttribute.attrFor;
 
 /** @class
 
@@ -6178,18 +6182,18 @@ var attrFor = SC.RecordAttribute.attrFor;
 
   There are many ways you can configure a `SingleAttribute`:
 
-      group: SC.Record.toOne('MyApp.Group', {
+      group: Ember.Record.toOne('MyApp.Group', {
         inverse: 'contacts', // set the key used to represent the inverse
         isMaster: YES|NO, // indicate whether changing this should dirty
         transform: function(), // transforms value <=> storeKey,
         isEditable: YES|NO, make editable or not
       });
 
-  @extends SC.RecordAttribute
+  @extends Ember.RecordAttribute
   @since SproutCore 1.0
 */
-SC.SingleAttribute = SC.RecordAttribute.extend(
-  /** @scope SC.SingleAttribute.prototype */ {
+Ember.SingleAttribute = Ember.RecordAttribute.extend(
+  /** @scope Ember.SingleAttribute.prototype */ {
 
   /**
     Specifies the property on the member record that represents the inverse
@@ -6222,8 +6226,8 @@ SC.SingleAttribute = SC.RecordAttribute.extend(
     if (newRec !== undefined && get(this, 'isEditable')) {
 
       // can only take other records or null
-      if (newRec && !(newRec instanceof  SC.Record)) {
-        throw "%@ is not an instance of SC.Record".fmt(newRec);
+      if (newRec && !(newRec instanceof  Ember.Record)) {
+        throw "%@ is not an instance of Ember.Record".fmt(newRec);
       }
 
       inverseKey = get(this, 'inverse');
@@ -6261,9 +6265,9 @@ SC.SingleAttribute = SC.RecordAttribute.extend(
     of the relationship.  If this matches the inverse setting of the attribute
     then it will update itself accordingly.
 
-    @param {SC.Record} record the record owning this attribute
+    @param {Ember.Record} record the record owning this attribute
     @param {String} key the key for this attribute
-    @param {SC.Record} inverseRecord record that was removed from inverse
+    @param {Ember.Record} inverseRecord record that was removed from inverse
     @param {String} inverseKey key on inverse that was modified
   */
   inverseDidRemoveRecord: function(record, key, inverseRecord, inverseKey) {
@@ -6289,9 +6293,9 @@ SC.SingleAttribute = SC.RecordAttribute.extend(
     inverse relationship.  This will set the value of this inverse record to
     the new record.
 
-    @param {SC.Record} record the record owning this attribute
+    @param {Ember.Record} record the record owning this attribute
     @param {String} key the key for this attribute
-    @param {SC.Record} inverseRecord record that was added to inverse
+    @param {Ember.Record} inverseRecord record that was added to inverse
     @param {String} inverseKey key on inverse that was modified
   */
   inverseDidAddRecord: function(record, key, inverseRecord, inverseKey) {
@@ -6348,22 +6352,22 @@ SC.SingleAttribute = SC.RecordAttribute.extend(
 
   @property {String}
 */
-SC.MIXED_STATE = '__MIXED__';
+Ember.MIXED_STATE = '__MIXED__';
 
 /** @class
 
   A DataSource connects an in-memory store to one or more server backends.
-  To connect to a data backend on a server, subclass `SC.DataSource`
+  To connect to a data backend on a server, subclass `Ember.DataSource`
   and implement the necessary data source methods to communicate with the
   particular backend.
 
   ## Create a Data Source
 
-  To implement the data source, subclass `SC.DataSource` in a file located
+  To implement the data source, subclass `Ember.DataSource` in a file located
   either in the root level of your app or framework, or in a directory
   called "data_sources":
 
-      MyApp.DataSource = SC.DataSource.extend({
+      MyApp.DataSource = Ember.DataSource.extend({
         // implement the data source API...
       });
 
@@ -6376,10 +6380,10 @@ SC.MIXED_STATE = '__MIXED__';
   In core.js:
 
       // change...
-      store: SC.Store.create().from(SC.Record.fixtures)
+      store: Ember.Store.create().from(Ember.Record.fixtures)
 
       // to...
-      store: SC.Store.create().from('MyApp.DataSource')
+      store: Ember.Store.create().from('MyApp.DataSource')
 
   Note that the data source class name is referenced by string since the file
   in which it is defined may not have been loaded yet. The first time a
@@ -6437,7 +6441,7 @@ SC.MIXED_STATE = '__MIXED__';
   All of the methods you implement must return one of three values:
    - `YES` &mdash; all the records were handled.
    - `NO` &mdash; none of the records were handled.
-   - `SC.MIXED_STATE` &mdash; some, but not all of the records were handled.
+   - `Ember.MIXED_STATE` &mdash; some, but not all of the records were handled.
 
 
   ### Store Keys
@@ -6454,12 +6458,12 @@ SC.MIXED_STATE = '__MIXED__';
    * `readDataHash(storeKey)` &mdash; returns the data hash associated with
      a store key, if any.
    * `readStatus(storeKey)` &mdash; returns the current record status
-     associated with the store key. May be `SC.Record.EMPTY`.
-   * `SC.Store.recordTypeFor(storeKey)` &mdash; returns the record type for
+     associated with the store key. May be `Ember.Record.EMPTY`.
+   * `Ember.Store.recordTypeFor(storeKey)` &mdash; returns the record type for
      the associated store key.
    * `recordType.idFor(storeKey)` &mdash; returns the record ID for
-     the associated store key. You must call this method on `SC.Record`
-     subclass itself, not on an instance of `SC.Record`.
+     the associated store key. You must call this method on `Ember.Record`
+     subclass itself, not on an instance of `Ember.Record`.
 
   These methods are safe for reading data from the store. To modify data
   in the data store you must use the store callbacks described below. The
@@ -6544,13 +6548,13 @@ SC.MIXED_STATE = '__MIXED__';
   `dataSourceDidFetchQuery()`, except that you also provide an array of storeKeys
   (or a promise to provide store keys) that comprises the result set.
 
-  @extend SC.Object
+  @extend Ember.Object
   @since SproutCore 1.0
 */
-SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
+Ember.DataSource = Ember.Object.extend( /** @scope Ember.DataSource.prototype */ {
 
   // ..........................................................
-  // SC.STORE ENTRY POINTS
+  // Ember.STORE ENTRY POINTS
   //
 
 
@@ -6558,7 +6562,7 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
 
     Invoked by the store whenever it needs to retrieve data matching a
     specific query, triggered by find().  This method is called anytime
-    you invoke SC.Store#find() with a query or SC.RecordArray#refresh().  You
+    you invoke Ember.Store#find() with a query or Ember.RecordArray#refresh().  You
     should override this method to actually retrieve data from the server
     needed to fulfill the query.  If the query is a remote query, then you
     will also need to provide the contents of the query as well.
@@ -6575,7 +6579,7 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
     specified type.
 
     When you finish loading any data that might be required for your query,
-    you should always call SC.Store#dataSourceDidFetchQuery() to put the query
+    you should always call Ember.Store#dataSourceDidFetchQuery() to put the query
     back into the READY state.  You should call this method even if you choose
     not to load any new data into the store in order to notify that the store
     that you think it is ready to return results for the query.
@@ -6589,23 +6593,23 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
     Like Local queries, to fetch a remote query you will need to load any data
     you need to fetch from the server and add the records to the store.  Once
     you are finished loading this data, however, you must also call
-    SC.Store#loadQueryResults() to actually set an array of storeKeys that
+    Ember.Store#loadQueryResults() to actually set an array of storeKeys that
     represent the latest results from the server.  This will implicitly also
     call datasSourceDidFetchQuery() so you don't need to call this method
     yourself.
 
     If you want to support incremental loading from the server for remote
-    queries, you can do so by passing a SC.SparseArray instance instead of
+    queries, you can do so by passing a Ember.SparseArray instance instead of
     a regular array of storeKeys and then populate the sparse array on demand.
 
     ### Handling Errors and Cancelations
 
     If you encounter an error while trying to fetch the results for a query
-    you can call SC.Store#dataSourceDidErrorQuery() instead.  This will put
+    you can call Ember.Store#dataSourceDidErrorQuery() instead.  This will put
     the query results into an error state.
 
     If you had to cancel fetching a query before the results were returned,
-    you can instead call SC.Store#dataSourceDidCancelQuery().  This will set
+    you can instead call Ember.Store#dataSourceDidCancelQuery().  This will set
     the query back into the state it was in previously before it started
     loading the query.
 
@@ -6616,8 +6620,8 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
     a cascading data source, returning NO will mean the next data source will
     be asked to fetch the same results as well.
 
-    @param {SC.Store} store the requesting store
-    @param {SC.Query} query query describing the request
+    @param {Ember.Store} store the requesting store
+    @param {Ember.Query} query query describing the request
     @returns {Boolean} YES if you can handle fetching the query, NO otherwise
   */
   fetch: function(store, query) {
@@ -6632,7 +6636,7 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
     You should implement either retrieveRecord() or retrieveRecords() to
     actually fetch the records referenced by the storeKeys .
 
-    @param {SC.Store} store the requesting store
+    @param {Ember.Store} store the requesting store
     @param {Array} storeKeys
     @param {Array} ids - optional
     @returns {Boolean} YES if handled, NO otherwise
@@ -6660,9 +6664,9 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
 
     To support cascading data stores, be sure to return `NO` if you cannot
     handle any of the keys, `YES` if you can handle all of the keys, or
-    `SC.MIXED_STATE` if you can handle some of them.
+    `Ember.MIXED_STATE` if you can handle some of them.
 
-    @param {SC.Store} store the requesting store
+    @param {Ember.Store} store the requesting store
     @param {Array} createStoreKeys keys to create
     @param {Array} updateStoreKeys keys to update
     @param {Array} destroyStoreKeys keys to destroy
@@ -6678,12 +6682,12 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
 
     if (updateStoreKeys.length>0) {
       uret = this.updateRecords.call(this, store, updateStoreKeys, params);
-      ret = SC.none(ret) ? uret : (ret === uret) ? ret : SC.MIXED_STATE;
+      ret = Ember.none(ret) ? uret : (ret === uret) ? ret : Ember.MIXED_STATE;
     }
 
     if (destroyStoreKeys.length>0) {
       dret = this.destroyRecords.call(this, store, destroyStoreKeys, params);
-      ret = SC.none(ret) ? dret : (ret === dret) ? ret : SC.MIXED_STATE;
+      ret = Ember.none(ret) ? dret : (ret === dret) ? ret : Ember.MIXED_STATE;
     }
 
     return ret || NO;
@@ -6700,9 +6704,9 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
 
     To support cascading data stores, be sure to return `NO` if you cannot
     retrieve any of the keys, `YES` if you can retrieve all of the, or
-    `SC.MIXED_STATE` if you can retrieve some of the.
+    `Ember.MIXED_STATE` if you can retrieve some of the.
 
-    @param {SC.Store} store the requesting store
+    @param {Ember.Store} store the requesting store
     @param {Array} storeKeys array of storeKeys to retrieve
     @returns {Boolean} YES if data source can handle keys
   */
@@ -6722,15 +6726,15 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
 
     To support cascading data stores, be sure to return `NO` if you cannot
     handle any of the keys, `YES` if you can handle all of the keys, or
-    `SC.MIXED_STATE` if you can handle some of them.
+    `Ember.MIXED_STATE` if you can handle some of them.
 
-    @param {SC.Store} store the requesting store
+    @param {Ember.Store} store the requesting store
     @param {Array} storeKeys keys to update
     @param {Hash} params
       to be passed down to data source. originated from the commitRecords()
       call on the store
 
-    @returns {Boolean} YES, NO, or SC.MIXED_STATE
+    @returns {Boolean} YES, NO, or Ember.MIXED_STATE
 
   */
   updateRecords: function(store, storeKeys, params) {
@@ -6745,16 +6749,16 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
 
     To support cascading data stores, be sure to return `NO` if you cannot
     handle any of the keys, `YES` if you can handle all of the keys, or
-    `SC.MIXED_STATE` if you can handle some of them.
+    `Ember.MIXED_STATE` if you can handle some of them.
 
-    @param {SC.Store} store the requesting store
+    @param {Ember.Store} store the requesting store
     @param {Array} storeKeys keys to update
 
     @param {Hash} params
       to be passed down to data source. originated from the commitRecords()
       call on the store
 
-    @returns {Boolean} YES, NO, or SC.MIXED_STATE
+    @returns {Boolean} YES, NO, or Ember.MIXED_STATE
 
   */
   createRecords: function(store, storeKeys, params) {
@@ -6769,14 +6773,14 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
 
     To support cascading data stores, be sure to return `NO` if you cannot
     handle any of the keys, `YES` if you can handle all of the keys, or
-    `SC.MIXED_STATE` if you can handle some of them.
+    `Ember.MIXED_STATE` if you can handle some of them.
 
-    @param {SC.Store} store the requesting store
+    @param {Ember.Store} store the requesting store
     @param {Array} storeKeys keys to update
     @param {Hash} params to be passed down to data source. originated
       from the commitRecords() call on the store
 
-    @returns {Boolean} YES, NO, or SC.MIXED_STATE
+    @returns {Boolean} YES, NO, or Ember.MIXED_STATE
 
   */
   destroyRecords: function(store, storeKeys, params) {
@@ -6796,12 +6800,12 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
       if (ret === undefined) {
         ret = cur ;
       } else if (ret === YES) {
-        ret = (cur === YES) ? YES : SC.MIXED_STATE ;
+        ret = (cur === YES) ? YES : Ember.MIXED_STATE ;
       } else if (ret === NO) {
-        ret = (cur === NO) ? NO : SC.MIXED_STATE ;
+        ret = (cur === NO) ? NO : Ember.MIXED_STATE ;
       }
     }
-    return !SC.none(ret) ? ret : null ;
+    return !Ember.none(ret) ? ret : null ;
   },
 
 
@@ -6816,7 +6820,7 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
     To support cascading data stores, be sure to return `NO` if you cannot
     handle the passed storeKey or `YES` if you can.
 
-    @param {SC.Store} store the requesting store
+    @param {Ember.Store} store the requesting store
     @param {Array} storeKey key to update
     @param {Hash} params to be passed down to data source. originated
       from the commitRecords() call on the store
@@ -6829,7 +6833,7 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
   /**
     Called from `retrieveRecords()` to retrieve a single record.
 
-    @param {SC.Store} store the requesting store
+    @param {Ember.Store} store the requesting store
     @param {Array} storeKey key to retrieve
     @param {String} id the id to retrieve
     @returns {Boolean} YES if handled
@@ -6845,7 +6849,7 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
     To support cascading data stores, be sure to return `NO` if you cannot
     handle the passed storeKey or `YES` if you can.
 
-    @param {SC.Store} store the requesting store
+    @param {Ember.Store} store the requesting store
     @param {Array} storeKey key to update
     @param {Hash} params to be passed down to data source. originated
       from the commitRecords() call on the store
@@ -6862,7 +6866,7 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
     To support cascading data stores, be sure to return `NO` if you cannot
     handle the passed storeKey or `YES` if you can.
 
-    @param {SC.Store} store the requesting store
+    @param {Ember.Store} store the requesting store
     @param {Array} storeKey key to update
     @param {Hash} params to be passed down to data source. originated
       from the commitRecords() call on the store
@@ -6887,7 +6891,7 @@ SC.DataSource = SC.Object.extend( /** @scope SC.DataSource.prototype */ {
 // ==========================================================================
 
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
 /** @class
 
@@ -6903,7 +6907,7 @@ var get = SC.get, set = SC.set;
   You will usually define your cascading data source in your main method after
   all the classes you have are loaded.
 
-      MyApp.dataSource = SC.CascadeDataSource.create({
+      MyApp.dataSource = Ember.CascadeDataSource.create({
         dataSources: "prefs youtube photos".w(),
 
         prefs:   MyApp.PrefsDataSource.create({ root: "/prefs" }),
@@ -6920,7 +6924,7 @@ var get = SC.get, set = SC.set;
   Alternatively, you can use a more jQuery-like API for defining your data
   sources:
 
-      MyApp.dataSource = SC.CascadeDataSource.create()
+      MyApp.dataSource = Ember.CascadeDataSource.create()
         .from(MyApp.PrefsDataSource.create({ root: "/prefs" }))
         .from(YouTube.YouTubeDataSource.create({ apiKey: "123456" }))
         .from(MyApp.PhotosDataSource.create({ root: "photos" }));
@@ -6930,11 +6934,11 @@ var get = SC.get, set = SC.set;
   In this case, the order you call from() will determine the order the request
   will cascade.
 
-  @extends SC.DataSource
+  @extends Ember.DataSource
   @since SproutCore 1.0
 */
-SC.CascadeDataSource = SC.DataSource.extend(
-  /** @scope SC.CascadeDataSource.prototype */ {
+Ember.CascadeDataSource = Ember.DataSource.extend(
+  /** @scope Ember.CascadeDataSource.prototype */ {
 
   /**
     The data sources used by the cascade, in the order that they are to be
@@ -6949,8 +6953,8 @@ SC.CascadeDataSource = SC.DataSource.extend(
     Add a data source to the list of sources to use when cascading.  Used to
     build the data source cascade effect.
 
-    @param {SC.DataSource} dataSource a data source instance to add.
-    @returns {SC.CascadeDataSource} receiver
+    @param {Ember.DataSource} dataSource a data source instance to add.
+    @returns {Ember.CascadeDataSource} receiver
   */
   from: function(dataSource) {
     var dataSources = get(this, 'dataSources');
@@ -6960,7 +6964,7 @@ SC.CascadeDataSource = SC.DataSource.extend(
   },
 
   // ..........................................................
-  // SC.STORE ENTRY POINTS
+  // Ember.STORE ENTRY POINTS
   //
 
   /** @private - just cascades */
@@ -7043,7 +7047,7 @@ SC.CascadeDataSource = SC.DataSource.extend(
         source;
     while(--idx>=0) {
       source = sources[idx];
-      if (SC.typeOf(source) === 'string') sources[idx] = get(this, source);
+      if (Ember.typeOf(source) === 'string') sources[idx] = get(this, source);
     }
 
   },
@@ -7051,8 +7055,8 @@ SC.CascadeDataSource = SC.DataSource.extend(
   /** @private - Determine the proper return value. */
   _handleResponse: function(current, response) {
     if (response === YES) return YES ;
-    else if (current === NO) return (response === NO) ? NO : SC.MIXED_STATE ;
-    else return SC.MIXED_STATE ;
+    else if (current === NO) return (response === NO) ? NO : Ember.MIXED_STATE ;
+    else return Ember.MIXED_STATE ;
   }
 
 });
@@ -7072,17 +7076,17 @@ SC.CascadeDataSource = SC.DataSource.extend(
 
 
 
-var get = SC.get, set = SC.set, getPath = SC.getPath;
+var get = Ember.get, set = Ember.set, getPath = Ember.getPath;
 
 /** @class
 
   TODO: Describe Class
 
-  @extends SC.DataSource
+  @extends Ember.DataSource
   @since SproutCore 1.0
 */
-SC.FixturesDataSource = SC.DataSource.extend(
-  /** @scope SC.FixturesDataSource.prototype */ {
+Ember.FixturesDataSource = Ember.DataSource.extend(
+  /** @scope Ember.FixturesDataSource.prototype */ {
 
   /**
     If YES then the data source will asynchronously respond to data requests
@@ -7132,12 +7136,12 @@ SC.FixturesDataSource = SC.DataSource.extend(
   fetch: function(store, query) {
 
     // can only handle local queries out of the box
-    if (get(query, 'location') !== SC.Query.LOCAL) {
-      throw SC.$error('SC.Fixture data source can only fetch local queries');
+    if (get(query, 'location') !== Ember.Query.LOCAL) {
+      throw Ember.$error('Ember.Fixture data source can only fetch local queries');
     }
 
     if (!get(query, 'recordType') && !get(query, 'recordTypes')) {
-      throw SC.$error('SC.Fixture data source can only fetch queries with one or more record types');
+      throw Ember.$error('Ember.Fixture data source can only fetch queries with one or more record types');
     }
 
     if (get(this, 'simulateRemoteResponse')) {
@@ -7160,7 +7164,7 @@ SC.FixturesDataSource = SC.DataSource.extend(
 
     // load fixtures for each recordType
     recordTypes.forEach(function(recordType) {
-      if (SC.typeOf(recordType) === 'string') {
+      if (Ember.typeOf(recordType) === 'string') {
         recordType = getPath(recordType);
       }
 
@@ -7197,7 +7201,7 @@ SC.FixturesDataSource = SC.DataSource.extend(
 
     storeKeys.forEach(function(storeKey) {
       var ret        = [],
-          recordType = SC.Store.recordTypeFor(storeKey),
+          recordType = Ember.Store.recordTypeFor(storeKey),
           id         = store.idFor(storeKey),
           hash       = this.fixtureForStoreKey(store, storeKey);
       ret.push(storeKey);
@@ -7314,10 +7318,10 @@ SC.FixturesDataSource = SC.DataSource.extend(
     Load fixtures for a given fetchKey into the store
     and push it to the ret array.
 
-    @param {SC.Store} store the store to load into
-    @param {SC.Record} recordType the record type to load
-    @param {SC.Array} ret is passed, array to add loaded storeKeys to.
-    @returns {SC.Fixture} receiver
+    @param {Ember.Store} store the store to load into
+    @param {Ember.Record} recordType the record type to load
+    @param {Ember.Array} ret is passed, array to add loaded storeKeys to.
+    @returns {Ember.Fixture} receiver
   */
   loadFixturesFor: function(store, recordType, ret) {
     var hashes   = [],
@@ -7327,7 +7331,7 @@ SC.FixturesDataSource = SC.DataSource.extend(
 
     for(i in dataHashes){
       storeKey = recordType.storeKeyFor(i);
-      if (store.peekStatus(storeKey) === SC.Record.EMPTY) {
+      if (store.peekStatus(storeKey) === Ember.Record.EMPTY) {
         hashes.push(dataHashes[i]);
       }
       if (ret) ret.push(storeKey);
@@ -7344,20 +7348,20 @@ SC.FixturesDataSource = SC.DataSource.extend(
     Generates an id for the passed record type.  You can override this if
     needed.  The default generates a storekey and formats it as a string.
 
-    @param {Class} recordType Subclass of SC.Record
+    @param {Class} recordType Subclass of Ember.Record
     @param {Hash} dataHash the data hash for the record
-    @param {SC.Store} store the store
+    @param {Ember.Store} store the store
     @param {Number} storeKey store key for the item
     @returns {String}
   */
   generateIdFor: function(recordType, dataHash, store, storeKey) {
-    return "@id%@".fmt(SC.Store.generateStoreKey());
+    return "@id%@".fmt(Ember.Store.generateStoreKey());
   },
 
   /**
     Based on the storeKey it returns the specified fixtures
 
-    @param {SC.Store} store the store
+    @param {Ember.Store} store the store
     @param {Number} storeKey the storeKey
     @returns {Hash} data hash or null
   */
@@ -7371,10 +7375,10 @@ SC.FixturesDataSource = SC.DataSource.extend(
   /**
     Update the data hash fixture for the named store key.
 
-    @param {SC.Store} store the store
+    @param {Ember.Store} store the store
     @param {Number} storeKey the storeKey
     @param {Hash} dataHash
-    @returns {SC.FixturesDataSource} receiver
+    @returns {Ember.FixturesDataSource} receiver
   */
   setFixtureForStoreKey: function(store, storeKey, dataHash) {
     var id         = store.idFor(storeKey),
@@ -7389,13 +7393,13 @@ SC.FixturesDataSource = SC.DataSource.extend(
     Get the fixtures for the passed record type and prepare them if needed.
     Return cached value when complete.
 
-    @param {SC.Record} recordType
+    @param {Ember.Record} recordType
     @returns {Hash} data hashes
   */
   fixturesFor: function(recordType) {
     // get basic fixtures hash.
     if (!this._fixtures) this._fixtures = {};
-    var fixtures = this._fixtures[SC.guidFor(recordType)];
+    var fixtures = this._fixtures[Ember.guidFor(recordType)];
     if (fixtures) return fixtures ;
 
     // need to load fixtures.
@@ -7404,7 +7408,7 @@ SC.FixturesDataSource = SC.DataSource.extend(
         primaryKey = recordType ? get(recordType, 'proto').primaryKey:'guid',
         idx, dataHash, id ;
 
-    this._fixtures[SC.guidFor(recordType)] = fixtures = {} ;
+    this._fixtures[Ember.guidFor(recordType)] = fixtures = {} ;
     for(idx=0;idx<len;idx++) {
       dataHash = dataHashes[idx];
       id = dataHash[primaryKey];
@@ -7417,17 +7421,17 @@ SC.FixturesDataSource = SC.DataSource.extend(
   /**
     Returns YES if fixtures for a given recordType have already been loaded
 
-    @param {SC.Record} recordType
+    @param {Ember.Record} recordType
     @returns {Boolean} storeKeys
   */
   fixturesLoadedFor: function(recordType) {
     if (!this._fixtures) return NO;
-    var ret = [], fixtures = this._fixtures[SC.guidFor(recordType)];
+    var ret = [], fixtures = this._fixtures[Ember.guidFor(recordType)];
     return fixtures ? YES: NO;
   },
 
   /**
-    Returns YES or SC.MIXED_STATE if one or more of the storeKeys can be
+    Returns YES or Ember.MIXED_STATE if one or more of the storeKeys can be
     handled by the fixture data source.
 
     @param {Array} storeKeys the store keys
@@ -7436,12 +7440,12 @@ SC.FixturesDataSource = SC.DataSource.extend(
   hasFixturesFor: function(storeKeys) {
     var ret = NO ;
     storeKeys.forEach(function(storeKey) {
-      if (ret !== SC.MIXED_STATE) {
-        var recordType = SC.Store.recordTypeFor(storeKey),
+      if (ret !== Ember.MIXED_STATE) {
+        var recordType = Ember.Store.recordTypeFor(storeKey),
             fixtures   = recordType ? recordType.FIXTURES : null ;
         if (fixtures && fixtures.length && fixtures.length>0) {
           if (ret === NO) ret = YES ;
-        } else if (ret === YES) ret = SC.MIXED_STATE ;
+        } else if (ret === YES) ret = Ember.MIXED_STATE ;
       }
     }, this);
 
@@ -7453,14 +7457,14 @@ SC.FixturesDataSource = SC.DataSource.extend(
     other parameters.  Currently this only invalidates the storeKeyCache used
     for fetch, but it could invalidate others later as well.
 
-    @param {SC.Record} recordType the type of record modified
+    @param {Ember.Record} recordType the type of record modified
     @param {Number} storeKey optional store key
     @param {String} id optional record id
-    @returns {SC.FixturesDataSource} receiver
+    @returns {Ember.FixturesDataSource} receiver
   */
   _invalidateCachesFor: function(recordType, storeKey, id) {
     var cache = this._storeKeyCache;
-    if (cache) delete cache[SC.guidFor(recordType)];
+    if (cache) delete cache[Ember.guidFor(recordType)];
     return this ;
   }
 
@@ -7469,9 +7473,9 @@ SC.FixturesDataSource = SC.DataSource.extend(
 /**
   Default fixtures instance for use in applications.
 
-  @property {SC.FixturesDataSource}
+  @property {Ember.FixturesDataSource}
 */
-SC.Record.fixtures = SC.FixturesDataSource.create();
+Ember.Record.fixtures = Ember.FixturesDataSource.create();
 
 
 })({});
@@ -7501,18 +7505,18 @@ SC.Record.fixtures = SC.FixturesDataSource.create();
 
 
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
 /**
   @class
 
   A `RecordArray` wraps an array of `storeKeys` and, optionally, a `Query`
   object. When you access the items of a `RecordArray`, it will automatically
-  convert the `storeKeys` into actual `SC.Record` objects that the rest of
+  convert the `storeKeys` into actual `Ember.Record` objects that the rest of
   your application can work with.
 
   Normally you do not create `RecordArray`s yourself.  Instead, a
-  `RecordArray` is returned when you call `SC.Store.findAll()`, already
+  `RecordArray` is returned when you call `Ember.Store.findAll()`, already
   properly configured. You can usually just work with the `RecordArray`
   instance just like any other array.
 
@@ -7528,14 +7532,14 @@ var get = SC.get, set = SC.set;
   of `storeKeys`.  The underlying array can be a real array or it may be a
   `SparseArray`, which is how you implement incremental loading.
 
-  If the `RecordArray` is created with an `SC.Query` object as well (and it
+  If the `RecordArray` is created with an `Ember.Query` object as well (and it
   almost always will have a `Query` object), then the `RecordArray` will also
   consult the query for various delegate operations such as determining if
   the record array should update automatically whenever records in the store
   changes. It will also ask the `Query` to refresh the `storeKeys` whenever
   records change in the store.
 
-  If the `SC.Query` object has complex matching rules, it might be
+  If the `Ember.Query` object has complex matching rules, it might be
   computationally heavy to match a large dataset to a query. To avoid the
   browser from ever showing a slow script timer in this scenario, the query
   matching is by default paced at 100ms. If query matching takes longer than
@@ -7543,14 +7547,14 @@ var get = SC.get, set = SC.set;
   to happen in one runloop.
 
 
-  @extends SC.Object
-  @extends SC.Enumerable
-  @extends SC.Array
+  @extends Ember.Object
+  @extends Ember.Enumerable
+  @extends Ember.Array
   @since SproutCore 1.0
 */
 
-SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable, SC.MutableArray,
-  /** @scope SC.RecordArray.prototype */ {
+Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.MutableEnumerable, Ember.MutableArray,
+  /** @scope Ember.RecordArray.prototype */ {
 
   /**
     The store that owns this record array.  All record arrays must have a
@@ -7559,7 +7563,7 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
     NOTE: You **MUST** set this property on the `RecordArray` when creating
     it or else it will fail.
 
-    @type SC.Store
+    @type Ember.Store
   */
   store: null,
 
@@ -7571,14 +7575,14 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
     NOTE: You **MUST** set this property on the `RecordArray` when creating
     it or else it will fail.
 
-    @type SC.Query
+    @type Ember.Query
   */
   query: null,
 
   /**
     The array of `storeKeys` as retrieved from the owner store.
 
-    @type SC.Array
+    @type Ember.Array
   */
   storeKeys: null,
 
@@ -7588,11 +7592,11 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
 
     @type Number
   */
-  status: SC.Record.EMPTY,
+  status: Ember.Record.EMPTY,
 
   /**
     The current editable state based on the query. If this record array is not
-    backed by an SC.Query, it is assumed to be editable.
+    backed by an Ember.Query, it is assumed to be editable.
 
     @property
     @type Boolean
@@ -7617,7 +7621,7 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
   }.property('storeKeys').cacheable(),
 
   /** @private
-    A cache of materialized records. The first time an instance of SC.Record is
+    A cache of materialized records. The first time an instance of Ember.Record is
     created for a store key at a given index, it will be saved to this array.
 
     Whenever the `storeKeys` property is reset, this cache is also reset.
@@ -7631,7 +7635,7 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
     records.
 
     @param {Number} idx index of the object
-    @return {SC.Record} materialized record
+    @return {Ember.Record} materialized record
   */
   objectAt: function(idx) {
 
@@ -7652,7 +7656,7 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
     if (storeKey) {
       // if record is not loaded already, then ask the data source to
       // retrieve it
-      if (store.peekStatus(storeKey) === SC.Record.EMPTY) {
+      if (store.peekStatus(storeKey) === Ember.Record.EMPTY) {
         store.retrieveRecord(null, null, storeKey);
       }
       recs[idx] = ret = store.materializeRecord(storeKey);
@@ -7687,18 +7691,18 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
 
   /** @private
     Replaces a range of records starting at a given index with the replacement
-    records provided. The objects to be inserted must be instances of SC.Record
+    records provided. The objects to be inserted must be instances of Ember.Record
     and must have a store key assigned to them.
 
-    Note that most SC.RecordArrays are *not* editable via `replace()`, since they
-    are generated by a rule-based SC.Query. You can check the `isEditable` property
+    Note that most Ember.RecordArrays are *not* editable via `replace()`, since they
+    are generated by a rule-based Ember.Query. You can check the `isEditable` property
     before attempting to modify a record array.
 
     @param {Number} idx start index
     @param {Number} amt count of records to remove
-    @param {SC.RecordArray} recs the records that should replace the removed records
+    @param {Ember.RecordArray} recs the records that should replace the removed records
 
-    @returns {SC.RecordArray} receiver, after mutation has occurred
+    @returns {Ember.RecordArray} receiver, after mutation has occurred
   */
   replace: function(idx, amt, recs) {
 
@@ -7708,9 +7712,9 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
         len       = recs ? get(recs, 'length') : 0,
         i, keys;
 
-    if (!storeKeys) throw "Unable to edit an SC.RecordArray that does not have its storeKeys property set.";
+    if (!storeKeys) throw "Unable to edit an Ember.RecordArray that does not have its storeKeys property set.";
 
-    if (!get(this, 'isEditable')) throw SC.RecordArray.NOT_EDITABLE;
+    if (!get(this, 'isEditable')) throw Ember.RecordArray.NOT_EDITABLE;
 
     // map to store keys
     keys = [] ;
@@ -7723,9 +7727,9 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
 
   /**
     Returns YES if the passed can be found in the record array.  This is
-    provided for compatibility with SC.Set.
+    provided for compatibility with Ember.Set.
 
-    @param {SC.Record} record
+    @param {Ember.Record} record
     @returns {Boolean}
   */
   contains: function(record) {
@@ -7735,13 +7739,13 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
   /** @private
     Returns the first index where the specified record is found.
 
-    @param {SC.Record} record
+    @param {Ember.Record} record
     @param {Number} startAt optional starting index
     @returns {Number} index
   */
   indexOf: function(record, startAt) {
-    if (!(record instanceof  SC.Record)) {
-      SC.Logger.warn("Using indexOf on %@ with an object that is not an SC.Record".fmt(record));
+    if (!(record instanceof  Ember.Record)) {
+      Ember.Logger.warn("Using indexOf on %@ with an object that is not an Ember.Record".fmt(record));
       return -1; // only takes records
     }
 
@@ -7756,13 +7760,13 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
   /** @private
     Returns the last index where the specified record is found.
 
-    @param {SC.Record} record
+    @param {Ember.Record} record
     @param {Number} startAt optional starting index
     @returns {Number} index
   */
   lastIndexOf: function(record, startAt) {
-    if (!(record instanceof  SC.Record)) {
-      SC.Logger.warn("Using lastIndexOf on %@ with an object that is not an SC.Record".fmt(record));
+    if (!(record instanceof  Ember.Record)) {
+      Ember.Logger.warn("Using lastIndexOf on %@ with an object that is not an Ember.Record".fmt(record));
       return -1; // only takes records
     }
 
@@ -7775,26 +7779,26 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
 
   /**
     Adds the specified record to the record array if it is not already part
-    of the array.  Provided for compatibilty with `SC.Set`.
+    of the array.  Provided for compatibilty with `Ember.Set`.
 
-    @param {SC.Record} record
-    @returns {SC.RecordArray} receiver
+    @param {Ember.Record} record
+    @returns {Ember.RecordArray} receiver
   */
   add: function(record) {
-    if (!(record instanceof  SC.Record)) return this ;
+    if (!(record instanceof  Ember.Record)) return this ;
     if (this.indexOf(record)<0) this.pushObject(record);
     return this ;
   },
 
   /**
     Removes the specified record from the array if it is not already a part
-    of the array.  Provided for compatibility with `SC.Set`.
+    of the array.  Provided for compatibility with `Ember.Set`.
 
-    @param {SC.Record} record
-    @returns {SC.RecordArray} receiver
+    @param {Ember.Record} record
+    @returns {Ember.RecordArray} receiver
   */
   remove: function(record) {
-    if (!(record instanceof  SC.Record)) return this ;
+    if (!(record instanceof  Ember.Record)) return this ;
     this.removeObject(record);
     return this ;
   },
@@ -7804,13 +7808,13 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
   //
 
   /**
-    Extends the standard SC.Enumerable implementation to return results based
+    Extends the standard Ember.Enumerable implementation to return results based
     on a Query if you pass it in.
 
-    @param {SC.Query} query a SC.Query object
+    @param {Ember.Query} query a Ember.Query object
     @param {Object} target the target object to use
 
-    @returns {SC.RecordArray}
+    @returns {Ember.RecordArray}
   */
   find: function(query, target) {
     if (query && query.isQuery) {
@@ -7822,7 +7826,7 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
     Call whenever you want to refresh the results of this query.  This will
     notify the data source, asking it to refresh the contents.
 
-    @returns {SC.RecordArray} receiver
+    @returns {Ember.RecordArray} receiver
   */
   refresh: function() {
     get(this, 'store').refreshQuery(get(this, 'query'));
@@ -7830,13 +7834,13 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
   },
 
   /**
-    Will recompute the results based on the `SC.Query` attached to the record
+    Will recompute the results based on the `Ember.Query` attached to the record
     array. Useful if your query is based on computed properties that might
     have changed. Use `refresh()` instead of you want to trigger a fetch on
     your data source since this will purely look at records already loaded
     into the store.
 
-    @returns {SC.RecordArray} receiver
+    @returns {Ember.RecordArray} receiver
   */
   reload: function() {
     this.flush(YES);
@@ -7847,7 +7851,7 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
     Destroys the record array.  Releases any `storeKeys`, and deregisters with
     the owner store.
 
-    @returns {SC.RecordArray} receiver
+    @returns {Ember.RecordArray} receiver
   */
   destroy: function() {
     if (!get(this, 'isDestroyed')) {
@@ -7863,7 +7867,7 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
 
   // **NOTE**: `storeWillFetchQuery()`, `storeDidFetchQuery()`,
   // `storeDidCancelQuery()`, and `storeDidErrorQuery()` are tested implicitly
-  // through the related methods in `SC.Store`.  We're doing it this way
+  // through the related methods in `Ember.Store`.  We're doing it this way
   // because eventually this particular implementation is likely to change;
   // moving some or all of this code directly into the store. -CAJ
 
@@ -7871,12 +7875,12 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
     Called whenever the store initiates a refresh of the query.  Sets the
     status of the record array to the appropriate status.
 
-    @param {SC.Query} query
-    @returns {SC.RecordArray} receiver
+    @param {Ember.Query} query
+    @returns {Ember.RecordArray} receiver
   */
   storeWillFetchQuery: function(query) {
     var status = get(this, 'status'),
-        K      = SC.Record;
+        K      = Ember.Record;
     if ((status === K.EMPTY) || (status === K.ERROR)) status = K.BUSY_LOADING;
     if (status & K.READY) status = K.BUSY_REFRESH;
     set(this, 'status', status);
@@ -7886,11 +7890,11 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
   /** @private
     Called whenever the store has finished fetching a query.
 
-    @param {SC.Query} query
-    @returns {SC.RecordArray} receiver
+    @param {Ember.Query} query
+    @returns {Ember.RecordArray} receiver
   */
   storeDidFetchQuery: function(query) {
-    set(this, 'status', SC.Record.READY_CLEAN);
+    set(this, 'status', Ember.Record.READY_CLEAN);
     return this ;
   },
 
@@ -7898,12 +7902,12 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
     Called whenever the store has cancelled a refresh.  Sets the
     status of the record array to the appropriate status.
 
-    @param {SC.Query} query
-    @returns {SC.RecordArray} receiver
+    @param {Ember.Query} query
+    @returns {Ember.RecordArray} receiver
   */
   storeDidCancelQuery: function(query) {
     var status = get(this, 'status'),
-        K      = SC.Record;
+        K      = Ember.Record;
     if (status === K.BUSY_LOADING) status = K.EMPTY;
     else if (status === K.BUSY_REFRESH) status = K.READY_CLEAN;
     set(this, 'status', status);
@@ -7914,11 +7918,11 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
     Called whenever the store encounters an error while fetching.  Sets the
     status of the record array to the appropriate status.
 
-    @param {SC.Query} query
-    @returns {SC.RecordArray} receiver
+    @param {Ember.Query} query
+    @returns {Ember.RecordArray} receiver
   */
   storeDidErrorQuery: function(query) {
-    set(this, 'status', SC.Record.ERROR);
+    set(this, 'status', Ember.Record.ERROR);
     return this ;
   },
 
@@ -7931,19 +7935,19 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
     add the changed keys to the underlying `storeKeys` array if the new records
     match the conditions of the record array's query.
 
-    @param {SC.Array} storeKeys the effected store keys
-    @param {SC.Set} recordTypes the record types for the storeKeys.
-    @returns {SC.RecordArray} receiver
+    @param {Ember.Array} storeKeys the effected store keys
+    @param {Ember.Set} recordTypes the record types for the storeKeys.
+    @returns {Ember.RecordArray} receiver
   */
   storeDidChangeStoreKeys: function(storeKeys, recordTypes) {
     var query =  get(this, 'query');
     // fast path exits
-    if (get(query, 'location') !== SC.Query.LOCAL) return this;
+    if (get(query, 'location') !== Ember.Query.LOCAL) return this;
     if (!query.containsRecordTypes(recordTypes)) return this;
 
     // ok - we're interested.  mark as dirty and save storeKeys.
     var changed = this._scq_changedStoreKeys;
-    if (!changed) changed = this._scq_changedStoreKeys = SC.IndexSet.create();
+    if (!changed) changed = this._scq_changedStoreKeys = Ember.IndexSet.create();
     changed.addEach(storeKeys);
 
     set(this, 'needsFlush', YES);
@@ -7962,11 +7966,11 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
     update immediately.
 
     Currently this method only has an effect if the query location is
-    `SC.Query.LOCAL`.  You can call this method on any `RecordArray` however,
+    `Ember.Query.LOCAL`.  You can call this method on any `RecordArray` however,
     without an error.
 
     @param {Boolean} _flush to force it - use reload() to trigger it
-    @returns {SC.RecordArray} receiver
+    @returns {Ember.RecordArray} receiver
   */
   flush: function(_flush) {
 
@@ -7984,7 +7988,7 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
     // fast exit
     var query = get(this, 'query'),
         store = get(this, 'store');
-    if (!store || !query || get(query, 'location') !== SC.Query.LOCAL) {
+    if (!store || !query || get(query, 'location') !== Ember.Query.LOCAL) {
       return this;
     }
 
@@ -7994,7 +7998,7 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
     var storeKeys = get(this, 'storeKeys'),
         changed   = this._scq_changedStoreKeys,
         didChange = NO,
-        K         = SC.Record,
+        K         = Ember.Record,
         storeKeysToPace = [],
         startDate = new Date(),
         rec, status, recordType, sourceKeys, scope, included;
@@ -8005,7 +8009,7 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
 
       if (changed) {
         changed.forEach(function(storeKey) {
-          if(storeKeysToPace.length>0 || new Date()-startDate>SC.RecordArray.QUERY_MATCHING_THRESHOLD) {
+          if(storeKeysToPace.length>0 || new Date()-startDate>Ember.RecordArray.QUERY_MATCHING_THRESHOLD) {
             storeKeysToPace.push(storeKey);
             return;
           }
@@ -8047,7 +8051,7 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
         sourceKeys = get(scope.flush(), 'storeKeys');
       // otherwise, lookup all storeKeys for the named recordType...
       } else if (recordType = get(query, 'expandedRecordTypes')) {
-        sourceKeys = SC.IndexSet.create();
+        sourceKeys = Ember.IndexSet.create();
         recordType.forEach(function(cur) {
           sourceKeys.addEach(store.storeKeysFor(recordType));
         });
@@ -8057,7 +8061,7 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
       // not.
       storeKeys = [];
       sourceKeys.forEach(function(storeKey) {
-        if(storeKeysToPace.length>0 || new Date()-startDate>SC.RecordArray.QUERY_MATCHING_THRESHOLD) {
+        if(storeKeysToPace.length>0 || new Date()-startDate>Ember.RecordArray.QUERY_MATCHING_THRESHOLD) {
           storeKeysToPace.push(storeKey);
           return;
         }
@@ -8081,10 +8085,10 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
       // use setTimeout here to guarantee that we hit the next runloop,
       // and not the same runloop which the invoke* methods do not guarantee
       window.setTimeout(function() {
-        SC.run(function() {
+        Ember.run(function() {
           if(!self || get(self, 'isDestroyed')) return;
           set(self, 'needsFlush', YES);
-          self._scq_changedStoreKeys = SC.IndexSet.create().addEach(storeKeysToPace);
+          self._scq_changedStoreKeys = Ember.IndexSet.create().addEach(storeKeysToPace);
           self.flush();
         });
       }, 1);
@@ -8101,9 +8105,9 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
         storeKeys = storeKeys.copy();
       }
 
-      storeKeys = SC.Query.orderStoreKeys(storeKeys, query, store);
-      if (SC.compare(oldStoreKeys, storeKeys) !== 0){
-        set(this, 'storeKeys', SC.copy(storeKeys)); // replace content
+      storeKeys = Ember.Query.orderStoreKeys(storeKeys, query, store);
+      if (Ember.compare(oldStoreKeys, storeKeys) !== 0){
+        set(this, 'storeKeys', Ember.copy(storeKeys)); // replace content
       }
     }
 
@@ -8121,18 +8125,18 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
   needsFlush: YES,
 
   // ..........................................................
-  // EMULATE SC.StoreError API
+  // EMULATE Ember.StoreError API
   //
 
   /**
-    Returns `YES` whenever the status is `SC.Record.ERROR`.  This will allow
+    Returns `YES` whenever the status is `Ember.Record.ERROR`.  This will allow
     you to put the UI into an error state.
 
     @property
     @type Boolean
   */
   isError: function() {
-    return get(this, 'status') & SC.Record.ERROR;
+    return get(this, 'status') & Ember.Record.ERROR;
   }.property('status').cacheable(),
 
   /**
@@ -8140,24 +8144,24 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
     `null` otherwise.
 
     @property
-    @type SC.Record
+    @type Ember.Record
   */
   errorValue: function() {
-    return get(this, 'isError') ? SC.val(get(this, 'errorObject')) : null ;
+    return get(this, 'isError') ? Ember.val(get(this, 'errorObject')) : null ;
   }.property('isError').cacheable(),
 
   /**
     Returns the current error object only if the record array is in an error
     state. If no explicit error object has been set, returns
-    `SC.Record.GENERIC_ERROR.`
+    `Ember.Record.GENERIC_ERROR.`
 
     @property
-    @type SC.StoreError
+    @type Ember.StoreError
   */
   errorObject: function() {
     if (get(this, 'isError')) {
       var store = get(this, 'store');
-      return store.readQueryError(get(this, 'query')) || SC.Record.GENERIC_ERROR;
+      return store.readQueryError(get(this, 'query')) || Ember.Record.GENERIC_ERROR;
     } else return null ;
   }.property('isError').cacheable(),
 
@@ -8244,14 +8248,14 @@ SC.RecordArray = SC.Object.extend(SC.Enumerable, SC.Array, SC.MutableEnumerable,
 
 });
 
-SC.RecordArray.reopenClass(/** @scope SC.RecordArray.prototype */{
+Ember.RecordArray.reopenClass(/** @scope Ember.RecordArray.prototype */{
 
   /**
     Standard error throw when you try to modify a record that is not editable
 
-    @type SC.StoreError
+    @type Ember.StoreError
   */
-  NOT_EDITABLE: SC.StoreError.desc("SC.RecordArray is not editable"),
+  NOT_EDITABLE: Ember.StoreError.desc("Ember.RecordArray is not editable"),
 
   /**
     Number of milliseconds to allow a query matching to run for. If this number
@@ -8279,7 +8283,7 @@ SC.RecordArray.reopenClass(/** @scope SC.RecordArray.prototype */{
 
 
 
-var get = SC.get, set = SC.set, getPath = SC.getPath, none = SC.none;
+var get = Ember.get, set = Ember.set, getPath = Ember.getPath, none = Ember.none;
 
 /**
   @class
@@ -8297,10 +8301,10 @@ var get = SC.get, set = SC.set, getPath = SC.getPath, none = SC.none;
   and manage syncing those changes with your data source.  A data source may
   be a server, local storage, or any other persistent code.
 
-  @extends SC.Object
+  @extends Ember.Object
   @since SproutCore 1.0
 */
-SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
+Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
 
   /**
     An (optional) name of the store, which can be useful during debugging,
@@ -8323,7 +8327,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     store and save changes.  You normally will set your data source when you
     first create your store in your application.
 
-    @type SC.DataSource
+    @type Ember.DataSource
   */
   dataSource: null,
 
@@ -8355,8 +8359,8 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     just pass a string naming your data source class.  If this is the case,
     then your data source will be instantiated the first time it is requested.
 
-    @param {SC.DataSource|String} dataSource the data source
-    @returns {SC.Store} receiver
+    @param {Ember.DataSource|String} dataSource the data source
+    @returns {Ember.Store} receiver
   */
   from: function(dataSource) {
     set(this, 'dataSource', dataSource);
@@ -8379,12 +8383,12 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     data source arguments and sets the `CascadeDataSource` as the data source
     for the receiver.
 
-    @param {SC.DataSource...} dataSource one or more data source arguments
-    @returns {SC.Store} reciever
+    @param {Ember.DataSource...} dataSource one or more data source arguments
+    @returns {Ember.Store} reciever
   */
   cascade: function(dataSource) {
     var dataSources = Array.prototype.slice.call(arguments) ;
-    dataSource = SC.CascadeDataSource.create({
+    dataSource = Ember.CascadeDataSource.create({
       dataSources: dataSources
     });
     return this.from(dataSource);
@@ -8405,24 +8409,24 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
         store.commitChanges().destroy();
 
     @param {Hash} attrs optional attributes to set on new store
-    @param {Class} newStoreClass optional the class of the newly-created nested store (defaults to SC.NestedStore)
-    @returns {SC.NestedStore} new nested store chained to receiver
+    @param {Class} newStoreClass optional the class of the newly-created nested store (defaults to Ember.NestedStore)
+    @returns {Ember.NestedStore} new nested store chained to receiver
   */
   chain: function(attrs, newStoreClass) {
     if (!attrs) attrs = {};
 
     attrs.parentStore = this;
-    if (!newStoreClass) newStoreClass = SC.NestedStore;
+    if (!newStoreClass) newStoreClass = Ember.NestedStore;
 
     // Ensure the passed-in class is a type of nested store.
     ember_assert("%@ is a valid class".fmt(newStoreClass),
-      SC.typeOf(newStoreClass) === 'class');
-    ember_assert("%@ is a type of SC.NestedStore".fmt(newStoreClass),
-      SC.NestedStore.detect(newStoreClass));
+      Ember.typeOf(newStoreClass) === 'class');
+    ember_assert("%@ is a type of Ember.NestedStore".fmt(newStoreClass),
+      Ember.NestedStore.detect(newStoreClass));
 
     // Replicate parent records references
-    attrs.childRecords = this.childRecords ? SC.copy(this.childRecords) : {};
-    attrs.parentRecords = this.parentRecords ? SC.copy(this.parentRecords) : {};
+    attrs.childRecords = this.childRecords ? Ember.copy(this.childRecords) : {};
+    attrs.parentRecords = this.parentRecords ? Ember.copy(this.parentRecords) : {};
 
     var ret    = newStoreClass.create(attrs),
         nested = this.nestedStores;
@@ -8437,7 +8441,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     Called by a nested store just before it is destroyed so that the parent
     can remove the store from its list of nested stores.
 
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   willDestroyNestedStore: function(nestedStore) {
     if (this.nestedStores) {
@@ -8450,7 +8454,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     Used to determine if a nested store belongs directly or indirectly to the
     receiver.
 
-    @param {SC.Store} store store instance
+    @param {Ember.Store} store store instance
     @returns {Boolean} YES if belongs
   */
   hasNestedStore: function(store) {
@@ -8516,12 +8520,12 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     you call `commitRecords()` without passing any other parameters, the keys
     in this set will be committed instead.
 
-    @type SC.Set
+    @type Ember.Set
   */
   changelog: null,
 
   /**
-    An array of `SC.StoreError` objects associated with individual records in the
+    An array of `Ember.StoreError` objects associated with individual records in the
     store (indexed by store keys).
 
     Errors passed form the data source in the call to dataSourceDidError() are
@@ -8532,7 +8536,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
   recordErrors: null,
 
   /**
-    A hash of `SC.StoreError` objects associated with queries (indexed by the GUID
+    A hash of `Ember.StoreError` objects associated with queries (indexed by the GUID
     of the query).
 
     Errors passed from the data source in the call to
@@ -8568,7 +8572,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
   */
   storeKeyEditState: function(storeKey) {
     var editables = this.editables, locks = this.locks;
-    return (editables && editables[storeKey]) ? SC.Store.EDITABLE : SC.Store.LOCKED ;
+    return (editables && editables[storeKey]) ? Ember.Store.EDITABLE : Ember.Store.LOCKED ;
   },
 
   /**
@@ -8604,7 +8608,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     if (!editables) editables = this.editables = [];
     if (!editables[storeKey]) {
       editables[storeKey] = 1 ; // use number to store as dense array
-      ret = this.dataHashes[storeKey] = SC.copy(ret, YES);
+      ret = this.dataHashes[storeKey] = Ember.copy(ret, YES);
     }
     return ret;
   },
@@ -8653,7 +8657,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     @param {Number} storeKey the store key to write
     @param {Hash} hash the new hash
     @param {String} status the new hash status
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   writeDataHash: function(storeKey, hash, status) {
 
@@ -8681,20 +8685,20 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     the server.
 
     Note that you can optionally pass a new status to go along with this. If
-    you do not pass a status, it will change the status to `SC.RECORD_EMPTY`
+    you do not pass a status, it will change the status to `Ember.RECORD_EMPTY`
     (assuming you just unloaded the record).  If you are deleting the record
-    you may set it to `SC.Record.DESTROYED_CLEAN`.
+    you may set it to `Ember.Record.DESTROYED_CLEAN`.
 
     Be sure to also call `dataHashDidChange()` to register this change.
 
     @param {Number} storeKey
     @param {String} status optional new status
-    @returns {SC.Store} reciever
+    @returns {Ember.Store} reciever
   */
   removeDataHash: function(storeKey, status) {
      // don't use delete -- that will allow parent dataHash to come through
     this.dataHashes[storeKey] = null;
-    this.statuses[storeKey] = status || SC.Record.EMPTY;
+    this.statuses[storeKey] = status || Ember.Record.EMPTY;
 
     // hash is gone and therefore no longer editable
     var editables = this.editables;
@@ -8705,7 +8709,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
   /**
     Reads the current status for a storeKey.  This will also lock the data
-    hash.  If no status is found, returns `SC.RECORD_EMPTY`.
+    hash.  If no status is found, returns `Ember.RECORD_EMPTY`.
 
     @param {Number} storeKey the store key
     @returns {Number} status
@@ -8714,7 +8718,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     // use readDataHash to handle optimistic locking.  this could be inlined
     // but for now this minimized copy-and-paste code.
     this.readDataHash(storeKey);
-    return this.statuses[storeKey] || SC.Record.EMPTY;
+    return this.statuses[storeKey] || Ember.Record.EMPTY;
   },
 
   /**
@@ -8726,18 +8730,18 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     @returns {Number} status
   */
   peekStatus: function(storeKey) {
-    return this.statuses[storeKey] || SC.Record.EMPTY;
+    return this.statuses[storeKey] || Ember.Record.EMPTY;
   },
 
   /**
     Writes the current status for a storeKey.  If the new status is
-    `SC.Record.ERROR`, you may also pass an optional error object.  Otherwise
+    `Ember.Record.ERROR`, you may also pass an optional error object.  Otherwise
     this param is ignored.
 
     @param {Number} storeKey the store key
     @param {String} newStatus the new status
-    @param {SC.StoreError} error optional error object
-    @returns {SC.Store} receiver
+    @param {Ember.StoreError} error optional error object
+    @returns {Ember.Store} receiver
   */
   writeStatus: function(storeKey, newStatus) {
     // use writeDataHash for now to handle optimistic lock.  maximize code
@@ -8755,17 +8759,17 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     @param {Number} rev optional new revision number. normally leave null
     @param {Boolean} statusOnly (optional) YES if only status changed
     @param {String} key that changed (optional)
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   dataHashDidChange: function(storeKeys, rev, statusOnly, key) {
 
     // update the revision for storeKey.  Use generateStoreKey() because that
     // gaurantees a universally (to this store hierarchy anyway) unique
     // key value.
-    if (!rev) rev = SC.Store.generateStoreKey();
+    if (!rev) rev = Ember.Store.generateStoreKey();
     var isArray, len, idx, storeKey;
 
-    isArray = SC.typeOf(storeKeys) === 'array';
+    isArray = Ember.typeOf(storeKeys) === 'array';
     if (isArray) {
       len = storeKeys.length;
     } else {
@@ -8797,7 +8801,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
   _notifyRecordPropertyChange: function(storeKey, statusOnly, key) {
     var records      = this.records,
         nestedStores = get(this, 'nestedStores'),
-        K            = SC.Store,
+        K            = Ember.Store,
         rec, editState, len, idx, store, status, keys;
 
     // pass along to nested stores
@@ -8812,7 +8816,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
       if (editState === K.INHERITED) {
         store._notifyRecordPropertyChange(storeKey, statusOnly, key);
 
-      } else if (status & SC.Record.BUSY) {
+      } else if (status & Ember.Record.BUSY) {
         // make sure nested store does not have any changes before resetting
         if(get(store, 'hasChanges')) throw K.CHAIN_CONFLICT_ERROR;
         store.reset();
@@ -8823,9 +8827,9 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     var changes = this.recordPropertyChanges;
     if (!changes) {
       changes = this.recordPropertyChanges =
-        { storeKeys:      SC.Set.create(),
-          records:        SC.Set.create(),
-          hasDataChanges: SC.Set.create(),
+        { storeKeys:      Ember.Set.create(),
+          records:        Ember.Set.create(),
+          hasDataChanges: Ember.Set.create(),
           propertyForStoreKeys: {} };
     }
 
@@ -8847,7 +8851,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
       // need to respect that.
       if (key) {
         if (!(keys = changes.propertyForStoreKeys[storeKey])) {
-          keys = changes.propertyForStoreKeys[storeKey] = SC.Set.create();
+          keys = changes.propertyForStoreKeys[storeKey] = Ember.Set.create();
         }
 
         // If it's '*' instead of a set, then that means there was a previous
@@ -8862,7 +8866,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
       }
     }
 
-    SC.run.once(this, this.flush);
+    Ember.run.once(this, this.flush);
     return this;
   },
 
@@ -8872,7 +8876,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     updated some records and need to update records immediately, however,
     you may call this manually.
 
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   flush: function() {
     if (!this.recordPropertyChanges) return this;
@@ -8882,7 +8886,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
         hasDataChanges       = changes.hasDataChanges,
         records              = changes.records,
         propertyForStoreKeys = changes.propertyForStoreKeys,
-        recordTypes = SC.Set.create(),
+        recordTypes = Ember.Set.create(),
         rec, recordType, statusOnly, idx, len, storeKey, keys;
 
     storeKeys.forEach(function(storeKey) {
@@ -8901,7 +8905,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
         if (rec) rec.storeDidChangeProperties(statusOnly, keys);
       }
 
-      recordType = SC.Store.recordTypeFor(storeKey);
+      recordType = Ember.Store.recordTypeFor(storeKey);
       recordTypes.add(recordType);
 
     }, this);
@@ -8922,7 +8926,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     records, resetting them to an EMPTY state.  You generally do not want
     to call this method yourself, though you may override it.
 
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   reset: function() {
 
@@ -8959,10 +8963,10 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     be applied even if another resource has modified the store in the mean
     time.
 
-    @param {SC.Store} nestedStore the child store
-    @param {SC.Set} changes the set of changed store keys
+    @param {Ember.Store} nestedStore the child store
+    @param {Ember.Set} changes the set of changed store keys
     @param {Boolean} force
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   commitChangesFromNestedStore: function(nestedStore, changes, force) {
     // first, check for optimistic locking problems
@@ -9007,7 +9011,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     // add any records to the changelog for commit handling
     var myChangelog = this.changelog, chChangelog = nestedStore.changelog;
     if (chChangelog) {
-      if (!myChangelog) myChangelog = this.changelog = SC.Set.create();
+      if (!myChangelog) myChangelog = this.changelog = Ember.Set.create();
       myChangelog.addEach(chChangelog);
     }
     this.changelog = myChangelog;
@@ -9025,8 +9029,8 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     store is in a conflict and an exception will be raised.
 
     @param {Array}  changes set of changes we are trying to apply
-    @param {SC.Set} locks the locks to verify
-    @returns {SC.Store} receiver
+    @param {Ember.Set} locks the locks to verify
+    @returns {Ember.Store} receiver
   */
   _verifyLockRevisions: function(changes, locks) {
     var len = changes.length, revs = this.revisions, i, storeKey, lock, rev ;
@@ -9039,7 +9043,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
         // if the save revision for the item does not match the current rev
         // the someone has changed the data hash in this store and we have
         // a conflict.
-        if (lock < rev) throw SC.Store.CHAIN_CONFLICT_ERROR;
+        if (lock < rev) throw Ember.Store.CHAIN_CONFLICT_ERROR;
       }
     }
     return this ;
@@ -9064,7 +9068,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     Note that if the record needs to be retrieved from the server, then the
     record instance returned from this method will not have any data yet.
-    Instead it will have a status of `SC.Record.READY_LOADING`.  You can
+    Instead it will have a status of `Ember.Record.READY_LOADING`.  You can
     monitor the status property to be notified when the record data is
     available for you to use it.
 
@@ -9093,22 +9097,22 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     Finding all records of a particular type:
 
-        MyApp.store.find(MyApp.Contact); // returns SC.RecordArray of contacts
+        MyApp.store.find(MyApp.Contact); // returns Ember.RecordArray of contacts
 
 
     Finding all contacts with first name John:
 
-        var query = SC.Query.local(MyApp.Contact, "firstName = %@", "John");
-        MyApp.store.find(query); // returns SC.RecordArray of contacts
+        var query = Ember.Query.local(MyApp.Contact, "firstName = %@", "John");
+        MyApp.store.find(query); // returns Ember.RecordArray of contacts
 
     Finding all contacts using a remote query:
 
-        var query = SC.Query.remote(MyApp.Contact);
-        MyApp.store.find(query); // returns SC.RecordArray filled by server
+        var query = Ember.Query.remote(MyApp.Contact);
+        MyApp.store.find(query); // returns Ember.RecordArray filled by server
 
-    @param {SC.Record|String} recordType the expected record type
+    @param {Ember.Record|String} recordType the expected record type
     @param {String} id the id to load
-    @returns {SC.Record} record instance or null
+    @returns {Ember.Record} record instance or null
   */
   find: function(recordType, id) {
 
@@ -9118,12 +9122,12 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     }
 
     // handle passing a query...
-    if (id === undefined && !(recordType instanceof SC.Record)) {
-      ember_assert('SC.Store#find() accepts only a record type of query',
-        SC.Record.detect(recordType) || recordType instanceof SC.Query);
+    if (id === undefined && !(recordType instanceof Ember.Record)) {
+      ember_assert('Ember.Store#find() accepts only a record type of query',
+        Ember.Record.detect(recordType) || recordType instanceof Ember.Query);
 
-      if (!(recordType instanceof SC.Query)) {
-        recordType = SC.Query.local(recordType);
+      if (!(recordType instanceof Ember.Query)) {
+        recordType = Ember.Query.local(recordType);
       }
 
       return this._findQuery(recordType, YES, YES);
@@ -9146,11 +9150,11 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     SproutCore.
   */
   findAll: function(recordType, conditions, params) {
-    SC.Logger.warn("SC.Store#findAll() will be removed in a future version of SproutCore.  Use SC.Store#find() instead");
+    Ember.Logger.warn("Ember.Store#findAll() will be removed in a future version of SproutCore.  Use Ember.Store#find() instead");
 
 
     if (!recordType || !recordType.isQuery) {
-      recordType = SC.Query.local(recordType, conditions, params);
+      recordType = Ember.Query.local(recordType, conditions, params);
     }
 
     return this._findQuery(recordType, YES, YES);
@@ -9161,7 +9165,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     // lookup the local RecordArray for this query.
     var cache = this._scst_recordArraysByQuery,
-        key   = SC.guidFor(query),
+        key   = Ember.guidFor(query),
         ret, ra ;
     if (!cache) cache = this._scst_recordArraysByQuery = {};
     ret = cache[key];
@@ -9169,10 +9173,10 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     // if a RecordArray was not found, then create one and also add it to the
     // list of record arrays to update.
     if (!ret && createIfNeeded) {
-      cache[key] = ret = SC.RecordArray.create({ store: this, query: query });
+      cache[key] = ret = Ember.RecordArray.create({ store: this, query: query });
 
       ra = get(this, 'recordArrays');
-      if (!ra) set(this, 'recordArrays', ra = SC.Set.create());
+      if (!ra) set(this, 'recordArrays', ra = Ember.Set.create());
       ra.add(ret);
 
       if (refreshIfNew) this.refreshQuery(query);
@@ -9189,14 +9193,14 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     // if a record instance is passed, simply use the storeKey.  This allows
     // you to pass a record from a chained store to get the same record in the
     // current store.
-    if (recordType && (recordType instanceof SC.Record)) {
+    if (recordType && (recordType instanceof Ember.Record)) {
       storeKey = get(recordType, 'storeKey');
 
     // otherwise, lookup the storeKey for the passed id.  look in subclasses
     // as well.
     } else storeKey = id ? recordType.storeKeyFor(id) : null;
 
-    if (storeKey && (this.readStatus(storeKey) === SC.Record.EMPTY)) {
+    if (storeKey && (this.readStatus(storeKey) === Ember.Record.EMPTY)) {
       storeKey = this.retrieveRecord(recordType, id);
     }
 
@@ -9215,14 +9219,14 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     You should never call this method yourself.  Instead call `destroy()` on
     the `RecordArray` directly.
 
-    @param {SC.RecordArray} recordArray the record array
-    @returns {SC.Store} receiver
+    @param {Ember.RecordArray} recordArray the record array
+    @returns {Ember.Store} receiver
   */
   recordArrayWillDestroy: function(recordArray) {
     var cache = this._scst_recordArraysByQuery,
         set   = get(this, 'recordArrays');
 
-    if (cache) delete cache[SC.guidFor(get(recordArray, 'query'))];
+    if (cache) delete cache[Ember.guidFor(get(recordArray, 'query'))];
     if (set) set.remove(recordArray);
     return this ;
   },
@@ -9235,14 +9239,14 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     You should never call this method yourself.  Instead call `refresh()` on
     the `RecordArray` directly.
 
-    @param {SC.Query} query the record array query to refresh
-    @returns {SC.Store} receiver
+    @param {Ember.Query} query the record array query to refresh
+    @returns {Ember.Store} receiver
   */
   refreshQuery: function(query) {
     if (!query) throw new Error("refreshQuery() requires a query");
 
     var cache    = this._scst_recordArraysByQuery,
-        recArray = cache ? cache[SC.guidFor(query)] : null,
+        recArray = cache ? cache[Ember.guidFor(query)] : null,
         source   = this._getDataSource();
 
     if (source && source.fetch) {
@@ -9255,11 +9259,11 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
   /** @private
     Will ask all record arrays that have been returned from `findAll`
-    with an `SC.Query` to check their arrays with the new `storeKey`s
+    with an `Ember.Query` to check their arrays with the new `storeKey`s
 
-    @param {SC.IndexSet} storeKeys set of storeKeys that changed
-    @param {SC.Set} recordTypes
-    @returns {SC.Store} receiver
+    @param {Ember.IndexSet} storeKeys set of storeKeys that changed
+    @param {Ember.Set} recordTypes
+    @returns {Ember.Store} receiver
   */
   _notifyRecordArrays: function(storeKeys, recordTypes) {
     var recordArrays = get(this, 'recordArrays');
@@ -9283,8 +9287,8 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     therefore is not usually needed at runtime.  However you will often use
     this method for testing.
 
-    @param {SC.Record} recordType the record type
-    @returns {SC.Array} array instance - usually SC.RecordArray
+    @param {Ember.Record} recordType the record type
+    @returns {Ember.Array} array instance - usually Ember.RecordArray
   */
   recordsFor: function(recordType) {
     var storeKeys     = [],
@@ -9294,13 +9298,13 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     // collect all non-empty store keys
     for(id in storeKeysById) {
       storeKey = storeKeysById[id]; // get the storeKey
-      if (this.readStatus(storeKey) !== SC.RECORD_EMPTY) {
+      if (this.readStatus(storeKey) !== Ember.RECORD_EMPTY) {
         storeKeys.push(storeKey);
       }
     }
 
     if (storeKeys.length>0) {
-      ret = SC.RecordArray.create({ store: this, storeKeys: storeKeys });
+      ret = Ember.RecordArray.create({ store: this, storeKeys: storeKeys });
     } else ret = storeKeys; // empty array
     return ret ;
   },
@@ -9318,7 +9322,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     Each Store instance returns unique record instances for each storeKey.
 
     @param {Number} storeKey The storeKey for the dataHash.
-    @returns {SC.Record} Returns a record instance.
+    @returns {Ember.Record} Returns a record instance.
   */
   materializeRecord: function(storeKey) {
     var records = this.records, ret, recordType, attrs;
@@ -9329,7 +9333,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     if (ret) return ret;
 
     // not found -- OK, create one then.
-    recordType = SC.Store.recordTypeFor(storeKey);
+    recordType = Ember.Store.recordTypeFor(storeKey);
     if (!recordType) return null; // not recordType registered, nothing to do
 
     attrs = this._TMP_REC_ATTRS ;
@@ -9354,14 +9358,14 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     Note that the record will not yet be saved back to the server.  To save
     a record to the server, call `commitChanges()` on the store.
 
-    @param {SC.Record} recordType the record class to use on creation
+    @param {Ember.Record} recordType the record class to use on creation
     @param {Hash} dataHash the JSON attributes to assign to the hash.
     @param {String} id (optional) id to assign to record
 
-    @returns {SC.Record} Returns the created record
+    @returns {Ember.Record} Returns the created record
   */
   createRecord: function(recordType, dataHash, id) {
-    var primaryKey, storeKey, status, K = SC.Record, changelog, defaultVal,
+    var primaryKey, storeKey, status, K = Ember.Record, changelog, defaultVal,
         ret, attr;
 
     // First, try to get an id.  If no id is passed, look it up in the
@@ -9370,15 +9374,15 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
       id = dataHash[primaryKey];
       // if still no id, check if there is a defaultValue function for
       // the primaryKey attribute and assign that
-      attr = SC.RecordAttribute.attrFor(get(recordType, 'proto'), primaryKey);
+      attr = Ember.RecordAttribute.attrFor(get(recordType, 'proto'), primaryKey);
       defaultVal = attr && get(attr, 'defaultValue');
-      if(!id && SC.typeOf(defaultVal)==='function') {
+      if(!id && Ember.typeOf(defaultVal)==='function') {
         id = dataHash[primaryKey] = defaultVal();
       }
     }
 
     // Next get the storeKey - base on id if available
-    storeKey = id ? recordType.storeKeyFor(id) : SC.Store.generateStoreKey();
+    storeKey = id ? recordType.storeKeyFor(id) : Ember.Store.generateStoreKey();
 
     // now, check the state and do the right thing.
     status = this.readStatus(storeKey);
@@ -9391,25 +9395,25 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
       throw id ? K.RECORD_EXISTS_ERROR : K.BAD_STATE_ERROR;
 
     // allow error or destroyed state only with id
-    } else if (!id && (status===SC.DESTROYED_CLEAN || status===SC.StoreError)) {
+    } else if (!id && (status===Ember.DESTROYED_CLEAN || status===Ember.StoreError)) {
       throw K.BAD_STATE_ERROR;
     }
 
     // add dataHash and setup initial status -- also save recordType
     this.writeDataHash(storeKey, (dataHash ? dataHash : {}), K.READY_NEW);
 
-    SC.Store.replaceRecordTypeFor(storeKey, recordType);
+    Ember.Store.replaceRecordTypeFor(storeKey, recordType);
     this.dataHashDidChange(storeKey);
 
     // Record is now in a committable state -- add storeKey to changelog
     changelog = this.changelog;
-    if (!changelog) changelog = SC.Set.create();
+    if (!changelog) changelog = Ember.Set.create();
     changelog.add(storeKey);
     this.changelog = changelog;
 
     // if commit records is enabled
     if(get(this, 'commitRecordsAutomatically')){
-      SC.run.schedule('actions', this, this.commitRecords);
+      Ember.run.schedule('actions', this, this.commitRecords);
     }
 
     // Finally return materialized record, after we propagate the status to
@@ -9427,17 +9431,17 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     If you need to instead create a bunch of records with different data types
     you can instead pass an array of `recordType`s, one for each data hash.
 
-    @param {SC.Record|Array} recordTypes class or array of classes
+    @param {Ember.Record|Array} recordTypes class or array of classes
     @param {Array} dataHashes array of data hashes
     @param {Array} ids (optional) ids to assign to records
     @returns {Array} array of materialized record instances.
   */
   createRecords: function(recordTypes, dataHashes, ids) {
     var ret = [], recordType, id, isArray, len = dataHashes.length, idx ;
-    isArray = SC.typeOf(recordTypes) === 'array';
+    isArray = Ember.typeOf(recordTypes) === 'array';
     if (!isArray) recordType = recordTypes;
     for(idx=0;idx<len;idx++) {
-      if (isArray) recordType = recordTypes[idx] || SC.Record;
+      if (isArray) recordType = recordTypes[idx] || Ember.Record;
       id = ids ? ids[idx] : undefined ;
       ret.push(this.createRecord(recordType, dataHashes[idx], id));
     }
@@ -9451,14 +9455,14 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     If you unload a record that does not exist or an error then an exception
     will be raised.
 
-    @param {SC.Record} recordType the recordType
+    @param {Ember.Record} recordType the recordType
     @param {String} id the record id
     @param {Number} storeKey (optional) if passed, ignores recordType and id
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   unloadRecord: function(recordType, id, storeKey, newStatus) {
     if (storeKey === undefined) storeKey = recordType.storeKeyFor(id);
-    var status = this.readStatus(storeKey), K = SC.Record;
+    var status = this.readStatus(storeKey), K = Ember.Record;
     newStatus = newStatus || K.EMPTY;
     // handle status - ignore if destroying or destroyed
     if ((status === K.BUSY_DESTROYING) || (status & K.DESTROYED)) {
@@ -9499,16 +9503,16 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     is usually only used by low-level internal methods.  You will not usually
     unload records this way.
 
-    @param {SC.Record|Array} recordTypes class or array of classes
+    @param {Ember.Record|Array} recordTypes class or array of classes
     @param {Array} ids (optional) ids to unload
     @param {Array} storeKeys (optional) store keys to unload
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   unloadRecords: function(recordTypes, ids, storeKeys, newStatus) {
     var len, isArray, idx, id, recordType, storeKey;
 
     if (storeKeys === undefined) {
-      isArray = SC.typeOf(recordTypes) === 'array';
+      isArray = Ember.typeOf(recordTypes) === 'array';
       if (!isArray) recordType = recordTypes;
       if (ids === undefined) {
         len = isArray ? recordTypes.length : 1;
@@ -9520,7 +9524,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
       } else {
         len = ids.length;
         for (idx = 0; idx < len; idx++) {
-          if (isArray) recordType = recordTypes[idx] || SC.Record;
+          if (isArray) recordType = recordTypes[idx] || Ember.Record;
           id = ids ? ids[idx] : undefined;
           this.unloadRecord(recordType, id, undefined, newStatus);
         }
@@ -9542,14 +9546,14 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     already destroyed then this method will have no effect.  If you destroy a
     record that does not exist or an error then an exception will be raised.
 
-    @param {SC.Record} recordType the recordType
+    @param {Ember.Record} recordType the recordType
     @param {String} id the record id
     @param {Number} storeKey (optional) if passed, ignores recordType and id
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   destroyRecord: function(recordType, id, storeKey) {
     if (storeKey === undefined) storeKey = recordType.storeKeyFor(id);
-    var status = this.readStatus(storeKey), changelog, K = SC.Record;
+    var status = this.readStatus(storeKey), changelog, K = Ember.Record;
 
     // handle status - ignore if destroying or destroyed
     if ((status === K.BUSY_DESTROYING) || (status & K.DESTROYED)) {
@@ -9576,14 +9580,14 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     // add/remove change log
     changelog = this.changelog;
-    if (!changelog) changelog = this.changelog = SC.Set.create();
+    if (!changelog) changelog = this.changelog = Ember.Set.create();
 
     ((status & K.DIRTY) ? changelog.add(storeKey) : changelog.remove(storeKey));
     this.changelog=changelog;
 
     // if commit records is enabled
     if(get(this, 'commitRecordsAutomatically')){
-      SC.run.schedule('actions', this, this.commitRecords);
+      Ember.run.schedule('actions', this, this.commitRecords);
     }
 
     var that = this;
@@ -9609,19 +9613,19 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     is usually only used by low-level internal methods.  You will not usually
     destroy records this way.
 
-    @param {SC.Record|Array} recordTypes class or array of classes
+    @param {Ember.Record|Array} recordTypes class or array of classes
     @param {Array} ids ids to destroy
     @param {Array} storeKeys (optional) store keys to destroy
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   destroyRecords: function(recordTypes, ids, storeKeys) {
     var len, isArray, idx, id, recordType, storeKey;
     if(storeKeys===undefined){
       len = ids.length;
-      isArray = SC.typeOf(recordTypes) === 'array';
+      isArray = Ember.typeOf(recordTypes) === 'array';
       if (!isArray) recordType = recordTypes;
       for(idx=0;idx<len;idx++) {
-        if (isArray) recordType = recordTypes[idx] || SC.Record;
+        if (isArray) recordType = recordTypes[idx] || Ember.Record;
         id = ids ? ids[idx] : undefined ;
         this.destroyRecord(recordType, id, undefined);
       }
@@ -9702,16 +9706,16 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     be committed to the server the next time you commit the root store.  Only
     call this method on a record in a READY state of some type.
 
-    @param {SC.Record} recordType the recordType
+    @param {Ember.Record} recordType the recordType
     @param {String} id the record id
     @param {Number} storeKey (optional) if passed, ignores recordType and id
     @param {String} key that changed (optional)
     @param {Boolean} if the change is to statusOnly (optional)
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   recordDidChange: function(recordType, id, storeKey, key, statusOnly) {
     if (storeKey === undefined) storeKey = recordType.storeKeyFor(id);
-    var status = this.readStatus(storeKey), changelog, K = SC.Record;
+    var status = this.readStatus(storeKey), changelog, K = Ember.Record;
 
     // BUSY_LOADING, BUSY_CREATING, BUSY_COMMITTING, BUSY_REFRESH_CLEAN
     // BUSY_REFRESH_DIRTY, BUSY_DESTROYING
@@ -9734,13 +9738,13 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     // record in changelog
     changelog = this.changelog ;
-    if (!changelog) changelog = this.changelog = SC.Set.create() ;
+    if (!changelog) changelog = this.changelog = Ember.Set.create() ;
     changelog.add(storeKey);
     this.changelog = changelog;
 
     // if commit records is enabled
     if(get(this, 'commitRecordsAutomatically')){
-      SC.run.schedule('actions', this, this.commitRecords);
+      Ember.run.schedule('actions', this, this.commitRecords);
     }
 
     return this ;
@@ -9761,19 +9765,19 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     and ids.  In this case the first two parameters will be ignored.  This
     is usually only used by low-level internal methods.
 
-    @param {SC.Record|Array} recordTypes class or array of classes
+    @param {Ember.Record|Array} recordTypes class or array of classes
     @param {Array} ids ids to destroy
     @param {Array} storeKeys (optional) store keys to destroy
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   recordsDidChange: function(recordTypes, ids, storeKeys) {
      var len, isArray, idx, id, recordType, storeKey;
       if(storeKeys===undefined){
         len = ids.length;
-        isArray = SC.typeOf(recordTypes) === 'array';
+        isArray = Ember.typeOf(recordTypes) === 'array';
         if (!isArray) recordType = recordTypes;
         for(idx=0;idx<len;idx++) {
-          if (isArray) recordType = recordTypes[idx] || SC.Record;
+          if (isArray) recordType = recordTypes[idx] || Ember.Record;
           id = ids ? ids[idx] : undefined ;
           storeKey = storeKeys ? storeKeys[idx] : undefined ;
           this.recordDidChange(recordType, id, storeKey);
@@ -9799,7 +9803,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     load of the record from the server.  You can subsequently get a record
     instance itself using `materializeRecord()`.
 
-    @param {SC.Record|Array} recordTypes class or array of classes
+    @param {Ember.Record|Array} recordTypes class or array of classes
     @param {Array} ids ids to retrieve
     @param {Array} storeKeys (optional) store keys to retrieve
     @param {Boolean} isRefresh
@@ -9809,12 +9813,12 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
   retrieveRecords: function(recordTypes, ids, storeKeys, isRefresh, callbacks) {
 
     var source  = this._getDataSource(),
-        isArray = SC.typeOf(recordTypes) === 'array',
-        hasCallbackArray = SC.typeOf(callbacks) === 'array',
+        isArray = Ember.typeOf(recordTypes) === 'array',
+        hasCallbackArray = Ember.typeOf(callbacks) === 'array',
         len     = (!storeKeys) ? ids.length : storeKeys.length,
         ret     = [],
-        rev     = SC.Store.generateStoreKey(),
-        K       = SC.Record,
+        rev     = Ember.Store.generateStoreKey(),
+        K       = Ember.Record,
         recordType, idx, storeKey, status, ok, callback;
 
     if (!isArray) recordType = recordTypes;
@@ -9872,7 +9876,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     // loading for the first time or dataSourceDidComplete on refreshes.
     if (!ok) {
       len = ret.length;
-      rev = SC.Store.generateStoreKey();
+      rev = Ember.Store.generateStoreKey();
       for(idx=0;idx<len;idx++) {
         storeKey = ret[idx];
         status   = this.readStatus(storeKey);
@@ -9913,11 +9917,11 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
         callback = queue[storeKey],
         allFinished, keys;
     if(callback){
-      if(SC.typeOf(callback) === 'function'){
+      if(Ember.typeOf(callback) === 'function'){
         callback.call(); //args?
         delete queue[storeKey]; //cleanup
       }
-      else if(SC.typeOf(callback) == 'object'){
+      else if(Ember.typeOf(callback) == 'object'){
         callback.completed = YES;
         keys = callback.storeKeys;
         keys.forEach(function(key){
@@ -9958,7 +9962,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     load of the record from the server.  You can subsequently get a record
     instance itself using `materializeRecord()`.
 
-    @param {SC.Record} recordType class
+    @param {Ember.Record} recordType class
     @param {String} id id to retrieve
     @param {Number} storeKey (optional) store key
     @param {Boolean} isRefresh
@@ -9989,7 +9993,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     `dataSource`. Otherwise it will attempt to retrieve the record.
 
     @param {String} id to id of the record to load
-    @param {SC.Record} recordType the expected record type
+    @param {Ember.Record} recordType the expected record type
     @param {Number} storeKey (optional) optional store key
     @param {Function} callback (optional) when refresh complets
     @returns {Boolean} YES if the retrieval was a success.
@@ -10003,7 +10007,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     in the store, then this method will request a refresh from the
     `dataSource`. Otherwise it will attempt to retrieve them.
 
-    @param {SC.Record|Array} recordTypes class or array of classes
+    @param {Ember.Record|Array} recordTypes class or array of classes
     @param {Array} ids ids to destroy
     @param {Array} storeKeys (optional) store keys to destroy
     @param {Function} callback (optional) when refresh complets
@@ -10022,9 +10026,9 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     source to perform the appropriate actions
     on the store keys.
 
-    @param {Array} recordTypes the expected record types (SC.Record)
+    @param {Array} recordTypes the expected record types (Ember.Record)
     @param {Array} ids to commit
-    @param {SC.Set} storeKeys to commit
+    @param {Ember.Set} storeKeys to commit
     @param {Hash} params optional additional parameters to pass along to the
       data source
     @param {Function|Array} callback function or array of callbacks
@@ -10033,11 +10037,11 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
   */
   commitRecords: function(recordTypes, ids, storeKeys, params, callbacks) {
     var source    = this._getDataSource(),
-        isArray   = SC.typeOf(recordTypes) === 'array',
-        hasCallbackArray = SC.typeOf(callbacks) === 'array',
+        isArray   = Ember.typeOf(recordTypes) === 'array',
+        hasCallbackArray = Ember.typeOf(callbacks) === 'array',
         retCreate= [], retUpdate= [], retDestroy = [],
-        rev       = SC.Store.generateStoreKey(),
-        K         = SC.Record,
+        rev       = Ember.Store.generateStoreKey(),
+        K         = Ember.Record,
         recordType, idx, storeKey, status, key, ret, len, callback;
 
     // If no params are passed, look up storeKeys in the changelog property.
@@ -10055,7 +10059,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
       if (storeKeys) {
         storeKey = storeKeys[idx];
       } else {
-        if (isArray) recordType = recordTypes[idx] || SC.Record;
+        if (isArray) recordType = recordTypes[idx] || Ember.Record;
         else recordType = recordTypes;
         storeKey = recordType.storeKeyFor(ids[idx]);
       }
@@ -10118,7 +10122,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     You have to pass either the id or the storeKey otherwise it will return
     NO.
 
-    @param {SC.Record} recordType the expected record type
+    @param {Ember.Record} recordType the expected record type
     @param {String} id the id of the record to commit
     @param {Number} storeKey the storeKey of the record to commit
     @param {Hash} params optional additonal params that will passed down
@@ -10149,22 +10153,22 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     server implementation, this could cancel an entire request, causing
     other records to also transition their current state.
 
-    @param {SC.Record|Array} recordTypes class or array of classes
+    @param {Ember.Record|Array} recordTypes class or array of classes
     @param {Array} ids ids to destroy
     @param {Array} storeKeys (optional) store keys to destroy
-    @returns {SC.Store} the store.
+    @returns {Ember.Store} the store.
   */
   cancelRecords: function(recordTypes, ids, storeKeys) {
     var source  = this._getDataSource(),
-        isArray = SC.typeOf(recordTypes) === 'array',
-        K       = SC.Record,
+        isArray = Ember.typeOf(recordTypes) === 'array',
+        K       = Ember.Record,
         ret     = [],
         status, len, idx, id, recordType, storeKey;
 
     len = (storeKeys === undefined) ? ids.length : storeKeys.length;
     for(idx=0;idx<len;idx++) {
-      if (isArray) recordType = recordTypes[idx] || SC.Record;
-      else recordType = recordTypes || SC.Record;
+      if (isArray) recordType = recordTypes[idx] || Ember.Record;
+      else recordType = recordTypes || Ember.Record;
 
       id = ids ? ids[idx] : undefined ;
 
@@ -10194,10 +10198,10 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     server implementation, this could cancel an entire request, causing
     other records to also transition their current state.
 
-    @param {SC.Record|Array} recordTypes class or array of classes
+    @param {Ember.Record|Array} recordTypes class or array of classes
     @param {Array} ids ids to destroy
     @param {Array} storeKeys (optional) store keys to destroy
-    @returns {SC.Store} the store.
+    @returns {Ember.Store} the store.
   */
   cancelRecord: function(recordType, id, storeKey) {
     var array = this._TMP_RETRIEVE_ARRAY,
@@ -10223,7 +10227,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     recordType and a data hashes and either add or update the
     record in the store.
 
-    The loaded records will be in an `SC.Record.READY_CLEAN` state, indicating
+    The loaded records will be in an `Ember.Record.READY_CLEAN` state, indicating
     they were loaded from the data source and do not need to be committed
     back before changing.
 
@@ -10237,17 +10241,17 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     If you are upgrading from a pre SproutCore 1.0 application, this method
     is the closest to the old `updateRecord()`.
 
-    @param {SC.Record} recordType the record type
+    @param {Ember.Record} recordType the record type
     @param {Array} dataHash to update
     @param {Array} id optional.  if not passed lookup on the hash
     @returns {String} store keys assigned to these id
   */
   loadRecord: function(recordType, dataHash, id) {
-    var K       = SC.Record,
+    var K       = Ember.Record,
         ret, primaryKey, storeKey;
 
     // save lookup info
-    recordType = recordType || SC.Record;
+    recordType = recordType || Ember.Record;
     primaryKey = get(recordType, 'proto').primaryKey;
 
 
@@ -10269,7 +10273,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     recordType and an array of data hashes and either add or update the
     record in the store.
 
-    The loaded records will be in an `SC.Record.READY_CLEAN` state, indicating
+    The loaded records will be in an `Ember.Record.READY_CLEAN` state, indicating
     they were loaded from the data source and do not need to be committed
     back before changing.
 
@@ -10283,21 +10287,21 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     If you are upgrading from a pre SproutCore 1.0 application, this method
     is the closest to the old `updateRecords()`.
 
-    @param {SC.Record} recordTypes the record type or array of record types
+    @param {Ember.Record} recordTypes the record type or array of record types
     @param {Array} dataHashes array of data hashes to update
     @param {Array} ids optional array of ids.  if not passed lookup on hashes
     @returns {Array} store keys assigned to these ids
   */
   loadRecords: function(recordTypes, dataHashes, ids) {
-    var isArray = SC.typeOf(recordTypes) === 'array',
+    var isArray = Ember.typeOf(recordTypes) === 'array',
         len     = get(dataHashes, 'length'),
         ret     = [],
-        K       = SC.Record,
+        K       = Ember.Record,
         recordType, id, primaryKey, idx, dataHash, storeKey;
 
     // save lookup info
     if (!isArray) {
-      recordType = recordTypes || SC.Record;
+      recordType = recordTypes || Ember.Record;
       primaryKey = get(recordType, 'proto').primaryKey ;
     }
 
@@ -10305,7 +10309,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     for(idx=0;idx<len;idx++) {
       dataHash = dataHashes.objectAt(idx);
       if (isArray) {
-        recordType = recordTypes.objectAt(idx) || SC.Record;
+        recordType = recordTypes.objectAt(idx) || Ember.Record;
         primaryKey = get(recordType, 'proto').primaryKey ;
       }
       id = (ids) ? ids.objectAt(idx) : dataHash[primaryKey];
@@ -10318,11 +10322,11 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
   },
 
   /**
-    Returns the `SC.StoreError` object associated with a specific record.
+    Returns the `Ember.StoreError` object associated with a specific record.
 
     @param {Number} storeKey The store key of the record.
 
-    @returns {SC.StoreError} SC.StoreError or undefined if no error associated with the record.
+    @returns {Ember.StoreError} Ember.StoreError or undefined if no error associated with the record.
   */
   readError: function(storeKey) {
     var errors = this.recordErrors ;
@@ -10330,15 +10334,15 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
   },
 
   /**
-    Returns the `SC.StoreError` object associated with a specific query.
+    Returns the `Ember.StoreError` object associated with a specific query.
 
-    @param {SC.Query} query The SC.Query with which the error is associated.
+    @param {Ember.Query} query The Ember.Query with which the error is associated.
 
-    @returns {SC.StoreError} SC.StoreError or undefined if no error associated with the query.
+    @returns {Ember.StoreError} Ember.StoreError or undefined if no error associated with the query.
   */
   readQueryError: function(query) {
     var errors = this.queryErrors ;
-    return errors ? errors[SC.guidFor(query)] : undefined ;
+    return errors ? errors[Ember.guidFor(query)] : undefined ;
   },
 
   // ..........................................................
@@ -10351,11 +10355,11 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     record.  This will transition the record back to it non-inflight state.
 
     @param {Number} storeKey record store key to cancel
-    @returns {SC.Store} reciever
+    @returns {Ember.Store} reciever
   */
   dataSourceDidCancel: function(storeKey) {
     var status = this.readStatus(storeKey),
-        K      = SC.Record;
+        K      = Ember.Record;
 
     // EMPTY, ERROR, READY_CLEAN, READY_NEW, READY_DIRTY, DESTROYED_CLEAN,
     // DESTROYED_DIRTY
@@ -10407,10 +10411,10 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     @param {Number} storeKey record store key to change to READY_CLEAN state
     @param {Hash} dataHash optional data hash to replace current hash
     @param {Object} newId optional new id to replace the old one
-    @returns {SC.Store} reciever
+    @returns {Ember.Store} reciever
   */
   dataSourceDidComplete: function(storeKey, dataHash, newId) {
-    var status = this.readStatus(storeKey), K = SC.Record, statusOnly;
+    var status = this.readStatus(storeKey), K = Ember.Record, statusOnly;
 
     // EMPTY, ERROR, READY_CLEAN, READY_NEW, READY_DIRTY, DESTROYED_CLEAN,
     // DESTROYED_DIRTY
@@ -10425,7 +10429,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     this.writeStatus(storeKey, status) ;
     if (dataHash) this.writeDataHash(storeKey, dataHash, status) ;
-    if (newId) SC.Store.replaceIdFor(storeKey, newId);
+    if (newId) Ember.Store.replaceIdFor(storeKey, newId);
 
     statusOnly = dataHash || newId ? NO : YES;
     this.dataHashDidChange(storeKey, null, statusOnly);
@@ -10446,10 +10450,10 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     transition the record to the proper state.
 
     @param {Number} storeKey record store key to cancel
-    @returns {SC.Store} reciever
+    @returns {Ember.Store} reciever
   */
   dataSourceDidDestroy: function(storeKey) {
-    var status = this.readStatus(storeKey), K = SC.Record;
+    var status = this.readStatus(storeKey), K = Ember.Record;
 
     // EMPTY, ERROR, READY_CLEAN, READY_NEW, READY_DIRTY, DESTROYED_CLEAN,
     // DESTROYED_DIRTY
@@ -10478,11 +10482,11 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     Converts the passed record into an error object.
 
     @param {Number} storeKey record store key to error
-    @param {SC.StoreError} error [optional] an SC.StoreError instance to associate with storeKey
-    @returns {SC.Store} reciever
+    @param {Ember.StoreError} error [optional] an Ember.StoreError instance to associate with storeKey
+    @returns {Ember.Store} reciever
   */
   dataSourceDidError: function(storeKey, error) {
-    var status = this.readStatus(storeKey), errors = this.recordErrors, K = SC.Record;
+    var status = this.readStatus(storeKey), errors = this.recordErrors, K = Ember.Record;
 
     // EMPTY, ERROR, READY_CLEAN, READY_NEW, READY_DIRTY, DESTROYED_CLEAN,
     // DESTROYED_DIRTY
@@ -10518,14 +10522,14 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     Call by the data source whenever you want to push new data out of band
     into the store.
 
-    @param {Class} recordType the SC.Record subclass
+    @param {Class} recordType the Ember.Record subclass
     @param {Object} id the record id or null
     @param {Hash} dataHash data hash to load
     @param {Number} storeKey optional store key.
     @returns {Number|Boolean} storeKey if push was allowed, NO if not
   */
   pushRetrieve: function(recordType, id, dataHash, storeKey) {
-    var K = SC.Record, status;
+    var K = Ember.Record, status;
 
     if(storeKey===undefined) storeKey = recordType.storeKeyFor(id);
     status = this.readStatus(storeKey);
@@ -10547,13 +10551,13 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     Call by the data source whenever you want to push a deletion into the
     store.
 
-    @param {Class} recordType the SC.Record subclass
+    @param {Class} recordType the Ember.Record subclass
     @param {Object} id the record id or null
     @param {Number} storeKey optional store key.
     @returns {Number|Boolean} storeKey if push was allowed, NO if not
   */
   pushDestroy: function(recordType, id, storeKey) {
-    var K = SC.Record, status;
+    var K = Ember.Record, status;
 
     if(storeKey===undefined){
       storeKey = recordType.storeKeyFor(id);
@@ -10573,14 +10577,14 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     Call by the data source whenever you want to push an error into the
     store.
 
-    @param {Class} recordType the SC.Record subclass
+    @param {Class} recordType the Ember.Record subclass
     @param {Object} id the record id or null
-    @param {SC.StoreError} error [optional] an SC.StoreError instance to associate with id or storeKey
+    @param {Ember.StoreError} error [optional] an Ember.StoreError instance to associate with id or storeKey
     @param {Number} storeKey optional store key.
     @returns {Number|Boolean} storeKey if push was allowed, NO if not
   */
   pushError: function(recordType, id, error, storeKey) {
-    var K = SC.Record, status, errors = this.recordErrors;
+    var K = Ember.Record, status, errors = this.recordErrors;
 
     if(storeKey===undefined) storeKey = recordType.storeKeyFor(id);
     status = this.readStatus(storeKey);
@@ -10618,18 +10622,18 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     If the query you pass is not a REMOTE query, then this method will raise
     an exception.  This will also implicitly transition the query state to
-    `SC.Record.READY`.
+    `Ember.Record.READY`.
 
     If you called `loadRecords()` before to load the actual content, you can
     call this method with the return value of that method to actually set the
     storeKeys on the result.
 
-    @param {SC.Query} query the query you are loading.  must be remote.
-    @param {SC.Array} storeKeys array of store keys
-    @returns {SC.Store} receiver
+    @param {Ember.Query} query the query you are loading.  must be remote.
+    @param {Ember.Array} storeKeys array of store keys
+    @returns {Ember.Store} receiver
   */
   loadQueryResults: function(query, storeKeys) {
-    if (get(query, 'location') === SC.Query.LOCAL) {
+    if (get(query, 'location') === Ember.Query.LOCAL) {
       throw new Error("Cannot load query results for a local query");
     }
 
@@ -10649,8 +10653,8 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     LOCAL, then the query will update automatically with any new records you
     added to the store.
 
-    @param {SC.Query} query the query you fetched
-    @returns {SC.Store} receiver
+    @param {Ember.Query} query the query you fetched
+    @returns {Ember.Store} receiver
   */
   dataSourceDidFetchQuery: function(query) {
     return this._scstore_dataSourceDidFetchQuery(query, YES);
@@ -10677,8 +10681,8 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     This will put any RecordArray's back into its original state (READY or
     EMPTY).
 
-    @param {SC.Query} query the query you cancelled
-    @returns {SC.Store} receiver
+    @param {Ember.Query} query the query you cancelled
+    @returns {Ember.Store} receiver
   */
   dataSourceDidCancelQuery: function(query) {
     return this._scstore_dataSourceDidCancelQuery(query, YES);
@@ -10705,9 +10709,9 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     This will put the query into an error state until you try to refresh it
     again.
 
-    @param {SC.Query} query the query with the error
-    @param {SC.StoreError} error [optional] an SC.StoreError instance to associate with query
-    @returns {SC.Store} receiver
+    @param {Ember.Query} query the query with the error
+    @param {Ember.StoreError} error [optional] an Ember.StoreError instance to associate with query
+    @returns {Ember.Store} receiver
   */
   dataSourceDidErrorQuery: function(query, error) {
     var errors = this.queryErrors;
@@ -10715,7 +10719,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     // Add the error to the array of query errors (for lookup later on if necessary).
     if (error && error.isError) {
       if (!errors) errors = this.queryErrors = {};
-      errors[SC.guidFor(query)] = error;
+      errors[Ember.guidFor(query)] = error;
     }
 
     return this._scstore_dataSourceDidErrorQuery(query, YES);
@@ -10772,24 +10776,24 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     @returns {String} primaryKey value
   */
   idFor: function(storeKey) {
-    return SC.Store.idFor(storeKey);
+    return Ember.Store.idFor(storeKey);
   },
 
   /**
     Given a storeKey, return the recordType.
 
     @param {Number} storeKey the store key
-    @returns {SC.Record} record instance
+    @returns {Ember.Record} record instance
   */
   recordTypeFor: function(storeKey) {
-    return SC.Store.recordTypeFor(storeKey) ;
+    return Ember.Store.recordTypeFor(storeKey) ;
   },
 
   /**
     Given a `recordType` and `primaryKey`, find the `storeKey`. If the
     `primaryKey` has not been assigned a `storeKey` yet, it will be added.
 
-    @param {SC.Record} recordType the record type
+    @param {Ember.Record} recordType the record type
     @param {String} primaryKey the primary key
     @returns {Number} storeKey
   */
@@ -10802,7 +10806,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     `storeKey`.  As opposed to `storeKeyFor()` however, this method
     will **NOT** generate a new `storeKey` but returned `undefined`.
 
-    @param {SC.Record} recordType the record type
+    @param {Ember.Record} recordType the record type
     @param {String} primaryKey the primary key
     @returns {Number} a storeKey.
   */
@@ -10814,7 +10818,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     Finds all `storeKey`s of a certain record type in this store
     and returns an array.
 
-    @param {SC.Record} recordType
+    @param {Ember.Record} recordType
     @returns {Array} set of storeKeys
   */
   storeKeysFor: function(recordType) {
@@ -10823,8 +10827,8 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
         recType, storeKey, isMatch ;
 
     if (!this.statuses) return ret;
-    for(storeKey in SC.Store.recordTypesByStoreKey) {
-      recType = SC.Store.recordTypesByStoreKey[storeKey];
+    for(storeKey in Ember.Store.recordTypesByStoreKey) {
+      recType = Ember.Store.recordTypesByStoreKey[storeKey];
 
       // if same record type and this store has it
       if (isEnum) isMatch = recordType.contains(recType);
@@ -10848,7 +10852,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
     for(storeKey in this.statuses) {
       // if status is not empty
-      if(this.statuses[storeKey] != SC.Record.EMPTY) {
+      if(this.statuses[storeKey] != Ember.Record.EMPTY) {
         ret.push(parseInt(storeKey, 10));
       }
     }
@@ -10869,7 +10873,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
 
 }) ;
 
-SC.Store.reopenClass(/** @scope SC.Store.prototype */{
+Ember.Store.reopenClass(/** @scope Ember.Store.prototype */{
 
   /**
     Standard error raised if you try to commit changes from a nested store
@@ -10929,7 +10933,7 @@ SC.Store.reopenClass(/** @scope SC.Store.prototype */{
   /** @private
     This array maps all storeKeys to primary keys.  You will not normally
     access this method directly.  Instead use the `idFor()` and
-    `storeKeyFor()` methods on `SC.Record`.
+    `storeKeyFor()` methods on `Ember.Record`.
   */
   idsByStoreKey: [],
 
@@ -10978,21 +10982,21 @@ SC.Store.reopenClass(/** @scope SC.Store.prototype */{
     no query is associated with the `storeKey`, returns `null`.
 
     @param {Number} storeKey the store key
-    @returns {SC.Query} query query object
+    @returns {Ember.Query} query query object
   */
   queryFor: function(storeKey) {
     return this.queriesByStoreKey[storeKey];
   },
 
   /**
-    Given a `storeKey` returns the `SC.Record` class associated with the key.
+    Given a `storeKey` returns the `Ember.Record` class associated with the key.
     If no record type is associated with the store key, returns `null`.
 
-    The SC.Record class will only be found if you have already called
+    The Ember.Record class will only be found if you have already called
     storeKeyFor() on the record.
 
     @param {Number} storeKey the store key
-    @returns {SC.Record} the record type
+    @returns {Ember.Record} the record type
   */
   recordTypeFor: function(storeKey) {
     return this.recordTypesByStoreKey[storeKey];
@@ -11005,7 +11009,7 @@ SC.Store.reopenClass(/** @scope SC.Store.prototype */{
 
     @param {Number} storeKey the existing store key
     @param {String} newPrimaryKey the new primary key
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   replaceIdFor: function(storeKey, newId) {
     var oldId = this.idsByStoreKey[storeKey],
@@ -11037,8 +11041,8 @@ SC.Store.reopenClass(/** @scope SC.Store.prototype */{
     `storeKey`.
 
     @param {Integer} storeKey the store key
-    @param {SC.Record} recordType a record class
-    @returns {SC.Store} reciever
+    @param {Ember.Record} recordType a record class
+    @returns {Ember.Store} reciever
   */
   replaceRecordTypeFor: function(storeKey, recordType) {
     this.recordTypesByStoreKey[storeKey] = recordType;
@@ -11049,7 +11053,7 @@ SC.Store.reopenClass(/** @scope SC.Store.prototype */{
 
 
 /** @private */
-SC.Store.reopen({
+Ember.Store.reopen({
   nextStoreIndex: 1
 });
 
@@ -11061,9 +11065,9 @@ SC.Store.reopen({
   global store is used only for deprecated compatibility methods.  Don't use
   this in real code.
 */
-SC.Store._getDefaultStore = function() {
+Ember.Store._getDefaultStore = function() {
   var store = this._store;
-  if(!store) this._store = store = SC.Store.create();
+  if(!store) this._store = store = Ember.Store.create();
   return store;
 };
 
@@ -11075,18 +11079,18 @@ SC.Store._getDefaultStore = function() {
   If no `recordType` is passed, expects to find a `recordType` property in the
   data hashes.  `dataSource` and `isLoaded` params are ignored.
 
-  Calls `SC.Store#loadRecords()` on the default store. Do not use this method in
+  Calls `Ember.Store#loadRecords()` on the default store. Do not use this method in
   new code.
 
   @param {Array} dataHashes data hashes to import
   @param {Object} dataSource ignored
-  @param {SC.Record} recordType default record type
+  @param {Ember.Record} recordType default record type
   @param {Boolean} isLoaded ignored
-  @returns {Array} SC.Record instances for loaded data hashes
+  @returns {Array} Ember.Record instances for loaded data hashes
 */
-SC.Store.updateRecords = function(dataHashes, dataSource, recordType, isLoaded) {
+Ember.Store.updateRecords = function(dataHashes, dataSource, recordType, isLoaded) {
 
-  SC.Logger.warn("SC.Store.updateRecords() is deprecated.  Use loadRecords() instead");
+  Ember.Logger.warn("Ember.Store.updateRecords() is deprecated.  Use loadRecords() instead");
 
   var store = this._getDefaultStore(),
       len   = dataHashes.length,
@@ -11101,7 +11105,7 @@ SC.Store.updateRecords = function(dataHashes, dataSource, recordType, isLoaded) 
   // call new API.  Returns storeKeys
   ret = store.loadRecords(recordType, dataHashes);
 
-  // map to SC.Record instances
+  // map to Ember.Record instances
   len = ret.length;
   for(idx=0;idx<len;idx++) ret[idx] = store.materializeRecord(ret[idx]);
 
@@ -11114,13 +11118,13 @@ SC.Store.updateRecords = function(dataHashes, dataSource, recordType, isLoaded) 
 
   Finds a record with the passed guid on the default store.  This is included
   only for compatibility.  You should use the newer `find()` method defined on
-  `SC.Store` instead.
+  `Ember.Store` instead.
 
   @param {String} guid the guid
-  @param {SC.Record} recordType expected record type
-  @returns {SC.Record} found record
+  @param {Ember.Record} recordType expected record type
+  @returns {Ember.Record} found record
 */
-SC.Store.find = function(guid, recordType) {
+Ember.Store.find = function(guid, recordType) {
   return this._getDefaultStore().find(recordType, guid);
 };
 
@@ -11129,14 +11133,14 @@ SC.Store.find = function(guid, recordType) {
   DEPRECATED
 
   Passes through to `findAll` on default store.  This is included only for
-  compatibility.  You should use the newer `findAll()` defined on `SC.Store`
+  compatibility.  You should use the newer `findAll()` defined on `Ember.Store`
   instead.
 
   @param {Hash} filter search parameters
-  @param {SC.Record} recordType type of record to find
-  @returns {SC.RecordArray} result set
+  @param {Ember.Record} recordType type of record to find
+  @returns {Ember.RecordArray} result set
 */
-SC.Store.findAll = function(filter, recordType) {
+Ember.Store.findAll = function(filter, recordType) {
   return this._getDefaultStore().findAll(filter, recordType);
 };
 
@@ -11153,9 +11157,9 @@ SC.Store.findAll = function(filter, recordType) {
 // ==========================================================================
 /*globals ember_assert */
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
-var o_create = SC.platform.create;
+var o_create = Ember.platform.create;
 
 /**
   @class
@@ -11169,11 +11173,11 @@ var o_create = SC.platform.create;
   retrieve a nested store by using the `chain()` method.  When you are finished
   working with the nested store, `destroy()` will dispose of it.
 
-  @extends SC.Store
+  @extends Ember.Store
   @since SproutCore 1.0
 */
-SC.NestedStore = SC.Store.extend(
-/** @scope SC.NestedStore.prototype */ {
+Ember.NestedStore = Ember.Store.extend(
+/** @scope Ember.NestedStore.prototype */ {
 
   /**
     This is set to YES when there are changes that have not been committed
@@ -11187,10 +11191,10 @@ SC.NestedStore = SC.Store.extend(
   /**
     The parent store this nested store is chained to.  Nested stores must have
     a parent store in order to function properly.  Normally, you create a
-    nested store using the `SC.Store#chain()` method and this property will be
+    nested store using the `Ember.Store#chain()` method and this property will be
     set for you.
 
-    @type SC.Store
+    @type Ember.Store
     @default null
   */
   parentStore: null,
@@ -11249,7 +11253,7 @@ SC.NestedStore = SC.Store.extend(
     chained stores.  For a log changes that may actually be committed back to
     the server see the changelog property.
 
-    @type SC.Set
+    @type Ember.Set
     @default YES
   */
   chainedChanges: null,
@@ -11260,15 +11264,15 @@ SC.NestedStore = SC.Store.extend(
 
   /**
     `find()` cannot accept REMOTE queries in a nested store.  This override will
-    verify that condition for you.  See `SC.Store#find()` for info on using this
+    verify that condition for you.  See `Ember.Store#find()` for info on using this
     method.
 
-    @param {SC.Query} query query object to use.
-    @returns {SC.Record|SC.RecordArray}
+    @param {Ember.Query} query query object to use.
+    @returns {Ember.Record|Ember.RecordArray}
   */
   find: function(query) {
-    ember_assert("SC.Store#find() can only accept LOCAL queries in nested stores",
-      !query || !(query instanceof SC.Query) || get(query, 'location') === SC.Query.LOCAL);
+    ember_assert("Ember.Store#find() can only accept LOCAL queries in nested stores",
+      !query || !(query instanceof Ember.Query) || get(query, 'location') === Ember.Query.LOCAL);
     return this._super.apply(this, arguments);
   },
 
@@ -11277,7 +11281,7 @@ SC.NestedStore = SC.Store.extend(
     have a parent, this has no effect other than to clear the change set.
 
     @param {Boolean} force if YES, does not check for conflicts first
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   commitChanges: function(force) {
     if (get(this, 'hasChanges')) {
@@ -11293,7 +11297,7 @@ SC.NestedStore = SC.Store.extend(
   /**
     Discard the changes made to this store and reset the store.
 
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   discardChanges: function() {
     // any locked records whose rev or lock rev differs from parent need to
@@ -11322,7 +11326,7 @@ SC.NestedStore = SC.Store.extend(
     When you are finished working with a chained store, call this method to
     tear it down.  This will also discard any pending changes.
 
-    @returns {SC.Store} receiver
+    @returns {Ember.Store} receiver
   */
   destroy: function() {
     this.discardChanges();
@@ -11341,7 +11345,7 @@ SC.NestedStore = SC.Store.extend(
     var nRecords, nr, sk;
     // requires a pstore to reset
     var parentStore = get(this, 'parentStore');
-    if (!parentStore) throw SC.Store.NO_PARENT_STORE_ERROR;
+    if (!parentStore) throw Ember.Store.NO_PARENT_STORE_ERROR;
 
     // inherit data store from parent store.
     this.dataHashes = o_create(parentStore.dataHashes);
@@ -11371,13 +11375,13 @@ SC.NestedStore = SC.Store.extend(
   },
 
   /**
-    Returns the `SC.StoreError` object associated with a specific record.
+    Returns the `Ember.StoreError` object associated with a specific record.
 
     Delegates the call to the parent store.
 
     @param {Number} storeKey The store key of the record.
 
-    @returns {SC.StoreError} SC.StoreError or null if no error associated with the record.
+    @returns {Ember.StoreError} Ember.StoreError or null if no error associated with the record.
   */
   readError: function(storeKey) {
     var parentStore = get(this, 'parentStore');
@@ -11385,13 +11389,13 @@ SC.NestedStore = SC.Store.extend(
   },
 
   /**
-    Returns the `SC.StoreError` object associated with a specific query.
+    Returns the `Ember.StoreError` object associated with a specific query.
 
     Delegates the call to the parent store.
 
-    @param {SC.Query} query The SC.Query with which the error is associated.
+    @param {Ember.Query} query The Ember.Query with which the error is associated.
 
-    @returns {SC.StoreError} SC.StoreError or null if no error associated with the query.
+    @returns {Ember.StoreError} Ember.StoreError or null if no error associated with the query.
   */
   readQueryError: function(query) {
     var parentStore = get(this, 'parentStore');
@@ -11414,7 +11418,7 @@ SC.NestedStore = SC.Store.extend(
   */
   storeKeyEditState: function(storeKey) {
     var editables = this.editables, locks = this.locks;
-    return (editables && editables[storeKey]) ? SC.Store.EDITABLE : (locks && locks[storeKey]) ? SC.Store.LOCKED : SC.Store.INHERITED ;
+    return (editables && editables[storeKey]) ? Ember.Store.EDITABLE : (locks && locks[storeKey]) ? Ember.Store.LOCKED : Ember.Store.INHERITED ;
   },
 
   /**  @private
@@ -11440,11 +11444,11 @@ SC.NestedStore = SC.Store.extend(
     // for our own use.  Otherwise, just copy a reference to the data hash
     // in the parent store. -- find first non-inherited state
     var pstore = get(this, 'parentStore'), editState;
-    while(pstore && (editState=pstore.storeKeyEditState(storeKey)) === SC.Store.INHERITED) {
+    while(pstore && (editState=pstore.storeKeyEditState(storeKey)) === Ember.Store.INHERITED) {
       pstore = get(pstore, 'parentStore');
     }
 
-    if (pstore && editState === SC.Store.EDITABLE) {
+    if (pstore && editState === Ember.Store.EDITABLE) {
 
       pk = this.childRecords[storeKey];
       if (pk){
@@ -11455,11 +11459,11 @@ SC.NestedStore = SC.Store.extend(
         pr = this.parentRecords[pk];
         if (pr) {
           path = pr[storeKey];
-          this.dataHashes[storeKey] = path ? SC.getPath(this.dataHashes[pk], path) : null;
+          this.dataHashes[storeKey] = path ? Ember.getPath(this.dataHashes[pk], path) : null;
         }
       }
       else {
-        this.dataHashes[storeKey] = SC.copy(pstore.dataHashes[storeKey], YES);
+        this.dataHashes[storeKey] = Ember.copy(pstore.dataHashes[storeKey], YES);
       }
       if (!editables) editables = this.editables = [];
       editables[storeKey] = 1 ; // mark as editable
@@ -11514,7 +11518,7 @@ SC.NestedStore = SC.Store.extend(
       this.statuses[storeKey] = status;
     }
     else {
-      if (!didLock) this.statuses[storeKey] = (this.statuses[storeKey] || SC.Record.READY_NEW);
+      if (!didLock) this.statuses[storeKey] = (this.statuses[storeKey] || Ember.Record.READY_NEW);
     }
 
     if (!didLock) {
@@ -11551,10 +11555,10 @@ SC.NestedStore = SC.Store.extend(
     // update the revision for storeKey.  Use generateStoreKey() because that
     // gaurantees a universally (to this store hierarchy anyway) unique
     // key value.
-    if (!rev) rev = SC.Store.generateStoreKey();
+    if (!rev) rev = Ember.Store.generateStoreKey();
     var isArray, len, idx, storeKey;
 
-    isArray = SC.typeOf(storeKeys) === 'array';
+    isArray = Ember.typeOf(storeKeys) === 'array';
     if (isArray) {
       len = storeKeys.length;
     } else {
@@ -11563,7 +11567,7 @@ SC.NestedStore = SC.Store.extend(
     }
 
     var changes = this.chainedChanges;
-    if (!changes) changes = this.chainedChanges = SC.Set.create();
+    if (!changes) changes = this.chainedChanges = Ember.Set.create();
 
     for(idx=0;idx<len;idx++) {
       if (isArray) storeKey = storeKeys[idx];
@@ -11591,7 +11595,7 @@ SC.NestedStore = SC.Store.extend(
     var pstore = get(this, 'parentStore'), psRevisions = pstore.revisions, i;
     var myLocks = this.locks, myChanges = this.chainedChanges,len,storeKey;
     if (!myLocks) myLocks = this.locks = [];
-    if (!myChanges) myChanges = this.chainedChanges = SC.Set.create();
+    if (!myChanges) myChanges = this.chainedChanges = Ember.Set.create();
 
     len = changes.length ;
     for(i=0;i<len;i++) {
@@ -11638,7 +11642,7 @@ SC.NestedStore = SC.Store.extend(
   retrieveRecords: function(recordTypes, ids, storeKeys, isRefresh) {
     var pstore = get(this, 'parentStore'), idx, storeKey, newStatus,
       len = (!storeKeys) ? ids.length : storeKeys.length,
-      K = SC.Record, status;
+      K = Ember.Record, status;
 
     // Is this a refresh?
     if (isRefresh) {
@@ -11652,7 +11656,7 @@ SC.NestedStore = SC.Store.extend(
         // status hierarchy, so even though lower stores would complete the
         // retrieval, the upper layers would never inherit the new statuses.
         if (status & K.DIRTY) {
-          throw SC.Store.NESTED_STORE_RETRIEVE_DIRTY_ERROR;
+          throw Ember.Store.NESTED_STORE_RETRIEVE_DIRTY_ERROR;
         }
         else {
           // Not dirty?  Then abandon any status we had set (to re-establish
@@ -11694,22 +11698,22 @@ SC.NestedStore = SC.Store.extend(
 
   /** @private - adapt for nested store */
   commitRecords: function(recordTypes, ids, storeKeys) {
-    throw SC.Store.NESTED_STORE_UNSUPPORTED_ERROR;
+    throw Ember.Store.NESTED_STORE_UNSUPPORTED_ERROR;
   },
 
   /** @private - adapt for nested store */
   commitRecord: function(recordType, id, storeKey) {
-    throw SC.Store.NESTED_STORE_UNSUPPORTED_ERROR;
+    throw Ember.Store.NESTED_STORE_UNSUPPORTED_ERROR;
   },
 
   /** @private - adapt for nested store */
   cancelRecords: function(recordTypes, ids, storeKeys) {
-    throw SC.Store.NESTED_STORE_UNSUPPORTED_ERROR;
+    throw Ember.Store.NESTED_STORE_UNSUPPORTED_ERROR;
   },
 
   /** @private - adapt for nested store */
   cancelRecord: function(recordType, id, storeKey) {
-    throw SC.Store.NESTED_STORE_UNSUPPORTED_ERROR;
+    throw Ember.Store.NESTED_STORE_UNSUPPORTED_ERROR;
   },
 
   // ..........................................................
@@ -11719,22 +11723,22 @@ SC.NestedStore = SC.Store.extend(
 
   /** @private - adapt for nested store */
   dataSourceDidCancel: function(storeKey) {
-    throw SC.Store.NESTED_STORE_UNSUPPORTED_ERROR;
+    throw Ember.Store.NESTED_STORE_UNSUPPORTED_ERROR;
   },
 
   /** @private - adapt for nested store */
   dataSourceDidComplete: function(storeKey, dataHash, newId) {
-    throw SC.Store.NESTED_STORE_UNSUPPORTED_ERROR;
+    throw Ember.Store.NESTED_STORE_UNSUPPORTED_ERROR;
   },
 
   /** @private - adapt for nested store */
   dataSourceDidDestroy: function(storeKey) {
-    throw SC.Store.NESTED_STORE_UNSUPPORTED_ERROR;
+    throw Ember.Store.NESTED_STORE_UNSUPPORTED_ERROR;
   },
 
   /** @private - adapt for nested store */
   dataSourceDidError: function(storeKey, error) {
-    throw SC.Store.NESTED_STORE_UNSUPPORTED_ERROR;
+    throw Ember.Store.NESTED_STORE_UNSUPPORTED_ERROR;
   },
 
   // ..........................................................
@@ -11743,17 +11747,17 @@ SC.NestedStore = SC.Store.extend(
 
   /** @private - adapt for nested store */
   pushRetrieve: function(recordType, id, dataHash, storeKey) {
-    throw SC.Store.NESTED_STORE_UNSUPPORTED_ERROR;
+    throw Ember.Store.NESTED_STORE_UNSUPPORTED_ERROR;
   },
 
   /** @private - adapt for nested store */
   pushDestroy: function(recordType, id, storeKey) {
-    throw SC.Store.NESTED_STORE_UNSUPPORTED_ERROR;
+    throw Ember.Store.NESTED_STORE_UNSUPPORTED_ERROR;
   },
 
   /** @private - adapt for nested store */
   pushError: function(recordType, id, error, storeKey) {
-    throw SC.Store.NESTED_STORE_UNSUPPORTED_ERROR;
+    throw Ember.Store.NESTED_STORE_UNSUPPORTED_ERROR;
   }
 
 }) ;
