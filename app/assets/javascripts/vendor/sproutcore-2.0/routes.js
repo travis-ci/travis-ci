@@ -5,7 +5,7 @@
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 
-var get = SC.get, set = SC.set;
+var get = Ember.get, set = Ember.set;
 
 /**
   Wether the browser supports HTML5 history.
@@ -20,11 +20,11 @@ var supportsHashChange = ('onhashchange' in window) && (document.documentMode ==
 /**
   @class
 
-  Route is a class used internally by SC.routes. The routes defined by your
+  Route is a class used internally by Ember.routes. The routes defined by your
   application are stored in a tree structure, and this is the class for the
   nodes.
 */
-var Route = SC.Object.extend(
+var Route = Ember.Object.extend(
 /** @scope Route.prototype */ {
 
   target: null,
@@ -41,7 +41,7 @@ var Route = SC.Object.extend(
     var part, nextRoute;
 
     // clone the parts array because we are going to alter it
-    parts = SC.copy(parts);
+    parts = Ember.copy(parts);
 
     if (!parts || parts.length === 0) {
       this.target = target;
@@ -84,7 +84,7 @@ var Route = SC.Object.extend(
     var part, key, route;
 
     // clone the parts array because we are going to alter it
-    parts = SC.copy(parts);
+    parts = Ember.copy(parts);
 
     // if parts is empty, we are done
     if (!parts || parts.length === 0) {
@@ -126,37 +126,37 @@ var Route = SC.Object.extend(
 /**
   @class
 
-  SC.routes manages the browser location. You can change the hash part of the
+  Ember.routes manages the browser location. You can change the hash part of the
   current location. The following code
 
-      SC.routes.set('location', 'notes/edit/4');
+      Ember.routes.set('location', 'notes/edit/4');
 
   will change the location to http://domain.tld/my_app#notes/edit/4. Adding
   routes will register a handler that will be called whenever the location
   changes and matches the route:
 
-      SC.routes.add(':controller/:action/:id', MyApp, MyApp.route);
+      Ember.routes.add(':controller/:action/:id', MyApp, MyApp.route);
 
   You can pass additional parameters in the location hash that will be relayed
   to the route handler:
 
-      SC.routes.set('location', 'notes/show/4?format=xml&language=fr');
+      Ember.routes.set('location', 'notes/show/4?format=xml&language=fr');
 
   The syntax for the location hash is described in the location property
   documentation, and the syntax for adding handlers is described in the
   add method documentation.
 
   Browsers keep track of the locations in their history, so when the user
-  presses the 'back' or 'forward' button, the location is changed, SC.route
+  presses the 'back' or 'forward' button, the location is changed, Ember.route
   catches it and calls your handler. Except for Internet Explorer versions 7
   and earlier, which do not modify the history stack when the location hash
   changes.
 
-  SC.routes also supports HTML5 history, which uses a '/' instead of a '#'
+  Ember.routes also supports HTML5 history, which uses a '/' instead of a '#'
   in the URLs, so that all your website's URLs are consistent.
 */
-var routes = SC.routes = SC.Object.create(
-  /** @scope SC.routes.prototype */{
+var routes = Ember.routes = Ember.Object.create(
+  /** @scope Ember.routes.prototype */{
 
   /**
     Set this property to true if you want to use HTML5 history, if available on
@@ -219,7 +219,7 @@ var routes = SC.routes = SC.Object.create(
 
   /** @private
     A boolean value indicating whether or not the ping method has been called
-    to setup the SC.routes.
+    to setup the Ember.routes.
 
     @property
     @type {Boolean}
@@ -301,7 +301,7 @@ var routes = SC.routes = SC.Object.create(
 
     The following code
 
-        SC.routes.set('location', 'notes/edit/4');
+        Ember.routes.set('location', 'notes/edit/4');
 
     will change the location to http://domain.tld/my_app#notes/edit/4 and call
     the correct route handler if it has been registered with the add method.
@@ -309,8 +309,8 @@ var routes = SC.routes = SC.Object.create(
     You can also pass additional parameters. They will be relayed to the route
     handler. For example, the following code
 
-        SC.routes.add(':controller/:action/:id', MyApp, MyApp.route);
-        SC.routes.set('location', 'notes/show/4?format=xml&language=fr');
+        Ember.routes.add(':controller/:action/:id', MyApp, MyApp.route);
+        Ember.routes.set('location', 'notes/show/4?format=xml&language=fr');
 
     will change the location to
     http://domain.tld/my_app#notes/show/4?format=xml&language=fr and call the
@@ -326,7 +326,7 @@ var routes = SC.routes = SC.Object.create(
 
     The location can also be set with a hash, the following code
 
-        SC.routes.set('location',
+        Ember.routes.set('location',
           { route: 'notes/edit/4', format: 'xml', language: 'fr' });
 
     will change the location to
@@ -356,7 +356,7 @@ var routes = SC.routes = SC.Object.create(
         value = crumbs.route + crumbs.params;
       }
 
-      if (!SC.empty(value) || (this._location && this._location !== value)) {
+      if (!Ember.empty(value) || (this._location && this._location !== value)) {
         encodedValue = encodeURI(value);
 
         if (this.usesHistory) {
@@ -402,7 +402,7 @@ var routes = SC.routes = SC.Object.create(
           jQuery(window).bind('hashchange', hashChange);
 
         } else {
-          // we don't use a SC.Timer because we don't want
+          // we don't use a Ember.Timer because we don't want
           // a run loop to be triggered at each ping
           that = this;
           this._invokeHashChange = function() {
@@ -439,13 +439,13 @@ var routes = SC.routes = SC.Object.create(
   */
   add: function(route, target, method) {
     if (!this._didSetup) {
-      SC.run.once(this, 'ping');
+      Ember.run.once(this, 'ping');
     }
 
-    if (method === undefined && SC.typeOf(target) === 'function') {
+    if (method === undefined && Ember.typeOf(target) === 'function') {
       method = target;
       target = null;
-    } else if (SC.typeOf(method) === 'string') {
+    } else if (Ember.typeOf(method) === 'string') {
       method = target[method];
     }
 
@@ -519,7 +519,7 @@ function hashChange(event) {
   }
 
   if (get(routes, 'location') !== loc && !routes._skipRoute) {
-    SC.run.once(function() {
+    Ember.run.once(function() {
       set(routes, 'location', loc);
     });
   }
@@ -536,7 +536,7 @@ function popState(event) {
     loc = loc.slice(base.length + 1, loc.length);
 
     if (get(routes, 'location') !== loc && !routes._skipRoute) {
-      SC.run.once(function() {
+      Ember.run.once(function() {
         set(routes, 'location', loc);
       });
     }

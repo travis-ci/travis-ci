@@ -2,7 +2,7 @@
 //= require vendor/jquery.timeago.js
 //= require vendor/jquery.cookie.js
 //= require vendor/jquery.tipsy.js
-//= require vendor/ember.js
+//= require vendor/ember-0.9.6.min.js
 //= require vendor/sproutcore-datastore.js
 //= require_tree ./vendor/sproutcore-2.0
 //= require vendor/pusher-1.6.min.js
