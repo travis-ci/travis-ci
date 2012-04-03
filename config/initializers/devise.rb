@@ -3,20 +3,8 @@ require 'travis'
 # Hmm, do we actually use this?
 require 'devise/api_token_authenticatable'
 
-# # override this for rails admin
-# class CustomFailure < Devise::FailureApp
-#   def redirect_url
-#     root_url
-#   end
-#   protected :redirect_url
-# end
-
 Devise.setup do |c|
   require 'devise/orm/active_record'
-
-  # c.warden do |manager|
-  #   manager.failure_app = CustomFailure
-  # end
 
   c.http_authenticatable = true
 
