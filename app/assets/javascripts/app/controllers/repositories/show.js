@@ -126,16 +126,20 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
 
   _statusImageUrl: function() {
     var branch = $(this.branchSelector).val();
-    if (branch && this.repository.get('slug')) {
-      return 'https://secure.travis-ci.org/' + this.repository.get('slug') + '.png?branch=' + branch;
+    var slug = this.getPath('repository.slug');
+
+    if (branch && slug) {
+      return 'https://secure.travis-ci.org/' + slug + '.png?branch=' + branch;
     }
   }.property('repository.slug'),
 
   _repositoryUrl: function() {
-    if (this.repository.get('slug')) return 'http://travis-ci.org/' + this.repository.get('slug');
+    var slug = this.getPath('repository.slug');
+    if (slug) return 'http://travis-ci.org/' + slug;
   }.property('repository.slug'),
 
   repositoryDidChange: function() {
-    if(this.get('repository')) this.get('repository').select();
+    var repository = this.get('repository');
+    if(repository) repository.select;
   }.observes('repository')
 });
