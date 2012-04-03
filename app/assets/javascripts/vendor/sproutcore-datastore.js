@@ -1667,7 +1667,7 @@ Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
           result = Ember.compare(
                     get(record1, propertyName), get(record2, propertyName) );
         }
-console.log(order[i].descending)
+
         if ((result!==0) && order[i].descending) result = (-1) * result;
       }
     }
