@@ -7,7 +7,9 @@ module ApplicationHelper
 
   def gravatar(user, options = {})
     settings = { :size => 48 }.merge(options)
-    image_tag("http://www.gravatar.com/avatar/#{user.profile_image_hash}?s=#{settings[:size]}&d=mm", :alt => user.name, :class => "profile-avatar")
+    protocol = controller.request.protocol
+    host = "#{protocol == 'https://' ? 'secure' : 'www'}.gravatar.com"
+    image_tag("#{protocol}#{host}/avatar/#{user.profile_image_hash}?s=#{settings[:size]}&d=mm", :alt => user.name, :class => "profile-avatar")
   end
 
   def body_id
