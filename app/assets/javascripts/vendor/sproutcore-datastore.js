@@ -1293,11 +1293,11 @@ var get = Ember.get, set = Ember.set, getPath = Ember.getPath;
       q = Ember.Query.create({
         conditions: "firstName = 'Jonny' AND lastName = 'Cash'",
         recordType: MyApp.MyModel,
-        orderBy: "lastName, year DEEmber"
+        orderBy: "lastName, year DESC"
       });
 
   The default order direction is ascending. You can change it to descending
-  by writing `'DEEmber'` behind the property name like in the example above.
+  by writing `'DESC'` behind the property name like in the example above.
   If no order is given, or records are equal in respect to a given order,
   records will be ordered by guid.
 
@@ -1413,7 +1413,7 @@ Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
 
   /**
     Optional orderBy parameters.  This can be a string of keys, optionally
-    beginning with the strings `"DEEmber "` or `"AEmber "` to select descending or
+    beginning with the strings `"DESC "` or `"AEmber "` to select descending or
     ascending order.
 
     Alternatively, you can specify a comparison function, in which case the
@@ -1645,7 +1645,7 @@ Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
     if (!this._isReady) { // can't parse. guid is wrong but consistent
       return Ember.compare(get(record1, 'id'),get(record2, 'id'));
     }
-
+    //
     // For every property specified in orderBy until non-eql result is found.
     // Or, if orderBy is a comparison function, simply invoke it with the
     // records.
@@ -1667,7 +1667,7 @@ Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
           result = Ember.compare(
                     get(record1, propertyName), get(record2, propertyName) );
         }
-
+console.log(order[i].descending)
         if ((result!==0) && order[i].descending) result = (-1) * result;
       }
     }
@@ -2452,7 +2452,7 @@ Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
         p = p.replace(/\s+/,',');
         p = p.split(',');
         o[i] = {propertyName: p[0]};
-        if (p[1] && p[1] == 'DEEmber') o[i].descending = true;
+        if (p[1] && p[1] == 'DESC') o[i].descending = true;
       }
 
       return o;
