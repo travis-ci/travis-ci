@@ -9,6 +9,7 @@ var Travis = Ember.Application.create({
   store: Ember.Store.create().from('Travis.DataSource'),
   channels: ['common'],
   active_channels: [],
+  channel_prefix: '',
 
   run: function() {
     var action = $('body').attr('id');
@@ -47,7 +48,7 @@ var Travis = Ember.Application.create({
   subscribe: function(channel) {
     if(this.active_channels.indexOf(channel) == -1) {
       this.active_channels.push(channel);
-      if(window.pusher) pusher.subscribe(channel).bind_all(this.receive);
+      if(window.pusher) pusher.subscribe(this.channel_prefix + channel).bind_all(this.receive);
     }
   },
 
@@ -55,7 +56,7 @@ var Travis = Ember.Application.create({
     var ix = this.active_channels.indexOf(channel);
     if(ix == -1) {
       this.active_channels.splice(ix, 1);
-      if(window.pusher) pusher.unsubscribe(channel);
+      if(window.pusher) pusher.unsubscribe(this.channel_prefix + channel);
     }
   },
 
