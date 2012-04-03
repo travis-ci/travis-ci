@@ -12,14 +12,20 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
     }
   }),
 
-  repositoryBinding: '_repositories.firstObject',
+  /* repositoryBinding: '_repositories.firstObject', */
   buildBinding: '_buildProxy.content',
+
+  // binding doesn't seem to fire on the _repositories.firstObject binding above?
+  repository: function() {
+    return this.getPath('_repositories.firstObject');
+  }.property('_repositories.length'),
 
   init: function() {
     this._super();
     this.tabs.parent = this;
     this.view = Ember.View.create({
       controller: this,
+      // repositoryBinding: 'controller.repository',
       repositoryBinding: 'controller.repository',
       buildBinding: 'controller.build',
       jobBinding: 'controller.job',
@@ -130,6 +136,6 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
   }.property('repository.slug'),
 
   repositoryDidChange: function() {
-    this.repository.select();
+    if(this.get('repository')) this.get('repository').select();
   }.observes('repository')
 });
