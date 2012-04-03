@@ -11,7 +11,7 @@
     <td class="duration" {{bindAttr title="content.started_at"}}>{{content.formattedDuration}}</td>
     <td class="finished_at timeago" {{bindAttr title="content.finished_at"}}>{{content.formattedFinishedAt}}</td>
     {{#each content.formattedConfigValues itemTagName="td"}}
-      {{value}}
+      <td>{{value}}</td>
     {{/each}}
   {{/collection}}
 </table>
