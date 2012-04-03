@@ -79,6 +79,7 @@ $.fn.sponsors = (decks, options) ->
   new Sponsors(@, decks, options).run()
 
 $ ->
-  Sponsors.load (decks)->
-    $('#right .sponsors.top').sponsors(decks['banner'])
-    $('#right .sponsors.bottom').sponsors(decks['text'])
+  unless $('.sponsors').length == 0
+    Sponsors.load (decks)->
+      $('#right .sponsors.top').sponsors(decks['banner'])
+      $('#right .sponsors.bottom').sponsors(decks['text'])
