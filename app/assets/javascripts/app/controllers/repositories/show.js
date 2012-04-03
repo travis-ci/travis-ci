@@ -12,14 +12,20 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
     }
   }),
 
-  repositoryBinding: '_repositories.firstObject',
+  /* repositoryBinding: '_repositories.firstObject', */
   buildBinding: '_buildProxy.content',
+
+  // binding doesn't seem to fire on the _repositories.firstObject binding above?
+  repository: function() {
+    return this.getPath('_repositories.firstObject');
+  }.property('_repositories.length'),
 
   init: function() {
     this._super();
     this.tabs.parent = this;
     this.view = Ember.View.create({
       controller: this,
+      // repositoryBinding: 'controller.repository',
       repositoryBinding: 'controller.repository',
       buildBinding: 'controller.build',
       jobBinding: 'controller.job',
@@ -120,16 +126,20 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
 
   _statusImageUrl: function() {
     var branch = $(this.branchSelector).val();
-    if (branch && this.repository.get('slug')) {
-      return 'https://secure.travis-ci.org/' + this.repository.get('slug') + '.png?branch=' + branch;
+    var slug = this.getPath('repository.slug');
+
+    if (branch && slug) {
+      return 'https://secure.travis-ci.org/' + slug + '.png?branch=' + branch;
     }
   }.property('repository.slug'),
 
   _repositoryUrl: function() {
-    if (this.repository.get('slug')) return 'http://travis-ci.org/' + this.repository.get('slug');
+    var slug = this.getPath('repository.slug');
+    if (slug) return 'http://travis-ci.org/' + slug;
   }.property('repository.slug'),
 
   repositoryDidChange: function() {
-    this.repository.select();
+    var repository = this.get('repository');
+    if(repository) repository.select;
   }.observes('repository')
 });
