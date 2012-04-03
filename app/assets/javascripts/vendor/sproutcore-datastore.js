@@ -102,9 +102,6 @@ function _sliceContent(c) {
   @since SproutCore 1.0
 */
 
-YES = true;
-NO = false;
-
 Ember.IndexSet = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable, Ember.Freezable, Ember.Copyable,
 /** @scope Ember.IndexSet.prototype */ {
 
@@ -113,9 +110,9 @@ Ember.IndexSet = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable, 
 
     @deprecated
     @type Boolean
-    @default YES
+    @default true
   */
-  isIndexSet: YES,
+  isIndexSet: true,
 
   /**
     Total number of indexes contained in the set
@@ -208,8 +205,8 @@ Ember.IndexSet = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable, 
   },
 
   /**
-    Returns YES if the passed index set contains the exact same indexes as
-    the receiver.  If you pass any object other than an index set, returns NO.
+    Returns true if the passed index set contains the exact same indexes as
+    the receiver.  If you pass any object other than an index set, returns false.
 
     @param {Object} obj another object.
     @returns {Boolean}
@@ -217,8 +214,8 @@ Ember.IndexSet = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable, 
   isEqual: function(obj) {
 
     // optimize for some special cases
-    if (obj === this) return YES ;
-    if (!obj || !isIndexSet(obj) || (get(obj, 'max') !== get(this, 'max')) || (get(obj, 'length') !== get(this, 'length'))) return NO;
+    if (obj === this) return true ;
+    if (!obj || !isIndexSet(obj) || (get(obj, 'max') !== get(this, 'max')) || (get(obj, 'length') !== get(this, 'length'))) return false;
 
     // ok, now we need to actually compare the ranges of the two.
     var lcontent = this._content,
@@ -227,11 +224,11 @@ Ember.IndexSet = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable, 
         next     = lcontent[cur];
 
     do {
-      if (rcontent[cur] !== next) return NO ;
+      if (rcontent[cur] !== next) return false ;
       cur = abs(next) ;
       next = lcontent[cur];
     } while (cur !== 0);
-    return YES ;
+    return true ;
   },
 
   /**
@@ -289,7 +286,7 @@ Ember.IndexSet = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable, 
   },
 
   /**
-    Returns YES if the index set contains the named index
+    Returns true if the index set contains the named index
 
     @param {Number} start index or range
     @param {Number} length optional range length
@@ -300,24 +297,24 @@ Ember.IndexSet = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable, 
 
     // normalize input
     if (length === undefined) {
-      if (start === null || start === undefined) return NO ;
+      if (start === null || start === undefined) return false ;
 
       if ('number' === typeof start) {
         length = 1 ;
 
       // if passed an index set, check each receiver range
       } else if (start && isIndexSet(start)) {
-        if (start === this) return YES ; // optimization
+        if (start === this) return true ; // optimization
 
         content = start._content ;
         cur = 0 ;
         next = content[cur];
         while (next !== 0) {
-          if ((next>0) && !this.contains(cur, next-cur)) return NO ;
+          if ((next>0) && !this.contains(cur, next-cur)) return false ;
           cur = abs(next);
           next = content[cur];
         }
-        return YES ;
+        return true ;
 
       // passed just a hash range
       } else {
@@ -333,7 +330,7 @@ Ember.IndexSet = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable, 
   },
 
   /**
-    Returns YES if the index set contains any of the passed indexes.  You
+    Returns true if the index set contains any of the passed indexes.  You
     can pass a single index, a range or an index set.
 
     @param {Number} start index, range, or IndexSet
@@ -350,17 +347,17 @@ Ember.IndexSet = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable, 
 
       // if passed an index set, check each receiver range
       } else if (start && isIndexSet(start)) {
-        if (start === this) return YES ; // optimization
+        if (start === this) return true ; // optimization
 
         content = start._content ;
         cur = 0 ;
         next = content[cur];
         while (next !== 0) {
-          if ((next>0) && this.intersects(cur, next-cur)) return YES ;
+          if ((next>0) && this.intersects(cur, next-cur)) return true ;
           cur = abs(next);
           next = content[cur];
         }
-        return NO ;
+        return false ;
 
       } else {
         length = start.length;
@@ -373,12 +370,12 @@ Ember.IndexSet = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable, 
     next    = content[cur];
     lim     = start + length;
     while (cur < lim) {
-      if (next === 0) return NO; // no match and at end!
-      if ((next > 0) && (next > start)) return YES ; // found a match
+      if (next === 0) return false; // no match and at end!
+      if ((next > 0) && (next > start)) return true ; // found a match
       cur = abs(next);
       next = content[cur];
     }
-    return NO ; // no match
+    return false ; // no match
   },
 
   /**
@@ -1148,9 +1145,9 @@ Ember.IndexSet = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable, 
     supress them by default.
 
     @type Boolean
-    @default NO
+    @default false
   */
-  LOG_OBSERVING: NO,
+  LOG_OBSERVING: false,
 
   /** @private - optimized call to forEach() */
   forEach: function(callback, target) {
@@ -1361,7 +1358,7 @@ var get = Ember.get, set = Ember.set, getPath = Ember.getPath;
 
    - `AND`
    - `OR`
-   - `NOT`
+   - `falseT`
 
   Parenthesis for grouping:
 
@@ -1404,7 +1401,7 @@ Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
 
     @type Boolean
   */
-  isQuery: YES,
+  isQuery: true,
 
   /**
     Unparsed query conditions.  If you are handling a query yourself, then
@@ -1530,7 +1527,7 @@ Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
 
 
   /**
-    Returns `YES` if query location is Remote.  This is sometimes more
+    Returns `true` if query location is Remote.  This is sometimes more
     convenient than checking the location.
 
 		@property
@@ -1541,7 +1538,7 @@ Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
   }.property('location').cacheable(),
 
   /**
-    Returns `YES` if query location is Local.  This is sometimes more
+    Returns `true` if query location is Local.  This is sometimes more
     convenient than checking the location.
 
 		@property
@@ -1552,43 +1549,43 @@ Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
   }.property('location').cacheable(),
 
   /**
-    Indicates whether a record is editable or not.  Defaults to `NO`.  Local
+    Indicates whether a record is editable or not.  Defaults to `false`.  Local
     queries should never be made editable.  Remote queries may be editable or
     not depending on the data source.
   */
-  isEditable: NO,
+  isEditable: false,
 
   // ..........................................................
   // PRIMITIVE METHODS
   //
 
   /**
-    Returns `YES` if record is matched by the query, `NO` otherwise.  This is
+    Returns `true` if record is matched by the query, `false` otherwise.  This is
     used when computing a query locally.
 
     @param {Ember.Record} record the record to check
     @param {Hash} parameters optional override parameters
-    @returns {Boolean} YES if record belongs, NO otherwise
+    @returns {Boolean} true if record belongs, false otherwise
   */
   contains: function(record, parameters) {
 
     // check the recordType if specified
-    var rtype, ret = YES ;
+    var rtype, ret = true ;
     if (rtype = get(this, 'recordTypes')) { // plural form
       ret = rtype.find(function(t) { return (record instanceof  t); });
     } else if (rtype = get(this, 'recordType')) { // singular
       ret = (record instanceof  rtype);
     }
 
-    if (!ret) return NO ; // if either did not pass, does not contain
+    if (!ret) return false ; // if either did not pass, does not contain
 
     // if we have a scope - check for that as well
     var scope = get(this, 'scope');
-    if (scope && !scope.contains(record)) return NO ;
+    if (scope && !scope.contains(record)) return false ;
 
     // now try parsing
     if (!this._isReady) this.parse(); // prepare the query if needed
-    if (!this._isReady) return NO ;
+    if (!this._isReady) return false ;
     if (parameters === undefined) parameters = this.parameters || this;
 
     // if parsing worked we check if record is contained
@@ -1597,11 +1594,11 @@ Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
   },
 
   /**
-    Returns `YES` if the query matches one or more of the record types in the
+    Returns `true` if the query matches one or more of the record types in the
     passed set.
 
     @param {Ember.Set} types set of record types
-    @returns {Boolean} YES if record types match
+    @returns {Boolean} true if record types match
   */
   containsRecordTypes: function(types) {
     var rtype = get(this, 'recordType');
@@ -1613,7 +1610,7 @@ Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
         return !!types.find(function(t2) { return t.detect(t2); });
       });
 
-    } else return YES; // allow anything through
+    } else return true; // allow anything through
   },
 
   /**
@@ -1681,9 +1678,9 @@ Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
   },
 
   /** @private
-      Becomes YES once the query has been successfully parsed
+      Becomes true once the query has been successfully parsed
   */
-  _isReady:     NO,
+  _isReady:     false,
 
   /**
     This method has to be called before the query object can be used.
@@ -1865,7 +1862,7 @@ Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
                         }
     },
 
-    'NOT': {
+    'falseT': {
       reservedWord:     true,
       rightType:        'BOOLEAN',
       evalType:         'BOOLEAN',
@@ -2096,7 +2093,7 @@ Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
       evaluate:         function (r,w) { return true; }
     },
 
-    'YES': {
+    'true': {
       reservedWord:     true,
       evalType:         'PRIMITIVE',
 
@@ -2104,7 +2101,7 @@ Ember.Query = Ember.Object.extend(Ember.Copyable, Ember.Freezable,
       evaluate:         function (r,w) { return true; }
     },
 
-    'NO': {
+    'false': {
       reservedWord:     true,
       evalType:         'PRIMITIVE',
 
@@ -2580,10 +2577,10 @@ Ember.Query.reopenClass( /** @scope Ember.Query */ {
 
     The following will match a particular type of condition:
 
-        var married = Ember.Query.local(Ab.Person, "isMarried=YES");
-        var married = Ember.Query.local(Ab.Person, "isMarried=%@", [YES]);
+        var married = Ember.Query.local(Ab.Person, "isMarried=true");
+        var married = Ember.Query.local(Ab.Person, "isMarried=%@", [true]);
         var married = Ember.Query.local(Ab.Person, "isMarried={married}", {
-          married: YES
+          married: true
         });
 
     You can also pass a hash of options as the second parameter.  This is
@@ -2760,7 +2757,8 @@ Ember.Query.registerComparison = function(propertyName, comparison) {
   @returns {Ember.Query} receiver
 */
 Ember.Query.registerQueryExtension = function(tokenName, token) {
-  get(Ember.Query, 'proto').queryLanguage[tokenName] = token;
+  // get(Ember.Query, 'proto').queryLanguage[tokenName] = token; // Sv
+  Ember.Query.proto().get('queryLanguage')[tokenName] = token;
 };
 
 
@@ -2799,8 +2797,8 @@ var get = Ember.get, set = Ember.set;
 
   You can actually make any object you want to be treated like an Error object
   by simply implementing two properties: isError and errorValue.  If you
-  set isError to YES, then calling Ember.ok(obj) on your object will return NO.
-  If isError is YES, then Ember.val(obj) will return your errorValue property
+  set isError to true, then calling Ember.ok(obj) on your object will return false.
+  If isError is true, then Ember.val(obj) will return your errorValue property
   instead of the receiver.
 
   @extends Ember.Object
@@ -2860,7 +2858,7 @@ Ember.StoreError = Ember.Object.extend(
 
     @type Boolean
   */
-  isError: YES
+  isError: true
 }) ;
 
 /**
@@ -2894,7 +2892,7 @@ Ember.$error = function(description, label, value, c) {
 } ;
 
 /**
-  Returns NO if the passed value is an error object or false.
+  Returns false if the passed value is an error object or false.
 
   @param {Object} ret object value
   @returns {Boolean}
@@ -2985,17 +2983,17 @@ Ember.Record = Ember.Object.extend(
 
     @deprecated
     @type Boolean
-    @default YES
+    @default true
   */
-  isRecord: YES,
+  isRecord: true,
 
   /**
     If you have nested records
 
     @type Boolean
-    @default NO
+    @default false
   */
-  isParentRecord: NO,
+  isParentRecord: false,
 
   // ...............................
   // PROPERTIES
@@ -3076,7 +3074,7 @@ Ember.Record = Ember.Object.extend(
   storeKey: null,
 
   /**
-    YES when the record has been destroyed
+    true when the record has been destroyed
 
     @type Boolean
     @property
@@ -3087,13 +3085,13 @@ Ember.Record = Ember.Object.extend(
   }.property('status').cacheable(),
 
   /**
-    `YES` when the record is in an editable state.  You can use this property
+    `true` when the record is in an editable state.  You can use this property
     to quickly determine whether attempting to modify the record would raise
     an exception.
 
     This property is both readable and writable.  Note however that if you
-    set this property to `YES` but the status of the record is anything but
-    `Ember.Record.READY`, the return value of this property may remain `NO`.
+    set this property to `true` but the status of the record is anything but
+    `Ember.Record.READY`, the return value of this property may remain `false`.
 
     @type Boolean
     @property
@@ -3109,10 +3107,10 @@ Ember.Record = Ember.Object.extend(
 
     Backing value for isEditable
   */
-  _screc_isEditable: YES, // default
+  _screc_isEditable: true, // default
 
   /**
-    `YES` when the record's contents have been loaded for the first time.  You
+    `true` when the record's contents have been loaded for the first time.  You
     can use this to quickly determine if the record is ready to display.
 
     @type Boolean
@@ -3236,7 +3234,7 @@ Ember.Record = Ember.Object.extend(
   /**
     Deletes the record along with any dependent records.  This will mark the
     records destroyed in the store as well as changing the isDestroyed
-    property on the record to YES.  If this is a new record, this will avoid
+    property on the record to true.  If this is a new record, this will avoid
     creating the record in the first place.
 
     @param {boolean} recordOnly
@@ -3362,7 +3360,7 @@ Ember.Record = Ember.Object.extend(
 
     @param {String} key the attribute you want to read
     @param {Object} value the value you want to write
-    @param {Boolean} ignoreDidChange only set if you do NOT want to flag
+    @param {Boolean} ignoreDidChange only set if you do falseT want to flag
       record as dirty
     @returns {Ember.Record} receiver
   */
@@ -3450,7 +3448,7 @@ Ember.Record = Ember.Object.extend(
           if (parentStatus === readyClean) {
             // Note:  storeDidChangeProperties() won't put it in the
             //        changelog!
-            get(rec, 'store').recordDidChange(get(rec, 'constructor'), null, get(rec, 'storeKey'), null, YES);
+            get(rec, 'store').recordDidChange(get(rec, 'constructor'), null, get(rec, 'storeKey'), null, true);
           }
         }
       }
@@ -3603,7 +3601,7 @@ Ember.Record = Ember.Object.extend(
       var storeKey = get(this, 'storeKey'),
         recordType = Ember.Store.recordTypeFor(storeKey);
 
-      if(recordType.ignoreUnknownProperties===YES) {
+      if(recordType.ignoreUnknownProperties===true) {
         this[key] = value;
         return value;
       }
@@ -3677,7 +3675,7 @@ Ember.Record = Ember.Object.extend(
   //
 
   /**
-    Returns `YES` whenever the status is Ember.Record.ERROR.  This will allow you
+    Returns `true` whenever the status is Ember.Record.ERROR.  This will allow you
     to put the UI into an error state.
 
     @type Boolean
@@ -3724,7 +3722,7 @@ Ember.Record = Ember.Object.extend(
 
     This version will first check to see if the property is an
     `Ember.RecordAttribute`, and if so, will ensure that its isEditable property
-    is `YES` before attempting to change the value.
+    is `true` before attempting to change the value.
 
     @param key {String} the property to set
     @param value {Object} the value to set or null.
@@ -3799,7 +3797,7 @@ Ember.Record = Ember.Object.extend(
     }
 
     if (childRecord){
-      set(this, 'isParentRecord', YES);
+      set(this, 'isParentRecord', true);
       store = get(this, 'store');
       psk = get(this, 'storeKey');
       csk = get(childRecord, 'storeKey');
@@ -3865,12 +3863,14 @@ Ember.Record = Ember.Object.extend(
     Ember.run(this, function() {
       hash = hash || {}; // init if needed
 
-      existingId = hash[get(recordType, 'proto').primaryKey];
+      // existingId = hash[get(recordType, 'proto').primaryKey]; // Sv
+      existingId = hash[recordType.proto().get('primaryKey')];
 
       store = get(this, 'store');
-      if (Ember.none(store)) throw 'Error: during the creation of a child record: NO STORE ON PARENT!';
+      if (Ember.none(store)) throw 'Error: during the creation of a child record: false STORE ON PARENT!';
 
-      if (!id && (pk = get(recordType, 'proto').primaryKey)) {
+      // if (!id && (pk = get(recordType, 'proto').primaryKey)) { // Sv
+      if (!id && (pk = recordType.proto().get('primaryKey'))) {
         id = hash[pk];
         // In case there isnt a primary key supplied then we create on
         // on the fly
@@ -3922,9 +3922,9 @@ Ember.Record.reopenClass( /** @scope Ember.Record.prototype */ {
 
     @static
     @type Boolean
-    @default NO
+    @default false
   */
-  ignoreUnknownProperties: NO,
+  ignoreUnknownProperties: false,
 
   // ..........................................................
   // CONSTANTS
@@ -4203,7 +4203,7 @@ Ember.Record.reopenClass( /** @scope Ember.Record.prototype */ {
     @constant
     @type Ember.StoreError
   */
-  NOT_FOUND_ERROR:     Ember.$error("Not found "),
+  falseT_FOUND_ERROR:     Ember.$error("Not found "),
 
   /**
     Error for when you try to modify a record that is currently busy
@@ -4242,7 +4242,7 @@ Ember.Record.reopenClass( /** @scope Ember.Record.prototype */ {
     Use this helper when you define Ember.Record subclasses.
 
         MyApp.Contact = Ember.Record.extend({
-          firstName: Ember.Record.attr(String, { isRequired: YES })
+          firstName: Ember.Record.attr(String, { isRequired: true })
         });
 
     @param {Class} type the attribute type
@@ -4282,7 +4282,7 @@ Ember.Record.reopenClass( /** @scope Ember.Record.prototype */ {
 
     You can edit the contents of this relationship.
 
-    For `Ember.ManyAttribute`, If you set the inverse and `isMaster: NO` key,
+    For `Ember.ManyAttribute`, If you set the inverse and `isMaster: false` key,
     then editing this array will modify the underlying data, but the
     inverse key on the matching record will also be edited and that
     record will be marked as needing a change.
@@ -4372,7 +4372,7 @@ Ember.Record.reopenClass( /** @scope Ember.Record.prototype */ {
   /**
     Given a primaryKey value for the record, returns the associated
     storeKey.  As opposed to `storeKeyFor()` however, this method
-    will NOT generate a new storeKey but returned undefined.
+    will falseT generate a new storeKey but returned undefined.
 
     @param {String} id a record id
     @returns {Number} a storeKey.
@@ -4435,7 +4435,7 @@ var get = Ember.get, set = Ember.set, getPath = Ember.getPath;
 
       title: Ember.Record.attr(String, {
         defaultValue: 'Untitled',
-        isRequired: YES|NO
+        isRequired: true|false
       })
 
   In addition to having predefined transform types, there is also a way to
@@ -4469,9 +4469,9 @@ Ember.RecordAttribute = Ember.Object.extend(
     Walk like a duck.
 
     @type Boolean
-    @default YES
+    @default true
   */
-  isRecordAttribute: YES,
+  isRecordAttribute: true,
 
   /**
     The default value.  If attribute is `null` or `undefined`, this default
@@ -4512,33 +4512,33 @@ Ember.RecordAttribute = Ember.Object.extend(
   key: null,
 
   /**
-    If `YES`, then the attribute is required and will fail validation unless
+    If `true`, then the attribute is required and will fail validation unless
     the property is set to a non-null or undefined value.
 
     @type Boolean
-    @default NO
+    @default false
   */
-  isRequired: NO,
+  isRequired: false,
 
   /**
-    If `NO` then attempts to edit the attribute will be ignored.
+    If `false` then attempts to edit the attribute will be ignored.
 
     @type Boolean
-    @default YES
+    @default true
   */
-  isEditable: YES,
+  isEditable: true,
 
   /**
     If set when using the Date format, expect the ISO8601 date format.
     This is the default.
 
     @type Boolean
-    @default YES
+    @default true
   */
-  useIsoDate: YES,
+  useIsoDate: true,
 
   /**
-    Can only be used for toOne or toMany relationship attributes. If YES,
+    Can only be used for toOne or toMany relationship attributes. If true,
     this flag will ensure that any related objects will also be marked
     dirty when this record dirtied.
 
@@ -4548,9 +4548,9 @@ Ember.RecordAttribute = Ember.Object.extend(
     (album) dirty as well.
 
     @type Boolean
-    @default NO
+    @default false
   */
-  aggregate: NO,
+  aggregate: false,
 
   // ..........................................................
   // HELPER PROPERTIES
@@ -4724,10 +4724,10 @@ Ember.RecordAttribute = Ember.Object.extend(
   //
 
   /** @private - Make this look like a property so that `get()` will call it. */
-  isProperty: YES,
+  isProperty: true,
 
   /** @private - Make this look cacheable */
-  isCacheable: YES,
+  isCacheable: true,
 
   /** @private - needed for KVO `property()` support */
   dependentKeys: [],
@@ -5087,7 +5087,7 @@ var get = Ember.get, set = Ember.set;
 Ember.ChildAttribute = Ember.RecordAttribute.extend(
   /** @scope Ember.ChildAttribute.prototype */ {
 
-  isNestedRecordTransform: YES,
+  isNestedRecordTransform: true,
 
   // ..........................................................
   // LOW-LEVEL METHODS
@@ -5665,9 +5665,9 @@ Ember.ManyArray = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable,
     @property
   */
   isEditable: function() {
-    // NOTE: can't use get() b/c manyAttribute looks like a computed prop
+    // falseTE: can't use get() b/c manyAttribute looks like a computed prop
     var attr = this.manyAttribute;
-    return attr ? get(attr, 'isEditable') : NO;
+    return attr ? get(attr, 'isEditable') : false;
   }.property('manyAttribute').cacheable(),
 
   /**
@@ -5677,7 +5677,7 @@ Ember.ManyArray = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable,
     @property
   */
   inverse: function() {
-    // NOTE: can't use get() b/c manyAttribute looks like a computed prop
+    // falseTE: can't use get() b/c manyAttribute looks like a computed prop
     var attr = this.manyAttribute;
     return attr ? get(attr, 'inverse') : null;
   }.property('manyAttribute').cacheable(),
@@ -5689,7 +5689,7 @@ Ember.ManyArray = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable,
     @property
   */
   isMaster: function() {
-    // NOTE: can't use get() b/c manyAttribute looks like a computed prop
+    // falseTE: can't use get() b/c manyAttribute looks like a computed prop
     var attr = this.manyAttribute;
     return attr ? get(attr, 'isMaster') : null;
   }.property("manyAttribute").cacheable(),
@@ -5701,7 +5701,7 @@ Ember.ManyArray = Ember.Object.extend(Ember.Enumerable, Ember.MutableEnumerable,
     @property
   */
   orderBy: function() {
-    // NOTE: can't use get() b/c manyAttribute looks like a computed prop
+    // falseTE: can't use get() b/c manyAttribute looks like a computed prop
     var attr = this.manyAttribute;
     return attr ? get(attr, 'orderBy') : null;
   }.property("manyAttribute").cacheable(),
@@ -6028,9 +6028,9 @@ var get = Ember.get, set = Ember.set;
 
       contacts: Ember.Record.toMany('MyApp.Contact', {
         inverse: 'group', // set the key used to represent the inverse
-        isMaster: YES|NO, // indicate whether changing this should dirty
+        isMaster: true|false, // indicate whether changing this should dirty
         transform: function(), // transforms value <=> storeKey,
-        isEditable: YES|NO, make editable or not,
+        isEditable: true|false, make editable or not,
         through: 'taggings' // set a relationship this goes through
       });
 
@@ -6051,15 +6051,15 @@ Ember.ManyAttribute = Ember.RecordAttribute.extend(
   inverse: null,
 
   /**
-    If `YES` then modifying this relationships will mark the owner record
-    dirty. If set to `NO`, then modifying this relationship will not alter
+    If `true` then modifying this relationships will mark the owner record
+    dirty. If set to `false`, then modifying this relationship will not alter
     this record.  You should use this property only if you have an inverse
     property also set. Only one of the inverse relationships should be marked
     as master so you can control which record should be committed.
 
     @property {Boolean}
   */
-  isMaster: YES,
+  isMaster: true,
 
   /**
     If set and you have an inverse relationship, will be used to determine the
@@ -6172,7 +6172,8 @@ Ember.ManyAttribute = Ember.RecordAttribute.extend(
 
 
 var get = Ember.get, set = Ember.set;
-var RecordAttribute_call = get(Ember.RecordAttribute, 'proto').call;
+// var RecordAttribute_call = get(Ember.RecordAttribute, 'proto').call; // Sv
+var RecordAttribute_call = Ember.RecordAttribute.proto().call;
 var attrFor = Ember.RecordAttribute.attrFor;
 
 /** @class
@@ -6184,9 +6185,9 @@ var attrFor = Ember.RecordAttribute.attrFor;
 
       group: Ember.Record.toOne('MyApp.Group', {
         inverse: 'contacts', // set the key used to represent the inverse
-        isMaster: YES|NO, // indicate whether changing this should dirty
+        isMaster: true|false, // indicate whether changing this should dirty
         transform: function(), // transforms value <=> storeKey,
-        isEditable: YES|NO, make editable or not
+        isEditable: true|false, make editable or not
       });
 
   @extends Ember.RecordAttribute
@@ -6210,9 +6211,9 @@ Ember.SingleAttribute = Ember.RecordAttribute.extend(
     record should become dirty also or not.
 
     @type Boolean
-    @default YES
+    @default true
   */
-  isMaster: YES,
+  isMaster: true,
 
 
   /**
@@ -6439,8 +6440,8 @@ Ember.MIXED_STATE = '__MIXED__';
   ### Return Values
 
   All of the methods you implement must return one of three values:
-   - `YES` &mdash; all the records were handled.
-   - `NO` &mdash; none of the records were handled.
+   - `true` &mdash; all the records were handled.
+   - `false` &mdash; none of the records were handled.
    - `Ember.MIXED_STATE` &mdash; some, but not all of the records were handled.
 
 
@@ -6480,7 +6481,7 @@ Ember.MIXED_STATE = '__MIXED__';
   responsibility to invoke a callback on the store for each record or query that
   was passed to it and that the data source handled. To reduce the amount of work
   that a data source must do, the data store will automatically unlock the relevant
-  records if the the data source method returned `NO`, indicating that the records
+  records if the the data source method returned `false`, indicating that the records
   were unhandled.
 
   Although a data source can invoke callback methods at any time, they should
@@ -6615,17 +6616,17 @@ Ember.DataSource = Ember.Object.extend( /** @scope Ember.DataSource.prototype */
 
     ### Return Values
 
-    When you return from this method, be sure to return a Boolean.  YES means
-    you handled the query, NO means you can't handle the query.  When using
-    a cascading data source, returning NO will mean the next data source will
+    When you return from this method, be sure to return a Boolean.  true means
+    you handled the query, false means you can't handle the query.  When using
+    a cascading data source, returning false will mean the next data source will
     be asked to fetch the same results as well.
 
     @param {Ember.Store} store the requesting store
     @param {Ember.Query} query query describing the request
-    @returns {Boolean} YES if you can handle fetching the query, NO otherwise
+    @returns {Boolean} true if you can handle fetching the query, false otherwise
   */
   fetch: function(store, query) {
-    return NO ; // do not handle anything!
+    return false ; // do not handle anything!
   },
 
   /**
@@ -6639,7 +6640,7 @@ Ember.DataSource = Ember.Object.extend( /** @scope Ember.DataSource.prototype */
     @param {Ember.Store} store the requesting store
     @param {Array} storeKeys
     @param {Array} ids - optional
-    @returns {Boolean} YES if handled, NO otherwise
+    @returns {Boolean} true if handled, false otherwise
   */
   retrieveRecords: function(store, storeKeys, ids) {
     return this._handleEach(store, storeKeys, this.retrieveRecord, ids);
@@ -6662,8 +6663,8 @@ Ember.DataSource = Ember.Object.extend( /** @scope Ember.DataSource.prototype */
     However, if your server API can sync multiple changes at once, you may
     prefer to override this method instead.
 
-    To support cascading data stores, be sure to return `NO` if you cannot
-    handle any of the keys, `YES` if you can handle all of the keys, or
+    To support cascading data stores, be sure to return `false` if you cannot
+    handle any of the keys, `true` if you can handle all of the keys, or
     `Ember.MIXED_STATE` if you can handle some of them.
 
     @param {Ember.Store} store the requesting store
@@ -6672,7 +6673,7 @@ Ember.DataSource = Ember.Object.extend( /** @scope Ember.DataSource.prototype */
     @param {Array} destroyStoreKeys keys to destroy
     @param {Hash} params to be passed down to data source. originated
       from the commitRecords() call on the store
-    @returns {Boolean} YES if data source can handle keys
+    @returns {Boolean} true if data source can handle keys
   */
   commitRecords: function(store, createStoreKeys, updateStoreKeys, destroyStoreKeys, params) {
     var uret, dret, ret;
@@ -6690,28 +6691,28 @@ Ember.DataSource = Ember.Object.extend( /** @scope Ember.DataSource.prototype */
       ret = Ember.none(ret) ? dret : (ret === dret) ? ret : Ember.MIXED_STATE;
     }
 
-    return ret || NO;
+    return ret || false;
   },
 
   /**
     Invoked by the store whenever it needs to cancel one or more records that
     are currently in-flight.  If any of the storeKeys match records you are
     currently acting upon, you should cancel the in-progress operation and
-    return `YES`.
+    return `true`.
 
     If you implement an in-memory data source that immediately services the
     other requests, then this method will never be called on your data source.
 
-    To support cascading data stores, be sure to return `NO` if you cannot
-    retrieve any of the keys, `YES` if you can retrieve all of the, or
+    To support cascading data stores, be sure to return `false` if you cannot
+    retrieve any of the keys, `true` if you can retrieve all of the, or
     `Ember.MIXED_STATE` if you can retrieve some of the.
 
     @param {Ember.Store} store the requesting store
     @param {Array} storeKeys array of storeKeys to retrieve
-    @returns {Boolean} YES if data source can handle keys
+    @returns {Boolean} true if data source can handle keys
   */
   cancel: function(store, storeKeys) {
-    return NO;
+    return false;
   },
 
   // ..........................................................
@@ -6724,8 +6725,8 @@ Ember.DataSource = Ember.Object.extend( /** @scope Ember.DataSource.prototype */
     records to your store.  The default version will simply call
     `updateRecord()` for each storeKey.
 
-    To support cascading data stores, be sure to return `NO` if you cannot
-    handle any of the keys, `YES` if you can handle all of the keys, or
+    To support cascading data stores, be sure to return `false` if you cannot
+    handle any of the keys, `true` if you can handle all of the keys, or
     `Ember.MIXED_STATE` if you can handle some of them.
 
     @param {Ember.Store} store the requesting store
@@ -6734,7 +6735,7 @@ Ember.DataSource = Ember.Object.extend( /** @scope Ember.DataSource.prototype */
       to be passed down to data source. originated from the commitRecords()
       call on the store
 
-    @returns {Boolean} YES, NO, or Ember.MIXED_STATE
+    @returns {Boolean} true, false, or Ember.MIXED_STATE
 
   */
   updateRecords: function(store, storeKeys, params) {
@@ -6747,8 +6748,8 @@ Ember.DataSource = Ember.Object.extend( /** @scope Ember.DataSource.prototype */
     records to your store.  The default version will simply call
     `createRecord()` for each storeKey.
 
-    To support cascading data stores, be sure to return `NO` if you cannot
-    handle any of the keys, `YES` if you can handle all of the keys, or
+    To support cascading data stores, be sure to return `false` if you cannot
+    handle any of the keys, `true` if you can handle all of the keys, or
     `Ember.MIXED_STATE` if you can handle some of them.
 
     @param {Ember.Store} store the requesting store
@@ -6758,7 +6759,7 @@ Ember.DataSource = Ember.Object.extend( /** @scope Ember.DataSource.prototype */
       to be passed down to data source. originated from the commitRecords()
       call on the store
 
-    @returns {Boolean} YES, NO, or Ember.MIXED_STATE
+    @returns {Boolean} true, false, or Ember.MIXED_STATE
 
   */
   createRecords: function(store, storeKeys, params) {
@@ -6771,8 +6772,8 @@ Ember.DataSource = Ember.Object.extend( /** @scope Ember.DataSource.prototype */
     records to your store.  The default version will simply call
     `destroyRecord()` for each storeKey.
 
-    To support cascading data stores, be sure to return `NO` if you cannot
-    handle any of the keys, `YES` if you can handle all of the keys, or
+    To support cascading data stores, be sure to return `false` if you cannot
+    handle any of the keys, `true` if you can handle all of the keys, or
     `Ember.MIXED_STATE` if you can handle some of them.
 
     @param {Ember.Store} store the requesting store
@@ -6780,7 +6781,7 @@ Ember.DataSource = Ember.Object.extend( /** @scope Ember.DataSource.prototype */
     @param {Hash} params to be passed down to data source. originated
       from the commitRecords() call on the store
 
-    @returns {Boolean} YES, NO, or Ember.MIXED_STATE
+    @returns {Boolean} true, false, or Ember.MIXED_STATE
 
   */
   destroyRecords: function(store, storeKeys, params) {
@@ -6799,10 +6800,10 @@ Ember.DataSource = Ember.Object.extend( /** @scope Ember.DataSource.prototype */
       cur = action.call(this, store, storeKeys[idx], idOrParams);
       if (ret === undefined) {
         ret = cur ;
-      } else if (ret === YES) {
-        ret = (cur === YES) ? YES : Ember.MIXED_STATE ;
-      } else if (ret === NO) {
-        ret = (cur === NO) ? NO : Ember.MIXED_STATE ;
+      } else if (ret === true) {
+        ret = (cur === true) ? true : Ember.MIXED_STATE ;
+      } else if (ret === false) {
+        ret = (cur === false) ? false : Ember.MIXED_STATE ;
       }
     }
     return !Ember.none(ret) ? ret : null ;
@@ -6817,17 +6818,17 @@ Ember.DataSource = Ember.Object.extend( /** @scope Ember.DataSource.prototype */
     Called from `updatesRecords()` to update a single record.  This is the
     most basic primitive to can implement to support updating a record.
 
-    To support cascading data stores, be sure to return `NO` if you cannot
-    handle the passed storeKey or `YES` if you can.
+    To support cascading data stores, be sure to return `false` if you cannot
+    handle the passed storeKey or `true` if you can.
 
     @param {Ember.Store} store the requesting store
     @param {Array} storeKey key to update
     @param {Hash} params to be passed down to data source. originated
       from the commitRecords() call on the store
-    @returns {Boolean} YES if handled
+    @returns {Boolean} true if handled
   */
   updateRecord: function(store, storeKey, params) {
-    return NO ;
+    return false ;
   },
 
   /**
@@ -6836,44 +6837,44 @@ Ember.DataSource = Ember.Object.extend( /** @scope Ember.DataSource.prototype */
     @param {Ember.Store} store the requesting store
     @param {Array} storeKey key to retrieve
     @param {String} id the id to retrieve
-    @returns {Boolean} YES if handled
+    @returns {Boolean} true if handled
   */
   retrieveRecord: function(store, storeKey, id) {
-    return NO ;
+    return false ;
   },
 
   /**
     Called from `createdRecords()` to created a single record.  This is the
     most basic primitive to can implement to support creating a record.
 
-    To support cascading data stores, be sure to return `NO` if you cannot
-    handle the passed storeKey or `YES` if you can.
+    To support cascading data stores, be sure to return `false` if you cannot
+    handle the passed storeKey or `true` if you can.
 
     @param {Ember.Store} store the requesting store
     @param {Array} storeKey key to update
     @param {Hash} params to be passed down to data source. originated
       from the commitRecords() call on the store
-    @returns {Boolean} YES if handled
+    @returns {Boolean} true if handled
   */
   createRecord: function(store, storeKey, params) {
-    return NO ;
+    return false ;
   },
 
   /**
     Called from `destroyRecords()` to destroy a single record.  This is the
     most basic primitive to can implement to support destroying a record.
 
-    To support cascading data stores, be sure to return `NO` if you cannot
-    handle the passed storeKey or `YES` if you can.
+    To support cascading data stores, be sure to return `false` if you cannot
+    handle the passed storeKey or `true` if you can.
 
     @param {Ember.Store} store the requesting store
     @param {Array} storeKey key to update
     @param {Hash} params to be passed down to data source. originated
       from the commitRecords() call on the store
-    @returns {Boolean} YES if handled
+    @returns {Boolean} true if handled
   */
   destroyRecord: function(store, storeKey, params) {
-    return NO ;
+    return false ;
   }
 
 });
@@ -6896,7 +6897,7 @@ var get = Ember.get, set = Ember.set;
 /** @class
 
   A cascading data source will actually forward requests onto an array of
-  additional data sources, stopping when one of the data sources returns YES,
+  additional data sources, stopping when one of the data sources returns true,
   indicating that it handled the request.
 
   You can use a cascading data source to tie together multiple data sources,
@@ -6971,12 +6972,12 @@ Ember.CascadeDataSource = Ember.DataSource.extend(
   fetch: function(store, query) {
     var sources = get(this, 'dataSources'),
         len     = sources ? sources.length : 0,
-        ret     = NO,
+        ret     = false,
         cur, source, idx;
 
-    for(idx=0; (ret !== YES) && idx<len; idx++) {
+    for(idx=0; (ret !== true) && idx<len; idx++) {
       source = sources.objectAt(idx);
-      cur = source.fetch ? source.fetch.apply(source, arguments) : NO;
+      cur = source.fetch ? source.fetch.apply(source, arguments) : false;
       ret = this._handleResponse(ret, cur);
     }
 
@@ -6988,10 +6989,10 @@ Ember.CascadeDataSource = Ember.DataSource.extend(
   retrieveRecords: function(store, storeKeys, ids) {
     var sources = get(this, 'dataSources'),
         len     = sources ? sources.length : 0,
-        ret     = NO,
+        ret     = false,
         cur, source, idx;
 
-    for(idx=0; (ret !== YES) && idx<len; idx++) {
+    for(idx=0; (ret !== true) && idx<len; idx++) {
       source = sources.objectAt(idx);
       cur = source.retrieveRecords.apply(source, arguments);
       ret = this._handleResponse(ret, cur);
@@ -7004,10 +7005,10 @@ Ember.CascadeDataSource = Ember.DataSource.extend(
   commitRecords: function(store, createStoreKeys, updateStoreKeys, destroyStoreKeys, params) {
     var sources = get(this, 'dataSources'),
         len     = sources ? sources.length : 0,
-        ret     = NO,
+        ret     = false,
         cur, source, idx;
 
-    for(idx=0; (ret !== YES) && idx<len; idx++) {
+    for(idx=0; (ret !== true) && idx<len; idx++) {
       source = sources.objectAt(idx);
       cur = source.commitRecords.apply(source, arguments);
       ret = this._handleResponse(ret, cur);
@@ -7020,10 +7021,10 @@ Ember.CascadeDataSource = Ember.DataSource.extend(
   cancel: function(store, storeKeys) {
     var sources = get(this, 'dataSources'),
         len     = sources ? sources.length : 0,
-        ret     = NO,
+        ret     = false,
         cur, source, idx;
 
-    for(idx=0; (ret !== YES) && idx<len; idx++) {
+    for(idx=0; (ret !== true) && idx<len; idx++) {
       source = sources.objectAt(idx);
       cur = source.cancel.apply(source, arguments);
       ret = this._handleResponse(ret, cur);
@@ -7054,8 +7055,8 @@ Ember.CascadeDataSource = Ember.DataSource.extend(
 
   /** @private - Determine the proper return value. */
   _handleResponse: function(current, response) {
-    if (response === YES) return YES ;
-    else if (current === NO) return (response === NO) ? NO : Ember.MIXED_STATE ;
+    if (response === true) return true ;
+    else if (current === false) return (response === false) ? false : Ember.MIXED_STATE ;
     else return Ember.MIXED_STATE ;
   }
 
@@ -7089,22 +7090,22 @@ Ember.FixturesDataSource = Ember.DataSource.extend(
   /** @scope Ember.FixturesDataSource.prototype */ {
 
   /**
-    If YES then the data source will asynchronously respond to data requests
+    If true then the data source will asynchronously respond to data requests
     from the server.  If you plan to replace the fixture data source with a
     data source that talks to a real remote server (using Ajax for example),
-    you should leave this property set to YES so that Fixtures source will
+    you should leave this property set to true so that Fixtures source will
     more accurately simulate your remote data source.
 
     If you plan to replace this data source with something that works with
-    local storage, for example, then you should set this property to NO to
+    local storage, for example, then you should set this property to false to
     accurately simulate the behavior of your actual data source.
 
     @property {Boolean}
   */
-  simulateRemoteResponse: NO,
+  simulateRemoteResponse: false,
 
   /**
-    If you set simulateRemoteResponse to YES, then the fixtures source will
+    If you set simulateRemoteResponse to true, then the fixtures source will
     assume a response latency from your server equal to the msec specified
     here.  You should tune this to simulate latency based on the expected
     performance of your server network.  Here are some good guidelines:
@@ -7124,7 +7125,7 @@ Ember.FixturesDataSource = Ember.DataSource.extend(
 
   /** @private */
   cancel: function(store, storeKeys) {
-    return NO;
+    return false;
   },
 
 
@@ -7158,7 +7159,7 @@ Ember.FixturesDataSource = Ember.DataSource.extend(
   */
   _fetch: function(store, query) {
 
-    // NOTE: Assumes recordType or recordTypes is defined.  checked in fetch()
+    // falseTE: Assumes recordType or recordTypes is defined.  checked in fetch()
     var recordType = get(query, 'recordType'),
         recordTypes = get(query, 'recordTypes') || [recordType];
 
@@ -7257,7 +7258,7 @@ Ember.FixturesDataSource = Ember.DataSource.extend(
       }, latency);
     } else this._createRecords(store, storeKeys);
 
-    return YES ;
+    return true ;
   },
 
   _createRecords: function(store, storeKeys) {
@@ -7405,7 +7406,8 @@ Ember.FixturesDataSource = Ember.DataSource.extend(
     // need to load fixtures.
     var dataHashes = recordType ? recordType.FIXTURES : null,
         len        = dataHashes ? dataHashes.length : 0,
-        primaryKey = recordType ? get(recordType, 'proto').primaryKey:'guid',
+        // primaryKey = recordType ? get(recordType, 'proto').primaryKey:'guid', // Sv
+        primaryKey = recordType ? recordType.proto().get('primaryKey') : 'guid',
         idx, dataHash, id ;
 
     this._fixtures[Ember.guidFor(recordType)] = fixtures = {} ;
@@ -7419,33 +7421,33 @@ Ember.FixturesDataSource = Ember.DataSource.extend(
   },
 
   /**
-    Returns YES if fixtures for a given recordType have already been loaded
+    Returns true if fixtures for a given recordType have already been loaded
 
     @param {Ember.Record} recordType
     @returns {Boolean} storeKeys
   */
   fixturesLoadedFor: function(recordType) {
-    if (!this._fixtures) return NO;
+    if (!this._fixtures) return false;
     var ret = [], fixtures = this._fixtures[Ember.guidFor(recordType)];
-    return fixtures ? YES: NO;
+    return fixtures ? true: false;
   },
 
   /**
-    Returns YES or Ember.MIXED_STATE if one or more of the storeKeys can be
+    Returns true or Ember.MIXED_STATE if one or more of the storeKeys can be
     handled by the fixture data source.
 
     @param {Array} storeKeys the store keys
-    @returns {Boolean} YES if all handled, MIXED_STATE if some handled
+    @returns {Boolean} true if all handled, MIXED_STATE if some handled
   */
   hasFixturesFor: function(storeKeys) {
-    var ret = NO ;
+    var ret = false ;
     storeKeys.forEach(function(storeKey) {
       if (ret !== Ember.MIXED_STATE) {
         var recordType = Ember.Store.recordTypeFor(storeKey),
             fixtures   = recordType ? recordType.FIXTURES : null ;
         if (fixtures && fixtures.length && fixtures.length>0) {
-          if (ret === NO) ret = YES ;
-        } else if (ret === YES) ret = Ember.MIXED_STATE ;
+          if (ret === false) ret = true ;
+        } else if (ret === true) ret = Ember.MIXED_STATE ;
       }
     }, this);
 
@@ -7560,7 +7562,7 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
     The store that owns this record array.  All record arrays must have a
     store to function properly.
 
-    NOTE: You **MUST** set this property on the `RecordArray` when creating
+    falseTE: You **MUST** set this property on the `RecordArray` when creating
     it or else it will fail.
 
     @type Ember.Store
@@ -7572,7 +7574,7 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
     **MUST** have an associated query in order to function correctly.  You
     cannot change this property once it has been set.
 
-    NOTE: You **MUST** set this property on the `RecordArray` when creating
+    falseTE: You **MUST** set this property on the `RecordArray` when creating
     it or else it will fail.
 
     @type Ember.Query
@@ -7603,7 +7605,7 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
   */
   isEditable: function() {
     var query = get(this, 'query');
-    return query ? get(query, 'isEditable') : YES;
+    return query ? get(query, 'isEditable') : true;
   }.property('query').cacheable(),
 
   // ..........................................................
@@ -7714,7 +7716,7 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
 
     if (!storeKeys) throw "Unable to edit an Ember.RecordArray that does not have its storeKeys property set.";
 
-    if (!get(this, 'isEditable')) throw Ember.RecordArray.NOT_EDITABLE;
+    if (!get(this, 'isEditable')) throw Ember.RecordArray.falseT_EDITABLE;
 
     // map to store keys
     keys = [] ;
@@ -7726,7 +7728,7 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
   },
 
   /**
-    Returns YES if the passed can be found in the record array.  This is
+    Returns true if the passed can be found in the record array.  This is
     provided for compatibility with Ember.Set.
 
     @param {Ember.Record} record
@@ -7843,7 +7845,7 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
     @returns {Ember.RecordArray} receiver
   */
   reload: function() {
-    this.flush(YES);
+    this.flush(true);
     return this;
   },
 
@@ -7865,7 +7867,7 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
   // STORE CALLBACKS
   //
 
-  // **NOTE**: `storeWillFetchQuery()`, `storeDidFetchQuery()`,
+  // **falseTE**: `storeWillFetchQuery()`, `storeDidFetchQuery()`,
   // `storeDidCancelQuery()`, and `storeDidErrorQuery()` are tested implicitly
   // through the related methods in `Ember.Store`.  We're doing it this way
   // because eventually this particular implementation is likely to change;
@@ -7950,7 +7952,7 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
     if (!changed) changed = this._scq_changedStoreKeys = Ember.IndexSet.create();
     changed.addEach(storeKeys);
 
-    set(this, 'needsFlush', YES);
+    set(this, 'needsFlush', true);
     if (get(this, 'storeKeys')) {
       this.flush();
     }
@@ -7978,12 +7980,12 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
     // never-ending recursive flush calls.  Instead, we'll simply mark
     // ourselves as needing a flush again when we're done.
     if (this._insideFlush) {
-      set(this, 'needsFlush', YES);
+      set(this, 'needsFlush', true);
       return this;
     }
 
     if (!get(this, 'needsFlush') && !_flush) return this; // nothing to do
-    set(this, 'needsFlush', NO); // avoid running again.
+    set(this, 'needsFlush', false); // avoid running again.
 
     // fast exit
     var query = get(this, 'query'),
@@ -7992,12 +7994,12 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
       return this;
     }
 
-    this._insideFlush = YES;
+    this._insideFlush = true;
 
     // OK, actually generate some results
     var storeKeys = get(this, 'storeKeys'),
         changed   = this._scq_changedStoreKeys,
-        didChange = NO,
+        didChange = false,
         K         = Ember.Record,
         storeKeysToPace = [],
         startDate = new Date(),
@@ -8018,7 +8020,7 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
           if (!(status & K.EMPTY) && !((status & K.DESTROYED) || (status === K.BUSY_DESTROYING))) {
             rec = store.materializeRecord(storeKey);
             included = !!(rec && query.contains(rec));
-          } else included = NO ;
+          } else included = false ;
 
           // if storeKey should be in set but isn't -- add it.
           if (included) {
@@ -8026,7 +8028,7 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
               if (!didChange) storeKeys = storeKeys.copy();
               storeKeys.pushObject(storeKey);
             }
-          // if storeKey should NOT be in set but IS -- remove it
+          // if storeKey should falseT be in set but IS -- remove it
           } else {
             if (storeKeys.indexOf(storeKey)>=0) {
               if (!didChange) storeKeys = storeKeys.copy();
@@ -8036,7 +8038,7 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
 
         }, this);
         // make sure resort happens
-        didChange = YES ;
+        didChange = true ;
 
       } // if (changed)
 
@@ -8075,7 +8077,7 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
 
       //console.log(this.toString() + ' full flush took ' + (new Date()-startDate) + ' ms');
 
-      didChange = YES ;
+      didChange = true ;
     }
 
     // if we reach our threshold of pacing we need to schedule the rest of the
@@ -8087,7 +8089,7 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
       window.setTimeout(function() {
         Ember.run(function() {
           if(!self || get(self, 'isDestroyed')) return;
-          set(self, 'needsFlush', YES);
+          set(self, 'needsFlush', true);
           self._scq_changedStoreKeys = Ember.IndexSet.create().addEach(storeKeysToPace);
           self.flush();
         });
@@ -8111,25 +8113,25 @@ Ember.RecordArray = Ember.Object.extend(Ember.Enumerable, Ember.Array, Ember.Mut
       }
     }
 
-    this._insideFlush = NO;
+    this._insideFlush = false;
     return this;
   },
 
   /**
-    Set to `YES` when the query is dirty and needs to update its storeKeys
+    Set to `true` when the query is dirty and needs to update its storeKeys
     before returning any results.  `RecordArray`s always start dirty and become
     clean the first time you try to access their contents.
 
     @type Boolean
   */
-  needsFlush: YES,
+  needsFlush: true,
 
   // ..........................................................
   // EMULATE Ember.StoreError API
   //
 
   /**
-    Returns `YES` whenever the status is `Ember.Record.ERROR`.  This will allow
+    Returns `true` whenever the status is `Ember.Record.ERROR`.  This will allow
     you to put the UI into an error state.
 
     @property
@@ -8255,7 +8257,7 @@ Ember.RecordArray.reopenClass(/** @scope Ember.RecordArray.prototype */{
 
     @type Ember.StoreError
   */
-  NOT_EDITABLE: Ember.StoreError.desc("Ember.RecordArray is not editable"),
+  falseT_EDITABLE: Ember.StoreError.desc("Ember.RecordArray is not editable"),
 
   /**
     Number of milliseconds to allow a query matching to run for. If this number
@@ -8334,18 +8336,18 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
   /**
     This type of store is not nested.
 
-    @default NO
+    @default false
     @type Boolean
   */
-  isNested: NO,
+  isNested: false,
 
   /**
     This type of store is not nested.
 
-    @default NO
+    @default false
     @type Boolean
   */
-  commitRecordsAutomatically: NO,
+  commitRecordsAutomatically: false,
 
   // ..........................................................
   // DATA SOURCE SUPPORT
@@ -8455,7 +8457,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     receiver.
 
     @param {Ember.Store} store store instance
-    @returns {Boolean} YES if belongs
+    @returns {Boolean} true if belongs
   */
   hasNestedStore: function(store) {
     while(store && (store !== this)) store = get(store, 'parentStore');
@@ -8608,7 +8610,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     if (!editables) editables = this.editables = [];
     if (!editables[storeKey]) {
       editables[storeKey] = 1 ; // use number to store as dense array
-      ret = this.dataHashes[storeKey] = Ember.copy(ret, YES);
+      ret = this.dataHashes[storeKey] = Ember.copy(ret, true);
     }
     return ret;
   },
@@ -8635,8 +8637,8 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     // clone if needed
     if (!editables[propertyName]) {
       ret = hash[propertyName];
-      if (ret && ret.isCopyable) ret = hash[propertyName] = ret.copy(YES);
-      editables[propertyName] = YES ;
+      if (ret && ret.isCopyable) ret = hash[propertyName] = ret.copy(true);
+      editables[propertyName] = true ;
     }
 
     return ret ;
@@ -8757,7 +8759,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
 
     @param {Number|Array} storeKeys one or more store keys that changed
     @param {Number} rev optional new revision number. normally leave null
-    @param {Boolean} statusOnly (optional) YES if only status changed
+    @param {Boolean} statusOnly (optional) true if only status changed
     @param {String} key that changed (optional)
     @returns {Ember.Store} receiver
   */
@@ -8891,7 +8893,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
 
     storeKeys.forEach(function(storeKey) {
       if (records.contains(storeKey)) {
-        statusOnly = hasDataChanges.contains(storeKey) ? NO : YES;
+        statusOnly = hasDataChanges.contains(storeKey) ? false : true;
         rec = this.records[storeKey];
         keys = propertyForStoreKeys ? propertyForStoreKeys[storeKey] : null;
 
@@ -8945,11 +8947,11 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     if (records) {
       for(storeKey in records) {
         if (!records.hasOwnProperty(storeKey)) continue ;
-        this._notifyRecordPropertyChange(parseInt(storeKey, 10), NO);
+        this._notifyRecordPropertyChange(parseInt(storeKey, 10), false);
       }
     }
 
-    set(this, 'hasChanges', NO);
+    set(this, 'hasChanges', false);
   },
 
   /** @private
@@ -9005,7 +9007,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
 
       myEditables[storeKey] = 0 ; // always make dataHash no longer editable
 
-      this._notifyRecordPropertyChange(storeKey, NO);
+      this._notifyRecordPropertyChange(storeKey, false);
     }
 
     // add any records to the changelog for commit handling
@@ -9130,7 +9132,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
         recordType = Ember.Query.local(recordType);
       }
 
-      return this._findQuery(recordType, YES, YES);
+      return this._findQuery(recordType, true, true);
 
     // handle finding a single record
     } else {
@@ -9157,7 +9159,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
       recordType = Ember.Query.local(recordType, conditions, params);
     }
 
-    return this._findQuery(recordType, YES, YES);
+    return this._findQuery(recordType, true, true);
   },
 
 
@@ -9370,11 +9372,13 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
 
     // First, try to get an id.  If no id is passed, look it up in the
     // dataHash.
-    if (!id && (primaryKey = get(recordType, 'proto').primaryKey)) {
+    // if (!id && (primaryKey = get(recordType, 'proto').primaryKey)) { // Sv
+    if (!id && (primaryKey = recordType.proto().get('primaryKey'))) {
       id = dataHash[primaryKey];
       // if still no id, check if there is a defaultValue function for
       // the primaryKey attribute and assign that
-      attr = Ember.RecordAttribute.attrFor(get(recordType, 'proto'), primaryKey);
+      // attr = Ember.RecordAttribute.attrFor(get(recordType, 'proto'), primaryKey); // Sv
+      attr = Ember.RecordAttribute.attrFor(recordType.proto().get('primaryKey'));
       defaultVal = attr && get(attr, 'defaultValue');
       if(!id && Ember.typeOf(defaultVal)==='function') {
         id = dataHash[primaryKey] = defaultVal();
@@ -9561,7 +9565,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
 
     // error out if empty
     } else if (status === K.EMPTY) {
-      throw K.NOT_FOUND_ERROR ;
+      throw K.falseT_FOUND_ERROR ;
 
     // error out if busy
     } else if (status & K.BUSY) {
@@ -9655,7 +9659,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
       // this.recordDidChange(null, null, oldPk, key);
     }
     pkRef = prs[parentStoreKey] || {};
-    pkRef[childStoreKey] = path || YES;
+    pkRef[childStoreKey] = path || true;
     prs[parentStoreKey] = pkRef;
     crs[childStoreKey] = parentStoreKey;
     // sync the status of the child
@@ -9725,7 +9729,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     // if record is not in ready state, then it is not found.
     // ERROR, EMPTY, DESTROYED_CLEAN, DESTROYED_DIRTY
     } else if (!(status & K.READY)) {
-      throw K.NOT_FOUND_ERROR ;
+      throw K.falseT_FOUND_ERROR ;
 
     // otherwise, make new status READY_DIRTY unless new.
     // K.READY_CLEAN, K.READY_DIRTY, ignore K.READY_NEW
@@ -9842,15 +9846,15 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
       // K.EMPTY, K.ERROR, K.DESTROYED_CLEAN - initial retrieval
       if ((status == K.EMPTY) || (status == K.ERROR) || (status == K.DESTROYED_CLEAN)) {
         this.writeStatus(storeKey, K.BUSY_LOADING);
-        this.dataHashDidChange(storeKey, rev, YES);
+        this.dataHashDidChange(storeKey, rev, true);
         ret.push(storeKey);
         this._setCallbackForStoreKey(storeKey, callback, hasCallbackArray, storeKeys);
-      // otherwise, ignore record unless isRefresh is YES.
+      // otherwise, ignore record unless isRefresh is true.
       } else if (isRefresh) {
         // K.READY_CLEAN, K.READY_DIRTY, ignore K.READY_NEW
         if (status & K.READY) {
           this.writeStatus(storeKey, K.BUSY_REFRESH | (status & 0x03)) ;
-          this.dataHashDidChange(storeKey, rev, YES);
+          this.dataHashDidChange(storeKey, rev, true);
           ret.push(storeKey);
           this._setCallbackForStoreKey(storeKey, callback, hasCallbackArray, storeKeys);
         // K.BUSY_DESTROYING, K.BUSY_COMMITTING, K.BUSY_CREATING
@@ -9868,7 +9872,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
 
     // now retrieve storekeys from dataSource.  if there is no dataSource,
     // then act as if we couldn't retrieve.
-    ok = NO;
+    ok = false;
     if (source) ok = source.retrieveRecords.call(source, this, ret, ids);
 
     // if the data source could not retrieve or if there is no source, then
@@ -9882,11 +9886,11 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
         status   = this.readStatus(storeKey);
         if (status === K.BUSY_LOADING) {
           this.writeStatus(storeKey, K.ERROR);
-          this.dataHashDidChange(storeKey, rev, YES);
+          this.dataHashDidChange(storeKey, rev, true);
 
         } else if (status & K.BUSY_REFRESH) {
           this.writeStatus(storeKey, K.READY | (status & 0x03));
-          this.dataHashDidChange(storeKey, rev, YES);
+          this.dataHashDidChange(storeKey, rev, true);
         }
       }
       ret.length = 0 ; // truncate to indicate that none could refresh
@@ -9922,10 +9926,10 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
         delete queue[storeKey]; //cleanup
       }
       else if(Ember.typeOf(callback) == 'object'){
-        callback.completed = YES;
+        callback.completed = true;
         keys = callback.storeKeys;
         keys.forEach(function(key){
-          if(!queue[key].completed) allFinished = YES;
+          if(!queue[key].completed) allFinished = true;
         });
         if(allFinished){
           callback.callback.call(); // args?
@@ -9996,10 +10000,10 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     @param {Ember.Record} recordType the expected record type
     @param {Number} storeKey (optional) optional store key
     @param {Function} callback (optional) when refresh complets
-    @returns {Boolean} YES if the retrieval was a success.
+    @returns {Boolean} true if the retrieval was a success.
   */
   refreshRecord: function(recordType, id, storeKey, callback) {
-    return !!this.retrieveRecord(recordType, id, storeKey, YES, callback);
+    return !!this.retrieveRecord(recordType, id, storeKey, true, callback);
   },
 
   /**
@@ -10011,10 +10015,10 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     @param {Array} ids ids to destroy
     @param {Array} storeKeys (optional) store keys to destroy
     @param {Function} callback (optional) when refresh complets
-    @returns {Boolean} YES if the retrieval was a success.
+    @returns {Boolean} true if the retrieval was a success.
   */
   refreshRecords: function(recordTypes, ids, storeKeys, callback) {
-    var ret = this.retrieveRecords(recordTypes, ids, storeKeys, YES, callback);
+    var ret = this.retrieveRecords(recordTypes, ids, storeKeys, true, callback);
     return ret && ret.length>0;
   },
 
@@ -10071,26 +10075,26 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
       status = this.readStatus(storeKey);
 
       if ((status == K.EMPTY) || (status == K.ERROR)) {
-        throw K.NOT_FOUND_ERROR ;
+        throw K.falseT_FOUND_ERROR ;
       }
       else {
         if(status==K.READY_NEW) {
           this.writeStatus(storeKey, K.BUSY_CREATING);
-          this.dataHashDidChange(storeKey, rev, YES);
+          this.dataHashDidChange(storeKey, rev, true);
           retCreate.push(storeKey);
           this._setCallbackForStoreKey(storeKey, callback, hasCallbackArray, storeKeys);
         } else if (status==K.READY_DIRTY) {
           this.writeStatus(storeKey, K.BUSY_COMMITTING);
-          this.dataHashDidChange(storeKey, rev, YES);
+          this.dataHashDidChange(storeKey, rev, true);
           retUpdate.push(storeKey);
           this._setCallbackForStoreKey(storeKey, callback, hasCallbackArray, storeKeys);
         } else if (status==K.DESTROYED_DIRTY) {
           this.writeStatus(storeKey, K.BUSY_DESTROYING);
-          this.dataHashDidChange(storeKey, rev, YES);
+          this.dataHashDidChange(storeKey, rev, true);
           retDestroy.push(storeKey);
           this._setCallbackForStoreKey(storeKey, callback, hasCallbackArray, storeKeys);
         } else if (status==K.DESTROYED_CLEAN) {
-          this.dataHashDidChange(storeKey, rev, YES);
+          this.dataHashDidChange(storeKey, rev, true);
         }
         // ignore K.READY_CLEAN, K.BUSY_LOADING, K.BUSY_CREATING, K.BUSY_COMMITTING,
         // K.BUSY_REFRESH_CLEAN, K_BUSY_REFRESH_DIRTY, KBUSY_DESTROYING
@@ -10120,7 +10124,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     on the store key.
 
     You have to pass either the id or the storeKey otherwise it will return
-    NO.
+    false.
 
     @param {Ember.Record} recordType the expected record type
     @param {String} id the id of the record to commit
@@ -10133,7 +10137,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
   commitRecord: function(recordType, id, storeKey, params, callback) {
     var array = this._TMP_RETRIEVE_ARRAY,
         ret ;
-    if (id === undefined && storeKey === undefined ) return NO;
+    if (id === undefined && storeKey === undefined ) return false;
     if (storeKey !== undefined) {
       array[0] = storeKey;
       storeKey = array;
@@ -10181,7 +10185,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
         status = this.readStatus(storeKey);
 
         if ((status == K.EMPTY) || (status == K.ERROR)) {
-          throw K.NOT_FOUND_ERROR ;
+          throw K.falseT_FOUND_ERROR ;
         }
         ret.push(storeKey);
         this._cancelCallback(storeKey);
@@ -10252,8 +10256,8 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
 
     // save lookup info
     recordType = recordType || Ember.Record;
-    primaryKey = get(recordType, 'proto').primaryKey;
-
+    // primaryKey = get(recordType, 'proto').primaryKey; // Sv
+    primaryKey = recordType.proto().get('primaryKey');
 
     // push each record
     id = id || dataHash[primaryKey];
@@ -10302,7 +10306,8 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     // save lookup info
     if (!isArray) {
       recordType = recordTypes || Ember.Record;
-      primaryKey = get(recordType, 'proto').primaryKey ;
+      // primaryKey = get(recordType, 'proto').primaryKey; // Sv
+      primaryKey = recordType.proto().get('primaryKey')
     }
 
     // push each record
@@ -10310,7 +10315,8 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
       dataHash = dataHashes.objectAt(idx);
       if (isArray) {
         recordType = recordTypes.objectAt(idx) || Ember.Record;
-        primaryKey = get(recordType, 'proto').primaryKey ;
+        // primaryKey = get(recordType, 'proto').primaryKey ; // Sv
+        primaryKey = recordType.proto().get('primaryKey')
       }
       id = (ids) ? ids.objectAt(idx) : dataHash[primaryKey];
       ret[idx] = this.loadRecord(recordType, dataHash, id);
@@ -10397,7 +10403,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
         throw K.BAD_STATE_ERROR ;
     }
     this.writeStatus(storeKey, status) ;
-    this.dataHashDidChange(storeKey, null, YES);
+    this.dataHashDidChange(storeKey, null, true);
     this._cancelCallback(storeKey);
 
     return this ;
@@ -10431,7 +10437,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     if (dataHash) this.writeDataHash(storeKey, dataHash, status) ;
     if (newId) Ember.Store.replaceIdFor(storeKey, newId);
 
-    statusOnly = dataHash || newId ? NO : YES;
+    statusOnly = dataHash || newId ? false : true;
     this.dataHashDidChange(storeKey, null, statusOnly);
 
     // Force record to refresh its cached properties based on store key
@@ -10502,7 +10508,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     }
 
     this.writeStatus(storeKey, status) ;
-    this.dataHashDidChange(storeKey, null, YES);
+    this.dataHashDidChange(storeKey, null, true);
 
     // Force record to refresh its cached properties based on store key
     var record = this.materializeRecord(storeKey);
@@ -10526,7 +10532,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     @param {Object} id the record id or null
     @param {Hash} dataHash data hash to load
     @param {Number} storeKey optional store key.
-    @returns {Number|Boolean} storeKey if push was allowed, NO if not
+    @returns {Number|Boolean} storeKey if push was allowed, false if not
   */
   pushRetrieve: function(recordType, id, dataHash, storeKey) {
     var K = Ember.Record, status;
@@ -10544,7 +10550,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
       return storeKey;
     }
     //conflicted (ready)
-    return NO;
+    return false;
   },
 
   /**
@@ -10554,7 +10560,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     @param {Class} recordType the Ember.Record subclass
     @param {Object} id the record id or null
     @param {Number} storeKey optional store key.
-    @returns {Number|Boolean} storeKey if push was allowed, NO if not
+    @returns {Number|Boolean} storeKey if push was allowed, false if not
   */
   pushDestroy: function(recordType, id, storeKey) {
     var K = Ember.Record, status;
@@ -10570,7 +10576,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
       return storeKey;
     }
     //conflicted (destroy)
-    return NO;
+    return false;
   },
 
   /**
@@ -10581,7 +10587,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     @param {Object} id the record id or null
     @param {Ember.StoreError} error [optional] an Ember.StoreError instance to associate with id or storeKey
     @param {Number} storeKey optional store key.
-    @returns {Number|Boolean} storeKey if push was allowed, NO if not
+    @returns {Number|Boolean} storeKey if push was allowed, false if not
   */
   pushError: function(recordType, id, error, storeKey) {
     var K = Ember.Record, status, errors = this.recordErrors;
@@ -10599,18 +10605,18 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
       }
 
       this.writeStatus(storeKey, status) ;
-      this.dataHashDidChange(storeKey, null, YES);
+      this.dataHashDidChange(storeKey, null, true);
       return storeKey;
     }
     //conflicted (error)
-    return NO;
+    return false;
   },
 
   // ..........................................................
   // FETCH CALLBACKS
   //
 
-  // **NOTE**: although these method works on RecordArray instances right now.
+  // **falseTE**: although these method works on RecordArray instances right now.
   // They could be optimized to actually share query results between nested
   // stores.  This is why these methods are implemented here instead of
   // directly on `Query` or `RecordArray` objects.
@@ -10637,7 +10643,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
       throw new Error("Cannot load query results for a local query");
     }
 
-    var recArray = this._findQuery(query, YES, NO);
+    var recArray = this._findQuery(query, true, false);
     if (recArray) set(recArray, 'storeKeys', storeKeys);
     this.dataSourceDidFetchQuery(query);
 
@@ -10657,11 +10663,11 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     @returns {Ember.Store} receiver
   */
   dataSourceDidFetchQuery: function(query) {
-    return this._scstore_dataSourceDidFetchQuery(query, YES);
+    return this._scstore_dataSourceDidFetchQuery(query, true);
   },
 
   _scstore_dataSourceDidFetchQuery: function(query, createIfNeeded) {
-    var recArray     = this._findQuery(query, createIfNeeded, NO),
+    var recArray     = this._findQuery(query, createIfNeeded, false),
         nestedStores = get(this, 'nestedStores'),
         loc          = nestedStores ? get(nestedStores, 'length') : 0;
 
@@ -10670,7 +10676,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
 
     // notify nested stores
     while(--loc >= 0) {
-      nestedStores[loc]._scstore_dataSourceDidFetchQuery(query, NO);
+      nestedStores[loc]._scstore_dataSourceDidFetchQuery(query, false);
     }
 
     return this ;
@@ -10685,11 +10691,11 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
     @returns {Ember.Store} receiver
   */
   dataSourceDidCancelQuery: function(query) {
-    return this._scstore_dataSourceDidCancelQuery(query, YES);
+    return this._scstore_dataSourceDidCancelQuery(query, true);
   },
 
   _scstore_dataSourceDidCancelQuery: function(query, createIfNeeded) {
-    var recArray     = this._findQuery(query, createIfNeeded, NO),
+    var recArray     = this._findQuery(query, createIfNeeded, false),
         nestedStores = get(this, 'nestedStores'),
         loc          = nestedStores ? get(nestedStores, 'length') : 0;
 
@@ -10698,7 +10704,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
 
     // notify nested stores
     while(--loc >= 0) {
-      nestedStores[loc]._scstore_dataSourceDidCancelQuery(query, NO);
+      nestedStores[loc]._scstore_dataSourceDidCancelQuery(query, false);
     }
 
     return this ;
@@ -10722,11 +10728,11 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
       errors[Ember.guidFor(query)] = error;
     }
 
-    return this._scstore_dataSourceDidErrorQuery(query, YES);
+    return this._scstore_dataSourceDidErrorQuery(query, true);
   },
 
   _scstore_dataSourceDidErrorQuery: function(query, createIfNeeded) {
-    var recArray     = this._findQuery(query, createIfNeeded, NO),
+    var recArray     = this._findQuery(query, createIfNeeded, false),
         nestedStores = get(this, 'nestedStores'),
         loc          = nestedStores ? get(nestedStores, 'length') : 0;
 
@@ -10735,7 +10741,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
 
     // notify nested stores
     while(--loc >= 0) {
-      nestedStores[loc]._scstore_dataSourceDidErrorQuery(query, NO);
+      nestedStores[loc]._scstore_dataSourceDidErrorQuery(query, false);
     }
 
     return this ;
@@ -10804,7 +10810,7 @@ Ember.Store = Ember.Object.extend( /** @scope Ember.Store.prototype */ {
   /**
     Given a `primaryKey` value for the record, returns the associated
     `storeKey`.  As opposed to `storeKeyFor()` however, this method
-    will **NOT** generate a new `storeKey` but returned `undefined`.
+    will **falseT** generate a new `storeKey` but returned `undefined`.
 
     @param {Ember.Record} recordType the record type
     @param {String} primaryKey the primary key
@@ -10889,7 +10895,7 @@ Ember.Store.reopenClass(/** @scope Ember.Store.prototype */{
 
     @type Error
   */
-  NO_PARENT_STORE_ERROR: new Error("Parent Store Required"),
+  false_PARENT_STORE_ERROR: new Error("Parent Store Required"),
 
   /**
     Standard error if you try to perform an operation on a nested store that
@@ -11180,13 +11186,13 @@ Ember.NestedStore = Ember.Store.extend(
 /** @scope Ember.NestedStore.prototype */ {
 
   /**
-    This is set to YES when there are changes that have not been committed
+    This is set to true when there are changes that have not been committed
     yet.
 
     @type Boolean
-    @default NO
+    @default false
   */
-  hasChanges: NO,
+  hasChanges: false,
 
   /**
     The parent store this nested store is chained to.  Nested stores must have
@@ -11200,20 +11206,20 @@ Ember.NestedStore = Ember.Store.extend(
   parentStore: null,
 
   /**
-    `YES` if the view is nested. Walk like a duck
+    `true` if the view is nested. Walk like a duck
 
     @type Boolean
-    @default YES
+    @default true
   */
-  isNested: YES,
+  isNested: true,
 
   /**
-    If YES, then the attribute hash state will be locked when you first
+    If true, then the attribute hash state will be locked when you first
     read the data hash or status.  This means that if you retrieve a record
     then change the record in the parent store, the changes will not be
     visible to your nested store until you commit or discard changes.
 
-    If `NO`, then the attribute hash will lock only when you write data.
+    If `false`, then the attribute hash will lock only when you write data.
 
     Normally you want to lock your attribute hash the first time you read it.
     This will make your nested store behave most consistently.  However, if
@@ -11224,9 +11230,9 @@ Ember.NestedStore = Ember.Store.extend(
     graph at the same time.
 
     @type Boolean
-    @default YES
+    @default true
   */
-  lockOnRead: YES,
+  lockOnRead: true,
 
   /** @private
     Array contains the base revision for an attribute hash when it was first
@@ -11254,7 +11260,7 @@ Ember.NestedStore = Ember.Store.extend(
     the server see the changelog property.
 
     @type Ember.Set
-    @default YES
+    @default true
   */
   chainedChanges: null,
 
@@ -11280,7 +11286,7 @@ Ember.NestedStore = Ember.Store.extend(
     Propagate this store's changes to its parent.  If the store does not
     have a parent, this has no effect other than to clear the change set.
 
-    @param {Boolean} force if YES, does not check for conflicts first
+    @param {Boolean} force if true, does not check for conflicts first
     @returns {Ember.Store} receiver
   */
   commitChanges: function(force) {
@@ -11345,7 +11351,7 @@ Ember.NestedStore = Ember.Store.extend(
     var nRecords, nr, sk;
     // requires a pstore to reset
     var parentStore = get(this, 'parentStore');
-    if (!parentStore) throw Ember.Store.NO_PARENT_STORE_ERROR;
+    if (!parentStore) throw Ember.Store.false_PARENT_STORE_ERROR;
 
     // inherit data store from parent store.
     this.dataHashes = o_create(parentStore.dataHashes);
@@ -11361,7 +11367,7 @@ Ember.NestedStore = Ember.Store.extend(
     this.changelog = null ;
 
     // TODO: Notify record instances
-    set(this, 'hasChanges', NO);
+    set(this, 'hasChanges', false);
   },
 
   /** @private
@@ -11463,7 +11469,7 @@ Ember.NestedStore = Ember.Store.extend(
         }
       }
       else {
-        this.dataHashes[storeKey] = Ember.copy(pstore.dataHashes[storeKey], YES);
+        this.dataHashes[storeKey] = Ember.copy(pstore.dataHashes[storeKey], true);
       }
       if (!editables) editables = this.editables = [];
       editables[storeKey] = 1 ; // mark as editable
@@ -11500,7 +11506,7 @@ Ember.NestedStore = Ember.Store.extend(
     much.
   */
   writeDataHash: function(storeKey, hash, status) {
-    var locks = this.locks, didLock = NO, rev ;
+    var locks = this.locks, didLock = false, rev ;
 
     // Update our dataHash and/or status, depending on what was passed in.
     // Note that if no new hash was passed in, we'll lock the storeKey to
@@ -11511,7 +11517,7 @@ Ember.NestedStore = Ember.Store.extend(
     }
     else {
       this._lock(storeKey);
-      didLock = YES;
+      didLock = true;
     }
 
     if (status) {
@@ -11577,7 +11583,7 @@ Ember.NestedStore = Ember.Store.extend(
       this._notifyRecordPropertyChange(storeKey, statusOnly, key);
     }
 
-    set(this, 'hasChanges', YES);
+    set(this, 'hasChanges', true);
     return this ;
   },
 
@@ -11635,7 +11641,7 @@ Ember.NestedStore = Ember.Store.extend(
 
   /** @private - adapt for nested store
 
-    Unlike for the main store, for nested stores if isRefresh=YES, we'll throw
+    Unlike for the main store, for nested stores if isRefresh=true, we'll throw
     an error if the record is dirty.  We'll otherwise avoid setting our status
     because that can disconnect us from upper and/or lower stores.
   */
@@ -11668,24 +11674,24 @@ Ember.NestedStore = Ember.Store.extend(
               editables  = this.editables,
               locks      = this.locks;
 
-          var changed    = NO;
-          var statusOnly = NO;
+          var changed    = false;
+          var statusOnly = false;
 
           if (dataHashes  &&  dataHashes.hasOwnProperty(storeKey)) {
             delete dataHashes[storeKey];
-            changed = YES;
+            changed = true;
           }
           if (revisions   &&  revisions.hasOwnProperty(storeKey)) {
             delete revisions[storeKey];
-            changed = YES;
+            changed = true;
           }
           if (editables) delete editables[storeKey];
           if (locks) delete locks[storeKey];
 
           if (statuses  &&  statuses.hasOwnProperty(storeKey)) {
             delete statuses[storeKey];
-            if (!changed) statusOnly = YES;
-            changed = YES;
+            if (!changed) statusOnly = true;
+            changed = true;
           }
 
           if (changed) this._notifyRecordPropertyChange(storeKey, statusOnly);

@@ -24,7 +24,7 @@ Travis.DataSource = Ember.DataSource.extend({
       }
     });
 
-    return YES;
+    return true;
   },
 
   retrieveRecord: function(store, storeKey, id) {
@@ -43,7 +43,7 @@ Travis.DataSource = Ember.DataSource.extend({
       }
     });
 
-    return YES;
+    return true;
   },
 
   updateRecord: function(store, storeKey, params) {
@@ -60,7 +60,7 @@ Travis.DataSource = Ember.DataSource.extend({
       }
     });
 
-    return YES;
+    return true;
   },
 
   _urlFor: function(recordType, id) {
