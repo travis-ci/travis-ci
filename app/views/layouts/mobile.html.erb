@@ -7,15 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="/favicon.ico">
 
-    <meta property="og:title" content="Travis CI - Distributed build platform for the open source community"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:url" content="http://travis-ci.org/"/>
-    <meta property="og:image" content="http://travis-ci.org/assets/twitter.icon.png"/>
-    <meta property="og:site_name" content="Travis CI"/>
-    <meta property="og:description" content="Hi I'm Travis. I'm a distributed build server tool for the open source community - currently in early alpha, and I'm looking for your help!"/>
-
     <%= stylesheet_link_tag 'mobile' %>
     <%= javascript_include_tag 'mobile' %>
+
+    <%= yield :head %>
   </head>
 
   <body id="<%= body_id %>">
