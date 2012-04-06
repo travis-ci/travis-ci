@@ -16,12 +16,12 @@ GIT
 
 GIT
   remote: git://github.com/pivotal/jasmine-gem.git
-  revision: 34c1529c3f7b78ebd81ac16006f141fc6b7cf013
+  revision: c72e8d248d49a1ebe53f31a09ac511194ad4edf1
   submodules: true
   specs:
-    jasmine (1.2.0.rc2)
-      jasmine-core (>= 1.2.0.rc1)
-      rack (>= 1.1)
+    jasmine (1.2.0.rc3)
+      jasmine-core (>= 1.2.0.rc3)
+      rack (~> 1.0)
       rspec (>= 1.3.1)
       selenium-webdriver (>= 0.1.3)
 
@@ -43,23 +43,23 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh.git
-  revision: f3134544756c18c87b08ed2f0a4cca4b2a6efcd7
+  revision: d114122ae0f68cdebf5b9be3f87402b45b6a369f
   specs:
-    gh (0.0.1)
+    gh (0.1.2)
       backports (~> 2.3)
       faraday (~> 0.7)
       multi_json (~> 1.0)
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: f4e9581781e04d878eb6ee1cd858c80247362525
+  revision: 738ccb43600803b7eda8ca0dd0b06b0b68e94336
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.1)
       activerecord (~> 3.2.1)
       data_migrations (~> 0.0.1)
       devise (~> 1.5.0)
-      gh (~> 0.0.1)
+      gh
       hashr (~> 0.0.19)
       oa-oauth (~> 0.3.2)
       octokit (~> 0.6.5)
@@ -178,20 +178,20 @@ GEM
     fssm (0.2.8.1)
     gli (1.5.1)
     hashie (1.2.0)
-    hashr (0.0.19)
+    hashr (0.0.20)
     hike (1.2.1)
     hitimes (1.1.1)
     http_accept_language (1.0.2)
     i18n (0.6.0)
     i18n-js (2.1.2)
       i18n
-    jasmine-core (1.2.0.rc1)
+    jasmine-core (1.2.0.rc3)
     journey (1.0.3)
     json (1.6.6)
     kgio (2.7.4)
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
-    localeapp (0.4.2)
+    localeapp (0.4.3)
       gli
       i18n
       json
