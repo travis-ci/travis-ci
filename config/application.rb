@@ -23,11 +23,11 @@ module TravisCi
 
     config.middleware.use Rack::JSONP
 
-    # make sure Rails reloads/re-requires the model decorators
-    # on each page change during development
+    # make sure Rails reloads/re-requires the model slices on
+    # each page load during development
     # thanks to Ryan Bigg for this advice
     config.to_prepare do
-      Dir.glob(File.expand_path("app/models/*_decorator.rb")) do |c|
+      Dir.glob(File.expand_path("app/models/*_slice.rb")) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
       end
     end

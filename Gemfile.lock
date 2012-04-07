@@ -52,8 +52,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 53f522df68950a3381f5664b51512679dfb3abd6
-  branch: devise2
+  revision: cd1e02acbefd1fb7d75fb14b999c31ced2f73293
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
