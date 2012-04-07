@@ -1,17 +1,17 @@
 source :rubygems
 
-gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine'
+gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine', branch: 'devise2'
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
 
-gem 'rails',                '~> 3.2.1'
+gem 'rails',                '~> 3.2.3'
 gem 'sinatra',              '~> 1.3.1'
 gem 'rake',                 '~> 0.9.2.2'
 gem 'amqp',                 '~> 0.9.0'
 
 # app
 gem 'refraction',           '~> 0.2.0'
-gem 'devise',               '~> 1.5.0'
-gem 'omniauth-github',      '~> 1.0.0'
+gem 'devise',               '~> 2.0.4'
+gem 'omniauth-github',      '~> 1.0.1'
 gem 'unobtrusive_flash',    '~> 0.0.2'
 
 # structures

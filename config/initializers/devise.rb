@@ -1,13 +1,16 @@
 require 'travis'
+require "omniauth-github"
 
-# Hmm, do we actually use this?
-require 'devise/api_token_authenticatable'
-
-Devise.setup do |c|
+Devise.setup do |config|
   require 'devise/orm/active_record'
 
-  c.http_authenticatable = true
+  config.http_authenticatable = true
+
+  # set these or get a warning
+  config.reset_password_within = 0
+  config.case_insensitive_keys = []
+  config.use_salt_as_remember_token = true
 
   oauth2 = Travis.config.oauth2 || Hashr.new
-  c.omniauth :github, oauth2.client_id, oauth2.client_secret, :scope => oauth2.scope
+  config.omniauth :github, oauth2.client_id, oauth2.client_secret, :scope => oauth2.scope
 end
