@@ -22,5 +22,14 @@ module TravisCi
     config.i18n.load_path += Dir[Rails.root.join('locales', '*.{rb,yml}').to_s]
 
     config.middleware.use Rack::JSONP
+
+    # make sure Rails reloads/re-requires the model decorators
+    # on each page change during development
+    # thanks to Ryan Bigg for this advice
+    config.to_prepare do
+      Dir.glob(File.expand_path("app/models/*_decorator.rb")) do |c|
+        Rails.configuration.cache_classes ? require(c) : load(c)
+      end
+    end
   end
 end
