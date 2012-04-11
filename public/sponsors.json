@@ -45,6 +45,10 @@
     {
       "url": "http://ticketevolution.com",
       "image": "http://travis-ci.org/images/sponsors/ticketevolution-205x60.jpg"
+    },
+    {
+      "url": "http://plan.io/travis",
+      "image": "http://travis-ci.org/images/sponsors/planio-205x60.png"
     }
   ],
   "silver": [
