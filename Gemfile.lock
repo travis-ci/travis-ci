@@ -15,7 +15,7 @@ GIT
       hitimes (~> 1.1)
 
 GIT
-  remote: git://github.com/pivotal/jasmine-gem.git
+  remote: git://github.com/pivotal/jasmine-gem
   revision: c72e8d248d49a1ebe53f31a09ac511194ad4edf1
   submodules: true
   specs:
@@ -33,7 +33,7 @@ GIT
       rack (>= 0.9.1)
 
 GIT
-  remote: git://github.com/randym/localeapp-i18n-js.git
+  remote: git://github.com/randym/localeapp-i18n-js
   revision: 521a0e289a3bfc6fff51f2f37d34d45a726e43c5
   specs:
     localeapp-i18n-js (0.0.1a)
@@ -42,7 +42,7 @@ GIT
       rails (~> 3.2.1)
 
 GIT
-  remote: git://github.com/rkh/gh.git
+  remote: git://github.com/rkh/gh
   revision: d6d31683c13d93c26358ef842421d70623ded34f
   specs:
     gh (0.2.2)
@@ -236,8 +236,6 @@ GEM
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
-    rack-protection (1.2.0)
-      rack
     rack-ssl (1.3.2)
       rack
     rack-test (0.6.1)
@@ -306,10 +304,6 @@ GEM
     simple_states (0.1.0.pre2)
       activesupport
       hashr (~> 0.0.10)
-    sinatra (1.3.2)
-      rack (~> 1.3, >= 1.3.6)
-      rack-protection (~> 1.2)
-      tilt (~> 1.3, >= 1.3.3)
     sprockets (2.1.2)
       hike (~> 1.2)
       rack (~> 1.0)
@@ -378,7 +372,6 @@ DEPENDENCIES
   rspec-rails (~> 2.8.0)
   ruby-debug19
   sass-rails (~> 3.2.4)
-  sinatra (~> 1.3.1)
   thin (~> 1.3.1)
   travis-core!
   travis-support!
