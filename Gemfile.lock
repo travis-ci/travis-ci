@@ -43,16 +43,16 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh.git
-  revision: 9031fbdf99707b22bdb284b53d90dcfea9263992
+  revision: d6d31683c13d93c26358ef842421d70623ded34f
   specs:
-    gh (0.1.2)
+    gh (0.2.2)
       backports (~> 2.3)
       faraday (~> 0.7)
       multi_json (~> 1.0)
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: cd1e02acbefd1fb7d75fb14b999c31ced2f73293
+  revision: 2803e416fcc73e9bdd39f764eb446c2f118c8259
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
@@ -73,7 +73,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-support
-  revision: e43f43209c6b45f58e8dee4dc4ae2949a645b479
+  revision: 9f18805837314321d75ac24ca90705fcdb91b855
   specs:
     travis-support (0.0.1)
 
@@ -131,7 +131,7 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.2.0)
+    coffee-script-source (1.3.1)
     columnize (0.3.6)
     compass (0.12.alpha.4)
       chunky_png (~> 1.2)
@@ -169,7 +169,7 @@ GEM
     fssm (0.2.9)
     gli (1.6.0)
     hashie (1.2.0)
-    hashr (0.0.20)
+    hashr (0.0.21)
     hike (1.2.1)
     hitimes (1.1.1)
     http_accept_language (1.0.2)
