@@ -17,15 +17,15 @@ $.extend Sponsors,
   PACKAGES: ['platinum', 'gold', 'silver']
   SPEED: 15000
   load: (callback) ->
-    $.get '/sponsors.json', (packages) =>
-      callback(Sponsors.decksFrom(packages))
-  decksFrom: (packages) ->
+    $.get '/sponsors.json', (bundles) =>
+      callback(Sponsors.decksFrom(bundles))
+  decksFrom: (bundles) ->
     decks = { banner: [], text: [] }
-    for package of packages
-      sponsors = packages[package].shuffle()
-      count = Deck.COUNTS[package]
-      type = if package == 'silver' then 'text' else 'banner'
-      decks[type].push(new Deck(type, package, sponsors.slice(i, i + count))) for i in [0..sponsors.length - 1] by count
+    for bundle of bundles
+      sponsors = bundles[bundle].shuffle()
+      count = Deck.COUNTS[bundle]
+      type = if bundle == 'silver' then 'text' else 'banner'
+      decks[type].push(new Deck(type, bundle, sponsors.slice(i, i + count))) for i in [0..sponsors.length - 1] by count
     decks
 $.extend Sponsors.prototype,
   clear: ->
@@ -40,9 +40,9 @@ $.extend Sponsors.prototype,
         @run()
       setTimeout(doRun.bind(@), @speed || Sponsors.SPEED)
 
-Deck = (type, package, sponsors) ->
+Deck = (type, bundle, sponsors) ->
   @type = type
-  @package = package
+  @bundle = bundle
   @sponsors = if type == 'banner' then @fill(sponsors) else sponsors
   @
 $.extend Deck,
@@ -52,12 +52,12 @@ $.extend Deck,
     silver: 6
 $.extend Deck.prototype,
   fill: (sponsors)->
-    sponsors.push({ image: @placeholder() }) while sponsors.length < Deck.COUNTS[@package]
+    sponsors.push({ image: @placeholder() }) while sponsors.length < Deck.COUNTS[@bundle]
     sponsors
   placeholder: ->
-    '/images/placeholder-' + @package + '.png'
+    '/images/placeholder-' + @bundle + '.png'
   render: ->
-    node = $('<ul class="' + @package + '"></ul>')
+    node = $('<ul class="' + @bundle + '"></ul>')
     node.append(new Sponsor(@type, sponsor).render()) for sponsor in @sponsors
     node
 
