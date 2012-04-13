@@ -43,16 +43,17 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh.git
-  revision: d6d31683c13d93c26358ef842421d70623ded34f
+  revision: 20675e1e035535ece7797462e6187fa7e44c2ff0
   specs:
-    gh (0.2.2)
+    gh (0.2.4)
       backports (~> 2.3)
       faraday (~> 0.7)
       multi_json (~> 1.0)
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 2803e416fcc73e9bdd39f764eb446c2f118c8259
+  revision: bc836d867dd27e16548148d27ca508af15e14851
+  branch: pull-requests
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
@@ -180,6 +181,8 @@ GEM
     journey (1.0.3)
     json (1.6.6)
     kgio (2.7.4)
+    libwebsocket (0.1.3)
+      addressable
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
     localeapp (0.4.3)
@@ -209,7 +212,7 @@ GEM
       faraday_middleware (~> 0.7.0)
       hashie (~> 1.2.0)
       multi_json (~> 1.0.2)
-    omniauth (1.0.3)
+    omniauth (1.1.0)
       hashie (~> 1.2)
       rack
     omniauth-github (1.0.1)
@@ -296,9 +299,10 @@ GEM
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    selenium-webdriver (2.20.0)
+    selenium-webdriver (2.21.0)
       childprocess (>= 0.2.5)
       ffi (~> 1.0)
+      libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
       rubyzip
     signature (0.1.2)
