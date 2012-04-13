@@ -19,6 +19,10 @@
   ],
   "gold": [
     {
+      "url": "http://heroku.com",
+      "image": "http://travis-ci.org/images/sponsors/heroku-205x60.png"
+    },
+    {
       "url": "http://soundcloud.com",
       "image": "http://travis-ci.org/images/sponsors/soundcloud-205x60.png"
     },
@@ -40,7 +44,11 @@
     },
     {
       "url": "http://ticketevolution.com",
-      "image": "http://travis-ci.org/images/sponsors/ticketevolution-205x60.png"
+      "image": "http://travis-ci.org/images/sponsors/ticketevolution-205x60.jpg"
+    },
+    {
+      "url": "http://plan.io/travis",
+      "image": "http://travis-ci.org/images/sponsors/planio-205x60.png"
     }
   ],
   "silver": [
@@ -72,8 +80,16 @@
       "link": "<a href=\"http://amenhq.com\">Amen</a><span>: The best and worst of everything</span>"
     },
     {
-      "link": "<a href=\"http://site5.com\">Site5</a><span>: Full No Worry VPS and Cloud VPS scaling</span>"
+      "link": "<a href=\"http://site5.com\">Site5</a><span>: Premium Web Hosting Solutions</span>"
+    },
+    {
+      "link": "<a href=\"http://www.crowdint.com\">Crowd Interactive</a><span>: Leading Rails consultancy in Mexico</span>"
+    },
+    {
+      "link": "<a href=\"http://www.atomicobject.com\">Atomic Object</a><span>: Work with really smart people</span>"
+    },
+    {
+      "link": "<a href=\"http://\">Codeminer</a><span>: smart services for your startup</span>"
     }
   ]
 }
-

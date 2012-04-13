@@ -1,9 +1,4 @@
-Dir['spec/client/support/**/*.rb'].sort.each { |path| require File.expand_path(path) }
-
 require 'spec_helper'
-require 'rspec'
-require 'capybara/rspec'
-require 'webmock'
 
 RSpec.configure do |config|
   config.before :each, :js => true do

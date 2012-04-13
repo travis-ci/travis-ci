@@ -1,4 +1,4 @@
-<h4>Workers</h4>
+<h4>{{i18n "workers"}}</h4>
 {{#collection tagName="ul" itemClass="group" contentBinding="content"}}
   <h5>{{content.host}}</h5>
   {{#collection tagName="ul" itemClass="worker" itemClassBinding="content.state" contentBinding="content.workers"}}

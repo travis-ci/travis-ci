@@ -1,3 +1,5 @@
+require 'responders'
+
 class WorkersController < ApplicationController
   responders :rabl
   respond_to :json

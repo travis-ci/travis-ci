@@ -20,9 +20,11 @@ You can see Travis CI in action at "travis-ci.org":http://travis-ci.org. With ab
  * "Ruby on Rails":http://travis-ci.org/#!/rails/rails, "Bundler":http://travis-ci.org/#!/carlhuda/bundler, "Sinatra":http://travis-ci.org/sinatra/sinatra, "Rack":http://travis-ci.org/#!/rack/rack, "RSpec":http://travis-ci.org/#!/rspec/rspec-core, "Cucumber":http://travis-ci.org/#!/cucumber/cucumber, "HAML":http://travis-ci.org/#!/nex3/haml and "SASS":http://travis-ci.org/#!/nex3/sass, "RubyGems":http://travis-ci.org/#!/rubygems/rubygems, "rubygems.org":http://travis-ci.org/#!/rubygems/rubygems.org, "Mongoid":http://travis-ci.org/#!/mongoid/mongoid, "Rubinius":http://travis-ci.org/#!/rubinius/rubinius, "Factory Girl":http://travis-ci.org/#!/thoughtbot/factory_girl, "Spree":http://travis-ci.org/#!/spree/spree, "Devise":http://travis-ci.org/#!/plataformatec/devise, "amqp gem":http://travis-ci.org/#!/ruby-amqp/amqp and even "GitHub mirror of CRuby (MRI) itself":http://travis-ci.org/#!/ruby/ruby in the Ruby community
  * "Node.js":http://travis-ci.org/joyent/node, "npm":http://travis-ci.org/#!/isaacs/npm, "Express":http://travis-ci.org/#!/visionmedia/express, "Vows":http://travis-ci.org/#!/cloudhead/vows, "Mocha":http://travis-ci.org/#!/visionmedia/mocha, "Ember.js":http://travis-ci.org/#!/emberjs/ember.js (ex. SproutCore 2), "Batman.js":http://travis-ci.org/#!/Shopify/batman and numerous "flatiron":https://github.com/flatiron subprojects in the JavaScript community
  * "Symfony 2":http://travis-ci.org/#!/symfony/symfony, "Doctrine 2":http://travis-ci.org/#!/doctrine/doctrine2, "Composer":http://travis-ci.org/#!/composer/composer, "Behat":http://travis-ci.org/#!/Behat/Behat and numerous Symfony 2 bundles in the PHP community
- * "Leiningen":http://travis-ci.org/#!/technomancy/leiningen, "Knockbox":http://travis-ci.org/#!/reiddraper/knockbox, "Langohr":http://travis-ci.org/#!/michaelklishin/langohr, "Monger":http://travis-ci.org/#!/michaelklishin/monger, "Neocons":http://travis-ci.org/#!/michaelklishin/neocons, "Sumo":http://travis-ci.org/#!/reiddraper/sumo in the Clojure community
+ * "Leiningen":http://travis-ci.org/#!/technomancy/leiningen, "Midje":http://travis-ci.org/#!/marick/Midje, "clj-time":http://travis-ci.org/#!/seancorfield/clj-time, "Lamina":http://travis-ci.org/ztellman/lamina, "Knockbox":http://travis-ci.org/#!/reiddraper/knockbox, "Langohr":http://travis-ci.org/#!/michaelklishin/langohr, "Monger":http://travis-ci.org/#!/michaelklishin/monger, "CongoMongo":http://travis-ci.org/#!/seancorfield/congomongo, "Neocons":http://travis-ci.org/#!/michaelklishin/neocons, "Sumo":http://travis-ci.org/#!/reiddraper/sumo in the Clojure community
  * "Cowboy":http://travis-ci.org/#!/extend/cowboy and "Elixir":http://travis-ci.org/#!/josevalim/elixir in the Erlang community
-
+ * "Riak Java client":https://travis-ci.org/basho/riak-java-client/, "Cucumber JVM":https://travis-ci.org/cucumber/cucumber-jvm/, "Symfony 2 Eclipse Plugin":https://travis-ci.org/pulse00/Symfony-2-Eclipse-Plugin/ in the Java community
+ * "Scalding":https://travis-ci.org/twitter/scalding and "Scalatra":https://travis-ci.org/scalatra/scalatra in the Scala community
+ * "Tornado":http://travis-ci.org/#!/facebook/tornado, "simplejson":http://travis-ci.org/#!/simplejson/simplejson, "Fabric":http://travis-ci.org/#!/fabric/fabric, "Requests":http://travis-ci.org/#!/kennethreitz/requests, "Kombu":http://travis-ci.org/#!/ask/kombu in the Python community
 
 
 h3. We Are Not Done Yet
@@ -55,9 +57,14 @@ and we also have guides technology-specific guides:
 
  * "Clojure":http://about.travis-ci.org/docs/user/languages/clojure/
  * "Erlang":http://about.travis-ci.org/docs/user/languages/erlang/
- * "Node.js":http://about.travis-ci.org/docs/user/languages/javascript-with-nodejs/
+ * "Groovy":http://about.travis-ci.org/docs/user/languages/groovy/
+ * "Java":http://about.travis-ci.org/docs/user/languages/java/
+ * "JavaScript":http://about.travis-ci.org/docs/user/languages/javascript-with-nodejs/ (with Node.js)
+ * "Perl":http://about.travis-ci.org/docs/user/languages/perl/
  * "PHP":http://about.travis-ci.org/docs/user/languages/php/
+ * "Python":http://about.travis-ci.org/docs/user/languages/python/
  * "Ruby":http://about.travis-ci.org/docs/user/languages/ruby/
+ * "Scala":http://about.travis-ci.org/docs/user/languages/scala/
 
 
 
@@ -90,7 +97,7 @@ $ bundle exec rake travis:setup:config
 
 This will create two files: <code>./config/travis.yml</code> and <code>./config/database.yml</code>. Edit these files according to your local configuration.
 
-Travis CI is configured to authenticate with OAuth and github. You'll need to "register your application with github":https://github.com/account/applications/new (even if it's only for local development) and complete all the required fields in <code>./config/travis.yml</code> for your ID and secret.
+Travis CI is configured to authenticate with OAuth and github. You'll need to "register your application with github":https://github.com/settings/applications/new (even if it's only for local development) and complete all the required fields in <code>./config/travis.yml</code> for your ID and secret.
 
 Next, tell Travis to configure the database:
 
@@ -108,15 +115,6 @@ Note that you always start the server using <code>foreman</code>, not <code>unic
 
 Travis CI is now up & running on **http://localhost:5000**
 
-You can also create a default admin user (optional):
-
-<pre>
-$ rake travis:create_admin_user
-</pre>
-
-Application is now up & running on **http://localhost:5000**
-
-
 
 h2. Working on the server
 
@@ -124,16 +122,16 @@ h3. Running the tests
 
 Integration tests are implemented using "Jasmine":http://pivotal.github.com/jasmine and can be run in the browser:
 
-<pre>
-$ RAILS_ENV=jasmine rake db:migrate db:seed
-$ rails s thin -e jasmine
-$ open http://localhost:3000
-</pre>
-
 To run the whole test suite simply do:
 
 <pre>
-$ bundle exec rake spec
+$ bundle exec rake test:ci
+</pre>
+
+To run only the jasmine specs do:
+
+<pre>
+$ bundle exec rake test:jasmine
 </pre>
 
 In order to run all tests you need to have "ChromeDriver":http://code.google.com/p/selenium/wiki/ChromeDriver installed. You can download it "here":http://code.google.com/p/chromium/downloads/list and then place it somewhere on your PATH.

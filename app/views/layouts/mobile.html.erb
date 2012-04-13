@@ -7,15 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="/favicon.ico">
 
-    <meta property="og:title" content="Travis CI - Distributed build platform for the open source community"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:url" content="http://travis-ci.org/"/>
-    <meta property="og:image" content="http://travis-ci.org/assets/twitter.icon.png"/>
-    <meta property="og:site_name" content="Travis CI"/>
-    <meta property="og:description" content="Hi I'm Travis. I'm a distributed build server tool for the open source community - currently in early alpha, and I'm looking for your help!"/>
-
     <%= stylesheet_link_tag 'mobile' %>
     <%= javascript_include_tag 'mobile' %>
+
+    <%= yield :head %>
   </head>
 
   <body id="<%= body_id %>">
@@ -36,7 +31,7 @@
           <p class="description">{{Travis.Controllers.Builds.List.repository.description}}</p>
 
           {{#collection tagName="ul" id="builds" contentBinding="Travis.Controllers.Builds.List.builds" itemViewClass="Ember.View" itemClassBinding="content.color" class="menu"}}
-            <a {{bindAttr href="content.url"}}><span class="status"></span>Build #{{content.number}}</a>
+            <a {{bindAttr href="content.url"}}><span class="status"></span><%= t('.build') %>  #{{content.number}}</a>
           {{/collection}}
         </div>
       </script>
@@ -46,28 +41,28 @@
       <script type="text/x-handlebars">
         {{#with Travis.Controllers.Builds.Show}}
           <div {{bindAttr class="content.color"}} id="build">
-            <h2><span class="status"></span>Build #{{content.number}}</h2>
+            <h2><span class="status"></span><%= t('.build') %> #{{content.number}}</h2>
             <h3><a {{bindAttr href="repository.urlGithub"}}>{{repository.slug}}</a></h3>
 
             <ul class="info">
-              <li><label for="finished_at">Finished At</label> <span id="finished_at">{{content.formattedFinishedAt}}</span></li>
-              <li><label for="duration">Duration</label> <span id="duration">{{content.formattedDuration}}</span></li>
-              <li><label for="commit">Commit</label> <span id="commit">{{content.formattedCommit}}</span></li>
+              <li><label for="finished_at"><%= t('.finished_at') %></label> <span id="finished_at">{{content.formattedFinishedAt}}</span></li>
+              <li><label for="duration"><%= t('.duration') %></label> <span id="duration">{{content.formattedDuration}}</span></li>
+              <li><label for="commit"><%= t('.commit') %></label> <span id="commit">{{content.formattedCommit}}</span></li>
               {{#if content.compare_url}}
               <li>
-                <label for="compare_view">Compare</label>
+                <label for="compare_view"><%= t('.compare') %></label>
                 <span id="compare_view"><a {{bindAttr href="content.compare_url"}}>{{content.formattedCompareUrl}}</a></span>
               </li>
               {{/if}}
               {{#if content.author_name}}
               <li>
-                <label for="author">Author</label>
+                <label for="author"><%= t('.author') %></label>
                 <span id="author"><a {{bindAttr href="content.urlAuthor"}}>{{content.author_name}}</a></span>
               </li>
               {{/if}}
               {{#if content.commiter_name}}
               <li>
-                <label for="committer">Committer</label>
+                <label for="committer"><%= t('.committer') %></label>
                 <span id="committer"><a {{bindAttr href="content.urlCommitter"}}>{{content.committer_name}}</a></span>
               </li>
               {{/if}}
@@ -75,7 +70,7 @@
 
             <div class="commit-message">{{{content.formattedMessage}}}</div>
 
-            <h3>Build Matrix</h3>
+            <h3><%= t('.build_matrix') %></h3>
             {{#collection tagName="ul" contentBinding="content.matrix" itemViewClass="Ember.View" itemClassBinding="content.color" class="matrix menu"}}
               <a {{bindAttr href="content.url"}}><span class="status"></span>{{content.number}}</a>
             {{/collection}}
@@ -88,36 +83,36 @@
       <script type="text/x-handlebars">
         {{#with Travis.Controllers.Jobs.Show}}
           <div {{bindAttr class="content.color"}} id="job">
-            <h2><span class="status"></span>Job #{{content.number}}</h2>
+            <h2><span class="status"></span><%= t('.job') %> #{{content.number}}</h2>
 
             <ul class="info">
               <li>
-                <label for="finished_at">Finished</label>
+                <label for="finished_at"><%= t('.finished_at') %></label>
                 <span id="finished_at">{{content.formattedFinishedAt}}</span>
               </li>
               <li>
-                <label for="duration">Duration</label>
+                <label for="duration"><%= t('.duration') %></label>
                 <span id="duration">{{content.formattedDuration}}</span>
               </li>
               <li>
-                <label for="commit">Commit</label>
+                <label for="commit"><%= t('.commit') %></label>
                 <span id="commit"><a {{bindAttr href="content.build.urlGithubCommit"}}>{{content.formattedCommit}}</a></span>
               </li>
               {{#if content.compare_url}}
               <li>
-                <label for="compare_view">Compare</label>
+                <label for="compare_view"><%= t('.compare') %></label>
                 <span id="compare_view"><a {{bindAttr href="content.compare_url"}}>{{content.formattedCompareUrl}}</a></span>
               </li>
               {{/if}}
               {{#if content.author_name}}
               <li>
-                <label for="author">Author</label>
+                <label for="author"><%= t('.author') %></label>
                 <span id="author"><a {{bindAttr href="content.build.urlAuthor"}}>{{content.author_name}}</a></span>
               </li>
               {{/if}}
               {{#if content.committer_name}}
               <li>
-                <label for="committer">Committer</label>
+                <label for="committer"><%= t('.committer') %></label>
                 <span id="committer"><a {{bindAttr href="content.build.urlCommitter"}}>{{content.committer_name}}</a></span>
               </li>
               {{/if}}
@@ -125,10 +120,10 @@
 
             <p class="commit-message">{{{content.formattedMessage}}}</p>
 
-            <h3>Config</h3>
+            <h3><%= t('.config') %></h3>
             <p class="config">{{{content.formattedConfig}}}</p>
 
-            <h3>Log</h3>
+            <h3><%= t('.log') %></h3>
             <pre class="log">{{{content.formattedLog}}}</pre>
           </div>
         {{/with}}

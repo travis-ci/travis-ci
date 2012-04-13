@@ -23,7 +23,7 @@ describe ServiceHooksController, :webmock => true do
 
   describe 'PUT :update' do
     before(:each) do
-      stub_github_api_post
+      stub_request :post, 'https://api.github.com/hub?access_token=github_oauth_token'
     end
 
     context 'subscribes to a service hook' do

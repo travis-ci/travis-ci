@@ -15,7 +15,7 @@
              type: 'spline'
           },
           title: {
-             text: 'Total Projects/Repositories'
+             text: '<%= t '.total_projects' %>'
           },
           xAxis: {
              type: 'datetime',
@@ -26,7 +26,7 @@
           },
           yAxis: {
              title: {
-                text: 'Count'
+                text: '<%= t '.count' %>'
              },
              min: 0
           },
@@ -37,7 +37,7 @@
              }
           },
           series: [{
-             name: 'Repository Growth',
+             name: '<%= t '.repo_growth' %>',
              data: <%= @repo_graph_stats.map { |stats| [DateTime.parse(stats[:date]).to_i * 1000, stats[:total_growth]] }.to_json %>
           }]
        });
@@ -48,10 +48,10 @@
           type: 'column'
        },
        title: {
-          text: 'Build Count'
+          text: '<%= t '.build_count' %>'
        },
        subtitle: {
-          text: 'last month'
+          text: '<%= t '.last_month' %>'
        },
        xAxis: {
           type: 'datetime',
@@ -62,7 +62,7 @@
        },
        yAxis: {
           title: {
-             text: 'Count'
+             text: '<%= t '.count' %>'
           },
           min: 0
        },
@@ -73,7 +73,7 @@
           }
        },
        series: [{
-          name: 'Total Builds',
+          name: '<%= t '.total_builds' %>',
           data: <%= @test_graph_stats.map { |stats| [DateTime.parse(stats[:date]).to_i * 1000, stats[:run_on_date]] }.to_json %>
        }]
     });

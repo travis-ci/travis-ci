@@ -5,7 +5,7 @@ $LOAD_PATH.unshift *Dir["#{File.dirname(__FILE__)}/../vendor/**/lib"]
 require "json"
 
 github_username = "ifesdjeen"
-github_token = "s5xP6c2jrJtTUtMfTxJJ"
+github_token = "your-token"
 host_and_port = "localhost:3000"
 curl_tmp_file = "payload_data_curl"
 

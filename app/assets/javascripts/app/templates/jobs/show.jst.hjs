@@ -3,32 +3,32 @@
     <div class="left">
       <dt>Job</dt>
       <dd class="number"><a {{bindAttr href="content.build.url"}}>{{content.number}}</a></dd>
-      <dt class="finished_at_label">Finished</dt>
+      <dt class="finished_at_label">{{i18n "jobs.finished_at"}}</dt>
       <dd class="finished_at timeago" {{bindAttr title="content.finished_at"}}>{{content.formattedFinishedAt}}</dd>
-      <dt>Duration</dt>
+      <dt>{{i18n "jobs.duration"}}</dt>
       <dd class="duration" {{bindAttr title="content.started_at"}}>{{content.formattedDuration}}</dd>
     </div>
 
     <div class="right">
-      <dt>Commit</dt>
+      <dt>{{i18n "jobs.commit"}}</dt>
       <dd class="commit-hash"><a {{bindAttr href="content.build.urlGithubCommit"}}>{{content.formattedCommit}}</a></dd>
       {{#if content.compare_url}}
-        <dt>Compare</dt>
+        <dt>{{i18n "jobs.compare"}}</dt>
         <dd class="compare_view"><a {{bindAttr href="content.compare_url"}}>{{content.formattedCompareUrl}}</a></dd>
       {{/if}}
       {{#if content.author_name}}
-        <dt>Author</dt>
+        <dt>{{i18n "jobs.author"}}</dt>
         <dd class="author"><a {{bindAttr href="content.build.urlAuthor"}}>{{content.author_name}}</a></dd>
       {{/if}}
       {{#if content.committer_name}}
-        <dt>Committer</dt>
+        <dt>{{i18n "jobs.committer"}}</dt>
         <dd class="committer"><a {{bindAttr href="content.build.urlCommitter"}}>{{content.committer_name}}</a></dd>
       {{/if}}
     </div>
 
-    <dt>Message</dt>
+    <dt>{{i18n "jobs.message"}}</dt>
     <dd class="commit-message">{{{content.formattedMessage}}}</dd>
-    <dt>Config</dt>
+    <dt>{{i18n "jobs.config"}}</dt>
     <dd class="config">{{content.formattedConfig}}</dd>
   </dl>
 
@@ -36,7 +36,7 @@
 
   {{#if content.sponsor.name}}
     <p class="sponsor">
-      This test suite has run on a worker box sponsored by
+    {{i18n "jobs.messages.sponsored_by"}}
       <a {{bindAttr href="content.sponsor.url"}}>{{content.sponsor.name}}</a>
     </p>
   {{/if}}

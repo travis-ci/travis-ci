@@ -1,6 +1,11 @@
-require 'patches/rails_route_set'
+require 'shortener'
 
 TravisCi::Application.routes.draw do
+
+  constraints :host => Travis.config.shorten_host do
+    mount Travis::Shortener => '/'
+  end
+
   root :to => 'home#index'
 
   resources :repositories, :only => [:index, :show] do
@@ -12,10 +17,11 @@ TravisCi::Application.routes.draw do
   resources :requests, :only => :create
   resources :jobs,     :only => [:index, :show]
 
+
   # match 'queues',      :to => 'queues#index'
   match 'workers',     :to => 'workers#index'
 
-  resource :profile, :only => :show do
+  resource :profile, :only => [:show, :update] do
     get 'service_hooks',     :to => 'service_hooks#index'
     put 'service_hooks/:id', :to => 'service_hooks#update'
   end
@@ -45,6 +51,7 @@ TravisCi::Application.routes.draw do
   post 'builds',         :to => 'requests#create'
   put  'builds/:id',     :to => 'jobs#update'
   put  'builds/:id/log', :to => 'jobs#log'
+
 end
 
 # we want these after everything else is loaded
@@ -55,4 +62,6 @@ TravisCi::Application.routes.append do
     match ":user/:repository/builds",     :to => redirect("/#!/%{user}/%{repository}/builds"),       :as => :user_repo_builds_redirect
     match ":user/:repository/builds/:id", :to => redirect("/#!/%{user}/%{repository}/builds/%{id}"), :as => :user_repo_build_redirect
   end
+
+  match "/*path" => "home#not_found"
 end

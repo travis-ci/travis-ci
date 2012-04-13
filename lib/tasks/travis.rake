@@ -17,13 +17,6 @@ namespace :travis do
     end
   end
 
-  desc "Create an admin user unless a user exists. Set the first User as an admin."
-  task :create_admin_user => :environment do
-    u = User.first || User.create(:name => 'Admin', :login => 'admin')
-    u.is_admin = true
-    u.save(:validate => false)
-  end
-
   namespace :jobs do
     namespace :configure do
       desc "Show how many Configure Jobs have not started in the past 6 hours ago"
