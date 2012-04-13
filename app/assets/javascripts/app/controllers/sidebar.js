@@ -1,12 +1,19 @@
 Travis.Controllers.Sidebar = Ember.Object.extend({
   cookie: 'sidebar_minimized',
-  queues: ['common', 'node_js', 'php', 'rails', 'erlang', 'spree'], // 'configure',
+  queues: [
+    { name: 'common',  display: 'Common' },
+    { name: 'php',     display: 'PHP, Perl and Python' },
+    { name: 'node_js', display: 'Node.js' },
+    { name: 'jvmotp',  display: 'JVM and Erlang' },
+    { name: 'rails',   display: 'Rails' },
+    { name: 'spree',   display: 'Spree' },
+  ],
 
   init: function() {
     this._super();
     Travis.Controllers.Workers.create();
     $.each(this.queues, function(ix, queue) {
-      Travis.Controllers.Queue.create({ queue: 'builds.' + queue });
+      Travis.Controllers.Queue.create({ queue: 'builds.' + queue.name, display: queue.display });
     });
 
     $(".slider").click(function() { this.toggle(); }.bind(this));

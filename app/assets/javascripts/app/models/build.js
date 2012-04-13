@@ -20,10 +20,6 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
 
   matrix: Ember.Record.toMany('Travis.Job', { nested: true }),
 
-  repository: function() {
-    if(this.get('repository_id')) return Travis.Repository.find(this.get('repository_id'));
-  }.property('repository_id').cacheable(),
-
   update: function(attrs) {
     if('matrix' in attrs) attrs.matrix = this._joinMatrixAttributes(attrs.matrix);
     this._super(attrs);
@@ -33,14 +29,6 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
     this.notifyPropertyChange('duration');
     this.notifyPropertyChange('finished_at');
   },
-
-  isMatrix: function() {
-    return this.getPath('matrix.length') > 1;
-  }.property('matrix.length').cacheable(),
-
-  color: function() {
-    return this.colorForResult(this.get('result'));
-  }.property('result').cacheable(),
 
   // We need to join given attributes with existing attributes because Ember.Record.toMany
   // does not seem to allow partial updates, i.e. would remove existing attributes?
@@ -52,41 +40,59 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
     });
   },
 
+  required_matrix: function() {
+      return this.get('matrix').filter(function(item, index, self) { return item.get('allow_failure') != true });
+  }.property('matrix').cacheable(),
+
+  allow_failure_matrix: function() {
+      return this.get('matrix').filter(function(item, index, self) { return item.get('allow_failure') });
+  }.property('matrix').cacheable(),
+
+  repository: function() {
+    if(this.get('repository_id')) return Travis.Repository.find(this.get('repository_id'));
+  }.property('repository_id').cacheable(),
+
+  hasFailureMatrix: function() {
+      return this.get('allow_failure_matrix').length > 0;
+  }.property('hasFailureMatrix').cacheable(),
+
+  isMatrix: function() {
+    return this.getPath('matrix.length') > 1;
+  }.property('matrix.length').cacheable(),
+
+  color: function() {
+    return this.colorForResult(this.get('result'));
+  }.property('result').cacheable(),
+
   // VIEW HELPERS
 
   formattedDuration: function() {
-    var duration = this.get('duration');
-    if(!duration) duration = this.durationFrom(this.get('started_at'), this.get('finished_at'));
-    return this.readableTime(duration);
+    return this._formattedDuration()
   }.property('duration', 'started_at', 'finished_at'),
 
   formattedFinishedAt: function() {
-    return this.timeAgoInWords(this.get('finished_at')) || '-';
+    return this._formattedFinishedAt();
   }.property('finished_at').cacheable(),
 
   formattedCommit: function() {
-    var branch = this.get('branch');
-    return (this.get('commit') || '').substr(0, 7) + (branch ? ' (%@)'.fmt(branch) : '');
+    return this._formattedCommit()
   }.property('commit', 'branch').cacheable(),
 
   formattedCompareUrl: function() {
-    var parts = (this.get('compare_url') || '').split('/');
-    return parts[parts.length - 1];
+    return this._formattedCompareUrl();
   }.property('compare_url').cacheable(),
 
   formattedConfig: function() {
-    var config = $.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js');
-    var values = $.map(config, function(value, key) { return '%@: %@'.fmt($.camelize(key), value.join ? value.join(', ') : value); });
-    return values.length == 0 ? '-' : values.join(', ');
+    return this._formattedConfig();
   }.property('config').cacheable(),
 
   formattedMatrixHeaders: function() {
-    var keys = $.keys($.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js'));
-    return $.map(['Job', 'Duration', 'Finished'].concat(keys), function(key) { return $.camelize(key) });
+    var keys = $.keys($.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js', 'perl', 'python', 'scala'));
+    return $.map([I18n.t("build.job"), I18n.t("build.duration"), I18n.t("build.finished_at")].concat(keys), function(key) { return $.camelize(key) });
   }.property('config').cacheable(),
 
   formattedMessage: function(){
-    return this.emojize(this.escape(this.get('message') || '')).replace(/\n/g,'<br/>');
+    return this._formattedMessage();
   }.property('message'),
 
   shortMessage: function(){

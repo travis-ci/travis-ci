@@ -1,12 +1,16 @@
+.Gemfile*
 .bundle
 .rvmrc
+public/assets
 config/resque.god
 config/travis.yml
 config/travis.yml.backup
 config/database.yml
+config/initializers/localeapp.rb
 db/*.sqlite3
 db/*.sqlite3-journal
 log/*.log
+log/*.yml
 play/*
 tmp/
 vendor/htmlunit
@@ -18,3 +22,4 @@ vendor/htmlunit
 \#*
 .rbx/*
 .idea/
+.rbenv-gemsets

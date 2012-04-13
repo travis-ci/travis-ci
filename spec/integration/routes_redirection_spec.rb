@@ -1,6 +1,12 @@
 require 'spec_helper'
 
 describe 'routes redirection' do
+
+  it 'should redirect to the default locale when redirecting' do
+    get '/somethingcrazy'
+    response.should redirect_to("http://www.example.com/#!/somethingcrazy")
+  end
+
   it 'the user is redirected to the hash bang version of the user route' do
     get '/sven.fuchs'
     response.should redirect_to('http://www.example.com/#!/sven.fuchs')

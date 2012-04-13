@@ -50,14 +50,14 @@ Travis.Helpers.Common = {
     return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
   },
 
-  emojize: function(text){
-    var emojis = text.match(/:\S+:/g);
+  emojize: function(text) {
+    var emojis = text.match(/:\S+?:/g);
     if (emojis !== null){
-      $.each(emojis, function(ix, emoji) {
+      $.each(emojis.uniq(), function(ix, emoji) {
         var strippedEmoji = emoji.substring(1, emoji.length - 1);
-        if (Travis.Helpers.EmojiDictionary.indexOf(strippedEmoji) != -1){
+        if (Travis.Helpers.EmojiDictionary.indexOf(strippedEmoji) != -1) {
           var image = '<img class="emoji" title="' + emoji + '" alt="' + emoji + '" src="/assets/emoji/' + strippedEmoji + '.png"/>';
-          text = text.replace(emoji, image);
+          text = text.replace(new RegExp(emoji, 'g'), image);
         }
       });
     }
@@ -69,5 +69,40 @@ Travis.Helpers.Common = {
               .replace(/&/g, '&amp;')
               .replace(/</g, '&lt;')
               .replace(/>/g, '&gt;');
+  },
+  // extracted from build and job models
+
+  _formattedMessage: function() {
+    return this.emojize(this.escape(this.get('message') || '')).replace(/\n/g,'<br/>');
+  },
+
+  _formattedDuration: function() {
+    var duration = this.get('duration');
+    if(!duration) duration = this.durationFrom(this.get('started_at'), this.get('finished_at'));
+    return this.readableTime(duration);
+  },
+
+  _formattedFinishedAt: function() {
+    return this.timeAgoInWords(this.get('finished_at')) || '-';
+  },
+
+  _formattedCompareUrl: function() {
+    var parts = (this.get('compare_url') || '').split('/');
+    return parts[parts.length - 1];
+  },
+
+  _formattedCommit: function(record) {
+    var branch = this.get('branch');
+    return (this.get('commit') || '').substr(0, 7) + (branch ? ' (%@)'.fmt(branch) : '');
+  },
+
+  _formattedConfig: function() {
+    var config = $.only(this.get('config'), 'rvm', 'gemfile', 'env', 'otp_release', 'php', 'node_js', 'scala', 'jdk', 'python', 'perl');
+    var values = $.map(config, function(value, key) {
+      value = (value && value.join) ? value.join(', ') : (value || '');
+      return '%@: %@'.fmt($.camelize(key), value);
+    });
+    return values.length == 0 ? '-' : values.join(', ');
   }
+
 };

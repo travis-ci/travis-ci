@@ -3,7 +3,7 @@ Travis.Controllers.Queue = Ember.ArrayController.extend({
     this._super();
     this.view = Ember.View.create({
       jobs: this,
-      queue: $.camelize(this.get('queue').split('.')[1]),
+      friendly_queue_name: this.get('display'),
       templateName: 'app/templates/queue/show',
       classNames: ['queue-' + this.get('queue').replace('.', '_')]
     });

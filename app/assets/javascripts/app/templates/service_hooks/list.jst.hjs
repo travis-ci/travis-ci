@@ -5,6 +5,6 @@
 
   <div class="controls">
     <a {{bindAttr href="content.urlGithubAdmin"}} class="github-admin tool-tip" title="Github service hooks admin page"></a>
-    {{#view SC.Button tagName="a" class="switch" classBinding="content.active" contentBinding="content" target="content" action="toggle"}}{{/view}}
+    {{#view Ember.Button tagName="a" class="switch" classBinding="content.active" contentBinding="content" target="content" action="toggle"}}{{/view}}
   </div>
 {{/collection}}

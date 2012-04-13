@@ -20,8 +20,8 @@ TravisCi::Application.configure do
   # If you have no front-end server that supports something like X-Sendfile,
   # just comment this out and Rails will serve the files
 
-  config.logger = Logger.new(STDOUT)
-  config.log_level = :debug
+  config.log_level = :info
+  config.colorize_logging = false
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
@@ -49,7 +49,7 @@ TravisCi::Application.configure do
   config.assets.precompile += [ 'mobile.css', 'mobile.js' ]
 
   config.action_mailer.default_url_options = {
-    :host => Travis.config.domain
+    :host => Travis.config.host
   }
 
   # Disable delivery errors, bad email addresses will be ignored
@@ -75,4 +75,27 @@ TravisCi::Application.configure do
   config.active_support.deprecation = :notify
 
   config.middleware.insert_before(::Rack::Lock, 'Refraction')
+
+  require 'notifications'
+
+  config.action_dispatch.rack_cache = {
+    :metastore => "rails:/",
+    :entitystore => "rails:/",
+    :verbose => false
+  }
+
+  config.middleware.delete Rails::Rack::Logger
+
+  config.after_initialize do
+    Travis.logger.level = Logger::INFO
+    ActionController::Base.logger = Travis.logger
+    ActiveRecord::Base.logger = Travis.logger
+
+    require 'logging'
+  end
+
+  require 'hubble'
+  require 'hubble/middleware'
+  Hubble.setup
+  config.middleware.use "Hubble::Rescuer"
 end

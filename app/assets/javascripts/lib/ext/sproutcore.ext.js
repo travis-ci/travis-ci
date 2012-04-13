@@ -34,26 +34,26 @@
 //   }
 // }
 
-Ember.ObjectProxy = Ember.Object.extend({
-  content: null,
-  unknownProperty: function(keyName) {
-    console.log(keyName);
-    this.addProxiedProperty(keyName);
-    Ember.defineProperty(this, keyName, Ember.computed(function() {
-      return this.getPath('content.' + keyName);
-    }).property('content').cacheable());
-    return Ember.get(this,keyName);
-  },
-  addProxiedProperty: function(keyName){
-    var proxiedProperties = this.proxiedProperties || (this.proxiedProperties = new Ember.Set());
-    proxiedProperties.add(keyName);
-  },
-  contentDidChange: function(){
-    var proxiedProperties = this.proxiedProperties;
-    if (proxiedProperties){
-      proxiedProperties.forEach(function(keyName){
-        this.notifyPropertyChange(keyName);
-      }, this);
-    }
-  }.observes('content')
-});
+// Ember.ObjectProxy = Ember.Object.extend({
+//   content: null,
+//   unknownProperty: function(keyName) {
+//     console.log(keyName);
+//     this.addProxiedProperty(keyName);
+//     Ember.defineProperty(this, keyName, Ember.computed(function() {
+//       return this.getPath('content.' + keyName);
+//     }).property('content').cacheable());
+//     return Ember.get(this,keyName);
+//   },
+//   addProxiedProperty: function(keyName){
+//     var proxiedProperties = this.proxiedProperties || (this.proxiedProperties = new Ember.Set());
+//     proxiedProperties.add(keyName);
+//   },
+//   contentDidChange: function(){
+//     var proxiedProperties = this.proxiedProperties;
+//     if (proxiedProperties){
+//       proxiedProperties.forEach(function(keyName){
+//         this.notifyPropertyChange(keyName);
+//       }, this);
+//     }
+//   }.observes('content')
+// });
