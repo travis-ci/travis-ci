@@ -1,9 +1,8 @@
-require 'shortener'
-
 TravisCi::Application.routes.draw do
 
   constraints :host => Travis.config.shorten_host do
-    mount Travis::Shortener => '/'
+    get '/',    :to => 'shortener#index'
+    get '/:id', :to => 'shortener#show'
   end
 
   root :to => 'home#index'

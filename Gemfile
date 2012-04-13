@@ -4,7 +4,6 @@ gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 't
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
 
 gem 'rails',                '~> 3.2.3'
-gem 'sinatra',              '~> 1.3.1'
 gem 'rake',                 '~> 0.9.2.2'
 gem 'bunny',                '~> 0.7.9'
 
@@ -25,7 +24,7 @@ gem 'pg',                   '~> 0.13.2'
 
 # apis + metrics
 gem 'backports',            '~> 2.3.0'
-gem 'gh',           git: 'git://github.com/rkh/gh.git'
+gem 'gh',           git: 'git://github.com/rkh/gh'
 gem 'hubble',       git: 'git://github.com/mattmatt/hubble'
 gem 'metriks',      git: 'git://github.com/mattmatt/metriks', ref: 'source'
 gem 'newrelic_rpm',         '~> 3.3.0'
@@ -43,7 +42,7 @@ group :assets do
   gem 'uglifier',           '~> 1.2.0'
   gem 'compass',            '0.12.alpha.4'
   gem "i18n-js",            '~> 2.1.2'
-  gem "localeapp-i18n-js",  :git => 'git://github.com/randym/localeapp-i18n-js.git'
+  gem "localeapp-i18n-js",  :git => 'git://github.com/randym/localeapp-i18n-js'
 end
 
 group :development, :test do
@@ -52,7 +51,7 @@ group :development, :test do
   gem 'forgery',            '~> 0.5.0'
   gem 'rspec-rails',        '~> 2.8.0'
   gem 'thin',               '~> 1.3.1'
-  gem "localeapp-i18n-js",  git: 'git://github.com/randym/localeapp-i18n-js.git'
+  gem "localeapp-i18n-js",  git: 'git://github.com/randym/localeapp-i18n-js'
 end
 
 group :development do
@@ -66,7 +65,7 @@ group :development do
 end
 
 group :test do
-  gem 'jasmine',           git: 'git://github.com/pivotal/jasmine-gem.git', submodules: true
+  gem 'jasmine',           git: 'git://github.com/pivotal/jasmine-gem', submodules: true
   gem 'capybara',          '~> 1.1.2'
   gem 'database_cleaner',  '~> 0.7.0'
   gem 'mocha',             '~> 0.10.0'
