@@ -8,7 +8,8 @@ Travis.Controllers.Repositories.Show = Ember.Object.extend({
       history:  Travis.Controllers.Builds.List,
       build:    Travis.Controllers.Builds.Show,
       job:      Travis.Controllers.Jobs.Show,
-      branch_summary: Travis.Controllers.Repositories.BranchSummary
+      branch_summary: Travis.Controllers.Repositories.BranchSummary,
+      pull_requests: Travis.Controllers.Repositories.PullRequests
     }
   }),
 
