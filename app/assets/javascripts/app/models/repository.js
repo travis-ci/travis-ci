@@ -37,7 +37,7 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
   }.property().cacheable(),
 
   builds: function() {
-    return Travis.Build.byRepositoryId(this.get('id'));
+    return Travis.Build.pushesByRepositoryId(this.get('id'));
   }.property().cacheable(),
 
   pull_requests: function() {

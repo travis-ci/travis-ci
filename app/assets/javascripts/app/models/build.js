@@ -119,8 +119,8 @@ Travis.Build = Travis.Record.extend(Travis.Helpers.Common, {
 Travis.Build.reopenClass({
   resource: 'builds',
 
-  byRepositoryId: function(id, parameters) {
-    return this.all({ url: '/repositories/%@/builds.json?bare=true'.fmt(id), repository_id: id, orderBy: 'number DESC' });
+  pushesByRepositoryId: function(id, parameters) {
+    return this.all({ url: '/repositories/%@/builds.json?bare=true'.fmt(id), repository_id: id, orderBy: 'number DESC', event_type: 'push' });
   },
 
   pullRequestsByRepositoryId: function(id, parameters) {
