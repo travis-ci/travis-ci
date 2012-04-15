@@ -20,7 +20,7 @@ if Rails.env.development?
     10.times do
       repository = FactoryGirl.create(:seed_repository)
 
-      3.times do
+      50.times do
         build = FactoryGirl.create(:seed_build, :repository => repository)
       end
 
