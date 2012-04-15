@@ -22,11 +22,21 @@ class BuildsController < ApplicationController
       @repository ||= Repository.find_by(params) || not_found
     end
 
-    def builds
-      @builds ||= if build_number = params['after_number']
-        repository.builds.older_than(build_number).to_a
+    def builds_type
+      if params['event_type'] == 'pull_requests'
+        repository.builds.pull_requests
       else
-        repository.builds.recent.to_a
+        repository.builds.pushes
+      end
+    end
+
+    def builds
+      @builds ||= begin
+        if build_number = params['after_number']
+          builds_type.older_than(build_number).to_a
+        else
+          builds_type.recent.to_a
+        end
       end
     end
 
