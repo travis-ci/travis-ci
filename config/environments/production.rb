@@ -75,23 +75,15 @@ TravisCi::Application.configure do
   config.active_support.deprecation = :notify
 
   config.middleware.insert_before(::Rack::Lock, 'Refraction')
+  config.lograge.enabled = true
 
   require 'notifications'
-
-  config.action_dispatch.rack_cache = {
-    :metastore => "rails:/",
-    :entitystore => "rails:/",
-    :verbose => false
-  }
-
-  config.middleware.delete Rails::Rack::Logger
 
   config.after_initialize do
     Travis.logger.level = Logger::INFO
     ActionController::Base.logger = Travis.logger
     ActiveRecord::Base.logger = Travis.logger
 
-    require 'logging'
   end
 
   require 'hubble'
