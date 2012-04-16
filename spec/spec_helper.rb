@@ -16,7 +16,7 @@ def require_all(*patterns)
 end
 
 def configure
-  require File.expand_path("../../config/environment", __FILE__)
+  require File.expand_path('../../config/environment', __FILE__)
   require 'rspec/rails'
   require 'capybara/rspec'
   require 'database_cleaner'
@@ -24,19 +24,20 @@ def configure
   require 'patches/rspec_hash_diff'
   require 'rspec/rails'
   require 'webmock'
+  require 'stringio'
 
   require_all 'spec/support/**/*.rb', :relative_to => 'spec'
   require_all 'spec/client/support/**/*.rb', :relative_to => 'spec'
 
   require 'travis/support'
-  require 'stringio'
+  require 'travis/support/testing/webmock'
 
   Travis.logger = Logger.new(StringIO.new)
 
   RSpec.configure do |c|
     c.filter_run_excluding :js => true if ENV['CI']
-    # c.backtrace_clean_patterns.clear
     c.mock_with :mocha
+    # c.backtrace_clean_patterns.clear
 
     Support.constants.each do |constant|
       c.include Support.const_get(constant)
@@ -55,10 +56,8 @@ def configure
       Travis::Notifications::Handler.instance_variable_set(:@subscriptions, nil)
       Travis::Notifications::Handler::Worker.instance_variable_set(:@queues, nil)
       # Travis::Notifications::Handler::Worker.amqp = Support::Mocks::Amqp.new
-    end
 
-    c.before :each, :webmock => true do
-      Support::Webmock.mock!
+      Travis::Support::Testing::Webmock.mock!
     end
 
     c.after :each do
