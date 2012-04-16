@@ -1,24 +1,24 @@
 FactoryGirl.define do
   factory :seed_repository, :class => Repository do
-    name                      { Forgery(:repository).name }
-    url                       { Forgery(:repository).url }
-    owner_name                { Forgery(:repository).owner_name }
-    owner_email               { Forgery(:repository).owner_email }
-    last_duration             { Forgery(:repository).duration }
-    created_at                { Forgery(:repository).time }
-    updated_at                { Forgery(:repository).time }
+    name             { Forgery(:repository).name }
+    url              { Forgery(:repository).url }
+    owner_name       { Forgery(:repository).owner_name }
+    owner_email      { Forgery(:repository).owner_email }
+    last_duration    { Forgery(:repository).duration }
+    created_at       { Forgery(:repository).time }
+    updated_at       { Forgery(:repository).time }
   end
 
   factory :seed_commit, :class => Commit do
-    commit                 { Forgery(:commit).commit }
-    branch                 { Forgery(:commit).branch }
-    message                { Forgery(:commit).message }
-    committed_at           { Forgery(:repository).time }
-    committer_name         { Forgery(:commit).commiter_name }
-    committer_email        { Forgery(:commit).commiter_email }
-    author_name            { Forgery(:commit).commiter_name }
-    author_email           { Forgery(:commit).commiter_email }
-    compare_url            { Forgery(:commit).compare_url }
+    commit           { Forgery(:commit).commit }
+    branch           { Forgery(:commit).branch }
+    message          { Forgery(:commit).message }
+    committed_at     { Forgery(:repository).time }
+    committer_name   { Forgery(:commit).commiter_name }
+    committer_email  { Forgery(:commit).commiter_email }
+    author_name      { Forgery(:commit).commiter_name }
+    author_email     { Forgery(:commit).commiter_email }
+    compare_url      { Forgery(:commit).compare_url }
   end
 
 
@@ -27,12 +27,12 @@ FactoryGirl.define do
   end
 
   factory :seed_build, :class=> Build do
-    config                 { Forgery(:build).config }
-    commit                 { Factory(:seed_commit) }
-    started_at             { Forgery(:repository).time }
-    finished_at            { Forgery(:repository).time }
-    state                  "finished"
-    status                 { rand(2) }
+    config           { Forgery(:build).config }
+    commit           { |b| Factory(:seed_commit, repository: b.repository) }
+    started_at       { Forgery(:repository).time }
+    finished_at      { Forgery(:repository).time }
+    state            "finished"
+    status           { rand(2) }
 
     after_build do |build|
       build.request = Factory(:seed_request, :repository => build.repository, :commit => build.commit)
