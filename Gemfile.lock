@@ -34,7 +34,7 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh
-  revision: 97710ff79db4acc053422803eb3e57181302fd99
+  revision: da1298e808929425c01c4e70b0a6929e27489be1
   specs:
     gh (0.3.0)
       backports (~> 2.3)
@@ -43,7 +43,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: b8f3987c7bcbddecc9564a231f6bd1ef3508c971
+  revision: 233ba7944f9c9d24af3b0729dae447b848524e7c
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
