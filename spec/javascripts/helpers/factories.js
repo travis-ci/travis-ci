@@ -9,7 +9,8 @@ Test.Factory = {
         last_build_number: '1',
         last_build_result: '0',
         last_build_started_at: '2011-01-01T01:00:10Z',
-        last_build_finished_at: '2011-01-01T01:00:20Z'
+        last_build_finished_at: '2011-01-01T01:00:20Z',
+        event_type: 'push'
       }, 1);
       return Travis.store.find(Travis.Repository, 1);
     },
@@ -70,6 +71,7 @@ Test.Factory = {
         author_name: 'Alex P',
         author_email: 'alexp@coffeenco.de',
         compare_url: 'https://github.com/travis-ci/travis-ci/compare/fe64573...3d1e844',
+        event_type: 'push',
         matrix: [
           {
             id: 2,

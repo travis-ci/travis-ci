@@ -1,17 +1,16 @@
 require 'spec_helper'
 
 describe ShortenerController do
-
-  describe "GET /" do
-    it "should redirect to travis-ci.org" do
+  describe 'GET /' do
+    it 'should redirect to travis-ci.org' do
       get '/', nil, { 'HTTP_HOST' => 'trvs.io' }
       response.should be_redirect
       response.should redirect_to 'http://travis-ci.org'
     end
   end
 
-  describe "GET /:id" do
-    it "should redirect to the found url" do
+  describe 'GET /:id' do
+    it 'should redirect to the found url' do
       url = Url.create!(:url => 'http://example.com')
 
       get "/#{url.code}", nil, { 'HTTP_HOST' => 'trvs.io' }
@@ -19,10 +18,9 @@ describe ShortenerController do
       response.should redirect_to 'http://example.com'
     end
 
-    it "should raise a 404 if the url couldn't be found" do
+    it 'should raise a 404 if the url could not be found' do
       get '/foobar', nil, { 'HTTP_HOST' => 'trvs.io' }
       response.status.should == 404
     end
   end
-
 end

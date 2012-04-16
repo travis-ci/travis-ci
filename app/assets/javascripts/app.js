@@ -29,12 +29,13 @@ var Travis = Ember.Application.create({
     this.right  = Travis.Controllers.Sidebar.create();
 
     Ember.routes.add('!/:owner/:name/jobs/:id/:line_number', function(params) { Travis.main.activate('job', params) });
-    Ember.routes.add('!/:owner/:name/jobs/:id',   function(params) { Travis.main.activate('job',     params) });
-    Ember.routes.add('!/:owner/:name/builds/:id', function(params) { Travis.main.activate('build',   params) });
-    Ember.routes.add('!/:owner/:name/builds',     function(params) { Travis.main.activate('history', params) });
-    Ember.routes.add('!/:owner/:name/branch_summary',   function(params) { Travis.main.activate('branch_summary', params) });
-    Ember.routes.add('!/:owner/:name',            function(params) { Travis.main.activate('current', params) });
-    Ember.routes.add('',                          function(params) { Travis.main.activate('current', params) });
+    Ember.routes.add('!/:owner/:name/jobs/:id',       function(params) { Travis.main.activate('job',     params) });
+    Ember.routes.add('!/:owner/:name/builds/:id',     function(params) { Travis.main.activate('build',   params) });
+    Ember.routes.add('!/:owner/:name/builds',         function(params) { Travis.main.activate('history', params) });
+    Ember.routes.add('!/:owner/:name/pull_requests',  function(params) { Travis.main.activate('pull_requests', params) });
+    Ember.routes.add('!/:owner/:name/branch_summary', function(params) { Travis.main.activate('branch_summary', params) });
+    Ember.routes.add('!/:owner/:name',                function(params) { Travis.main.activate('current', params) });
+    Ember.routes.add('',                              function(params) { Travis.main.activate('current', params) });
   },
 
   profile: function() {
