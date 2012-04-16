@@ -5,7 +5,7 @@ feature 'Service hooks', %(
   As a registered user
   I want to review my repositories and easily turn service hooks on and off
 ) do
-  scenario 'my repositories', :js => true, :webmock => true do
+  scenario 'my repositories', :js => true do
     mock_omniauth
 
     visit homepage

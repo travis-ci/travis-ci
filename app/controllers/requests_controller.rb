@@ -1,7 +1,8 @@
 class RequestsController < ApplicationController
   # also responds to POST /builds legacy route
   def create
-    Request.create_from(params[:payload], api_token)
+    ActiveSupport::Notifications.publish('github.request.deprecated.api', params)
+    Request.create_from(request.env['HTTP_X_GITHUB_EVENT'], params[:payload], api_token)
     render :nothing => true
   end
 

@@ -9,6 +9,7 @@ describe RequestsController do
     before(:each) do
       Travis.config.notifications = [:worker]
       request.env['HTTP_AUTHORIZATION'] = auth
+      request.env['HTTP_X_GITHUB_EVENT'] = 'push'
     end
 
     describe 'given an approvable payload' do
@@ -31,7 +32,7 @@ describe RequestsController do
 
       it 'creates a commit' do
         action.should change(Commit, :count).by(1)
-        Commit.last.commit.should == '9854592'
+        Commit.last.commit.should == '46ebe012ef3c0be5542a2e2faafd48047127e4be'
       end
 
       it 'creates a configure job' do
@@ -60,7 +61,7 @@ describe RequestsController do
 
       it 'creates a commit' do
         action.should change(Commit, :count).by(1)
-        Commit.last.commit.should == '9854592'
+        Commit.last.commit.should == '46ebe012ef3c0be5542a2e2faafd48047127e4be'
       end
 
       it 'does not create a configure job' do
