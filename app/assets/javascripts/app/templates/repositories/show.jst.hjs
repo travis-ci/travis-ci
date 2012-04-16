@@ -20,6 +20,10 @@
       <h5><a {{bindAttr href="repository.urlBuilds"}}>{{i18n "repositories.tabs.build_history"}}</a></h5>
       <div class="tab"></div>
     </li>
+    <li id="tab_pull_requests">
+      <h5><a {{bindAttr href="repository.urlPullRequests"}}>{{i18n "repositories.tabs.pull_requests"}}</a></h5>
+      <div class="tab"></div>
+    </li>
     <li id="tab_branch_summary">
       <h5><a {{bindAttr href="repository.urlBranches"}}>{{i18n "repositories.tabs.branches"}}</a></h5>
       <div class="tab"></div>

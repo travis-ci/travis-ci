@@ -37,7 +37,11 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
   }.property().cacheable(),
 
   builds: function() {
-    return Travis.Build.byRepositoryId(this.get('id'));
+    return Travis.Build.pushesByRepositoryId(this.get('id'));
+  }.property().cacheable(),
+
+  pull_requests: function() {
+    return Travis.Build.pullRequestsByRepositoryId(this.get('id'));
   }.property().cacheable(),
 
   lastBuild: function() {
@@ -94,6 +98,10 @@ Travis.Repository = Travis.Record.extend(Travis.Helpers.Common, {
 
   urlBranches: function() {
     return '#!/' + this.get('slug') + '/branch_summary';
+  }.property('slug').cacheable(),
+
+  urlPullRequests: function() {
+    return '#!/' + this.get('slug') + '/pull_requests';
   }.property('slug').cacheable(),
 
   urlStatusImage: function() {
