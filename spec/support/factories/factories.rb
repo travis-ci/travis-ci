@@ -8,6 +8,7 @@ FactoryGirl.define do
   end
 
   factory :commit do
+    repository { Repository.first || Factory(:repository) }
     commit  '62aae5f70ceee39123ef'
     branch  'master'
     message 'the commit message'

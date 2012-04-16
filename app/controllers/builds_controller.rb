@@ -23,13 +23,7 @@ class BuildsController < ApplicationController
     end
 
     def builds_type
-      base = repository.builds.includes('request')
-
-      if params['event_type'] == 'pull_requests'
-        base.pull_requests
-      else
-        base.pushes
-      end
+      repository.builds.for_event_type(params['event_type'])
     end
 
     def builds
