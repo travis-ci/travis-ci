@@ -180,7 +180,7 @@ GEM
       json
       rest-client
       ya2yaml
-    lograge (0.0.2)
+    lograge (0.0.4)
       actionpack
       activesupport
     mail (2.4.4)
@@ -358,8 +358,8 @@ DEPENDENCIES
   json (~> 1.6.3)
   localeapp (~> 0.4.1)
   localeapp-i18n-js!
-  lograge
-  metriks (~> 0.9.7)
+  lograge (~> 0.0.4)
+  metriks (~> 0.9.7.3)
   mocha (~> 0.10.0)
   newrelic_rpm (~> 3.3.0)
   omniauth-github (~> 1.0.1)

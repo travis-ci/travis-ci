@@ -26,9 +26,9 @@ gem 'pg',                   '~> 0.13.2'
 gem 'backports',            '~> 2.3.0'
 gem 'gh',           git: 'git://github.com/rkh/gh'
 gem 'hubble',       git: 'git://github.com/mattmatt/hubble'
-gem 'metriks',              '~> 0.9.7'
+gem 'metriks',              '~> 0.9.7.3'
 gem 'newrelic_rpm',         '~> 3.3.0'
-gem 'lograge'
+gem 'lograge',              '~> 0.0.4'
 
 # i18n
 gem "http_accept_language", "~> 1.0.2"
