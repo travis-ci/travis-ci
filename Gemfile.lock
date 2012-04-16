@@ -6,15 +6,6 @@ GIT
       json (~> 1.6.5)
 
 GIT
-  remote: git://github.com/mattmatt/metriks
-  revision: 23482212ec6676bfde20dae70760f80778bf6e77
-  ref: source
-  specs:
-    metriks (0.8.0)
-      atomic (~> 1.0)
-      hitimes (~> 1.1)
-
-GIT
   remote: git://github.com/pivotal/jasmine-gem
   revision: c72e8d248d49a1ebe53f31a09ac511194ad4edf1
   submodules: true
@@ -111,6 +102,7 @@ GEM
     archive-tar-minitar (0.5.2)
     arel (3.0.2)
     atomic (1.0.0)
+    avl_tree (1.1.2)
     backports (2.3.0)
     bcrypt-ruby (3.0.1)
     builder (3.0.0)
@@ -188,11 +180,18 @@ GEM
       json
       rest-client
       ya2yaml
+    lograge (0.0.2)
+      actionpack
+      activesupport
     mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     metaclass (0.0.1)
+    metriks (0.9.7.3)
+      atomic (~> 1.0)
+      avl_tree (~> 1.1.2)
+      hitimes (~> 1.1)
     mime-types (1.18)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
@@ -359,7 +358,8 @@ DEPENDENCIES
   json (~> 1.6.3)
   localeapp (~> 0.4.1)
   localeapp-i18n-js!
-  metriks!
+  lograge
+  metriks (~> 0.9.7)
   mocha (~> 0.10.0)
   newrelic_rpm (~> 3.3.0)
   omniauth-github (~> 1.0.1)
