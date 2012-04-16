@@ -1,9 +1,16 @@
 describe('Build', function() {
   describe('class methods', function() {
-    describe('byRepositoryId', function() {
+    describe('pushesByRepositoryId', function() {
       it('requests GET /repositories.json', function() {
-        Travis.Build.byRepositoryId(1);
+        Travis.Build.pushesByRepositoryId(1);
         expect(mostRecentAjaxRequest().url).toEqual('/repositories/1/builds.json?bare=true');
+      });
+    });
+
+    describe('pullRequestsByRepositoryId', function() {
+      it('requests GET /repositories.json', function() {
+        Travis.Build.pullRequestsByRepositoryId(1);
+        expect(mostRecentAjaxRequest().url).toEqual('/repositories/1/builds.json?event_type=pull_requests&bare=true');
       });
     });
 
