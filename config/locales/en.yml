@@ -28,6 +28,7 @@ en:
       current: Current
       build_history: Build History
       branches: Branch Summary
+      pull_requests: Pull Requests
       build: Build
       job: Job
   build:

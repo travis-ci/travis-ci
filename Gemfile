@@ -26,11 +26,11 @@ gem 'pg',                   '~> 0.13.2'
 gem 'backports',            '~> 2.3.0'
 gem 'gh',           git: 'git://github.com/rkh/gh'
 gem 'hubble',       git: 'git://github.com/mattmatt/hubble'
-gem 'metriks',      git: 'git://github.com/mattmatt/metriks', ref: 'source'
 gem 'newrelic_rpm',         '~> 3.3.0'
+gem 'lograge',              '~> 0.0.4'
 
 # i18n
-gem "http_accept_language", "~> 1.0.2"
+gem 'http_accept_language', '~> 1.0.2'
 
 # heroku
 gem 'unicorn',              '~> 4.1.1'
@@ -41,17 +41,17 @@ group :assets do
   gem 'coffee-rails',       '~> 3.2.2'
   gem 'uglifier',           '~> 1.2.0'
   gem 'compass',            '0.12.alpha.4'
-  gem "i18n-js",            '~> 2.1.2'
-  gem "localeapp-i18n-js",  :git => 'git://github.com/randym/localeapp-i18n-js'
+  gem 'i18n-js',            '~> 2.1.2'
+  gem 'localeapp-i18n-js',  :git => 'git://github.com/randym/localeapp-i18n-js'
 end
 
 group :development, :test do
-  gem "localeapp",          '~> 0.4.1'
+  gem 'localeapp',          '~> 0.4.1'
   gem 'factory_girl',       '~> 2.4.0'
   gem 'forgery',            '~> 0.5.0'
   gem 'rspec-rails',        '~> 2.8.0'
   gem 'thin',               '~> 1.3.1'
-  gem "localeapp-i18n-js",  git: 'git://github.com/randym/localeapp-i18n-js'
+  gem 'localeapp-i18n-js',  git: 'git://github.com/randym/localeapp-i18n-js'
 end
 
 group :development do
