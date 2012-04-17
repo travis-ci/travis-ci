@@ -34,7 +34,7 @@ TravisCi::Application.configure do
   config.serve_static_assets = true
 
   # Compress JavaScripts and CSS
-  config.assets.compress = true
+  config.assets.compress = false
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = false
@@ -42,8 +42,10 @@ TravisCi::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
-  # Enable serving of images, stylesheets, and javascripts from an asset server
-  # config.action_controller.asset_host = 'http://assets.example.com'
+  # Hack so Rails doesn't complain about assets not being precompiled
+  config.assets.digests = Class.new { def [](path) path end }.new
+  config.action_controller.asset_host = "http://localhost:3001"
+  config.assets.prefix = '12345'
 
   # Precompile the mobile stylesheet
   config.assets.precompile += [ 'mobile.css', 'mobile.js' ]
