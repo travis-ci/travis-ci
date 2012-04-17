@@ -92,7 +92,7 @@ nb:
     failure:
       inactive: Kontoen din har ikke blitt aktivert enda.
       invalid: Ugyldig e-post eller passord.
-      invalid_token: Ugyldig autentiseringssymbol.
+      invalid_token: Ugyldig autentiseringskode.
       locked: Kontoen din er låst.
       timeout: Du ble logget ut siden på grunn av mangel på aktivitet, vennligst logg
         inn på nytt.
@@ -187,14 +187,13 @@ nb:
       github: Github
       message:
         config: hvordan sette opp egne jobbinnstillinger
-        your_repos: ! 'Aktiver Travis for prosjektene dine ved å dra i bryterne under,
-          og send koden til Github.<br />
-
-          For å teste mot flere ruby-versjoner, se'
+        your_repos: ! "Slå\x10 på Travis for prosjektene dine ved å dra i bryterne
+          under, og send koden til Github.<br />\nFor å teste mot flere ruby-versjoner,
+          se dokumentasjonen for"
       messages:
-        notice: For å komme i gang, vennligst les <a href="http://about.travis-ci.org/docs/user/getting-started/">kom-i-gang-guiden</a>
+        notice: For å komme i gang, vennligst les <a href="http://about.travis-ci.org/docs/user/getting-started/">kom-i-gang-veivisereren</a>
           vår. <small>Det tar bare et par minutter.</small>
-      token: Symbol
+      token: Kode
       update: Oppdater
       update_locale: Oppdater
       your_locale: Ditt språk

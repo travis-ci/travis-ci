@@ -17,6 +17,7 @@ nl:
       modify: Wijzigen
       pagename: Site administratie
       show: Laten zien
+      records: Gegevens
     delete:
       confirmation: Ja, ik ben zeker
       flash_confirmation: ! '%{name} is vernietigd'
@@ -69,6 +70,8 @@ nl:
       sponsored_by: Deze tests zijn gedraaid op een machine gesponsord door
     name: Bouw
     started_at: Gestart
+    commit: Commit
+    committer: Committer
   datetime:
     distance_in_words:
       hours_exact:
@@ -134,6 +137,8 @@ nl:
     messages:
       sponsored_by: Deze testen zijn uitgevoerd op een machine gesponsord door
     started_at: Gestart
+    commit: Commit
+    committer: Committer
   layouts:
     about:
       alpha: Dit is in alfa-stadium.
@@ -142,6 +147,8 @@ nl:
       messages:
         alpha: Gelieve deze service <strong>niet</strong> te beschouwen als stabiel.
           Daar zijn we nog lang niet! Meer info <a href='https://github.com/travis-ci'>hier.</a>
+      repository: Repository
+      twitter: Twitter
     application:
       fork_me: Maak een fork op Github
       my_repositories: Mijn repositories
@@ -158,6 +165,9 @@ nl:
       duration: Duur
       finished_at: Voltooid op
       job: Taak
+      commit: Commit
+      committer: Committer
+      log: Logboek
     top:
       admin: Administratie
       blog: Blog
@@ -181,7 +191,7 @@ nl:
   profiles:
     show:
       email: Email adres
-      github: Githyb
+      github: Github
       message:
         config: hoe eigen bouw-opties in te stellen
         your_repos: ! 'Zet de schakelaars hieronder aan om de Travis hook voor uw
@@ -195,6 +205,7 @@ nl:
       update_locale: Bijwerken
       your_locale: Uw taal
       your_repos: Uw repositories
+      token: Token
   queue: Wachtrij
   repositories:
     branch: Tak
@@ -209,6 +220,10 @@ nl:
       build_history: Bouw geschiedenis
       current: Huidig
       job: Taak
+    commit: Commit
+    markdown: Markdown
+    rdoc: RDOC
+    textile: Textile
   repository:
     duration: Duur
   statistics:
@@ -220,3 +235,5 @@ nl:
       total_builds: Bouw totaal
       total_projects: Projecten/Repository totaal
   workers: Machines
+  home:
+    name: Hoofdpagina
