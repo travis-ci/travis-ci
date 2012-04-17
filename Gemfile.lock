@@ -69,6 +69,11 @@ GIT
   specs:
     travis-support (0.0.1)
 
+PATH
+  remote: ~/Development/projects/travis/travis-assets
+  specs:
+    travis-assets (0.0.1)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -379,6 +384,7 @@ DEPENDENCIES
   ruby-debug19
   sass-rails (~> 3.2.4)
   thin (~> 1.3.1)
+  travis-assets!
   travis-core!
   travis-support!
   uglifier (~> 1.2.0)
