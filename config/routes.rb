@@ -47,10 +47,7 @@ TravisCi::Application.routes.draw do
   match "/stats" => "statistics#index"
 
   # legacy routes used by github service hooks and workers
-  post 'builds',         :to => 'requests#create'
-  put  'builds/:id',     :to => 'jobs#update'
-  put  'builds/:id/log', :to => 'jobs#log'
-
+  post 'builds', :to => 'requests#create'
 end
 
 # we want these after everything else is loaded

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ServiceHooksController, :webmock => true do
+describe ServiceHooksController do
   before(:each) do
     sign_in_user user
   end
@@ -47,8 +47,8 @@ describe ServiceHooksController, :webmock => true do
         assert_requested(:post, 'https://api.github.com/hub?access_token=github_oauth_token', :times => 1)
       end
 
-      it "should not be acceptable if a Travis::GithubApi::ServiceHookError is raised" do
-        Repository.any_instance.expects(:service_hook).raises(Travis::GithubApi::ServiceHookError)
+      it 'should not be acceptable if a Travis::Github::ServiceHookError is raised' do
+        Repository.any_instance.expects(:service_hook).raises(Travis::Github::ServiceHookError)
 
         put :update, :id => 1, :name => 'minimal', :owner_name => 'svenfuchs', :active => 'true'
 
