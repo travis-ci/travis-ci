@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine'
+gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine', branch: 'remove-rabl'
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
 
 gem 'rails',                '~> 3.2.3'
