@@ -4,6 +4,10 @@ describe 'HTTP API for Build' do
   let(:repository) { Scenario.default.first }
   let(:build) { repository.last_build }
 
+  before :each do
+    build.request.event_type = 'push'
+  end
+
   it 'json' do
     json = json_for_http(build)
     json.except('matrix').should == {
