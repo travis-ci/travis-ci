@@ -9,7 +9,7 @@ describe RequestsController do
     before(:each) do
       Travis.config.notifications = [:worker]
       request.env['HTTP_AUTHORIZATION'] = auth
-      request.env['HTTP_X_GITHUB_EVENT'] = 'push'
+      request.headers['HTTP_X_GITHUB_EVENT'] = 'push'
     end
 
     describe 'given an approvable payload' do
