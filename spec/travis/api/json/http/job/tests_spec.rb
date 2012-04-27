@@ -1,12 +1,12 @@
 require 'spec_helper'
 require 'travis/api'
 
-describe Travis::Api::Json::Http::Jobs do
+describe Travis::Api::Json::Http::Job::Tests do
   let(:repository) { Scenario.default.first }
   let(:build) { repository.last_build }
   let(:jobs)  { build.matrix }
   let(:job)   { jobs.first }
-  let(:data)  { Travis::Api::Json::Http::Jobs.new(jobs).data }
+  let(:data)  { Travis::Api::Json::Http::Job::Tests.new(jobs).data }
 
   it 'jobs' do
     data.first.should == {

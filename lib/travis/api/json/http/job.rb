@@ -3,7 +3,8 @@ module Travis
     module Json
       module Http
         module Job
-          autoload :Test, 'travis/api/json/http/job/test'
+          autoload :Test,  'travis/api/json/http/job/test'
+          autoload :Tests, 'travis/api/json/http/job/tests'
         end
       end
     end

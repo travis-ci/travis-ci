@@ -15,7 +15,7 @@ module Travis
               {
                 'id' => job.id,
                 'number' => job.number,
-                'config' => job.config,
+                'config' => job.config.stringify_keys,
                 'started_at' => job.started_at.strftime('%Y-%m-%dT%H:%M:%SZ'),
                 'finished_at' => job.finished_at.strftime('%Y-%m-%dT%H:%M:%SZ'),
                 'log' => job.log.content
@@ -25,7 +25,7 @@ module Travis
 
           attr_reader :build, :commit, :request, :repository
 
-          def initialize(build)
+          def initialize(build, options = {})
             @build = build
             @commit = build.commit
             @request = build.request

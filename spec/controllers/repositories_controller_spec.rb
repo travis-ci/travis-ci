@@ -137,7 +137,7 @@ describe RepositoriesController do
     end
 
     it 'return info about repository in xml format' do
-      get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'xml'
+      get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'xml', :schema => 'cctray'
 
       xml_response.should == {
         'repository' => {

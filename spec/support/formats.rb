@@ -1,3 +1,5 @@
+require 'travis/api'
+
 module Support
   module Formats
     def json_response
@@ -11,7 +13,8 @@ module Support
     end
 
     def json_for_http(object, options = {})
-      normalize_json(Travis::Renderer.json(object, options))
+      type = object.respond_to?(:slice) ? object.first.class.name.pluralize : object.class.name
+      "Travis::Api::Json::Http::#{type}".constantize.new(object, options).data
     end
 
     def json_for_pusher(event, object)
@@ -29,7 +32,7 @@ module Support
     # normalizes datetime objects to strings etc. more similar to what the client would see.
     def normalize_json(json)
       json = json.to_json unless json.is_a?(String)
-      JSON.parse(json)
+      ActiveSupport::JSON.decode(json)
     end
   end
 end
