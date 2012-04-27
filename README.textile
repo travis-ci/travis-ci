@@ -170,3 +170,4 @@ h2. Requirements
 * PostgreSQL for the pg gem
 * RabbitMQ
 * VirtualBox 4.1
+
