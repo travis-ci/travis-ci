@@ -6,7 +6,7 @@ module Travis
           class Test
             attr_reader :job, :commit
 
-            def initialize(job)
+            def initialize(job, options = {})
               @job = job
               @commit = job.commit
             end
@@ -23,13 +23,13 @@ module Travis
                 'state' => job.state,
                 'result' => job.status,
                 'status' => job.status,
-                'started_at' => job.started_at.strftime('%Y-%m-%dT%H:%M:%SZ'),
-                'finished_at' => job.finished_at.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                'started_at' => format_date(job.started_at),
+                'finished_at' => format_date(job.finished_at),
                 'log' => job.log.content,
                 'commit' => commit.commit,
                 'branch' => commit.branch,
                 'message' => commit.message,
-                'committed_at' => commit.committed_at.strftime('%Y-%m-%dT%H:%M:%SZ'),
+                'committed_at' => format_date(commit.committed_at),
                 'author_name' => commit.author_name,
                 'author_email' => commit.author_email,
                 'committer_name' => commit.committer_name,
@@ -38,6 +38,10 @@ module Travis
                 'sponsor' => job.sponsor.to_hash.stringify_keys,
                 'worker' => job.worker
               }
+            end
+
+            def format_date(date)
+              date && date.strftime('%Y-%m-%dT%H:%M:%SZ')
             end
           end
         end

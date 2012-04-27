@@ -1,7 +1,7 @@
 require 'responders'
 
 class RepositoriesController < ApplicationController
-  responders :rabl, :status_image
+  responders :json, :xml, :status_image
 
   respond_to :json, :xml
   respond_to :png, :only => :show

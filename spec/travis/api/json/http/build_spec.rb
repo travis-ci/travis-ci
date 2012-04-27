@@ -41,7 +41,7 @@ describe Travis::Api::Json::Http::Build do
       'id' => 7,
       'number' => '2.1',
       'log' => 'minimal log 2',
-      'config' => { :rvm => '1.8.7', :gemfile => 'test/Gemfile.rails-2.3.x' },
+      'config' => { 'rvm' => '1.8.7', 'gemfile' => 'test/Gemfile.rails-2.3.x' },
       'started_at' => '2010-11-12T12:30:00Z',
       'finished_at' => '2010-11-12T12:30:20Z'
     }

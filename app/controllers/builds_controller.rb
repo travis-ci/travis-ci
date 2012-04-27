@@ -1,7 +1,7 @@
 require 'responders'
 
 class BuildsController < ApplicationController
-  responders :rabl
+  responders :json
   respond_to :json
 
   # Github does not currently post the payload with the correct accept or content-type headers.

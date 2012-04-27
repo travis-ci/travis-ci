@@ -5,7 +5,7 @@ module Travis
         class Repositories
           attr_reader :repositories
 
-          def initialize(repositories)
+          def initialize(repositories, options = {})
             @repositories = repositories
           end
 

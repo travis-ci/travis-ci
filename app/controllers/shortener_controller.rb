@@ -7,8 +7,6 @@ class ShortenerController < ActionController::Metal
   end
 
   def show
-    url = Url.where(:code => params[:id]).first
-
     if url
       redirect_to url.url
     else
@@ -16,4 +14,9 @@ class ShortenerController < ActionController::Metal
     end
   end
 
+  private
+
+    def url
+      @url ||= Url.where(:code => params[:id]).first
+    end
 end

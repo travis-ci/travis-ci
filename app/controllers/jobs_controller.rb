@@ -1,7 +1,7 @@
 require 'responders'
 
 class JobsController < ApplicationController
-  responders :rabl
+  responders :json
   respond_to :json
 
   def index
