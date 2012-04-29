@@ -43,7 +43,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 6ad519f65716eff62f076006601bd25cf7a84f2e
+  revision: 584f1958dc8189313ba2188cde7f3a7596f1e32a
   branch: remove-rabl
   specs:
     travis-core (0.0.1)
@@ -172,7 +172,7 @@ GEM
       i18n
     jasmine-core (1.2.0.rc3)
     journey (1.0.3)
-    json (1.6.6)
+    json (1.6.7)
     kgio (2.7.4)
     libwebsocket (0.1.3)
       addressable
