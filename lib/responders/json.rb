@@ -2,7 +2,7 @@ module Responders
   module Json
     def to_format
       if json?
-        render :json => renderer(controller.params).data
+        render :json => data
       else
         super
       end
@@ -12,6 +12,10 @@ module Responders
 
       def json?
         format.to_sym == :json
+      end
+
+      def data
+        collection? && resource.empty? ? [] : renderer(controller.params).data
       end
 
       def renderer(options = {})
