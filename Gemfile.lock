@@ -43,7 +43,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 584f1958dc8189313ba2188cde7f3a7596f1e32a
+  revision: 0fd1407ea3308c5b56b83368825f6f2b8191d84f
   branch: remove-rabl
   specs:
     travis-core (0.0.1)
@@ -219,7 +219,7 @@ GEM
     omniauth-github (1.0.1)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.0)
-    omniauth-oauth2 (1.0.1)
+    omniauth-oauth2 (1.0.2)
       oauth2 (~> 0.6.0)
       omniauth (~> 1.0)
     orm_adapter (0.0.7)
@@ -306,7 +306,7 @@ GEM
       rubyzip
     signature (0.1.2)
       ruby-hmac
-    simple_states (0.1.0.pre3)
+    simple_states (0.1.1)
       activesupport
       hashr (~> 0.0.10)
     sprockets (2.1.3)
