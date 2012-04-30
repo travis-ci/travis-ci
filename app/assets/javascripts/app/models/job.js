@@ -47,8 +47,6 @@ Travis.Job = Travis.Record.extend(Travis.Helpers.Common, {
 
   unsubscribe: function() {
     this._subscribed = false;
-    //randym: facinating, but possibly incorrect....
-    //Travis.subscribe('job-' + this.get('id'));
     Travis.unsubscribe('job-' + this.get('id'));
   },
 
