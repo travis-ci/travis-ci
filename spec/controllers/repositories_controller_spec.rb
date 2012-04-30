@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe RepositoriesController do
+  render_views
+
   describe 'GET :index returns a list of repositories' do
     before(:each) { Scenario.default }
 
@@ -140,19 +142,15 @@ describe RepositoriesController do
       get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'xml', :schema => 'cctray'
 
       xml_response.should == {
-        'repository' => {
-          'id'                     => { '__content__' => repository.id.to_s },
-          'last_build_id'          => { '__content__' => build.id.to_s },
-          'last_build_number'      => { '__content__' => '1' },
-          'last_build_started_at'  => { '__content__' => '2010-11-12T12:30:00Z' },
-          'last_build_finished_at' => { '__content__' => '2010-11-12T12:30:20Z' },
-          "last_build_status"      => { '__content__' => '1' },
-          'last_build_result'      => { '__content__' => '1' },
-          'last_build_language'    => { 'nil' => 'true'},
-          'last_build_duration'    => { '__content__' => '160' },
-          'slug'                   => { '__content__' => 'sven/travis-ci' },
-          'description'            => { 'nil' => 'true'},
-          'public_key'             => { '__content__' => "-----BEGIN RSA PUBLIC KEY-----\nMIGJAoGBAMZ53W7GX2zMvQ9UT8Hq/08Oyj7FEez171gMHwOb5BgUPJ1253WfXXfh\nljf0PGDrM2FcMYpiKUc/gT1ugi6+B9IAM3XZ4PVyWiBfjozigEaBQCG2vlC8Yuf1\nMRbght4j6cOyEwktMt62EKYHofCbkt31CdFVPpT8DO05O/14n/EpAgMBAAE=\n-----END RSA PUBLIC KEY-----\n" }
+        'Projects' => {
+          'Project' => {
+            'name' => 'travis-ci',
+            'activity' => 'Sleeping',
+            'lastBuildStatus' => 'Failure',
+            'lastBuildLabel' => '1',
+            'lastBuildTime' => '2010-11-12T12:30:20.000+0000',
+            'webUrl' => 'http://test.host/sven/travis-ci'
+          }
         }
       }
     end

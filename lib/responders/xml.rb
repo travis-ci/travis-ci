@@ -4,7 +4,7 @@ module Responders
 
     def to_format
       if xml_schema = self.xml_schema
-        render "repositories/show.#{xml_schema}", :format => :xml
+        render "repositories/show.#{xml_schema}"
       else
         super
       end
