@@ -144,7 +144,7 @@ GEM
     diff-lcs (1.1.3)
     erubis (2.7.0)
     eventmachine (0.12.10)
-    execjs (1.3.1)
+    execjs (1.3.0)
       multi_json (~> 1.0)
     factory_girl (2.4.2)
       activesupport
@@ -353,6 +353,7 @@ DEPENDENCIES
   compass (= 0.12.alpha.4)
   database_cleaner (~> 0.7.0)
   devise (~> 2.0.4)
+  execjs (= 1.3.0)
   factory_girl (~> 2.4.0)
   foreman (~> 0.36.0)
   forgery (~> 0.5.0)

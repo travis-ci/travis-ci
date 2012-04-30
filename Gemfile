@@ -4,6 +4,7 @@ gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 't
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
 
 gem 'rails',                '~> 3.2.3'
+gem 'execjs',               '1.3.0'
 gem 'rake',                 '~> 0.9.2.2'
 gem 'bunny',                '~> 0.7.9'
 
