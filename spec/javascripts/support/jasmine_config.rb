@@ -7,11 +7,29 @@ require 'webmock'
 config = YAML.load_file('spec/javascripts/support/jasmine.yml')
 
 WebMock.disable!
+require 'selenium/webdriver'
+# Patching for a bug in selenium webdriver that uses respond_to?
+module Selenium
+  module WebDriver
+    if MultiJson.singleton_methods.include?('load')
+      # @api private
+      def self.json_load(obj)
+        MultiJson.load(obj)
+      end
+    else
+      # @api private
+      def self.json_load(obj)
+        MultiJson.decode(obj)
+      end
+    end
+  end
 
-module Jasmine
+  module Jasmine
 
-  class Config
-    # Add your overrides or custom config code here
+    class Config
+      # Add your overrides or custom config code here
+    end
+
   end
 end
 
