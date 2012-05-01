@@ -29,27 +29,6 @@ TravisCi::Application.configure do
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
 
-  # Disable Rails's static asset server
-  # In production, Apache or nginx will already do this
-  config.serve_static_assets = true
-
-  # Compress JavaScripts and CSS
-  config.assets.compress = false
-
-  # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = false
-
-  # Generate digests for assets URLs
-  config.assets.digest = true
-
-  # Hack so Rails doesn't complain about assets not being precompiled
-  config.assets.digests = Class.new { def [](path) path end }.new
-  config.action_controller.asset_host = "http://localhost:3001"
-  config.assets.prefix = '12345'
-
-  # Precompile the mobile stylesheet
-  config.assets.precompile += [ 'mobile.css', 'mobile.js' ]
-
   config.action_mailer.default_url_options = {
     :host => Travis.config.host
   }

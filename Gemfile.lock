@@ -69,6 +69,22 @@ GIT
   specs:
     travis-support (0.0.1)
 
+GIT
+  remote: https://github.com/livingsocial/rake-pipeline.git
+  revision: 543f4322fe70facee9572d29ddabf7f090dad68a
+  specs:
+    rake-pipeline (0.6.0)
+      rake (~> 0.9.0)
+      thor
+
+GIT
+  remote: https://github.com/wycats/rake-pipeline-web-filters.git
+  revision: ba0b8a00356b4c854930a8e849b5629d51ffd70f
+  specs:
+    rake-pipeline-web-filters (0.6.0)
+      rack
+      rake-pipeline (~> 0.6)
+
 PATH
   remote: ~/Development/projects/travis/travis-assets
   specs:
@@ -379,6 +395,8 @@ DEPENDENCIES
   rack-contrib!
   rails (~> 3.2.3)
   rake (~> 0.9.2.2)
+  rake-pipeline!
+  rake-pipeline-web-filters!
   refraction (~> 0.2.0)
   rspec-rails (~> 2.8.0)
   ruby-debug19

@@ -2,14 +2,14 @@ source :rubygems
 
 gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine'
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
-gem 'travis-assets',  path: '~/Development/projects/travis/travis-assets'
+gem 'travis-assets',  path: '~/Development/projects/travis/travis-assets', require: 'travis/assets/railtie'
 
 gem 'rails',                '~> 3.2.3'
 gem 'execjs',               '1.3.0'
 gem 'rake',                 '~> 0.9.2.2'
-gem 'bunny',                '~> 0.7.9'
 
 # app
+gem 'bunny',                '~> 0.7.9'
 gem 'refraction',           '~> 0.2.0'
 gem 'devise',               '~> 2.0.4'
 gem 'omniauth-github',      '~> 1.0.1'
@@ -23,6 +23,10 @@ gem 'rack-contrib', git: 'git://github.com/rack/rack-contrib', require: 'rack/co
 
 # db
 gem 'pg',                   '~> 0.13.2'
+
+# assets
+gem 'rake-pipeline',             git: 'https://github.com/livingsocial/rake-pipeline.git'
+gem 'rake-pipeline-web-filters', git: 'https://github.com/wycats/rake-pipeline-web-filters.git'
 
 # apis + metrics
 gem 'backports',            '~> 2.3.0'
