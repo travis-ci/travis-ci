@@ -55,6 +55,8 @@ TravisCi::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
+  config.action_controller.asset_host = 'http://assets.travis-ci.org'
+
   config.middleware.insert_before(::Rack::Lock, 'Refraction')
   config.lograge.enabled = true
 

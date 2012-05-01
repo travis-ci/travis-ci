@@ -2,7 +2,6 @@ source :rubygems
 
 gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine'
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
-gem 'travis-assets',  path: '~/Development/projects/travis/travis-assets', require: 'travis/assets/railtie'
 
 gem 'rails',                '~> 3.2.3'
 gem 'execjs',               '1.3.0'
@@ -23,10 +22,6 @@ gem 'rack-contrib', git: 'git://github.com/rack/rack-contrib', require: 'rack/co
 
 # db
 gem 'pg',                   '~> 0.13.2'
-
-# assets
-gem 'rake-pipeline',             git: 'https://github.com/livingsocial/rake-pipeline.git'
-gem 'rake-pipeline-web-filters', git: 'https://github.com/wycats/rake-pipeline-web-filters.git'
 
 # apis + metrics
 gem 'backports',            '~> 2.3.0'
@@ -52,12 +47,19 @@ group :assets do
 end
 
 group :development, :test do
+  gem 'thin',               '~> 1.3.1'
+
+  gem 'travis-assets',  git: 'https://github.com/travis-ci/travis-assets', require: 'travis/assets/railtie'
+  gem 'rake-pipeline',  git: 'https://github.com/livingsocial/rake-pipeline.git'
+  gem 'rake-pipeline-web-filters', git: 'https://github.com/wycats/rake-pipeline-web-filters.git'
+
   gem 'localeapp',          '~> 0.4.1'
+  gem 'localeapp-i18n-js',  git: 'git://github.com/randym/localeapp-i18n-js'
+
+  # TODO why do we need these in development?
   gem 'factory_girl',       '~> 2.4.0'
   gem 'forgery',            '~> 0.5.0'
   gem 'rspec-rails',        '~> 2.8.0'
-  gem 'thin',               '~> 1.3.1'
-  gem 'localeapp-i18n-js',  git: 'git://github.com/randym/localeapp-i18n-js'
 end
 
 group :development do
