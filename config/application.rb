@@ -8,9 +8,9 @@ module TravisCi
 
     config.filter_parameters += [:password]
 
-    config.assets.enabled = true
-    config.assets.version = '1.0sc'
+    config.assets.enabled = false
     config.serve_static_assets = true
+    config.action_controller.asset_path = lambda { |path| "/#{Travis::Assets.version}#{path}" }
 
     config.action_controller.page_cache_directory = root.join('tmp/assets')
 
