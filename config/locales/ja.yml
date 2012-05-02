@@ -64,7 +64,7 @@ ja:
       repository: リポジトリ
       twitter: ツイッター
     application:
-      fork_me: Githubでフォークしよう
+      fork_me: GitHubでフォークしよう
       my_repositories: マイリポジトリ
       recent: 最近
       search: 検索
@@ -73,7 +73,7 @@ ja:
     top:
       blog: ブログ
       docs: Travisとは？
-      github_login: Githubでログイン
+      github_login: GitHubでログイン
       home: ホーム
       profile: プロフィール
       sign_out: ログアウト
@@ -93,11 +93,11 @@ ja:
       log: ログ
   profiles:
     show:
-      github: Github
+      github: GitHub
       email: メール
       message:
         config: 詳細設定
-        your_repos: 以下のスイッチを設定し、Travis-ciを有効にします。Githubへプッシュしたらビルドは自動的に開始します。複数バーションや細かい設定はこちらへ：
+        your_repos: 以下のスイッチを設定し、Travis-ciを有効にします。GitHubへプッシュしたらビルドは自動的に開始します。複数バーションや細かい設定はこちらへ：
       messages:
         notice: まずは<a href="http://about.travis-ci.org/docs/user/getting-started/">Travisのはじめ方</a>を参照してください。
       token: トークン

@@ -150,7 +150,7 @@ nl:
       repository: Repository
       twitter: Twitter
     application:
-      fork_me: Maak een fork op Github
+      fork_me: Maak een fork op GitHub
       my_repositories: Mijn repositories
       recent: Recent
       search: Zoeken
@@ -172,7 +172,7 @@ nl:
       admin: Administratie
       blog: Blog
       docs: Documentatie
-      github_login: Inloggen met Github
+      github_login: Inloggen met GitHub
       home: Home
       profile: Profiel
       sign_out: Uitloggen
@@ -191,11 +191,11 @@ nl:
   profiles:
     show:
       email: Email adres
-      github: Github
+      github: GitHub
       message:
         config: hoe eigen bouw-opties in te stellen
         your_repos: ! 'Zet de schakelaars hieronder aan om de Travis hook voor uw
-          projecten te activeren en push daarna naar Github<br />
+          projecten te activeren en push daarna naar GitHub<br />
 
           Om te testen tegen meerdere rubies, zie'
       messages:
