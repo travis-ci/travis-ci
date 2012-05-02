@@ -2,6 +2,7 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 Bundler.require *Rails.groups(:assets) if defined?(Bundler)
+
 module TravisCi
   class Application < Rails::Application
     config.encoding = 'utf-8'

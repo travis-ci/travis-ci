@@ -15,7 +15,7 @@
       I18n.locale = "<%= I18n.locale %>";
       I18n.fallbacks = <%= Rails.env.production? %>;
 
-      Travis.env = '<%= Travis.config.env %>';
+      var env = Travis.env = '<%= Travis.config.env %>';
 
       Travis.assets = {
         host:    '<%= Travis.config.assets.host %>',
