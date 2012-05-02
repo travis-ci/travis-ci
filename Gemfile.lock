@@ -78,17 +78,18 @@ GIT
       thor
 
 GIT
+  remote: https://github.com/travis-ci/travis-assets
+  revision: 2eb9550e6df97ebb5916a0a04f5770f7a71e7ba2
+  specs:
+    travis-assets (0.0.1)
+
+GIT
   remote: https://github.com/wycats/rake-pipeline-web-filters.git
   revision: ba0b8a00356b4c854930a8e849b5629d51ffd70f
   specs:
     rake-pipeline-web-filters (0.6.0)
       rack
       rake-pipeline (~> 0.6)
-
-PATH
-  remote: ~/Development/projects/travis/travis-assets
-  specs:
-    travis-assets (0.0.1)
 
 GEM
   remote: http://rubygems.org/
