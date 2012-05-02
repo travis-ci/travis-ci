@@ -10,7 +10,7 @@ module TravisCi
 
     config.assets.enabled = false
     config.serve_static_assets = true
-    config.action_controller.asset_path = lambda { |path| "/#{Travis::Assets.version}#{path}" }
+    config.action_controller.asset_path = lambda { |path| "/#{Travis.config.assets.version}#{path}" }
 
     config.action_controller.page_cache_directory = root.join('tmp/assets')
 
