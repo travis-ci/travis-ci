@@ -153,7 +153,7 @@ nb:
       repository: Kodelager
       twitter: Twitter.
     application:
-      fork_me: Se koden på Github
+      fork_me: Se koden på GitHub
       my_repositories: Mine kodelagre
       recent: Nylig
       search: Søk
@@ -175,7 +175,7 @@ nb:
       admin: Administrator
       blog: Blogg
       docs: Dokumentasjon
-      github_login: Logg inn med Github
+      github_login: Logg inn med GitHub
       home: Hjem
       profile: Profil
       sign_out: Logg ut
@@ -184,11 +184,11 @@ nb:
   profiles:
     show:
       email: E-post
-      github: Github
+      github: GitHub
       message:
         config: hvordan sette opp egne jobbinnstillinger
         your_repos: ! "Slå\x10 på Travis for prosjektene dine ved å dra i bryterne
-          under, og send koden til Github.<br />\nFor å teste mot flere ruby-versjoner,
+          under, og send koden til GitHub.<br />\nFor å teste mot flere ruby-versjoner,
           se dokumentasjonen for"
       messages:
         notice: For å komme i gang, vennligst les <a href="http://about.travis-ci.org/docs/user/getting-started/">kom-i-gang-veivisereren</a>

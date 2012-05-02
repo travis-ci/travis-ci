@@ -72,11 +72,11 @@ pl:
       blog: Blog
       docs: Dokumentacja
       stats: Statystki
-      github_login: Zaloguj się przy pomocy Githuba
+      github_login: Zaloguj się przy pomocy GitHuba
       profile: Profil
       sign_out: Wyloguj się
     application:
-      fork_me: Fork me on Github
+      fork_me: Fork me on GitHub
       recent: Ostatnie
       search: Wyniki
       sponsers: Sponsorzy
@@ -106,7 +106,7 @@ pl:
   profiles:
     show:
       email: Email
-      github: Github
+      github: GitHub
       message:
         your_repos: ! "  Przesuń suwak poniżej, aby włączyć Travisa, dla twoich projektów,
           a następnie umieść swój kod na GitHubie.<br />\n Aby testować swój kod przy

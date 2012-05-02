@@ -159,7 +159,7 @@ ru:
       repository: Репозиторий
       twitter: Twitter
     application:
-      fork_me: Fork me on Github
+      fork_me: Fork me on GitHub
       my_repositories: Мои репозитории
       recent: Недавние
       search: Поиск
@@ -181,7 +181,7 @@ ru:
       admin: Управление
       blog: Блог
       docs: Документация
-      github_login: Войти через Github
+      github_login: Войти через GitHub
       home: Главная
       profile: Профиль
       sign_out: Выход
@@ -190,7 +190,7 @@ ru:
   profiles:
     show:
       email: Электронная почта
-      github: Github
+      github: GitHub
       message:
         config: как настроить специальные опции билда
         your_repos: ! 'Используйте переключатели, чтобы включить Travis service hook

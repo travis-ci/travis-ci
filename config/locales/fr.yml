@@ -75,12 +75,12 @@ fr:
       blog: Blog
       docs: Documentation
       stats: Statistiques
-      github_login: Connection Github
+      github_login: Connection GitHub
       profile: Profil
       sign_out: Déconnection
       admin: Admin
     application:
-      fork_me: Faites un Fork sur Github
+      fork_me: Faites un Fork sur GitHub
       recent: Récent
       search: Chercher
       sponsers: Sponsors
@@ -109,7 +109,7 @@ fr:
       log: Journal
   profiles:
     show:
-      github: Github
+      github: GitHub
       message:
         your_repos: ! 'Utilisez les boutons ci-dessous pour activer Travis sur vos
           projets puis déployez sur GitHub.<br />
