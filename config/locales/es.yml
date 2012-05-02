@@ -74,12 +74,12 @@ es:
       blog: Blog
       docs: Documentación
       stats: Estadísticas
-      github_login: Iniciar sesión con Github
+      github_login: Iniciar sesión con GitHub
       profile: Perfil
       sign_out: Desconectar
       admin: Admin
     application:
-      fork_me: Hazme un Fork en Github
+      fork_me: Hazme un Fork en GitHub
       recent: Reciente
       search: Buscar
       sponsers: Patrocinadores
@@ -97,7 +97,7 @@ es:
   profiles:
     show:
       email: Correo electrónico
-      github: Github
+      github: GitHub
       message:
         your_repos: ! "  Activa los interruptores para inicial el  Travis service
           hook para tus proyectos, y haz un Push en GitHub.<br />\n  Para probar varias
