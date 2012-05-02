@@ -156,7 +156,7 @@ pt-BR:
       repository: Repositório
       twitter: Twitter
     application:
-      fork_me: Faça fork no Github
+      fork_me: Faça fork no GitHub
       my_repositories: Meus Repositórios
       recent: Recentes
       search: Buscar
@@ -178,7 +178,7 @@ pt-BR:
       admin: Admin
       blog: Blog
       docs: Documentação
-      github_login: Logue com o Github
+      github_login: Logue com o GitHub
       home: Home
       profile: Perfil
       sign_out: Sair
@@ -197,11 +197,11 @@ pt-BR:
   profiles:
     show:
       email: Email
-      github: Github
+      github: GitHub
       message:
         config: como configurar opções de build
         your_repos: Use os botões abaixo para ligar ou desligar o hook de serviço
-          do Travis para seus projetos, e então, faça um push para o Github.<br />Para
+          do Travis para seus projetos, e então, faça um push para o GitHub.<br />Para
           testar com múltiplas versões do Ruby, leia
       messages:
         notice: Para começar, leia nosso <a href="http://about.travis-ci.org/docs/user/getting-started/">Guia

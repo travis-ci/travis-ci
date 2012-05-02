@@ -72,12 +72,12 @@ en:
       blog: Blog
       docs: Docs
       stats: Stats
-      github_login: Sign in with Github
+      github_login: Sign in with GitHub
       profile: Profile
       sign_out: Sign Out
       admin: Admin
     application:
-      fork_me: Fork me on Github
+      fork_me: Fork me on GitHub
       recent: Recent
       search: Search
       sponsers: Sponsors
@@ -107,7 +107,7 @@ en:
   profiles:
     show:
       email: Email
-      github: Github
+      github: GitHub
       message:
         your_repos: ! "  Flick the switches below to turn on the Travis service hook
           for your projects, then push to GitHub.<br />\n  To test against multiple
