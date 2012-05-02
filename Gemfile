@@ -2,6 +2,8 @@ source :rubygems
 
 gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine'
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
+# gem 'travis-assets',  git: 'https://github.com/travis-ci/travis-assets', require: 'travis/assets/railtie'
+gem 'travis-assets',  path: '~/Development/projects/travis/travis-assets', require: 'travis/assets/railtie'
 
 gem 'rails',                '~> 3.2.3'
 gem 'execjs',               '1.3.0'
@@ -38,21 +40,17 @@ gem 'unicorn',              '~> 4.1.1'
 
 # assets
 group :assets do
-  gem 'sass-rails',         '~> 3.2.4'
-  gem 'coffee-rails',       '~> 3.2.2'
-  gem 'uglifier',           '~> 1.2.0'
-  gem 'compass',            '0.12.alpha.4'
-  gem 'i18n-js',            '~> 2.1.2'
-  gem 'localeapp-i18n-js',  :git => 'git://github.com/randym/localeapp-i18n-js'
 end
 
 group :development, :test do
   gem 'thin',               '~> 1.3.1'
 
-  gem 'travis-assets',  git: 'https://github.com/travis-ci/travis-assets', require: 'travis/assets/railtie'
   gem 'rake-pipeline',  git: 'https://github.com/livingsocial/rake-pipeline.git'
   gem 'rake-pipeline-web-filters', git: 'https://github.com/wycats/rake-pipeline-web-filters.git'
 
+  gem 'coffee-script',      '~> 2.2.0'
+  gem 'compass',            '0.12.alpha.4'
+  gem 'i18n-js',            '~> 2.1.2'
   gem 'localeapp',          '~> 0.4.1'
   gem 'localeapp-i18n-js',  git: 'git://github.com/randym/localeapp-i18n-js'
 
