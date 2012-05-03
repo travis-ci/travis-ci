@@ -24,9 +24,7 @@ TravisCi::Application.configure do
 
   config.i18n.fallbacks = false
 
-  # config.action_controller.asset_host = 'http://assets.travis-ci.org'
-  # config.action_controller.asset_host = Travis.config.assets.host || 'travis-assets-staging.herokuapp.com'
-  config.action_controller.asset_host = 'travis-assets-staging.herokuapp.com'
+  config.action_controller.asset_host = Travis.config.assets.host || 'travis-assets-staging.herokuapp.com'
 
   config.log_level = :info
   config.lograge.enabled = true
