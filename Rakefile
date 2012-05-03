@@ -15,3 +15,11 @@ module ::RakeFileUtils
 end
 
 TravisCi::Application.load_tasks
+
+class Rake::Application
+  def delete(name)
+    @tasks.delete(name)
+  end
+end
+
+Rake.application.delete('assets:precompile')
