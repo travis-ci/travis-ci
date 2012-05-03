@@ -43,7 +43,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: e1c6b3eb9c1dda7bd5a3e172f7616d6ee546dd1f
+  revision: 1997dd92c23b6ee441f72cba3975f4340d5d3371
   branch: asset-host
   specs:
     travis-core (0.0.1)
