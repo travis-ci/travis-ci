@@ -34,7 +34,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 1907d433d7eaa4f16170fe96af527c8de5109f6e
+  revision: 5668ade1e0563c1a5545ecc1c7f98d9f3fcef68a
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
