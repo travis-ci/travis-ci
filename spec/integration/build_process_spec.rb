@@ -46,14 +46,14 @@
 #       job.log.content.should eql('foo')
 #       pusher.should have_message('build:log', :log => 'foo')
 #
-#       worker.finish!(job, 'finished_at' => Time.now.utc, 'status' => 0, 'log' => 'foo bar')
+#       worker.finish!(job, 'finished_at' => Time.now.utc, 'result' => 0, 'log' => 'foo bar')
 #       job.should be_finished
 #       pusher.should have_message('build:finished')
 #       # api.job(job).should include(json_for_http(job)) # TODO
 #     end
 #
 #     build.reload.should be_finished
-#     build.status.should == 0
+#     build.result.should == 0
 #     # api.build(build).should include(json_for_http(build)) # TODO
 #
 #     repository.should have_last_build(build)

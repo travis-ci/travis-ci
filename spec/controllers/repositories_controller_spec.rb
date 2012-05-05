@@ -41,7 +41,7 @@ describe RepositoriesController do
       build = FactoryGirl.create(:build, :repository => repository, :config => config)
       build.matrix.each do |job|
         job.start!(:started_at => '2010-11-12T12:30:00Z')
-        job.finish!(:status => job.config[:rvm] == '1.8.7' ? 0 : 1, :finished_at => '2010-11-12T12:30:20Z')
+        job.finish!(:result => job.config[:rvm] == '1.8.7' ? 0 : 1, :finished_at => '2010-11-12T12:30:20Z')
       end
       repository.reload
     end
@@ -57,8 +57,8 @@ describe RepositoriesController do
         'last_build_id' => repository.last_build_id,
         'last_build_number' => '1',
         'last_build_started_at' => '2010-11-12T12:30:00Z',
-        'last_build_result' => 1,
         'last_build_status' => 1,
+        'last_build_result' => 1,
         'last_build_language' => nil,
         'last_build_duration' => 160,
         'public_key' => "-----BEGIN RSA PUBLIC KEY-----\nMIGJAoGBAMZ53W7GX2zMvQ9UT8Hq/08Oyj7FEez171gMHwOb5BgUPJ1253WfXXfh\nljf0PGDrM2FcMYpiKUc/gT1ugi6+B9IAM3XZ4PVyWiBfjozigEaBQCG2vlC8Yuf1\nMRbght4j6cOyEwktMt62EKYHofCbkt31CdFVPpT8DO05O/14n/EpAgMBAAE=\n-----END RSA PUBLIC KEY-----\n"
@@ -133,7 +133,7 @@ describe RepositoriesController do
     before(:each) do
       build.matrix.each do |job|
         job.start!(:started_at => '2010-11-12T12:30:00Z')
-        job.finish!(:status => job.config[:rvm] == '1.8.7' ? 0 : 1, :finished_at => '2010-11-12T12:30:20Z')
+        job.finish!(:result => job.config[:rvm] == '1.8.7' ? 0 : 1, :finished_at => '2010-11-12T12:30:20Z')
       end
       repository.reload
     end
@@ -190,56 +190,56 @@ describe RepositoriesController do
     describe 'without a branch parameter' do
       it '"unknown" when the repository does not exist' do
         repository = Repository.new(:owner_name => 'does not', :name => 'exist')
-        get_png(repository).should serve_status_image('unknown')
+        get_png(repository).should serve_result_image('unknown')
       end
 
       it '"unknown" when it only has a build that is not finished' do
         repository = Factory(:running_build).repository
-        get_png(repository).should serve_status_image('unknown')
+        get_png(repository).should serve_result_image('unknown')
       end
 
       it '"failing" when the last build has failed' do
         repository = Factory(:broken_build).repository
-        get_png(repository).should serve_status_image('failing')
+        get_png(repository).should serve_result_image('failing')
       end
 
       it '"passing" when the last build has passed' do
         repository = Factory(:successful_build).repository
-        get_png(repository).should serve_status_image('passing')
+        get_png(repository).should serve_result_image('passing')
       end
 
       it '"stable" when there is a running build but the previous one has passed' do
         repository = Factory(:successful_build).repository
         Factory(:build, :repository => repository, :state => 'started')
-        get_png(repository).should serve_status_image('passing')
+        get_png(repository).should serve_result_image('passing')
       end
     end
 
     describe 'with a branch parameter' do
       it '"unknown" when the repository does not exist' do
         repository = Repository.new(:owner_name => 'does not', :name => 'exist')
-        get_png(repository, :branch => 'master').should serve_status_image('unknown')
+        get_png(repository, :branch => 'master').should serve_result_image('unknown')
       end
 
       it '"unknown" when it only has a build that is not finished' do
         repository = Factory(:running_build).repository
-        get_png(repository, :branch => 'master').should serve_status_image('unknown')
+        get_png(repository, :branch => 'master').should serve_result_image('unknown')
       end
 
       it '"failing" when the last build has failed' do
         repository = Factory(:broken_build).repository
-        get_png(repository, :branch => 'master').should serve_status_image('failing')
+        get_png(repository, :branch => 'master').should serve_result_image('failing')
       end
 
       it '"passing" when the last build has passed' do
         repository = Factory(:successful_build).repository
-        get_png(repository, :branch => 'master').should serve_status_image('passing')
+        get_png(repository, :branch => 'master').should serve_result_image('passing')
       end
 
       it '"passing" when there is a running build but the previous one has passed' do
         repository = Factory(:successful_build).repository
         Factory(:build, :repository => repository, :state => 'started')
-        get_png(repository, :branch => 'master').should serve_status_image('passing')
+        get_png(repository, :branch => 'master').should serve_result_image('passing')
       end
     end
   end

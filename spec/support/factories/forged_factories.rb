@@ -32,14 +32,14 @@ FactoryGirl.define do
     started_at       { Forgery(:repository).time }
     finished_at      { Forgery(:repository).time }
     state            "finished"
-    status           { rand(2) }
+    result           { rand(2) }
 
     after_build do |build|
       build.request = Factory(:seed_request, :repository => build.repository, :commit => build.commit)
       build.save
       build.reload
 
-      [ :id, :number, :status, :started_at, :finished_at ].each do |entry|
+      [ :id, :number, :result, :started_at, :finished_at ].each do |entry|
         build.repository.send("last_build_#{entry.to_s}=", build.send(entry.to_s))
       end
 

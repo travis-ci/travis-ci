@@ -10,7 +10,7 @@ describe 'JSONP API' do
     build = FactoryGirl.create(:build, :repository => repository, :config => config)
     build.matrix.each do |job|
       job.start!(:started_at => '2010-11-12T12:30:00Z')
-      job.finish!(:status => job.config[:rvm] == '1.8.7' ? 0 : 1, :finished_at => '2010-11-12T12:30:20Z')
+      job.finish!(:result => job.config[:rvm] == '1.8.7' ? 0 : 1, :finished_at => '2010-11-12T12:30:20Z')
     end
     repository.reload
   end
@@ -65,10 +65,11 @@ describe 'JSONP API' do
 
   def validate_repository_info(rep, info)
     ActiveSupport::JSON.decode(info).should == rep.attributes.slice(
-       'id', 'description', 'last_build_id', 'last_build_number', 'last_build_status', 'last_build_language', 'last_build_duration'
+       'id', 'description', 'last_build_id', 'last_build_number', 'last_build_result', 'last_build_language', 'last_build_duration'
     ).merge(
        'slug'                   => rep.slug,
-       'last_build_result'      => rep.last_build_status,
+       'last_build_status'      => rep.last_build_result,
+       'last_build_result'      => rep.last_build_result,
        'last_build_started_at'  => rep.last_build_started_at.as_json,
        'last_build_finished_at' => rep.last_build_finished_at.as_json,
        'public_key'             => rep.public_key

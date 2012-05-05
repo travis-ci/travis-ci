@@ -169,7 +169,7 @@ WORKER_PAYLOADS = {
   'job:test:log:1'         => { 'id' => 1, 'log' => 'the '  },
   'job:test:log:2'         => { 'id' => 1, 'log' => 'full ' },
   'job:test:log:3'         => { 'id' => 1, 'log' => 'log'   },
-  'job:test:finished'      => { 'id' => 1, 'state' => 'finished', 'finished_at' => '2011-01-01 00:03:00 +0200', 'status' => 0, 'log' => 'the full log' }
+  'job:test:finished'      => { 'id' => 1, 'state' => 'finished', 'finished_at' => '2011-01-01 00:03:00 +0200', 'result' => 0, 'log' => 'the full log' }
 }
 
 QUEUE_PAYLOADS = {
