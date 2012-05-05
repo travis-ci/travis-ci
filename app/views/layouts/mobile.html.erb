@@ -31,7 +31,7 @@
           <p class="description">{{Travis.Controllers.Builds.List.repository.description}}</p>
 
           {{#collection tagName="ul" id="builds" contentBinding="Travis.Controllers.Builds.List.builds" itemViewClass="Ember.View" itemClassBinding="content.color" class="menu"}}
-            <a {{bindAttr href="content.url"}}><span class="status"></span><%= t('.build') %>  #{{content.number}}</a>
+            <a {{bindAttr href="content.url"}}><span class="result"></span><%= t('.build') %>  #{{content.number}}</a>
           {{/collection}}
         </div>
       </script>
@@ -41,7 +41,7 @@
       <script type="text/x-handlebars">
         {{#with Travis.Controllers.Builds.Show}}
           <div {{bindAttr class="content.color"}} id="build">
-            <h2><span class="status"></span><%= t('.build') %> #{{content.number}}</h2>
+            <h2><span class="result"></span><%= t('.build') %> #{{content.number}}</h2>
             <h3><a {{bindAttr href="repository.urlGithub"}}>{{repository.slug}}</a></h3>
 
             <ul class="info">
@@ -72,7 +72,7 @@
 
             <h3><%= t('.build_matrix') %></h3>
             {{#collection tagName="ul" contentBinding="content.matrix" itemViewClass="Ember.View" itemClassBinding="content.color" class="matrix menu"}}
-              <a {{bindAttr href="content.url"}}><span class="status"></span>{{content.number}}</a>
+              <a {{bindAttr href="content.url"}}><span class="result"></span>{{content.number}}</a>
             {{/collection}}
           </div>
         {{/with}}
@@ -83,7 +83,7 @@
       <script type="text/x-handlebars">
         {{#with Travis.Controllers.Jobs.Show}}
           <div {{bindAttr class="content.color"}} id="job">
-            <h2><span class="status"></span><%= t('.job') %> #{{content.number}}</h2>
+            <h2><span class="result"></span><%= t('.job') %> #{{content.number}}</h2>
 
             <ul class="info">
               <li>

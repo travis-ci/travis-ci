@@ -12,7 +12,7 @@ describe "repositories/show.cctray" do
     rendered_xml.should have_xml_attribute("lastBuildLabel", "123").for_node_path(%w{Projects Project})
   end
 
-  it "renders the correct status for a repository with no running build" do
+  it "renders the correct result for a repository with no running build" do
     assign(:repository, Factory(:build, :state => 'finished').repository)
     render
     rendered_xml.should have_xml_attribute("activity", "Sleeping").for_node_path(%w{Projects Project})
@@ -24,33 +24,33 @@ describe "repositories/show.cctray" do
     rendered_xml.should have_xml_attribute("lastBuildTime", "2011-08-05T12:15:34.000+0000").for_node_path(%w{Projects Project})
   end
 
-  it "renders the correct activity status for a repository with a running build" do
+  it "renders the correct activity result for a repository with a running build" do
     assign(:repository, Factory(:build, :state => 'started').repository)
     render
     rendered_xml.should have_xml_attribute("activity", "Building").for_node_path(%w{Projects Project})
   end
 
-  it "renders the correct activity status for a repository with no builds" do
+  it "renders the correct activity result for a repository with no builds" do
     assign(:repository, Factory(:repository, :id => 1, :last_build => nil))
     render
     rendered_xml.should have_xml_attribute("activity", "Sleeping").for_node_path(%w{Projects Project})
     rendered_xml.should have_xml_attribute("webUrl", "http://test.host/svenfuchs/minimal").for_node_path(%w{Projects Project})
   end
 
-  it "renders the correct build status for a repository whose last build failed" do
-    assign(:repository, Factory(:repository, :id => 1, :last_build_status => 1))
+  it "renders the correct build result for a repository whose last build failed" do
+    assign(:repository, Factory(:repository, :id => 1, :last_build_result => 1))
     render
     rendered_xml.should have_xml_attribute("lastBuildStatus", "Failure").for_node_path(%w{Projects Project})
   end
 
-  it "renders the correct build status for a repository whose last build passed" do
-    assign(:repository, Factory(:repository, :id => 1, :last_build_status => 0))
+  it "renders the correct build result for a repository whose last build passed" do
+    assign(:repository, Factory(:repository, :id => 1, :last_build_result => 0))
     render
     rendered_xml.should have_xml_attribute("lastBuildStatus", "Success").for_node_path(%w{Projects Project})
   end
 
-  it "renders the correct build status for a repository whose last build has an unknown status" do
-    assign(:repository, Factory(:repository, :id => 1, :last_build_status => -1))
+  it "renders the correct build result for a repository whose last build has an unknown result" do
+    assign(:repository, Factory(:repository, :id => 1, :last_build_result => -1))
     render
     rendered_xml.should have_xml_attribute("lastBuildStatus", "Unknown").for_node_path(%w{Projects Project})
   end

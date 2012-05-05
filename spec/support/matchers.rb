@@ -3,7 +3,7 @@ require 'uri'
 RSpec::Matchers.define :have_last_build do |build|
   match do |repository|
     repository.last_build_id.should == build.id
-    repository.last_build_status.should == build.status
+    repository.last_build_result.should == build.result
     repository.last_build_started_at.should == build.started_at
     repository.last_build_finished_at.should == build.finished_at
   end
@@ -44,9 +44,9 @@ RSpec::Matchers.define :post_webhooks_on do |event, object, options|
   end
 end
 
-RSpec::Matchers.define :serve_status_image do |status|
+RSpec::Matchers.define :serve_result_image do |result|
   match do |request|
-    path = "#{Rails.root}/public/images/status/#{status}.png"
+    path = "#{Rails.root}/public/images/result/#{result}.png"
     controller.expects(:send_file).with(path, { :type => 'image/png', :disposition => 'inline' }).once
     request.call
   end
