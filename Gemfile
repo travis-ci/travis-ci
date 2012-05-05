@@ -47,6 +47,9 @@ group :development, :test do
   gem 'rake-pipeline',  git: 'https://github.com/livingsocial/rake-pipeline.git'
   gem 'rake-pipeline-web-filters', git: 'https://github.com/wycats/rake-pipeline-web-filters.git'
 
+  gem 'coffee-script'
+  gem 'compass'
+
   # TODO why do we need these in development?
   gem 'factory_girl',       '~> 2.4.0'
   gem 'forgery',            '~> 0.5.0'
