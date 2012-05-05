@@ -43,14 +43,9 @@ end
 group :development, :test do
   gem 'thin',               '~> 1.3.1'
 
+  gem 'travis-assets',  git: 'https://github.com/travis-ci/travis-assets', require: 'travis/assets/railtie'
   gem 'rake-pipeline',  git: 'https://github.com/livingsocial/rake-pipeline.git'
   gem 'rake-pipeline-web-filters', git: 'https://github.com/wycats/rake-pipeline-web-filters.git'
-
-  gem 'coffee-script',      '~> 2.2.0'
-  gem 'compass',            '0.12.alpha.4'
-  gem 'i18n-js',            '~> 2.1.2'
-  gem 'localeapp',          '~> 0.4.1'
-  gem 'localeapp-i18n-js',  git: 'git://github.com/randym/localeapp-i18n-js'
 
   # TODO why do we need these in development?
   gem 'factory_girl',       '~> 2.4.0'

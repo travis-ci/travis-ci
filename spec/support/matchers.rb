@@ -46,7 +46,7 @@ end
 
 RSpec::Matchers.define :serve_status_image do |status|
   match do |request|
-    path = "#{Rails.root}/app/assets/images/status/#{status}.png"
+    path = "#{Rails.root}/public/images/status/#{status}.png"
     controller.expects(:send_file).with(path, { :type => 'image/png', :disposition => 'inline' }).once
     request.call
   end
