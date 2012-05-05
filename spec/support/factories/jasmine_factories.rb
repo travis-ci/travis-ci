@@ -25,14 +25,14 @@
 #     started_at             DateTime.parse("2011-01-01T01:00:10Z")
 #     finished_at            DateTime.parse("2011-01-01T01:00:20Z")
 #     state                  "finished"
-#     status                 0
+#     result                 0
 
 #     after_build do |build|
 #       build.request = Factory(:jasmine_request, :repository => build.repository, :commit => build.commit)
 #       build.save
 #       build.reload
 
-#       [ :id, :number, :status, :started_at, :finished_at ].each do |entry|
+#       [ :id, :number, :result, :started_at, :finished_at ].each do |entry|
 #         build.repository.send("last_build_#{entry.to_s}=", build.send(entry.to_s))
 #         puts build.send(entry.to_s)
 #       end
