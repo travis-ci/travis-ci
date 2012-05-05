@@ -16,9 +16,7 @@ TravisCi::Application.routes.draw do
   resources :requests, :only => :create
   resources :jobs,     :only => [:index, :show]
 
-
-  # match 'queues',      :to => 'queues#index'
-  match 'workers',     :to => 'workers#index'
+  get 'workers',     :to => 'workers#index'
 
   resource :profile, :only => [:show, :update] do
     get 'service_hooks',     :to => 'service_hooks#index'
@@ -26,16 +24,16 @@ TravisCi::Application.routes.draw do
   end
 
   constraints :owner_name => /[^\/]+/, :name => /[^\/]+/ do
-    match ":owner_name/:name.png", :to => 'repositories#show', :format => 'png'
-    match ":owner_name/:name.json", :to => 'repositories#show', :format => 'json'
-    match ":owner_name/:name.xml", :to => 'repositories#show', :format => 'xml'
-    match ":owner_name/:name/cc.xml", :to => 'repositories#show', :format => 'xml', :schema => 'cctray'
+    get ":owner_name/:name.png", :to => 'repositories#show', :format => 'png'
+    get ":owner_name/:name.json", :to => 'repositories#show', :format => 'json'
+    get ":owner_name/:name.xml", :to => 'repositories#show', :format => 'xml'
+    get ":owner_name/:name/cc.xml", :to => 'repositories#show', :format => 'xml', :schema => 'cctray'
 
-    match ":owner_name/:name/builds.xml", :to => 'builds#index', :format => 'xml'
-    match ":owner_name/:name/builds.json", :to => 'builds#index', :format => 'json'
+    get ":owner_name/:name/builds.xml", :to => 'builds#index', :format => 'xml'
+    get ":owner_name/:name/builds.json", :to => 'builds#index', :format => 'json'
 
-    match ":owner_name/:name/builds/:id.xml", :to => 'builds#show', :format => 'xml'
-    match ":owner_name/:name/builds/:id.json", :to => 'builds#show', :format => 'json'
+    get ":owner_name/:name/builds/:id.xml", :to => 'builds#show', :format => 'xml'
+    get ":owner_name/:name/builds/:id.json", :to => 'builds#show', :format => 'json'
   end
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
@@ -44,7 +42,7 @@ TravisCi::Application.routes.draw do
     get 'users/sign_out', :to => 'devise/sessions#destroy', :as => :destroy_session
   end
 
-  match "/stats" => "statistics#index"
+  get "/stats" => "statistics#index"
 
   # legacy routes used by github service hooks and workers
   post 'builds', :to => 'requests#create'
@@ -53,11 +51,11 @@ end
 # we want these after everything else is loaded
 TravisCi::Application.routes.append do
   constraints :user => /[^\/]+/, :repository => /[^\/]+/ do
-    match ":user",                        :to => redirect("/#!/%{user}"),                            :as => :user_redirect
-    match ":user/:repository",            :to => redirect("/#!/%{user}/%{repository}"),              :as => :user_repo_redirect
-    match ":user/:repository/builds",     :to => redirect("/#!/%{user}/%{repository}/builds"),       :as => :user_repo_builds_redirect
-    match ":user/:repository/builds/:id", :to => redirect("/#!/%{user}/%{repository}/builds/%{id}"), :as => :user_repo_build_redirect
+    get ":user",                        :to => redirect("/#!/%{user}"),                            :as => :user_redirect
+    get ":user/:repository",            :to => redirect("/#!/%{user}/%{repository}"),              :as => :user_repo_redirect
+    get ":user/:repository/builds",     :to => redirect("/#!/%{user}/%{repository}/builds"),       :as => :user_repo_builds_redirect
+    get ":user/:repository/builds/:id", :to => redirect("/#!/%{user}/%{repository}/builds/%{id}"), :as => :user_repo_build_redirect
   end
 
-  match "/*path" => "home#not_found"
+  get "/*path" => "home#not_found"
 end
