@@ -6,7 +6,7 @@ module Scenario
       build :repository => minimal,
             :number => 1,
             :config => { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'] },
-            :status => 1,
+            :result => 1,
             :state  => 'finished',
             :started_at => '2010-11-12 12:00:00',
             :finished_at => '2010-11-12 12:00:10',
@@ -26,7 +26,7 @@ module Scenario
       build :repository => minimal,
             :number => 2,
             :config => { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'] },
-            :status => 0,
+            :result => 0,
             :state  => 'finished',
             :started_at => '2010-11-12 12:30:00',
             :finished_at => '2010-11-12 12:30:20',
@@ -46,7 +46,7 @@ module Scenario
       build :repository => minimal,
             :number => '3',
             :config => { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'] },
-            :status => '',
+            :result => '',
             :state  => 'configured',
             :started_at => '2010-11-12 13:00:00',
             :finished_at => nil,
@@ -68,7 +68,7 @@ module Scenario
 
       build :repository => enginex,
             :number => 1,
-            :status => 1,
+            :result => 1,
             :state  => 'finished',
             :started_at => '2010-11-11 12:00:00',
             :finished_at => '2010-11-11 12:00:05',
@@ -105,7 +105,7 @@ module Scenario
       end
 
       if build.finished?
-        keys = %w(id number status finished_at started_at)
+        keys = %w(id number result finished_at started_at)
         attributes = keys.inject({}) { |result, key| result.merge(:"last_build_#{key}" => build.send(key)) }
         build.repository.update_attributes!(attributes)
       end

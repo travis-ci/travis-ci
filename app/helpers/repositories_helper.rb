@@ -1,6 +1,6 @@
 module RepositoriesHelper
-  def cctray_build_status(status)
-    case status
+  def cctray_build_result(result)
+    case result
     when 0
       'Success'
     when 1
@@ -9,10 +9,10 @@ module RepositoriesHelper
       'Unknown'
     end
   end
-  
+
   def cctray_build_activity(build)
     return 'Sleeping' unless build
-    
+
     if build.started? && !build.finished?
       'Building'
     elsif build.finished?

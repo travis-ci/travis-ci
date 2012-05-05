@@ -63,16 +63,16 @@ FactoryGirl.define do
   end
 
   factory :successful_build, :parent => :build do
-    repository { Factory(:repository, :name => 'successful_build', :last_build_status => 0) }
-    status 0
+    repository { Factory(:repository, :name => 'successful_build', :last_build_result => 0) }
+    result 0
     state 'finished'
     started_at { Time.now.utc }
     finished_at { Time.now.utc }
   end
 
   factory :broken_build, :parent => :build do
-    repository { Factory(:repository, :name => 'broken_build', :last_build_status => 1) }
-    status 1
+    repository { Factory(:repository, :name => 'broken_build', :last_build_result => 1) }
+    result 1
     state 'finished'
     started_at { Time.now.utc }
     finished_at { Time.now.utc }
