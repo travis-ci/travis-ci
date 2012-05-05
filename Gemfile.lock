@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: git://github.com/pivotal/jasmine-gem
-  revision: c72e8d248d49a1ebe53f31a09ac511194ad4edf1
+  revision: 2c2df6611ed20b9067167065cbbd82866f56f00b
   submodules: true
   specs:
     jasmine (1.2.0.rc3)
@@ -24,15 +24,6 @@ GIT
       rack (>= 0.9.1)
 
 GIT
-  remote: git://github.com/randym/localeapp-i18n-js
-  revision: 521a0e289a3bfc6fff51f2f37d34d45a726e43c5
-  specs:
-    localeapp-i18n-js (0.0.1a)
-      i18n-js
-      localeapp
-      rails (~> 3.2.1)
-
-GIT
   remote: git://github.com/rkh/gh
   revision: a938b67c5f5a44940494b258b84775b0429315df
   specs:
@@ -43,7 +34,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: e96f7edf34fe5237c4b3ce0ae7824668dcd4f75a
+  revision: 94c8cce4ce01559233ff91ca8a95673821e98920
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
@@ -76,6 +67,12 @@ GIT
     rake-pipeline (0.6.0)
       rake (~> 0.9.0)
       thor
+
+GIT
+  remote: https://github.com/travis-ci/travis-assets
+  revision: f9372474d5bd6f08801b28438ec05107c23cfbcb
+  specs:
+    travis-assets (0.0.1)
 
 GIT
   remote: https://github.com/wycats/rake-pipeline-web-filters.git
@@ -133,16 +130,7 @@ GEM
       xpath (~> 0.1.4)
     childprocess (0.3.2)
       ffi (~> 1.0.6)
-    chunky_png (1.2.5)
-    coffee-script (2.2.0)
-      coffee-script-source
-      execjs
-    coffee-script-source (1.3.1)
     columnize (0.3.6)
-    compass (0.12.alpha.4)
-      chunky_png (~> 1.2)
-      fssm (>= 0.2.7)
-      sass (~> 3.1)
     crack (0.3.1)
     daemons (1.1.8)
     data_migrations (0.0.1)
@@ -172,8 +160,6 @@ GEM
       term-ansicolor (~> 1.0.7)
       thor (>= 0.13.6)
     forgery (0.5.0)
-    fssm (0.2.9)
-    gli (1.6.0)
     hashie (1.2.0)
     hashr (0.0.21)
     hike (1.2.1)
@@ -181,8 +167,6 @@ GEM
     http_accept_language (1.0.2)
     httpauth (0.1)
     i18n (0.6.0)
-    i18n-js (2.1.2)
-      i18n
     jasmine-core (1.2.0.rc3)
     journey (1.0.3)
     json (1.6.7)
@@ -191,12 +175,6 @@ GEM
       addressable
     linecache19 (0.5.13)
       ruby_core_source (>= 0.1.4)
-    localeapp (0.4.3)
-      gli
-      i18n
-      json
-      rest-client
-      ya2yaml
     lograge (0.0.4)
       actionpack
       activesupport
@@ -278,8 +256,6 @@ GEM
       json (~> 1.4)
     redis (2.2.2)
     refraction (0.2.0)
-    rest-client (1.6.7)
-      mime-types (>= 1.16)
     rollout (1.1.0)
     rspec (2.8.0)
       rspec-core (~> 2.8.0)
@@ -306,7 +282,6 @@ GEM
     ruby_core_source (0.1.5)
       archive-tar-minitar (>= 0.5.2)
     rubyzip (0.9.8)
-    sass (3.1.16)
     selenium-webdriver (2.21.2)
       childprocess (>= 0.2.5)
       ffi (~> 1.0)
@@ -345,7 +320,6 @@ GEM
       crack (>= 0.1.7)
     xpath (0.1.4)
       nokogiri (~> 1.3)
-    ya2yaml (0.31)
     yajl-ruby (1.1.0)
 
 PLATFORMS
@@ -355,8 +329,6 @@ DEPENDENCIES
   backports (~> 2.3.0)
   bunny (~> 0.7.9)
   capybara (~> 1.1.2)
-  coffee-script (~> 2.2.0)
-  compass (= 0.12.alpha.4)
   database_cleaner (~> 0.7.0)
   devise (~> 2.0.4)
   execjs (= 1.3.0)
@@ -366,11 +338,8 @@ DEPENDENCIES
   gh!
   http_accept_language (~> 1.0.2)
   hubble!
-  i18n-js (~> 2.1.2)
   jasmine!
   json (~> 1.6.3)
-  localeapp (~> 0.4.1)
-  localeapp-i18n-js!
   lograge (~> 0.0.4)
   mocha (~> 0.10.0)
   newrelic_rpm (~> 3.3.0)
@@ -386,6 +355,7 @@ DEPENDENCIES
   rspec-rails (~> 2.8.0)
   ruby-debug19
   thin (~> 1.3.1)
+  travis-assets!
   travis-core!
   travis-support!
   unicorn (~> 4.1.1)

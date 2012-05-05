@@ -3,8 +3,6 @@ require 'http_accept_language'
 class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
 
-  prepend_view_path File.expand_path('../../views/v1/default', __FILE__)
-
   protect_from_forgery
 
   before_filter :set_gitsha_header

@@ -1,11 +1,10 @@
 require 'spec_helper'
 
-describe ApplicationController do
+describe HomeController do # using HomeController because nothing routes to ApplicationController
   let(:user) { Factory(:user) }
 
   before(:all) do
-
-    ApplicationController.class_eval do
+    HomeController.class_eval do
       def index
         render :text => "dur...."
       end
@@ -19,7 +18,6 @@ describe ApplicationController do
   end
 
   describe 'set_locale' do
-
     it 'prefers hl query parameter over anything else' do
       sign_in user
       controller.current_user.locale = :es
@@ -58,7 +56,5 @@ describe ApplicationController do
       get :index
       I18n.locale.should == I18n.default_locale
     end
-
   end
-
 end
