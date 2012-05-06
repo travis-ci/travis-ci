@@ -28,7 +28,7 @@ module Responders
       end
 
       def result
-        STATUS_NAMES[resource.try(:last_build_result, controller.params)]
+        STATUS_NAMES[resource.try(:last_build_result_on, controller.params)]
       end
   end
 end
