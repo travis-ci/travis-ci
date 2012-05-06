@@ -89,7 +89,10 @@
       "link": "<a href=\"http://www.atomicobject.com/detroit\">Atomic Object</a><span>: Work with really smart people</span>"
     },
     {
-      "link": "<a href=\"http://\">Codeminer</a><span>: smart services for your startup</span>"
+      "link": "<a href=\"http://codeminer.com.br\">Codeminer</a><span>: smart services for your startup</span>"
+    },
+    {
+      "link": "<a href=\"http://cloudant.com\">Cloudant</a><span>: grow into your data layer, not out of it</span>"
     }
   ]
 }
