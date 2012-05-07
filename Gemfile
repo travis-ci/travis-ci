@@ -17,7 +17,6 @@ gem 'unobtrusive_flash',    '~> 0.0.2'
 # structures
 gem 'json',                 '~> 1.6.3'
 gem 'yajl-ruby',            '~> 1.1.0'
-gem 'rabl',                 '~> 0.5.1'
 gem 'rack-contrib', git: 'git://github.com/rack/rack-contrib', require: 'rack/contrib'
 
 # db
@@ -35,10 +34,6 @@ gem 'http_accept_language', '~> 1.0.2'
 
 # heroku
 gem 'unicorn',              '~> 4.1.1'
-
-# assets
-group :assets do
-end
 
 group :development, :test do
   gem 'thin',               '~> 1.3.1'
