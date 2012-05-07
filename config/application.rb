@@ -28,8 +28,8 @@ module TravisCi
     # each page load during development
     # thanks to Ryan Bigg for this advice
     config.to_prepare do
-      Dir.glob(File.expand_path("app/models/*_slice.rb")) do |c|
-        Rails.configuration.cache_classes ? require(c) : load(c)
+      Dir[File.expand_path('../../app/models/*_slice.rb', __FILE__)].each do |file|
+        Rails.configuration.cache_classes ? require(file) : load(file)
       end
     end
   end
