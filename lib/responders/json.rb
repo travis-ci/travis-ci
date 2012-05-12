@@ -15,11 +15,15 @@ module Responders
       end
 
       def data
-        collection? && resource.empty? ? [] : renderer(controller.params).data
+        collection? && resource.empty? ? [] : build
       end
 
       def renderer(options = {})
-        "Travis::Api::Json::Http::#{type}".constantize.new(resource, options)
+        Travis::Api::Http.data(type, resource, controller.params, :version => version)
+      end
+
+      def version
+        'v1' # TODO how to specify the version?
       end
 
       def type
