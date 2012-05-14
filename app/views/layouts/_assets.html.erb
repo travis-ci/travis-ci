@@ -12,6 +12,7 @@
   I18n.fallbacks = <%= Rails.env.production? %>;
 
   var env = Travis.env = '<%= Travis.env %>';
+  var pusher = new Pusher('<%= Travis.config.pusher.key %>');
 
   Travis.assets = {
     host:    '<%= Travis.config.assets.host %>',

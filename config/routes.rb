@@ -8,20 +8,20 @@ TravisCi::Application.routes.draw do
   root :to => 'home#index'
 
   resources :repositories, :only => [:index, :show] do
-    resources :builds, :only => [:index, :show]
-    resources :branches, :only => :index
+    resources :builds,     :only => [:index, :show]
+    resources :branches,   :only => [:index]
   end
 
-  resources :branches, :only => :index
-  resources :builds,   :only => :show
-  resources :requests, :only => :create
+  resources :branches, :only => [:index]
+  resources :builds,   :only => [:index, :show]
+  resources :requests, :only => [:create]
   resources :jobs,     :only => [:index, :show]
 
   get 'workers',     :to => 'workers#index'
 
   resource :profile, :only => [:show, :update] do
-    get 'service_hooks',     :to => 'service_hooks#index'
-    put 'service_hooks/:id', :to => 'service_hooks#update'
+    get 'service_hooks',                   :to => 'service_hooks#index'
+    put 'service_hooks/:owner_name/:name', :to => 'service_hooks#update'
   end
 
   constraints :owner_name => /[^\/]+/, :name => /[^\/]+/ do
