@@ -8,12 +8,12 @@ class ServiceHooksController < ApplicationController
   respond_to :json
 
   def index
-    respond_with(service_hooks)
+    respond_with(:service_hooks => service_hooks)
   end
 
   def update
-    repository.service_hook.set(params[:active] == 'true', current_user)
-    respond_with(repository)
+    service_hook.set(payload[:active], current_user)
+    respond_with(:service_hook => service_hook)
   end
 
   private
@@ -24,5 +24,13 @@ class ServiceHooksController < ApplicationController
 
     def repository
       @repository ||= Repository.find_or_create_by_owner_name_and_name(params[:owner_name], params[:name])
+    end
+
+    def service_hook
+      repository.service_hook
+    end
+
+    def payload
+      params[:service_hook] || {}
     end
 end

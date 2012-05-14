@@ -7,11 +7,11 @@ class BranchesController < ApplicationController
 
   protected
 
-    def repository
-      @repository ||= Repository.find(params[:repository_id])
+    def branches
+      Travis::Api::Http.data(repository, params, :type => :branches, :version => 'v2')
     end
 
-    def branches
-      Travis::Api::Json::Http::Branches.new(repository).data
+    def repository
+      @repository ||= Repository.find(params[:repository_id])
     end
 end

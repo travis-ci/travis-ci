@@ -28,7 +28,7 @@ describe ServiceHooksController do
 
     context 'subscribes to a service hook' do
       it 'creates a repository if it does not exist' do
-        put :update, :id => 1, :name => 'minimal', :owner_name => 'svenfuchs', :active => 'true'
+        put :update, :name => 'minimal', :owner_name => 'svenfuchs', :service_hook => { :active => true }
 
         Repository.count.should == 1
         Repository.first.active?.should be_true
@@ -39,7 +39,7 @@ describe ServiceHooksController do
       it 'updates an existing repository if it exists' do
         repository = Factory(:repository)
 
-        put :update, :id => 1, :name => 'minimal', :owner_name => 'svenfuchs', :active => 'true'
+        put :update, :name => 'minimal', :owner_name => 'svenfuchs', :service_hook => { :active => true }
 
         Repository.count.should == 1
         Repository.first.active?.should be_true
