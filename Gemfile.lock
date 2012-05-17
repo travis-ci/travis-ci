@@ -35,7 +35,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: f7fb768b51e8bd6d344b371db2c44196e956d0ab
+  revision: d7206ea12d766c2e59b4f88064f714f4bc312133
   branch: api-versioning
   specs:
     travis-core (0.0.1)
