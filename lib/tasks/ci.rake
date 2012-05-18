@@ -9,12 +9,11 @@ task :ci_env do
   ENV['RAILS_ENV'] = 'test'
 end
 
-task :jasmine_on_travis => ['ci_env', 'assets:clean', 'assets:precompile'] do
+task :jasmine_on_travis => ['ci_env'] do
   require 'jasmine'
   load 'jasmine/tasks/jasmine.rake'
   puts "Starting to run jasmine:ci..."
   system("export DISPLAY=:99.0 && bundle exec rake jasmine:ci")
   stat = $?.exitstatus
-  system("bundle exec rake assets:clean")
   exit(stat)
 end
