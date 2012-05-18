@@ -181,7 +181,7 @@ GEM
     kgio (2.7.4)
     libwebsocket (0.1.3)
       addressable
-    linecache19 (0.5.13)
+    linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
     lograge (0.0.4)
       actionpack
