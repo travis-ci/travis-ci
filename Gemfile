@@ -62,12 +62,8 @@ group :development do
 end
 
 group :test do
-  gem 'jasmine',           git: 'git://github.com/pivotal/jasmine-gem', submodules: true
   gem 'capybara',          '~> 1.1.2'
   gem 'database_cleaner',  '~> 0.7.0'
   gem 'mocha',             '~> 0.10.0'
   gem 'webmock',           '~> 1.7.7'
-
-  # gotta wait for QT 4.7
-  # gem 'jasmine-headless-webkit'
 end
