@@ -66,7 +66,4 @@ group :test do
   gem 'database_cleaner',  '~> 0.7.0'
   gem 'mocha',             '~> 0.10.0'
   gem 'webmock',           '~> 1.7.7'
-
-  # gotta wait for QT 4.7
-  # gem 'jasmine-headless-webkit'
 end
