@@ -1,7 +1,9 @@
+require 'responders'
+
 class OrganizationsController < ApplicationController
   before_filter :authenticate_user!
 
-  responders :rabl
+  responders :json
   respond_to :json
 
   def index
