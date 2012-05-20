@@ -72,7 +72,6 @@ describe 'JSONP API' do
        'last_build_result'      => rep.last_build_result,
        'last_build_started_at'  => rep.last_build_started_at.as_json,
        'last_build_finished_at' => rep.last_build_finished_at.as_json,
-       'public_key_id'          => rep.key.id
     )
   end
 end

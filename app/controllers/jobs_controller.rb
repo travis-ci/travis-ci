@@ -15,7 +15,11 @@ class JobsController < ApplicationController
   protected
 
     def jobs
-      @jobs ||= Job.queued.where(:queue => params[:queue])
+      @jobs ||= begin
+        jobs = Job.queued
+        jobs = jobs.where(:queue => params[:queue]) if params[:queue]
+        jobs
+      end
     end
 
     def job
