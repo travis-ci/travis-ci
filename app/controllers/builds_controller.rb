@@ -24,7 +24,7 @@ class BuildsController < ApplicationController
 
     def builds
       @builds ||= begin
-        scope = repository.builds.for_event_type(params['event_type'])
+        scope = repository.builds.by_event_type(params[:event_type] || 'push')
         scope = params[:after] ? scope.older_than(params[:after]) : scope.recent
         scope
       end
