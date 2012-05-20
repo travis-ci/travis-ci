@@ -51,7 +51,6 @@ describe RepositoriesController do
 
       json_response['repository'].should == {
         'id' => repository.id,
-        'public_key_id' => repository.key.id,
         'slug' => 'sven/travis-ci',
         'description' => nil,
         'last_build_finished_at' => '2010-11-12T12:30:20Z',
