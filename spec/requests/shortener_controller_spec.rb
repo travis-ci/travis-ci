@@ -5,7 +5,7 @@ describe ShortenerController do
     it 'should redirect to travis-ci.org' do
       get '/', nil, { 'HTTP_HOST' => 'trvs.io' }
       response.should be_redirect
-      response.should redirect_to 'http://travis-ci.org'
+      response.should redirect_to "http://#{Travis.config.host}"
     end
   end
 
