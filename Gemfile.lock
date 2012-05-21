@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: git://github.com/rack/rack-contrib
-  revision: b7e7c38fd02c3b5da91aa57af78b3f571c6ebcd0
+  revision: 451f029857d655c4a37012564eb49665d2f9313a
   specs:
     rack-contrib (1.1.0)
       rack (>= 0.9.1)
@@ -24,7 +24,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 9272320ebd371d66f8d94189d0d30c123e4c96d5
+  revision: 1ef13d18d35cc441543f4a53aae5af1378a52283
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
