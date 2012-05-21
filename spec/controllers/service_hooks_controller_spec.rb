@@ -1,11 +1,36 @@
 require 'spec_helper'
 
+RSpec.configure do |t|
+  t.backtrace_clean_patterns = []
+end
+
 describe ServiceHooksController do
   before(:each) do
     sign_in_user user
   end
 
   let(:user) { Factory(:user, :github_oauth_token => 'github_oauth_token') }
+
+  let(:data) do
+    [
+      {
+      'name' => 'safemode',
+      'owner' => { 'login' => 'svenfuchs' },
+      'description' => 'the description',
+      '_links' => { 'html' => { 'href' => 'https://github.com/svenfuchs/safemode' }}
+      },
+      {
+      'name' => 'scriptaculous-sortabletree',
+      'owner' => { 'login' => 'svenfuchs' },
+      'description' => 'the description',
+      '_links' => { 'html' => { 'href' => 'https://github.com/svenfuchs/scriptaculous-sortabletree' }}
+      }
+    ]
+  end
+
+  before :each do
+    Travis::Github.stubs(:repositories_for).returns(data)
+  end
 
   describe 'GET :index' do
     it 'should return repositories of current user' do
@@ -23,7 +48,7 @@ describe ServiceHooksController do
 
   describe 'PUT :update' do
     before(:each) do
-      stub_request :post, 'https://api.github.com/hub?access_token=github_oauth_token'
+      stub_request(:post, 'https://api.github.com/hub').to_return(:body => '[]')
     end
 
     context 'subscribes to a service hook' do
@@ -33,7 +58,7 @@ describe ServiceHooksController do
         Repository.count.should == 1
         Repository.first.active?.should be_true
 
-        assert_requested(:post, 'https://api.github.com/hub?access_token=github_oauth_token', :times => 1)
+        assert_requested(:post, 'https://api.github.com/hub', :times => 1)
       end
 
       it 'updates an existing repository if it exists' do
@@ -44,17 +69,8 @@ describe ServiceHooksController do
         Repository.count.should == 1
         Repository.first.active?.should be_true
 
-        assert_requested(:post, 'https://api.github.com/hub?access_token=github_oauth_token', :times => 1)
+        assert_requested(:post, 'https://api.github.com/hub', :times => 1)
       end
-
-      it 'should not be acceptable if a Travis::Github::ServiceHookError is raised' do
-        Repository.any_instance.expects(:service_hook).raises(Travis::Github::ServiceHookError)
-
-        put :update, :id => 1, :name => 'minimal', :owner_name => 'svenfuchs', :active => 'true'
-
-        assert_response :not_acceptable
-      end
-
     end
 
     context 'unsubscribes from the service hook' do
@@ -65,7 +81,7 @@ describe ServiceHooksController do
 
         Repository.first.active?.should be_false
 
-        assert_requested(:post, 'https://api.github.com/hub?access_token=github_oauth_token', :times => 1)
+        assert_requested(:post, 'https://api.github.com/hub', :times => 1)
       end
     end
   end
