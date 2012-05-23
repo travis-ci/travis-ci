@@ -3,8 +3,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user = User.find_or_create_for_oauth(env["omniauth.auth"])
 
     if user.persisted?
-      Repository.sync_for(user)
-
+      user.sync
       flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "GitHub"
       sign_in user, :event => :authentication
     end
