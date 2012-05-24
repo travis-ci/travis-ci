@@ -18,12 +18,16 @@ class RepositoriesController < ApplicationController
 
     def repositories
       @repositories ||= begin
-        scope = Repository.timeline.recent
+        scope = params[:login] ? organization.repositories : Repository.timeline.recent
         scope = scope.by_owner_name(params[:owner_name]) if params[:owner_name]
         scope = scope.by_slug(params[:slug])             if params[:slug]
         scope = scope.search(params[:search])            if params[:search].present?
         scope
       end
+    end
+
+    def organization
+      @organization ||= Organization.find_by_login!(params[:login])
     end
 
     def repository

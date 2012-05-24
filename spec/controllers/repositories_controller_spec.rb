@@ -25,6 +25,19 @@ describe RepositoriesController do
         result.count.should  == 1
         result.first['slug'].should == 'svenfuchs/minimal'
       end
+
+      it 'filtered by organization' do
+        org   = FactoryGirl.create(:organization)
+        repos = [FactoryGirl.create(:repository, :owner => org, :name => 'repos 1'), FactoryGirl.create(:repository, :owner => org, :name => 'repos 2')]
+
+        get(:index, :login => org.login, :format => :json)
+
+        response.should be_success
+        result = ActiveSupport::JSON.decode(response.body)
+        result.count.should  == 2
+        result.first['name'].should == 'repos 1'
+        result.last['name'].should  == 'repos 2'
+      end
     end
   end
 

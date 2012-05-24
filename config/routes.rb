@@ -12,6 +12,12 @@ TravisCi::Application.routes.draw do
     resources :branches, :only => :index
   end
 
+  resources :organizations, :only => :index do
+    collection do
+      get ':login/repositories', :to => "repositories#index"
+    end
+  end
+
   resources :branches, :only => :index
   resources :builds,   :only => :show
   resources :requests, :only => :create
