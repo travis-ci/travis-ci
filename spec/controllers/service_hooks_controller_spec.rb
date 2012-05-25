@@ -5,44 +5,22 @@ RSpec.configure do |t|
 end
 
 describe ServiceHooksController do
-  before(:each) do
-    sign_in_user user
-  end
-
   let(:user) { Factory(:user, :github_oauth_token => 'github_oauth_token') }
-
-  let(:data) do
-    [
-      {
-      'name' => 'safemode',
-      'owner' => { 'login' => 'svenfuchs' },
-      'description' => 'the description',
-      '_links' => { 'html' => { 'href' => 'https://github.com/svenfuchs/safemode' }}
-      },
-      {
-      'name' => 'scriptaculous-sortabletree',
-      'owner' => { 'login' => 'svenfuchs' },
-      'description' => 'the description',
-      '_links' => { 'html' => { 'href' => 'https://github.com/svenfuchs/scriptaculous-sortabletree' }}
-      }
-    ]
-  end
+  let(:repo) { Factory(:repository) }
 
   before :each do
-    Travis::Github.stubs(:repositories_for).returns(data)
+    user.permissions.create!(:repository => repo, :user => user, :admin => true)
+    sign_in_user user
   end
 
   describe 'GET :index' do
     it 'should return repositories of current user' do
       get(:index, :format => 'json')
-
       response.should be_success
 
       result = json_response
-      result.first['name'].should   == 'safemode'
-      result.first['owner_name'].should  == 'svenfuchs'
-      result.second['name'].should  == 'scriptaculous-sortabletree'
-      result.second['owner_name'].should == 'svenfuchs'
+      result.first['name'].should   == repo.name
+      result.first['owner_name'].should  == repo.owner_name
     end
   end
 
@@ -62,8 +40,6 @@ describe ServiceHooksController do
       end
 
       it 'updates an existing repository if it exists' do
-        repository = Factory(:repository)
-
         put :update, :id => 1, :name => 'minimal', :owner_name => 'svenfuchs', :active => 'true'
 
         Repository.count.should == 1
@@ -75,8 +51,6 @@ describe ServiceHooksController do
 
     context 'unsubscribes from the service hook' do
       it 'updates an existing repository' do
-        repository = Factory(:repository)
-
         put :update, :id => 1, :name => 'minimal', :owner_name => 'svenfuchs', :active => 'false'
 
         Repository.first.active?.should be_false
