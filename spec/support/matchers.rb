@@ -160,3 +160,33 @@ RSpec::Matchers.define :be_published do |*args|
   end
 end
 
+# class RouteToVersionMatcher
+#   include RSpec::Matchers::BaseMatcher
+#
+#   def initialize(scope, version)
+#     @scope = scope
+#     @expected_version = version
+#   end
+#
+#   def matches?(verb_to_path_map)
+#     @verb_to_path_map = verb_to_path_map
+#     path, query = *verb_to_path_map.values.first.split('?')
+#     request = @scope.send(:recognized_request_for, path)
+#     controller = request.path_parameters[:controller]
+#     @actual_version = controller.split('/').first
+#     @expected_version == @actual_version
+#   end
+#
+#   def failure_message
+#     "#{@verb_to_path_map.inspect} was expected to be routed to #{@expected_version.inspect} but was routed to #{@actual_version}."
+#   end
+#
+#   def negative_failure_message
+#     "#{@verb_to_path_map.inspect} was expected not to be routed to #{@expected_version.inspect} but it was."
+#   end
+# end
+#
+# def route_to_version(version)
+#   RouteToVersionMatcher.new(self, version)
+# end
+

@@ -37,8 +37,8 @@ TravisCi::Application.routes.draw do
     end
   end
 
-  api_version :module => 'v1', :parameter => 'version', :value => 'v1', :default => true, &api
-  api_version :module => 'v2', :parameter => 'version', :value => 'v2', &api
+  scope :module => 'v2', constraints: ApiConstraints.new(version: 2), &api
+  scope :module => 'v1', constraints: ApiConstraints.new(version: 1, default: true), &api
 end
 
 # we want these after everything else is loaded
