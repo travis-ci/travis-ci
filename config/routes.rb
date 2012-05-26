@@ -16,52 +16,29 @@ TravisCi::Application.routes.draw do
 
   get "/stats" => "statistics#index"
 
-  scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
+  api = lambda do
     constraints :format => 'json' do
       resources :repositories, :only => [:index, :show]
-      resources :builds,   :only => [:index, :show]
-      resources :branches, :only => :index
-      resources :jobs,     :only => [:index, :show]
-      resources :workers,  :only => :index
+      resources :builds,       :only => [:index, :show]
+      resources :branches,     :only => :index
+      resources :jobs,         :only => [:index, :show]
+      resources :workers,      :only => :index
 
       get 'profile/service_hooks',     :to => 'service_hooks#index'
       put 'profile/service_hooks/:id', :to => 'service_hooks#update'
     end
 
     constraints :owner_name => /[^\/]+/, :name => /[^\/]+/ do
-      get ":owner_name/:name.png",             :to => 'repositories#show', :format => 'png'
-      get ":owner_name/:name.json",            :to => 'repositories#show', :format => 'json'
-      get ":owner_name/:name.xml",             :to => 'repositories#show', :format => 'xml'
-      get ":owner_name/:name/cc.xml",          :to => 'repositories#show', :format => 'xml', :schema => 'cctray'
-
-      get ":owner_name/:name/builds.xml",      :to => 'builds#index', :format => 'xml'
-      get ":owner_name/:name/builds.json",     :to => 'builds#index', :format => 'json'
-
-      get ":owner_name/:name/builds/:id.xml",  :to => 'builds#show', :format => 'xml'
-      get ":owner_name/:name/builds/:id.json", :to => 'builds#show', :format => 'json'
+      get ":owner_name/:name.json",            :to => 'repositories#show', :format => :json
+      get ":owner_name/:name.png",             :to => 'repositories#show', :format => :png
+      get ":owner_name/:name/builds.json",     :to => 'builds#index',      :format => :json
+      get ":owner_name/:name/builds/:id.json", :to => 'builds#show',       :format => :json
+      get ":owner_name/:name/cc.xml",          :to => 'repositories#show', :format => :xml, :schema => 'cctray'
     end
   end
 
-  scope module: :v2, constraints: ApiConstraints.new(version: 2, default: true) do
-    constraints :format => 'json' do
-      resources :repositories, :only => [:index, :show]
-      resources :builds,   :only => [:index, :show]
-      resources :branches, :only => :index
-      resources :jobs,     :only => [:index, :show]
-      resources :workers,  :only => :index
-
-      get 'service_hooks',     :to => 'service_hooks#index'
-      put 'service_hooks/:id', :to => 'service_hooks#update'
-    end
-
-    constraints :owner_name => /[^\/]+/, :name => /[^\/]+/ do
-      get ":owner_name/:name.png",             :to => 'repositories#show', :format => 'png'
-      get ":owner_name/:name.json",            :to => 'repositories#show', :format => 'json'
-      get ":owner_name/:name/builds.json",     :to => 'builds#index', :format => 'json'
-      get ":owner_name/:name/builds/:id.json", :to => 'builds#show', :format => 'json'
-      get ":owner_name/:name/cc.xml",          :to => 'repositories#show', :format => 'xml', :schema => 'cctray'
-    end
-  end
+  api_version :module => 'v1', :parameter => 'version', :value => 'v1', :default => true, &api
+  api_version :module => 'v2', :parameter => 'version', :value => 'v2', &api
 end
 
 # we want these after everything else is loaded

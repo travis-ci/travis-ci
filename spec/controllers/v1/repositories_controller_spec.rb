@@ -67,7 +67,7 @@ describe V1::RepositoriesController do
     end
 
     it "returns not found for an unknown repository" do
-      get :show, :owner_name => 'mattmatt', :name => "roidrage"
+      get :show, :owner_name => 'mattmatt', :name => 'roidrage', :format => 'json'
       response.should be_not_found
     end
 
