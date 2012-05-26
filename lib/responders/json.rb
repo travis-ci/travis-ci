@@ -15,7 +15,7 @@ module Responders
       end
 
       def data
-        Travis::Api::Http.data(resource, controller.params, :version => version)
+        Travis::Api.data(resource, :params => controller.params, :version => version)
       end
 
       def version

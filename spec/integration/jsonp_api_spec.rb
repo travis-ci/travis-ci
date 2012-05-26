@@ -63,15 +63,18 @@ describe 'JSONP API' do
     end
   end
 
+  # TODO wat.
   def validate_repository_info(rep, info)
     json = ActiveSupport::JSON.decode(info)
-    json['repository'].should == rep.attributes.slice(
-       'id', 'description', 'last_build_id', 'last_build_number', 'last_build_result', 'last_build_language', 'last_build_duration'
+    json.should == rep.attributes.slice(
+       'id', 'description', 'last_build_id', 'last_build_number', 'last_build_status', 'last_build_result', 'last_build_language', 'last_build_duration'
     ).merge(
        'slug'                   => rep.slug,
+       'last_build_status'      => rep.last_build_result,
        'last_build_result'      => rep.last_build_result,
        'last_build_started_at'  => rep.last_build_started_at.as_json,
        'last_build_finished_at' => rep.last_build_finished_at.as_json,
+       'public_key'             => rep.key.public_key
     )
   end
 end
