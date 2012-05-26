@@ -1,5 +1,5 @@
 module V1
-  class BranchesController < ApplicationController
+  class BranchesController < ApiController
     respond_to :json
 
     def index

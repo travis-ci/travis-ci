@@ -5,6 +5,6 @@ xml.Projects do
     :lastBuildStatus => cctray_build_result(@repository.last_build_result_on(params)),
     :lastBuildLabel  => @repository.last_build_number,
     :lastBuildTime   => @repository.last_build_finished_at.try(:strftime, "%Y-%m-%dT%H:%M:%S.%L%z"),
-    :webUrl          => "#{root_url}#{@repository.slug}"
+    :webUrl          => "http://#{Travis.config.domain}/#{@repository.slug}"
   })
 end

@@ -1,7 +1,9 @@
 require 'responders'
 
 module V2
-  class RepositoriesController < ApplicationController
+  class RepositoriesController < ApiController
+    helper :repositories
+
     responders :json, :xml, :result_image
 
     respond_to :json, :xml

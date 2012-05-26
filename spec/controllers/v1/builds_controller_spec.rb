@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe V1::BuildsController do
-
   before { Scenario.default }
 
   let(:repository) { Repository.first }
@@ -31,9 +30,8 @@ describe V1::BuildsController do
         json_response.should == json_for_http(build, :version => 'v1')
       end
 
-      it 'returns 404 with wrong repoid' do
-        repoid = repository.id + 1
-        get :show, :repository_id => repoid, :id => builds.first.id, :format => :json
+      it 'returns 404 with wrong repository id' do
+        get :show, :repository_id => repository.id + 1, :id => builds.first.id, :format => :json
         response.should be_not_found
       end
     end

@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe V1::BranchesController do
-
   before { Scenario.default }
 
   let(:repository) { Repository.first }

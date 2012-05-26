@@ -145,7 +145,7 @@ describe V1::RepositoriesController do
             'lastBuildStatus' => 'Failure',
             'lastBuildLabel' => '1',
             'lastBuildTime' => '2010-11-12T12:30:20.000+0000',
-            'webUrl' => 'http://test.host/sven/travis-ci'
+            'webUrl' => 'http://test.travis-ci.org/sven/travis-ci'
           }
         }
       }
