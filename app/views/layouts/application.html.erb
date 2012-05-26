@@ -15,6 +15,17 @@
 
   <body id="<%= body_id %>">
     <%= render 'layouts/top' %>
+    <%= render 'layouts/left' %>
+
+    <div id="main">
+      <%= yield %>
+    </div>
+
+    <%= render 'layouts/right' %>
+
+    <div id="flash-messages"></div>
+
     <%= render 'layouts/google_analytics' %>
+    <%= javascript_tag "var pusher = new Pusher('#{Travis.config.pusher.key}');" unless Rails.env.jasmine? %>
   </body>
 </html>
