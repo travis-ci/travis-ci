@@ -49,7 +49,7 @@ group :development, :test do
   # TODO why do we need these in development?
   gem 'factory_girl',       '~> 2.4.0'
   gem 'forgery',            '~> 0.5.0'
-  gem 'rspec-rails',        '~> 2.8.0'
+  gem 'rspec-rails',        '~> 2.10.0'
 end
 
 group :development do

@@ -9,7 +9,7 @@ module V2
     protected
 
       def branches
-        Travis::Api::Http.data(repository, params, :type => :branches, :version => 'v2')
+        Travis::Api.data(repository, :type => :branches, :params => params, :version => 'v2')
       end
 
       def repository

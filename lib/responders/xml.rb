@@ -4,7 +4,7 @@ module Responders
 
     def to_format
       if xml? && schema = xml_schema
-        render "repositories/show.#{schema}"
+        render "repositories/show/#{schema}"
       else
         super
       end

@@ -159,7 +159,7 @@ describe V1::RepositoriesController do
 
     it 'returns info about repository in CCTray (CruiseControl) XML format' do
       get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'xml', :schema => 'cctray'
-      response.should render_template('show.cctray')
+      response.should render_template('show/cctray')
     end
   end
 

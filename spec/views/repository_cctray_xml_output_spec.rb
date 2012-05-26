@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "repositories/show.cctray" do
+describe "repositories/show/cctray.xml.builder" do
   let(:rendered_xml) { ActiveSupport::XmlMini.parse(rendered) }
 
   it "renders the basic details of a repository" do
