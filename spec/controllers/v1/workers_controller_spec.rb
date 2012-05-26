@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe WorkersController, :type => :controller do
+describe V1::WorkersController, :type => :controller do
   before(:each) do
     Time.stubs(:now).returns(Time.utc(2011, 11, 11, 11, 11, 11))
 

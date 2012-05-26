@@ -19,7 +19,7 @@ module Responders
       end
 
       def renderer(options = {})
-        "Travis::Api::Json::Http::#{type}".constantize.new(resource, options)
+        "Travis::Api::Http::#{type}".constantize.new(resource, options)
       end
 
       def type

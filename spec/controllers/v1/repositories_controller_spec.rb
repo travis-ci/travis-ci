@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe RepositoriesController do
+describe V1::RepositoriesController do
   render_views
 
   describe 'GET :index returns a list of repositories' do
