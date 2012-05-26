@@ -11,7 +11,7 @@ describe V1::RepositoriesController do
         get(:index, :format => :json)
 
         response.should be_success
-        result = ActiveSupport::JSON.decode(response.body)['repositories']
+        result = json_response
         result.count.should == 2
         result.first['slug'].should  == 'svenfuchs/minimal'
         result.second['slug'].should == 'josevalim/enginex'
@@ -21,7 +21,7 @@ describe V1::RepositoriesController do
         get(:index, :owner_name => 'svenfuchs', :format => :json)
 
         response.should be_success
-        result = json_response['repositories']
+        result = json_response
         result.count.should  == 1
         result.first['slug'].should == 'svenfuchs/minimal'
       end
@@ -49,7 +49,8 @@ describe V1::RepositoriesController do
     it 'returns info about repository in json format' do
       get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json'
 
-      json_response['repository'].should == {
+      result = json_response
+      result.except('public_key').should == {
         'id' => repository.id,
         'slug' => 'sven/travis-ci',
         'description' => nil,
@@ -57,10 +58,12 @@ describe V1::RepositoriesController do
         'last_build_id' => repository.last_build_id,
         'last_build_number' => '1',
         'last_build_started_at' => '2010-11-12T12:30:00Z',
+        'last_build_status' => 1,
         'last_build_result' => 1,
         'last_build_language' => nil,
         'last_build_duration' => 160,
       }
+      result['public_key'].should =~ /BEGIN RSA PUBLIC KEY/
     end
 
     it "returns not found for an unknown repository" do
@@ -71,49 +74,49 @@ describe V1::RepositoriesController do
     context 'with parameter rvm:1.8.7' do
       it 'returns last build result passing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.8.7'
-        json_response['repository']['last_build_result'].should == 0
+        json_response['last_build_result'].should == 0
       end
     end
 
     context 'with parameter rvm:1.9.2' do
       it 'return last build result failing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.9.2'
-        json_response['repository']['last_build_result'].should == 1
+        json_response['last_build_result'].should == 1
       end
     end
 
     context 'with parameters rvm:1.8.7 and gemfile:test/Gemfile.rails-2.3.x' do
       it 'return last build result passing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.8.7', :gemfile => 'test/Gemfile.rails-2.3.x'
-        json_response['repository']['last_build_result'].should == 0
+        json_response['last_build_result'].should == 0
       end
     end
 
     context 'with parameters rvm:1.9.2 and gemfile:test/Gemfile.rails-3.0.x' do
       it 'return last build result failing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.9.2', :gemfile => 'test/Gemfile.rails-2.3.x'
-        json_response['repository']['last_build_result'].should == 1
+        json_response['last_build_result'].should == 1
       end
     end
 
     context 'with parameters rvm:1.8.7, gemfile:test/Gemfile.rails-2.3.x, and env:DB=postgres passed' do
       it 'return last build result passing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.8.7', :gemfile => 'test/Gemfile.rails-2.3.x', :env => 'DB=postgres'
-        json_response['repository']['last_build_result'].should == 0
+        json_response['last_build_result'].should == 0
       end
     end
 
     context 'with parameters rvm:1.9.2, gemfile:test/Gemfile.rails-2.3.x, and env:DB=postgres passed' do
       it 'return last build result failing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.9.2', :gemfile => 'test/Gemfile.rails-2.3.x', :env => 'DB=postgres'
-        json_response['repository']['last_build_result'].should == 1
+        json_response['last_build_result'].should == 1
       end
     end
 
     context 'with parameters rvm:perl' do
       it 'return last build result for the parent build' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => 'perl'
-        json_response['repository']['last_build_result'].should be_nil
+        json_response['last_build_result'].should be_nil
       end
     end
   end

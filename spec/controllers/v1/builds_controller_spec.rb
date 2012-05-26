@@ -10,7 +10,7 @@ describe V1::BuildsController do
   describe 'GET :index' do
     it 'returns a list of builds in json' do
       get :index, :repository_id => repository.id, :format => :json
-      json_response.should == json_for_http(builds)
+      json_response.should == json_for_http(builds, :version => 'v1', :type => :builds)
     end
   end
 
@@ -20,7 +20,7 @@ describe V1::BuildsController do
       it 'returns build details in json' do
         build = builds.first
         get :show, :id => build.id, :format => :json
-        json_response.should == json_for_http(build)
+        json_response.should == json_for_http(build, :version => 'v1')
       end
     end
 
@@ -28,7 +28,7 @@ describe V1::BuildsController do
       it 'returns build details in json' do
         build = builds.first
         get :show, :repository_id => repository.id, :id => build.id, :format => :json
-        json_response.should == json_for_http(build)
+        json_response.should == json_for_http(build, :version => 'v1')
       end
 
       it 'returns 404 with wrong repoid' do

@@ -13,7 +13,7 @@ module V1
       end
 
       def branches
-        Travis::Api::Http::V1::Branches.new(repository).data
+        Travis::Api::Http.data(repository, params, :type => :branches, :version => :v1)
       end
   end
 end

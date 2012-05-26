@@ -1,6 +1,6 @@
 require 'responders'
 
-module V1
+module V2
   class BuildsController < ApplicationController
     responders :json
     respond_to :json
@@ -23,17 +23,11 @@ module V1
         @repository ||= Repository.find_by(params) || not_found
       end
 
-      def builds_type
-        repository.builds.by_event_type(params['event_type'])
-      end
-
       def builds
         @builds ||= begin
-          if build_number = params['after_number']
-            builds_type.older_than(build_number)
-          else
-            builds_type.recent
-          end
+          scope = repository.builds.by_event_type(params[:event_type] || 'push')
+          scope = params[:after] ? scope.older_than(params[:after]) : scope.recent
+          scope
         end
       end
 

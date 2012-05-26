@@ -9,6 +9,12 @@ TravisCi::Application.routes.draw do
   root :to => 'home#index'
 
   resource :profile, :only => [:show, :update]
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  as :user do
+    get 'users/sign_out', :to => 'devise/sessions#destroy', :as => :destroy_session
+  end
+
+  get "/stats" => "statistics#index"
 
   scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
     constraints :format => 'json' do
@@ -36,13 +42,26 @@ TravisCi::Application.routes.draw do
     end
   end
 
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  scope module: :v2, constraints: ApiConstraints.new(version: 2, default: true) do
+    constraints :format => 'json' do
+      resources :repositories, :only => [:index, :show]
+      resources :builds,   :only => [:index, :show]
+      resources :branches, :only => :index
+      resources :jobs,     :only => [:index, :show]
+      resources :workers,  :only => :index
 
-  as :user do
-    get 'users/sign_out', :to => 'devise/sessions#destroy', :as => :destroy_session
+      get 'service_hooks',     :to => 'service_hooks#index'
+      put 'service_hooks/:id', :to => 'service_hooks#update'
+    end
+
+    constraints :owner_name => /[^\/]+/, :name => /[^\/]+/ do
+      get ":owner_name/:name.png",             :to => 'repositories#show', :format => 'png'
+      get ":owner_name/:name.json",            :to => 'repositories#show', :format => 'json'
+      get ":owner_name/:name/builds.json",     :to => 'builds#index', :format => 'json'
+      get ":owner_name/:name/builds/:id.json", :to => 'builds#show', :format => 'json'
+      get ":owner_name/:name/cc.xml",          :to => 'repositories#show', :format => 'xml', :schema => 'cctray'
+    end
   end
-
-  get "/stats" => "statistics#index"
 end
 
 # we want these after everything else is loaded
