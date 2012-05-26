@@ -16,7 +16,8 @@ class ApiConstraints
     end
 
     def matches_accept_header?(request)
-      request.headers.key?('Accept') && request.headers['Accept'].include?(accept_header)
+      accept_header = request.headers['Accept']
+      accept_header && accept_header.include?("application/vnd.travis-ci.#{version}+json")
     end
 
     def matches_query_param?(request)
@@ -25,9 +26,5 @@ class ApiConstraints
 
     def version
       options[:version]
-    end
-
-    def accept_header
-      "application/vnd.travis-ci.#{version}+json"
     end
 end
