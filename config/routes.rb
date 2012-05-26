@@ -1,5 +1,6 @@
-TravisCi::Application.routes.draw do
+require 'api_constraints'
 
+TravisCi::Application.routes.draw do
   constraints :host => Travis.config.shorten_host do
     get '/',    :to => 'shortener#index'
     get '/:id', :to => 'shortener#show'
@@ -7,34 +8,32 @@ TravisCi::Application.routes.draw do
 
   root :to => 'home#index'
 
-  resources :repositories, :only => [:index, :show] do
-    resources :builds, :only => [:index, :show]
-    resources :branches, :only => :index
-  end
+  resource :profile, :only => [:show, :update]
 
-  resources :branches, :only => :index
-  resources :builds,   :only => :show
-  resources :requests, :only => :create
-  resources :jobs,     :only => [:index, :show]
+  scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
+    constraints :format => 'json' do
+      resources :repositories, :only => [:index, :show]
+      resources :builds,   :only => [:index, :show]
+      resources :branches, :only => :index
+      resources :jobs,     :only => [:index, :show]
+      resources :workers,  :only => :index
 
-  get 'workers',     :to => 'workers#index'
+      get 'profile/service_hooks',     :to => 'service_hooks#index'
+      put 'profile/service_hooks/:id', :to => 'service_hooks#update'
+    end
 
-  resource :profile, :only => [:show, :update] do
-    get 'service_hooks',     :to => 'service_hooks#index'
-    put 'service_hooks/:id', :to => 'service_hooks#update'
-  end
+    constraints :owner_name => /[^\/]+/, :name => /[^\/]+/ do
+      get ":owner_name/:name.png",             :to => 'repositories#show', :format => 'png'
+      get ":owner_name/:name.json",            :to => 'repositories#show', :format => 'json'
+      get ":owner_name/:name.xml",             :to => 'repositories#show', :format => 'xml'
+      get ":owner_name/:name/cc.xml",          :to => 'repositories#show', :format => 'xml', :schema => 'cctray'
 
-  constraints :owner_name => /[^\/]+/, :name => /[^\/]+/ do
-    get ":owner_name/:name.png", :to => 'repositories#show', :format => 'png'
-    get ":owner_name/:name.json", :to => 'repositories#show', :format => 'json'
-    get ":owner_name/:name.xml", :to => 'repositories#show', :format => 'xml'
-    get ":owner_name/:name/cc.xml", :to => 'repositories#show', :format => 'xml', :schema => 'cctray'
+      get ":owner_name/:name/builds.xml",      :to => 'builds#index', :format => 'xml'
+      get ":owner_name/:name/builds.json",     :to => 'builds#index', :format => 'json'
 
-    get ":owner_name/:name/builds.xml", :to => 'builds#index', :format => 'xml'
-    get ":owner_name/:name/builds.json", :to => 'builds#index', :format => 'json'
-
-    get ":owner_name/:name/builds/:id.xml", :to => 'builds#show', :format => 'xml'
-    get ":owner_name/:name/builds/:id.json", :to => 'builds#show', :format => 'json'
+      get ":owner_name/:name/builds/:id.xml",  :to => 'builds#show', :format => 'xml'
+      get ":owner_name/:name/builds/:id.json", :to => 'builds#show', :format => 'json'
+    end
   end
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
@@ -44,9 +43,6 @@ TravisCi::Application.routes.draw do
   end
 
   get "/stats" => "statistics#index"
-
-  # legacy routes used by github service hooks and workers
-  post 'builds', :to => 'requests#create'
 end
 
 # we want these after everything else is loaded

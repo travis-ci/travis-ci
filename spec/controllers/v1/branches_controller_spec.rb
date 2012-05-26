@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe BranchesController do
+describe V1::BranchesController do
 
   before { Scenario.default }
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe BuildsController do
+describe V1::BuildsController do
 
   before { Scenario.default }
 

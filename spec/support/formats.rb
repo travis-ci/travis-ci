@@ -14,7 +14,8 @@ module Support
 
     def json_for_http(object, options = {})
       type = options[:type] || (object.respond_to?(:slice) ? object.first.class.name.pluralize : object.class.name)
-      "Travis::Api::Json::Http::#{type.camelize}".constantize.new(object, options).data
+      version = options[:version] || 'v1'
+      "Travis::Api::Http::#{version.camelize}::#{type.camelize}".constantize.new(object, options).data
     end
 
     def json_for_pusher(event, object)

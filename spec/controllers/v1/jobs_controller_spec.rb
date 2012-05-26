@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe JobsController do
+describe V1::JobsController do
   describe 'GET :index' do
     let!(:jobs) {[
       FactoryGirl.create(:test, :number => '3.1', :queue => 'builds.common'),
