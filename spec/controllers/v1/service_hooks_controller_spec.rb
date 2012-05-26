@@ -1,9 +1,5 @@
 require 'spec_helper'
 
-RSpec.configure do |t|
-  t.backtrace_clean_patterns = []
-end
-
 describe V1::ServiceHooksController do
   let(:user) { Factory(:user, :github_oauth_token => 'github_oauth_token') }
   let(:repo) { Factory(:repository) }

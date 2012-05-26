@@ -15,32 +15,11 @@ module Responders
       end
 
       def data
-        collection? && resource.empty? ? [] : renderer(controller.params).data
+        Travis::Api::Http.data(resource, controller.params, :version => version)
       end
 
-      def renderer(options = {})
-        "Travis::Api::Http::#{type}".constantize.new(resource, options)
-      end
-
-      def type
-        collection? ? resource.first.class.name.pluralize : resource.class.name
-      end
-
-      def template_name
-        if collection? && resource.first.nil?
-          'empty'
-        else
-          collection? ? singular_resource_name.pluralize : singular_resource_name
-        end
-      end
-
-      def singular_resource_name
-        item = collection? ? resource.first : resource
-        item.class.name.underscore
-      end
-
-      def collection?
-        resource.respond_to?(:slice)
+      def version
+        'v2' # TODO how to specify the version?
       end
   end
 end

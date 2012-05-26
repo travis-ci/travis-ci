@@ -9,10 +9,7 @@ describe V1::JobsController do
 
     it 'index lists all jobs on the queue' do
       get :index, :queue => 'builds.common', :format => :json
-
-      json = ActiveSupport::JSON.decode(response.body)
-      json.should include({ 'id' => jobs.first.id,  'number' => '3.1', 'queue' => 'builds.common', 'state' => 'created', 'repository_id' => jobs.first.repository.id, 'allow_failure' => false  })
-      json.should include({ 'id' => jobs.second.id, 'number' => '3.2', 'queue' => 'builds.common', 'state' => 'created', 'repository_id' => jobs.second.repository.id, 'allow_failure' => false })
+      json_response.should == json_for_http(Job.queued.where(:queue => 'builds.common'), :type => :jobs)
     end
   end
 

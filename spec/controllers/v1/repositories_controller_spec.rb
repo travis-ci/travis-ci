@@ -11,7 +11,7 @@ describe V1::RepositoriesController do
         get(:index, :format => :json)
 
         response.should be_success
-        result = ActiveSupport::JSON.decode(response.body)
+        result = ActiveSupport::JSON.decode(response.body)['repositories']
         result.count.should == 2
         result.first['slug'].should  == 'svenfuchs/minimal'
         result.second['slug'].should == 'josevalim/enginex'
@@ -21,7 +21,7 @@ describe V1::RepositoriesController do
         get(:index, :owner_name => 'svenfuchs', :format => :json)
 
         response.should be_success
-        result = ActiveSupport::JSON.decode(response.body)
+        result = json_response['repositories']
         result.count.should  == 1
         result.first['slug'].should == 'svenfuchs/minimal'
       end
@@ -49,7 +49,7 @@ describe V1::RepositoriesController do
     it 'returns info about repository in json format' do
       get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json'
 
-      ActiveSupport::JSON.decode(response.body).should == {
+      json_response['repository'].should == {
         'id' => repository.id,
         'slug' => 'sven/travis-ci',
         'description' => nil,
@@ -57,11 +57,9 @@ describe V1::RepositoriesController do
         'last_build_id' => repository.last_build_id,
         'last_build_number' => '1',
         'last_build_started_at' => '2010-11-12T12:30:00Z',
-        'last_build_status' => 1,
         'last_build_result' => 1,
         'last_build_language' => nil,
         'last_build_duration' => 160,
-        'public_key' => "-----BEGIN RSA PUBLIC KEY-----\nMIGJAoGBAMZ53W7GX2zMvQ9UT8Hq/08Oyj7FEez171gMHwOb5BgUPJ1253WfXXfh\nljf0PGDrM2FcMYpiKUc/gT1ugi6+B9IAM3XZ4PVyWiBfjozigEaBQCG2vlC8Yuf1\nMRbght4j6cOyEwktMt62EKYHofCbkt31CdFVPpT8DO05O/14n/EpAgMBAAE=\n-----END RSA PUBLIC KEY-----\n"
       }
     end
 
@@ -73,49 +71,49 @@ describe V1::RepositoriesController do
     context 'with parameter rvm:1.8.7' do
       it 'returns last build result passing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.8.7'
-        json_response['last_build_result'].should == 0
+        json_response['repository']['last_build_result'].should == 0
       end
     end
 
     context 'with parameter rvm:1.9.2' do
       it 'return last build result failing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.9.2'
-        json_response['last_build_result'].should == 1
+        json_response['repository']['last_build_result'].should == 1
       end
     end
 
     context 'with parameters rvm:1.8.7 and gemfile:test/Gemfile.rails-2.3.x' do
       it 'return last build result passing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.8.7', :gemfile => 'test/Gemfile.rails-2.3.x'
-        json_response['last_build_result'].should == 0
+        json_response['repository']['last_build_result'].should == 0
       end
     end
 
     context 'with parameters rvm:1.9.2 and gemfile:test/Gemfile.rails-3.0.x' do
       it 'return last build result failing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.9.2', :gemfile => 'test/Gemfile.rails-2.3.x'
-        json_response['last_build_result'].should == 1
+        json_response['repository']['last_build_result'].should == 1
       end
     end
 
     context 'with parameters rvm:1.8.7, gemfile:test/Gemfile.rails-2.3.x, and env:DB=postgres passed' do
       it 'return last build result passing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.8.7', :gemfile => 'test/Gemfile.rails-2.3.x', :env => 'DB=postgres'
-        json_response['last_build_result'].should == 0
+        json_response['repository']['last_build_result'].should == 0
       end
     end
 
     context 'with parameters rvm:1.9.2, gemfile:test/Gemfile.rails-2.3.x, and env:DB=postgres passed' do
       it 'return last build result failing' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => '1.9.2', :gemfile => 'test/Gemfile.rails-2.3.x', :env => 'DB=postgres'
-        json_response['last_build_result'].should == 1
+        json_response['repository']['last_build_result'].should == 1
       end
     end
 
     context 'with parameters rvm:perl' do
       it 'return last build result for the parent build' do
         get :show, :owner_name => 'sven', :name => 'travis-ci', :format => 'json', :rvm => 'perl'
-        json_response['last_build_result'].should be_nil
+        json_response['repository']['last_build_result'].should be_nil
       end
     end
   end
@@ -123,12 +121,7 @@ describe V1::RepositoriesController do
   describe 'GET :show, format xml (schema: not specified)' do
     let(:config)     { { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'], 'env' => ['DB=sqlite3', 'DB=postgres'] } }
     let(:build)      { FactoryGirl.create(:build, :repository => repository, :config => config) }
-    let(:repository) do
-      repo = FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today)
-      repo.key.destroy
-      repo.key = Factory(:ssl_key, :repository => repo)
-      repo
-    end
+    let(:repository) { FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today) }
 
     before(:each) do
       build.matrix.each do |job|
