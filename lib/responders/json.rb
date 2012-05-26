@@ -2,7 +2,7 @@ module Responders
   module Json
     def to_format
       if json?
-        render :json => data
+        render :json => json
       else
         super
       end
@@ -14,7 +14,7 @@ module Responders
         format.to_sym == :json
       end
 
-      def data
+      def json
         Travis::Api.data(resource, :params => controller.params, :version => version)
       end
 

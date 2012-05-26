@@ -1,7 +1,7 @@
 require 'responders'
 
 module V2
-  class JobsController < ApplicationController
+  class JobsController < ApiController
     responders :json
     respond_to :json
 

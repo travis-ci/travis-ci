@@ -8,7 +8,7 @@ describe "repositories/show.cctray" do
     assign(:repository, repo)
     render
     rendered_xml.should have_xml_attribute("name", "travisci").for_node_path(%w{Projects Project})
-    rendered_xml.should have_xml_attribute("webUrl", "http://test.host/svenfuchs/travisci").for_node_path(%w{Projects Project})
+    rendered_xml.should have_xml_attribute("webUrl", "http://test.travis-ci.org/svenfuchs/travisci").for_node_path(%w{Projects Project})
     rendered_xml.should have_xml_attribute("lastBuildLabel", "123").for_node_path(%w{Projects Project})
   end
 
@@ -34,7 +34,7 @@ describe "repositories/show.cctray" do
     assign(:repository, Factory(:repository, :id => 1, :last_build => nil))
     render
     rendered_xml.should have_xml_attribute("activity", "Sleeping").for_node_path(%w{Projects Project})
-    rendered_xml.should have_xml_attribute("webUrl", "http://test.host/svenfuchs/minimal").for_node_path(%w{Projects Project})
+    rendered_xml.should have_xml_attribute("webUrl", "http://test.travis-ci.org/svenfuchs/minimal").for_node_path(%w{Projects Project})
   end
 
   it "renders the correct build result for a repository whose last build failed" do

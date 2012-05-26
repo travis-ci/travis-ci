@@ -1,8 +1,9 @@
 module V2
-  class ServiceHooksController < ApplicationController
-    rescue_from ActiveRecord::RecordInvalid, :with => Proc.new { head :not_acceptable }
+  class ServiceHooksController < ApiController
+    include AbstractController::Callbacks
+    include Devise::Controllers::Helpers
 
-    layout 'simple'
+    rescue_from ActiveRecord::RecordInvalid, :with => Proc.new { head :not_acceptable }
 
     before_filter :authenticate_user!
 

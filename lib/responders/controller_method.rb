@@ -30,6 +30,8 @@ module Responders
             raise "responder has to be a string, a symbol or a module"
           end
 
+        # TODO hmmm, ... should find some pattern that doesn't include all modules
+        # into the same controller object
         klass.send(:include, responder)
         klass
       end
@@ -37,5 +39,5 @@ module Responders
   end
 end
 
-require 'action_controller'
-ActionController::Base.extend Responders::ControllerMethod
+# require 'action_controller'
+# ActionController::Base.extend Responders::ControllerMethod

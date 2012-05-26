@@ -1,13 +1,9 @@
 require 'responders'
 
 module V2
-  class BuildsController < ApplicationController
+  class BuildsController < ApiController
     responders :json
     respond_to :json
-
-    # Github does not currently post the payload with the correct accept or content-type headers.
-    # We need to change Github's service-hook code for this to work correctly.
-    skip_before_filter :verify_authenticity_token, :only => :create
 
     def index
       respond_with builds
