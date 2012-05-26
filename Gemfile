@@ -10,6 +10,7 @@ gem 'rake',                 '~> 0.9.2.2'
 # app
 gem 'bunny',                '~> 0.7.9'
 gem 'refraction',           '~> 0.2.0'
+gem 'versionist',           '~> 0.2.0'
 gem 'devise',               '~> 2.0.4'
 gem 'omniauth-github',      '~> 1.0.1'
 gem 'unobtrusive_flash',    '~> 0.0.2'
