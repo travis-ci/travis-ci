@@ -14,7 +14,7 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh
-  revision: d6f807bc389e17720d809e6ae29aeac01ba61d5a
+  revision: 816540a575dec4ea07b054c0c44b0eb54557a171
   specs:
     gh (0.5.1)
       addressable
@@ -26,7 +26,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 93f26a1304f442e2996b10a91bcb3f2e07657fc8
+  revision: 2009bf629b53569e1dca5a2f24df086e5a8cab0d
   branch: api-versioning
   specs:
     travis-core (0.0.1)

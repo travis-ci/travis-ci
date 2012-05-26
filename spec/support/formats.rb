@@ -13,7 +13,7 @@ module Support
     end
 
     def json_for_http(object, options = {})
-      Travis::Api::Http.data(object, {}, options.reverse_merge(:version => 'v2'))
+      Travis::Api.data(object, options.reverse_merge(:version => 'v2'))
     end
 
     def json_for_pusher(event, object)
