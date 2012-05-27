@@ -1,5 +1,20 @@
 require 'uri'
 
+RSpec::Rails::Matchers::RoutingMatchers.send(:remove_method, :route_to)
+
+RSpec::Matchers.define :route_to do |expected|
+  match do |route|
+    method, path = route.to_a.flatten
+    actual = Rails.application.routes.recognize_path(path, :method => method)
+    [expected, actual].each { |hash| hash.each { |key, value| hash[key] = hash[key].to_s } }
+
+    failure_message_for_should     { "expected #{route} to be routed to\n#{expected} but was\n#{actual}" }
+    failure_message_for_should_not { "expected #{route} not to be routed to #{expected} but it was" }
+
+    actual == expected
+  end
+end
+
 RSpec::Matchers.define :have_last_build do |build|
   match do |repository|
     repository.last_build_id.should == build.id
