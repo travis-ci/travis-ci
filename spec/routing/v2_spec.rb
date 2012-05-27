@@ -67,6 +67,15 @@ describe 'v2' do
     end
   end
 
+  describe 'GET to artifacts/1.json?version=2' do
+    let(:controller) { 'v2/artifacts' }
+    let(:action) { :show }
+
+    it 'routes to V2::ArtifactsController#index' do
+      { :get => 'artifacts/1.json?version=2' }.should route_to(params.merge(:id => 1))
+    end
+  end
+
   describe 'GET to workers.json?version=2' do
     let(:controller) { 'v2/workers' }
     let(:action) { :index }
@@ -80,7 +89,7 @@ describe 'v2' do
     let(:controller) { 'v2/service_hooks' }
     let(:action) { :index }
 
-    it 'routes to V2::RepositoriesController#index' do
+    it 'routes to V2::ServiceHooksController#index' do
       { :get => 'profile/service_hooks.json?version=2' }.should route_to(params)
     end
   end
@@ -89,7 +98,7 @@ describe 'v2' do
     let(:controller) { 'v2/service_hooks' }
     let(:action) { :update }
 
-    it 'routes to V2::RepositoriesController#update' do
+    it 'routes to V2::ServiceHooksController#update' do
       { :put => 'profile/service_hooks/1.json?version=2' }.should route_to(params.merge(:id => 1))
     end
   end

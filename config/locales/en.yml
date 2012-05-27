@@ -37,7 +37,7 @@ en:
     finished_at: Finished
   jobs:
     messages:
-      sponsored_by: This test series was run on a worker box sponsored by
+      sponsored_by: This test suite was run on a worker box sponsored by
     build_matrix: Build Matrix
     allowed_failures: Allowed Failures
     author: Author
@@ -53,7 +53,7 @@ en:
   builds:
     name: Build
     messages:
-      sponsored_by: This test series was run on a worker box sponsored by
+      sponsored_by: This test suite was run on a worker box sponsored by
     build_matrix: Build Matrix
     allowed_failures: Allowed Failures
     author: Author

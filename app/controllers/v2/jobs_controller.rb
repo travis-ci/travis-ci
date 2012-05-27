@@ -16,8 +16,10 @@ module V2
     protected
 
       def jobs
-        @jobs ||= begin
-          jobs = Job.queued
+        @jobs ||= if params[:ids]
+          Job.where(:id => params[:ids]).includes(:commit, :log)
+        else
+          jobs = Job.queued.includes(:commit, :log)
           jobs = jobs.where(:queue => params[:queue]) if params[:queue]
           jobs
         end
