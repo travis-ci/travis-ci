@@ -2,6 +2,8 @@ require 'responders'
 
 module V1
   class RepositoriesController < ApplicationController
+    # TODO for some reason this doesn't work with an ApiController
+    # sending_file= seems to be called on an nil response
     # include ActionController::DataStreaming
 
     helper :repositories

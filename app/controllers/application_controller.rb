@@ -1,4 +1,5 @@
 require 'http_accept_language'
+require 'responders'
 
 class ApplicationController < ActionController::Base
   extend Responders::ControllerMethod
