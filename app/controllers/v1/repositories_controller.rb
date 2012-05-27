@@ -1,7 +1,9 @@
 require 'responders'
 
 module V1
-  class RepositoriesController < ApiController
+  class RepositoriesController < ApplicationController
+    # include ActionController::DataStreaming
+
     helper :repositories
 
     responders :json, :xml, :result_image
