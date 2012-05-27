@@ -1,6 +1,8 @@
 require 'http_accept_language'
 
 class ApplicationController < ActionController::Base
+  extend Responders::ControllerMethod
+
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
 
   protect_from_forgery
