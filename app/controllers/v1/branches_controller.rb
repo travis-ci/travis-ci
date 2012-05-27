@@ -9,7 +9,7 @@ module V1
     protected
 
       def repository
-        @repository ||= Repository.find(params[:repository_id])
+        @repository ||= Repository.find_by(params) || not_found
       end
 
       def branches

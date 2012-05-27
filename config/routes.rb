@@ -35,6 +35,10 @@ TravisCi::Application.routes.draw do
     end
   end
 
+  scope :module => 'v2', constraints: ApiConstraints.new(version: 2) do
+    resources :artifacts, :only => :show
+  end
+
   scope :module => 'v2', constraints: ApiConstraints.new(version: 2), &api
   scope :module => 'v1', constraints: ApiConstraints.new(version: 1, default: true), &api
 end
