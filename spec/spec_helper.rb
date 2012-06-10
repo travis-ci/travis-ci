@@ -44,9 +44,9 @@ RSpec.configure do |c|
     Travis.instance_variable_set(:@config, nil)
     Travis.config.domain = 'test.travis-ci.org'
 
-    Travis::Notifications::Handler.instance_variable_set(:@subscriptions, nil)
-    Travis::Notifications::Handler::Worker.instance_variable_set(:@queues, nil)
-    # Travis::Notifications::Handler::Worker.amqp = Support::Mocks::Amqp.new
+    Travis::Event::Handler.instance_variable_set(:@subscriptions, nil)
+    Travis::Event::Handler::Worker.instance_variable_set(:@queues, nil)
+    # Travis::Event::Handler::Worker.amqp = Support::Mocks::Amqp.new
 
     Travis::Support::Testing::Webmock.mock!
   end

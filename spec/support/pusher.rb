@@ -4,7 +4,7 @@ module Support
 
     included do
       before :each do
-        Travis::Notifications::Handler::Pusher.any_instance.stubs(:channel).returns(pusher)
+        Travis::Event::Handler::Pusher.any_instance.stubs(:channel).returns(pusher)
       end
     end
 
