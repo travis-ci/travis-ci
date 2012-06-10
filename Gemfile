@@ -57,11 +57,7 @@ end
 group :development do
   gem 'foreman',            '~> 0.36.0'
 
-  unless RUBY_VERSION == '1.9.3' && RUBY_PLATFORM !~ /darwin/
-    # will need to install ruby-debug19 manually:
-    # gem install ruby-debug19 -- --with-ruby-include=$rvm_path/src/ruby-1.9.3-preview1
-    gem 'ruby-debug19', platforms: :mri_19
-  end
+  gem 'debugger', platforms: :mri_19
 end
 
 group :test do
