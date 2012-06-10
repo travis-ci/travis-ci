@@ -1,5 +1,7 @@
 source :rubygems
 
+ruby '1.9.3'
+
 gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine'
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
 
