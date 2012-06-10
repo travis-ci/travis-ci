@@ -1,6 +1,5 @@
 language: ruby
 rvm:
-  - 1.9.2
   - 1.9.3
 bundler_args: "--without development"
 before_install:
