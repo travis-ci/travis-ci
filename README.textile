@@ -166,8 +166,6 @@ h2. Other sources
 
 h2. Requirements
 
-* Ruby 1.9.2 (Ruby 1.9.1 is not supported)
+* Ruby 1.9.3
 * PostgreSQL for the pg gem
-* RabbitMQ
-* VirtualBox 4.1
 
