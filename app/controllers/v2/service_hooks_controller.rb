@@ -21,7 +21,7 @@ module V2
     private
 
       def service_hooks
-        @service_hooks ||= current_user.github_service_hooks
+        @service_hooks ||= current_user.service_hooks
       end
 
       def repository
