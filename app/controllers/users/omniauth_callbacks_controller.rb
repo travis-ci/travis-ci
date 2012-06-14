@@ -23,7 +23,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     def sync(user)
       @requests ||= Travis::Amqp::Publisher.new('sync.user')
-      @requests.publish(data, type: 'sync')
+      @requests.publish({ :user_id => user.id }.to_json, type: 'sync')
     end
 
 end
