@@ -88,7 +88,7 @@ A more detailed overview is available in our "Technical Overview guide":http://b
 
 h3. Setting server environment up
 
-The setup consists of 4 steps:
+The setup consists of following steps:
 
 <pre>
 $ bundle install
@@ -104,6 +104,8 @@ Next, tell Travis to configure the database:
 <pre>
 $ bundle exec rake travis:setup
 </pre>
+
+Install and start "RabbitMQ":http://www.rabbitmq.com/download.html server.
 
 And finally start the server:
 

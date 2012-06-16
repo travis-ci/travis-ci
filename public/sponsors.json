@@ -107,13 +107,22 @@
       "link": "<a href=\"http://www.fngtps.com\">Fingertips</a><span> offers design and development services</span>"
     },
     {
-      "link": "<a href=\"http://www.fngtps.com\">Engine Yard</a><span>: Build epic apps. Let us handle the rest.</span>"
+      "link": "<a href=\"http://www.fngtps.com\">Engine Yard</a><span>: Build epic apps, let us handle the rest</span>"
     },
     {
       "link": "<a href=\"http://malwarebytes.org\">Malwarebytes</a><span>: Defeat Malware once and for all.</span>"
     },
     {
       "link": "<a href=\"http://readmill.com\">Readmill</a><span>: The best reading app on the iPad.</span>"
+    },
+    {
+      "link": "<a href=\"http://www.mdsol.com\">Medidata</a><span>: clinical tech improving quality of life</span>"
+    },
+    {
+      "link": "<a href=\"http://coderwall.com/teams/4f27194e973bf000040005f0\">ESM</a><span>: Japan's best agile Ruby/Rails consultancy</span>"
+    },
+    {
+      "link": "<a href=\"http://twitter.com\">Twitter</a><span>: instantly connects people everywhere</span>"
     }
   ]
 }
