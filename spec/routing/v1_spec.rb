@@ -150,4 +150,22 @@ describe 'v1' do
       { :get => 'some.owner/some.name/cc.xml' }.should route_to(params.merge(:owner_name => 'some.owner', :name => 'some.name', :schema => 'cctray'))
     end
   end
+
+  describe 'GET to :owner_name/:name/builds.json' do
+    let(:controller) { 'v1/builds' }
+    let(:action) { :index }
+
+    it 'routes to V1::BuildsController#index' do
+      { :get => 'owner/name/builds.json' }.should route_to(params.merge(:owner_name => 'owner', :name => 'name'))
+    end
+  end
+
+  describe 'GET to :owner_name/:name/builds/:id.json' do
+    let(:controller) { 'v1/builds' }
+    let(:action) { :show }
+
+    it 'routes to V1::BuildsController#show' do
+      { :get => 'owner/name/builds/1.json' }.should route_to(params.merge(:owner_name => 'owner', :name => 'name', :id => 1))
+    end
+  end
 end
