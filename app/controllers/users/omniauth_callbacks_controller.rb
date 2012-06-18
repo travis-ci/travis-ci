@@ -3,9 +3,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user = User.find_or_create_for_oauth(env["omniauth.auth"])
 
     if user.persisted?
-      user.sync
-      flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "GitHub"
-      sign_in user, :event => :authentication
+      sync(user)
+      flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: "GitHub")
+      sign_in(user, event: :authentication)
     end
 
     if user.recently_signed_up?
@@ -20,4 +20,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     def after_omniauth_failure_path_for(scope)
       '/'
     end
+
+    def sync(user)
+      @requests ||= Travis::Amqp::Publisher.new('sync.user')
+      @requests.publish({ :user_id => user.id }, type: 'sync')
+    end
+
 end
