@@ -199,8 +199,8 @@ nl:
 
           Om te testen tegen meerdere rubies, zie'
       messages:
-        notice: Om te beginnen kunt u onze <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">startersgids</a>
-          lezen.\n  <small>Het zal maar enkele minuten van uw tijd vergen.</small>
+        notice: ! "Om te beginnen kunt u onze <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">startersgids</a>
+          lezen.\n  <small>Het zal maar enkele minuten van uw tijd vergen.</small>"
       update: Bijwerken
       update_locale: Bijwerken
       your_locale: Uw taal
