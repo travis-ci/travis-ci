@@ -123,6 +123,12 @@
     },
     {
       "link": "<a href=\"http://twitter.com\">Twitter</a><span>: instantly connects people everywhere</span>"
+    },
+    {
+      "link": "<a href=\"http://agileanimal.com\">AGiLE ANiMAL</a><span>: we <3 Travis CI.</span>"
+    },
+    {
+      "link": "<a href=\"http://tupalo.com\">Tupalo</a><span>: Discover, review &amp; share local businesses.</span>"
     }
   ]
 }

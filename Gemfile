@@ -28,7 +28,7 @@ gem 'pg',                   '~> 0.13.2'
 # apis + metrics
 gem 'backports',            '~> 2.3.0'
 gem 'gh',           git: 'git://github.com/rkh/gh'
-gem 'hubble',       git: 'git://github.com/mattmatt/hubble'
+gem 'hubble',       git: 'git://github.com/roidrage/hubble'
 gem 'newrelic_rpm',         '~> 3.3.0'
 gem 'lograge',              '~> 0.0.4'
 
