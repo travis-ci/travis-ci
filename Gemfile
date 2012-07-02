@@ -10,7 +10,6 @@ gem 'execjs',               '1.3.0'
 gem 'rake',                 '~> 0.9.2.2'
 
 # app
-gem 'bunny',                '~> 0.7.9'
 gem 'refraction',           '~> 0.2.0'
 gem 'versionist',           '~> 0.2.0'
 gem 'devise',               '~> 2.0.4'
@@ -56,7 +55,6 @@ end
 
 group :development do
   gem 'foreman',            '~> 0.36.0'
-
   gem 'debugger', platforms: :mri_19
 end
 
