@@ -75,9 +75,9 @@ fr:
       blog: Blog
       docs: Documentation
       stats: Statistiques
-      github_login: Connection GitHub
+      github_login: Connexion GitHub
       profile: Profil
-      sign_out: Déconnection
+      sign_out: Déconnexion
       admin: Admin
     application:
       fork_me: Faites un Fork sur GitHub
@@ -142,7 +142,7 @@ fr:
       update: mise à jour
       updated: mis à jour
     credentials:
-      log_out: Déconnection
+      log_out: Déconnexion
     delete:
       confirmation: Oui, je suis sure
       flash_confirmation: ! '%{name} a été détruit avec succès'
