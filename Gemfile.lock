@@ -61,7 +61,7 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/travis-assets
-  revision: 92217b36f55631ab956cabbbe8b28a0a4424de1c
+  revision: 17d90366e602c223f07a40969ebc55a279fe035b
   specs:
     travis-assets (0.0.1)
 
