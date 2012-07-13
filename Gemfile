@@ -2,7 +2,7 @@ source :rubygems
 
 ruby '1.9.3' rescue nil
 
-gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine'
+gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine', ref: 'mm-activerecord-instrumentation'
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
 
 gem 'rails',                '~> 3.2.3'
