@@ -110,6 +110,7 @@ GEM
     backports (2.3.0)
     bcrypt-ruby (3.0.1)
     builder (3.0.0)
+    bunny (0.8.0)
     capybara (1.1.2)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -316,6 +317,7 @@ PLATFORMS
 
 DEPENDENCIES
   backports (~> 2.3.0)
+  bunny
   capybara (~> 1.1.2)
   coffee-script
   compass
