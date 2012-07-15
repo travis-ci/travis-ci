@@ -8,7 +8,10 @@ TravisCi::Application.routes.draw do
 
   root :to => 'home#index'
 
-  resource :profile, :only => [:show, :update]
+  resource :profile, :only => [:show, :update] do
+    post 'sync', :to => 'profiles#sync'
+  end
+
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   as :user do
     get 'users/sign_out', :to => 'devise/sessions#destroy', :as => :destroy_session
