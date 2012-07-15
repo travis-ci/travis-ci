@@ -17,7 +17,7 @@ class ProfilesController < ApplicationController
 
   def sync
     sync_user unless user.is_syncing?
-    respond_with user
+    render :text => 'ok'
   end
 
   private
