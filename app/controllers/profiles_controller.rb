@@ -1,4 +1,6 @@
 class ProfilesController < ApplicationController
+  include SyncHelper
+
   layout 'simple'
 
   before_filter :authenticate_user!
@@ -16,7 +18,7 @@ class ProfilesController < ApplicationController
   end
 
   def sync
-    sync_user unless user.is_syncing?
+    sync_user(user)
     render :text => 'ok'
   end
 
@@ -35,11 +37,5 @@ class ProfilesController < ApplicationController
 
     def user
       @user ||= current_user
-    end
-
-    def sync_user
-      publisher = Travis::Amqp::Publisher.new('sync.user')
-      publisher.publish({ user_id: user.id }, type: 'sync')
-      user.update_attribute :is_syncing, true
     end
 end
