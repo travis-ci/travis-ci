@@ -19,7 +19,7 @@ module Responders
       end
 
       def version
-        controller.controller_path.split('/').first || 'v1'
+        controller.controller_path =~ /^V[\d]+::/ && $1 || 'v1'
       end
   end
 end
