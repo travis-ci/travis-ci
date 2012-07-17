@@ -14,7 +14,13 @@ gem 'bunny'
 gem 'refraction',           '~> 0.2.0'
 gem 'versionist',           '~> 0.2.0'
 gem 'devise',               '~> 2.0.4'
-gem 'omniauth-github',      '~> 1.0.1'
+
+# upgrading to newer versions of these gems caused new github accounts to not be able to
+# sign in / create an account on our side
+gem 'oauth2',               '0.6.1'
+gem 'omniauth-oauth2',      '1.0.2'
+gem 'omniauth-github',      '1.0.1'
+
 gem 'unobtrusive_flash',    '~> 0.0.2'
 
 # structures
