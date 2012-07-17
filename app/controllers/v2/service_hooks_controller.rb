@@ -3,19 +3,19 @@ module V2
     include AbstractController::Callbacks
     include Devise::Controllers::Helpers
 
-    rescue_from ActiveRecord::RecordInvalid, :with => Proc.new { head :not_acceptable }
+    rescue_from ActiveRecord::RecordInvalid, with: Proc.new { head :not_acceptable }
 
     before_filter :authenticate_user!
 
     respond_to :json
 
     def index
-      respond_with(:service_hooks => service_hooks)
+      respond_with(service_hooks: service_hooks)
     end
 
     def update
       service_hook.set(payload[:active], current_user)
-      respond_with(:service_hook => service_hook)
+      respond_with(service_hook: service_hook)
     end
 
     private

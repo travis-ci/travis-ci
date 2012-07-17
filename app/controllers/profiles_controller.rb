@@ -9,7 +9,7 @@ class ProfilesController < ApplicationController
 
   responders :json
   respond_to :json
-  respond_to :html, :only => :show
+  respond_to :html, only: :show
 
   def show
     respond_with user
@@ -22,7 +22,7 @@ class ProfilesController < ApplicationController
 
   def sync
     sync_user(user)
-    render :text => 'ok'
+    render text: 'ok'
   end
 
   private

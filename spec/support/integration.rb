@@ -3,7 +3,7 @@ module Support
     class Api
       include Support::Formats
 
-      delegate :last_response, :get, :to => :context
+      delegate :last_response, :get, to: :context
 
       attr_reader :context
 
@@ -12,17 +12,17 @@ module Support
       end
 
       def repositories
-        context.get '/repositories', :format => :json
+        context.get '/repositories', format: :json
         json_response
       end
 
       def build(build)
-        context.get "/builds/#{build.id}", :format => :json
+        context.get "/builds/#{build.id}", format: :json
         json_response
       end
 
       def job(job)
-        context.get "/jobs/#{job.id}", :format => :json
+        context.get "/jobs/#{job.id}", format: :json
         json_response
       end
     end
@@ -38,17 +38,17 @@ module Support
       end
 
       def start!(job, data)
-        consumer.receive(stub(:type => 'job:test:started', :ack => nil), MultiJson.encode(data.merge('id' => job.id))) # TODO should be 'job:configure:started' depending on the job type
+        consumer.receive(stub(type: 'job:test:started', ack: nil), MultiJson.encode(data.merge('id' => job.id))) # TODO should be 'job:configure:started' depending on the job type
         job.reload
       end
 
       def finish!(job, data)
-        consumer.receive(stub(:type => 'job:test:finished', :ack => nil), MultiJson.encode(data.merge('id' => job.id)))
+        consumer.receive(stub(type: 'job:test:finished', ack: nil), MultiJson.encode(data.merge('id' => job.id)))
         job.reload
       end
 
       def log!(job, data)
-        consumer.receive(stub(:type => 'job:test:log', :ack => nil), MultiJson.encode(data.merge('id' => job.id)))
+        consumer.receive(stub(type: 'job:test:log', ack: nil), MultiJson.encode(data.merge('id' => job.id)))
         job.reload
       end
     end
@@ -63,12 +63,12 @@ module Support
 
     def ping_from_github!
       authorize 'test', 'test'
-      post '/builds', :payload => GITHUB_PAYLOADS['gem-release']
+      post '/builds', payload: GITHUB_PAYLOADS['gem-release']
       @job = Request.first.job
     end
 
     def next_job!
-      Job::Test.where(:state => :created).first.tap { |job| @job = job if job }
+      Job::Test.where(state: :created).first.tap { |job| @job = job if job }
     end
 
     def job

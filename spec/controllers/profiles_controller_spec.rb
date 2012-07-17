@@ -17,7 +17,7 @@ describe ProfilesController do
 
   describe 'POST :update' do
     it 'updates the locale for the user profile' do
-      post :update, :user => { :locale => :ja }
+      post :update, user: { locale: :ja }
       I18n.locale.should == :ja
       controller.current_user.locale.should == "ja"
       session[:locale].should == :ja
@@ -26,7 +26,7 @@ describe ProfilesController do
   end
 
   describe 'POST :sync' do
-    let(:publisher) { stub('publisher', :publish => true) }
+    let(:publisher) { stub('publisher', publish: true) }
 
     before :each do
       Travis::Amqp::Publisher.stubs(:new).returns(publisher)

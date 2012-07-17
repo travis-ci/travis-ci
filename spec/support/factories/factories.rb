@@ -20,7 +20,7 @@ FactoryGirl.define do
     compare_url  'https://github.com/svenfuchs/minimal/compare/master...develop'
   end
 
-  factory :test, :class => 'Job::Test' do
+  factory :test, class: 'Job::Test' do
     repository { Repository.first || Factory(:repository) }
     commit     { Factory(:commit) }
     source     { Factory(:build) }
@@ -28,7 +28,7 @@ FactoryGirl.define do
     queue      "ruby"
   end
 
-  factory :log, :class => 'Artifact::Log' do
+  factory :log, class: 'Artifact::Log' do
     content '$ bundle install --pa'
   end
 
@@ -48,30 +48,30 @@ FactoryGirl.define do
     updated_at { |r| r.created_at + 5.minutes }
   end
 
-  factory :minimal, :parent => :repository do
+  factory :minimal, parent: :repository do
   end
 
-  factory :enginex, :class => Repository do
+  factory :enginex, class: Repository do
     name 'enginex'
     owner_name 'josevalim'
     last_duration 30
   end
 
-  factory :running_build, :parent => :build do
-    repository { Factory(:repository, :name => 'running_build') }
+  factory :running_build, parent: :build do
+    repository { Factory(:repository, name: 'running_build') }
     state 'started'
   end
 
-  factory :successful_build, :parent => :build do
-    repository { Factory(:repository, :name => 'successful_build', :last_build_result => 0) }
+  factory :successful_build, parent: :build do
+    repository { Factory(:repository, name: 'successful_build', last_build_result: 0) }
     result 0
     state 'finished'
     started_at { Time.now.utc }
     finished_at { Time.now.utc }
   end
 
-  factory :broken_build, :parent => :build do
-    repository { Factory(:repository, :name => 'broken_build', :last_build_result => 1) }
+  factory :broken_build, parent: :build do
+    repository { Factory(:repository, name: 'broken_build', last_build_result: 1) }
     result 1
     state 'finished'
     started_at { Time.now.utc }

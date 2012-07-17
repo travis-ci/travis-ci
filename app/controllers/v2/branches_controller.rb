@@ -3,13 +3,13 @@ module V2
     respond_to :json
 
     def index
-      render :json => branches
+      render json: branches
     end
 
     protected
 
       def branches
-        Travis::Api.data(repository, :type => :branches, :params => params, :version => 'v2')
+        Travis::Api.data(repository, type: :branches, params: params, version: 'v2')
       end
 
       def repository

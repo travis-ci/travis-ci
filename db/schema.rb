@@ -11,9 +11,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120319170001) do
+ActiveRecord::Schema.define(version: 20120319170001) do
 
-  create_table "artifacts", :force => true do |t|
+  create_table "artifacts", force: true do |t|
     t.text     "content"
     t.integer  "job_id"
     t.string   "type"
@@ -21,9 +21,9 @@ ActiveRecord::Schema.define(:version => 20120319170001) do
     t.datetime "updated_at"
   end
 
-  add_index "artifacts", ["type", "job_id"], :name => "index_artifacts_on_type_and_job_id"
+  add_index "artifacts", ["type", "job_id"], name: "index_artifacts_on_type_and_job_id"
 
-  create_table "builds", :force => true do |t|
+  create_table "builds", force: true do |t|
     t.integer  "repository_id"
     t.string   "number"
     t.integer  "status"
@@ -41,9 +41,9 @@ ActiveRecord::Schema.define(:version => 20120319170001) do
     t.integer  "duration"
   end
 
-  add_index "builds", ["repository_id"], :name => "index_builds_on_repository_id"
+  add_index "builds", ["repository_id"], name: "index_builds_on_repository_id"
 
-  create_table "commits", :force => true do |t|
+  create_table "commits", force: true do |t|
     t.integer  "repository_id"
     t.string   "commit"
     t.string   "ref"
@@ -59,9 +59,9 @@ ActiveRecord::Schema.define(:version => 20120319170001) do
     t.datetime "updated_at"
   end
 
-  add_index "commits", ["commit"], :name => "index_commits_on_commit"
+  add_index "commits", ["commit"], name: "index_commits_on_commit"
 
-  create_table "jobs", :force => true do |t|
+  create_table "jobs", force: true do |t|
     t.integer  "repository_id"
     t.integer  "commit_id"
     t.integer  "source_id"
@@ -79,15 +79,15 @@ ActiveRecord::Schema.define(:version => 20120319170001) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "tags"
-    t.integer  "retries",       :default => 0
-    t.boolean  "allow_failure", :default => false
+    t.integer  "retries",       default: 0
+    t.boolean  "allow_failure", default: false
   end
 
-  add_index "jobs", ["queue", "state"], :name => "index_jobs_on_queue_and_state"
-  add_index "jobs", ["repository_id"], :name => "index_jobs_on_repository_id"
-  add_index "jobs", ["type", "source_id", "source_type"], :name => "index_jobs_on_type_and_owner_id_and_owner_type"
+  add_index "jobs", ["queue", "state"], name: "index_jobs_on_queue_and_state"
+  add_index "jobs", ["repository_id"], name: "index_jobs_on_repository_id"
+  add_index "jobs", ["type", "source_id", "source_type"], name: "index_jobs_on_type_and_owner_id_and_owner_type"
 
-  create_table "repositories", :force => true do |t|
+  create_table "repositories", force: true do |t|
     t.string   "name"
     t.string   "url"
     t.integer  "last_duration"
@@ -104,13 +104,13 @@ ActiveRecord::Schema.define(:version => 20120319170001) do
     t.text     "description"
     t.string   "last_build_language"
     t.integer  "last_build_duration"
-    t.boolean  "private",                :default => false
+    t.boolean  "private",                default: false
   end
 
-  add_index "repositories", ["last_build_started_at"], :name => "index_repositories_on_last_build_started_at"
-  add_index "repositories", ["owner_name", "name"], :name => "index_repositories_on_owner_name_and_name"
+  add_index "repositories", ["last_build_started_at"], name: "index_repositories_on_last_build_started_at"
+  add_index "repositories", ["owner_name", "name"], name: "index_repositories_on_owner_name_and_name"
 
-  create_table "requests", :force => true do |t|
+  create_table "requests", force: true do |t|
     t.integer  "repository_id"
     t.integer  "commit_id"
     t.string   "state"
@@ -124,7 +124,7 @@ ActiveRecord::Schema.define(:version => 20120319170001) do
     t.datetime "updated_at"
   end
 
-  create_table "ssl_keys", :force => true do |t|
+  create_table "ssl_keys", force: true do |t|
     t.integer  "repository_id"
     t.text     "public_key"
     t.text     "private_key"
@@ -132,33 +132,33 @@ ActiveRecord::Schema.define(:version => 20120319170001) do
     t.datetime "updated_at"
   end
 
-  add_index "ssl_keys", ["repository_id"], :name => "index_ssl_key_on_repository_id"
+  add_index "ssl_keys", ["repository_id"], name: "index_ssl_key_on_repository_id"
 
-  create_table "tokens", :force => true do |t|
+  create_table "tokens", force: true do |t|
     t.integer  "user_id"
     t.string   "token"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "users", :force => true do |t|
+  create_table "users", force: true do |t|
     t.string   "name"
     t.string   "login"
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_admin",           :default => false
+    t.boolean  "is_admin",           default: false
     t.integer  "github_id"
     t.string   "github_oauth_token"
     t.string   "gravatar_id"
     t.string   "locale"
   end
 
-  add_index "users", ["github_id"], :name => "index_users_on_github_id"
-  add_index "users", ["github_oauth_token"], :name => "index_users_on_github_oauth_token"
-  add_index "users", ["login"], :name => "index_users_on_login", :unique => true
+  add_index "users", ["github_id"], name: "index_users_on_github_id"
+  add_index "users", ["github_oauth_token"], name: "index_users_on_github_oauth_token"
+  add_index "users", ["login"], name: "index_users_on_login", unique: true
 
-  create_table "workers", :force => true do |t|
+  create_table "workers", force: true do |t|
     t.string   "name"
     t.string   "host"
     t.string   "state"
@@ -167,6 +167,6 @@ ActiveRecord::Schema.define(:version => 20120319170001) do
     t.text     "last_error"
   end
 
-  add_index "workers", ["name", "host"], :name => "index_workers_on_name_and_host"
+  add_index "workers", ["name", "host"], name: "index_workers_on_name_and_host"
 
 end

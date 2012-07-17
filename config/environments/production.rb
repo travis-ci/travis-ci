@@ -11,17 +11,17 @@ TravisCi::Application.configure do
   config.action_controller.perform_caching = true
 
   config.action_mailer.default_url_options = {
-    :host => Travis.config.host
+    host: Travis.config.host
   }
 
   config.action_mailer.smtp_settings = {
-    :address        => Travis.config.smtp.address,
-    :port           => '25',
-    :authentication => :cram_md5,
-    :user_name      => Travis.config.smtp.user_name,
-    :password       => Travis.config.smtp.password,
-    :domain         => Travis.config.smtp.domain,
-    :enable_starttls_auto => true
+    address: Travis.config.smtp.address,
+    port: '25',
+    authentication: :cram_md5,
+    user_name: Travis.config.smtp.user_name,
+    password: Travis.config.smtp.password,
+    domain: Travis.config.smtp.domain,
+    enable_starttls_auto: true
   }
 
   config.i18n.fallbacks = false

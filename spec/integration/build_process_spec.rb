@@ -11,7 +11,7 @@
 #     Travis.config.notifications = [:worker, :pusher]
 #   end
 #
-#   scenario 'creates a request from a github payload, configures it, creates the build and runs the tests (multiple tests matrix)', :driver => :rack_test do
+#   scenario 'creates a request from a github payload, configures it, creates the build and runs the tests (multiple tests matrix)', driver: :rack_test do
 #     ping_from_github!
 #
 #     _request.should be_created
@@ -44,7 +44,7 @@
 #
 #       worker.log!(job, 'log' => 'foo')
 #       job.log.content.should eql('foo')
-#       pusher.should have_message('build:log', :log => 'foo')
+#       pusher.should have_message('build:log', log: 'foo')
 #
 #       worker.finish!(job, 'finished_at' => Time.now.utc, 'result' => 0, 'log' => 'foo bar')
 #       job.should be_finished

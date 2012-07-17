@@ -14,8 +14,8 @@ require 'patches/rspec_hash_diff'
 require 'webmock'
 require 'stringio'
 
-require_all 'spec/support/**/*.rb', :relative_to => 'spec'
-require_all 'spec/client/support/**/*.rb', :relative_to => 'spec'
+require_all 'spec/support/**/*.rb', relative_to: 'spec'
+require_all 'spec/client/support/**/*.rb', relative_to: 'spec'
 
 require 'travis/support'
 require 'travis/support/testing/webmock'
@@ -23,7 +23,7 @@ require 'travis/support/testing/webmock'
 Travis.logger = Logger.new(StringIO.new)
 
 RSpec.configure do |c|
-  c.filter_run_excluding :js => true if ENV['CI']
+  c.filter_run_excluding js: true if ENV['CI']
   c.mock_with :mocha
   # c.backtrace_clean_patterns.clear
 
@@ -54,9 +54,9 @@ RSpec.configure do |c|
     DatabaseCleaner.clean
   end
 
-  c.alias_example_to :fit, :focused => true
-  c.filter_run :focused => true
+  c.alias_example_to :fit, focused: true
+  c.filter_run focused: true
   c.run_all_when_everything_filtered = true
 end
 
-WebMock.disable_net_connect!(:allow_localhost => true)
+WebMock.disable_net_connect!(allow_localhost: true)

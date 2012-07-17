@@ -5,9 +5,9 @@
 # describe Travis, 'consuming worker messages' do
 #   let(:consumer) { Travis::Hub.new }
 #   let(:request)  { Factory(:request) }
-#   let(:build)    { Factory(:build, :config => { :rvm => ['1.8.7', '1.9.2'] }) }
+#   let(:build)    { Factory(:build, config: { rvm: ['1.8.7', '1.9.2'] }) }
 #
-#   let(:message)  { stub(:type => event, :ack => nil) }
+#   let(:message)  { stub(type: event, ack: nil) }
 #
 #   def payload(job)
 #     MultiJson.encode(WORKER_PAYLOADS[event].merge('id' => job.id))

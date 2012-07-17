@@ -6,7 +6,7 @@ describe HomeController do # using HomeController because nothing routes to Appl
   before(:all) do
     HomeController.class_eval do
       def index
-        render :text => "dur...."
+        render text: "dur...."
       end
     end
   end
@@ -23,7 +23,7 @@ describe HomeController do # using HomeController because nothing routes to Appl
       controller.current_user.locale = :es
       session[:locale] = :pl
       request.env['HTTP_ACCEPT_LANGUAGE'] = 'es'
-      get :index, :hl => :ja
+      get :index, hl: :ja
       I18n.locale.should == :ja
     end
 

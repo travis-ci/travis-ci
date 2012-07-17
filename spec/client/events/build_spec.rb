@@ -2,7 +2,7 @@
 #
 # require 'client/spec_helper'
 #
-# feature 'Walking through the build process', :js => true do
+# feature 'Walking through the build process', js: true do
 #   before :each do
 #     Travis.config.notifications = [:worker, :pusher]
 #   end
@@ -36,24 +36,24 @@
 #     2.upto(3) do |id|
 #       number = "1.#{id - 1}"
 #
-#       receive_from_worker! 'job:test:started', :to => "builds/#{id}"
+#       receive_from_worker! 'job:test:started', to: "builds/#{id}"
 #       click_link 'Current'
 #
 #       should_not_see_job "svenfuchs/gem-release #{number}"
-#       should_see_selected_repository 'svenfuchs/gem-release', :color => 'yellow'
-#       should_see_matrix '1.1', '1.2', :tab => 'current'
+#       should_see_selected_repository 'svenfuchs/gem-release', color: 'yellow'
+#       should_see_matrix '1.1', '1.2', tab: 'current'
 #
 #       1.upto(3) do |num|
-#         receive_from_worker! "job:test:log:#{num}", :to => "builds/#{id}/log"
+#         receive_from_worker! "job:test:log:#{num}", to: "builds/#{id}/log"
 #       end
 #       click_link number
 #       should_see_log 'the full log' unless @send_websocket_messages # TODO why the heck do these not get appended to the log elements
 #
-#       receive_from_worker! 'job:test:finished', :to => "builds/#{id}"
+#       receive_from_worker! 'job:test:finished', to: "builds/#{id}"
 #       click_link number
 #     end
 #
-#     should_see_selected_repository 'svenfuchs/gem-release', :duration => '1 min', :finished_at => 'ago', :color => 'green'
+#     should_see_selected_repository 'svenfuchs/gem-release', duration: '1 min', finished_at: 'ago', color: 'green'
 #   end
 #
 #   def reloading_page
@@ -69,12 +69,12 @@
 #     @send_websocket_messages = false
 #   end
 #
-#   def ping_from_github!(options = { :reload_page => false })
-#     post 'builds', :payload => GITHUB_PAYLOADS['gem-release']
+#   def ping_from_github!(options = { reload_page: false })
+#     post 'builds', payload: GITHUB_PAYLOADS['gem-release']
 #     after_receive_message!
 #   end
 #
-#   def receive_from_worker!(event, options = { :reload_path => false })
+#   def receive_from_worker!(event, options = { reload_path: false })
 #     put options[:to] || 'builds/1', WORKER_PAYLOADS[event] # legacy route. should be jobs/1 in future
 #     after_receive_message!
 #   end
@@ -94,46 +94,46 @@
 #
 #   def should_see_job(*jobs)
 #     jobs.each do |job|
-#       should_see job, :within => '#jobs .queue-builds_common'
+#       should_see job, within: '#jobs .queue-builds_common'
 #     end
 #   end
 #   alias :should_see_jobs :should_see_job
 #
 #   def should_not_see_job(*jobs)
 #     jobs.each do |job|
-#       should_not_see job, :within => '#jobs .queue-builds'
+#       should_not_see job, within: '#jobs .queue-builds'
 #     end
 #   end
 #   alias :should_not_see_jobs :should_not_see_job
 #
 #   def should_have_job(*jobs)
 #     jobs.each do |job|
-#       QUEUE_PAYLOADS[job].should be_published(:queue => 'builds.common', :pop => true)
+#       QUEUE_PAYLOADS[job].should be_published(queue: 'builds.common', pop: true)
 #     end
 #   end
 #   alias :should_have_jobs :should_have_job
 #
 #   def should_see_log(log)
-#     should_see log, :within => '#tab_build.active .log'
+#     should_see log, within: '#tab_build.active .log'
 #   end
 #
 #   def should_see_selected_repository(*args)
 #     attrs = args.extract_options!
 #     color = attrs.delete(:color)
-#     attrs.merge!(:text => args.pop) unless args.empty?
+#     attrs.merge!(text: args.pop) unless args.empty?
 #
 #     attrs.each do |name, value|
 #       selector =  '#repositories .repository'
 #       selector << ".#{color}" unless color == 'yellow'
 #       selector << " .#{name}" unless name == :text
-#       should_see value, :within => selector
+#       should_see value, within: selector
 #     end
 #   end
 #
 #   def should_see_matrix(*args)
 #     options = args.extract_options!
 #     args.each do |number|
-#       should_see number, :within => "#tab_#{options[:tab]}.active"
+#       should_see number, within: "#tab_#{options[:tab]}.active"
 #     end
 #   end
 # end

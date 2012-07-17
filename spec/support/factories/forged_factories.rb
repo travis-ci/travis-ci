@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :seed_repository, :class => Repository do
+  factory :seed_repository, class: Repository do
     name             { Forgery(:repository).name }
     url              { Forgery(:repository).url }
     owner_name       { Forgery(:repository).owner_name }
@@ -9,7 +9,7 @@ FactoryGirl.define do
     updated_at       { Forgery(:repository).time }
   end
 
-  factory :seed_commit, :class => Commit do
+  factory :seed_commit, class: Commit do
     commit           { Forgery(:commit).commit }
     branch           { Forgery(:commit).branch }
     message          { Forgery(:commit).message }
@@ -22,11 +22,11 @@ FactoryGirl.define do
   end
 
 
-  factory :seed_request, :class => Request do
+  factory :seed_request, class: Request do
     token       'the-token'
   end
 
-  factory :seed_build, :class=> Build do
+  factory :seed_build, class: Build do
     config           { Forgery(:build).config }
     commit           { |b| Factory(:seed_commit, repository: b.repository) }
     started_at       { Forgery(:repository).time }
@@ -35,7 +35,7 @@ FactoryGirl.define do
     result           { rand(2) }
 
     after_build do |build|
-      build.request = Factory(:seed_request, :repository => build.repository, :commit => build.commit)
+      build.request = Factory(:seed_request, repository: build.repository, commit: build.commit)
       build.save
       build.reload
 

@@ -2,7 +2,7 @@
 # See spec/javascripts/helpers/factories.js
 
 # FactoryGirl.define do
-#   factory :jasmine_repository, :class => Repository do
+#   factory :jasmine_repository, class: Repository do
 #     id                        1
 #     name                      "travis-ci"
 #     url                       "http://github.com/travis-ci/travis-ci"
@@ -13,11 +13,11 @@
 #     updated_at                DateTime.parse("2011-01-01T01:00:10")
 #   end
 
-#   factory :jasmine_request, :class => Request do
+#   factory :jasmine_request, class: Request do
 #     token                    'the-token'
 #   end
 
-#   factory :jasmine_build, :class=> Build do
+#   factory :jasmine_build, class: Build do
 #     id                     1
 #     number                 1
 #     config                 ({"rvm"=>["1.8.7", "1.9.2"], ".configured"=>"true"})
@@ -28,7 +28,7 @@
 #     result                 0
 
 #     after_build do |build|
-#       build.request = Factory(:jasmine_request, :repository => build.repository, :commit => build.commit)
+#       build.request = Factory(:jasmine_request, repository: build.repository, commit: build.commit)
 #       build.save
 #       build.reload
 

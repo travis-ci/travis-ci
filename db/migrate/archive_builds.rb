@@ -2,7 +2,7 @@ require File.expand_path('config/environment')
 
 Build.class_eval do
   def self.to_archive
-    where(:archived_at => nil).includes(:matrix => :log).order('id DESC')
+    where(archived_at: nil).includes(matrix: :log).order('id DESC')
   end
 end
 

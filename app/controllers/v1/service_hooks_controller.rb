@@ -3,7 +3,7 @@ module V1
     include AbstractController::Callbacks
     include Devise::Controllers::Helpers
 
-    rescue_from ActiveRecord::RecordInvalid, :with => Proc.new { head :not_acceptable }
+    rescue_from ActiveRecord::RecordInvalid, with: Proc.new { head :not_acceptable }
 
     before_filter :authenticate_user!
 

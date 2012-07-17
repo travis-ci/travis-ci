@@ -17,10 +17,10 @@ module V2
 
       def jobs
         @jobs ||= if params[:ids]
-          Job.where(:id => params[:ids]).includes(:commit, :log)
+          Job.where(id: params[:ids]).includes(:commit, :log)
         else
           jobs = Job.queued.includes(:commit, :log)
-          jobs = jobs.where(:queue => params[:queue]) if params[:queue]
+          jobs = jobs.where(queue: params[:queue]) if params[:queue]
           jobs
         end
       end

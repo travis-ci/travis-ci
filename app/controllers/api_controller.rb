@@ -11,11 +11,11 @@ class ApiController < ActionController::Metal
 
   extend Responders::ControllerMethod
 
-  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   append_view_path "#{Rails.root}/app/views"
 
   def not_found
-    render :file => "#{Rails.root}/public/404", :formats => [:html], :status => 404
+    render file: "#{Rails.root}/public/404", formats: [:html], status: 404
   end
 end
