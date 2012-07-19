@@ -95,9 +95,15 @@ module Travis
       private
 
         def sql
-          groups.values.map do |records|
+          truncates = groups.keys.map do |table|
+            "TRUNCATE #{table};"
+          end.join("\n")
+
+          inserts = groups.values.map do |records|
             records.map { |record| Dump.new(record).sql }
           end.join("\n\n")
+
+          [truncates, inserts].join("\n")
         end
 
         def groups
@@ -144,6 +150,7 @@ module Travis
         Travis::Database::Seeds.new(config, options['target']).export
 
         $stdout.flush
+        sleep(30)
       end
 
       protected
@@ -162,4 +169,3 @@ module Travis
     end
   end
 end
-
