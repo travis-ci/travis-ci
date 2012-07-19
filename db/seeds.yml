@@ -20,6 +20,7 @@ repository:
         - hurt_logger
   associations:
     builds:
+      where: 'finished_at IS NOT NULL'
       limit: 5
       order: finished_at DESC
       associations:
