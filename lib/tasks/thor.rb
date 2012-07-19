@@ -95,8 +95,8 @@ module Travis
       private
 
         def sql
-          truncates = groups.keys.map do |table|
-            "TRUNCATE #{table};"
+          truncates = groups.keys.map do |model|
+            "TRUNCATE #{model.table_name};"
           end.join("\n")
 
           inserts = groups.values.map do |records|
