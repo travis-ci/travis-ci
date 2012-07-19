@@ -7,6 +7,15 @@ TRUNCATE artifacts;
 TRUNCATE users;
 TRUNCATE tokens;
 
+ALTER TABLE repositories DISABLE TRIGGERS ALL;
+ALTER TABLE builds DISABLE TRIGGERS ALL;
+ALTER TABLE requests DISABLE TRIGGERS ALL;
+ALTER TABLE commits DISABLE TRIGGERS ALL;
+ALTER TABLE jobs DISABLE TRIGGERS ALL;
+ALTER TABLE artifacts DISABLE TRIGGERS ALL;
+ALTER TABLE users DISABLE TRIGGERS ALL;
+ALTER TABLE tokens DISABLE TRIGGERS ALL;
+
 INSERT INTO repositories (id, name, url, last_duration, created_at, updated_at, last_build_id, last_build_number, last_build_status, last_build_started_at, last_build_finished_at, owner_name, owner_email, active, description, last_build_language, last_build_duration, private, owner_id, owner_type, last_build_result)
   VALUES (4351, 'travis-support', 'https://github.com/travis-ci/travis-support', NULL, '2011-11-30 03:54:58.335292', '2012-07-10 17:05:42.970000', 1827969, '145', 0, '2012-07-10 17:03:10.000000', '2012-07-10 17:05:17.000000', 'travis-ci', 'contact@travis-ci.org', NULL, 'Support classes and extensions used in travis-ci', NULL, 960, 'f', 87, 'Organization', 0);
 
