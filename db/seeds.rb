@@ -1,8 +1,5 @@
 # encoding: utf-8
-# truncate all tables for test and development
 
-# TODO: This is the wrong place for seed data, for now
-#       it has been commented out, but this needs a new home
 require 'factory_girl'
 require 'forgery'
 Dir["#{Rails.root}/lib/forgery/forgeries/*.rb"].each {|f| require f}

@@ -1,0 +1,42 @@
+repository:
+  where:
+    - owner_name: travis-ci
+      name:
+        - travis-ci
+        - travis-hub
+        - travis-core
+        - travis-support
+    - owner_name: svenfuchs
+      name:
+        - gem-release
+        - minimal
+    - owner_name: rkh
+      name:
+        - yard-sinatra
+        - gh
+    - owner_name: mattmatt
+      name:
+        - lograge
+        - hurt_logger
+  associations:
+    builds:
+      limit: 5
+      order: finished_at DESC
+      associations:
+        request:
+        commit:
+        matrix:
+          associations:
+            - log
+
+user:
+  where:
+    login:
+      - joshk
+      - rkh
+      - mattmatt
+      - svenfuchs
+  associations:
+    tokens:
+worker:
+  limit: 10
