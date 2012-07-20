@@ -51,10 +51,10 @@ end
 # we want these after everything else is loaded
 TravisCi::Application.routes.append do
   constraints :user => /[^\/]+/, :repository => /[^\/]+/ do
-    get ":user",                        :to => redirect("/#!/%{user}"),                            :as => :user_redirect
-    get ":user/:repository",            :to => redirect("/#!/%{user}/%{repository}"),              :as => :user_repo_redirect
-    get ":user/:repository/builds",     :to => redirect("/#!/%{user}/%{repository}/builds"),       :as => :user_repo_builds_redirect
-    get ":user/:repository/builds/:id", :to => redirect("/#!/%{user}/%{repository}/builds/%{id}"), :as => :user_repo_build_redirect
+    get ":user",                        :to => redirect("/#/%{user}"),                            :as => :user_redirect
+    get ":user/:repository",            :to => redirect("/#/%{user}/%{repository}"),              :as => :user_repo_redirect
+    get ":user/:repository/builds",     :to => redirect("/#/%{user}/%{repository}/builds"),       :as => :user_repo_builds_redirect
+    get ":user/:repository/builds/:id", :to => redirect("/#/%{user}/%{repository}/builds/%{id}"), :as => :user_repo_build_redirect
   end
 
   get "/*path" => "home#not_found"
