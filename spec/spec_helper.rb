@@ -11,7 +11,6 @@ require 'capybara/rspec'
 require 'database_cleaner'
 require 'factory_girl'
 require 'patches/rspec_hash_diff'
-require 'rspec/rails'
 require 'webmock'
 require 'stringio'
 
