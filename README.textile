@@ -141,7 +141,13 @@ In order to run all tests you need to have "ChromeDriver":http://code.google.com
 h3. Generating and loading seed data
 
 <pre>
+  ; generate seeds
   $ heroku run 'cat db/seeds.yml | thor travis:db:seeds' -rproduction > db/seeds/data.sql
+
+  ; load seeds
+  $ rake db:seed
+
+  ; or
   $ psql travis_development < db/seeds/data.sql
 </pre>
 

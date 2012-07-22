@@ -7,7 +7,7 @@ unless Rails.env.production?
   end
 
   sql = File.read('db/seeds/data.sql')
-  connection.execute(sql)
+  connection.execute(sql) && nil
 end
 
 # require 'factory_girl'
