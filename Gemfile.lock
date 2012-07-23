@@ -26,8 +26,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 5a101a7927e5d368f9be33fabc15fe7882e65110
-  ref: mm-activerecord-instrumentation
+  revision: 314cc8e4e2ee468d47e49e7bd0019ed180b4fb26
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
