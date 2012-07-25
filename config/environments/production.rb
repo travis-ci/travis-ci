@@ -2,6 +2,8 @@ require 'travis'
 require 'notifications'
 require 'hubble'
 require 'hubble/middleware'
+require 'action_controller_metrics_log_subscriber'
+require 'travis/log_subscriber/active_record_metrics'
 
 TravisCi::Application.configure do
   config.cache_classes = true
@@ -35,6 +37,8 @@ TravisCi::Application.configure do
     Travis.logger.level = Logger::INFO
     ActionController::Base.logger = Travis.logger
     ActiveRecord::Base.logger = Travis.logger
+    ActionControllerMetricsLogSubscriber.attach
+    Travis::LogSubscriber::ActiveRecordMetrics.attach
   end
 
   config.middleware.insert_before(::Rack::Lock, 'Refraction')
