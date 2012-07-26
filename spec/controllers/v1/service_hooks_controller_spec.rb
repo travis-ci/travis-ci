@@ -27,7 +27,7 @@ describe V1::ServiceHooksController do
 
     context 'subscribes to a service hook' do
       it 'creates a repository if it does not exist' do
-        put :update, :id => 1, :name => 'minimal', :owner_name => 'svenfuchs', :active => 'true'
+        put :update, :id => 'svenfuchs:minimal', :name => 'minimal', :owner_name => 'svenfuchs', :active => 'true'
 
         Repository.count.should == 1
         Repository.first.active?.should be_true
@@ -36,7 +36,7 @@ describe V1::ServiceHooksController do
       end
 
       it 'updates an existing repository if it exists' do
-        put :update, :id => 1, :name => 'minimal', :owner_name => 'svenfuchs', :active => 'true'
+        put :update, :id => 'svenfuchs:minimal', :name => 'minimal', :owner_name => 'svenfuchs', :active => 'true'
 
         Repository.count.should == 1
         Repository.first.active?.should be_true
@@ -47,7 +47,7 @@ describe V1::ServiceHooksController do
 
     context 'unsubscribes from the service hook' do
       it 'updates an existing repository' do
-        put :update, :id => 1, :name => 'minimal', :owner_name => 'svenfuchs', :active => 'false'
+        put :update, :id => 'svenfuchs:minimal', :name => 'minimal', :owner_name => 'svenfuchs', :active => 'false'
 
         Repository.first.active?.should be_false
 
