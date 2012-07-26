@@ -28,13 +28,13 @@ TravisCi::Application.routes.draw do
       resources :workers,      :only => :index
 
       get 'profile/service_hooks',     :to => 'service_hooks#index'
-      put 'profile/service_hooks/:id', :to => 'service_hooks#update'
+      put 'profile/service_hooks/:id', :to => 'service_hooks#update', :id => /[\w-]*:[\w.-]*/
     end
 
     constraints :owner_name => /[^\/]+/, :name => /[^\/]+/ do
       get ":owner_name/:name.json",            :to => 'repositories#show', :format => :json
-      get ":owner_name/:name/builds.json",     :to => 'builds#index', :format => :json
-      get ":owner_name/:name/builds/:id.json", :to => 'builds#show', :format => :json
+      get ":owner_name/:name/builds.json",     :to => 'builds#index',      :format => :json
+      get ":owner_name/:name/builds/:id.json", :to => 'builds#show',       :format => :json
       get ":owner_name/:name.png",             :to => 'repositories#show', :format => :png
       get ":owner_name/:name/cc.xml",          :to => 'repositories#show', :format => :xml, :schema => 'cctray'
     end
