@@ -90,10 +90,7 @@ describe 'v2' do
     let(:action) { :index }
 
     it 'routes to V2::ServiceHooksController#index' do
-      hook_params = params.merge(:id => 'svenfuchs:minimal')
-      hook_params.delete(:format)
-
-      { :get => 'profile/service_hooks.json?version=2' }.should route_to(hook_params)
+      { :get => 'profile/service_hooks.json?version=2' }.should route_to(params)
     end
   end
 
@@ -102,7 +99,10 @@ describe 'v2' do
     let(:action) { :update }
 
     it 'routes to V2::ServiceHooksController#update' do
-      { :put => 'profile/service_hooks/svenfuchs:minimal?version=2' }.should route_to(params.merge(:id => 'svenfuchs:minimal'))
+      hook_params = params.merge(:id => 'svenfuchs:minimal')
+      hook_params.delete(:format)
+
+      { :put => 'profile/service_hooks/svenfuchs:minimal?version=2' }.should route_to(hook_params)
     end
   end
 
