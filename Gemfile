@@ -2,7 +2,7 @@ source :rubygems
 
 ruby '1.9.3' rescue nil
 
-gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine'
+gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine', branch: 'sf-rate-limit-queues'
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
 
 gem 'rails',                '~> 3.2.3'
@@ -62,7 +62,7 @@ end
 
 group :development do
   gem 'foreman',            '~> 0.36.0'
-  gem 'debugger', platforms: :mri_19
+  # gem 'debugger', platforms: :mri_19
 end
 
 group :test do
