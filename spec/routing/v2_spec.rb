@@ -99,7 +99,7 @@ describe 'v2' do
     let(:action) { :update }
 
     it 'routes to V2::ServiceHooksController#update' do
-      { :put => 'profile/service_hooks/svenfuchs:minimal?version=2' }.should route_to(params.merge(:id => 1))
+      { :put => 'profile/service_hooks/svenfuchs:minimal?version=2' }.should route_to(params.merge(:id => 'svenfuchs:minimal'))
     end
   end
 
