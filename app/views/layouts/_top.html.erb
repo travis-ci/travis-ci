@@ -11,7 +11,7 @@
   <div class="profile">
     <% if user_signed_in? %>
 
-        <%= gravatar(current_user, :size => 24) %>
+        <%= gravatar(current_user, size: 24) %>
         <span class="name"><%= current_user.name || current_user.login %></span>
 
       <ul>
@@ -19,7 +19,7 @@
         <li><%= link_to t('.sign_out'), destroy_session_path %></li>
       </ul>
     <% else %>
-      <%= link_to t('.github_login'), user_omniauth_authorize_path(:github), :id => "sign_in", :class => "profile-signup" %>
+      <%= link_to t('.github_login'), user_omniauth_authorize_path(:github), id: "sign_in", class: "profile-signup" %>
     <% end %>
   </div>
 

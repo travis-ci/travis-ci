@@ -16,7 +16,7 @@ module V1
     protected
 
       def jobs
-        @jobs ||= Job.queued.where(:queue => params[:queue]).includes(:commit)
+        @jobs ||= Job.queued.where(queue: params[:queue]).includes(:commit)
       end
 
       def job

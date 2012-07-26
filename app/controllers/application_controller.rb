@@ -4,7 +4,7 @@ require 'responders'
 class ApplicationController < ActionController::Base
   extend Responders::ControllerMethod
 
-  rescue_from ActiveRecord::RecordNotFound, :with => :not_found
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   protect_from_forgery
 
@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   after_filter  :prepare_unobtrusive_flash
 
   def not_found
-    render :file => "#{Rails.root}/public/404", :formats => [:html], :status => 404, :layout => false
+    render file: "#{Rails.root}/public/404", formats: [:html], status: 404, layout: false
   end
 
   protected

@@ -5,7 +5,7 @@ RSpec::Rails::Matchers::RoutingMatchers.send(:remove_method, :route_to)
 RSpec::Matchers.define :route_to do |expected|
   match do |route|
     method, path = route.to_a.flatten
-    actual = Rails.application.routes.recognize_path(path, :method => method)
+    actual = Rails.application.routes.recognize_path(path, method: method)
     [expected, actual].each { |hash| hash.each { |key, value| hash[key] = hash[key].to_s } }
 
     failure_message_for_should     { "expected #{route} to be routed to\n#{expected} but was\n#{actual}" }
@@ -62,7 +62,7 @@ end
 RSpec::Matchers.define :serve_result_image do |result|
   match do |request|
     path = "#{Rails.root}/public/images/result/#{result}.png"
-    controller.expects(:send_file).with(path, { :type => 'image/png', :disposition => 'inline' }).once
+    controller.expects(:send_file).with(path, { type: 'image/png', disposition: 'inline' }).once
     request.call
   end
 end
@@ -127,7 +127,7 @@ RSpec::Matchers.define :be_queued do |*args|
   match do |job|
     @options = args.last.is_a?(Hash) ? args.pop : {}
     @queue = args.first || @options[:queue] || 'builds.common'
-    @expected = job.is_a?(Job) ? Travis::Event::Handler::Worker.payload_for(job, :queue => @queue) : job
+    @expected = job.is_a?(Job) ? Travis::Event::Handler::Worker.payload_for(job, queue: @queue) : job
     @actual = queued_job ? queued_job['args'].last.deep_symbolize_keys : nil
 
     @actual == @expected

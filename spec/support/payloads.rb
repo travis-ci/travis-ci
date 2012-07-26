@@ -136,7 +136,7 @@ GITHUB_PAYLOADS = {
     "created":true
   }),
 
-  :oauth => {
+  oauth: {
     "uid" => "234423",
     "user_info" => {
       "name" => "John",
@@ -148,7 +148,7 @@ GITHUB_PAYLOADS = {
     }
   },
 
-  :oauth_updated => {
+  oauth_updated: {
     "uid" => "234423",
     "user_info" => {
       "name" => "Johnathan",
@@ -174,18 +174,18 @@ WORKER_PAYLOADS = {
 
 QUEUE_PAYLOADS = {
   'job:configure' => {
-    :build      => { :id => 1, :commit => '9854592', :branch => 'master' },
-    :repository => { :id => 1, :slug => 'svenfuchs/gem-release' },
-    :queue      => 'builds'
+    build: { id: 1, commit: '9854592', branch: 'master' },
+    repository: { id: 1, slug: 'svenfuchs/gem-release' },
+    queue: 'builds'
   },
   'job:test:1' => {
-    :build      => { :id => 2, :number => '1.1', :commit => '9854592', :branch => 'master', :config => { :rvm => '1.8.7' } },
-    :repository => { :id => 1, :slug => 'svenfuchs/gem-release' },
-    :queue      => 'builds'
+    build: { id: 2, number: '1.1', commit: '9854592', branch: 'master', config: { rvm: '1.8.7' } },
+    repository: { id: 1, slug: 'svenfuchs/gem-release' },
+    queue: 'builds'
   },
   'job:test:2' => {
-    :build      => { :id => 3, :number => '1.2', :commit => '9854592', :branch => 'master', :config => { :rvm => '1.9.2' } },
-    :repository => { :id => 1, :slug => 'svenfuchs/gem-release' },
-    :queue      => 'builds'
+    build: { id: 3, number: '1.2', commit: '9854592', branch: 'master', config: { rvm: '1.9.2' } },
+    repository: { id: 1, slug: 'svenfuchs/gem-release' },
+    queue: 'builds'
   }
 }

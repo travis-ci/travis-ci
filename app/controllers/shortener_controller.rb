@@ -10,13 +10,13 @@ class ShortenerController < ActionController::Metal
     if url
       redirect_to url.url
     else
-      render :file => "#{Rails.root}/public/404", :status => 404
+      render file: "#{Rails.root}/public/404", status: 404
     end
   end
 
   private
 
     def url
-      @url ||= Url.where(:code => params[:id]).first
+      @url ||= Url.where(code: params[:id]).first
     end
 end

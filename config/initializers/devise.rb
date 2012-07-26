@@ -12,5 +12,5 @@ Devise.setup do |config|
   config.use_salt_as_remember_token = true
 
   oauth2 = Travis.config.oauth2 || Hashr.new
-  config.omniauth :github, oauth2.client_id, oauth2.client_secret, :scope => oauth2.scope
+  config.omniauth :github, oauth2.client_id, oauth2.client_secret, scope: oauth2.scope
 end

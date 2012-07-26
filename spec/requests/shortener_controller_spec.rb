@@ -11,7 +11,7 @@ describe ShortenerController do
 
   describe 'GET /:id' do
     it 'should redirect to the found url' do
-      url = Url.create!(:url => 'http://example.com')
+      url = Url.create!(url: 'http://example.com')
 
       get "/#{url.code}", nil, { 'HTTP_HOST' => 'trvs.io' }
       response.should be_redirect

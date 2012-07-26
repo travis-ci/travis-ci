@@ -30,7 +30,7 @@ module V2
       def build
         @build ||= begin
           scope = params['repository_id'] ? repository.builds : Build
-          scope.includes(:commit, :matrix => [:commit, :log]).find(params[:id])
+          scope.includes(:commit, matrix: [:commit, :log]).find(params[:id])
         end
       end
   end

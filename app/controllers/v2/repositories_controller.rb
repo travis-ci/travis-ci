@@ -7,7 +7,7 @@ module V2
     responders :json, :xml, :result_image
 
     respond_to :json, :xml
-    respond_to :png, :only => :show
+    respond_to :png, only: :show
 
     def index
       respond_with(repositories)

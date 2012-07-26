@@ -4,7 +4,7 @@ describe "repositories/show/cctray.xml.builder" do
   let(:rendered_xml) { ActiveSupport::XmlMini.parse(rendered) }
 
   it "renders the basic details of a repository" do
-    repo = Factory(:repository, :id => 1, :name => "travisci", :url => "http://travis-ci.org", :last_build_number => 123)
+    repo = Factory(:repository, id: 1, name: "travisci", url: "http://travis-ci.org", last_build_number: 123)
     assign(:repository, repo)
     render
     rendered_xml.should have_xml_attribute("name", "travisci").for_node_path(%w{Projects Project})
@@ -13,44 +13,44 @@ describe "repositories/show/cctray.xml.builder" do
   end
 
   it "renders the correct result for a repository with no running build" do
-    assign(:repository, Factory(:build, :state => 'finished').repository)
+    assign(:repository, Factory(:build, state: 'finished').repository)
     render
     rendered_xml.should have_xml_attribute("activity", "Sleeping").for_node_path(%w{Projects Project})
   end
 
   it "renders the last build time in the correct format" do
-    assign(:repository, Factory(:repository, :id => 1, :last_build_finished_at => DateTime.parse("05 Aug 2011 12:15:34 +0000")))
+    assign(:repository, Factory(:repository, id: 1, last_build_finished_at: DateTime.parse("05 Aug 2011 12:15:34 +0000")))
     render
     rendered_xml.should have_xml_attribute("lastBuildTime", "2011-08-05T12:15:34.000+0000").for_node_path(%w{Projects Project})
   end
 
   it "renders the correct activity result for a repository with a running build" do
-    assign(:repository, Factory(:build, :state => 'started').repository)
+    assign(:repository, Factory(:build, state: 'started').repository)
     render
     rendered_xml.should have_xml_attribute("activity", "Building").for_node_path(%w{Projects Project})
   end
 
   it "renders the correct activity result for a repository with no builds" do
-    assign(:repository, Factory(:repository, :id => 1, :last_build => nil))
+    assign(:repository, Factory(:repository, id: 1, last_build: nil))
     render
     rendered_xml.should have_xml_attribute("activity", "Sleeping").for_node_path(%w{Projects Project})
     rendered_xml.should have_xml_attribute("webUrl", "http://test.travis-ci.org/svenfuchs/minimal").for_node_path(%w{Projects Project})
   end
 
   it "renders the correct build result for a repository whose last build failed" do
-    assign(:repository, Factory(:repository, :id => 1, :last_build_result => 1))
+    assign(:repository, Factory(:repository, id: 1, last_build_result: 1))
     render
     rendered_xml.should have_xml_attribute("lastBuildStatus", "Failure").for_node_path(%w{Projects Project})
   end
 
   it "renders the correct build result for a repository whose last build passed" do
-    assign(:repository, Factory(:repository, :id => 1, :last_build_result => 0))
+    assign(:repository, Factory(:repository, id: 1, last_build_result: 0))
     render
     rendered_xml.should have_xml_attribute("lastBuildStatus", "Success").for_node_path(%w{Projects Project})
   end
 
   it "renders the correct build result for a repository whose last build has an unknown result" do
-    assign(:repository, Factory(:repository, :id => 1, :last_build_result => -1))
+    assign(:repository, Factory(:repository, id: 1, last_build_result: -1))
     render
     rendered_xml.should have_xml_attribute("lastBuildStatus", "Unknown").for_node_path(%w{Projects Project})
   end
