@@ -90,7 +90,10 @@ describe 'v1' do
     let(:action) { :update }
 
     it 'routes to V1::RepositoriesController#update' do
-      { :put => 'profile/service_hooks/svenfuchs:minimal' }.should route_to(params.merge(:id => 'svenfuchs:minimal'))
+      hook_params = params.merge(:id => 'svenfuchs:minimal')
+      hook_params.delete(:format)
+
+      { :put => 'profile/service_hooks/svenfuchs:minimal' }.should route_to(hook_params)
     end
   end
 
