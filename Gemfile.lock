@@ -26,8 +26,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 9e8a2c19bfa2a9778609b3362201fc0917e817a4
-  branch: sf-rate-limit-queues
+  revision: 9c80acc5bf0b5e4e281204caf29c1e4ddbc6da86
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
