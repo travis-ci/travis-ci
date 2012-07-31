@@ -34,7 +34,7 @@ describe ProfilesController do
 
     describe 'given the current user is not being synced' do
       before :each do
-        user.update_attribute(:is_syncing, false)
+        user.update_column(:is_syncing, false)
       end
 
       it 'schedules a sync job' do
@@ -50,7 +50,7 @@ describe ProfilesController do
 
     describe 'given the current user is being synced' do
       before :each do
-        user.update_attribute(:is_syncing, true)
+        user.update_column(:is_syncing, true)
       end
 
       it 'does not schedule a sync job' do
@@ -59,7 +59,7 @@ describe ProfilesController do
       end
 
       it 'does not set the current user to being synced' do
-        user.expects(:update_attribute).never
+        user.expects(:update_column).never
         post :sync
       end
     end
