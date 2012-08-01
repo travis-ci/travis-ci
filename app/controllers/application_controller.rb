@@ -42,6 +42,11 @@ class ApplicationController < ActionController::Base
       redirect_to path
     end
 
+    def title
+      'Travis CI - Distributed build platform for the open source community'
+    end
+    helper_method :title
+
     def repositories
       @repositories ||= Repository.timeline
     end
