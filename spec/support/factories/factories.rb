@@ -3,6 +3,7 @@ require 'factory_girl'
 FactoryGirl.define do
   factory :build do
     repository { Repository.first || Factory(:repository) }
+    owner      { User.first || Factory(:user) }
     association :request
     association :commit
   end
@@ -22,6 +23,7 @@ FactoryGirl.define do
 
   factory :test, :class => 'Job::Test' do
     repository { Repository.first || Factory(:repository) }
+    owner      { User.first || Factory(:user) }
     commit     { Factory(:commit) }
     source     { Factory(:build) }
     log        { Factory(:log) }
@@ -42,6 +44,7 @@ FactoryGirl.define do
     name 'minimal'
     owner_name  'svenfuchs'
     owner_email 'svenfuchs@artweb-design.de'
+    users { [User.first || Factory(:user, :login => 'svenfuchs')] }
     url { |r| "http://github.com/#{r.owner_name}/#{r.name}" }
     last_duration 60
     created_at { |r| Time.utc(2011, 01, 30, 5, 25) }
@@ -49,11 +52,14 @@ FactoryGirl.define do
   end
 
   factory :minimal, :parent => :repository do
+    owner { User.find_by_login('josevalim') || Factory(:user, :login => 'josevalim') }
   end
 
   factory :enginex, :class => Repository do
     name 'enginex'
     owner_name 'josevalim'
+    owner_email 'josevalim@email.com'
+    owner { User.find_by_login('josevalim') || Factory(:user, :login => 'josevalim') }
     last_duration 30
   end
 

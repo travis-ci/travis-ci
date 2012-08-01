@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe 'JSONP API' do
   let(:repository) do
-    FactoryGirl.create(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today)
+    Factory(:repository, :owner_name => 'sven', :name => 'travis-ci', :last_build_started_at => Date.today)
   end
 
   before(:each) do
     config = { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'], 'env' => ['DB=sqlite3', 'DB=postgres'] }
-    build = FactoryGirl.create(:build, :repository => repository, :config => config)
+    build = Factory(:build, :repository => repository, :config => config)
     build.matrix.each do |job|
       job.start!(:started_at => '2010-11-12T12:30:00Z')
       job.finish!(:result => job.config[:rvm] == '1.8.7' ? 0 : 1, :finished_at => '2010-11-12T12:30:20Z')

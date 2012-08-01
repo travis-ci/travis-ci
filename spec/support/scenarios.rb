@@ -4,6 +4,7 @@ module Scenario
       minimal, enginex = repositories :minimal, :enginex
 
       build :repository => minimal,
+            :owner => minimal.owner,
             :number => 1,
             :config => { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'] },
             :result => 1,
@@ -20,10 +21,11 @@ module Scenario
               :committed_at => '2010-11-12 11:50:00',
             },
             :jobs => [
-              { :log => Artifact::Log.new(:content => 'minimal log 1'), :worker => 'ruby3.worker.travis-ci.org:travis-ruby-4' }
+              { :owner => minimal.owner, :log => Artifact::Log.new(:content => 'minimal log 1'), :worker => 'ruby3.worker.travis-ci.org:travis-ruby-4' }
             ]
 
       build :repository => minimal,
+            :owner => minimal.owner,
             :number => 2,
             :config => { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'] },
             :result => 0,
@@ -40,10 +42,11 @@ module Scenario
               :committed_at => '2010-11-12 12:25:00',
             },
             :jobs => [
-              { :log => Artifact::Log.new(:content => 'minimal log 2'), :worker => 'ruby3.worker.travis-ci.org:travis-ruby-4' }
+              { :owner => minimal.owner, :log => Artifact::Log.new(:content => 'minimal log 2'), :worker => 'ruby3.worker.travis-ci.org:travis-ruby-4' }
             ]
 
       build :repository => minimal,
+            :owner => minimal.owner,
             :number => '3',
             :config => { 'rvm' => ['1.8.7', '1.9.2'], 'gemfile' => ['test/Gemfile.rails-2.3.x', 'test/Gemfile.rails-3.0.x'] },
             :result => '',
@@ -60,13 +63,14 @@ module Scenario
               :committer_email => 'svenfuchs@artweb-design.de',
             },
             :jobs => [
-              { :log => Artifact::Log.new(:content => 'minimal log 3.1'), :worker => 'ruby3.worker.travis-ci.org:travis-ruby-4' },
-              { :log => Artifact::Log.new(:content => 'minimal log 3.2'), :worker => 'ruby3.worker.travis-ci.org:travis-ruby-4' },
-              { :log => Artifact::Log.new(:content => 'minimal log 3.3'), :worker => 'ruby3.worker.travis-ci.org:travis-ruby-4' },
-              { :log => Artifact::Log.new(:content => 'minimal log 3.4'), :worker => 'ruby3.worker.travis-ci.org:travis-ruby-4' }
+              { :owner => minimal.owner, :log => Artifact::Log.new(:content => 'minimal log 3.1'), :worker => 'ruby3.worker.travis-ci.org:travis-ruby-4' },
+              { :owner => minimal.owner, :log => Artifact::Log.new(:content => 'minimal log 3.2'), :worker => 'ruby3.worker.travis-ci.org:travis-ruby-4' },
+              { :owner => minimal.owner, :log => Artifact::Log.new(:content => 'minimal log 3.3'), :worker => 'ruby3.worker.travis-ci.org:travis-ruby-4' },
+              { :owner => minimal.owner, :log => Artifact::Log.new(:content => 'minimal log 3.4'), :worker => 'ruby3.worker.travis-ci.org:travis-ruby-4' }
             ]
 
       build :repository => enginex,
+            :owner => enginex.owner,
             :number => 1,
             :result => 1,
             :state  => 'finished',
@@ -84,7 +88,7 @@ module Scenario
               :committed_at => '2010-11-11 11:55:00',
             },
             :jobs => [
-              { :log => Artifact::Log.new(:content => 'enginex log 1'), :worker => 'ruby3.worker.travis-ci.org:travis-ruby-4' }
+              { :owner => enginex.owner, :log => Artifact::Log.new(:content => 'enginex log 1'), :worker => 'ruby3.worker.travis-ci.org:travis-ruby-4' }
             ]
 
       [minimal, enginex]
