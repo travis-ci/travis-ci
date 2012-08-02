@@ -18,6 +18,7 @@ describe V1::RepositoriesController do
       end
 
       it 'filtered by owner name' do
+        Permission.create(:admin => true, :user => User.find_by_login('svenfuchs'), :repository => Repository.find_by_name('minimal'))
         get(:index, :owner_name => 'svenfuchs', :format => :json)
 
         response.should be_success
