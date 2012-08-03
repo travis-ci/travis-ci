@@ -18,13 +18,14 @@ describe V1::RepositoriesController do
       end
 
       it 'filtered by owner name' do
-        Permission.create(:admin => true, :user => User.find_by_login('svenfuchs'), :repository => Repository.find_by_name('minimal'))
+        Permission.create(:push => true, :user => User.find_by_login('svenfuchs'), :repository => Repository.find_by_name('enginex'))
         get(:index, :owner_name => 'svenfuchs', :format => :json)
 
         response.should be_success
         result = json_response
-        result.count.should  == 1
+        result.count.should  == 2
         result.first['slug'].should == 'svenfuchs/minimal'
+        result.last['slug'].should  == 'josevalim/enginex'
       end
     end
   end
