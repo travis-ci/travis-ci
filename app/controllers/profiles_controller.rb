@@ -3,7 +3,7 @@ require 'responders'
 class ProfilesController < ApplicationController
   include SyncHelper
 
-  layout 'simple'
+  layout 'profile'
 
   before_filter :authenticate_user!
 
@@ -40,5 +40,14 @@ class ProfilesController < ApplicationController
 
     def user
       @user ||= current_user
+    end
+
+    def owners
+      @owners ||= [current_user] + Organization.where(:login => owner_names)
+    end
+    helper_method :owners
+
+    def owner_names
+      current_user.repositories.administratable.select(:owner_name).map(&:owner_name).uniq
     end
 end

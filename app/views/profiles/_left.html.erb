@@ -1,0 +1,13 @@
+<p>
+  <a href="#">Your profile</a>
+</p>
+
+<h2>Accounts</h2>
+
+<ul>
+  <% owners.each do |owner| %>
+    <li>
+      <%= link_to owner.name || owner.login, '#' %>
+    </li>
+  <% end %>
+</ul>

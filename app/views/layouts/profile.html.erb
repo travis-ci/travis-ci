@@ -17,8 +17,16 @@
 
     <div id="flash-messages"></div>
 
+    <div id="left">
+      <%= render 'profiles/left' %>
+    </div>
+
     <div id="main">
       <%= yield %>
+    </div>
+
+    <div id="right">
+      <%= render 'profiles/right' %>
     </div>
 
     <%= render 'layouts/google_analytics' %>
