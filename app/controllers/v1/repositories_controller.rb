@@ -27,6 +27,7 @@ module V1
         @repositories ||= begin
           scope = Repository.timeline.recent
           # TODO params[:owner_name] should be :login (as passed from the client)
+          scope = scope.by_member(params[:member])         if params[:member]
           scope = scope.by_owner_name(params[:owner_name]) if params[:owner_name]
           scope = scope.by_slug(params[:slug])             if params[:slug]
           scope = scope.search(params[:search])            if params[:search].present?

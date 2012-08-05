@@ -19,7 +19,6 @@ describe V1::RepositoriesController do
 
       context 'filtered by owner_name' do
         it 'when owner_name is a user' do
-          Permission.create!(:push => true, :user => User.find_by_login('svenfuchs'), :repository => Repository.find_by_name('enginex'))
           get(:index, :owner_name => 'svenfuchs', :format => :json)
 
           response.should be_success
@@ -37,6 +36,19 @@ describe V1::RepositoriesController do
           result = json_response
           result.count.should  == 1
           result.first['slug'].should == 'travis-ci/enginex'
+        end
+      end
+
+      context 'filtered by member' do
+        it 'should return all repositories that the user has permission to push' do
+          Permission.create!(:push => true, :user => User.find_by_login('svenfuchs'), :repository => Repository.find_by_name('enginex'))
+          get(:index, :member => 'svenfuchs', :format => :json)
+
+          response.should be_success
+          result = json_response
+          result.count.should  == 2
+          result.first['slug'].should == 'svenfuchs/minimal'
+          result.last['slug'].should == 'josevalim/enginex'
         end
       end
     end
