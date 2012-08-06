@@ -25,6 +25,9 @@ class ProfilesController < ApplicationController
     render :text => 'ok'
   end
 
+  def repositories
+  end
+
   private
 
     def update_locale

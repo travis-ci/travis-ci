@@ -1,13 +1,13 @@
 <p>
-  <a href="#">Your profile</a>
+  <%= link_to 'Your profile', profile_path %>
 </p>
 
-<h2>Accounts</h2>
+<h2>Repositories</h2>
 
 <ul>
   <% owners.each do |owner| %>
     <li>
-      <%= link_to owner.name || owner.login, '#' %>
+      <%= link_to owner.name || owner.login, profile_repositories_path(owner.login) %>
     </li>
   <% end %>
 </ul>
