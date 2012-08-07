@@ -21,7 +21,7 @@ module V1
     private
 
       def service_hooks
-        @service_hooks ||= current_user.service_hooks
+        @service_hooks ||= current_user.service_hooks(:owner_name => params[:owner_name])
       end
 
       def repository
