@@ -1,26 +1,13 @@
 <h3><%= link_to owner.name || owner.login, "http://github.com/#{owner.login}" %></h3>
 
 <ul class="tabs">
-  <% if owner == current_user %>
-    <li id="tab_profile" class="<%= 'active' if tab == 'profile'%>">
-      <h5><a href="<%= profile_path %>">Profile</a></h5>
+  <% tabs.each do |tab| %>
+    <% next if tab == 'profile' && owner != current_user %>
+    <li id="tab_<%= tab %>" class="<%= 'active' if tab == current_tab %>">
+      <h5><a href="<%= tab_path(tab) %>"><%= t :"tabs.#{tab}" %></a></h5>
       <div class="tab">
-        <%= render 'profiles/profile' if tab == 'profile' %>
+        <%= render "profiles/#{tab}" if tab == current_tab %>
       </div>
     </li>
   <% end %>
-
-  <li id="tab_account" class="<%= 'active' if tab == 'account'%>">
-    <h5><a href="<%= accounts_path(owner.login) %>">Account</a></h5>
-    <div class="tab">
-      <%= render 'profiles/account' if tab == 'account' %>
-    </div>
-  </li>
-
-  <li id="tab_repos" class="<%= 'active' if tab == 'repos'%>">
-    <h5><a href="<%= accounts_repos_path(owner.login) %>">Repositories</a></h5>
-    <div class="tab">
-      <%= render 'profiles/repositories' if tab == 'repos' %>
-    </div>
-  </li>
 </ul>

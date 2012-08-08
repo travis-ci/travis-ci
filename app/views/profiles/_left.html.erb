@@ -11,12 +11,10 @@
   <% owners.each do |owner| %>
     <li class="repository">
       <div class="wrapper">
-        <%= link_to owner.name || owner.login, accounts_path(owner.login) %>
+        <%= link_to owner.name || owner.login, profile_repos_path(owner.login) %>
         <p class="summary">
           <span class="duration_label">Repositories:</span>
-          25
-          <span class="finished_at_label">Plan:</span>
-          Huge
+          <%= repository_counts[owner.login] %>
         </p>
         <span class="indicator"></span>
       </div>

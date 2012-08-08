@@ -14,6 +14,8 @@ class ProfilesController < ApplicationController
   def show
     respond_with current_user
   end
+  alias :account :show
+  alias :repos :show
 
   def update
     update_locale
@@ -38,14 +40,24 @@ class ProfilesController < ApplicationController
       end
     end
 
-    def tab
-      case request.path
-      when /profile$/ then 'profile'
-      when /repos$/   then 'repos'
-      else 'account'
+    def tabs
+      @tabs ||= %w(profile repos)
+    end
+    helper_method :tabs
+
+    def current_tab
+      tabs.detect { |tab| request.path.ends_with?("/#{tab}") }
+    end
+    helper_method :current_tab
+
+    def tab_path(tab)
+      if tab == 'profile'
+        profile_path
+      else
+        send(:"profile_#{tab}_path", owner.login)
       end
     end
-    helper_method :tab
+    helper_method :tab_path
 
     def owner
       @owner ||= params[:owner_name] ? owners.detect { |owner| owner.login == params[:owner_name] } : current_user
@@ -64,4 +76,5 @@ class ProfilesController < ApplicationController
     def repository_counts
       @repository_counts ||= Repository.counts_by_owner_names(owner_names)
     end
+    helper_method :repository_counts
 end
