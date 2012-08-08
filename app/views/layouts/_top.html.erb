@@ -16,6 +16,7 @@
 
       <ul>
         <li><%= link_to t('.profile'), profile_path %></li>
+        <li><%= link_to t('.account'), accounts_path(current_user.login) %></li>
         <li><%= link_to t('.sign_out'), destroy_session_path %></li>
       </ul>
     <% else %>

@@ -1,36 +1,26 @@
-<%- content_for(:body_id, 'profile') -%>
+<h3><%= link_to owner.name || owner.login, "http://github.com/#{owner.login}" %></h3>
 
-<h2><%= @user.name %></h2>
-<%= gravatar(@user) %>
-
-<dl class="profile">
-  <dt>
-    <%= t '.github' %>:
-  </dt>
-  <dd>
-    <%= link_to "#{@user.login}", "http://github.com/#{@user.login}" %>
-  </dd>
-  <% if @user.email.present? %>
-    <dt>
-      <%= t '.email' %>:
-    </dt>
-    <dd>
-      <%= @user.email %>
-    </dd>
+<ul class="tabs">
+  <% if owner == current_user %>
+    <li id="tab_profile" class="<%= 'active' if tab == 'profile'%>">
+      <h5><a href="<%= profile_path %>">Profile</a></h5>
+      <div class="tab">
+        <%= render 'profiles/profile' if tab == 'profile' %>
+      </div>
+    </li>
   <% end %>
-  <dt>
-    <%= t '.token' %>:
-  </dt>
-  <dd>
-    <%= @user.tokens.first.token %>
-  </dd>
-</dl>
 
-<%= form_tag("profile", :method => :put) do %>
-  <h4>
-    <%= t '.your_locale' %>
-  </h4>
-  <%= select "user", "locale", I18n.available_locales.collect { |locale| [t("locales.#{locale}"), locale] }, {:include_blank => true, :selected => @user.locale } %>
-  <%= submit_tag(t('.update_locale')) %>
-<% end %>
+  <li id="tab_account" class="<%= 'active' if tab == 'account'%>">
+    <h5><a href="<%= accounts_path(owner.login) %>">Account</a></h5>
+    <div class="tab">
+      <%= render 'profiles/account' if tab == 'account' %>
+    </div>
+  </li>
 
+  <li id="tab_repos" class="<%= 'active' if tab == 'repos'%>">
+    <h5><a href="<%= accounts_repos_path(owner.login) %>">Repositories</a></h5>
+    <div class="tab">
+      <%= render 'profiles/repositories' if tab == 'repos' %>
+    </div>
+  </li>
+</ul>

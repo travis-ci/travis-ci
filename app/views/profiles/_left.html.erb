@@ -1,13 +1,25 @@
-<p>
-  <%= link_to 'Your profile', profile_path %>
-</p>
+<div id="search_box"></div>
 
-<h2>Repositories</h2>
+<ul class="tabs">
+  <li id="tab_accounts" class="active">
+    <h5><a href="#">Accounts</a></h5>
+    <div class="tab"></div>
+  </li>
+</ul>
 
-<ul>
+<ul id="repositories">
   <% owners.each do |owner| %>
-    <li>
-      <%= link_to owner.name || owner.login, profile_repositories_path(owner.login) %>
+    <li class="repository">
+      <div class="wrapper">
+        <%= link_to owner.name || owner.login, accounts_path(owner.login) %>
+        <p class="summary">
+          <span class="duration_label">Repositories:</span>
+          25
+          <span class="finished_at_label">Plan:</span>
+          Huge
+        </p>
+        <span class="indicator"></span>
+      </div>
     </li>
   <% end %>
 </ul>

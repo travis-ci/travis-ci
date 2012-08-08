@@ -12,7 +12,7 @@ class ProfilesController < ApplicationController
   respond_to :html, :only => :show
 
   def show
-    respond_with user
+    respond_with current_user
   end
 
   def update
@@ -21,11 +21,8 @@ class ProfilesController < ApplicationController
   end
 
   def sync
-    sync_user(user)
+    sync_user(current_user)
     render :text => 'ok'
-  end
-
-  def repositories
   end
 
   private
@@ -34,16 +31,26 @@ class ProfilesController < ApplicationController
       locale = params[:user][:locale].to_sym
       valid = I18n.available_locales.include?(locale)
       if valid
-        user.locale = locale.to_s
-        user.save!
+        current_user.locale = locale.to_s
+        current_user.save!
         session[:locale] = locale
         set_locale
       end
     end
 
-    def user
-      @user ||= current_user
+    def tab
+      case request.path
+      when /profile$/ then 'profile'
+      when /repos$/   then 'repos'
+      else 'account'
+      end
     end
+    helper_method :tab
+
+    def owner
+      @owner ||= params[:owner_name] ? owners.detect { |owner| owner.login == params[:owner_name] } : current_user
+    end
+    helper_method :owner
 
     def owners
       @owners ||= [current_user] + Organization.where(:login => owner_names)
@@ -52,5 +59,9 @@ class ProfilesController < ApplicationController
 
     def owner_names
       current_user.repositories.administratable.select(:owner_name).map(&:owner_name).uniq
+    end
+
+    def repository_counts
+      @repository_counts ||= Repository.counts_by_owner_names(owner_names)
     end
 end
