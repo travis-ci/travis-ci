@@ -6,6 +6,7 @@ class ProfilesController < ApplicationController
   layout 'profile'
 
   before_filter :authenticate_user!
+  before_filter :verify_tab
 
   responders :json
   respond_to :json
@@ -40,24 +41,25 @@ class ProfilesController < ApplicationController
       end
     end
 
+    def verify_tab
+      params.delete(:tab) if params[:tab] && !display_tab?(params[:tab])
+      params[:tab] ||= tabs.first
+    end
+
     def tabs
-      @tabs ||= %w(profile repos)
+      @tabs ||= %w(profile repos).select { |tab| display_tab?(tab) }
     end
     helper_method :tabs
 
     def current_tab
-      tabs.detect { |tab| request.path.ends_with?("/#{tab}") }
+      params[:tab]
     end
     helper_method :current_tab
 
-    def tab_path(tab)
-      if tab == 'profile'
-        profile_path
-      else
-        send(:"profile_#{tab}_path", owner.login)
-      end
+    def display_tab?(tab)
+      tab != 'profile' || owner == current_user
     end
-    helper_method :tab_path
+    helper_method :display_tab?
 
     def owner
       @owner ||= params[:owner_name] ? owners.detect { |owner| owner.login == params[:owner_name] } : current_user
