@@ -7,9 +7,9 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh
-  revision: 75be9482f3157f54142a7d452920cc00313a8ec2
+  revision: 907f35326579495a54c7ee2b030b6292d2e5d9ef
   specs:
-    gh (0.7.3)
+    gh (0.8.0)
       addressable
       backports (~> 2.3)
       faraday (~> 0.8)
@@ -61,7 +61,7 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/travis-assets
-  revision: 2292e7db8545192e56aa3ac8716cb22faf6707e1
+  revision: 97370fa82be609a030c616f6783b3d0f79ab19b3
   specs:
     travis-assets (0.0.1)
 
