@@ -12,8 +12,8 @@ module ApplicationHelper
   end
 
   def body_id
-    body_id_name = content_for(:body_id)
-    body_id_name.present? ? body_id_name : 'home'
+    id = content_for(:body_id)
+    id.present? ? id : 'home'
   end
 
   def top_bar_menu_item(name, path, options = {})
