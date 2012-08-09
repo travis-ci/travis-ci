@@ -3,7 +3,7 @@ require 'responders'
 class ProfilesController < ApplicationController
   include SyncHelper
 
-  layout 'simple'
+  layout 'profile'
 
   before_filter :authenticate_user!
 
@@ -12,8 +12,10 @@ class ProfilesController < ApplicationController
   respond_to :html, :only => :show
 
   def show
-    respond_with user
+    respond_with current_user
   end
+  alias :account :show
+  alias :repos :show
 
   def update
     update_locale
@@ -21,7 +23,7 @@ class ProfilesController < ApplicationController
   end
 
   def sync
-    sync_user(user)
+    sync_user(current_user)
     render :text => 'ok'
   end
 
@@ -31,14 +33,48 @@ class ProfilesController < ApplicationController
       locale = params[:user][:locale].to_sym
       valid = I18n.available_locales.include?(locale)
       if valid
-        user.locale = locale.to_s
-        user.save!
+        current_user.locale = locale.to_s
+        current_user.save!
         session[:locale] = locale
         set_locale
       end
     end
 
-    def user
-      @user ||= current_user
+    def tabs
+      @tabs ||= %w(profile repos)
     end
+    helper_method :tabs
+
+    def current_tab
+      tabs.detect { |tab| request.path.ends_with?("/#{tab}") }
+    end
+    helper_method :current_tab
+
+    def tab_path(tab)
+      if tab == 'profile'
+        profile_path
+      else
+        send(:"profile_#{tab}_path", owner.login)
+      end
+    end
+    helper_method :tab_path
+
+    def owner
+      @owner ||= params[:owner_name] ? owners.detect { |owner| owner.login == params[:owner_name] } : current_user
+    end
+    helper_method :owner
+
+    def owners
+      @owners ||= [current_user] + Organization.where(:login => owner_names)
+    end
+    helper_method :owners
+
+    def owner_names
+      current_user.repositories.administratable.select(:owner_name).map(&:owner_name).uniq
+    end
+
+    def repository_counts
+      @repository_counts ||= Repository.counts_by_owner_names(owner_names)
+    end
+    helper_method :repository_counts
 end

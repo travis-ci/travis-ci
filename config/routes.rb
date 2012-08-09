@@ -11,6 +11,8 @@ TravisCi::Application.routes.draw do
   resource :profile, :only => [:show, :update] do
     post 'sync', :to => 'profiles#sync'
   end
+  get 'profile/:owner_name/repos', :to => 'profiles#show', :as => 'profile_repos'
+  get 'profile/:owner_name/account', :to => 'profiles#show', :as => 'profile_account'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   as :user do
