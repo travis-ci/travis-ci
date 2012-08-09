@@ -103,7 +103,11 @@ module Travis
             records.map { |record| Dump.new(record).sql }
           end.join("\n\n")
 
-          [truncates, inserts].join("\n")
+          primary_keys = groups.keys.map do |model|
+            "SELECT setval('#{model.table_name}_id_seq', (SELECT MAX(id) FROM #{model.table_name})+1);"
+          end.join("\n")
+
+          [truncates, inserts, primary_keys].join("\n")
         end
 
         def groups

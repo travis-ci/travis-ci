@@ -1,4 +1,7 @@
 en:
+  tabs:
+    profile: Profile
+    repos: Repositories
   datetime:
     distance_in_words:
       hours_exact:
