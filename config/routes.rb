@@ -28,8 +28,8 @@ TravisCi::Application.routes.draw do
       resources :jobs,         :only => [:index, :show]
       resources :workers,      :only => :index
 
-      get 'profile/service_hooks',     :to => 'service_hooks#index'
-      put 'profile/service_hooks/:id', :to => 'service_hooks#update', :id => /[\w-]*:[\w.-]*/
+      get 'service_hooks',     :to => 'service_hooks#index'
+      put 'service_hooks/:id', :to => 'service_hooks#update', :id => /[\w-]*:[\w.-]*/
     end
 
     constraints :owner_name => /[^\/]+/, :name => /[^\/]+/ do
