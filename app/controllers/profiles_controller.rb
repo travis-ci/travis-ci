@@ -47,7 +47,7 @@ class ProfilesController < ApplicationController
     end
 
     def first_sync
-      redirect_to syncing_profile_url if current_user.first_sync? && params[:format] == 'html'
+      redirect_to syncing_profile_url if current_user.first_sync? && request.format.html?
     end
 
     def verify_tab
@@ -56,7 +56,7 @@ class ProfilesController < ApplicationController
     end
 
     def tabs
-      @tabs ||= %w(profile repos).select { |tab| display_tab?(tab) }
+      @tabs ||= %w(repos profile).select { |tab| display_tab?(tab) }
     end
     helper_method :tabs
 
