@@ -9,6 +9,7 @@ TravisCi::Application.routes.draw do
   root :to => 'home#index'
 
   resource :profile, :only => [:show, :update] do
+    get  'syncing', :to => 'profiles#syncing', :as => 'syncing'
     post 'sync', :to => 'profiles#sync'
   end
   get 'profile/:owner_name(/:tab)', :to => 'profiles#show', :as => 'profile_tab'

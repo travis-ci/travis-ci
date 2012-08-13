@@ -26,7 +26,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: eebe74ac071fb3af34343eebd4e0e965e6dabe5d
+  revision: 45058b798fcc5f09c4e35cb906382a13ef2441c8
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
@@ -147,7 +147,7 @@ GEM
       multi_json (~> 1.0)
     factory_girl (2.4.2)
       activesupport
-    faraday (0.8.1)
+    faraday (0.8.2)
       multipart-post (~> 1.1)
     ffi (1.1.4)
     foreman (0.36.1)

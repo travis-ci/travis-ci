@@ -6,6 +6,7 @@ class ProfilesController < ApplicationController
   layout 'profile'
 
   before_filter :authenticate_user!
+  before_filter :first_sync, :only => :show
   before_filter :verify_tab
 
   responders :json
@@ -21,6 +22,10 @@ class ProfilesController < ApplicationController
   def update
     update_locale
     redirect_to :profile
+  end
+
+  def syncing
+    render :syncing, :layout => 'session'
   end
 
   def sync
@@ -39,6 +44,10 @@ class ProfilesController < ApplicationController
         session[:locale] = locale
         set_locale
       end
+    end
+
+    def first_sync
+      redirect_to syncing_profile_url if current_user.first_sync? && params[:format] == 'html'
     end
 
     def verify_tab

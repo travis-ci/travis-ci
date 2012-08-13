@@ -1,6 +1,6 @@
 <%= stylesheet_link_tag 'application' %>
 <%= stylesheet_link_tag 'jasmine' if Rails.env.jasmine? %>
-<%= stylesheet_link_tag 'mobile'  if mobile_device? %>
+<%= stylesheet_link_tag 'mobile'  if mobile? %>
 
 <%= javascript_include_tag 'application' %>
 <%= javascript_include_tag 'jasmine' if Rails.env.test? %>
