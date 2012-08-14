@@ -1,4 +1,6 @@
-<meta name="user-login" content="<%= current_user.login %>">
+<% if current_user %>
+  <meta name="user-login" content="<%= current_user.login %>">
+<% end %>
 
 <%= stylesheet_link_tag 'application' %>
 <%= stylesheet_link_tag 'jasmine' if Rails.env.jasmine? %>
