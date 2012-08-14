@@ -2,9 +2,8 @@
 
 <ul class="tabs">
   <% tabs.each do |tab| %>
-    <% next if tab == 'profile' && owner != current_user %>
     <li id="tab_<%= tab %>" class="<%= 'active' if tab == current_tab %>">
-      <h5><a href="<%= tab_path(tab) %>"><%= t :"tabs.#{tab}" %></a></h5>
+      <h5><a href="<%= profile_tab_path(owner.login, tab) %>"><%= t :"tabs.#{tab}" %></a></h5>
       <div class="tab">
         <%= render "profiles/#{tab}" if tab == current_tab %>
       </div>
