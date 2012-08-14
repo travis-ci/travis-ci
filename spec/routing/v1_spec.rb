@@ -76,16 +76,16 @@ describe 'v1' do
     end
   end
 
-  describe 'GET to profile/service_hooks.json' do
+  describe 'GET to service_hooks.json' do
     let(:controller) { 'v1/service_hooks' }
     let(:action) { :index }
 
     it 'routes to V1::RepositoriesController#index' do
-      { :get => 'profile/service_hooks.json' }.should route_to(params)
+      { :get => 'service_hooks.json' }.should route_to(params)
     end
   end
 
-  describe 'PUT to profile/service_hooks.json' do
+  describe 'PUT to service_hooks.json' do
     let(:controller) { 'v1/service_hooks' }
     let(:action) { :update }
 
@@ -93,7 +93,7 @@ describe 'v1' do
       hook_params = params.merge(:id => 'svenfuchs:minimal')
       hook_params.delete(:format)
 
-      { :put => 'profile/service_hooks/svenfuchs:minimal' }.should route_to(hook_params)
+      { :put => 'service_hooks/svenfuchs:minimal' }.should route_to(hook_params)
     end
   end
 
