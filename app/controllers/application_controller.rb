@@ -56,14 +56,14 @@ class ApplicationController < ActionController::Base
       headers['X-GIT_SHA'] = ENV['GIT_SHA'] if ENV['GIT_SHA']
     end
 
-    def mobile_device?
+    def mobile?
       if session[:mobile_param]
         session[:mobile_param] == '1'
       else
         request.user_agent =~ /Mobile|webOS/
       end
     end
-    helper_method :mobile_device?
+    helper_method :mobile?
 
     def prepare_for_mobile
       session[:mobile_param] = params[:mobile] if params[:mobile]

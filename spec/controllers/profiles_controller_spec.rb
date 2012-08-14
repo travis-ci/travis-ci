@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ProfilesController do
-  let(:user) { Factory(:user) }
+  let(:user) { Factory(:user, :synced_at => Time.now) }
 
   before(:each) do
     sign_in_user user

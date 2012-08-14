@@ -26,7 +26,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 0f1cfbf3ef8fdfe81b6a1996a756e4391cf38a16
+  revision: efbe08e172f5a44309c5cfc0ddd807488b214c2b
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
@@ -47,7 +47,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-support
-  revision: 7b98636b18fa84487b568478ad364aea23e4c2ed
+  revision: 27857bb4f5425b8aacc9b26e4661688dca962fb0
   specs:
     travis-support (0.0.1)
 
@@ -61,7 +61,7 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/travis-assets
-  revision: 97370fa82be609a030c616f6783b3d0f79ab19b3
+  revision: c8833f392ebb482214bc517b8723ebf7c0c4bade
   specs:
     travis-assets (0.0.1)
 
@@ -147,7 +147,7 @@ GEM
       multi_json (~> 1.0)
     factory_girl (2.4.2)
       activesupport
-    faraday (0.8.1)
+    faraday (0.8.2)
       multipart-post (~> 1.1)
     ffi (1.1.4)
     foreman (0.36.1)

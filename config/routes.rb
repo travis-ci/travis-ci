@@ -9,10 +9,10 @@ TravisCi::Application.routes.draw do
   root :to => 'home#index'
 
   resource :profile, :only => [:show, :update] do
+    get  'syncing', :to => 'profiles#syncing', :as => 'syncing'
     post 'sync', :to => 'profiles#sync'
   end
-  get 'profile/:owner_name/repos', :to => 'profiles#show', :as => 'profile_repos'
-  get 'profile/:owner_name/account', :to => 'profiles#show', :as => 'profile_account'
+  get 'profile/:owner_name(/:tab)', :to => 'profiles#show', :as => 'profile_tab'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   as :user do
@@ -29,8 +29,8 @@ TravisCi::Application.routes.draw do
       resources :jobs,         :only => [:index, :show]
       resources :workers,      :only => :index
 
-      get 'profile/service_hooks',     :to => 'service_hooks#index'
-      put 'profile/service_hooks/:id', :to => 'service_hooks#update', :id => /[\w-]*:[\w.-]*/
+      get 'service_hooks',     :to => 'service_hooks#index'
+      put 'service_hooks/:id', :to => 'service_hooks#update', :id => /[\w-]*:[\w.-]*/
     end
 
     constraints :owner_name => /[^\/]+/, :name => /[^\/]+/ do
