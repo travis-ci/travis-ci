@@ -10,7 +10,7 @@ pl:
       seconds_exact:
         one: ! '%{count} sekunda'
         other: ! '%{count} sekundy'
-  workers: Workers
+  workers: Workery
   queue: Kolejka
   no_job: Brak zadań
   repositories:
@@ -26,8 +26,8 @@ pl:
     finished_at: Zakończono
     tabs:
       current: Aktualny
-      build_history: Historia Buildów
-      branches: Wszystkie Gałęzie
+      build_history: Historia buildów
+      branches: Wszystkie gałęzie
       build: Build
       job: Zadanie
   build:
@@ -38,11 +38,11 @@ pl:
     messages:
       sponsored_by: Te testy zostały uruchomione na maszynie sponsorowanej przez
     build_matrix: Macierz Buildów
-    allowed_failures: Dopuszczalne Niepowodzenia
+    allowed_failures: Dopuszczalne niepowodzenia
     author: Autor
     config: Konfiguracja
     compare: Porównanie
-    committer: Committer
+    committer: Komitujący
     branch: Gałąź
     commit: Commit
     message: Opis
@@ -55,7 +55,7 @@ pl:
     messages:
       sponsored_by: Te testy zostały uruchomione na maszynie sponsorowanej przez
     build_matrix: Macierz Buildów
-    allowed_failures: Dopuszczalne Niepowodzenia
+    allowed_failures: Dopuszczalne niepowodzenia
     author: Autor
     config: Konfiguracja
     compare: Porównanie
@@ -71,7 +71,7 @@ pl:
       home: Start
       blog: Blog
       docs: Dokumentacja
-      stats: Statystki
+      stats: Statystyki
       github_login: Zaloguj się przy pomocy GitHuba
       profile: Profil
       sign_out: Wyloguj się
@@ -94,7 +94,7 @@ pl:
     mobile:
       author: Autor
       build: Build
-      build_matrix: Macierz Buildów
+      build_matrix: Macierz buildów
       commit: Commit
       committer: Komitujący
       compare: Porównianie
@@ -108,7 +108,7 @@ pl:
       email: Email
       github: GitHub
       message:
-        your_repos: ! "  Przesuń suwak poniżej, aby włączyć Travisa, dla twoich projektów,
+        your_repos: ! "  Przesuń suwak poniżej, aby włączyć Travisa dla twoich projektów,
           a następnie umieść swój kod na GitHubie.<br />\n Aby testować swój kod przy
           użyciu wielu wersji Rubiego, zobacz"
         config: jak skonfigurować niestandardowe opcje builda
@@ -119,7 +119,7 @@ pl:
       your_repos: Twoje repozytoria
   statistics:
     index:
-      count: Ilość
+      count: Liczba
       repo_growth: Przyrost repozytoriów
       total_projects: Łącznie projektów/repozytoriów
       build_count: Liczba buildów
