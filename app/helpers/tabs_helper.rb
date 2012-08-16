@@ -1,4 +1,5 @@
 module TabsHelper
+  protected
   def tabs
     @tabs ||= %w(repos profile).select { |tab| display_tab?(tab) }
   end

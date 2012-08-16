@@ -2,9 +2,9 @@ require 'responders'
 
 class ProfilesController < ApplicationController
   include SyncHelper
+  include Tabs
 
   helper TabsHelper
-  include TabsHelper
 
   layout 'profile'
 
@@ -51,11 +51,6 @@ class ProfilesController < ApplicationController
 
     def first_sync
       redirect_to syncing_profile_url if current_user.first_sync? && request.format.html?
-    end
-
-    def verify_tab
-      params.delete(:tab) if params[:tab] && !display_tab?(params[:tab])
-      params[:tab] ||= tabs.first
     end
 
     def owner_names
