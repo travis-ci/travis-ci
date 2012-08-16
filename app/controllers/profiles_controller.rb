@@ -3,6 +3,9 @@ require 'responders'
 class ProfilesController < ApplicationController
   include SyncHelper
 
+  helper TabsHelper
+  include TabsHelper
+
   layout 'profile'
 
   before_filter :authenticate_user!
@@ -55,37 +58,7 @@ class ProfilesController < ApplicationController
       params[:tab] ||= tabs.first
     end
 
-    def tabs
-      @tabs ||= %w(repos profile).select { |tab| display_tab?(tab) }
-    end
-    helper_method :tabs
-
-    def current_tab
-      params[:tab]
-    end
-    helper_method :current_tab
-
-    def display_tab?(tab)
-      tab != 'profile' || owner == current_user
-    end
-    helper_method :display_tab?
-
-    def owner
-      @owner ||= params[:owner_name] ? owners.detect { |owner| owner.login == params[:owner_name] } : current_user
-    end
-    helper_method :owner
-
-    def owners
-      @owners ||= [current_user] + Organization.where(:login => owner_names)
-    end
-    helper_method :owners
-
     def owner_names
       current_user.repositories.administratable.select(:owner_name).map(&:owner_name).uniq
     end
-
-    def repository_counts
-      @repository_counts ||= Repository.counts_by_owner_names(owner_names)
-    end
-    helper_method :repository_counts
 end
