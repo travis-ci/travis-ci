@@ -1,12 +1,3 @@
 <h3><%= link_to owner.name || owner.login, "http://github.com/#{owner.login}" %></h3>
 
-<ul class="tabs">
-  <% tabs.each do |tab| %>
-    <li id="tab_<%= tab %>" class="<%= 'active' if tab == current_tab %>">
-      <h5><a href="<%= profile_tab_path(owner.login, tab) %>"><%= t :"tabs.#{tab}" %></a></h5>
-      <div class="tab">
-        <%= render "profiles/#{tab}" if tab == current_tab %>
-      </div>
-    </li>
-  <% end %>
-</ul>
+<%= render partial: 'profiles/tabs', locals: { tabs: tabs } %>
