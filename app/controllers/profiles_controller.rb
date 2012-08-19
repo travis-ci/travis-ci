@@ -47,7 +47,7 @@ class ProfilesController < ApplicationController
     end
 
     def first_sync
-      redirect_to syncing_profile_url if current_user.first_sync? && request.format.html?
+      redirect_to syncing_profile_url if current_user && current_user.first_sync? && request.format.html?
     end
 
     def verify_tab
