@@ -30,6 +30,10 @@ FactoryGirl.define do
     queue      "ruby"
   end
 
+  factory :token do
+    token "token"
+  end
+
   factory :log, :class => 'Artifact::Log' do
     content '$ bundle install --pa'
   end
