@@ -43,7 +43,8 @@ TravisCi::Application.configure do
 
   config.middleware.insert_before(::Rack::Lock, 'Refraction')
 
-  Hubble.setup
+  Hubble.setup if ENV['HUBBLE_ENV']
+
   options = { 'env' => Travis.env }
   options['codename'] = ENV['CODENAME'] if ENV.key?('CODENAME')
   config.middleware.use "Hubble::Rescuer", options
