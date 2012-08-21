@@ -2,7 +2,10 @@ require 'travis'
 
 Refraction.configure do |req|
 
-  if req.host =~ /^#{Regexp.escape(Travis.config.heroku_domain)}$/
+  if Travis.config.heroku_domain.nil?
+    # passthough
+
+  elsif req.host =~ /^#{Regexp.escape(Travis.config.heroku_domain)}$/
     # old heroku address
     Rails.logger.add(1, "\n\nREDIRECT : redirect issued for heroku address\n\n")
 
@@ -20,15 +23,12 @@ Refraction.configure do |req|
       # passthrough
     end
 
-
   # we don't want to use www.* for now (or other random names)
   elsif req.host =~ /([-\w]+\.)+#{Regexp.escape(Travis.config.host)}/
 
     req.permanent! :host => Travis.config.host
 
-
   else
     # passthrough with no change
   end
-
 end
