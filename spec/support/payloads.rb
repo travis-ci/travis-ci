@@ -136,6 +136,67 @@ GITHUB_PAYLOADS = {
     "created":true
   }),
 
+
+  'hook_inactive' => %({
+    "last_response": {
+      "status": "ok",
+      "message": "",
+      "code": 200
+    },
+    "config": {
+      "domain": "staging.travis-ci.org",
+      "user": "svenfuchs",
+      "token": "token"
+    },
+    "created_at": "2011-09-18T10:49:06Z",
+    "events": [
+      "push",
+      "pull_request",
+      "issue_comment",
+      "public",
+      "member"
+    ],
+    "active": false,
+    "updated_at": "2012-08-09T09:32:42Z",
+    "name": "travis",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/svenfuchs/minimal/hooks/77103"
+      }
+    },
+    "id": 77103
+  }),
+
+  'hook_active' => %({
+    "last_response": {
+      "status": "ok",
+      "message": "",
+      "code": 200
+    },
+    "config": {
+      "domain": "staging.travis-ci.org",
+      "user": "svenfuchs",
+      "token": "token"
+    },
+    "created_at": "2011-09-18T10:49:06Z",
+    "events": [
+      "push",
+      "pull_request",
+      "issue_comment",
+      "public",
+      "member"
+    ],
+    "active": true,
+    "updated_at": "2012-08-09T09:32:42Z",
+    "name": "travis",
+    "_links": {
+      "self": {
+        "href": "https://api.github.com/repos/svenfuchs/minimal/hooks/77103"
+      }
+    },
+    "id": 77103
+  }),
+
   :oauth => {
     "uid" => "234423",
     "user_info" => {
