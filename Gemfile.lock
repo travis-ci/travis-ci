@@ -26,7 +26,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: c3459dc0610cf91632c9aa4e873ed45f4fe1b713
+  revision: 8a2ed18063ddcf8da01a5bb7620bab67ca6abb2b
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
@@ -156,7 +156,7 @@ GEM
     forgery (0.5.0)
     fssm (0.2.9)
     hashie (1.2.0)
-    hashr (0.0.21)
+    hashr (0.0.22)
     hike (1.2.1)
     hitimes (1.1.1)
     http_accept_language (1.0.2)
