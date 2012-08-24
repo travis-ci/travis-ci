@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
     end
 
     def title
-      'Travis CI - Distributed build platform for the open source community'
+      'Travis CI - Hosted Continuous Integration for the Open Source Community'
     end
     helper_method :title
 
