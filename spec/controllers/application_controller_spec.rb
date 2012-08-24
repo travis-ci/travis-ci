@@ -3,14 +3,6 @@ require 'spec_helper'
 describe HomeController do # using HomeController because nothing routes to ApplicationController
   let(:user) { Factory(:user) }
 
-  before(:all) do
-    HomeController.class_eval do
-      def index
-        render :text => "dur...."
-      end
-    end
-  end
-
   describe 'i18n locale' do
     it 'the default locale is en' do
       I18n.default_locale.should == :en
