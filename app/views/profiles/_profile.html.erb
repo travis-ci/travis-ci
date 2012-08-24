@@ -27,7 +27,7 @@
   <%= raw t 'profiles.show.messages.notice' %>
 </p>
 
-<%= form_tag("profile", :method => :put) do %>
+<%= form_tag(profile_path, :method => :put) do %>
   <h4>
     <%= t '.your_locale' %>
   </h4>
