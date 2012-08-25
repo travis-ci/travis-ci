@@ -14,12 +14,13 @@ TravisCi::Application.routes.draw do
   end
   get 'profile/:owner_name(/:tab)', :to => 'profiles#show', :as => 'profile_tab'
 
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_for :users, :controllers => { :omniauth_callbacks => 'users/omniauth_callbacks' }
   as :user do
-    get 'users/sign_out', :to => 'devise/sessions#destroy', :as => :destroy_session
+    get 'sessions/new',      :to => 'sessions#new',     :as => :sign_in
+    get 'sessions/sign_out', :to => 'sessions#destroy', :as => :sign_out
   end
 
-  get "/stats" => "statistics#index"
+  get '/stats' => 'statistics#index'
 
   api = lambda do
     constraints :format => 'json' do
@@ -34,11 +35,11 @@ TravisCi::Application.routes.draw do
     end
 
     constraints :owner_name => /[^\/]+/, :name => /[^\/]+/ do
-      get ":owner_name/:name.json",            :to => 'repositories#show', :format => :json
-      get ":owner_name/:name/builds.json",     :to => 'builds#index',      :format => :json
-      get ":owner_name/:name/builds/:id.json", :to => 'builds#show',       :format => :json
-      get ":owner_name/:name.png",             :to => 'repositories#show', :format => :png
-      get ":owner_name/:name/cc.xml",          :to => 'repositories#show', :format => :xml, :schema => 'cctray'
+      get ':owner_name/:name.json',            :to => 'repositories#show', :format => :json
+      get ':owner_name/:name/builds.json',     :to => 'builds#index',      :format => :json
+      get ':owner_name/:name/builds/:id.json', :to => 'builds#show',       :format => :json
+      get ':owner_name/:name.png',             :to => 'repositories#show', :format => :png
+      get ':owner_name/:name/cc.xml',          :to => 'repositories#show', :format => :xml, :schema => 'cctray'
     end
   end
 
@@ -52,12 +53,13 @@ end
 
 # we want these after everything else is loaded
 TravisCi::Application.routes.append do
-  constraints :user => /[^\/]+/, :repository => /[^\/]+/ do
-    get ":user",                        :to => redirect("/#!/%{user}"),                            :as => :user_redirect
-    get ":user/:repository",            :to => redirect("/#!/%{user}/%{repository}"),              :as => :user_repo_redirect
-    get ":user/:repository/builds",     :to => redirect("/#!/%{user}/%{repository}/builds"),       :as => :user_repo_builds_redirect
-    get ":user/:repository/builds/:id", :to => redirect("/#!/%{user}/%{repository}/builds/%{id}"), :as => :user_repo_build_redirect
+  constraints :owner => /[^\/]+/, :name => /[^\/]+/ do
+    get ':owner',                  :to => 'redirect#owner'
+    get ':owner/:name',            :to => 'redirect#repository'
+    get ':owner/:name/builds',     :to => 'redirect#builds'
+    get ':owner/:name/builds/:id', :to => 'redirect#build'
+    get ':owner/:name/jobs/:id',   :to => 'redirect#job'
   end
 
-  get "/*path" => "home#not_found"
+  get '/*path' => 'home#not_found'
 end

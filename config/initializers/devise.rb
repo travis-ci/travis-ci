@@ -1,5 +1,6 @@
 require 'travis'
-require "omniauth-github"
+require 'failure_app'
+require 'omniauth-github'
 
 Devise.setup do |config|
   require 'devise/orm/active_record'
@@ -13,4 +14,8 @@ Devise.setup do |config|
 
   oauth2 = Travis.config.oauth2 || Hashr.new
   config.omniauth :github, oauth2.client_id, oauth2.client_secret, :scope => oauth2.scope
+
+  config.warden do |manager|
+    manager.failure_app = Travis::FailureApp
+  end
 end
