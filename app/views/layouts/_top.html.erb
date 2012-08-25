@@ -16,7 +16,7 @@
 
       <ul>
         <li><%= link_to t('.profile'), profile_path %></li>
-        <li><%= link_to t('.sign_out'), destroy_session_path %></li>
+        <li><%= link_to t('.sign_out'), sign_out_path %></li>
       </ul>
     <% else %>
       <%= link_to t('.github_login'), user_omniauth_authorize_path(:github), :id => "sign_in", :class => "profile-signup" %>

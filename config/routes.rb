@@ -16,7 +16,8 @@ TravisCi::Application.routes.draw do
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   as :user do
-    get 'users/sign_out', :to => 'devise/sessions#destroy', :as => :destroy_session
+    get 'sessions/new',      :to => 'sessions#new',     :as => :sign_in
+    get 'sessions/sign_out', :to => 'sessions#destroy', :as => :sign_out
   end
 
   get "/stats" => "statistics#index"

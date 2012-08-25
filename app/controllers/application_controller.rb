@@ -19,6 +19,16 @@ class ApplicationController < ActionController::Base
 
   protected
 
+    def after_sign_in_path_for(user)
+      if session[:user_return_to]
+        session[:user_return_to]
+      elsif user.recently_signed_up?
+        profile_url
+      else
+        root_url
+      end
+    end
+
     def set_locale
       locale_by_param if params[:hl]
 

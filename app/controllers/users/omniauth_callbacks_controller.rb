@@ -10,12 +10,12 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       sync_user(user)
     end
 
-    redirect_to user.recently_signed_up? ? profile_url : root_url
+    redirect_to after_sign_in_path_for(user)
   end
 
   protected
 
-    def after_omniauth_failure_path_for(scope)
+    def after_omniauth_failure_path_for(user)
       '/'
     end
 end
