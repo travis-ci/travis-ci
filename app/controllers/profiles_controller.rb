@@ -8,6 +8,7 @@ class ProfilesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :first_sync, :only => :show
   before_filter :verify_tab
+  before_filter :verify_owner
 
   responders :json
   respond_to :json
@@ -53,6 +54,10 @@ class ProfilesController < ApplicationController
     def verify_tab
       params.delete(:tab) if params[:tab] && !display_tab?(params[:tab])
       params[:tab] ||= tabs.first
+    end
+
+    def verify_owner
+      not_found unless owner
     end
 
     def tabs
