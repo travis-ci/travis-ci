@@ -1,6 +1,7 @@
 require 'responders'
 
 class ApiController < ActionController::Metal
+  include ActionController::RackDelegation
   include ActionController::Head
   include ActionController::Rendering
   include ActionController::Renderers::All
@@ -8,6 +9,8 @@ class ApiController < ActionController::Metal
   include ActionController::ImplicitRender
   include ActionController::Rescue
   include ActionController::Helpers
+  include ActionController::Instrumentation
+  include ActiveRecord::Railties::ControllerRuntime # is this needed?
 
   extend Responders::ControllerMethod
 
