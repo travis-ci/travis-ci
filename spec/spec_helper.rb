@@ -21,6 +21,7 @@ require 'travis/support'
 require 'travis/support/testing/webmock'
 
 Travis.logger = Logger.new(StringIO.new)
+OmniAuth.config.test_mode = true
 
 RSpec.configure do |c|
   c.filter_run_excluding :js => true if ENV['CI']
