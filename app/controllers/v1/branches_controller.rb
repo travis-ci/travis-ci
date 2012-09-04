@@ -3,7 +3,7 @@ module V1
     respond_to :json
 
     def index
-      render :json => branches
+      render :json => branches.data if stale? branches
     end
 
     protected
@@ -13,7 +13,7 @@ module V1
       end
 
       def branches
-        Travis::Api.data(repository, :type => :branches, :params => params, :version => 'v1')
+        Travis::Api.builder(repository, :type => :branches, :params => params, :version => 'v1')
       end
   end
 end
