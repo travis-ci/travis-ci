@@ -26,8 +26,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: c60dbbe7e4b01b4e1440991859aff4469c1df091
-  branch: http-caching
+  revision: b71c3be388451581f2ca60e6fd862c2bfc56bfb6
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
