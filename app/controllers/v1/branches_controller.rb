@@ -13,7 +13,7 @@ module V1
       end
 
       def branches
-        Travis::Api.builder(repository, :type => :branches, :params => params, :version => 'v1')
+        Travis::Api.new(repository, :type => :branches, :params => params, :version => 'v1')
       end
   end
 end

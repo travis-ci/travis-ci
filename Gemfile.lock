@@ -26,7 +26,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 0e31197b077e8c5aa56b2935fe75d4f148a4bc7a
+  revision: c60dbbe7e4b01b4e1440991859aff4469c1df091
   branch: http-caching
   specs:
     travis-core (0.0.1)
