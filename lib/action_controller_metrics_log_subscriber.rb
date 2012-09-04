@@ -1,8 +1,8 @@
 class ActionControllerMetricsLogSubscriber < ActiveSupport::LogSubscriber
   def process_action(event)
     keys = [
-      'action_controller.requests',
-      "action_controller.requests.#{event.payload[:params]['controller'].gsub('/', '.')}"
+      'v1.action_controller.requests',
+      "v1.action_controller.requests.#{event.payload[:params]['controller'].gsub('/', '.')}"
     ]
     keys.each do |key|
       Metriks.timer(key).update(event.duration)
