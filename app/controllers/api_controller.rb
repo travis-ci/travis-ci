@@ -10,6 +10,7 @@ class ApiController < ActionController::Metal
   include ActionController::Rescue
   include ActionController::Helpers
   include ActionController::Instrumentation
+  include ActionController::ConditionalGet
   include ActiveRecord::Railties::ControllerRuntime # is this needed?
 
   extend Responders::ControllerMethod
