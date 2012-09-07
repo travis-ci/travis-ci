@@ -4,8 +4,6 @@ class ProfilesController < ApplicationController
   include SyncHelper
   include Tabs
 
-  helper TabsHelper
-
   layout 'profile'
 
   before_filter :authenticate_user!
