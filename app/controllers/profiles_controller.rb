@@ -93,4 +93,9 @@ class ProfilesController < ApplicationController
       @repository_counts ||= Repository.counts_by_owner_names(owner_names)
     end
     helper_method :repository_counts
+
+    def sync_type
+      Travis::Github::Sync::Repositories.type
+    end
+    helper_method :sync_type
 end

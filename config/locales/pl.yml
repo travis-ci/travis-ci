@@ -109,8 +109,7 @@ pl:
       github: GitHub
       message:
         your_repos: ! "  Przesuń suwak poniżej, aby włączyć Travisa, dla twoich projektów,
-          a następnie umieść swój kod na GitHubie.<br />\n Aby testować swój kod przy
-          użyciu wielu wersji Rubiego, zobacz"
+          a następnie umieść swój kod na GitHubie."
         config: jak skonfigurować niestandardowe opcje builda
       messages:
         notice: ! "Aby zacząć, przeczytaj nasz <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Przewodnik

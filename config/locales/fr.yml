@@ -112,9 +112,7 @@ fr:
       github: GitHub
       message:
         your_repos: ! 'Utilisez les boutons ci-dessous pour activer Travis sur vos
-          projets puis déployez sur GitHub.<br />
-
-          Pour tester sur plus de versions de ruby, voir'
+          projets puis déployez sur GitHub.'
         config: comment configurer des options de version personnalisées
       messages:
         notice: ! "Pour commencer, veuillez lire notre <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">guide

@@ -100,8 +100,7 @@ es:
       github: GitHub
       message:
         your_repos: ! "  Activa los interruptores para inicial el  Travis service
-          hook para tus proyectos, y haz un Push en GitHub.<br />\n  Para probar varias
-          versiones de ruby, mira"
+          hook para tus proyectos, y haz un Push en GitHub."
         config: como configurar tus propias opciones para el Build
       messages:
         notice: ! "Para comenzar, por favor lee nuestra <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Guía

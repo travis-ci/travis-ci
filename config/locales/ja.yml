@@ -97,7 +97,7 @@ ja:
       email: メール
       message:
         config: 詳細設定
-        your_repos: 以下のスイッチを設定し、Travis-ciを有効にします。GitHubへプッシュしたらビルドは自動的に開始します。複数バーションや細かい設定はこちらへ：
+        your_repos: 以下のスイッチを設定し、Travis-ciを有効にします。GitHubへプッシュしたらビルドは自動的に開始します。
       messages:
         notice: まずは<a href="http://about.travis-ci.org/docs/user/getting-started/">Travisのはじめ方</a>を参照してください。
       token: トークン

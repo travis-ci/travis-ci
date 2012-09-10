@@ -110,7 +110,7 @@ cs:
       github: GitHub
       message:
         your_repos: ! "  Přepněte vypínač pro povolení služby Travis na vašem projektu
-          a poté proveďte push na GitHub.<br />\n  Pro spuštění testů na více platformách si přečtěte"
+          a poté proveďte push na GitHub."
         config: jak nakonfigurovat vlastní sestavení
       messages:
         notice: ! "Před začátkem si prosím prostudujte naší <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">

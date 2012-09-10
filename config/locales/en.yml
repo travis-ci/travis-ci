@@ -112,9 +112,8 @@ en:
       email: Email
       github: GitHub
       message:
-        your_repos: ! "  Flick the switches below to turn on the Travis service hook
-          for your projects, then push to GitHub.<br />\n  To test against multiple
-          rubies, see"
+        your_repos: ! "Flick the switches below to turn on the Travis service hook for your projects, then push to GitHub."
+        repos_synced: "Please note that on this domain only <em>%{type}</em> repositories are synced."
         config: how to configure custom build options
       messages:
         notice: ! "To get started, please read our <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Getting
