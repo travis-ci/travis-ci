@@ -1,8 +1,11 @@
 <%- content_for(:body_id, 'stats') -%>
 
-<div id="repo_count_container"></div>
+<h3>Sorry</h3>
+<p>Statistics are disabled for now.</p>
+<p> We're looking into a solution. If you want to help, please ping us!</p>
 
-<div id="build_count_container"></div>
+<!-- <div id="repo_count_container"></div> -->
+<!-- <div id="build_count_container"></div> -->
 
 <%= javascript_tag do %>
   var repo_count_chart;
@@ -38,7 +41,7 @@
           },
           series: [{
              name: '<%= t '.repo_growth' %>',
-             data: <%= @repo_graph_stats.map { |stats| [DateTime.parse(stats[:date]).to_i * 1000, stats[:total_growth]] }.to_json %>
+             data: [] <%#= @repo_graph_stats.map { |stats| [DateTime.parse(stats[:date]).to_i * 1000, stats[:total_growth]] }.to_json %>
           }]
        });
 
@@ -74,7 +77,7 @@
        },
        series: [{
           name: '<%= t '.total_builds' %>',
-          data: <%= @test_graph_stats.map { |stats| [DateTime.parse(stats[:date]).to_i * 1000, stats[:run_on_date]] }.to_json %>
+          data: [] <%#= @test_graph_stats.map { |stats| [DateTime.parse(stats[:date]).to_i * 1000, stats[:run_on_date]] }.to_json %>
        }]
     });
 
