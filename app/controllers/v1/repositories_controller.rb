@@ -24,23 +24,13 @@ module V1
     protected
 
       def repositories
-        @repositories ||= begin
-          scope = Repository.timeline.recent
-          # TODO params[:owner_name] should be :login (as passed from the client)
-          scope = scope.by_member(params[:member])         if params[:member]
-          scope = scope.by_owner_name(params[:owner_name]) if params[:owner_name]
-          scope = scope.by_slug(params[:slug])             if params[:slug]
-          scope = scope.search(params[:search])            if params[:search].present?
-          scope
-        end
+        service(:repositories).find_all(params)
       end
 
       def repository
-        begin
-          @repository ||= Repository.find_by(params)
-        rescue ActiveRecord::RecordNotFound
-          raise if not params[:format] == 'png'
-        end
+        @repository ||= service(:repositories).find_one(params.slice(:owner_name, :name))
+      rescue ActiveRecord::RecordNotFound
+        raise unless params[:format] == 'png'
       end
   end
 end
