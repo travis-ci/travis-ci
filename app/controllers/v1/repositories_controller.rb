@@ -28,7 +28,7 @@ module V1
       end
 
       def repository
-        @repository ||= service(:repositories).find_one(params.slice(:owner_name, :name))
+        @repository ||= service(:repositories).find_one(params)
       rescue ActiveRecord::RecordNotFound
         raise unless params[:format] == 'png'
       end
