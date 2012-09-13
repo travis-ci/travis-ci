@@ -15,29 +15,12 @@ module V1
 
     protected
 
-      def repository
-        @repository ||= Repository.find_by(params) || not_found
-      end
-
-      def builds_type
-        repository.builds.by_event_type(params['event_type'])
-      end
-
       def builds
-        @builds ||= begin
-          if build_number = params['after_number']
-            builds_type.older_than(build_number)
-          else
-            builds_type.recent
-          end
-        end
+        service(:builds).find_all(params)
       end
 
       def build
-        @build ||= begin
-          scope = params['repository_id'] ? repository.builds : Build
-          scope.includes(:commit, :matrix => [:commit, :log]).find(params[:id])
-        end
+        service(:builds).find_one(params)
       end
   end
 end

@@ -3,6 +3,7 @@ require 'responders'
 
 class ApplicationController < ActionController::Base
   extend Responders::ControllerMethod
+  include Travis::Services
 
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
 
@@ -56,11 +57,6 @@ class ApplicationController < ActionController::Base
       'Travis CI - Hosted Continuous Integration for the Open Source Community'
     end
     helper_method :title
-
-    def repositories
-      @repositories ||= Repository.timeline
-    end
-    helper_method :repositories
 
     def set_gitsha_header
       headers['X-GIT_SHA'] = ENV['GIT_SHA'] if ENV['GIT_SHA']
