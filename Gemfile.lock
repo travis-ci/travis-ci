@@ -26,7 +26,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 55129e8c8277a8914bedede61bdbe6761f187727
+  revision: aea39f726ea64bfadaba6ca7a53687c180b440fa
   branch: sf-extract-services
   specs:
     travis-core (0.0.1)
