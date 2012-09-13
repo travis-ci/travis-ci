@@ -16,11 +16,11 @@ module V1
     protected
 
       def jobs
-        @jobs ||= Job.queued.where(:queue => params[:queue]).includes(:commit)
+        service(:jobs).find_all(params)
       end
 
       def job
-        @job ||= Job.find(params[:id])
+        service(:jobs).find_one(params)
       end
   end
 end
