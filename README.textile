@@ -158,8 +158,7 @@ h2. Dependency Status
 
 h2. Developer Documentation
 
-Please keep in mind that Travis CI evolves rapidly and this documentation may be outdated. Development, travis-ci.org maintenance and
-user documentation take priority.
+Please keep in mind that Travis CI evolves rapidly and this documentation may be outdated. Development, travis-ci.org maintenance and user documentation take priority.
 
 * "travis worker":http://about.travis-ci.org/docs/dev/worker/
 
