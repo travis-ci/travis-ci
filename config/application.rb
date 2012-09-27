@@ -3,7 +3,8 @@ require File.expand_path('../boot', __FILE__)
 require 'rails/all'
 Bundler.require *Rails.groups(:assets) if defined?(Bundler)
 
-require 'oauth_proxy'
+# require 'oauth_proxy'
+require File.expand_path('../../lib/oauth_proxy', __FILE__) # FIXME: WTF???
 
 module TravisCi
   class Application < Rails::Application
