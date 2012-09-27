@@ -3,6 +3,8 @@ require File.expand_path('../boot', __FILE__)
 require 'rails/all'
 Bundler.require *Rails.groups(:assets) if defined?(Bundler)
 
+require 'oauth_proxy'
+
 module TravisCi
   class Application < Rails::Application
     config.encoding = 'utf-8'
@@ -23,6 +25,7 @@ module TravisCi
     config.i18n.load_path += Dir[Rails.root.join('locales', '*.{rb,yml}').to_s]
 
     config.middleware.use Rack::JSONP
+    config.middleware.use OauthProxy, '/oauth_dummy', 'https://api.travis-ci.org/'
 
     # make sure Rails reloads/re-requires the model slices on
     # each page load during development
