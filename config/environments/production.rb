@@ -4,6 +4,7 @@ require 'hubble'
 require 'hubble/middleware'
 require 'action_controller_metrics_log_subscriber'
 require 'travis/log_subscriber/active_record_metrics'
+require 'rack/ssl'
 
 TravisCi::Application.configure do
   config.cache_classes = true
@@ -41,6 +42,7 @@ TravisCi::Application.configure do
     Travis::LogSubscriber::ActiveRecordMetrics.attach
   end
 
+  config.middleware.insert_before(::Rack::Lock, ::Rack::SSL)
   config.middleware.insert_before(::Rack::Lock, 'Refraction')
 
   Hubble.setup if ENV['HUBBLE_ENV']
