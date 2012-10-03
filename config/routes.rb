@@ -24,7 +24,10 @@ TravisCi::Application.routes.draw do
 
   api = lambda do
     constraints :format => 'json' do
-      resources :repositories, :only => [:index, :show]
+      resources :repositories, :only => [:index, :show] do
+        resources :builds,     :only => [:index, :show]
+      end
+
       resources :builds,       :only => [:index, :show]
       resources :branches,     :only => :index
       resources :jobs,         :only => [:index, :show]
