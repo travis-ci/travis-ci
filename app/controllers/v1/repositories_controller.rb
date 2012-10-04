@@ -24,11 +24,11 @@ module V1
     protected
 
       def repositories
-        service(:repositories).find_all(params)
+        service(:repositories, :all, params).run
       end
 
       def repository
-        @repository ||= service(:repositories).find_one(params)
+        @repository ||= service(:repositories, :one, params).run
       rescue ActiveRecord::RecordNotFound
         raise unless params[:format] == 'png'
       end

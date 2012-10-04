@@ -9,11 +9,8 @@ module V1
     protected
 
       def branches
-        Travis::Api.new(repository, :type => :branches, :params => params, :version => 'v1')
-      end
-
-      def repository
-        service(:repositories).find_one(params) || not_found
+        branches = service(:branches, :all, params).run
+        Travis::Api.new(branches, :type => :branches, :params => params, :version => 'v1')
       end
   end
 end

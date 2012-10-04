@@ -25,7 +25,7 @@ module V1
       end
 
       def repository
-        @repository ||= service(:repositories).find_or_create_by(params.slice(:owner_name, :name))
+        @repository ||= service(:repositories, :one, params.slice(:owner_name, :name)).run
       end
   end
 end

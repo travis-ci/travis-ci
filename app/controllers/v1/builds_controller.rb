@@ -16,11 +16,11 @@ module V1
     protected
 
       def builds
-        service(:builds).find_all(params)
+        service(:builds, :all, params).run
       end
 
       def build
-        service(:builds).find_one(params)
+        service(:builds, :one, params).run
       end
   end
 end
