@@ -32,3 +32,4 @@ TravisCi::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 end
 
+Travis.config.assets.version = Travis::Assets.version

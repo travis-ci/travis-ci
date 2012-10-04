@@ -4,6 +4,7 @@ require 'rails/all'
 Bundler.require *Rails.groups(:assets) if defined?(Bundler)
 
 # require 'oauth_proxy'
+# @rkh why don't we just add /lib to the load path here?
 require File.expand_path('../../lib/oauth_proxy', __FILE__) # FIXME: WTF???
 
 module TravisCi
