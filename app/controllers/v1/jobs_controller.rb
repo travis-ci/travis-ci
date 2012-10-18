@@ -16,11 +16,11 @@ module V1
     protected
 
       def jobs
-        service(:jobs, :all, params).run
+        service(:jobs, :find_all, params).run
       end
 
       def job
-        service(:jobs, :one, params).run
+        service(:jobs, :find_one, params).run
       end
   end
 end

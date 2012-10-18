@@ -9,7 +9,7 @@ module V1
     protected
 
       def branches
-        branches = service(:branches, :all, params).run
+        branches = service(:branches, :find_all, params).run
         Travis::Api.new(branches, :type => :branches, :params => params, :version => 'v1')
       end
   end

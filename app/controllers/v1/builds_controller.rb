@@ -16,11 +16,11 @@ module V1
     protected
 
       def builds
-        service(:builds, :all, params).run
+        service(:builds, :find_all, params).run
       end
 
       def build
-        service(:builds, :one, params).run
+        service(:builds, :find_one, params).run || raise(ActiveRecord::RecordNotFound)
       end
   end
 end
