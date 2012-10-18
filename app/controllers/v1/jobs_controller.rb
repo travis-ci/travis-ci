@@ -20,7 +20,7 @@ module V1
       end
 
       def job
-        service(:jobs, :find_one, params).run
+        service(:jobs, :find_one, params).run || raise(ActiveRecord::RecordNotFound)
       end
   end
 end
