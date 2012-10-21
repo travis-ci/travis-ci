@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def broadcast
+    Travis::Services::Users::FindBroadcasts.new(current_user).run.first if signed_in?
+  end
+
   def active_page?(page)
     controller, action = page.split('#')
     params[:controller] == controller && params[:action] == action
