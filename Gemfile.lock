@@ -48,7 +48,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-support
-  revision: 7fb3660e0d5705305aa59b30fa74cbcc6248bbad
+  revision: c51ef116f38e5192171112f347f9a2ba050fe636
   specs:
     travis-support (0.0.1)
 
@@ -63,7 +63,7 @@ GIT
 
 GIT
   remote: https://github.com/travis-ci/travis-assets
-  revision: 6f7743c2c57e59d476df84b5d1938fd07805689a
+  revision: 8a41f369649daaa7d03d0f0478ac51edd0dfe82d
   specs:
     travis-assets (0.0.1)
 
