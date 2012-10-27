@@ -3,7 +3,7 @@ require 'notifications'
 require 'hubble'
 require 'hubble/middleware'
 require 'action_controller_metrics_log_subscriber'
-require 'travis/log_subscriber/active_record_metrics'
+require 'travis/support/log_subscriber/active_record_metrics'
 require 'rack/ssl'
 
 TravisCi::Application.configure do
