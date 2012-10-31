@@ -27,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: e882687e52e6f8030427f81febaf012bd379cfdb
+  revision: fd5ef3c8e0f82ac6f9bbfeb2a13bf6f86200635f
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
@@ -54,7 +54,7 @@ GIT
 
 GIT
   remote: https://github.com/livingsocial/rake-pipeline.git
-  revision: 3914452278165b7eb3a79071d3b63b46fee59a2f
+  revision: 082e4c22b93cb7e355c1a3bcc99398527c51b3cd
   specs:
     rake-pipeline (0.6.0)
       json
@@ -69,7 +69,7 @@ GIT
 
 GIT
   remote: https://github.com/wycats/rake-pipeline-web-filters.git
-  revision: 1e8aede170297ad08b364b07955b43355718df19
+  revision: 2cfe4e71b23086d86dcc67c16ccaee5796e3c946
   specs:
     rake-pipeline-web-filters (0.6.0)
       rack
@@ -113,7 +113,7 @@ GEM
     bcrypt-ruby (3.0.1)
     builder (3.0.4)
     bunny (0.8.0)
-    capybara (1.1.2)
+    capybara (1.1.3)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
@@ -126,7 +126,7 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.3.3)
+    coffee-script-source (1.4.0)
     compass (0.12.2)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
