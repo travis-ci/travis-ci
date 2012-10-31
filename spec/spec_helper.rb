@@ -39,14 +39,9 @@ RSpec.configure do |c|
 
   c.before :each do
     DatabaseCleaner.start
-    pusher.reset!
 
     Travis.instance_variable_set(:@config, nil)
     Travis.config.domain = 'test.travis-ci.org'
-
-    Travis::Event::Handler.instance_variable_set(:@subscriptions, nil)
-    Travis::Event::Handler::Worker.instance_variable_set(:@queues, nil)
-    # Travis::Event::Handler::Worker.amqp = Support::Mocks::Amqp.new
 
     Travis::Support::Testing::Webmock.mock!
   end
