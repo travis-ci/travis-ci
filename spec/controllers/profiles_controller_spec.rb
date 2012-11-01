@@ -32,6 +32,12 @@ describe ProfilesController do
       Travis::Amqp::Publisher.stubs(:new).returns(publisher)
     end
 
+    it "should reset the user's syncing flag when an error occurs" do
+      publisher.expects(:publish).raises(StandardError)
+      post :sync
+      user.reload.is_syncing.should == false
+    end
+
     describe 'given the current user is not being synced' do
       before :each do
         user.update_column(:is_syncing, false)
@@ -61,6 +67,32 @@ describe ProfilesController do
       it 'does not set the current user to being synced' do
         user.expects(:update_column).never
         post :sync
+      end
+    end
+
+    describe 'with sidekiq enabled' do
+      before do
+        user.update_column(:is_syncing, false)
+        Travis::Features.enable_for_all(:sync_via_sidekiq)
+      end
+
+      after do
+        Travis::Features.disable_for_all(:sync_via_sidekiq)
+      end
+
+      it "should publish to sidekiq" do
+        Travis::Sidekiq::SynchronizeUser.expects(:perform_async)
+        post :sync
+      end
+
+      it "shouldn't publish to amqp" do
+        publisher.expects(:publish).never
+        post :sync
+      end
+      
+      it "should set the user to syncing" do
+        post :sync
+        user.reload.is_syncing.should == true
       end
     end
   end

@@ -4,6 +4,7 @@ ruby '1.9.3' rescue nil
 
 gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine'
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
+gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs'
 
 gem 'rails',                '~> 3.2.3'
 gem 'execjs',               '1.3.0'
@@ -71,4 +72,7 @@ group :test do
   gem 'database_cleaner',  '~> 0.7.0'
   gem 'mocha',             '~> 0.10.0'
   gem 'webmock',           '~> 1.7.7'
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'rb-fsevent'
 end
