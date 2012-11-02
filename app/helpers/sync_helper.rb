@@ -11,5 +11,6 @@ module SyncHelper
     end
   rescue => error
     user.update_column(:is_syncing, false)
+    raise
   end
 end
