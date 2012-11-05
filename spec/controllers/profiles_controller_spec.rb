@@ -97,6 +97,27 @@ describe ProfilesController do
         post :sync
         user.reload.is_syncing.should == true
       end
+
+      context "for the current user" do
+        before do
+          Travis::Features.disable_for_all(:sync_via_sidekiq)
+        end
+
+        after do
+          Travis::Features.deactivate_user(:sync_via_sidekiq, user)
+        end
+
+        it "should allow syncing if the current user is flipped" do
+          Travis::Features.activate_user(:sync_via_sidekiq, user)
+          Travis::Sidekiq::SynchronizeUser.expects(:perform_async)
+          post :sync
+        end
+
+        it "should sync via AMQP if the current user isn't flipped" do
+          Travis::Sidekiq::SynchronizeUser.expects(:perform_async).never
+          post :sync
+        end
+      end
     end
   end
 end
