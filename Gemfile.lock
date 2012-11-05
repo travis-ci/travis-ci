@@ -27,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: fd5ef3c8e0f82ac6f9bbfeb2a13bf6f86200635f
+  revision: b3e0212aa29ab1042f3357c1cd20b6f9d9fe8e08
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
@@ -62,9 +62,9 @@ GIT
 
 GIT
   remote: https://github.com/livingsocial/rake-pipeline.git
-  revision: 082e4c22b93cb7e355c1a3bcc99398527c51b3cd
+  revision: ae0795842a8958934d872a005d18b16161aa05fe
   specs:
-    rake-pipeline (0.6.0)
+    rake-pipeline (0.8.0)
       json
       rake (~> 0.9.0)
       thor
@@ -208,7 +208,7 @@ GEM
     mime-types (1.19)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
-    multi_json (1.3.6)
+    multi_json (1.3.7)
     multipart-post (1.1.5)
     net-http-persistent (2.8)
     net-http-pipeline (1.0.1)
@@ -230,7 +230,7 @@ GEM
     orm_adapter (0.0.7)
     pg (0.13.2)
     polyglot (0.3.3)
-    postmark (0.9.13)
+    postmark (0.9.15)
       json
       rake
     postmark-rails (0.4.1)
@@ -290,8 +290,8 @@ GEM
       railties (>= 3.0)
       rspec (~> 2.10.0)
     rubyzip (0.9.9)
-    sass (3.2.1)
-    selenium-webdriver (2.25.0)
+    sass (3.2.2)
+    selenium-webdriver (2.26.0)
       childprocess (>= 0.2.5)
       libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
@@ -333,7 +333,7 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.34)
+    tzinfo (0.3.35)
     unicorn (4.1.1)
       kgio (~> 2.4)
       rack
