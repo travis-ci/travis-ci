@@ -34,8 +34,11 @@ describe ProfilesController do
 
     it "should reset the user's syncing flag when an error occurs" do
       publisher.expects(:publish).raises(StandardError)
-      post :sync
-      user.reload.is_syncing.should == false
+      begin
+        post :sync
+      rescue
+        user.reload.is_syncing.should == false
+      end
     end
 
     describe 'given the current user is not being synced' do
