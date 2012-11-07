@@ -116,6 +116,9 @@ pl:
           </a>.\n  <small>Zajmie ci to tylko kilka minut.</small>"
       token: Token
       your_repos: Twoje repozytoria
+      update: Aktualizuj
+      update_locale: Aktualizuj język
+      your_locale: Twój język
   statistics:
     index:
       count: Ilość
