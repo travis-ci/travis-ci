@@ -1,6 +1,6 @@
 module ApplicationHelper
   def broadcast
-    Travis::Services::Users::FindBroadcasts.new(current_user).run.first if signed_in?
+    Travis.run_service(:find_user_broadcasts, current_user).first if signed_in?
   end
 
   def active_page?(page)

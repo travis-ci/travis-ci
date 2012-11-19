@@ -24,12 +24,12 @@ module V1
     protected
 
       def repositories
-        service(:repositories, :find_all, params).run
+        service(:find_repos, params).run
       end
 
       def repository
         @repository ||= begin
-          repo = service(:repositories, :find_one, params).run
+          repo = service(:find_repo, params).run
           repo || raise(ActiveRecord::RecordNotFound) unless params[:format] == 'png'
           repo
         end

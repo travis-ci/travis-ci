@@ -14,7 +14,7 @@ class ApiController < ActionController::Metal
   include ActiveRecord::Railties::ControllerRuntime # is this needed?
 
   extend Responders::ControllerMethod
-  include Travis::Services
+  include Travis::Services::Helpers
 
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
 

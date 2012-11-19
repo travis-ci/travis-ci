@@ -95,7 +95,7 @@ class ProfilesController < ApplicationController
     helper_method :repository_counts
 
     def sync_type
-      Travis::Services::Github::SyncUser::Repositories.type
+      Travis::Github::Services::SyncUser::Repositories.type
     end
     helper_method :sync_type
 end

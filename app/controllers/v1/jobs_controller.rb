@@ -16,11 +16,11 @@ module V1
     protected
 
       def jobs
-        service(:jobs, :find_all, params).run
+        service(:find_jobs, params).run
       end
 
       def job
-        service(:jobs, :find_one, params).run || raise(ActiveRecord::RecordNotFound)
+        service(:find_job, params).run || raise(ActiveRecord::RecordNotFound)
       end
   end
 end

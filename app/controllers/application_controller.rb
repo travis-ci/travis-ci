@@ -3,7 +3,7 @@ require 'responders'
 
 class ApplicationController < ActionController::Base
   extend Responders::ControllerMethod
-  include Travis::Services
+  include Travis::Services::Helpers
 
   rescue_from ActiveRecord::RecordNotFound, :with => :not_found
 
