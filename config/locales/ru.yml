@@ -220,6 +220,7 @@ ru:
       build_history: История
       current: Текущий
       job: Задача
+      pull_requests: Pull requests
     textile: Textile
   repository:
     duration: Длительность
