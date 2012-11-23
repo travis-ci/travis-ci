@@ -27,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 0031b051b8fa1d9564a6a210b0e4065e6c49ef62
+  revision: ac632a5c50cc4e23eb1270d7f8c1d8963bdc99c3
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
@@ -48,7 +48,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-sidekiqs.git
-  revision: 9bc6c0f948b518b372bb239046bbd3fe6b4fbc97
+  revision: 8ee04e96a26f8caa49045bce87ed756dbc4e1d55
   specs:
     travis-sidekiqs (0.0.1)
       sentry-raven
