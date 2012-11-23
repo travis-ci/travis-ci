@@ -27,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: b2cd65706e2921b305db326b5411f3ff4a796eff
+  revision: 0031b051b8fa1d9564a6a210b0e4065e6c49ef62
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
@@ -38,7 +38,7 @@ GIT
       metriks (~> 0.9.7)
       multi_json
       postmark-rails (~> 0.4.1)
-      pusher (~> 0.9.2)
+      pusher (~> 0.11.0)
       railties (~> 3.2.3)
       rake (~> 0.9.2.2)
       redis (~> 3.0)
@@ -48,7 +48,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-sidekiqs.git
-  revision: 33cf6b1ed576231c1cc5368f734171b4edd4768b
+  revision: 9bc6c0f948b518b372bb239046bbd3fe6b4fbc97
   specs:
     travis-sidekiqs (0.0.1)
       sentry-raven
@@ -56,7 +56,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-support
-  revision: ce25da5b53d2dbb67798084a87e91b84f5626061
+  revision: f78d9161369f574f12b9c0c0dbfe13b997766bdd
   specs:
     travis-support (0.0.1)
 
@@ -77,7 +77,7 @@ GIT
 
 GIT
   remote: https://github.com/wycats/rake-pipeline-web-filters.git
-  revision: 2cfe4e71b23086d86dcc67c16ccaee5796e3c946
+  revision: 1a6dc173776b188836aa2ce2ac35b61c7f7daafe
   specs:
     rake-pipeline-web-filters (0.6.0)
       rack
@@ -86,31 +86,31 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
-    actionmailer (3.2.8)
-      actionpack (= 3.2.8)
+    actionmailer (3.2.9)
+      actionpack (= 3.2.9)
       mail (~> 2.4.4)
-    actionpack (3.2.8)
-      activemodel (= 3.2.8)
-      activesupport (= 3.2.8)
+    actionpack (3.2.9)
+      activemodel (= 3.2.9)
+      activesupport (= 3.2.9)
       builder (~> 3.0.0)
       erubis (~> 2.7.0)
       journey (~> 1.0.4)
       rack (~> 1.4.0)
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
-      sprockets (~> 2.1.3)
-    activemodel (3.2.8)
-      activesupport (= 3.2.8)
+      sprockets (~> 2.2.1)
+    activemodel (3.2.9)
+      activesupport (= 3.2.9)
       builder (~> 3.0.0)
-    activerecord (3.2.8)
-      activemodel (= 3.2.8)
-      activesupport (= 3.2.8)
+    activerecord (3.2.9)
+      activemodel (= 3.2.9)
+      activesupport (= 3.2.9)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
-    activeresource (3.2.8)
-      activemodel (= 3.2.8)
-      activesupport (= 3.2.8)
-    activesupport (3.2.8)
+    activeresource (3.2.9)
+      activemodel (= 3.2.9)
+      activesupport (= 3.2.9)
+    activesupport (3.2.9)
       i18n (~> 0.6)
       multi_json (~> 1.0)
     addressable (2.3.2)
@@ -165,7 +165,7 @@ GEM
       activesupport
     faraday (0.8.4)
       multipart-post (~> 1.1)
-    ffi (1.1.5)
+    ffi (1.2.0)
     foreman (0.36.1)
       term-ansicolor (~> 1.0.7)
       thor (>= 0.13.6)
@@ -188,9 +188,9 @@ GEM
     journey (1.0.4)
     json (1.6.7)
     kgio (2.7.4)
-    libwebsocket (0.1.5)
-      addressable
-    listen (0.5.3)
+    libwebsocket (0.1.6.1)
+      websocket
+    listen (0.6.0)
     lograge (0.0.6)
       actionpack
       activesupport
@@ -241,9 +241,9 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.3.1)
-    pusher (0.9.4)
+    pusher (0.11.1)
       multi_json (~> 1.0)
-      signature (~> 0.1.2)
+      signature (~> 0.1.6)
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -251,17 +251,17 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
-    rails (3.2.8)
-      actionmailer (= 3.2.8)
-      actionpack (= 3.2.8)
-      activerecord (= 3.2.8)
-      activeresource (= 3.2.8)
-      activesupport (= 3.2.8)
+    rails (3.2.9)
+      actionmailer (= 3.2.9)
+      actionpack (= 3.2.9)
+      activerecord (= 3.2.9)
+      activeresource (= 3.2.9)
+      activesupport (= 3.2.9)
       bundler (~> 1.0)
-      railties (= 3.2.8)
-    railties (3.2.8)
-      actionpack (= 3.2.8)
-      activesupport (= 3.2.8)
+      railties (= 3.2.9)
+    railties (3.2.9)
+      actionpack (= 3.2.9)
+      activesupport (= 3.2.9)
       rack-ssl (~> 1.3.2)
       rake (>= 0.8.7)
       rdoc (~> 3.4)
@@ -301,19 +301,20 @@ GEM
       hashie
       multi_json (~> 1.0)
       uuidtools
-    sidekiq (2.5.2)
+    sidekiq (2.5.3)
       celluloid (~> 0.12.0)
       connection_pool (~> 0.9.2)
       multi_json (~> 1)
       redis (~> 3)
       redis-namespace
-    signature (0.1.4)
+    signature (0.1.6)
     simple_states (0.1.1)
       activesupport
       hashr (~> 0.0.10)
     slop (3.3.3)
-    sprockets (2.1.3)
+    sprockets (2.2.1)
       hike (~> 1.2)
+      multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
     term-ansicolor (1.0.7)
@@ -342,6 +343,7 @@ GEM
     webmock (1.7.10)
       addressable (~> 2.2, > 2.2.5)
       crack (>= 0.1.7)
+    websocket (1.0.4)
     xpath (0.1.4)
       nokogiri (~> 1.3)
     yajl-ruby (1.1.0)
