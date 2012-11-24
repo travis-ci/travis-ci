@@ -14,14 +14,14 @@ module V1
     end
 
     def update
-      repository.service_hook.set(params[:active] == 'true', current_user)
+      run_service(:update_hook, id: repository.id, active: params[:active] == 'true')
       respond_with(repository)
     end
 
     private
 
       def service_hooks
-        @service_hooks ||= current_user.service_hooks(:owner_name => params[:owner_name])
+        @service_hooks ||= run_service(:find_hooks, params)
       end
 
       def repository

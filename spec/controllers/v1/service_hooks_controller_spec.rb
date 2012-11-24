@@ -13,7 +13,7 @@ describe V1::ServiceHooksController do
   def update_payload(active)
     {
       :name   => 'travis',
-      :events => ServiceHook::EVENTS,
+      :events => Travis::Github::Services::SetHook::EVENTS,
       :active => active,
       :config => { :user => user.login, :token => user.tokens.first.token, :domain => 'staging.travis-ci.org' }
     }
