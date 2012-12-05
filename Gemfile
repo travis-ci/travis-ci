@@ -4,7 +4,7 @@ ruby '1.9.3' rescue nil
 
 gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine', branch: 'sf-rich-states'
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
-gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs'
+gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs', require: nil
 
 gem 'rails',                '~> 3.2.3'
 gem 'execjs',               '1.3.0'
