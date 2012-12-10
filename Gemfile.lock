@@ -27,8 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 3d9b40dd4bdf3a4f7c825faddd2ca88269092a03
-  branch: sf-rich-states
+  revision: 714090635924650998b3a3d0f18b39d9cfd46839
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
@@ -56,7 +55,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-support
-  revision: 3df452650a4c0ae01ed28bea2b81ce15fde5b712
+  revision: 124b8b6f6f1cff468b678a38583191a18f9db922
   specs:
     travis-support (0.0.1)
 
@@ -292,7 +291,7 @@ GEM
       rspec (~> 2.10.0)
     rubyzip (0.9.9)
     sass (3.2.3)
-    selenium-webdriver (2.26.0)
+    selenium-webdriver (2.27.1)
       childprocess (>= 0.2.5)
       libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
