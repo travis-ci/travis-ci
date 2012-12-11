@@ -8,7 +8,7 @@ Bundler.require *Rails.groups(:assets) if defined?(Bundler)
 require File.expand_path('../../lib/oauth_proxy', __FILE__) # FIXME: WTF???
 
 
-config = {
+hosts = {
   production: {
     asset_host: 'travis-assets.herokuapp.com',
     domain: 'secure.travis-ci.org'
@@ -18,12 +18,11 @@ config = {
     domain: 'travis-staging.herokuapp.com'
   }
 }
-config = config[Travis.env.to_sym]
-
-Travis.config.assets.host = config[:asset_host]
-Travis.config.domain = config[:domain]
-Travis.config.host = config[:domain]
-
+if hosts = hosts[Travis.env.to_sym]
+  Travis.config.assets.host = hosts[:asset_host]
+  Travis.config.domain = hosts[:domain]
+  Travis.config.host = hosts[:domain]
+end
 
 module TravisCi
   class Application < Rails::Application
