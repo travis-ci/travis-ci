@@ -1,6 +1,6 @@
 module Responders
   module ResultImage
-    STATUS_NAMES = { nil => 'unknown', 0 => 'passing', 1 => 'failing' }
+    STATUS_NAMES = { default: 'unknown', passed: 'passing', failed: 'failing' }
 
     delegate :params, :headers, :send_file, :to => :controller
 
@@ -28,7 +28,8 @@ module Responders
       end
 
       def result
-        STATUS_NAMES[resource.try(:last_build_result_on, controller.params)]
+        result = resource ? resource.builds.last_state_on(controller.params) : nil
+        STATUS_NAMES[result] || STATUS_NAMES[:default]
       end
   end
 end
