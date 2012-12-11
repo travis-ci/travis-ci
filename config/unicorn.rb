@@ -13,6 +13,7 @@ after_fork do |server, worker|
   require 'travis'
 
   Travis.config.update_periodically
+
   Travis::Amqp.connect
 
   ActiveRecord::Base.establish_connection if defined?(ActiveRecord::Base)

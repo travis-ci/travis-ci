@@ -7,6 +7,24 @@ Bundler.require *Rails.groups(:assets) if defined?(Bundler)
 # @rkh why don't we just add /lib to the load path here?
 require File.expand_path('../../lib/oauth_proxy', __FILE__) # FIXME: WTF???
 
+
+config = {
+  production: {
+    asset_host: 'travis-assets.herokuapp.com',
+    domain: 'secure.travis-ci.org'
+  },
+  staging: {
+    asset_host: 'travis-assets-staging.herokuapp.com',
+    domain: 'travis-staging.herokuapp.com'
+  }
+}
+config = config[Travis.env.to_sym]
+
+Travis.config.assets.host = config[:asset_host]
+Travis.config.domain = config[:domain]
+Travis.config.host = config[:domain]
+
+
 module TravisCi
   class Application < Rails::Application
     config.encoding = 'utf-8'
