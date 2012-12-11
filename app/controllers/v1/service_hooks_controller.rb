@@ -10,7 +10,7 @@ module V1
     respond_to :json
 
     def index
-      respond_with(service_hooks)
+      render json: Travis::Api.data(service_hooks, :type => :hooks, :version => 'v1')
     end
 
     def update

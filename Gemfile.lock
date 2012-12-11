@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/rack/rack-contrib
-  revision: b7e7c38fd02c3b5da91aa57af78b3f571c6ebcd0
+  revision: 6f337267eae0bedb4110879f2aea6b1bb2137980
   specs:
-    rack-contrib (1.1.0)
+    rack-contrib (1.2.0)
       rack (>= 0.9.1)
 
 GIT
@@ -27,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 714090635924650998b3a3d0f18b39d9cfd46839
+  revision: 707a3b0fb83187ec1808cd6c2a9b3d47ce699426
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
@@ -55,7 +55,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-support
-  revision: 124b8b6f6f1cff468b678a38583191a18f9db922
+  revision: fe5e9013d99f8f38b9560cbd3150146914e2c138
   specs:
     travis-support (0.0.1)
 
@@ -208,7 +208,7 @@ GEM
     mime-types (1.19)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
-    multi_json (1.4.0)
+    multi_json (1.5.0)
     multipart-post (1.1.5)
     net-http-persistent (2.8)
     net-http-pipeline (1.0.1)
