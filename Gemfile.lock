@@ -27,11 +27,13 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: b5de8b146dad8835da84c0d9cac3bfab3770192c
+  revision: 1cd892709c3edf020d5fca76da74799bbf7b7192
+  branch: rkh-track-scopes
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
       activerecord (~> 3.2.3)
+      coder (~> 0.3.0)
       data_migrations (~> 0.0.1)
       gh
       hashr (~> 0.0.19)
@@ -133,6 +135,7 @@ GEM
     childprocess (0.3.6)
       ffi (~> 1.0, >= 1.0.6)
     chunky_png (1.2.6)
+    coder (0.3.0)
     coderay (1.0.8)
     coffee-script (2.2.0)
       coffee-script-source
@@ -241,7 +244,7 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.3.1)
-    pusher (0.11.1)
+    pusher (0.11.2)
       multi_json (~> 1.0)
       signature (~> 0.1.6)
     rack (1.4.1)
