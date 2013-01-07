@@ -27,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 1cd892709c3edf020d5fca76da74799bbf7b7192
+  revision: 8c48ab08d35bd4357e53e7922a34ba56e97e969d
   branch: rkh-track-scopes
   specs:
     travis-core (0.0.1)
