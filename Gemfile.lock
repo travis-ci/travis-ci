@@ -27,8 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 8c48ab08d35bd4357e53e7922a34ba56e97e969d
-  branch: rkh-track-scopes
+  revision: 8054047f8ea52de88012c7351530b03516af5060
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.3)
