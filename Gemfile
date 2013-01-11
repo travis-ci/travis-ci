@@ -6,7 +6,7 @@ gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 't
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
 gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs', require: nil
 
-gem 'rails',                '3.2.8' # TODO current log_rage seems incompatible with 3.2.9
+gem 'rails',                '3.2.11'
 gem 'execjs',               '1.3.0'
 gem 'rake',                 '~> 0.9.2.2'
 gem 'bunny'
@@ -38,7 +38,7 @@ gem 'backports',            '~> 2.3.0'
 gem 'gh',           git: 'git://github.com/rkh/gh'
 gem 'hubble',       git: 'git://github.com/roidrage/hubble'
 gem 'newrelic_rpm',         '~> 3.3.0'
-gem 'lograge',              '~> 0.0.4'
+gem 'lograge',              '~> 0.1.2'
 
 # i18n
 gem 'http_accept_language', '~> 1.0.2'
