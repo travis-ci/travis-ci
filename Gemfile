@@ -2,13 +2,13 @@ source :rubygems
 
 ruby '1.9.3' rescue nil
 
-gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine'
+gem 'travis-core',    git: 'git://github.com/travis-ci/travis-core', require: 'travis/engine', branch: 'sf-archive-logs'
 gem 'travis-support', git: 'git://github.com/travis-ci/travis-support'
 gem 'travis-sidekiqs', github: 'travis-ci/travis-sidekiqs', require: nil
 
 gem 'rails',                '3.2.11'
 gem 'execjs',               '1.3.0'
-gem 'rake',                 '~> 0.9.2.2'
+gem 'rake'
 gem 'bunny'
 gem 'rack-ssl'
 
