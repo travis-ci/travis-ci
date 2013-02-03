@@ -27,7 +27,8 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: b8d0d63f433c8e63472b97b3c287b99d31027ecb
+  revision: 0dc3bcee4d3a54d057085355d731c3186c61c38d
+  branch: ps-db-encryption
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.11)
