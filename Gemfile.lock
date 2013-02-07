@@ -27,8 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 0dc3bcee4d3a54d057085355d731c3186c61c38d
-  branch: ps-db-encryption
+  revision: d0039167cecebdd99f976144cc5ff0f2c7c40a9b
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.11)
@@ -165,7 +164,7 @@ GEM
     facter (1.6.17)
     factory_girl (2.4.2)
       activesupport
-    faraday (0.8.4)
+    faraday (0.8.5)
       multipart-post (~> 1.1)
     ffi (1.3.1)
     foreman (0.36.1)
@@ -205,7 +204,7 @@ GEM
       atomic (~> 1.0)
       avl_tree (~> 1.1.2)
       hitimes (~> 1.1)
-    mime-types (1.19)
+    mime-types (1.20.1)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
     multi_json (1.5.0)
@@ -241,13 +240,13 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
-    pusher (0.11.2)
+    pusher (0.11.3)
       multi_json (~> 1.0)
       signature (~> 0.1.6)
     rack (1.4.4)
     rack-cache (1.2)
       rack (>= 0.4)
-    rack-ssl (1.3.2)
+    rack-ssl (1.3.3)
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -269,7 +268,7 @@ GEM
     raindrops (0.10.0)
     rake (10.0.3)
     rb-fsevent (0.9.3)
-    rdoc (3.12)
+    rdoc (3.12.1)
       json (~> 1.4)
     redis (3.0.2)
     redis-namespace (1.2.1)
