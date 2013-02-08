@@ -27,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: d0039167cecebdd99f976144cc5ff0f2c7c40a9b
+  revision: 28b64e0a1938ddd667227c61d81d21f0162e6e43
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.11)
@@ -243,7 +243,7 @@ GEM
     pusher (0.11.3)
       multi_json (~> 1.0)
       signature (~> 0.1.6)
-    rack (1.4.4)
+    rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
     rack-ssl (1.3.3)
