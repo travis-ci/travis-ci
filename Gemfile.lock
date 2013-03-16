@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh
-  revision: 1dece05c588c63e714520aae686589de1b3bcbd5
+  revision: 5e781e424e346838604563bd6408c4419f5480b0
   specs:
     gh (0.9.1)
       addressable
@@ -27,11 +27,11 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: baea1ffdbca6945f7d0338e414075882f633282c
+  revision: 146ca839b286b67294c84e8ebf489c76d7add898
   specs:
     travis-core (0.0.1)
-      actionmailer (~> 3.2.11)
-      activerecord (~> 3.2.11)
+      actionmailer (~> 3.2.12)
+      activerecord (~> 3.2.12)
       coder (~> 0.3.0)
       data_migrations (~> 0.0.1)
       gh
@@ -40,7 +40,7 @@ GIT
       multi_json
       postmark-rails (~> 0.4.1)
       pusher (~> 0.11.0)
-      railties (~> 3.2.11)
+      railties (~> 3.2.12)
       rake
       redis (~> 3.0)
       rollout (~> 1.1.0)
@@ -113,7 +113,7 @@ GEM
     activesupport (3.2.12)
       i18n (~> 0.6)
       multi_json (~> 1.0)
-    addressable (2.3.2)
+    addressable (2.3.3)
     arel (3.0.2)
     atomic (1.0.1)
     avl_tree (1.1.3)
@@ -164,7 +164,7 @@ GEM
     facter (1.6.17)
     factory_girl (2.4.2)
       activesupport
-    faraday (0.8.5)
+    faraday (0.8.6)
       multipart-post (~> 1.1)
     ffi (1.3.1)
     foreman (0.36.1)
@@ -182,7 +182,7 @@ GEM
     hashie (1.2.0)
     hashr (0.0.22)
     hike (1.2.1)
-    hitimes (1.1.1)
+    hitimes (1.2.1)
     http_accept_language (1.0.2)
     httpauth (0.2.0)
     i18n (0.6.4)
@@ -200,7 +200,7 @@ GEM
       treetop (~> 1.4.8)
     metaclass (0.0.1)
     method_source (0.8.1)
-    metriks (0.9.9.2)
+    metriks (0.9.9.4)
       atomic (~> 1.0)
       avl_tree (~> 1.1.2)
       hitimes (~> 1.1)
@@ -208,7 +208,7 @@ GEM
     mocha (0.10.5)
       metaclass (~> 0.0.1)
     multi_json (1.6.1)
-    multipart-post (1.1.5)
+    multipart-post (1.2.0)
     net-http-persistent (2.8)
     net-http-pipeline (1.0.1)
     newrelic_rpm (3.3.5)
@@ -229,7 +229,7 @@ GEM
     orm_adapter (0.0.7)
     pg (0.13.2)
     polyglot (0.3.3)
-    postmark (0.9.18)
+    postmark (0.9.19)
       json
       rake
     postmark-rails (0.4.1)
@@ -270,7 +270,7 @@ GEM
     rb-fsevent (0.9.3)
     rdoc (3.12.2)
       json (~> 1.4)
-    redis (3.0.2)
+    redis (3.0.3)
     redis-namespace (1.2.1)
       redis (~> 3.0.0)
     refraction (0.2.0)
