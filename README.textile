@@ -25,6 +25,7 @@ You can see Travis CI in action at "travis-ci.org":http://travis-ci.org. With ab
  * "Riak Java client":https://travis-ci.org/basho/riak-java-client/, "Cucumber JVM":https://travis-ci.org/cucumber/cucumber-jvm/, "Symfony 2 Eclipse Plugin":https://travis-ci.org/pulse00/Symfony-2-Eclipse-Plugin/ in the Java community
  * "Scalding":https://travis-ci.org/twitter/scalding and "Scalatra":https://travis-ci.org/scalatra/scalatra in the Scala community
  * "Tornado":http://travis-ci.org/#!/facebook/tornado, "simplejson":http://travis-ci.org/#!/simplejson/simplejson, "Fabric":http://travis-ci.org/#!/fabric/fabric, "Requests":http://travis-ci.org/#!/kennethreitz/requests, "Kombu":http://travis-ci.org/#!/ask/kombu in the Python community
+ * "Nancy":https://travis-ci.org/NancyFx/Nancy in the .NET/Mono community
 
 
 h3. We Are Not Done Yet
