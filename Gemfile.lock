@@ -7,11 +7,11 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh
-  revision: 5e781e424e346838604563bd6408c4419f5480b0
+  revision: 605e7bed6ea2707ee6513d4bd859631f48322564
   specs:
     gh (0.9.1)
       addressable
-      backports (~> 2.3)
+      backports
       faraday (~> 0.8)
       multi_json (~> 1.0)
       net-http-persistent (>= 2.7)
@@ -27,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: a6c211fd1d9f431887a0d4e686be1768f8eec4fa
+  revision: e35ffffd2c0569e1ad0d8d7e31a1b9998a47265b
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.12)
@@ -38,7 +38,6 @@ GIT
       hashr (~> 0.0.19)
       metriks (~> 0.9.7)
       multi_json
-      postmark-rails (~> 0.4.1)
       pusher (~> 0.11.0)
       railties (~> 3.2.12)
       rake
@@ -113,9 +112,9 @@ GEM
     activesupport (3.2.12)
       i18n (~> 0.6)
       multi_json (~> 1.0)
-    addressable (2.3.3)
+    addressable (2.3.4)
     arel (3.0.2)
-    atomic (1.0.1)
+    atomic (1.1.8)
     avl_tree (1.1.3)
     backports (2.3.0)
     bcrypt-ruby (3.0.1)
@@ -164,7 +163,7 @@ GEM
     facter (1.6.18)
     factory_girl (2.4.2)
       activesupport
-    faraday (0.8.6)
+    faraday (0.8.7)
       multipart-post (~> 1.1)
     ffi (1.4.0)
     foreman (0.36.1)
@@ -182,7 +181,7 @@ GEM
       guard (>= 1.1)
     hashie (1.2.0)
     hashr (0.0.22)
-    hike (1.2.1)
+    hike (1.2.2)
     hitimes (1.2.1)
     http_accept_language (1.0.2)
     httpauth (0.2.0)
@@ -205,10 +204,10 @@ GEM
       atomic (~> 1.0)
       avl_tree (~> 1.1.2)
       hitimes (~> 1.1)
-    mime-types (1.21)
+    mime-types (1.22)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
-    multi_json (1.7.0)
+    multi_json (1.7.2)
     multipart-post (1.2.0)
     net-http-persistent (2.8)
     net-http-pipeline (1.0.1)
@@ -230,13 +229,6 @@ GEM
     orm_adapter (0.0.7)
     pg (0.13.2)
     polyglot (0.3.3)
-    postmark (0.9.19)
-      json
-      rake
-    postmark-rails (0.4.1)
-      actionmailer
-      postmark (>= 0.9.0)
-      rake
     pry (0.9.12)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
@@ -267,7 +259,7 @@ GEM
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
     raindrops (0.10.0)
-    rake (10.0.3)
+    rake (10.0.4)
     rb-fsevent (0.9.3)
     rdoc (3.12.2)
       json (~> 1.4)
@@ -319,7 +311,7 @@ GEM
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
     thor (0.14.6)
-    tilt (1.3.6)
+    tilt (1.3.7)
     timers (1.1.0)
     treetop (1.4.12)
       polyglot
