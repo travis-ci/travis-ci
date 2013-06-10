@@ -78,7 +78,7 @@ OSS community that:
 - Allows open source projects to effortlessly register their GitHub repository
   and have their test suites run after pushes
 - Allows users to contribute build capacity by connecting a machine that runs
-  [Travis workers](htps://github.com/travis-ci/travis-worker) and the [virtual
+  [Travis workers](https://github.com/travis-ci/travis-worker) and the [virtual
   machines they use](https://github.com/travis-ci/travis-boxes) on their
   underused servers.
 
