@@ -106,7 +106,7 @@ information.
 ## Get In Touch!
 
 - [GitHub](https://github.com/travis-ci)
-- [Twitter](https://twitter.com/travis-ci)
+- [Twitter](https://twitter.com/travisci)
 - [IRC (travis)][irc]
 - [Mailing list][mailing-list]
 
