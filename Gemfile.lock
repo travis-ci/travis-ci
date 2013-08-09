@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh
-  revision: 72a749ca4e4cadf4cf7c8881d1e028b3e47654e3
+  revision: a3cc58b1746d5060cda7b2602dc09c887403434f
   specs:
     gh (0.11.3)
       addressable
@@ -27,8 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 0a194c97c857a39c03a5a02eec283e751099d402
-  branch: hh-update-user-when-renamed
+  revision: 9adeb30c03674452d09fc551f5e61d40e70e6c72
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.12)
@@ -115,7 +114,7 @@ GEM
       multi_json (~> 1.0)
     addressable (2.3.5)
     arel (3.0.2)
-    atomic (1.1.10)
+    atomic (1.1.12)
     avl_tree (1.1.3)
     backports (2.3.0)
     bcrypt-ruby (3.0.1)
@@ -164,8 +163,8 @@ GEM
     facter (1.7.0)
     factory_girl (2.4.2)
       activesupport
-    faraday (0.8.7)
-      multipart-post (~> 1.1)
+    faraday (0.8.8)
+      multipart-post (~> 1.2.0)
     ffi (1.8.1)
     foreman (0.36.1)
       term-ansicolor (~> 1.0.7)
@@ -211,9 +210,9 @@ GEM
     mime-types (1.23)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
-    multi_json (1.7.7)
+    multi_json (1.7.9)
     multipart-post (1.2.0)
-    net-http-persistent (2.8)
+    net-http-persistent (2.9)
     net-http-pipeline (1.0.1)
     newrelic_rpm (3.3.5)
     nokogiri (1.5.9)
