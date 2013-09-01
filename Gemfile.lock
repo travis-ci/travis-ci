@@ -7,9 +7,9 @@ GIT
 
 GIT
   remote: git://github.com/rkh/gh
-  revision: a3cc58b1746d5060cda7b2602dc09c887403434f
+  revision: da695a57aa9257402e49f50c6ace34675b0280b9
   specs:
-    gh (0.11.3)
+    gh (0.12.0)
       addressable
       backports
       faraday (~> 0.8)
@@ -27,7 +27,7 @@ GIT
 
 GIT
   remote: git://github.com/travis-ci/travis-core
-  revision: 9adeb30c03674452d09fc551f5e61d40e70e6c72
+  revision: 0835da4748c16b32947bf5a74883c41fece936a2
   specs:
     travis-core (0.0.1)
       actionmailer (~> 3.2.12)
@@ -114,7 +114,7 @@ GEM
       multi_json (~> 1.0)
     addressable (2.3.5)
     arel (3.0.2)
-    atomic (1.1.12)
+    atomic (1.1.13)
     avl_tree (1.1.3)
     backports (2.3.0)
     bcrypt-ruby (3.0.1)
@@ -207,7 +207,7 @@ GEM
       atomic (~> 1.0)
       avl_tree (~> 1.1.2)
       hitimes (~> 1.1)
-    mime-types (1.23)
+    mime-types (1.25)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
     multi_json (1.7.9)
@@ -319,7 +319,7 @@ GEM
     thor (0.14.6)
     tilt (1.4.1)
     timers (1.1.0)
-    treetop (1.4.14)
+    treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.37)
