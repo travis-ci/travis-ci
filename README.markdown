@@ -169,7 +169,7 @@ Please keep in mind that Travis CI evolves rapidly and developer documentation
 may be outdated. (Pull requests are welcome.) Development, [travis-ci.org]
 (https://travis-ci.org) maintenance, and user documentation take priority.
 
-- [travis worker](http://about.travis-ci.org/docs/dev/worker/)
+- [travis worker](https://github.com/travis-ci/travis-worker)
 
 
 ## What Is This Repository?
