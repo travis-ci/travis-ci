@@ -159,9 +159,6 @@ Travis consists of several parts:
 All these applications, tools and libraries are hosted under the [Travis CI
 organization on GitHub](https://github.com/travis-ci).
 
-A more detailed overview is available in our [Technical Overview guide]
-(http://bit.ly/travisci-technical-overview) aimed at developers.
-
 
 ## Developer Documentation
 
@@ -185,10 +182,8 @@ migrations against the database.
 Want to contribute to Travis CI? Great! We realise that the documentation for
 contributors isn't the best at the time, but feel free to ask us questions on
 the [mailing list][mailing-list] or in [IRC][irc]. A good place to start would
-be the [technical overview][] and then feading the `CONTRIBUTING` file for the
-repository you're contributing to.
-
-[technical overview]: http://about.travis-ci.org/docs/dev/overview/
+be searching this repo's issue tracker for previous discussions, and then read the `CONTRIBUTING.md` file for the
+repository you want to contributing to.
 
 
 ## History
