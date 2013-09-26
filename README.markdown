@@ -190,8 +190,8 @@ repository you want to contributing to.
 
 ### Design Iterations
 
-- [Second design Feb 2010](https://skitch.com/svenfuchs/rtfas/travis.2)
-- [First design Jan 2010](https://skitch.com/svenfuchs/rtms3/travis-design-1-2010-02)
+- [Second design Feb 2010](https://github.com/travis-ci/travis-ci/raw/master/docs/designs/travis-design-second-iteration-feb-2010.png)
+- [First design Jan 2010](https://github.com/travis-ci/travis-ci/raw/master/docs/designs/travis-design-first-iteration-jan-2010.png)
 - Initial mockups of [index](https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/main.png) and [details](https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/build_details.png)
 
 
