@@ -159,9 +159,6 @@ Travis consists of several parts:
 All these applications, tools and libraries are hosted under the [Travis CI
 organization on GitHub](https://github.com/travis-ci).
 
-A more detailed overview is available in our [Technical Overview guide]
-(http://bit.ly/travisci-technical-overview) aimed at developers.
-
 
 ## Developer Documentation
 
@@ -185,18 +182,16 @@ migrations against the database.
 Want to contribute to Travis CI? Great! We realise that the documentation for
 contributors isn't the best at the time, but feel free to ask us questions on
 the [mailing list][mailing-list] or in [IRC][irc]. A good place to start would
-be the [technical overview][] and then feading the `CONTRIBUTING` file for the
-repository you're contributing to.
-
-[technical overview]: http://about.travis-ci.org/docs/dev/overview/
+be searching this repo's issue tracker for previous discussions, and then read the `CONTRIBUTING.md` file for the
+repository you want to contributing to.
 
 
 ## History
 
 ### Design Iterations
 
-- [Second design Feb 2010](https://skitch.com/svenfuchs/rtfas/travis.2)
-- [First design Jan 2010](https://skitch.com/svenfuchs/rtms3/travis-design-1-2010-02)
+- [Second design Feb 2010](https://github.com/travis-ci/travis-ci/raw/master/docs/designs/travis-design-second-iteration-feb-2010.png)
+- [First design Jan 2010](https://github.com/travis-ci/travis-ci/raw/master/docs/designs/travis-design-first-iteration-jan-2010.png)
 - Initial mockups of [index](https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/main.png) and [details](https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/build_details.png)
 
 
