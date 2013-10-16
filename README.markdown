@@ -35,7 +35,7 @@ in operation, we have some prominent open source projects trusting
   [Express](http://travis-ci.org/visionmedia/express),
   [Vows](http://travis-ci.org/cloudhead/vows),
   [Mocha](http://travis-ci.org/visionmedia/mocha),
-  [Ember.js](http://travis-ci.org/emberjs/ember.js (formerly SproutCore 2)),
+  [Ember.js (formerly SproutCore 2)](http://travis-ci.org/emberjs/ember.js),
   [Batman.js](http://travis-ci.org/Shopify/batman) and numerous
   [flatiron](https://github.com/flatiron) subprojects.
 - PHP projects: [Symfony 2](http://travis-ci.org/symfony/symfony),
