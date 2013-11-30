@@ -30,13 +30,11 @@ in operation, we have some prominent open source projects trusting
   [Devise](http://travis-ci.org/plataformatec/devise),
   [amqp gem](http://travis-ci.org/ruby-amqp/amqp) and even the
   [GitHub mirror of CRuby (MRI) itself](http://travis-ci.org/ruby/ruby).
-- JavaScript projects: [Node.js](http://travis-ci.org/joyent/node),
-  [npm](http://travis-ci.org/isaacs/npm),
-  [Express](http://travis-ci.org/visionmedia/express),
+- JavaScript projects: [Express](http://travis-ci.org/visionmedia/express),
   [Vows](http://travis-ci.org/cloudhead/vows),
   [Mocha](http://travis-ci.org/visionmedia/mocha),
   [Ember.js (formerly SproutCore 2)](http://travis-ci.org/emberjs/ember.js),
-  [Batman.js](http://travis-ci.org/Shopify/batman) and numerous
+  [Batman.js](http://travis-ci.org/batmanjs/batman) and numerous
   [flatiron](https://github.com/flatiron) subprojects.
 - PHP projects: [Symfony 2](http://travis-ci.org/symfony/symfony),
   [Doctrine 2](http://travis-ci.org/doctrine/doctrine2),
