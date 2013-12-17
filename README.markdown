@@ -40,6 +40,7 @@ in operation, we have some prominent open source projects trusting
   [Doctrine 2](http://travis-ci.org/doctrine/doctrine2),
   [Zend Framework 2](http://travis-ci.org/zendframework/zf2),
   [Composer](http://travis-ci.org/composer/composer),
+  [Joomla](https://travis-ci.org/joomla/joomla-cms),
   [Behat](http://travis-ci.org/Behat/Behat) as well as numerous Symfony 2
   bundles and Zend Framework 2 modules.
 - Clojure projects: [Leiningen](http://travis-ci.org/technomancy/leiningen),
