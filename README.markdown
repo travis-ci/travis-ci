@@ -66,7 +66,10 @@ in operation, we have some prominent open source projects trusting
   [Fabric](http://travis-ci.org/fabric/fabric),
   [Requests](http://travis-ci.org/kennethreitz/requests),
   [Kombu](http://travis-ci.org/ask/kombu).
-- .NET/Mono community: [Nancy](http://travis-ci.org/NancyFx/Nancy).
+- .NET/Mono community:
+  [F#](https://travis-ci.org/fsharp/fsharp),
+  [Nancy](https://travis-ci.org/NancyFx/Nancy),
+  [FAKE](https://travis-ci.org/fsharp/FAKE).
 
 
 ## Goals
