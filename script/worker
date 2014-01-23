@@ -1,5 +1,0 @@
-#!/usr/bin/env ruby
-
-ENV['RAILS_ENV'] ||= 'production'
-
-system "RAILS_ENV=#{ENV['RAILS_ENV']} VERBOSE=true QUEUE=builds rake resque:work"
