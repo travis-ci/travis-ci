@@ -11,7 +11,8 @@ project.
 
 ## Documentation
 
-Documentation for the Travis CI project can be found at <docs.travis-ci.com>.
+Documentation for the Travis CI project can be found at
+<http://docs.travis-ci.com>.
 
 ## Other repositories
 
