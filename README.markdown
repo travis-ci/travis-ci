@@ -1,208 +1,95 @@
 # Travis CI
 
-## What is Travis CI?
+[Travis CI](https://travis-ci.com) is a hosted continuous integration and
+deployment system. There are two versions of it,
+[travis-ci.com](https://travis-ci.com) for private repositories, and
+[travis-ci.org](https://travis-ci.org) for public repositories.
 
-Travis CI is a distributed build system for the open source community.
+This repository contains the [central issue
+tracker](https://github.com/travis-ci/travis-ci/issues) for the Travis CI
+project.
 
+## Documentation
 
-## See It In Action
+Documentation for the Travis CI project can be found at <docs.travis-ci.com>.
 
-You can see Travis CI in action at [travis-ci.org][travis-ci]. At about 1 year
-in operation, we have some prominent open source projects trusting
-[travis-ci.org][travis-ci] to run their continuous integration:
+## Other repositories
 
-[travis-ci]: https://travis-ci.org
+Travis CI consists of many different sub-projects. The main ones are:
 
-- Ruby projects: [Ruby on Rails](http://travis-ci.org/rails/rails),
-  [Bundler](http://travis-ci.org/carlhuda/bundler),
-  [Sinatra](http://travis-ci.org/sinatra/sinatra),
-  [Rack](http://travis-ci.org/rack/rack),
-  [RSpec](http://travis-ci.org/rspec/rspec-core),
-  [Cucumber](http://travis-ci.org/cucumber/cucumber),
-  [HAML](http://travis-ci.org/nex3/haml)
-  and [SASS](http://travis-ci.org/nex3/sass),
-  [RubyGems](http://travis-ci.org/rubygems/rubygems),
-  [rubygems.org](http://travis-ci.org/rubygems/rubygems.org),
-  [Mongoid](http://travis-ci.org/mongoid/mongoid),
-  [Rubinius](http://travis-ci.org/rubinius/rubinius),
-  [Factory Girl](http://travis-ci.org/thoughtbot/factory_girl),
-  [Spree](http://travis-ci.org/spree/spree),
-  [Devise](http://travis-ci.org/plataformatec/devise),
-  [amqp gem](http://travis-ci.org/ruby-amqp/amqp) and even the
-  [GitHub mirror of CRuby (MRI) itself](http://travis-ci.org/ruby/ruby).
-- JavaScript projects: [Express](http://travis-ci.org/visionmedia/express),
-  [Vows](http://travis-ci.org/cloudhead/vows),
-  [Mocha](http://travis-ci.org/visionmedia/mocha),
-  [Ember.js (formerly SproutCore 2)](http://travis-ci.org/emberjs/ember.js),
-  [Batman.js](http://travis-ci.org/batmanjs/batman) and numerous
-  [flatiron](https://github.com/flatiron) subprojects.
-- PHP projects: [Symfony 2](http://travis-ci.org/symfony/symfony),
-  [Doctrine 2](http://travis-ci.org/doctrine/doctrine2),
-  [Zend Framework 2](http://travis-ci.org/zendframework/zf2),
-  [Composer](http://travis-ci.org/composer/composer),
-  [Joomla](https://travis-ci.org/joomla/joomla-cms),
-  [Behat](http://travis-ci.org/Behat/Behat) as well as numerous Symfony 2
-  bundles and Zend Framework 2 modules.
-- Clojure projects: [Leiningen](http://travis-ci.org/technomancy/leiningen),
-  [Midje](http://travis-ci.org/marick/Midje),
-  [clj-time](http://travis-ci.org/seancorfield/clj-time),
-  [Lamina](http://travis-ci.org/ztellman/lamina),
-  [Knockbox](http://travis-ci.org/reiddraper/knockbox),
-  [Langohr](http://travis-ci.org/michaelklishin/langohr),
-  [Monger](http://travis-ci.org/michaelklishin/monger),
-  [CongoMongo](http://travis-ci.org/seancorfield/congomongo),
-  [Neocons](http://travis-ci.org/michaelklishin/neocons),
-  [Sumo](http://travis-ci.org/reiddraper/sumo).
-- Erlang projects: [Cowboy](http://travis-ci.org/extend/cowboy) and
-  [Elixir](http://travis-ci.org/elixir-lang/elixir).
-- Java projects:
-  [Riak Java client](https://travis-ci.org/basho/riak-java-client/),
-  [Cucumber JVM](https://travis-ci.org/cucumber/cucumber-jvm/),
-  [Symfony 2 Eclipse Plugin](https://travis-ci.org/pulse00/Symfony-2-Eclipse-Plugin).
-- Scala projects: [Scalding](https://travis-ci.org/twitter/scalding) and
-  [Scalatra](https://travis-ci.org/scalatra/scalatra).
-- Python projects: [Tornado](http://travis-ci.org/facebook/tornado),
-  [simplejson](http://travis-ci.org/simplejson/simplejson),
-  [Fabric](http://travis-ci.org/fabric/fabric),
-  [Requests](http://travis-ci.org/kennethreitz/requests),
-  [Kombu](http://travis-ci.org/ask/kombu).
-- .NET/Mono community:
-  [F#](https://travis-ci.org/fsharp/fsharp),
-  [Nancy](https://travis-ci.org/NancyFx/Nancy),
-  [FAKE](https://travis-ci.org/fsharp/FAKE).
+### travis-api
 
+[travis-api](https://github.com/travis-ci/travis-api) is the Sinatra app that's
+responsible for serving our API. It responds to different HTTP endpoints and
+runs services in [travis-core](#travis-core). Very little logic is in this
+repository.
 
-## Goals
+### travis-build
 
-Travis is an attempt to create an open source, distributed build system for the
-OSS community that:
+[travis-build](https://github.com/travis-ci/travis-build) creates the build
+script for each job. It takes the configuration from the .travis.yml file and
+creates a bash script that is then run in the build environment by
+[travis-worker](#travis-worker).
 
-- Allows open source projects to effortlessly register their GitHub repository
-  and have their test suites run after pushes
-- Allows users to contribute build capacity by connecting a machine that runs
-  [Travis workers](https://github.com/travis-ci/travis-worker) and the [virtual
-  machines they use](https://github.com/travis-ci/travis-boxes) on their
-  underused servers.
+### travis-core
 
-With Travis CI our vision is to become for builds (i.e. tests, for starters)
-what services like rubygems.org or Maven Central are for distribution of
-libraries.
+[travis-core](https://github.com/travis-ci/travis-core) holds most of the logic
+for Travis CI. This repository is shared across several of the other apps and
+holds the models, services, and other things that several apps need.
 
-We strive to build a rock-solid, but dead easy to use, open source continuous
-integration service for the open source community.
+### travis-cookbooks
 
+[travis-cookbooks](https://github.com/travis-ci/travis-cookbooks) holds the
+Chef cookbooks that are used to provision the build environments.
 
-### We Are Not Done Yet
+### travis-hub
 
-Please note that this is a work in progress. We have only reached our #1 goal so
-far. We try to follow the 80/20 rule for requirements, i.e., we focus on the
-most common use cases.
+[travis-hub](https://github.com/travis-ci/travis-hub) collects events from
+other apps and notifies other apps about them. For example, it notifies
+[travis-tasks](#travis-tasks) about builds starting and finishing so
+notifications can be sent out.
 
-Travis CI is **not** currently a good fit for closed in-house installations.
-It's made up of multiple applications which evolve rapidly. We are working on
-providing a way to install a closed in-house installation, but we have no ETA
-for this at the moment. Please get in touch at <support@travis-ci.com> for more
-information.
+travis-hub is also responsible for enqueueing jobs that have been created and
+enforcing the Quality of Service restrictions, such as the number of concurrent
+builds per user.
 
+### travis-listener
 
-## Get In Touch!
+[travis-listener](https://github.com/travis-ci/travis-listener) receives
+notifications from GitHub whenever commits are pushed or pull requests are
+opened. They are then pushed onto RabbitMQ for other apps to process.
 
-- [GitHub](https://github.com/travis-ci)
-- [Twitter](https://twitter.com/travisci)
-- [IRC (travis)][irc]
-- [Mailing list][mailing-list]
+### travis-logs
 
-[irc]: http://webchat.freenode.net?channels=travis&uio=d4
-[mailing-list]: http://groups.google.com/group/travis-ci
+[travis-logs](https://github.com/travis-ci/travis-logs) receives log updates
+from [travis-worker](#travis-worker) and saves them to the database and pushes
+them to the [web client](#travis-web). When a job is finished, travis-logs is
+responsible for pushing the log to Amazon S3 for archiving.
 
+### travis-support
 
-## User Documentation
+[travis-support](https://github.com/travis-ci/travis-support) holds shared
+logic for the different Travis CI apps. It is different from travis-core in
+that it holds more generic things, like how to run an async job or how to
+handle exceptions.
 
-We care about our documentation and make sure our [documentation guides]
-(http://about.travis-ci.org/docs/) are clearly written and up to date. Please
-make sure you read them. Two key guides are:
+### travis-tasks
 
-- [Getting started](http://about.travis-ci.org/docs/user/getting-started)
-- [Build Configuration](http://about.travis-ci.org/docs/user/build-configuration)
+[travis-tasks](https://github.com/travis-ci/travis-tasks) receives
+notifications from [travis-hub](#travis-hub) and sends out notifications to the
+different notification providers as needed.
 
-and we also have technology-specific guides:
+### travis-web
 
-- [Clojure](http://about.travis-ci.org/docs/user/languages/clojure/)
-- [Erlang](http://about.travis-ci.org/docs/user/languages/erlang/)
-- [Groovy](http://about.travis-ci.org/docs/user/languages/groovy/)
-- [Java](http://about.travis-ci.org/docs/user/languages/java/)
-- [JavaScript](http://about.travis-ci.org/docs/user/languages/javascript-with-nodejs/) (with Node.js)
-- [Perl](http://about.travis-ci.org/docs/user/languages/perl/)
-- [PHP](http://about.travis-ci.org/docs/user/languages/php/)
-- [Python](http://about.travis-ci.org/docs/user/languages/python/)
-- [Ruby](http://about.travis-ci.org/docs/user/languages/ruby/)
-- [Scala](http://about.travis-ci.org/docs/user/languages/scala/)
+[travis-web](https://github.com/travis-ci/travis-web) is our main Web client.
+It is written using [Ember](http://emberjs.com) and communicates with
+[travis-api](#travis-api) to get information and gets live updates from
+[travis-hub](#travis-hub) and [travis-logs](#travis-logs) through
+[Pusher](http://pusher.com/).
 
+### travis-worker
 
-## Technical Overview
-
-Travis consists of several parts:
-
-- An Ember.js-based single-page application that runs client side.
-- A Rails 3 application that serves to the in-browser application and takes
-  pings from Github.
-- A JRuby and [AMQP](http://bit.ly/amqp-model-explained) powered worker for
-  running a project's test suite in snapshotted virtual machines.
-- A websocket server (we use [Pusher](http://pusher.com)) for tailing build
-  results to the browser.
-- A JRuby-based AMQP daemon that collects build reports, workers state,
-  propagates them to Pusher, delivers notifications and so on.
-- [Chef cookbooks](https://github.com/travis-ci/travis-cookbooks) that are used
-  to provision the [Travis CI environment]
-  (http://about.travis-ci.org/docs/user/ci-environment/) (to provide databases,
-  RabbitMQ, Rubies/JDK/Node.js versions and so on) and tools that [build VM
-  images](https://github.com/travis-ci/travis-boxes).
-
-All these applications, tools and libraries are hosted under the [Travis CI
-organization on GitHub](https://github.com/travis-ci).
-
-
-## Developer Documentation
-
-Please keep in mind that Travis CI evolves rapidly and developer documentation
-may be outdated. (Pull requests are welcome.) Development, [travis-ci.org]
-(https://travis-ci.org) maintenance, and user documentation take priority.
-
-- [travis worker](https://github.com/travis-ci/travis-worker)
-
-
-## What Is This Repository?
-
-This repository contains the old Rails app that used to serve [travis-ci.org]
-[travis-ci]. Everything has now been extracted to different repositories, and
-this repository is only being used as a global issue tracker and to run
-migrations against the database.
-
-
-## Contribute
-
-Want to contribute to Travis CI? Great! We realise that the documentation for
-contributors isn't the best at the time, but feel free to ask us questions on
-the [mailing list][mailing-list] or in [IRC][irc]. A good place to start would
-be searching this repo's issue tracker for previous discussions, and then read the `CONTRIBUTING.md` file for the
-repository you want to contributing to.
-
-
-## History
-
-### Design Iterations
-
-- [Second design Feb 2010](https://github.com/travis-ci/travis-ci/raw/master/docs/designs/travis-design-second-iteration-feb-2010.png)
-- [First design Jan 2010](https://github.com/travis-ci/travis-ci/raw/master/docs/designs/travis-design-first-iteration-jan-2010.png)
-- Initial mockups of [index](https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/main.png) and [details](https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/build_details.png)
-
-
-## Other sources
-
-- [Travis CI](http://bostonrb.org/presentations/travis-ci) - Video: Presentation
-  at Boston.rb ([Jeremy Weisskotten](https://twitter.com/#!/doctorzaius))
-- [Travis - a distributed build server tool for the Ruby community]
-  (http://svenfuchs.com/2011/2/5/travis-a-distributed-build-server-tool-for-the-ruby-community) -
-  Introductory blog post about the original idea ([Sven
-  Fuchs](http://svenfuchs.com))
-
+[travis-worker](https://github.com/travis-ci/travis-worker) is responsible for
+running the build scripts in a clean environment. It streams the log output to
+[travis-logs](#travis-logs) and pushes state updates (build starting/finishing)
+to [travis-hub](#travis-hub).
