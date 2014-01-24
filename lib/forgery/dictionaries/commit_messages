@@ -1,4 +1,0 @@
-This fixes an issue when bundling to a local path (eg. /vendor/bundle).\n\nIf you bundle to a local path bundler is not included in it, so\ncalling \"gem 'bundler'\" will fail.
-Update Gemfile to use rake 0.8.7\\n\\nrake 0.9.x won't be compatible with Cucumber::Rake::Task::ForkedCucumberRunner which uses the RUBY constant, resulting in 'uninitialized constant Cucumber::Rake::Task::ForkedCucumberRunner::RUBY'
-Some normal commit
-Merge pull request #375 from tjeden/master↵↵Tests for multiple emojis :joy:
