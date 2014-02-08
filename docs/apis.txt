@@ -1,5 +1,0 @@
-1. Github posts to App
-2. App schedules a job to Resque
-3. Worker POSTs to app on events: start, configure, log and finish
-4. App pushes to Pusher
-5. Pusher pushes to Browser

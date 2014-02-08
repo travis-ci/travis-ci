@@ -1,5 +1,0 @@
-- tag: rake_not_bundled
-  pattern: rake is not part of the bundle
-- tag: database_missing
-  pattern: database "[^"]*" does not exist
-
