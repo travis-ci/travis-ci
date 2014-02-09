@@ -28,25 +28,25 @@ repository.
 ### travis-build
 
 [travis-build](https://github.com/travis-ci/travis-build) creates the build
-script for each job. It takes the configuration from the .travis.yml file and
-creates a bash script that is then run in the build environment by
+script for each job. It takes the configuration from the `.travis.yml` file and
+creates a `bash` script that is then run in the build environment by
 [travis-worker](#travis-worker).
 
 ### travis-core
 
 [travis-core](https://github.com/travis-ci/travis-core) holds most of the logic
-for Travis CI. This repository is shared across several of the other apps and
-holds the models, services, and other things that several apps need.
+for Travis CI. This repository is shared across several other apps and
+holds the models, services, and other things that these apps need.
 
 ### travis-cookbooks
 
 [travis-cookbooks](https://github.com/travis-ci/travis-cookbooks) holds the
-Chef cookbooks that are used to provision the build environments.
+[Chef](http://docs.opscode.com/) cookbooks that are used to provision the build environments.
 
 ### travis-hub
 
 [travis-hub](https://github.com/travis-ci/travis-hub) collects events from
-other apps and notifies other apps about them. For example, it notifies
+other apps and notifies other apps about the events. For example, it notifies
 [travis-tasks](#travis-tasks) about builds starting and finishing so
 notifications can be sent out.
 
@@ -63,7 +63,7 @@ opened. They are then pushed onto RabbitMQ for other apps to process.
 ### travis-logs
 
 [travis-logs](https://github.com/travis-ci/travis-logs) receives log updates
-from [travis-worker](#travis-worker) and saves them to the database and pushes
+from [travis-worker](#travis-worker), saves them to the database and pushes
 them to the [web client](#travis-web). When a job is finished, travis-logs is
 responsible for pushing the log to Amazon S3 for archiving.
 
