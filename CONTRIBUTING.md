@@ -22,19 +22,18 @@ just email us at <security@travis-ci.org>.
 
 ## Build Failures
 
-Please note that our issue tracker's main purpose is to track bugs and feature
-requests for Travis CI. If your build is passing locally, but not on Travis,
-please make sure that it's an issue with Travis before reporting it.
+Please note that our issue tracker's main purpose is to track bugs for Travis CI.
+If your build is passing locally, but not on Travis CI, please make sure that it's
+an issue with Travis before reporting it.
 
-Some frequent reasons for builds failing on Travis:
+Some frequent reasons for builds failing on Travis CI:
 
 - 3rd party dependencies missing
 - Minor differences between OS X and Linux (such as whether the filesystem is
   case-sensitive or not).
 
-Some good places to ask for advice when your build is failing on Travis is [our
-mailing list](https://groups.google.com/group/travis-ci/), or [the travis-ci
-tag on Stack Overflow](http://stackoverflow.com/questions/tagged/travis-ci).
+A good place to ask for advice when your build is failing on Travis CI is
+[the travis-ci tag on Stack Overflow](http://stackoverflow.com/questions/tagged/travis-ci).
 
 ## Other Issues
 
