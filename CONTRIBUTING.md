@@ -49,6 +49,7 @@ can fix it as fast as possible:
   illustrating the issue.
 - If you're having trouble with a specific build, please include a link to the
   build or job in question.
+- Include all this information in a new issue on our [Issue Traker](https://github.com/travis-ci/travis-ci/issues)
 
 ## Pull Requests
 
