@@ -1,0 +1,129 @@
+<!doctype html>
+<!--[if lt IE 7 ]>             <html lang="en" class="ie6"> <![endif]-->
+<!--[if IE 7 ]>                <html lang="en" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>                <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9 ]>                <html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <title>Travis CI - Distributed build platform for the Ruby community</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon.ico">
+    <% if Rails.env.jasmine? %>
+      <%= stylesheet_link_tag 'jasmine' %>
+      <%= include_javascripts :jasmine %>
+    <% end %>
+    <%= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
+    <%= include_javascripts :travis %>
+    <%= javascript_tag "var env = '#{Rails.env}';" %>
+  </head>
+
+  <body id="<%= params[:controller].singularize %>">
+    <div id="top">
+      <h1>Travis</h1>
+
+      <ul id="navigation">
+        <li class="<%= 'current' if active_page?("application#index") %>"><%= link_to "Home", root_path %></li>
+        <% if user_signed_in? %>
+          <li class="<%= 'current' if active_page?("profiles#show") %>"><%= link_to "Profile", profile_path %></li>
+        <% end %>
+        <% if user_signed_in? && current_user.is_admin? %>
+          <li><%= link_to "Admin", rails_admin_dashboard_path %></li>
+        <% end %>
+        <li><a href="/" class="tool-tip" title="Coming soon ...">Blog</a></li>
+      </ul>
+
+      <div class="profile">
+        <% if user_signed_in? %>
+          <a href="#">
+            <%= gravatar(current_user, :size => 24) %>
+            <span class="name"><%= current_user.name || current_user.login %></span>
+          </a>
+          <ul>
+            <li><%= link_to "Profile", profile_path %></li>
+            <% if current_user.is_admin? %>
+              <li><%= link_to "Admin", rails_admin_dashboard_path %></li>
+            <% end %>
+            <li><%= link_to "Sign out", destroy_session_path %></li>
+          </ul>
+        <% else %>
+          <%= link_to "Sign in with Github", user_omniauth_authorize_path(:github), :class => "profile-signup" %>
+        <% end %>
+      </div>
+
+      <a id="github_ribbon" class="ribbon" href="http://github.com/travis-ci/travis-ci" title="Fork me on GitHub">Fork me on Github</a>
+    </div>
+
+    <div id="left">
+      <div id="search">
+        <input type="text" />
+      </div>
+
+      <ul class="tabs">
+        <li id="tab_recent" class="active">
+          <h5><a href="#">Recent</a></h5>
+          <div class="tab"></div>
+        </li>
+        <li id="tab_watched">
+          <h5><a class="tool-tip" title="Not yet implemented. We could use your help!">Watched</a></h5>
+          <div class="tab"></div>
+        </li>
+      </ul>
+    </div>
+
+    <div id="right">
+      <div class="inner">
+        <div id="workers"></div>
+        <div id="jobs"></div>
+
+        <div id="alpha_warning" class="box">
+          <h4>This stuff is alpha.</h4>
+          <p>Please do <strong>not</strong> consider this a stable service. We're still far from that! More info <a href='https://github.com/travis-ci/travis-ci'>here.</a></p>
+        </div>
+
+        <div id="about" class="box">
+          <h4>Join us and help!</h4>
+          <p>Travis is an open, distributed build system for the Ruby community. Find us at:</p>
+          <ul>
+            <li>Repository: <a href="http://github.com/travis-ci/travis-ci">Github</a></li>
+            <li>Twitter: <a href="http://twitter.com/travisci">@travisci</a></li>
+            <li>Mailinglist: <a href="http://groups.google.com/group/travis-ci">travis-ci</a></li>
+            <li><a href="irc://irc.freenode.net#travis">irc.freenode.net#travis</a></li>
+          </ul>
+        </div>
+
+        <div id="sponsors" class="box">
+          <h4>Thank you, sponsors!</h4>
+          <p>Special thanks go out to:</p>
+          <ul>
+            <li><a href="http://avarteq.de">Avarteq</a> for a server for running a build worker.</li>
+            <li><a href="http://pusherapp.com">Pusher.app</a> for a "big boy" account for messaging.</li>
+          </ul>
+          <div>
+            <%= link_to image_tag('/images/logos/avarteq.png'), 'http://avarteq.de' %>
+            <%= link_to image_tag('/images/logos/pusher.png'), 'http://pusherapp.com' %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="flash-messages"></div>
+
+    <div id="main">
+      <%= yield %>
+    </div>
+
+    <%= javascript_tag "var pusher = new Pusher('#{Pusher.key}');" unless Rails.env.jasmine? %>
+    <%
+      dir = Rails.root.join('public/javascripts/app/templates/')
+      Dir["#{dir}**/*.*"].each do |path|
+    %>
+      <%
+        template = File.read(path)
+        name = path.gsub(dir.to_s, '').sub(File.extname(path), '')
+      %>
+      <script name="<%= name %>" type="text/x-js-template"><%= template.html_safe %></script>
+    <% end %>
+
+  </body>
+</html>

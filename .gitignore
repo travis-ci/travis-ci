@@ -1,0 +1,11 @@
+*.rbc
+.DS_Store
+.bundle
+.rvmrc
+config/resque.god
+config/travis.yml
+db/*.sqlite3
+db/*.sqlite3-journal
+log/*.log
+tmp/
+vendor/htmlunit

@@ -1,0 +1,27 @@
+h1. Todo
+
+h2. Features
+
++ Build history
++ Display queue
++ Display workers
++ Ability to log in w/ Github OAuth
+- Ability to subscribe to own/watched repositories
+
+- Worker VMs
+- Security
+
+- Build dependencies (triggering builds for other commits)
+- Build success/failure pub/sub workers (currently sending out emails inline w/ sendgrid)
+- Build matrices (run against different ruby versions and/or Gemfiles)
+- Worker capabilities (inspect installed rubies etc, use for subscribing to queues)
+- Lists (group repositories)
+
+h2. Stuff
+
++ ActiveRecord::Base.include_root_in_json = false
++ Load indicator for builds history
+- Notify clients about new workers
+
+- make Workers more robust so that when (e.g.) a test suite segfaults the worker still sends that output
+- rename build#config to build#env

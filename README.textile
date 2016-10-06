@@ -1,0 +1,158 @@
+h1. Travis - a distributed build system "!http://travis-ci.org/svenfuchs/travis.png!":http://travis-ci.org/svenfuchs/travis
+
+Travis is an attempt to create an open-source, distributed build system for the Ruby community that:
+
+1. allows open-source projects to register their repository and have their test-suites run on demand
+2. allows users to contribute build capacities by connecting a VM that runs a build agent somewhere on their underused servers
+
+If you are interested in Travis please subscribe to the "Google group":http://groups.google.com/group/travis-ci and check out my introductional blog post over here: "Travis - a distributed build server tool for the Ruby community":http://svenfuchs.com/2011/2/5/travis-a-distributed-build-server-tool-for-the-ruby-community
+
+
+h2. Overview
+
+Travis consists of four main parts:
+
+* A "Backbone.js":http://documentcloud.github.com/backbone single-page application that runs client side.
+* A Rails 3 application that serves to the in-browser application and takes pings from Github.
+* A "Resque":https://github.com/defunkt/resque worker for running a project's test suite remotely.
+* A websocket server for tailing build results to the browser. (This server is currently started within the Rails app process.)
+
+To get an idea: "1:20 quick demo screencast (spike 2)":http://www.youtube.com/watch?v=mNOwCJhjWAw
+
+!https://github.com/travis-ci/travis-ci/raw/master/docs/travis.spike-2.png!
+
+
+h2. Goals
+
+* Get a working application up and running that can distribute build requests to manually installed build workers and report back to browsers. Most simplistic UI that ever would make sense for this. Have a restricted set of allowed Github repositories.
+* Allow people to login through Github OAuth and somehow maintain a list of repositories they're interested in.
+* Create VM images so that people can easily install and start build workers on underused or contributed servers.
+
+
+h2. Status
+
+This code is a spike and everything will change very likely. It is here to try out a few basic concepts and building blocks and ask people to share their opinion.
+
+Nonetheless we currently have a working demo application running on "http://travis-ci.org":http://travis-ci.org which uses
+
+* "RedisToGo":http://redistogo.com as a Redis store
+* "Pusher":http://pusherapp.com as a Websocket server
+* A virtual server lent by "Avarteq":http://avarteq.de for running a "Resque":https://github.com/defunkt/resque worker.
+
+Each of these components could be replaced with something else, e.g. one could easily use a different Redis server.
+
+
+h2. Adding a project to Travis
+
+Signup is easy, all you need to do is login using Github OAuth2 and an account will automatically be created.
+
+In order to register a project for builds on Travis just supply a Github service hook using the following URL: @http://[YOUR_GITHUB_USERNAME]:[YOUR_TRAVIS_TOKEN]@@@travis-ci.org/builds@
+
+You can get a Travis token on the Travis profile page after signing up.
+
+By default Travis will try to run @bundle install@ and then @rake@ to run yours tests, but if you require a different command to be run to start your tests you can check in a @.travis.yml@ file to specify a custom build script.
+
+See "this file":https://github.com/svenfuchs/routing-filter/blob/master/.travis.yml used by svenfuchs/routing-filter as an example.
+
+By default Travis will send notification emails to everyone involved in the project on GitHub. You can specify who receives emails in `.travis.yml`:
+
+<pre>
+    notifications:
+      recipients:
+        - sferik@gmail.com
+        - drnicwilliams@gmail.com
+</pre>
+
+You can disable email notifications:
+
+<pre>
+    notifications:
+      disable: true
+</pre>
+
+If you have any issues, problems, or questions in getting Travis running for your project, you can find us on irc in #travis on freenode.
+
+Please note that this is an experimental installation.
+
+h2. Putting a status button in your project's README
+
+After adding your project to Travis, you can use the status buttons to show the current status of your projects in your @README@ file on Github or your project website.
+
+Your status button is available at the following URL:
+
+bc. http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png
+
+So, when using textile, showing your status button (including a link to your Travis project page) is as simple as adding this to your @README@:
+
+bc. "!http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png!":http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME]
+
+Or if you're using markdown:
+
+bc. [![Build Status](http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png)](http://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME])
+
+Travis' own status button looks like this: "!http://travis-ci.org/svenfuchs/travis.png!":http://travis-ci.org/svenfuchs/travis
+
+**Please note :** GitHub proxies these images so they are delivered over HTTPS via its CDN. Due to this issue there may be a delay until the updated build status is shown on your project page. We are looking into this issue and will update the docs if we find a solution.
+
+h2. Installation
+
+To install your own instance of Travis you need to supply various configuration settings:
+
+<pre>
+$ cp config/travis.example.yml config/travis.yml
+</pre>
+
+In order to push these settings to Heroku you can use:
+
+<pre>
+$ rake heroku:config
+</pre>
+
+Starting a local worker:
+
+<pre>
+$ script/worker
+</pre>
+
+Or using God:
+
+<pre>
+$ cp config/resque.god.example config/resque.god
+$ god -c config/resque.god
+</pre>
+
+
+h2. Running the tests
+
+Integration tests are implemented using "Jasmine":http://pivotal.github.com/jasmine and can be run in the browser:
+
+<pre>
+$ RAILS_ENV=jasmine rake db:migrate db:seed
+$ rails s thin -e jasmine
+$ open http://localhost:3000
+</pre>
+
+To run the whole test suite simply do:
+
+<pre>
+$ rake test
+</pre>
+
+h2. Design Iterations
+
+* "Second design Feb 2010":https://skitch.com/svenfuchs/rtfas/travis.2
+* "First design Jan 2010":https://skitch.com/svenfuchs/rtms3/travis-design-1-2010-02
+* Initial mockups of "index":https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/main.png and "details":https://github.com/travis-ci/travis-ci/raw/master/docs/mockups/build_details.png
+
+h2. Previous spike
+
+My first spike was using Nanite for running workers. These materials are now outdated but might be interesting:
+
+* "1:36 quick demo screencast (spike 1)":http://www.youtube.com/watch?v=qdTV-b6BJHA
+* "Architecture diagram (spike 1)":https://github.com/travis-ci/travis-ci/raw/master/docs/travis.spike-1.png
+
+
+h2. Requirements
+
+* Ruby 1.8.7 or Ruby 1.9.2 (Ruby 1.9.1 is not supported).
+

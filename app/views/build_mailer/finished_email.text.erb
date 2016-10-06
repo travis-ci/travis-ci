@@ -1,0 +1,8 @@
+<% if @build.matrix? %>
+<% @build.matrix.each do |build| %>
+### <%= build.number %> (<%=raw build.config.inspect %>)
+<%=raw build.log %>
+<% end %>
+<% else %>
+<%=raw @build.log %>
+<% end%>

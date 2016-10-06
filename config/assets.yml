@@ -1,0 +1,19 @@
+package_path: javascripts
+compress_assets: off
+embed_assets: off
+gzip_assets: off
+
+javascripts:
+  travis:
+    - public/javascripts/vendor/jquery*.js
+    - public/javascripts/vendor/underscore*.js
+    - public/javascripts/vendor/**/*.js
+    - public/javascripts/application.js
+    - public/javascripts/lib/**/*.js
+    - public/javascripts/app/**/*.js
+  jasmine:
+    - public/javascripts/tests/vendor/jasmine.js
+    - public/javascripts/tests/vendor/**/*.js
+    - public/javascripts/tests/test_helper/**/*.js
+    - public/javascripts/tests/**/*.js
+
