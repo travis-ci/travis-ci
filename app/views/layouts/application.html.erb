@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Travis CI - Distributed build platform for the open source community</title>
+    <meta name="csrf-token" content="<%= form_authenticity_token %>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon.ico">
+
+    <%= render :partial => 'layouts/assets' %>
+
+    <script type="text/javascript">
+      I18n.defaultLocale = "<%= I18n.default_locale %>";
+      I18n.locale = "<%= I18n.locale %>";
+      I18n.fallbacks = <%= Rails.env.production? %>;
+    </script>
+
+    <%= yield :head %>
+  </head>
+
+  <body id="<%= body_id %>">
+    <%= render 'layouts/top' %>
+    <%= render 'layouts/left' %>
+
+    <div id="main">
+      <%= yield %>
+    </div>
+
+    <%= render 'layouts/right' %>
+
+    <div id="flash-messages"></div>
+
+    <%= render 'layouts/google_analytics' %>
+    <%= javascript_tag "var pusher = new Pusher('#{Travis.config.pusher.key}');" unless Rails.env.jasmine? %>
+  </body>
+</html>
