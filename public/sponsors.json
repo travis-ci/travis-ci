@@ -1,0 +1,91 @@
+{
+  "platinum": [
+    {
+      "url": "http://www.wooga.com",
+      "image": "http://travis-ci.org/images/sponsors/wooga-205x130.png"
+    },
+    {
+      "url": "http://bendyworks.com",
+      "image": "http://travis-ci.org/images/sponsors/bendyworks-205x130.png"
+    },
+    {
+      "url": "http://cloudcontrol.com",
+      "image": "http://travis-ci.org/images/sponsors/cloudcontrol-205x130.png"
+    },
+    {
+      "url": "http://xing.de",
+      "image": "http://travis-ci.org/images/sponsors/xing-205x130.png"
+    }
+  ],
+  "gold": [
+    {
+      "url": "http://heroku.com",
+      "image": "http://travis-ci.org/images/sponsors/heroku-205x60.png"
+    },
+    {
+      "url": "http://soundcloud.com",
+      "image": "http://travis-ci.org/images/sponsors/soundcloud-205x60.png"
+    },
+    {
+      "url": "http://nedap.com",
+      "image": "http://travis-ci.org/images/sponsors/nedap-205x60.png"
+    },
+    {
+      "url": "http://mongohq.com",
+      "image": "http://travis-ci.org/images/sponsors/mongohq-205x60.png"
+    },
+    {
+      "url": "http://zweitag.de",
+      "image": "http://travis-ci.org/images/sponsors/zweitag-205x60.png"
+    },
+    {
+      "url": "http://kanbanery.com",
+      "image": "http://travis-ci.org/images/sponsors/kanbanery-205x60.png"
+    },
+    {
+      "url": "http://ticketevolution.com",
+      "image": "http://travis-ci.org/images/sponsors/ticketevolution-205x60.jpg"
+    }
+  ],
+  "silver": [
+    {
+      "link": "<a href=\"http://cobot.me\">Cobot</a><span>: The one tool to run your coworking space</span>"
+    },
+    {
+      "link": "<a href=\"http://jumpstartlab.com\">JumpstartLab</a><span>: We build developers</span>"
+    },
+    {
+      "link": "<a href=\"http://evilmartians.com\">Evil Martians</a><span>: Agile Ruby on Rails development</span>"
+    },
+    {
+      "link": "<a href=\"http://zendesk.com\">Zendesk</a><span>: Love your helpdesk</span>"
+    },
+    {
+      "link": "<a href=\"http://stripe.com\">Stripe</a><span>: Payments for developers</span>"
+    },
+    {
+      "link": "<a href=\"http://basho.com\">Basho</a><span>: We make Riak!</span>"
+    },
+    {
+      "link": "<a href=\"http://thinkrelevance.com\">Relevance</a><span>: We deliver software solutions</span>"
+    },
+    {
+      "link": "<a href=\"http://mindmatters.de\">Mindmatters</a><span>: Software für Menschen</span>"
+    },
+    {
+      "link": "<a href=\"http://amenhq.com\">Amen</a><span>: The best and worst of everything</span>"
+    },
+    {
+      "link": "<a href=\"http://site5.com\">Site5</a><span>: Premium Web Hosting Solutions</span>"
+    },
+    {
+      "link": "<a href=\"http://www.crowdint.com\">Crowd Interactive</a><span>: Leading Rails consultancy in Mexico</span>"
+    },
+    {
+      "link": "<a href=\"http://www.atomicobject.com\">Atomic Object</a><span>: Work with really smart people</span>"
+    },
+    {
+      "link": "<a href=\"http://\">Codeminer</a><span>: smart services for your startup</span>"
+    }
+  ]
+}

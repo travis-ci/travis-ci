@@ -1,0 +1,173 @@
+nl:
+  datetime:
+    distance_in_words:
+      hours_exact:
+        one: ! '%{count} uur'
+        other: ! '%{count} uren'
+      minutes_exact:
+        one: ! '%{count} minuut'
+        other: ! '%{count} minuten'
+      seconds_exact:
+        one: ! '%{count} seconde'
+        other: ! '%{count} seconden'
+  workers: Workers
+  queue: Wachtrij
+  no_job: Er zijn geen taken
+  repositories:
+    branch: Branch
+    image_url: Afbeelding
+    markdown: Markdown
+    textile: Textile
+    rdoc: RDOC
+    commit: Commit
+    message: Bericht
+    started_at: Gestart
+    duration: Duur
+    finished_at: Voltooid
+    tabs:
+      current: Huidig
+      build_history: Build Geschiedenis
+      branches: Branch Samenvatting
+      build: Build
+      job: Taak
+  build:
+    job: Taak
+    duration: Duur
+    finished_at: Voltooid
+  jobs:
+    messages:
+      sponsored_by: Deze tests zijn gedraaid op een machine gesponsord door 
+    build_matrix: Build Matrix
+    allowed_failures: Toegestane Mislukkingen
+    author: Auteur
+    config: Config
+    compare: Vergelijkingen
+    committer: Committer
+    branch: Branch
+    commit: Commit
+    message: Bericht
+    started_at: Gestart
+    duration: Duur
+    finished_at: Voltooid
+  builds:
+    name: Build
+    messages:
+      sponsored_by: Deze tests zijn gedraaid op een machine gesponsord door 
+    build_matrix: Build Matrix
+    allowed_failures: Toegestane Mislukkingen
+    author: Auteur
+    config: Config
+    compare: Vergelijkingen
+    committer: Committer
+    branch: Branch
+    commit: Commit
+    message: Bericht
+    started_at: Gestart
+    duration: Duur
+    finished_at: Voltooid
+  layouts:
+    top:
+      home: Home
+      blog: Blog
+      docs: Documentatie
+      stats: Statistieken
+      github_login: Inloggen met Github
+      profile: Profiel
+      sign_out: Uitloggen
+      admin: Administraite
+    application:
+      fork_me: Maak een fork op Github
+      recent: Recent
+      search: Zoeken
+      sponsers: Sponsors
+      sponsors_link: Toon al onze geweldige sponsors &rarr;
+      my_repositories: Mijn Repositories
+    about:
+      alpha: Dit is in alfa-stadium.
+      messages:
+        alpha: Gelieve deze service <strong>niet</strong> te beschouwen als stabiel. Daar zijn we nog lang niet! Meer info <a href='https://github.com/travis-ci'>hier.</a>
+      join: Doe mee met ons en help!
+      mailing_list: Mailing Lijst
+      repository: Repository
+      twitter: Twitter
+    mobile:
+      author: Auteur
+      build: Build
+      build_matrix: Build Matrix
+      commit: Commit
+      committer: Committer
+      compare: Vergelijk
+      config: Config
+      duration: Duur
+      finished_at: Voltooid op
+      job: Taak
+      log: Log
+  profiles:
+    show:
+      email: Email
+      github: Github
+      message:
+        your_repos: ! "  Zet de schakelaars hieronder aan om de Travis hook voor uw projecten te activeren
+           en push daarna naar Github<br />\n  Om te testen tegen meerdere rubies, zie"
+        config: hoe eigen build opties in te stellen
+      messages:
+        notice: ! "Om te beginnen kunt u onze <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">startersgids</a> lezen.\n  <small>Het zal maar enkele minuten van uw tijd vergen.</small>"
+      token: Token
+      your_repos: Uw Repositories
+      update: Update
+      update_locale: Update
+      your_locale: Uw taal
+  statistics:
+    index:
+      count: Aantal
+      repo_growth: Repository Groei
+      total_projects: Totaal projecten/repositories
+      build_count: Aantal builds
+      last_month: laatste maand
+      total_builds: Totaal builds
+  devise:
+    confirmations:
+      confirmed: Uw account is bevestigd. U wordt nu ingelogd.
+      send_instructions: Binnen enkele minuten zal u een email krijgen met instructies om uw account te bevestigen.
+    failure:
+      inactive: Uw account is nog niet geactiveerd.
+      invalid: Ongeldig email adres of wachtwoord.
+      invalid_token: Ongeldig authenticatie token.
+      locked: Your account is locked.
+      timeout: Uw sessie is verlopen, gelieve opnieuw in te loggen om verder te gaan.
+      unauthenticated: U moet inloggen of u registeren voordat u verder gaat.
+      unconfirmed: U moet uw account bevestigen voordat u verder gaat.
+    mailer:
+      confirmation_instructions:
+        subject: Bevestigings-instructies
+      reset_password_instructions:
+        subject: Wachtwoord herstel instructies
+      unlock_instructions:
+        subject: Ontgrendel-instructies
+    passwords:
+      send_instructions: Binnen enkele minuten zal u een email krijgen met instructies om uw wachtwoord opnieuw in te stellen.
+      updated: Uw wachtwoord is veranderd. U wordt nu ingelogd.
+    registrations:
+      signed_up: Uw registratie is voltooid. Als het ingeschakeld is wordt een bevestiging naar uw email adres verzonden.
+      updated: Het bijwerken van uw account is gelukt.
+      destroyed: Dag! Uw account is geannuleerd. We hopen u vlug terug te zien.
+    sessions:
+      signed_in: Inloggen gelukt.
+      signed_out: Uitloggen gelukt.
+    unlocks:
+      send_instructions: Binnen enkele minuten zal u een email krijgen met instructies om uw account te ontgrendelen.
+      unlocked: Uw account is ontgrendeld. U wordt nu ingelogd.
+  errors:
+    messages:
+      not_found: niet gevonden
+      already_confirmed: was al bevestigd
+      not_locked: was niet vergrendeld
+  locales:
+    en: English
+    es: Español
+    fr: Français
+    ja: 日本語
+    nb: Norsk Bokmål
+    pl: Polski
+    ru: Русский
+    nl: Nederlands
