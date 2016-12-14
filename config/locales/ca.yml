@@ -1,0 +1,121 @@
+es:
+  datetime:
+    distance_in_words:
+      hours_exact:
+        one: ! '%{count} hora'
+        other: ! '%{count} hores'
+      minutes_exact:
+        one: ! '%{count} minut'
+        other: ! '%{count} minuts'
+      seconds_exact:
+        one: ! '%{count} segon'
+        other: ! '%{count} segons'
+  workers: Processos
+  queue: Cua
+  no_job: No hi ha treballs
+  repositories:
+    branch: Branca
+    image_url: URL de la imatge
+    markdown: Markdown
+    textile: Textile
+    rdoc: RDOC
+    commit: Commit
+    message: Missatje
+    started_at: Iniciat a
+    duration: Durada
+    finished_at: Finalitzat
+    tabs:
+      current: Actual
+      build_history: Històric
+      branches: Branques
+      build: Builds
+      job: Treball
+  build:
+    job: Treball
+    duration: Durada
+    finished_at: Finalitzat
+  jobs:
+    messages:
+      sponsored_by: Aquesta serie de tests han estat executats en una caixa de Procés
+        patrocinada per
+    build_matrix: Matriu de Builds
+    allowed_failures: Fallades Permitidos
+    author: Autor
+    config: Configuració
+    compare: Comparar
+    committer: Committer
+    branch: Branca
+    commit: Commit
+    message: Missatje
+    started_at: Iniciat a
+    duration: Durada
+    finished_at: Finalitzat
+    sponsored_by: Patrocinat per
+  builds:
+    name: Build
+    messages:
+      sponsored_by: Aquesta serie de tests han estat executats en una caixa de Procés
+        patrocinada per
+    build_matrix: Matriu de Builds
+    allowed_failures: Fallades Permeses
+    author: Autor
+    config: Configuració
+    compare: Comparar
+    committer: Committer
+    branch: Branca
+    commit: Commit
+    message: Missatje
+    started_at: Iniciat
+    duration: Durada
+    finished_at: Finalitzat
+  layouts:
+    top:
+      home: Inici
+      blog: Blog
+      docs: Documentació
+      stats: Estadístiques
+      github_login: Iniciar sessió amb Github
+      profile: Perfil
+      sign_out: Desconectar
+      admin: Admin
+    application:
+      fork_me: Fes-me un Fork a Github
+      recent: Recent
+      search: Buscar
+      sponsers: Patrocinadors
+      sponsors_link: Veure tots els nostres patrocinadors &rarr;
+      my_repositories: Els meus repositoris
+    about:
+      alpha: Això és alfa.
+      messages:
+        alpha: Si us plau <strong>no</strong> considereu això un servei estable.
+          Estem encara lluny de ser-ho! Més informació <a href='https://github.com/travis-ci'>aquí.</a>
+      join: Uneix-te i ajudans!
+      mailing_list: Lista de correus
+      repository: Repositori
+      twitter: Twitter
+  profiles:
+    show:
+      email: Correu electònic
+      github: Github
+      message:
+        your_repos: ! "  Activa el interruptors per iniciar el servei Travis 
+          per als teus projectes i fes un Push a GitHub.<br />\n  Per provar varies
+          versions de ruby, mira"
+        config: com configurar les teves pròpies opcions per al Build
+      messages:
+        notice: ! "Per començar, per favor llegiu la nostra <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Guia
+          d'Inici </a>.\n  <small>Només us prendrà pocs minuts.</small>"
+      token: Token
+      your_repos: Els teus repositoris
+      update: Actualitzar
+      update_locale: Actualitzar
+      your_locale: El teu Idioma
+  statistics:
+    index:
+      count: Número
+      repo_growth: Creixement de Repositoris
+      total_projects: Total de Projectes/Repositoris
+      build_count: Número de Builds
+      last_month: mes anterior
+      total_builds: Total de Builds
