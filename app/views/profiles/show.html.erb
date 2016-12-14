@@ -1,0 +1,25 @@
+<%- content_for(:body_id, 'profile') -%>
+<h2><%= @user.name %></h2>
+<%= gravatar(@user) %>
+
+<dl class="profile">
+  <dt><%= t '.github' %>:</dt><dd><%= link_to "#{@user.login}", "http://github.com/#{@user.login}" %></dd>
+  <% if @user.email.present? %>
+    <dt><%= t '.email' %>:</dt><dd><%= @user.email %></dd>
+  <% end %>
+  <dt><%= t '.token' %>:</dt><dd><%= @user.tokens.first.token %></dd>
+</dl>
+
+<p class="notice">
+  <%= raw t '.messages.notice' %>
+</p>
+
+<h4><%= t '.your_repos' %></h4>
+<p class="tip"><%= raw t '.message.your_repos' %> <a href="http://about.travis-ci.org/docs/user/build-configuration/"><%= raw t '.message.config' %></a>.
+</p>
+<div id="service_hooks"></div>
+<%= form_tag("profile/#{@user.id}") do %>
+<h4><%= t '.your_locale' %></h4>
+<%= select "user", "locale", I18n.available_locales, {:include_blank => true, :selected => @user.locale } %>
+<%= submit_tag(t('.update_locale')) %>
+<% end %>
