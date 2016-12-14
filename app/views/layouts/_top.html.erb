@@ -1,0 +1,41 @@
+<div id="top">
+  <%= link_to "<h1>Travis</h1>".html_safe, root_path %>
+
+  <ul id="navigation">
+    <%= top_bar_menu_item(t('.home'), root_path) %>
+    <%= top_bar_menu_item(t('.stats'), stats_path) %>
+    <%= top_bar_menu_item(t('.blog'), 'http://about.travis-ci.org/blog') %>
+    <%= top_bar_menu_item(t('.docs'), 'http://about.travis-ci.org/docs') %>
+  </ul>
+
+
+  <div class="locale">
+    <span class="locale_icon"><%= I18n.locale %></span>
+    <ul>
+      <% I18n.available_locales.reject { |l| l == I18n.locale }.each do |locale| %>
+      <li>
+	<%= switch_locale_link locale, {:hl => locale} %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="profile">
+    <% if user_signed_in? %>
+
+        <%= gravatar(current_user, :size => 24) %>
+        <span class="name"><%= current_user.name || current_user.login %></span>
+
+      <ul>
+        <li><%= locale_link_to t('.profile'), profile_path %></li>
+        <% if current_user.is_admin? %>
+          <li><%= locale_link_to t('.admin'), '#' %></li>
+        <% end %>
+        <li><%= link_to t('.sign_out'), destroy_session_path %></li>
+      </ul>
+    <% else %>
+      <%= link_to t('.github_login'), user_omniauth_authorize_path(:github), :id => "sign_in", :class => "profile-signup" %>
+    <% end %>
+  </div>
+
+</div>

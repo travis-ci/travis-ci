@@ -1,0 +1,139 @@
+en:
+  datetime:
+    distance_in_words:
+      hours_exact:
+        one: ! '%{count} hour'
+        other: ! '%{count} hours'
+      minutes_exact:
+        one: ! '%{count} minute'
+        other: ! '%{count} minutes'
+      seconds_exact:
+        one: ! '%{count} second'
+        other: ! '%{count} seconds'
+  workers: Workers
+  queue: Queue
+  no_job: There are no jobs
+  repositories:
+    branch: Branch
+    image_url: Image URL
+    markdown: Markdown
+    textile: Textile
+    rdoc: RDOC
+    commit: Commit
+    message: Message
+    started_at: Started
+    duration: Duration
+    finished_at: Finished
+    tabs:
+      current: Current
+      build_history: Build History
+      branches: Branch Summary
+      build: Build
+      job: Job
+  build:
+    job: Job
+    duration: Duration
+    finished_at: Finished
+  jobs:
+    messages:
+      sponsored_by: This test series was run on a worker box sponsored by
+    build_matrix: Build Matrix
+    allowed_failures: Allowed Failures
+    author: Author
+    config: Config
+    compare: Compare
+    committer: Committer
+    branch: Branch
+    commit: Commit
+    message: Message
+    started_at: Started
+    duration: Duration
+    finished_at: Finished
+  builds:
+    name: Build
+    messages:
+      sponsored_by: This test series was run on a worker box sponsored by
+    build_matrix: Build Matrix
+    allowed_failures: Allowed Failures
+    author: Author
+    config: Config
+    compare: Compare
+    committer: Committer
+    branch: Branch
+    commit: Commit
+    message: Message
+    started_at: Started
+    duration: Duration
+    finished_at: Finished
+  layouts:
+    top:
+      home: Home
+      blog: Blog
+      docs: Docs
+      stats: Stats
+      github_login: Sign in with Github
+      profile: Profile
+      sign_out: Sign Out
+    application:
+      fork_me: Fork me on Github
+      recent: Recent
+      search: Search
+      sponsers: Sponsors
+      sponsors_link: See all of our amazing sponsors &rarr;
+      my_repositories: My Repositories
+    about:
+      alpha: This stuff is alpha.
+      messages:
+        alpha: Please do <strong>not</strong> consider this a stable service. We're
+          still far from that! More info <a href='https://github.com/travis-ci'>here.</a>
+      join: Join us and help!
+      mailing_list: Mailing List
+      repository: Repository
+      twitter: Twitter
+    mobile:
+      author: Author
+      build: Build
+      build_matrix: Build Matrix
+      commit: Commit
+      committer: Committer
+      compare: Compare
+      config: Config
+      duration: Duration
+      finished_at: Finished at
+      job: Job
+      log: Log
+  profiles:
+    show:
+      email: Email
+      github: Github
+      message:
+        your_repos: ! "  Flick the switches below to turn on the Travis service hook
+          for your projects, then push to GitHub.<br />\n  To test against multiple
+          rubies, see"
+        config: how to configure custom build options
+      messages:
+        notice: ! "To get started, please read our <a href=\"http://about.travis-ci.org/docs/user/getting-started/\">Getting
+          Started guide</a>.\n  <small>It will only take a couple of minutes.</small>"
+      token: Token
+      your_repos: Your Repositories
+  statistics:
+    index:
+      count: Count
+      repo_growth: Repository Growth
+      total_projects: Total Projects/Repositories
+      build_count: Build Count
+      last_month: last month
+      total_builds: Total Builds
+  number:
+    human:
+      decimal_units:
+        units:
+          unit: ''
+      format:
+        delimiter: ''
+    percentage:
+      format:
+        delimiter: ''
+    precision:
+      format:
+        delimiter: ''
