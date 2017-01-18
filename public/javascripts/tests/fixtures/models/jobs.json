@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "number": 1,
+    "repository": {
+      "slug": "svenfuchs/minimal"
+    }
+  },
+  {
+    "id": 2,
+    "number": 2,
+    "repository": {
+      "slug": "svenfuchs/minimal"
+    }
+  }
+]
+

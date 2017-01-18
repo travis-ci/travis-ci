@@ -1,0 +1,24 @@
+<%- content_for(:body_id, 'profile') -%>
+
+<h2><%= @user.name %></h2>
+<%= gravatar(@user) %>
+
+<dl class="profile">
+  <dt>Github:</dt>
+  <dd><%= link_to "#{@user.login}", "http://github.com/#{@user.login}" %></dd>
+  <dt>E-Mail:</dt>
+  <dd><%= @user.email %></dd>
+  <dt>Token:</dt>
+  <dd><%= @user.tokens.first.token %></dd>
+</dl>
+
+<h4>Your Repositories</h4>
+<p class="tip">
+  Flick the switches below to turn on the Travis service hook for your projects, then push to GitHub.<br />
+  To test against multiple rubies, see
+  <a href="http://about.travis-ci.org/docs/user/build-configuration/">how to configure custom build options</a>.
+</p>
+<div id="service_hooks">
+  <div class="spinner"></div>
+</div>
+<%= include_javascripts :user_profile %>

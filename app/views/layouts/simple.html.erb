@@ -1,0 +1,39 @@
+<!doctype html>
+<!--[if lt IE 7 ]>             <html lang="en" class="ie6"> <![endif]-->
+<!--[if IE 7 ]>                <html lang="en" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>                <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9 ]>                <html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <title>Travis CI - Distributed build platform for the Ruby community</title>
+    <meta name="csrf-token" content="<%= form_authenticity_token %>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon.ico">
+    <% if Rails.env.jasmine? %>
+      <%= stylesheet_link_tag 'jasmine' %>
+      <%= include_javascripts :jasmine %>
+    <% end %>
+    <%= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
+
+    <%= include_javascripts :travis %>
+    <%= include_javascripts :templates %>
+
+    <% if Rails.env.test? %>
+      <%= include_javascripts :capybara %>
+    <% end %>
+    <%= javascript_tag "var env = '#{Rails.env}';" %>
+  </head>
+
+  <body id="<%= body_id %>">
+    <%= render 'layouts/top' %>
+
+    <div id="flash-messages"></div>
+
+    <div id="main">
+      <%= yield %>
+    </div>
+
+    <%= render 'layouts/google_analytics' %>
+  </body>
+</html>

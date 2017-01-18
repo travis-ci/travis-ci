@@ -1,0 +1,24 @@
+production:
+  adapter: postgresql
+  database: travis_production
+  encoding: unicode
+  pool: 5
+  min_messages: warning
+
+development:
+  adapter: sqlite3
+  database: db/development.sqlite3
+  pool: 5
+  timeout: 5000
+
+jasmine:
+  adapter: sqlite3
+  database: db/jasmine.sqlite3
+  pool: 5
+  timeout: 5000
+
+test:
+  adapter: sqlite3
+  database: db/test.sqlite3
+  pool: 5
+  timeout: 5000

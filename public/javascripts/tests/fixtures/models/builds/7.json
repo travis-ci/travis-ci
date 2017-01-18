@@ -1,0 +1,1 @@
+{"number":"3.4","committed_at":"2010-11-12T12:58:00Z","commit":"add057e66c3e1d59ef1f","config":{"gemfile":"test/Gemfile.rails-3.0.x","rvm":"1.9.2"},"committer_name":"Sven Fuchs","log":"","branch":"master","id":7,"parent_id":3,"started_at":"2010-11-12T13:00:00Z","repository_id":1,"message":"unignore Gemfile.lock","committer_email":"svenfuchs@artweb-design.de"}

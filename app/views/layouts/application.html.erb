@@ -1,0 +1,75 @@
+<!doctype html>
+<!--[if lt IE 7 ]>             <html lang="en" class="ie6"> <![endif]-->
+<!--[if IE 7 ]>                <html lang="en" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>                <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9 ]>                <html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <title>Travis CI - Distributed build platform for the Ruby community</title>
+    <meta name="csrf-token" content="<%= form_authenticity_token %>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon.ico">
+    <% if Rails.env.jasmine? %>
+      <%= stylesheet_link_tag 'jasmine' %>
+      <%= include_javascripts :jasmine %>
+    <% end %>
+    <%= stylesheet_link_tag 'application', 'jquery.tipsy.css' %>
+
+    <%= include_javascripts :travis %>
+    <%= include_javascripts :templates %>
+
+    <% if Rails.env.test? %>
+      <%= include_javascripts :capybara %>
+    <% end %>
+    <%= javascript_tag "var env = '#{Rails.env}';" %>
+  </head>
+
+  <body id="<%= body_id %>">
+    <%= render 'layouts/top' %>
+
+    <div id="left">
+      <div id="search">
+        <input type="text" />
+      </div>
+
+      <ul class="tabs">
+        <li id="tab_recent" class="active">
+          <h5><a href="#">Recent</a></h5>
+          <div class="tab"></div>
+        </li>
+        <li id="tab_watched">
+          <h5><a class="tool-tip" title="Not yet implemented. We could use your help!">Watched</a></h5>
+          <div class="tab"></div>
+        </li>
+      </ul>
+    </div>
+
+    <div id="main">
+      <%= yield %>
+    </div>
+    <div id="right" class="maximized">
+      <div class="slider"><div class='icon'></div>&nbsp;</div>
+      <div class="inner"><div class='wrapper'>
+        <div id="workers"></div>
+        <div id="jobs" class="queue-builds"></div>
+        <div id="jobs" class="queue-rails"></div>
+
+        <div id="alpha_warning" class="box">
+          <h4>This stuff is alpha.</h4>
+          <p>Please do <strong>not</strong> consider this a stable service. We're still far from that! More info <a href='https://github.com/travis-ci/travis-ci'>here.</a></p>
+        </div>
+        <%= render :partial => "layouts/about" %>
+        <%= render :partial => "layouts/sponsors" %>
+      </div></div>
+
+      <a id="github_ribbon" class="ribbon" href="http://github.com/travis-ci/travis-ci" title="Fork me on GitHub">Fork me on Github</a>
+    </div>
+
+    <div id="flash-messages"></div>
+
+    <%= javascript_tag "var pusher = new Pusher('#{Pusher.key}');" unless Rails.env.jasmine? %>
+
+    <%= render 'layouts/google_analytics' %>
+  </body>
+</html>
