@@ -1,0 +1,69 @@
+== Sproutcore
+
++ fix matrix
++ figure out call stack error :/
++ fix tests for new binding pattern
++ fix tests in jasmine-headless-webkit
++ port log parsing
++ fix stats and profile pages
++ port service hooks
++ implement search controller and view
++ hook up pusher events
++ hook up time changes
++ port small stuff like the sidebar toggle
+
+- add tests for controller layer
+- add acceptance tests
+- add service hook specs
+- test task/script to add some workers and jobs to a local redis
+- load json fixtures generated from real server/app data
+- make tests run on travis-ci.org!
+
+- debounce/throttle search keyboard events
+- fix search (does not propagate loaded records to the list)
+
+- try https://github.com/antsa/sassy_noise
+
+== Statemachine
+
++ move Worker to Notification:Worker
++ json for configure tasks
++ make Travis.config a Hashr instance
++ ensure Task::Test can cope with incremental updates
++ configure notifications receivers
++ improve specs for notifications receivers (actually hook receivers up to the dispatcher)
++ spec Travis::Config
++ spec Pusher notifications
++ go through all models and add pending specs
++ go through all specs and do some cleanup
++ add TestsController
++ add Pusher notification specs for actual messages sent
++ add JSON specs for build:queued and build:removed event payloads
++ move actions from builds_controller to tasks_controller and use routes to keep the /builds url
++ add data migrations
++ fix n+1 queries: https://gist.github.com/058e40dc43b3eb5ac64c
+
+- the worker doesn't seem to notify about task:configure:started
+- calculate build duration from matrix.sum(&:duration) or similar
+
+- later: make payload instances Hashrs and rewrite lib/github
+
+# Api changes
+
+- client: use task route for looking up child builds
+- client: for configure jobs show "?" instead of a build number
+- config: change queues configuration section
+
+
+# Commits not ported, double-check they're not necessary any more
+
+f22a63eb	joshk	fixed an issue with the build not updating due to extra from the worke...
+0c8464b5	joshk	update tests to respect that config on build now returns a default has...
+6e9d0fbe	joshk	Revert "update tests to respect that config on build now returns a def...
+9cd7082c	joshk	Sadly this breaks the workers, ugly hax coming soon
+a990b6f1	joshk	notifications fix + test : second attempt, this time with less breakag...
+
+# Commits to have triple-checked by their authors
+
+cbfc4f37	joelmahoney	Make status PNG response match the JSON/XML API responses
+

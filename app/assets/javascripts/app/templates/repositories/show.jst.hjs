@@ -1,0 +1,26 @@
+<div id="repository">
+  <h3><a {{bindAttr href="urlGithubRepository"}}>{{repository.slug}}</a></h3>
+
+  <ul class="github-stats">
+    <li><a class="watchers" {{bindAttr href="urlGithubWatchers"}}></a></li>
+    <li><a class="forks" {{bindAttr href="urlGithubNetwork"}}></a></li>
+  </ul>
+
+  <ul class="tabs">
+    <li id="tab_current">
+      <h5><a {{bindAttr href="urlCurrent"}}>Current</a></h5>
+      <div class="tab"></div>
+    </li>
+    <li id="tab_history">
+      <h5><a {{bindAttr href="urlBuilds"}}>Build History</a></h5>
+      <div class="tab"></div>
+    </li>
+    <li id="tab_parent">
+      <h5><a {{bindAttr href="urlParentBuild"}}>Build #{{build.parent.number}}</a></h5>
+    </li>
+    <li id="tab_build">
+      <h5><a {{bindAttr href="urlBuild"}}>Build #{{build.number}}</a></h5>
+      <div class="tab"> </div>
+    </li>
+  </ul>
+</div>
