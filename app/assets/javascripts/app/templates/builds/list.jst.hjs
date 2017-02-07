@@ -1,0 +1,19 @@
+<table id="builds">
+  <thead>
+    <tr>
+      <th>Build</th>
+      <th>Commit</th>
+      <th>Message</th>
+      <th>Duration</th>
+      <th>Finished</th>
+    </tr>
+  </thead>
+
+  {{#collection tagName="tbody" contentBinding="builds" itemViewClass="Travis.View" itemClassBinding="content.color"}}
+      <td class="number"><a {{bindAttr href="urlBuild"}}>{{content.number}}</a></td>
+      <td class="commit"><a {{bindAttr href="urlGithubCommit"}}>{{commit}}</a></td>
+      <td class="message">{{content.message}}</td>
+      <td class="duration" {{bindAttr title="content.duration"}}>{{duration}}</td>
+      <td class="finished_at timeago" {{bindAttr title="content.finished_at"}}>{{finishedAt}}</td>
+  {{/collection}}
+</table>

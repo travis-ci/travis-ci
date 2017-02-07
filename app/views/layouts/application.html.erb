@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Travis CI - Distributed build platform for the open source community</title>
+    <meta name="csrf-token" content="<%= form_authenticity_token %>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/favicon.ico">
+
+    <meta property="og:title" content="Travis CI - Distributed build platform for the open source community"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="http://travis-ci.org/"/>
+    <meta property="og:image" content="http://travis-ci.org/assets/twitter.icon.png"/>
+    <meta property="og:site_name" content="Travis CI"/>
+    <meta property="og:description" content="Hi I'm Travis. I'm a distributed build server tool for the open source community - currently in early alpha, and I'm looking for your help!"/>
+
+    <%= render :partial => 'layouts/assets' %>
+  </head>
+
+  <body id="<%= body_id %>">
+    <%= render 'layouts/top' %>
+
+    <div id="left">
+      <div id="search_box">
+        <!-- input type="text" /-->
+      </div>
+
+      <ul class="tabs">
+        <li id="tab_recent" class="active">
+          <h5><a href="#">Recent</a></h5>
+          <div class="tab"></div>
+        </li>
+        <li id="tab_search">
+          <h5><a href="#">Search</a></h5>
+          <div class="tab"></div>
+        </li>
+        <li id="tab_yours">
+          <h5><a class="tool-tip" title="Not yet implemented. We could use your help!">Your Repositories</a></h5>
+          <div class="tab"></div>
+        </li>
+      </ul>
+    </div>
+
+    <div id="main">
+      <%= yield %>
+    </div>
+
+    <div id="right" class="maximized">
+      <div class="slider"><div class='icon'></div>&nbsp;</div>
+      <div class="inner"><div class='wrapper'>
+        <div id="workers"></div>
+        <div id="jobs"></div>
+
+        <div id="alpha_warning" class="box">
+          <h4>This stuff is alpha.</h4>
+          <p>Please do <strong>not</strong> consider this a stable service. We're still far from that! More info <a href='https://github.com/travis-ci/travis-ci'>here.</a></p>
+        </div>
+        <%= render :partial => "layouts/about" %>
+        <%= render :partial => "layouts/sponsors" %>
+      </div></div>
+    </div>
+
+    <div id="flash-messages"></div>
+
+    <div id="github"><a href="https://github.com/travis-ci/travis-ci" title="Fork me on GitHub">Fork me on GitHub</a></div>
+
+    <%= render 'layouts/google_analytics' %>
+    <%= javascript_tag "var pusher = new Pusher('#{Pusher.key}');" unless Rails.env.jasmine? %>
+  </body>
+</html>

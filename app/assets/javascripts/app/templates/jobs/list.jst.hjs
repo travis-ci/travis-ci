@@ -1,0 +1,9 @@
+<h4>Queue: {{queue}}</h4>
+{{#collection tagName="ul" classBinding="className" itemClass="job" contentBinding="jobs"}}
+  {{content.repository.slug}}
+  {{#if content.number}}
+    #{{content.number}}
+  {{/if}}
+{{else}}
+  No jobs
+{{/collection}}

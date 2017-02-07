@@ -1,0 +1,9 @@
+<h4>Workers</h4>
+{{#collection tagName="ul" itemClass="group" contentBinding="content"}}
+  <h5>{{content.name}}</h5>
+  {{#collection tagName="ul" itemClass="worker" contentBinding="content.workers"}}
+    {{content.process}}
+  {{/collection}}
+{{else}}
+  No workers
+{{/collection}}

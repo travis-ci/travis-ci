@@ -1,0 +1,88 @@
+h1. Setup Travis on Heroku
+
+There are a few steps necessary to set up Travis on Heroku.
+
+h3. 1. Create a config/travis.yml file
+
+There's an example file provided that you can copy:
+
+$ cp config/travis.example.yml config/travis.yml
+
+h3. 2. Create an app on Heroku
+
+$ heroku create my-travis --stack cedar
+
+h3. 3. Setup addons
+
+$ heroku addons:add redistogo:nano
+$ heroku addons:add sendgrid:starter
+$ heroku addons:add pusher:sandbox
+
+h3. 4. Get the RedisToGo key
+
+Go to the configuration page for the redistogo addon of your application:
+
+https://api.heroku.com/myapps/my-travis/addons/redistogo:nano
+
+And copy the Redis URL to your config/travis.yml file (replacing @YOUR_REDIS_URL@). The Redis URL should look similar to this:
+
+redis://redistogo:1234567890abcdefghijklmnopqrstuv@foo.redistogo.com:9999/
+
+h3. 5. Register a pusher account and get the API key
+
+Go to the API access pane of the configuration page for the pusher addon of your application and copy the configuration values:
+
+https://api.heroku.com/myapps/my-travis/addons/pusher:sandbox
+
+You want the @app_id@, @key@ and @secret@. Copy them to the @pusher@ section of the travis.yml file.
+
+h3. 6. Register a OAuth application on Github
+
+Go to http://github.com/account/applications and register an application so one can log in via OAuth2. Enter a name and use the heroku URL for both "URL" and "Callback".
+
+E.g. the Github OAuth app for http://travis-ci.org looks like this:
+
+Name: Travis
+URL: http://travis-ci.org
+Callback: http://travis-ci.org
+
+Grab the cliend ID and secret that Github has generated for you and paste them to the travis.yml file in the @oauth2@ section.
+
+h3. 7. Configure your Heroku app
+
+Now that you've got your config/travis.yml complete you can push this configuration to Heroku. Travis provides a Rake task to make this easy:
+
+$ rake heroku:config
+
+This will push the config values contained in the @production@ section of your travis.yml file to Heroku.
+
+h3. 8. Migrate the Heroku database
+
+$ heroku db:migrate
+$ heroku restart
+
+There you go.
+
+You should now be able to go to http://my-travis.herokuapp.com and be able to sign in via Github.
+
+Please let us know if anything is missing or wrong with these instructions.
+
+h1. Setup a Travis worker
+
+Basically, in order to setup a worker that runs Travis build jobs all you need to do is update the @config/travis.yml@ file and start the worker daemon.
+
+First, get the code:
+
+$ git clone git@github.com:travis-ci/travis-ci.git
+$ cd travis-ci
+$ cp config/travis.example.yml travis.yml
+
+To get the Travis key go to your Travis app, log in via Github and go to your profile page on http://travis-ci.org/profile. Copy the key and update the @rails@ URL in your config/travis.yml. **Also** update the @redis@ URL with your RedisToGo URL from above.
+
+Now you can try starting the worker with:
+
+$ script/worker
+
+That won't daeomnize the worker of course, and it will stay unmonitored. Instead we're using @god@ to monitor and restart the worker:
+
+$ god -c config/resque.god

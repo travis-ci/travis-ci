@@ -1,0 +1,15 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  datetime:
+    distance_in_words:
+      hours_exact:
+        one: "%{count} hour"
+        other: "%{count} hours"
+      minutes_exact:
+        one: "%{count} minute"
+        other: "%{count} minutes"
+      seconds_exact:
+        one: "%{count} second"
+        other: "%{count} seconds"
