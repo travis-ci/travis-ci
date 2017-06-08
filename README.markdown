@@ -12,7 +12,7 @@ project.
 ## Documentation
 
 Documentation for the Travis CI project can be found at
-<https://docs.travis-ci.com>.
+<http://docs.travis-ci.com>.
 
 ## Other repositories
 
@@ -41,7 +41,7 @@ holds the models, services, and other things that these apps need.
 ### travis-cookbooks
 
 [travis-cookbooks](https://github.com/travis-ci/travis-cookbooks) holds the
-[Chef](https://docs.chef.io/index.html) cookbooks that are used to provision the build environments.
+[Chef](http://docs.opscode.com/) cookbooks that are used to provision the build environments.
 
 ### travis-hub
 
@@ -86,7 +86,7 @@ different notification providers as needed.
 It is written using [Ember](http://emberjs.com) and communicates with
 [travis-api](#travis-api) to get information and gets live updates from
 [travis-hub](#travis-hub) and [travis-logs](#travis-logs) through
-[Pusher](https://pusher.com/).
+[Pusher](http://pusher.com/).
 
 ### travis-worker
 
