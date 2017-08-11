@@ -90,7 +90,7 @@ It is written using [Ember](http://emberjs.com) and communicates with
 
 ### travis-worker
 
-[travis-worker](https://github.com/travis-ci/travis-worker) is responsible for
+[travis-worker](https://github.com/travis-ci/worker) is responsible for
 running the build scripts in a clean environment. It streams the log output to
 [travis-logs](#travis-logs) and pushes state updates (build starting/finishing)
 to [travis-hub](#travis-hub).
