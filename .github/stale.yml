@@ -13,6 +13,7 @@ exemptLabels:
   - work in progress
   - important
   - locked
+  - feature-request
 
 # Set to true to ignore issues in a project (defaults to false)
 exemptProjects: false
