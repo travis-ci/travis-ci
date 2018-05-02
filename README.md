@@ -1,9 +1,9 @@
 # Travis CI
 
 [Travis CI](https://travis-ci.com) is a hosted continuous integration and
-deployment system. There are two versions of it,
-[travis-ci.com](https://travis-ci.com) for private repositories, and
-[travis-ci.org](https://travis-ci.org) for public repositories.
+deployment system. You can now test and deploy open source and private projects
+on [travis-ci.com](https://travis-ci.com)! You can read more about this change 
+[here](blog post here).
 
 This repository contains the [central issue
 tracker](https://github.com/travis-ci/travis-ci/issues) for the Travis CI
