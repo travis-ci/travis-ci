@@ -26,7 +26,7 @@ staleLabel: stale
 
 # Comment to post when marking as stale. Set to `false` to disable
 markComment: >
-  Thanks for contributing to this issue. As it has been 90 days since the last activity, we are automatically closing the issue. This is often because the request was already solved in some way and it just wasn't updated or it's no longer applicable. If that's not the case, please do feel free to either reopen this issue or open a new one. We'll gladly take a look again! You can read more here: https://blog.travis-ci.com/2018-03-09-closing-old-issues
+  Thanks for contributing to this issue. As it has been 90 days since the last activity, we are automatically closing the issue in 24 hours. This is often because the request was already solved in some way and it just wasn't updated or it's no longer applicable. If that's not the case, please do feel free to either reopen this issue or open a new one. We'll gladly take a look again! You can read more here: https://blog.travis-ci.com/2018-03-09-closing-old-issues
 # Comment to post when removing the stale label.
 # unmarkComment: >
 #   Your comment here.
