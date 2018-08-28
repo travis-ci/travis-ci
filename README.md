@@ -9,6 +9,8 @@ This repository contains the [central issue
 tracker](https://github.com/travis-ci/travis-ci/issues) for the Travis CI
 project.
 
+For Feature Requests, Early Releases, and Product Discussion and Feedback, please visit the [Travis CI Community Forum](https://travis-ci.community).
+
 ## Documentation
 
 Documentation for the Travis CI project can be found at
