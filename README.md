@@ -34,12 +34,6 @@ script for each job. It takes the configuration from the `.travis.yml` file and
 creates a `bash` script that is then run in the build environment by
 [travis-worker](#travis-worker).
 
-### travis-core
-
-[travis-core](https://github.com/travis-ci/travis-core) holds most of the logic
-for Travis CI. This repository is shared across several other apps and
-holds the models, services, and other things that these apps need.
-
 ### travis-cookbooks
 
 [travis-cookbooks](https://github.com/travis-ci/travis-cookbooks) holds the
