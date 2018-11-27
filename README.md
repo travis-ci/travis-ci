@@ -1,3 +1,5 @@
+# ✋ Do not open new issues here! ✋
+
 # Travis CI
 
 [Travis CI](https://travis-ci.com) is a hosted continuous integration and
