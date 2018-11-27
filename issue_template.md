@@ -1,7 +1,7 @@
 #
 # STOP! ✋
 #
-# DO NOT OPEN A NEW ISSUE!
+# DO NOT OPEN A NEW ISSUE! There's a new and better way to raise your question!!
 #
 #
 
