@@ -1,0 +1,4 @@
+comment: "We're moving our community interactions away from GitHub issues. Please direct any new posts to the [Travis CI Community Forum](https://travis-ci.community). We'll be glad to take a look there. This issue will be automatically closed. Thanks!"
+issueConfigs:
+- content:
+  - "Do not auto close"
