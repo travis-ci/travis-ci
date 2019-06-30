@@ -7,4 +7,6 @@ addons:
   - travis.test
   - t4n6a1ka@gmail.com
   
-  language: ruby rvm: - 1.9.3 - 2.0.0 - 2.1.0 env: - DB=mongodb - DB=redis - DB=mysql gemfile: - Gemfile - gemfiles/rails4.gemfile - gemfiles/rails31.gemfile - gemfiles/rails32.gemfile
+  language: ruby rvm: - 1.9.3 - 2.0.0 - 2.1.0 
+  env: - DB=mongodb - DB=redis - DB=mysql 
+  gemfile: - Gemfile - gemfiles/rails4.gemfile - gemfiles/rails31.gemfile - gemfiles/rails32.gemfile
