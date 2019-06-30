@@ -1,0 +1,20 @@
+install:
+  - bundle install --path vendor/bundle
+  - npm install
+
+install: ./install-dependencies.sh
+  
+install: true
+
+script:
+- bundle exec rake build
+- bundle exec rake builddoc
+
+script: bundle exec rake build && bundle exec rake builddoc
+
+#!/bin/bash
+set -ev
+bundle exec rake:units
+if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
+  bundle exec rake test:integration
+fi /n/
