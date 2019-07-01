@@ -10,6 +10,6 @@ orbs:
 workflows:
   # Name the workflow "Welcome"
   Welcome:
-  # Run the welcome/run job in its own container
+    # Run the welcome/run job in its own container
     jobs:
       - welcome/run
