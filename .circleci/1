@@ -1,0 +1,17 @@
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - test
+      - deploy
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - Master
+                - beta
+    jobs:
+      - coverage
