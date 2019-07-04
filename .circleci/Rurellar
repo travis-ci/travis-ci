@@ -9,7 +9,7 @@ jobs:
     working_directory: ~/my-app
     branches:
       only:
-        - master
+        - Master
         - /rc-.*/
     steps:
       - run: make test
