@@ -11,6 +11,6 @@ We are moving to our new community forum: [Travis CI Community](https://travis-c
 
 Link to the Community Forum: https://travis-ci.community
 
-For current outages and incidents such as slow network connections, subscribe to https://traviscistatus.com.
+For current outages and incidents such as slow network connections, subscribe to https://www.traviscistatus.com.
 
 Other support issues may be directed to support@travis-ci.com where our support team will be glad to assist.
