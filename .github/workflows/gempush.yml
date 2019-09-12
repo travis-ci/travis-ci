@@ -12,9 +12,6 @@ jobs:
   build:
     name: Build + Publish
     runs-on: ubuntu-latest
-    strategy:
-    max-parallel: 24
-    matrix:
     steps:
     - uses: actions/checkout@master
     - name: Set up Ruby 2.6
