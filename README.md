@@ -42,7 +42,8 @@ repository.
 [travis-build](https://github.com/travis-ci/travis-build) creates the build
 script for each job. It takes the configuration from the `.travis.yml` file and
 creates a `bash` script that is then run in the build environment by
-[travis-worker](#travis-worker).
+[travis-worker](#travis-worker). This repository also hosts the source for
+[language-specific scripts](https://github.com/travis-ci/travis-build/tree/master/lib/travis/build/script).
 
 ### travis-cookbooks
 
