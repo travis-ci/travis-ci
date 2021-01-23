@@ -1,0 +1,4 @@
+comment: "Please post on https://travis-ci.community instead. Thank you!"
+issueConfigs:
+- content:
+  - "Do not auto close"

@@ -67,3 +67,10 @@ Know how to fix something? We love pull requests! Here's a quick guide:
 5. We try to merge and deploy changes as soon as possible, or at least leave
    some feedback, but if you haven't heard back from us after a couple of days,
    feel free to leave a comment on the pull request.
+
+## Automatic closure of old issues
+
+If an issue has been left open and untouched for 90 days or more, we automatically 
+close them. We do this to ensure that new issues are more easily noticeable, and 
+that old issues that have been resolved or are no longer relevant are closed. 
+You can read more about this [here](https://blog.travis-ci.com/2018-03-09-closing-old-issues).
