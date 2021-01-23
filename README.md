@@ -1,9 +1,21 @@
+# ✋ Do not open new issues here! ✋
+
 # Travis CI
 
 [Travis CI](https://travis-ci.com) is a hosted continuous integration and
-deployment system. There are two versions of it,
-[travis-ci.com](https://travis-ci.com) for private repositories, and
-[travis-ci.org](https://travis-ci.org) for public repositories.
+deployment system. You can now test and deploy open source and private projects
+on [travis-ci.com](https://travis-ci.com)! You can read more about this change 
+[here](https://blog.travis-ci.com/2018-05-02-open-source-projects-on-travis-ci-com-with-github-apps).
+
+## Move to Forum
+
+We are moving to our new community forum: [Travis CI Community](https://travis-ci.community)! As part of this move, we’ll be able to better follow and reply to threads, along with making it easier for you to find solutions and answers.  We’ll be making our best efforts to answer currently existing threads, or directing them to the new community forum.
+
+Link to the Community Forum: https://travis-ci.community
+
+For current outages and incidents such as slow network connections, subscribe to https://www.traviscistatus.com.
+
+Other support issues may be directed to support@travis-ci.com where our support team will be glad to assist.
 
 This repository contains the [central issue
 tracker](https://github.com/travis-ci/travis-ci/issues) for the Travis CI
@@ -30,13 +42,8 @@ repository.
 [travis-build](https://github.com/travis-ci/travis-build) creates the build
 script for each job. It takes the configuration from the `.travis.yml` file and
 creates a `bash` script that is then run in the build environment by
-[travis-worker](#travis-worker).
-
-### travis-core
-
-[travis-core](https://github.com/travis-ci/travis-core) holds most of the logic
-for Travis CI. This repository is shared across several other apps and
-holds the models, services, and other things that these apps need.
+[travis-worker](#travis-worker). This repository also hosts the source for
+[language-specific scripts](https://github.com/travis-ci/travis-build/tree/master/lib/travis/build/script).
 
 ### travis-cookbooks
 
