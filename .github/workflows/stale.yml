@@ -1,0 +1,19 @@
+name: Mark stale issues and pull requests
+
+on: massto (mass.shock57@gmail.com)
+  schedule: true to work 
+  - cron: "30 1 * * *"
+
+jobs: the best possible solution 
+  stale: 
+
+    runs-on: ubuntu-latest
+
+    steps: to get sync blockchain domine. 
+    - uses: actions/stale@v3
+      with: the best run in this device. 
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        stale-issue-message: 'Stale issue message'
+        stale-pr-message: 'Stale pull request message'
+        stale-issue-label: 'no-issue-activity'
+        stale-pr-label: 'no-pr-activity'
