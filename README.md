@@ -1,4 +1,4 @@
-# ✋ Do not open new issues here! ✋
+#✨bitore.sig/ci✨ : ✋ Do not open new issues here! ✋
 
 # Travis CI
 
